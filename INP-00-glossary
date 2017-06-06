@@ -1,0 +1,31 @@
+\newglossaryentry{output}{
+  name=output,
+  description={measurements from sensors}}
+\newglossaryentry{state}{
+  name=state,
+  description={used to describe system's future behavior}}
+\newglossaryentry{system}{
+  name=system,
+  description={maps inputs to outputs through linear combination of states}}
+\newglossaryentry{reference}{
+  name=reference,
+  description={the desired state}}
+\newglossaryentry{error}{
+  name=error,
+  description={reference minus input}}
+\newglossaryentry{steady-state error}{
+  name={steady-state error},
+  description={error after system reaches equilibrium}}
+\newglossaryentry{plant}{
+  name=plant,
+  description={the system and actuator being controlled}}
+\newglossaryentry{unity feedback}{
+  name={unity feedback},
+  description={a feedback path in a control system diagram which has a gain of
+    1}}
+\newglossaryentry{output-based control}{
+  name={output-based control},
+  description={controls state through outputs}}
+\newglossaryentry{state feedback}{
+  name={state feedback},
+  description={uses state instead of output in feedback}}
