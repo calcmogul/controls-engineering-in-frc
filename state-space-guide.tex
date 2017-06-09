@@ -1,12 +1,11 @@
 \documentclass[10pt,conference,compsoc]{IEEEtran}
-%\documentclass[10pt,twocolumn]{report}
 
 \usepackage{amsmath}
 \usepackage{bm}
 \usepackage{float}
 \usepackage{graphicx}
 \usepackage[colorlinks=true,linkcolor=blue]{hyperref}
-\usepackage{tabularx}
+\usepackage{tabulary}
 \usepackage{tocbibind}
 \usepackage{url}
 
@@ -182,10 +181,10 @@ and \gls{output} to zero. \\
 \begin{table}[ht]
   \renewcommand{\arraystretch}{1.3}
   \centering
-  \begin{tabular}{llll}
+  \begin{tabulary}{\linewidth}{LLLL}
     $r(t)$ & \gls{reference} input & $u(t)$ & control input \\
     $e(t)$ & error & $y(t)$ & \gls{output} \\
-  \end{tabular}
+  \end{tabulary}
   \label{tab:pid_def}
 \end{table}
 
@@ -502,12 +501,12 @@ limited to systems with linear components and zero initial conditions.
 \begin{table}[ht]
   \renewcommand{\arraystretch}{1.3}
   \centering
-  \begin{tabular}{llll}
+  \begin{tabulary}{\linewidth}{LLLL}
     $\mtx{A}$ & system matrix      & $\mtx{x}$ & state vector \\
     $\mtx{B}$ & input matrix       & $\mtx{u}$ & input vector \\
     $\mtx{C}$ & output matrix      & $\mtx{y}$ & output vector \\
     $\mtx{D}$ & feedthrough matrix & $\mtx{K}$ & controller gain matrix \\
-  \end{tabular}
+  \end{tabulary}
   \label{tab:ctrl_def}
 \end{table}
 
@@ -785,13 +784,13 @@ use large values to conserve their limited fuel supply.
 \begin{table}[ht]
   \renewcommand{\arraystretch}{1.3}
   \centering
-  \begin{tabular}{llll}
+  \begin{tabulary}{\linewidth}{LLLL}
     $\mtx{A}$ & system matrix      & $\hat{\mtx{x}}$ & state estimate vector \\
     $\mtx{B}$ & input matrix       & $\mtx{u}$ & input vector \\
     $\mtx{C}$ & output matrix      & $\mtx{y}$ & output vector \\
     $\mtx{D}$ & feedthrough matrix & $\hat{\mtx{y}}$ & output estimate vector \\
     $\mtx{L}$ & estimator gain matrix & & \\
-  \end{tabular}
+  \end{tabulary}
   \label{tab:obsv_def}
 \end{table}
 
@@ -823,7 +822,7 @@ current predict step and current update step are shown.
 \begin{table}[ht]
   \renewcommand{\arraystretch}{1.3}
   \centering
-  \begin{tabular}{llll}
+  \begin{tabulary}{\linewidth}{LLLL}
     $\mtx{A}$ & system matrix           &
       $\hat{\mtx{x}}$ & state estimate vector \\
     $\mtx{B}$ & input matrix            & $\mtx{u}$ & input vector \\
@@ -834,79 +833,28 @@ current predict step and current update step are shown.
       $\mtx{\Gamma}$ & process noise intensity vector \\
     $\mtx{Q}$ & process noise covariance matrix &
       $\mtx{R}$ & measurement noise covariance matrix
-  \end{tabular}
+  \end{tabulary}
   \label{tab:kalman_def}
 \end{table}
 
-[add info about Wiener process and dual sensor problem to motivate filter]
+\noindent where a superscript of minus denotes a priori and plus denotes a
+posteriori estimate. \\
+
+\noindent [Add info about Wiener process and dual sensor problem to motivate
+filter] \\
 
 \noindent See the Wikipedia page on Kalman filters for a more thorough
 explanation. [include derivation and motivation behind filter in appendix?]
 
 \subsection{Kalman filter as Luenberger observer}
 
-\noindent A Luenberger observer is defined as
+\noindent A Kalman filter can be represented as a Luenberger observer by letting
+$\mtx{C} = \mtx{H}$ and $\mtx{L} = \mtx{A} \mtx{K}_k$ (see appendix
+\ref{sec:app_kalman_luenberger}). The eigenvalues of the Kalman filter are
 
-\begin{align}
-  \mtx{x}_{k+1}^+ &= \mtx{A} \mtx{x}_k^- + \mtx{B} \mtx{u}_k + \mtx{L}
-    (\mtx{y}_k - \hat{\mtx{y}}_k) \label{eq:luenberger1} \\
-  \hat{\mtx{y}}_k &= \mtx{C} \mtx{x}_k^- \label{eq:luenberger2} \\ \nonumber
-\end{align}
-
-\noindent where a superscript of minus denotes a priori and plus denotes a
-posteriori estimate. Combining equation (\ref{eq:luenberger1}) and equation
-(\ref{eq:luenberger2}) gives
-
-\begin{equation} \label{eq:luenberger}
-  \mtx{x}_{k+1}^+ = \mtx{A} \mtx{x}_k^- + \mtx{B} \mtx{u}_k + \mtx{L}
-    (\mtx{y}_k - \mtx{C} \mtx{x}_k^-) \\
+\begin{equation}
+  eig(\mtx{A}(\mtx{I} - \mtx{K}_k\mtx{H}))
 \end{equation}
-
-\noindent The following is a Kalman filter that considers the current update
-step and the next predict step together rather than the current predict step and
-current update step.
-
-\begin{align}
-  \text{Update step} \nonumber \\
-  \mtx{K}_k &= \mtx{P}_k^- \mtx{H}^T (\mtx{H}\mtx{P}_k^- \mtx{H}^T +
-    \mtx{R})^{-1} \\
-  \mtx{x}_k^+ &= \mtx{x}_k^- + \mtx{K}_k (\mtx{y}_k - \mtx{H} \mtx{x}_k^-)
-    \label{eq:post2_x} \\
-  \mtx{P}_k^+ &= (\mtx{I} - \mtx{K}_k\mtx{H})\mtx{P}_k^- \\
-  \text{Predict step} \nonumber \\
-  \mtx{x}_{k+1}^+ &= \mtx{A} \mtx{x}_k^+ + \mtx{B} \mtx{u}_k
-    \label{eq:pre2_x} \\
-  \mtx{P}_{k+1}^- &= \mtx{A} \mtx{P}_k^+ \mtx{A}^T +
-    \mtx{\Gamma}\mtx{Q}\mtx{\Gamma}^T
-\end{align}
-\\
-\noindent Substitute equation (\ref{eq:post2_x}) into equation
-(\ref{eq:pre2_x}).
-
-\begin{align*}
-  \mtx{x}_{k+1}^+ &= \mtx{A} (\mtx{x}_k^- +
-    \mtx{K}_k (\mtx{y}_k - \mtx{H} \mtx{x}_k^-)) + \mtx{B} \mtx{u}_k \\
-  \mtx{x}_{k+1}^+ &= \mtx{A} \mtx{x}_k^- +
-    \mtx{A} \mtx{K}_k (\mtx{y}_k - \mtx{H} \mtx{x}_k^-) + \mtx{B} \mtx{u}_k \\
-  \mtx{x}_{k+1}^+ &= \mtx{A} \mtx{x}_k^- + \mtx{B} \mtx{u}_k +
-    \mtx{A} \mtx{K}_k (\mtx{y}_k - \mtx{H} \mtx{x}_k^-) \\
-\end{align*}
-
-\noindent Let $\mtx{C} = \mtx{H}$ and $\mtx{L} = \mtx{A} \mtx{K}_k$.
-
-\begin{equation} \label{eq:kalman_leunberger}
-  \mtx{x}_{k+1}^+ = \mtx{A} \mtx{x}_k^- + \mtx{B} \mtx{u}_k +
-    \mtx{L} (\mtx{y}_k - \mtx{C} \mtx{x}_k^-) \\
-\end{equation}
-\\
-\noindent which matches equation (\ref{eq:luenberger}). Therefore,
-the eigenvalues of the Kalman filter observer can be obtained by
-
-\begin{align}
-  &eig(\mtx{A} - \mtx{L}\mtx{C}) \nonumber \\
-  &eig(\mtx{A} - (\mtx{A}\mtx{K}_k)(\mtx{H})) \nonumber \\
-  &eig(\mtx{A}(\mtx{I} - \mtx{K}_k\mtx{H}))
-\end{align}
 
 \section{Implementation steps}
 
@@ -941,11 +889,72 @@ conditions and command inputs.
 
 \noindent Try on real \gls{system} with low maximum outputs for safety.
 
-\appendix
+\appendices
 
-\section{Steady state of PI controller}
+\section{Kalman filter as Luenberger observer} \label{sec:app_kalman_luenberger}
 
+\noindent A Luenberger observer is defined as
 
+\begin{align}
+  \mtx{x}_{k+1}^+ &= \mtx{A} \mtx{x}_k^- + \mtx{B} \mtx{u}_k + \mtx{L}
+    (\mtx{y}_k - \hat{\mtx{y}}_k) \label{eq:luenberger1} \\
+  \hat{\mtx{y}}_k &= \mtx{C} \mtx{x}_k^- \label{eq:luenberger2} \\ \nonumber
+\end{align}
+
+\noindent where a superscript of minus denotes a priori and plus denotes a
+posteriori estimate. Combining equation (\ref{eq:luenberger1}) and equation
+(\ref{eq:luenberger2}) gives
+\\
+\begin{equation} \label{eq:luenberger}
+  \mtx{x}_{k+1}^+ = \mtx{A} \mtx{x}_k^- + \mtx{B} \mtx{u}_k + \mtx{L}
+    (\mtx{y}_k - \mtx{C} \mtx{x}_k^-) \\
+\end{equation}
+\\
+\noindent The following is a Kalman filter that considers the current update
+step and the next predict step together rather than the current predict step and
+current update step.
+
+\begin{align}
+  \text{Update step} \nonumber \\
+  \mtx{K}_k &= \mtx{P}_k^- \mtx{H}^T (\mtx{H}\mtx{P}_k^- \mtx{H}^T +
+    \mtx{R})^{-1} \\
+  \mtx{x}_k^+ &= \mtx{x}_k^- + \mtx{K}_k (\mtx{y}_k - \mtx{H} \mtx{x}_k^-)
+    \label{eq:post2_x} \\
+  \mtx{P}_k^+ &= (\mtx{I} - \mtx{K}_k\mtx{H})\mtx{P}_k^- \\
+  \text{Predict step} \nonumber \\
+  \mtx{x}_{k+1}^+ &= \mtx{A} \mtx{x}_k^+ + \mtx{B} \mtx{u}_k
+    \label{eq:pre2_x} \\
+  \mtx{P}_{k+1}^- &= \mtx{A} \mtx{P}_k^+ \mtx{A}^T +
+    \mtx{\Gamma}\mtx{Q}\mtx{\Gamma}^T
+\end{align}
+\\
+\noindent Substitute equation (\ref{eq:post2_x}) into equation
+(\ref{eq:pre2_x}).
+
+\begin{align*}
+  \mtx{x}_{k+1}^+ &= \mtx{A} (\mtx{x}_k^- +
+    \mtx{K}_k (\mtx{y}_k - \mtx{H} \mtx{x}_k^-)) + \mtx{B} \mtx{u}_k \\
+  \mtx{x}_{k+1}^+ &= \mtx{A} \mtx{x}_k^- +
+    \mtx{A} \mtx{K}_k (\mtx{y}_k - \mtx{H} \mtx{x}_k^-) + \mtx{B} \mtx{u}_k \\
+  \mtx{x}_{k+1}^+ &= \mtx{A} \mtx{x}_k^- + \mtx{B} \mtx{u}_k +
+    \mtx{A} \mtx{K}_k (\mtx{y}_k - \mtx{H} \mtx{x}_k^-) \\
+\end{align*}
+
+\noindent Let $\mtx{C} = \mtx{H}$ and $\mtx{L} = \mtx{A} \mtx{K}_k$.
+
+\begin{equation} \label{eq:app_kalman_leunberger}
+  \mtx{x}_{k+1}^+ = \mtx{A} \mtx{x}_k^- + \mtx{B} \mtx{u}_k +
+    \mtx{L} (\mtx{y}_k - \mtx{C} \mtx{x}_k^-) \\
+\end{equation}
+\\
+\noindent which matches equation (\ref{eq:luenberger}). Therefore,
+the eigenvalues of the Kalman filter observer can be obtained by
+
+\begin{align}
+  &eig(\mtx{A} - \mtx{L}\mtx{C}) \nonumber \\
+  &eig(\mtx{A} - (\mtx{A}\mtx{K}_k)(\mtx{H})) \nonumber \\
+  &eig(\mtx{A}(\mtx{I} - \mtx{K}_k\mtx{H}))
+\end{align}
 
 \bibliographystyle{IEEEtran}
 \bibliography{state-space-guide.bib}
