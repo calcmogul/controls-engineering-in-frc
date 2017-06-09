@@ -4,10 +4,9 @@
 \usepackage{bm}
 \usepackage{float}
 \usepackage{graphicx}
-\usepackage[colorlinks=true,linkcolor=blue]{hyperref}
+\PassOptionsToPackage{hyphens}{url}\usepackage[colorlinks=true,linkcolor=blue]{hyperref}
 \usepackage{tabulary}
 \usepackage{tocbibind}
-\usepackage{url}
 
 % Load after hyperref
 \usepackage[style=super,nonumberlist,toc]{glossaries}
@@ -24,6 +23,8 @@
 \lfoot{}
 \rfoot{}
 \fancyfoot[C]{} % remove normal page numbers
+
+\allowdisplaybreaks
 
 \begin{document}
 \input{INP-00-glossary}
@@ -355,18 +356,17 @@ The steady-state of a transfer function can be found via
   \lim_{s\to0} sH(s)
 \end{equation}
 
-\begin{align*}
-  e_{ss} &= \lim_{s\to0} sE(s) \\
-  e_{ss} &= \lim_{s\to0} s \frac{1}{1 + \frac{K_p K}{(Js+b)(Ls+R)+K^2}} V(s) \\
+\begin{align}
+  e_{ss} &= \lim_{s\to0} sE(s) \nonumber \\
+  e_{ss} &= \lim_{s\to0} s \frac{1}{1 + \frac{K_p K}{(Js+b)(Ls+R)+K^2}} V(s)
+    \nonumber \\
   e_{ss} &= \lim_{s\to0} s \frac{1}{1 + \frac{K_p K}{(Js+b)(Ls+R)+K^2}}
-    \frac{1}{s} \\
-  e_{ss} &= \lim_{s\to0} \frac{1}{1 + \frac{K_p K}{(Js+b)(Ls+R)+K^2}} \\
-  e_{ss} &= \frac{1}{1 + \frac{K_p K}{(J(0)+b)(L(0)+R)+K^2}}
-\end{align*}
-
-\begin{equation} \label{eq:ss_nonzero}
-  e_{ss} = \frac{1}{1 + \frac{K_p K}{bR+K^2}} \\
-\end{equation}
+    \frac{1}{s} \nonumber \\
+  e_{ss} &= \lim_{s\to0} \frac{1}{1 + \frac{K_p K}{(Js+b)(Ls+R)+K^2}}
+    \nonumber \\
+  e_{ss} &= \frac{1}{1 + \frac{K_p K}{(J(0)+b)(L(0)+R)+K^2}} \nonumber \\
+  e_{ss} &= \frac{1}{1 + \frac{K_p K}{bR+K^2}} \label{eq:ss_nonzero}
+\end{align}
 
 \noindent Notice that the \gls{steady-state error} is non-zero. To fix this, an
 integrator must be included in the controller.
@@ -629,22 +629,20 @@ and only if
 
 \noindent We'd like to know whether the \gls{system} defined by equation
 (\ref{eq:z_ctrl_x}) operating with the input
-$\mtx{u}_k = \mtx{K}(\mtx{R}_k - \mtx{x}_k)$ converges to the reference
+$\mtx{u}_k = \mtx{K}(\mtx{R}_k - \mtx{x}_k)$ converges to the \gls{reference}
 $\mtx{R}_k$.
 
-\begin{align*}
-  \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}\mtx{u}_k \\
-  \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}(\mtx{K}(\mtx{R}_k - \mtx{x}_k)) \\
+\begin{align}
+  \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}\mtx{u}_k \nonumber \\
+  \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}(\mtx{K}(\mtx{R}_k - \mtx{x}_k))
+    \nonumber \\
   \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}\mtx{K}\mtx{R}_k -
-    \mtx{B}\mtx{K}\mtx{x}_k \\
+    \mtx{B}\mtx{K}\mtx{x}_k \nonumber \\
   \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k - \mtx{B}\mtx{K}\mtx{x}_k +
-    \mtx{B}\mtx{K}\mtx{R}_k
-\end{align*}
-
-\begin{equation} \label{eq:ctrl_eig_calc}
-  \mtx{x}_{k+1} = (\mtx{A} - \mtx{B}\mtx{K})\mtx{x}_k +
-    \mtx{B}\mtx{K}\mtx{R}_k \\
-\end{equation}
+    \mtx{B}\mtx{K}\mtx{R}_k \nonumber \\
+  \mtx{x}_{k+1} &= (\mtx{A} - \mtx{B}\mtx{K})\mtx{x}_k +
+    \mtx{B}\mtx{K}\mtx{R}_k \label{eq:ctrl_eig_calc}
+\end{align}
 \\
 \noindent For equation (\ref{eq:ctrl_eig_calc}) to have a bounded output, the
 eigenvalues of $\mtx{A} - \mtx{B}\mtx{K}$ must be within the unit circle. \\
@@ -657,25 +655,22 @@ Plugging equation (\ref{eq:z_obsv_y}) into equation (\ref{eq:z_obsv_x}) gives
   \hat{\mtx{x}}_{k+1} &= \mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
     \mtx{L} (\mtx{y}_k - \hat{\mtx{y}}_{k+1}) \\
   \hat{\mtx{x}}_{k+1} &= \mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
-    \mtx{L} (\mtx{y}_k - (\mtx{C}\hat{\mtx{x}}_k + \mtx{D}\mtx{u}_k) \\
+    \mtx{L} (\mtx{y}_k - (\mtx{C}\hat{\mtx{x}}_k + \mtx{D}\mtx{u}_k)) \\
   \hat{\mtx{x}}_{k+1} &= \mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
-    \mtx{L} (\mtx{y}_k - \mtx{C}\hat{\mtx{x}}_k - \mtx{D}\mtx{u}_k \\
-  \hat{\mtx{x}}_{k+1} &= \mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
-    \mtx{L}\mtx{y}_k - \mtx{L}\mtx{C}\hat{\mtx{x}}_k -
-    \mtx{L}\mtx{D}\mtx{u}_k \\
+    \mtx{L} (\mtx{y}_k - \mtx{C}\hat{\mtx{x}}_k - \mtx{D}\mtx{u}_k) \\
 \end{align*}
 
-\noindent Substituting equation (\ref{eq:z_ctrl_y}) gives
+\noindent Plugging in equation (\ref{eq:z_ctrl_y}) gives
 
 \begin{align*}
   \hat{\mtx{x}}_{k+1} &= \mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
-    \mtx{L}(\mtx{C}\mtx{x}_k + \mtx{D}\mtx{u}_k) -
-    \mtx{L}\mtx{C}\hat{\mtx{x}}_k - \mtx{L}\mtx{D}\mtx{u}_k \\
+    \mtx{L}((\mtx{C}\mtx{x}_k + \mtx{D}\mtx{u}_k) - \mtx{C}\hat{\mtx{x}}_k -
+    \mtx{D}\mtx{u}_k) \\
   \hat{\mtx{x}}_{k+1} &= \mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
-    \mtx{L}\mtx{C}\mtx{x}_k + \mtx{L}\mtx{D}\mtx{u}_k -
-    \mtx{L}\mtx{C}\hat{\mtx{x}}_k - \mtx{L}\mtx{D}\mtx{u}_k \\
+    \mtx{L}(\mtx{C}\mtx{x}_k + \mtx{D}\mtx{u}_k - \mtx{C}\hat{\mtx{x}}_k -
+    \mtx{D}\mtx{u}_k) \\
   \hat{\mtx{x}}_{k+1} &= \mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
-    \mtx{L}\mtx{C}\mtx{x}_k - \mtx{L}\mtx{C}\hat{\mtx{x}}_k \\
+    \mtx{L}(\mtx{C}\mtx{x}_k - \mtx{C}\hat{\mtx{x}}_k) \\
   \hat{\mtx{x}}_{k+1} &= \mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
     \mtx{L}\mtx{C}(\mtx{x}_k - \hat{\mtx{x}}_k) \\
 \end{align*}
@@ -690,24 +685,23 @@ $\hat{\mtx{x}}_k$.
 \\
 \noindent Subtracting this from equation (\ref{eq:z_ctrl_x}) gives
 
-\begin{align*}
+\begin{align}
   \mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}\mtx{u}_k -
     (\mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
-     \mtx{L}\mtx{C}\mtx{E}_k) \\
+     \mtx{L}\mtx{C}\mtx{E}_k) \nonumber \\
   \mtx{E}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}\mtx{u}_k -
-    (\mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k + \mtx{L}\mtx{C}\mtx{E}_k) \\
+    (\mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k + \mtx{L}\mtx{C}\mtx{E}_k)
+    \nonumber \\
   \mtx{E}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}\mtx{u}_k -
-    \mtx{A}\hat{\mtx{x}}_k - \mtx{B}\mtx{u}_k - \mtx{L}\mtx{C}\mtx{E}_k \\
+    \mtx{A}\hat{\mtx{x}}_k - \mtx{B}\mtx{u}_k - \mtx{L}\mtx{C}\mtx{E}_k
+    \nonumber \\
   \mtx{E}_{k+1} &= \mtx{A}\mtx{x}_k - \mtx{A}\hat{\mtx{x}}_k -
-    \mtx{L}\mtx{C}\mtx{E}_k \\
+    \mtx{L}\mtx{C}\mtx{E}_k \nonumber \\
   \mtx{E}_{k+1} &= \mtx{A}(\mtx{x}_k - \hat{\mtx{x}}_k) -
-    \mtx{L}\mtx{C}\mtx{E}_k \\
-  \mtx{E}_{k+1} &= \mtx{A}\mtx{E}_k - \mtx{L}\mtx{C}\mtx{E}_k
-\end{align*}
-
-\begin{equation} \label{eq:obsv_eig_calc}
-  \mtx{E}_{k+1} = (\mtx{A} - \mtx{L}\mtx{C})\mtx{E}_k \\
-\end{equation}
+    \mtx{L}\mtx{C}\mtx{E}_k \nonumber \\
+  \mtx{E}_{k+1} &= \mtx{A}\mtx{E}_k - \mtx{L}\mtx{C}\mtx{E}_k \nonumber \\
+  \mtx{E}_{k+1} &= (\mtx{A} - \mtx{L}\mtx{C})\mtx{E}_k \label{eq:obsv_eig_calc}
+\end{align}
 \\
 \noindent For equation (\ref{eq:obsv_eig_calc}) to have a bounded output, the
 eigenvalues of $\mtx{A} - \mtx{L}\mtx{C}$ must be within the unit circle. \\
