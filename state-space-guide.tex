@@ -60,9 +60,9 @@
   \section{Abstract}
 
   \noindent Control theory is a discipline that deals with the behavior of
-  dynamical systems with inputs, and how their behavior is modified by feedback.
-  Concepts from classical and modern control are introduced, and advice is given
-  on when and now to use these tools.
+  dynamical \glspl{system} with inputs, and how their behavior is modified by
+  feedback. Concepts from classical and modern control are introduced, and
+  advice is given on when and now to use these tools.
 
   \section{Intended Audience}
 
@@ -118,8 +118,8 @@ Wikibook on control systems at \url{https://en.wikibooks.org/wiki/Control_System
 \noindent How can we prove an autonomous car will behave safely? Control theory
 is used to analyze and predict \gls{system} behavior. It's a pragmatic
 application of algebra, geometry, and jargon with the goal of producing a
-desired system response. Feedback control facilitates producing a desired
-system response. Control theory involves judiciously expending engineering
+desired \gls{system} response. Feedback control facilitates producing a desired
+\gls{system} response. Control theory involves judiciously expending engineering
 effort to meet performance specifications.
 
 \section{Nomenclature}
@@ -131,8 +131,8 @@ meaning. \\
 
 \noindent For example, the \gls{state} for a DC brushed motor would include the
 angular velocity $\dot{\theta}$ and current $i$. Voltage $V$ is an input. With
-perfect knowledge of the angular velocity and current, all future states of the
-system can be predicted given an input voltage signal. \\
+perfect knowledge of the angular velocity and current, all future \glspl{state}
+of the \gls{system} can be predicted given an input voltage signal. \\
 
 \section{Control system diagrams}
 
@@ -140,9 +140,10 @@ system can be predicted given an input voltage signal. \\
 
 \noindent Gain is a proportional value that shows the relationship between the
 magnitude of the input to the magnitude of the output signal at steady state.
-Many systems contain a method by which the gain can be altered, providing more
-or less "power" to the system. However, increasing gain or decreasing gain
-beyond a particular safety zone can cause the system to become unstable.
+Many \glspl{system} contain a method by which the gain can be altered, providing
+more or less "power" to the \gls{system}. However, increasing gain or decreasing
+gain beyond a particular safety zone can cause the \gls{system} to become
+unstable.
 
 \subsection{Block diagrams}
 
@@ -175,13 +176,39 @@ and \gls{output} to zero. \\
 \begin{figure}[H]
   \includegraphics[width=\linewidth]{figs/PID_diagram.png}
   \caption{PID controller diagram \cite{bib:PID_diagram}}
+  \label{fig:pid_ctrl_diag}
 \end{figure}
+
+\begin{table}[ht]
+  \renewcommand{\arraystretch}{1.3}
+  \centering
+  \begin{tabular}{llll}
+    $r(t)$ & \gls{reference} input & $u(t)$ & control input \\
+    $e(t)$ & error & $y(t)$ & \gls{output} \\
+  \end{tabular}
+  \label{tab:pid_def}
+\end{table}
+
+\begin{table}[ht]
+  \caption{Plant versus controller}
+  \renewcommand{\arraystretch}{1.3}
+  \centering
+  \begin{tabular}{|l|ll|}
+    \hline
+    & \textbf{Plant} & \textbf{Controller} \\
+    \hline
+    Input & $u(t)$ & $r(t)$, $y(t)$ \\
+    Output & $y(t)$ & $u(t)$ \\
+    \hline
+  \end{tabular}
+  \label{tab:plant_v_controller}
+\end{table}
 
 \subsection{Types of PID controllers}
 
 \noindent PID controller inputs of different orders of derivatives, such as
-position and velocity, affect the system response differently. The position PID
-controller is defined as
+position and velocity, affect the \gls{system} response differently. The
+position PID controller is defined as
 
 \begin{equation}
   u(t) = K_p e(t) + K_i \int_0^t e(\tau) d\tau + K_d \frac{de}{dt} \\
@@ -195,7 +222,7 @@ equation becomes
     K_d \frac{d^2e}{dt^2} \nonumber \\
   \frac{du}{dt} &= K_p \frac{de}{dt} + K_i e(t) + K_d \frac{d^2e}{dt^2}
 \end{align}
-
+\\
 \noindent This shows that $K_i$ produces a proportional response, $K_p$ produces
 a derivative response, and $K_i$ doesn't have an equivalent in the formula
 as-is. If we were to implement one, it would use a double integral. However, it
@@ -213,8 +240,8 @@ information.
 \subsection{Limitations of PID control}
 
 \noindent PID's hueristic method of tuning is fine when there is no knowledge of
-the system. However, controllers with much better response can be developed if a
-dynamical model of the system is known.
+the \gls{system}. However, controllers with much better response can be
+developed if a dynamical model of the \gls{system} is known.
 
 \section{What is a transfer function?}
 
@@ -222,7 +249,7 @@ dynamical model of the system is known.
 This is essentially a two-dimensional frequency domain on the complex plane
 (real numbers on the x-axis and imaginary numbers on the y-axis). These can be
 obtained by applying the Laplace transform to a differential equation and
-rearranging the terms to obtain a fraction of the output variable over the input
+rearranging the terms to obtain a ratio of the output variable to the input
 variable. Equation \ref{eq:transfer_func} is an example of a transfer function.
 
 \begin{equation} \label{eq:transfer_func}
@@ -239,9 +266,9 @@ conjugate pairs.
 \section{Poles and Zeroes}
 
 \noindent The location of the poles on the complex plane determine the stability
-of the system. Each pole represents a frequency mode of the system, and their
-location determines how much of each response is induced for a given input
-frequency.
+of the \gls{system}. Each pole represents a frequency mode of the \gls{system},
+and their location determines how much of each response is induced for a given
+input frequency.
 
 \begin{figure}[H]
   \includegraphics[width=\linewidth]{figs/ResponseVsPoleLocations.png}
@@ -250,9 +277,9 @@ frequency.
 
 \begin{table}[ht]
   \caption{Pole location and stabilty}
-  \renewcommand{\arraystretch}{1.3}
+  \renewcommand{\arraystretch}{1.5}
   \centering
-  \begin{tabularx}{\linewidth}{|lX|}
+  \begin{tabular}{|ll|}
     \hline
     \textbf{Location} & \textbf{Stability} \\
     \hline
@@ -260,7 +287,7 @@ frequency.
     Imaginary Axis & marginally stable \\
     Right-Hand Plane (RHP) & unstable \\
     \hline
-  \end{tabularx}
+  \end{tabular}
   \label{tab:pole_locations}
 \end{table}
 
@@ -278,28 +305,29 @@ function from equation (\ref{eq:transfer_func}).
 \end{figure}
 
 \noindent As the controller gain increases, the poles move toward the zeroes. In
-this case, the system eventually becomes unstable. \\
+this case, the \gls{system} eventually becomes unstable. \\
 
 \noindent \textbf{Note:} If poles are much farther left in the LHP than the
-typical system dynamics exhibit, they can be considered negligible. Every system
-has some form of unmodeled high frequency, non-linear dynamics, but they can be
-safely ignored depending on the operating regime.
+typical \gls{system} dynamics exhibit, they can be considered negligible. Every
+\gls{system} has some form of unmodeled high frequency, non-linear dynamics, but
+they can be safely ignored depending on the operating regime.
 
 \subsubsection{Non-minimum phase zeroes}
 
 While poles in the RHP are unstable, the same is not true for zeroes. They can
-be characterized by the system initially moving in the wrong direction before
-heading toward the reference. Since the poles always move toward the zeroes,
-zeroes impose a "speed limit" on the system response because it takes a finite
-amount of time to move the wrong direction, then change directions. \\
+be characterized by the \gls{system} initially moving in the wrong direction
+before heading toward the reference. Since the poles always move toward the
+zeroes, zeroes impose a "speed limit" on the \gls{system} response because it
+takes a finite amount of time to move the wrong direction, then change
+directions. \\
 
 \noindent One example is bicycle steering. Try riding a bicycle without holding
 the handle bars, then poke the right handle; the bicycle turns right.
 
 \section{Steady-state error}
 
-\noindent To demonstrate the problem of steady-state error, we will use a DC
-brushed motor controlled by a velocity PID controller. A DC brushed motor has
+\noindent To demonstrate the problem of \gls{steady-state error}, we will use a
+DC brushed motor controlled by a velocity PID controller. A DC brushed motor has
 a transfer function from voltage ($V$) to angular velocity ($\dot{\theta}$) of
 
 \begin{equation}
@@ -341,7 +369,7 @@ The steady-state of a transfer function can be found via
   e_{ss} = \frac{1}{1 + \frac{K_p K}{bR+K^2}} \\
 \end{equation}
 
-\noindent Notice that the steady-state error is non-zero. To fix this, an
+\noindent Notice that the \gls{steady-state error} is non-zero. To fix this, an
 integrator must be included in the controller.
 
 \begin{equation*}
@@ -370,7 +398,8 @@ new controller.
 \end{align*}
 
 \noindent The denominator is non-zero, so $e_{ss} = 0$. Therefore, an integrator
-is required to eliminate steady-state error in all cases for this model. \\
+is required to eliminate \gls{steady-state error} in all cases for this model.
+\\
 
 \noindent It should be noted that $e_{ss}$ in equation (\ref{eq:ss_nonzero})
 tends to zero for $K_p = \infty$. This is known as a bang-bang controller. In
@@ -379,10 +408,11 @@ close enough for some performance specifications.
 
 \section{Going Digital}
 
-\noindent The complex plane discussed so far deals with continuous systems. In
-decades past, \glspl{plant} and controllers were implemented using analog electronics,
-which are continuous in nature. Nowadays, microprocessors can be used to achieve
-cheaper, less complex controller designs. However, this comes with drawbacks. \\
+\noindent The complex plane discussed so far deals with continuous
+\glspl{system}. In decades past, \glspl{plant} and controllers were implemented
+using analog electronics, which are continuous in nature. Nowadays,
+microprocessors can be used to achieve cheaper, less complex controller designs.
+However, this comes with drawbacks. \\
 
 \noindent Since a microcontroller performs discrete steps, there is phase loss
 introduced in the controller. Large amounts of phase loss can make a stable
@@ -392,7 +422,7 @@ to combat this.
 \begin{itemize}
   \item Run the controller with a high sample rate.
   \item Designing the controller in the analog domain with enough phase margin to compensate for any phase loss that occurs as part of discretization.
-  \item Convert the plant to the digital domain and design the controller
+  \item Convert the \gls{plant} to the digital domain and design the controller
     completely in the digital domain.
 \end{itemize}
 
@@ -433,27 +463,27 @@ linear algebra as a method of linear transformations.
 
 \section{State-space}
 
-\noindent A state-space representation models systems as a set of state, input,
-and output variables related by first-order differential equations. "State
-space" refers to the Euclidean space in which the state variables are on the
-axes. The state of the system can be represented as a vector within that space.
-\\
+\noindent A state-space representation models \glspl{system} as a set of
+\gls{state}, input, and output variables related by first-order differential
+equations. "State space" refers to the Euclidean space in which the \gls{state}
+variables are on the axes. The \gls{state} of the \gls{system} can be
+represented as a vector within that space. \\
 
-\noindent To abstract from the number of states, inputs, and outputs, these
-variables are expressed as vectors. Additionally, if the dynamical system is
-linear, time-invariant, and finite-dimensional, then the differential and
-algebraic equations may be written in matrix form.
+\noindent To abstract from the number of \glspl{state}, inputs, and outputs,
+these variables are expressed as vectors. Additionally, if the dynamical
+\gls{system} is linear, time-invariant, and finite-dimensional, then the
+differential and algebraic equations may be written in matrix form.
 
 \subsection{Benefits over classical output-based control}
 
 \noindent The state-space method is characterized by significant algebraization
 of general system theory. The state-space representation uses the time domain
 instead of the frequency domain, and provides a convenient and compact way to
-model and analyze systems with multiple inputs and outputs. With $p$ inputs and
-$q$ outputs, we would otherwise have to write down $q \times p$ Laplace
-transforms to encode all the information about a system. Unlike the frequency
-domain approach, the use of the state-space representation is not limited to
-systems with linear components and zero initial conditions.
+model and analyze \glspl{system} with multiple inputs and outputs. With $p$
+inputs and $q$ outputs, we would otherwise have to write down $q \times p$
+Laplace transforms to encode all the information about a system. Unlike the
+frequency domain approach, the use of the state-space representation is not
+limited to systems with linear components and zero initial conditions.
 
 \subsection{Optimal control techniques}
 
@@ -486,8 +516,8 @@ systems with linear components and zero initial conditions.
 \subsection{Controllable Canonical Form}
 
 \noindent State controllability condition implies that it is possible --
-by admissible inputs -- to steer the states from any initial value to any final
-value within some finite time window. A continuous time-invariant linear
+by admissible inputs -- to steer the \glspl{state} from any initial value to any
+final value within some finite time window. A continuous time-invariant linear
 state-space model is controllable if and only if
 
 \begin{equation}
@@ -500,9 +530,9 @@ state-space model is controllable if and only if
 \end{equation}
 
 \noindent where rank is the number of linearly independent rows in a matrix and
-$n$ is the number of state variables. \\
+$n$ is the number of \gls{state} variables. \\
 
-\noindent Given a system of the form
+\noindent Given a \gls{system} of the form
 
 \begin{equation} \label{eq:ctrl_obsv_tf}
   G(s) = \frac{n_1 s^3 + n_2 s^2 + n_3 s + n_4}
@@ -537,12 +567,13 @@ $n$ is the number of state variables. \\
 
 \subsection{Observable Canonical Form}
 
-\noindent Observability is a measure for how well internal states of a system
-can be inferred by knowledge of its external outputs. The observability and
-controllability of a system are mathematical duals (i.e., as controllability
-provides that an input is available that brings any initial state to any desired
-final state, observability provides that knowing an output trajectory provides
-enough information to predict the initial state of the system).
+\noindent Observability is a measure for how well internal \glspl{state} of a
+\gls{system} can be inferred by knowledge of its external outputs. The
+observability and controllability of a \gls{system} are mathematical duals
+(i.e., as controllability provides that an input is available that brings any
+initial \gls{state} to any desired final \gls{state}, observability provides
+that knowing an output trajectory provides enough information to predict the
+initial \gls{state} of the \gls{system}).
 
 \noindent A continuous time-invariant linear state-space model is observable if
 and only if
@@ -558,7 +589,7 @@ and only if
   \right] = n \\
 \end{equation}
 
-\noindent The canonical realization of the system in equation
+\noindent The canonical realization of the \gls{system} in equation
 (\ref{eq:ctrl_obsv_tf}) that satisfies equation (\ref{eq:obsv_rank}) is
 
 \begin{align}
@@ -594,9 +625,10 @@ and only if
 
 \section{Eigenvalues in state-space}
 
-\noindent Eigenvalues can be used to determine the stability of a system. \\
+\noindent Eigenvalues can be used to determine the stability of a \gls{system}.
+\\
 
-\noindent We'd like to know whether the system defined by equation
+\noindent We'd like to know whether the \gls{system} defined by equation
 (\ref{eq:z_ctrl_x}) operating with the input
 $\mtx{u}_k = \mtx{K}(\mtx{R}_k - \mtx{x}_k)$ converges to the reference
 $\mtx{R}_k$.
@@ -618,9 +650,9 @@ $\mtx{R}_k$.
 \noindent For equation (\ref{eq:ctrl_eig_calc}) to have a bounded output, the
 eigenvalues of $\mtx{A} - \mtx{B}\mtx{K}$ must be within the unit circle. \\
 
-\noindent This derivation can be performed for a state estimator as well to
-determine whether the state estimate converges to the real state. Plugging
-equation (\ref{eq:z_obsv_y}) into equation (\ref{eq:z_obsv_x}) gives
+\noindent This derivation can be performed for a \gls{state} estimator as well
+to determine whether the \gls{state} estimate converges to the real \gls{state}.
+Plugging equation (\ref{eq:z_obsv_y}) into equation (\ref{eq:z_obsv_x}) gives
 
 \begin{align*}
   \hat{\mtx{x}}_{k+1} &= \mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
@@ -690,7 +722,7 @@ estimates based on the model.
 \end{align}
 
 \noindent Controller and estimator are dual problems. Controller gains can be
-found assuming perfect estimator (i.e., perfect knowledge of all states).
+found assuming perfect estimator (i.e., perfect knowledge of all \glspl{state}).
 Estimator gains can be found assuming accurate model and optimal controller.
 
 \section{Pole placement and LQR}
@@ -715,22 +747,23 @@ This tradeoff is represented by the cost function
   J = \int\limits_0^\infty \left(x^T Q x + u^T R u \right) dt \\
 \end{equation*}
 
-\noindent LQR attempts to minimize $J$ given the state excursion and control
-effort weighting factors $Q$ and $R$. If the solution produces a finite value,
-the resulting controller is guaranteed to be stable and robust with a phase
-margin of 55 degrees.
+\noindent LQR attempts to minimize $J$ given the \gls{state} excursion and
+control effort weighting factors $Q$ and $R$. If the solution produces a finite
+value, the resulting controller is guaranteed to be stable and robust with a
+phase margin of 55 degrees.
 
 \subsubsection{Bryson's rule}
 
 \noindent The next obvious question is what values to choose for $Q$ and $R$.
 With Bryson's rule, the $Q$ and $R$ matrices are chosen based on the maximum
-acceptable value for each state and actuator. The balance between $Q$ and $R$
-can be slid along the Pareto optimal curve using a weighting factor $\rho$. \\
+acceptable value for each \gls{state} and actuator. The balance between $Q$ and
+$R$ can be slid along the Pareto optimal curve using a weighting factor $\rho$.
+\\
 
-\noindent Small values of $\rho$ penalize state excursions while large values of
-$\rho$ penalize control effort. Small values would be chosen in applications
-like fighter jets where performance is necessary. Spacecrafts would use large
-values to conserve their limited fuel supply.
+\noindent Small values of $\rho$ penalize \gls{state} excursions while large
+values of $\rho$ penalize control effort. Small values would be chosen in
+applications like fighter jets where performance is necessary. Spacecrafts would
+use large values to conserve their limited fuel supply.
 
 \section{Estimating unmeasured states}
 
@@ -906,7 +939,7 @@ conditions and command inputs.
 
 \subsection{Test on real system}
 
-\noindent Try on real system with low maximum outputs for safety.
+\noindent Try on real \gls{system} with low maximum outputs for safety.
 
 \appendix
 
