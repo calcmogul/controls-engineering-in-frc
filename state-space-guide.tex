@@ -221,13 +221,15 @@ equation becomes
   \frac{du}{dt} &= K_p \frac{de}{dt} + K_i \int_0^t \frac{de}{d\tau} d\tau +
     K_d \frac{d^2e}{dt^2} \nonumber \\
   \frac{du}{dt} &= K_p \frac{de}{dt} + K_i e(t) + K_d \frac{d^2e}{dt^2}
+    \label{eq:pid_vel}
 \end{align}
 \\
-\noindent This shows that $K_i$ produces a proportional response, $K_p$ produces
-a derivative response, and $K_i$ doesn't have an equivalent in the formula
-as-is. If we were to implement one, it would use a double integral. However, it
-would be of limited use since the $K_i$ term in the original equation also
-eliminates steady-state error for step changes in reference. Relabelling the
+\noindent This shows that $K_i$ and $K_p$ from the position controller act as
+proportional and derivative terms respectively in the velocity controller. $K_i$
+from the position controller has no equivalent in the velocity controller. If we
+were to implement one, it would use a double integral. However, it would be of
+limited use since the $K_i$ term in equation (\ref{eq:pid_vel}) also eliminates
+steady-state error for step changes in \gls{reference}. Relabelling the
 coefficients to match the position PID controller gives
 
 \begin{equation}
@@ -316,9 +318,9 @@ they can be safely ignored depending on the operating regime.
 
 While poles in the RHP are unstable, the same is not true for zeroes. They can
 be characterized by the \gls{system} initially moving in the wrong direction
-before heading toward the reference. Since the poles always move toward the
-zeroes, zeroes impose a "speed limit" on the \gls{system} response because it
-takes a finite amount of time to move the wrong direction, then change
+before heading toward the \gls{reference}. Since the poles always move toward
+the zeroes, zeroes impose a "speed limit" on the \gls{system} response because
+it takes a finite amount of time to move the wrong direction, then change
 directions. \\
 
 \noindent One example is bicycle steering. Try riding a bicycle without holding
@@ -449,9 +451,9 @@ z-plane. Here are a few common points.
 
 \noindent You may notice that poles can be placed at $(0, 0)$ in the z-plane.
 This is known as a deadbeat controller. An $\rm N^{th}$ order deadbeat controller
-decays to the reference in N timesteps. While this sounds great, there are other
-considerations like actuation effort and robustness. These will be discussed in
-detail with LQR controllers.
+decays to the \gls{reference} in N timesteps. While this sounds great, there are
+other considerations like actuation effort and robustness. These will be
+discussed in detail with LQR controllers.
 
 \section{Linear algebra}
 
