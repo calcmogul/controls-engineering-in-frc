@@ -19,10 +19,17 @@
 \newglossaryentry{plant}{
   name=plant,
   description={the system and actuator being controlled}}
+\newglossaryentry{controller}{
+  name={controller},
+  description={\noindent attempt to bring about a desired system state by
+    driving the difference between a reference signal and the output to zero}}
+\newglossaryentry{open-loop gain}{
+  name={open-loop gain},
+  description={gain directly from the input to the output, ignoring loops}}
 \newglossaryentry{unity feedback}{
   name={unity feedback},
-  description={a feedback path in a control system diagram which has a gain of
-    1}}
+  description={a feedback network in a control system diagram with a feedback
+  gain of 1}}
 \newglossaryentry{output-based control}{
   name={output-based control},
   description={controls state through outputs}}

@@ -71,9 +71,9 @@
   theory. My intended audience is high school students who are returning veteran
   members of a FIRST Robotics Competition team. As such, they will already be
   familiar with feedback control applications like PID and have basic
-  proficiency in the C++ programming language. This guide will build on their
-  current knowledge of control theory and use C++ as an implementation language
-  for the material.
+  proficiency in programming. This guide will build on their current knowledge
+  of control theory and teach them enough about state-space control to be able
+  to implement it in the programming language of their choice.
 
   \section{Style guide}
 
@@ -263,9 +263,35 @@ on the top are called zeroes while residues on the bottom are called poles. This
 is due to poles making the expression approach infinity for values of $s$ that
 make the residue zero (they look like poles of a circus tent on a 3D graph).
 Similar logic applies to zeroes. Imaginary roots always come in complex
-conjugate pairs.
+conjugate pairs (e.g., $-2 + 3i$, $-2 - 3i$).
 
-\section{Poles and Zeroes}
+\subsection{Transfer functions in feedback}
+
+\noindent For \glspl{controller} to perform their job, they must be placed in
+feedback. attempt to bring about a desired \gls{system} state by
+driving the difference between a \gls{reference} signal and the \gls{output} to
+zero. This is done by placing the controller and \gls{plant} in feedback. For
+example, the transfer function of figure \ref{fig:feedback_loop} from input to
+output is
+
+\begin{equation}
+  G_{cl}(s) = \frac{Y(s)}{X(s)} = \frac{P_1}{1 + P_1 P_2}
+\end{equation}
+
+\noindent The numerator is the \gls{open-loop gain} and the denominator is the
+gain around the feedback loop, which may include parts of the
+\gls{open-loop gain}. Plants are generally written with the letter $G$. As
+another example, the transfer function from the input to the error is
+
+\begin{equation}
+  G_{cl}(s) = \frac{E(s)}{X(s)} = \frac{1}{1 + P_1 P_2}
+\end{equation}
+
+\noindent The roots of the denominator of $G_cl(s)$ are different from those of
+the open-loop transfer function $P_1(s)$. These are called the closed-loop
+poles.
+
+\section{Location of Poles and Zeroes}
 
 \noindent The location of the poles on the complex plane determine the stability
 of the \gls{system}. Each pole represents a frequency mode of the \gls{system},
@@ -886,6 +912,34 @@ conditions and command inputs.
 \noindent Try on real \gls{system} with low maximum outputs for safety.
 
 \appendices
+
+\section{Transfer function feedback derivation} \label{sec:tf_feedback_deriv}
+
+\noindent Given the following feedback network
+
+\begin{figure}[H]
+  \includegraphics[width=\linewidth]{figs/Closed_Loop_Block_Deriv.png}
+  \caption{Closed loop block diagram \cite{bib:closed_loop_block_derivation}}
+  \label{fig:closed_loop_deriv}
+\end{figure}
+
+\begin{align}
+  Y(s) &= Z(s) G(s) \nonumber \\
+  Z(s) &= X(s) - Y(s) H(s) \nonumber \\
+  X(s) &= Z(s) + Y(s) H(s) \nonumber \\
+  X(s) &= Z(s) + Z(s) G(s) H(s) \nonumber \\
+  \frac{Y(s)}{X(s)} &= \frac{Z(s) G(s)}{Z(s) + Z(s) G(s) H(s)} \nonumber \\
+  \frac{Y(s)}{X(s)} &= \frac{G(s)}{1 + G(s) H(s)}
+\end{align}
+
+\noindent A more general form is
+
+\begin{equation}
+  \frac{Y(s)}{X(s)} = \frac{G(s)}{1 \mp G(s) H(s)}
+\end{equation}
+
+\noindent where positive feedback uses the top sign and negative feedback uses
+the bottom sign.
 
 \section{Kalman filter as Luenberger observer} \label{sec:app_kalman_luenberger}
 
