@@ -1,41 +1,32 @@
-\newglossaryentry{output}{
-  name=output,
-  description={measurements from sensors}}
-\newglossaryentry{state}{
-  name=state,
-  description={used to describe system's future behavior}}
-\newglossaryentry{system}{
-  name=system,
-  description={maps inputs to outputs through linear combination of states}}
-\newglossaryentry{time-invariant}{
-  name=time-invariant,
-  description={the system's fundamental response does not change over time}}
-\newglossaryentry{reference}{
-  name=reference,
-  description={the desired state}}
-\newglossaryentry{error}{
-  name=error,
-  description={reference minus input}}
-\newglossaryentry{steady-state error}{
-  name={steady-state error},
-  description={error after system reaches equilibrium}}
-\newglossaryentry{plant}{
-  name=plant,
-  description={the system and actuator being controlled}}
 \newglossaryentry{controller}{
   name={controller},
   description={\noindent attempt to bring about a desired system state by
     driving the difference between a reference signal and the output to zero}}
+\newglossaryentry{disturbance rejection}{
+  name={disturbance rejection},
+  description={the quality of a feedback control system to compensate for
+    external forces to reach a desired reference}}
+\newglossaryentry{error}{
+  name=error,
+  description={reference minus input}}
 \newglossaryentry{open-loop gain}{
   name={open-loop gain},
   description={gain directly from the input to the output, ignoring loops}}
-\newglossaryentry{unity feedback}{
-  name={unity feedback},
-  description={a feedback network in a control system diagram with a feedback
-  gain of 1}}
+\newglossaryentry{output}{
+  name=output,
+  description={measurements from sensors}}
 \newglossaryentry{output-based control}{
   name={output-based control},
   description={controls state through outputs}}
+\newglossaryentry{plant}{
+  name=plant,
+  description={the system and actuator being controlled}}
+\newglossaryentry{reference}{
+  name=reference,
+  description={the desired state}}
+\newglossaryentry{state}{
+  name=state,
+  description={used to describe system's future behavior}}
 \newglossaryentry{state feedback}{
   name={state feedback},
   description={uses state instead of output in feedback}}
@@ -43,7 +34,16 @@
   name={state tracking},
   description={the quality of a feedback control system to make the state
     follow the reference}}
-\newglossaryentry{disturbance rejection}{
-  name={disturbance rejection},
-  description={the quality of a feedback control system to compensate for
-    external forces to reach a desired reference}}
+\newglossaryentry{steady-state error}{
+  name={steady-state error},
+  description={error after system reaches equilibrium}}
+\newglossaryentry{system}{
+  name=system,
+  description={maps inputs to outputs through linear combination of states}}
+\newglossaryentry{time-invariant}{
+  name=time-invariant,
+  description={the system's fundamental response does not change over time}}
+\newglossaryentry{unity feedback}{
+  name={unity feedback},
+  description={a feedback network in a control system diagram with a feedback
+  gain of 1}}
