@@ -61,8 +61,8 @@
 
   \noindent Control theory is a discipline that deals with the behavior of
   dynamical \glspl{system} with inputs, and how their behavior is modified by
-  feedback. Concepts from classical and modern control are introduced, and
-  advice is given on when and now to use these tools.
+  feedback. Topics from classical and modern control are introduced, and advice
+  is given on when and how to apply them.
 
   \section{Intended Audience}
 
@@ -72,8 +72,9 @@
   members of a FIRST Robotics Competition team. As such, they will already be
   familiar with feedback control applications like PID and have basic
   proficiency in programming. This guide will build on their current knowledge
-  of control theory and teach them enough about state-space control to be able
-  to implement it in the programming language of their choice.
+  of control theory and teach them enough about state-space control and
+  auxiliary topics to be able to implement it in the programming language of
+  their choice.
 
   \section{Style guide}
 
@@ -280,15 +281,16 @@ output is
 
 \noindent The numerator is the \gls{open-loop gain} and the denominator is the
 gain around the feedback loop, which may include parts of the
-\gls{open-loop gain}. Plants are generally written with the letter $G$. As
-another example, the transfer function from the input to the error is
+\gls{open-loop gain} (see appendix \ref{sec:app_tf_feedback_deriv} for a
+derivation). Plants are generally denoted with the letter $G$. As another
+example, the transfer function from the input to the error is
 
 \begin{equation}
   G_{cl}(s) = \frac{E(s)}{X(s)} = \frac{1}{1 + P_1 P_2}
 \end{equation}
 
-\noindent The roots of the denominator of $G_cl(s)$ are different from those of
-the open-loop transfer function $P_1(s)$. These are called the closed-loop
+\noindent The roots of the denominator of $G_{cl}(s)$ are different from those
+of the open-loop transfer function $P_1(s)$. These are called the closed-loop
 poles.
 
 \section{Location of Poles and Zeroes}
@@ -486,7 +488,10 @@ discussed in detail with LQR controllers.
 \noindent Modern control theory borrows concepts from linear algebra. We
 recommend watching 3Blue1Brown's \textit{Essence of Linear Algebra} video series
 \cite{bib:essence_of_linalg}. It offers an intuitive, geometric understanding of
-linear algebra as a method of linear transformations.
+linear algebra as a method of linear transformations. \\
+
+\noindent \textit{Note}: The $^T$ in $\mtx{A}^T$ denotes transpose, which flips
+the matrix across its diagonal such that the rows become columns and vice versa.
 
 \section{State-space}
 
@@ -511,8 +516,6 @@ inputs and $q$ outputs, we would otherwise have to write down $q \times p$
 Laplace transforms to encode all the information about a system. Unlike the
 frequency domain approach, the use of the state-space representation is not
 limited to systems with linear components and zero initial conditions.
-
-\subsection{Optimal control techniques}
 
 \section{State-space notation}
 
@@ -540,11 +543,17 @@ limited to systems with linear components and zero initial conditions.
 
 \section{Canonical forms}
 
-\subsection{Controllable Canonical Form}
+\noindent There are two canonical forms used to represent state-space models:
+controllable canonical form and observable canonical form. They are used to
+provide controllability and observability of a system respectively, which are
+mathematical duals of each other. That is, the controller and estimator (state
+observer) are complementary problems. \\
 
-\noindent State controllability condition implies that it is possible --
-by admissible inputs -- to steer the \glspl{state} from any initial value to any
-final value within some finite time window. A continuous time-invariant linear
+\subsection{Controllable Canonical Form} \label{subsec:ctrl_canon}
+
+\noindent State controllability implies that it is possible -- by admissible
+inputs -- to steer the \glspl{state} from any initial value to any final value
+within some finite time window. A continuous \gls{time-invariant} linear
 state-space model is controllable if and only if
 
 \begin{equation}
@@ -592,18 +601,18 @@ $n$ is the number of \gls{state} variables. \\
   \right] \mtx{x}(t)
 \end{align}
 
-\subsection{Observable Canonical Form}
+\subsection{Observable Canonical Form} \label{subsec:obsv_canon}
 
 \noindent Observability is a measure for how well internal \glspl{state} of a
 \gls{system} can be inferred by knowledge of its external outputs. The
 observability and controllability of a \gls{system} are mathematical duals
-(i.e., as controllability provides that an input is available that brings any
-initial \gls{state} to any desired final \gls{state}, observability provides
-that knowing an output trajectory provides enough information to predict the
-initial \gls{state} of the \gls{system}).
+(i.e., as controllability proves that an input is available that brings any
+initial \gls{state} to any desired final \gls{state}, observability proves that
+knowing an output trajectory provides enough information to predict the
+initial \gls{state} of the \gls{system}). \\
 
-\noindent A continuous time-invariant linear state-space model is observable if
-and only if
+\noindent A continuous \gls{time-invariant} linear state-space model is
+observable if and only if
 
 \begin{equation} \label{eq:obsv_rank}
   rank \left[
@@ -641,14 +650,6 @@ and only if
   \end{array}
   \right] \mtx{x}(t)
 \end{align}
-
-\section{Examples}
-
-\subsection{Spring-mass system}
-
-\subsection{Pendulum}
-
-\subsection{DC brushed motor}
 
 \section{Eigenvalues in state-space}
 
@@ -742,23 +743,44 @@ estimates based on the model.
   &eig(\mtx{A} - \mtx{L}\mtx{C}) \\ \nonumber
 \end{align}
 
-\noindent Controller and estimator are dual problems. Controller gains can be
-found assuming perfect estimator (i.e., perfect knowledge of all \glspl{state}).
-Estimator gains can be found assuming accurate model and optimal controller.
+\noindent As stated before, the controller and estimator are dual problems.
+Controller gains can be found assuming perfect estimator (i.e., perfect
+knowledge of all \glspl{state}). Estimator gains can be found assuming an
+accurate model and a controller with perfect \gls{state tracking}.
 
-\section{Pole placement and LQR}
+\section{State-space controllers}
 
 \subsection{Optimal control law}
 
 \begin{equation}
-  \mtx{u} = -\mtx{k}\mtx{x}
+  \mtx{u} = -\mtx{K}\mtx{x}
 \end{equation}
+
+\noindent This means that optimal control can be achieved with simply a set of
+proportional gains on all the states. See the Wikipedia page on Linear-Quadratic
+Regulators \cite{bib:lqr} for an explanation of this choice of feedback control
+law.
 
 \subsection{Need full state}
 
+\noindent While we can attain good control with this approach, we need knowledge
+of the full state of the system. That means we either have to measure all our
+states directly or estimate those we do not.
+
 \subsection{Pole placement}
 
+\noindent This is the practice of manually placing the poles of the closed-loop
+system to produce a desired response. This is typically done with controllable
+canonical form (see subsection \ref{subsec:ctrl_canon}). This can be done with
+state observers as well with observable canonical form (see subsection
+\ref{subsec:obsv_canon}).
+
 \subsection{LQR}
+
+\noindent While we could place the poles for our controller manually, we can do
+better using math to select them for us. "LQR" stands for "Linear-Quadratic
+Regulator". It places the poles of the controller to find the minimum of a
+quadratic cost function, which will be discussed below.
 
 \subsubsection{Pareto optimal curve}
 
@@ -821,6 +843,10 @@ but the responses are still generally very good.
 
 \subsection{LQE}
 
+\noindent "LQE" stands for "Linear-Quadratic Estimator". Similar to LQR, it
+places the estimator poles such that it minimizes the sum of squares of the
+error. The Kalman filter is an example of one of these.
+
 \subsection{Kalman filter}
 
 \noindent Read \url{http://www.bzarg.com/p/how-a-kalman-filter-works-in-pictures/} for a graphical introduction to Kalman filters. \\
@@ -830,8 +856,9 @@ current predict step and current update step are shown.
 
 \begin{align}
   \text{Predict step} \nonumber \\
-  \mtx{x}_{k+1}^- &= \mtx{A} \mtx{x}_k + \mtx{B} \mtx{u}_k \label{eq:pre1_x} \\
-  \mtx{P}_{k+1}^- &= \mtx{A} \mtx{P}_k^- \mtx{A}^T +
+  \mtx{x}_{k+1}^- &= \mtx{\Phi} \mtx{x}_k + \mtx{B} \mtx{u}_k
+    \label{eq:pre1_x} \\
+  \mtx{P}_{k+1}^- &= \mtx{\Phi} \mtx{P}_k^- \mtx{\Phi}^T +
     \mtx{\Gamma}\mtx{Q}\mtx{\Gamma}^T \\
   \text{Update step} \nonumber \\
   \mtx{K}_{k+1} &= \mtx{P}_{k+1}^- \mtx{H}^T (\mtx{H}\mtx{P}_{k+1}^- \mtx{H}^T +
@@ -845,28 +872,229 @@ current predict step and current update step are shown.
   \renewcommand{\arraystretch}{1.3}
   \centering
   \begin{tabulary}{\linewidth}{LLLL}
-    $\mtx{A}$ & system matrix           &
+    $\mtx{\Phi}$ & system matrix &
       $\hat{\mtx{x}}$ & state estimate vector \\
     $\mtx{B}$ & input matrix            & $\mtx{u}$ & input vector \\
     $\mtx{H}$ & measurement matrix      & $\mtx{y}$ & output vector \\
     $\mtx{P}$ & error covariance matrix &
-      $\hat{\mtx{y}}$ & output estimate vector \\
+      $\mtx{Q}$ & process noise covariance matrix \\
     $\mtx{K}$ & Kalman gain matrix &
-      $\mtx{\Gamma}$ & process noise intensity vector \\
-    $\mtx{Q}$ & process noise covariance matrix &
-      $\mtx{R}$ & measurement noise covariance matrix
+      $\mtx{R}$ & measurement noise covariance matrix \\
+    $\mtx{\Gamma}$ & process noise intensity vector &
   \end{tabulary}
   \label{tab:kalman_def}
 \end{table}
 
-\noindent where a superscript of minus denotes a priori and plus denotes a
-posteriori estimate. \\
+\noindent where a superscript of minus denotes \textit{a priori} and plus
+denotes \textit{a posteriori} estimate (before and after update respectively).
+$\mtx{\Phi}$ is replaced with $\mtx{A}$ for continuous systems. \\
 
-\noindent [Add info about Wiener process and dual sensor problem to motivate
-filter] \\
+\noindent Unknown states in a Kalman filter are generally represented by a
+Wiener process. This process has the property that its variance increases
+linearly with time $t$. We'll skip all the probability derivations here, but
+given two data points with associated variances represented by Gaussian
+distribution, the information can be optimally combined into a third Gaussian
+distribution with a mean value and variance. The expected value of $x$ given a
+measurement $z_1$ is
 
-\noindent See the Wikipedia page on Kalman filters for a more thorough
-explanation. [include derivation and motivation behind filter in appendix?]
+\begin{equation}
+  E\{x|z_1\} = \mu = \frac{\sigma_0^2}{\sigma_0^2 + \sigma^2}z_1 +
+    \frac{\sigma^2}{\sigma_0^2 + \sigma^2}x_0
+\end{equation}
+
+\noindent The variance of $x$ given $z_1$ is
+
+\begin{equation}
+  E\{(x - \mu)^2|z_1\} = \frac{\sigma^2 \sigma_0^2}{\sigma_0^2 + \sigma^2}
+\end{equation}
+
+\noindent The expected value, which is also the maximum likelihood value, is the
+linear combination of the prior expected (maximum likelihood) value and the
+measurement. The expected value is a reasonable estimator of $x$.
+
+\begin{align}
+  \hat{x} &= E\{x|z_1\} = \frac{\sigma_0^2}{\sigma_0^2 + \sigma^2}z_1 +
+    \frac{\sigma^2}{\sigma_0^2 + \sigma^2}x_0 \\
+  \hat{x} &= w_1 z_1 + w_2 x_0 \nonumber
+\end{align}
+\\
+\noindent Note that the weights $w_1$ and $w_2$ sum to 1. When the prior (i.e.,
+prior knowledge of state) is uninformative (a large variance)
+
+\begin{align}
+  w_1 &= lim_{\sigma_0^2 \to 0} \frac{\sigma_0^2}{\sigma_0^2 + \sigma^2} = 0 \\
+  w_2 &= lim_{\sigma_0^2 \to 0} \frac{\sigma^2}{\sigma_0^2 + \sigma^2} = 1
+\end{align}
+\\
+\noindent and $\hat{x} = z_1$. That is, the weight is on the observations. The
+estimate is identically equal to the measurement. \\
+
+\noindent Let us assume we have a model providing an almost exact prior for $x$.
+In that case, $\sigma_0^2$ approaches 0 and
+
+\begin{align}
+  w_1 &= lim_{\sigma_0^2 \to 0} \frac{\sigma_0^2}{\sigma_0^2 + \sigma^2} = 1 \\
+  w_2 &= lim_{\sigma_0^2 \to 0} \frac{\sigma^2}{\sigma_0^2 + \sigma^2} = 0
+\end{align}
+\\
+\noindent The Kalman filter uses this optimal fusion as the basis for its
+operation. See the Wikipedia page on Kalman filters \cite{bib:kalman_filter} for
+a more thorough explanation of the math involved and a derivation of the
+equations.
+
+\subsubsection{Equations to model}
+
+\begin{table}[ht]
+  \caption{Kalman filter matrix dimensions}
+  \renewcommand{\arraystretch}{1.5}
+  \centering
+  \begin{tabular}{|ll|}
+    \hline
+    \textbf{Matrix} & \textbf{Dimensions (rows $\times$ columns)} \\
+    \hline
+    $\mtx{\Phi}$ & states $\times$ states \\
+    $\mtx{B}$ & states $\times$ inputs \\
+    $\mtx{H}$ & outputs $\times$ states \\
+    $\mtx{P}$ & states $\times$ states \\
+    $\mtx{K}$ & states $\times$ outputs \\
+    $\mtx{\Gamma}$ & states $\times$ 1 \\
+    $\mtx{\hat{x}}$ & states $\times$ 1 \\
+    $\mtx{u}$ & inputs $\times$ 1 \\
+    $\mtx{y}$ & outputs $\times$ 1 \\
+    $\mtx{Q}$ & states $\times$ states \\
+    $\mtx{R}$ & outputs $\times$ outputs \\
+    \hline
+  \end{tabular}
+  \label{tab:kf_matrix_dims}
+\end{table}
+
+\noindent The following example system will be used to describe how to define
+and initialize the matrices for a Kalman filter. \\
+
+\noindent A robot is between two parallel walls. It starts driving from one wall
+to the other at a velocity of $0.8 cm/s$ and uses ultrasonic sensors to provide
+noisy measurements of the distances to the walls in front of and behind it. To
+estimate the distance between the walls, we will define three states: robot
+position, robot velocity, and distance between the walls.
+
+\begin{align}
+  x_{k+1} &= x_k + v_k \Delta T \\
+  v_{k+1} &= v_k \\
+  x_{k+1}^w &= x_k^w
+\end{align}
+\\
+\noindent This can be converted to the following state-space model.
+
+\begin{equation}
+  \mtx{x}_k = \left[
+  \begin{array}{c}
+    x_k \\
+    v_k \\
+    x_k^w
+  \end{array} \right]
+\end{equation}
+
+\begin{equation}
+  \mtx{x}_{k+1} = \left[
+  \begin{array}{ccc}
+    1 & 1 & 0 \\
+    0 & 0 & 0 \\
+    0 & 0 & 1
+  \end{array} \right] \mtx{x}_k + \left[
+  \begin{array}{c}
+    0 \\
+    0.8 \\
+    0
+  \end{array} \right] + \left[
+  \begin{array}{c}
+    0 \\
+    0.1 \\
+    0
+  \end{array} \right] w_k
+\end{equation}
+\\
+\noindent where the Gaussian random variable $w_k$ has zero mean and variance 1.
+The observation model is
+
+\begin{equation}
+  \mtx{y}_k = \left[
+  \begin{array}{ccc}
+    1 & 0 & 0 \\
+    -1 & 0 & 1
+  \end{array} \right] \mtx{x}_k + \theta_k
+\end{equation}
+
+\noindent where the covariance matrix of Gaussian measurement noise $\theta$ is
+a $2 \times 2$ matrix with both diagonals $10 cm^2$. \\
+
+\noindent The state vector is usually initialized using the first measurement
+or two. The covariance matrix entries are assigned by calculating the covariance
+of the expressions used when assigning the state vector. Let $k = 2$.
+
+\begin{align}
+  \mtx{Q} &= \left[1\right] \\
+  \mtx{R} &= \left[
+  \begin{array}{cc}
+    10 & 0 \\
+    0 & 10
+  \end{array} \right] \\
+  \hat{\mtx{x}} &= \left[
+  \begin{array}{c}
+    \mtx{y}_{k,1} \\
+    (\mtx{y}_{k,1} - \mtx{y}_{k-1,1})/dt \\
+    \mtx{y}_{k,1} + \mtx{y}_{k,2}
+  \end{array} \right] \\
+  \mtx{P} &= \left[
+  \begin{array}{ccc}
+    10 & 10/dt & 10 \\
+    10/dt & 20/dt^2 & 10/dt \\
+    10 & 10/dt & 20
+  \end{array} \right]
+\end{align}
+
+\subsubsection{Initial conditions}
+
+\noindent To fill in the $\mtx{P}$ matrix, we calculate the covariance of each
+combination of state variables. The resulting value is a measure of how much
+those variables are correlated. Due to how the covariance calculation works out,
+the covariance between two variables is the sum of the variance of matching
+terms which aren't constants multiplied by any constants the two have. If no
+terms match, the variables are uncorrelated and the covariance is zero. \\
+
+\noindent In $\mtx{P}_{11}$, the terms in $\mtx{x}_1$ correlate with itself.
+Therefore, $\mtx{P}_{11}$ is $\mtx{x}_1$'s variance, or $\mtx{P}_{11} = 10$.
+For $\mtx{P}_{21}$, One term correlates between $\mtx{x}_1$ and $\mtx{x}_2$, so
+$\mtx{P}_{21} = \frac{10}{dt}$. The constants from each are simply multiplied
+together. For $\mtx{P}_{22}$, both measurements are correlated, so the variances
+add together. Therefore, $\mtx{P}_{22} = \frac{20}{dt^2}$. It continues in this
+fashion until the matrix is filled up. Order doesn't matter for correlation, so
+the matrix is symmetric. \\
+
+\subsubsection{Selection of priors}
+
+\noindent Choosing good priors is important for a well performing filter, even
+if little information is known. This applies to both the measurement noise and
+the noise model. The act of giving a state variable a large variance means you
+know something about the system. Namely, you aren't sure whether your initial
+guess is close to the real value. If you make a guess and specify a small
+variance, you are telling the filter that you are very confident in your guess.
+If that guess is incorrect, it will take the filter a long time to move away
+from your guess to the true value.
+
+\subsubsection{Covariance selection}
+
+While one could assume no correlation between the state variables and set the
+covariance matrix entries to zero, this may not reflect reality. The Kalman
+filter is still guarenteed to converge to the steady-state covariance after an
+infinite time, but it will take longer than otherwise.
+
+\subsubsection{Noise model selection}
+
+\noindent We typically use a Gaussian distribution for the noise model because
+we have some idea of where the central, or mean, value is. If the true value has
+an equal probability of being within a certain range, use a uniform distribution
+instead. Each of these communicates information regarding what you know about a
+system in addition to what you do not.
 
 \subsection{Kalman filter as Luenberger observer}
 
@@ -882,38 +1110,103 @@ $\mtx{C} = \mtx{H}$ and $\mtx{L} = \mtx{A} \mtx{K}_k$ (see appendix
 
 \subsection{Derive physical model}
 
-\noindent ...Autonomous system of differential equations...
+\noindent A model is a set of differential equations describing the system.
+Since state-space representation requires that only single derivatives be used,
+they should be broken up as separate states. For example, below is the model for
+a pendulum
 
-\subsection{Write model in state-space form}
+\begin{equation}
+  mL\ddot{x} = -mg \mathrm{sin}~x
+\end{equation}
+
+\noindent where $x$ is the angle of the pendulum.
+
+\begin{equation*}
+  \ddot{x} = -\frac{g}{L} \mathrm{sin}~x
+\end{equation*}
+
+\begin{align*}
+  \dot{x}_1 &= x_2 \\
+  \dot{x}_2 &= -\frac{g}{L} \mathrm{sin}~x_1
+\end{align*}
+
+\noindent where $x_1$ is $\theta$ and $x_2$ is $\dot{\theta}$. Since this model
+is non-linear, we should linearize it. We will use the small angle approximation
+($\mathrm{sin}~\theta = \theta$ for small values of $\theta$).
+
+\begin{align*}
+  \dot{x}_1 &= x_2 \\
+  \dot{x}_2 &= -\frac{g}{L} x_1
+\end{align*}
+
+\subsection{Write model in state-space representation}
+
+\noindent Continuing the example above:
+
+\begin{align}
+  \dot{\left[
+  \begin{array}{c}
+    x_1 \\
+    x_2
+  \end{array} \right]} = \left[
+  \begin{array}{cc}
+    0 & 1 \\
+    -\frac{g}{L} & 0
+  \end{array} \right] \left[
+  \begin{array}{c}
+    x_1 \\
+    x_2
+  \end{array} \right]
+\end{align}
 
 \subsection{Add estimator for unmeasured states}
 
-\noindent States may be linear combination of measurements.
+\noindent The states may be a linear combination of measurements. After
+designing an estimator, it can be used to supplement the inputs for a
+controller. \\
 
-\subsection{Decide performance vs actuation effort tradeoff}
+\noindent For example, we may only be measuring $\theta$ in the pendulum
+example, not $\dot{\theta}$, so we'll need to estimate the latter.
 
-\subsection{Simulate model}
+\subsection{Implement controller}
 
-\noindent Tweak LQR gain as necessary.
+\noindent Use Bryson's rule when making the performance vs actuation effort
+trade-off. For the average system, optimizing actuation effort will get you to
+the reference in the most efficient way possible, which can avoid voltage drops
+on robots with a limited power supply.
+
+\subsection{Simulate model/controller}
+
+\noindent This can be done in any platform supporting numerical computation.
+Common choices are MATLAB, v-REP, or Python. Tweak the LQR gain as necessary.
 
 \subsection{Verify pole locations}
 
-\noindent Check pole locations as sanity check and to gain intuition of chosen pole locations.
+\noindent Check the pole locations as a sanity check and to potentially gain an
+intuition for the chosen pole locations.
 
 \subsection{Unit test}
 
-\noindent Write unit tests to test model performance and robustness under different initial
-conditions and command inputs.
-
-\noindent [Google Test]
+\noindent Write unit tests to test the model performance and robustness under
+different initial conditions and command inputs. If you are using C++, we
+recommend Google Test.
 
 \subsection{Test on real system}
 
-\noindent Try on real \gls{system} with low maximum outputs for safety.
+\noindent Try the controller on a real \gls{system} with low maximum outputs for
+safety. The outputs can be raised later.
+
+\section{Conclusion}
+
+\noindent While this guide is not comprehensive, you will hopefully have learned
+enough to either implement these concepts yourself or know where to look for
+more information. I hope this guide has enabled you to design and implement
+performant, robust controller designs for a variety of robotic applications.
 
 \appendices
 
-\section{Transfer function feedback derivation} \label{sec:tf_feedback_deriv}
+\section{Transfer function feedback derivation}
+\label{sec:app_tf_feedback_deriv}
 
 \noindent Given the following feedback network
 
@@ -1005,6 +1298,16 @@ the eigenvalues of the Kalman filter observer can be obtained by
   &eig(\mtx{A} - (\mtx{A}\mtx{K}_k)(\mtx{H})) \nonumber \\
   &eig(\mtx{A}(\mtx{I} - \mtx{K}_k\mtx{H}))
 \end{align}
+
+\addcontentsline{toc}{section}{Acknowledgement}
+\section*{Acknowledgement}
+
+\noindent I would like to thank my controls engineering instructors Dejan
+Milutinovi\'c and Gabriel Elkaim of University of California, Santa Cruz. They
+taught their classes from a pragmatic perspective focused on application and
+intuition that I appreciated. I would also like to thank Dejan Milutinovi\'c for
+introducing me to the field of control theory and teaching me what it means to
+be a controls engineer.
 
 \bibliographystyle{IEEEtran}
 \bibliography{state-space-guide.bib}

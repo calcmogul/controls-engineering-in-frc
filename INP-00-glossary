@@ -7,6 +7,9 @@
 \newglossaryentry{system}{
   name=system,
   description={maps inputs to outputs through linear combination of states}}
+\newglossaryentry{time-invariant}{
+  name=time-invariant,
+  description={the system's fundamental response does not change over time}}
 \newglossaryentry{reference}{
   name=reference,
   description={the desired state}}
@@ -36,3 +39,11 @@
 \newglossaryentry{state feedback}{
   name={state feedback},
   description={uses state instead of output in feedback}}
+\newglossaryentry{state tracking}{
+  name={state tracking},
+  description={the quality of a feedback control system to make the state
+    follow the reference}}
+\newglossaryentry{disturbance rejection}{
+  name={disturbance rejection},
+  description={the quality of a feedback control system to compensate for
+    external forces to reach a desired reference}}
