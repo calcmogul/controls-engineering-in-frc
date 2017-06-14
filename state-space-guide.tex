@@ -4,7 +4,8 @@
 \usepackage{bm}
 \usepackage{float}
 \usepackage{graphicx}
-\PassOptionsToPackage{hyphens}{url}\usepackage[colorlinks=true,linkcolor=blue]{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+  \usepackage[colorlinks=true,linkcolor=blue]{hyperref}
 \usepackage{tabulary}
 \usepackage{tocbibind}
 
@@ -112,7 +113,8 @@ Proportional-Integral-Derivative (PID). \\
 \noindent The sections on classical control theory are intended to provide a
 geometric intuition into the mathematical machinery. Some topics have been
 oversimplified to make them easier to grasp. For more detail, please see the
-Wikibook on control systems at \url{https://en.wikibooks.org/wiki/Control_Systems}.
+Wikibook on control systems at
+\url{https://en.wikibooks.org/wiki/Control_Systems}.
 
 \section{What is control theory?}
 
@@ -450,7 +452,8 @@ to combat this.
 
 \begin{itemize}
   \item Run the controller with a high sample rate.
-  \item Designing the controller in the analog domain with enough phase margin to compensate for any phase loss that occurs as part of discretization.
+  \item Designing the controller in the analog domain with enough phase margin
+    to compensate for any phase loss that occurs as part of discretization.
   \item Convert the \gls{plant} to the digital domain and design the controller
     completely in the digital domain.
 \end{itemize}
@@ -478,10 +481,10 @@ z-plane. Here are a few common points.
 \end{table}
 
 \noindent You may notice that poles can be placed at $(0, 0)$ in the z-plane.
-This is known as a deadbeat controller. An $\rm N^{th}$ order deadbeat controller
-decays to the \gls{reference} in N timesteps. While this sounds great, there are
-other considerations like actuation effort and robustness. These will be
-discussed in detail with LQR controllers.
+This is known as a deadbeat controller. An $\rm N^{th}$ order deadbeat
+controller decays to the \gls{reference} in N timesteps. While this sounds
+great, there are other considerations like actuation effort and robustness.
+These will be discussed in detail with LQR controllers.
 
 \section{Linear algebra}
 
@@ -849,7 +852,9 @@ error. The Kalman filter is an example of one of these.
 
 \subsection{Kalman filter}
 
-\noindent Read \url{http://www.bzarg.com/p/how-a-kalman-filter-works-in-pictures/} for a graphical introduction to Kalman filters. \\
+\noindent Read
+\url{http://www.bzarg.com/p/how-a-kalman-filter-works-in-pictures/} for a
+graphical introduction to Kalman filters. \\
 
 \noindent The following is a Kalman filter for the $k^{th}$ timestep. The
 current predict step and current update step are shown.
