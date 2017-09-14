@@ -23,7 +23,7 @@
 \rhead{\thepage}
 \lfoot{}
 \rfoot{}
-\fancyfoot[C]{} % remove normal page numbers
+\fancyfoot[C]{}  % remove normal page numbers
 
 \allowdisplaybreaks
 
@@ -130,10 +130,11 @@ knowledge well above that which is necessary. See the glossary for a list of
 words and phrases commonly used in control theory, their origins, and their
 meaning. \\
 
-\noindent For example, the \gls{state} for a DC brushed motor would include the
-angular velocity $\dot{\theta}$ and current $i$. Voltage $V$ is an input. With
-perfect knowledge of the angular velocity and current, all future \glspl{state}
-of the \gls{system} can be predicted given an input voltage signal. \\
+\noindent For example, the \glspl{state} for a DC brushed motor would include
+the angular velocity $\dot{\theta}$ and current $i$. Voltage $V$ is an input.
+With perfect knowledge of the angular velocity and current, all future
+\glspl{state} of the \gls{system} can be predicted given an input voltage
+signal. \\
 
 \section{Control system diagrams}
 
@@ -295,10 +296,10 @@ poles.
 
 \section{Location of Poles and Zeroes}
 
-\noindent The location of the poles on the complex plane determine the stability
-of the \gls{system}. Each pole represents a frequency mode of the \gls{system},
-and their location determines how much of each response is induced for a given
-input frequency.
+\noindent The location of the closed-loop poles on the complex plane determine
+the stability of the \gls{system}. Each pole represents a frequency mode of the
+\gls{system}, and their location determines how much of each response is induced
+for a given input frequency.
 
 \begin{figure}[H]
   \includegraphics[width=\linewidth]{figs/ResponseVsPoleLocations.png}
@@ -431,7 +432,7 @@ is required to eliminate \gls{steady-state error} in all cases for this model.
 \\
 
 \noindent It should be noted that $e_{ss}$ in equation (\ref{eq:ss_nonzero})
-tends to zero for $K_p = \infty$. This is known as a bang-bang controller. In
+approaches zero for $K_p = \infty$. This is known as a bang-bang controller. In
 practice, an infinite switching frequency cannot be achieved, but it may be
 close enough for some performance specifications.
 
@@ -678,7 +679,7 @@ $\mtx{R}_k$.
 eigenvalues of $\mtx{A} - \mtx{B}\mtx{K}$ must be within the unit circle. \\
 
 \noindent This derivation can be performed for a \gls{state} estimator as well
-to determine whether the \gls{state} estimate converges to the real \gls{state}.
+to determine whether the \gls{state} estimate converges to the true \gls{state}.
 Plugging equation (\ref{eq:z_obsv_y}) into equation (\ref{eq:z_obsv_x}) gives
 
 \begin{align*}
@@ -734,15 +735,15 @@ $\hat{\mtx{x}}_k$.
 \end{align}
 \\
 \noindent For equation (\ref{eq:obsv_eig_calc}) to have a bounded output, the
-eigenvalues of $\mtx{A} - \mtx{L}\mtx{C}$ must be within the unit circle. \\
+eigenvalues of $\mtx{A} - \mtx{L}\mtx{C}$ must be within the unit circle. These
+eigenvalues represent how fast the estimator converges to the true state of the
+given model. A fast estimator converges quickly while a slow estimator avoids
+amplifying noise in the measurements used to produce a state estimate. \\
 
-\noindent These eigenvalues represent how fast the estimator converges to the
-estimates based on the model.
-
-\begin{align}
-  &eig(\mtx{A} - \mtx{B}\mtx{K}) \\
-  &eig(\mtx{A} - \mtx{L}\mtx{C}) \\ \nonumber
-\end{align}
+\noindent In summary, a controller is stable if the eigenvalues of
+$\mtx{A} - \mtx{B}\mtx{K}$ are within the unit circle, and an estimator is
+stable if the eigenvalues of $\mtx{A} - \mtx{L}\mtx{C}$ are within the unit
+circle. \\
 
 \noindent As stated before, the controller and estimator are dual problems.
 Controller gains can be found assuming perfect estimator (i.e., perfect
@@ -893,22 +894,22 @@ denotes \textit{a posteriori} estimate (before and after update respectively).
 $\mtx{\Phi}$ is replaced with $\mtx{A}$ for continuous systems. \\
 
 \noindent Unknown states in a Kalman filter are generally represented by a
-Wiener process. This process has the property that its variance increases
-linearly with time $t$. We'll skip all the probability derivations here, but
-given two data points with associated variances represented by Gaussian
-distribution, the information can be optimally combined into a third Gaussian
-distribution with a mean value and variance. The expected value of $x$ given a
-measurement $z_1$ is
+Wiener (pronounced VEE-ner) process. This process has the property that its
+variance increases linearly with time $t$. We'll skip all the probability
+derivations here, but given two data points with associated variances
+represented by Gaussian distribution, the information can be optimally combined
+into a third Gaussian distribution with a mean value and variance. The expected
+value of $x$ given a measurement $z_1$ is
 
 \begin{equation}
-  E\{x|z_1\} = \mu = \frac{\sigma_0^2}{\sigma_0^2 + \sigma^2}z_1 +
+  E[x|z_1] = \mu = \frac{\sigma_0^2}{\sigma_0^2 + \sigma^2}z_1 +
     \frac{\sigma^2}{\sigma_0^2 + \sigma^2}x_0
 \end{equation}
 
 \noindent The variance of $x$ given $z_1$ is
 
 \begin{equation}
-  E\{(x - \mu)^2|z_1\} = \frac{\sigma^2 \sigma_0^2}{\sigma_0^2 + \sigma^2}
+  E[(x - \mu)^2|z_1] = \frac{\sigma^2 \sigma_0^2}{\sigma_0^2 + \sigma^2}
 \end{equation}
 
 \noindent The expected value, which is also the maximum likelihood value, is the
@@ -916,7 +917,7 @@ linear combination of the prior expected (maximum likelihood) value and the
 measurement. The expected value is a reasonable estimator of $x$.
 
 \begin{align}
-  \hat{x} &= E\{x|z_1\} = \frac{\sigma_0^2}{\sigma_0^2 + \sigma^2}z_1 +
+  \hat{x} &= E[x|z_1] = \frac{\sigma_0^2}{\sigma_0^2 + \sigma^2}z_1 +
     \frac{\sigma^2}{\sigma_0^2 + \sigma^2}x_0 \\
   \hat{x} &= w_1 z_1 + w_2 x_0 \nonumber
 \end{align}
@@ -925,8 +926,8 @@ measurement. The expected value is a reasonable estimator of $x$.
 prior knowledge of state) is uninformative (a large variance)
 
 \begin{align}
-  w_1 &= lim_{\sigma_0^2 \to 0} \frac{\sigma_0^2}{\sigma_0^2 + \sigma^2} = 0 \\
-  w_2 &= lim_{\sigma_0^2 \to 0} \frac{\sigma^2}{\sigma_0^2 + \sigma^2} = 1
+  w_1 &= \lim_{\sigma_0^2 \to 0} \frac{\sigma_0^2}{\sigma_0^2 + \sigma^2} = 0 \\
+  w_2 &= \lim_{\sigma_0^2 \to 0} \frac{\sigma^2}{\sigma_0^2 + \sigma^2} = 1
 \end{align}
 \\
 \noindent and $\hat{x} = z_1$. That is, the weight is on the observations. The
@@ -936,8 +937,8 @@ estimate is identically equal to the measurement. \\
 In that case, $\sigma_0^2$ approaches 0 and
 
 \begin{align}
-  w_1 &= lim_{\sigma_0^2 \to 0} \frac{\sigma_0^2}{\sigma_0^2 + \sigma^2} = 1 \\
-  w_2 &= lim_{\sigma_0^2 \to 0} \frac{\sigma^2}{\sigma_0^2 + \sigma^2} = 0
+  w_1 &= \lim_{\sigma_0^2 \to 0} \frac{\sigma_0^2}{\sigma_0^2 + \sigma^2} = 1 \\
+  w_2 &= \lim_{\sigma_0^2 \to 0} \frac{\sigma^2}{\sigma_0^2 + \sigma^2} = 0
 \end{align}
 \\
 \noindent The Kalman filter uses this optimal fusion as the basis for its
@@ -1079,7 +1080,7 @@ the matrix is symmetric. \\
 if little information is known. This applies to both the measurement noise and
 the noise model. The act of giving a state variable a large variance means you
 know something about the system. Namely, you aren't sure whether your initial
-guess is close to the real value. If you make a guess and specify a small
+guess is close to the true state. If you make a guess and specify a small
 variance, you are telling the filter that you are very confident in your guess.
 If that guess is incorrect, it will take the filter a long time to move away
 from your guess to the true value.
