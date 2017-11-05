@@ -16,6 +16,12 @@
 
 \newcommand{\mtx}[1] {\bm #1}
 
+% Disable automatic indent and provide \indent command
+\newlength\tindent
+\setlength{\tindent}{\parindent}
+\setlength{\parindent}{0pt}
+\renewcommand{\indent}{\hspace*{\tindent}}
+
 % Paper header
 \usepackage{fancyhdr}
 \pagestyle{fancy}
@@ -75,81 +81,77 @@
 
 \subsection{Motivation}
 
-\noindent I am the software mentor for a FIRST Robotics Competition team. My
+I am the software mentor for a FIRST Robotics Competition team. My
 responsibilities for that include teaching programming, software engineering
 practices, and applications of control theory. The curriculum I developed so far
 (located at \url{https://csweb.frc3512.com/ci/}) teaches rookies enough to be
 minimally competitive, but many of the more advanced sections are incomplete. It
 provides no formal avenues of growth for veteran students. \\
 
-\noindent This project expands my curriculum to cover control theory topics I
-have learned in my graduate-level engineering classes at University of
-California, Santa Cruz. It introduces state-space controllers and serve as a
-practical guide for formulating and implementing them. State-space control is a
-way of formulating control problems using linear algebra that has several
-advantages over simpler, typically heuristic approaches like
+This project expands my curriculum to cover control theory topics I have learned
+in my graduate-level engineering classes at University of California,
+Santa Cruz. It introduces state-space controllers and serve as a practical guide
+for formulating and implementing them. State-space control is a way of
+formulating control problems using linear algebra that has several advantages
+over simpler, typically heuristic approaches like
 Proportional-Integral-Derivative (PID). \\
 
-\noindent The sections on classical control theory are intended to provide a
-geometric intuition into the mathematical machinery. Some topics have been
-oversimplified to make them easier to grasp. For more detail, please see the
-Wikibook on control systems at
-\url{https://en.wikibooks.org/wiki/Control_Systems}.
+The sections on classical control theory are intended to provide a geometric
+intuition into the mathematical machinery. Some topics have been oversimplified
+to make them easier to grasp. For more detail, please see the Wikibook on
+control systems at \url{https://en.wikibooks.org/wiki/Control_Systems}.
 
 \subsection{Abstract}
 
-\noindent Control theory is a discipline that deals with the behavior of
-dynamical \glspl{system} with inputs, and how their behavior is modified by
-feedback. Topics from classical and modern control are introduced, and advice is
-given on when and how to apply them.
+Control theory is a discipline that deals with the behavior of dynamical
+\glspl{system} with inputs, and how their behavior is modified by feedback.
+Topics from classical and modern control are introduced, and advice is given on
+when and how to apply them.
 
 \subsection{Intended Audience}
 
-\noindent This guide is intended to make an advanced engineering topic
-approachable so it can be applied by those who aren't experts in control theory.
-My intended audience is high school students who are returning veteran members
-of a FIRST Robotics Competition team. As such, they will already be familiar
-with feedback control applications like PID and have basic proficiency in
-programming. This guide will build on their current knowledge of control theory
-and teach them enough about state-space control and auxiliary topics to be able
-to implement it in the programming language of their choice.
+This guide is intended to make an advanced engineering topic approachable so it
+can be applied by those who aren't experts in control theory. My intended
+audience is high school students who are returning veteran members of a FIRST
+Robotics Competition team. As such, they will already be familiar with feedback
+control applications like PID and have basic proficiency in programming. This
+guide will build on their current knowledge of control theory and teach them
+enough about state-space control and auxiliary topics to be able to implement it
+in the programming language of their choice.
 
 \section{What is control theory?}
 
-\noindent How can we prove an autonomous car will behave safely? Control theory
-is used to analyze and predict \gls{system} behavior. It's a pragmatic
-application of algebra, geometry, and jargon with the goal of producing a
-desired \gls{system} response. Feedback control facilitates producing a desired
-\gls{system} response. Control theory involves judiciously expending engineering
-effort to meet performance specifications.
+How can we prove an autonomous car will behave safely? Control theory is used to
+analyze and predict \gls{system} behavior. It's a pragmatic application of
+algebra, geometry, and jargon with the goal of producing a desired \gls{system}
+response. Feedback control facilitates producing a desired \gls{system}
+response. Control theory involves judiciously expending engineering effort to
+meet performance specifications.
 
 \section{Nomenclature}
 
-\noindent Most resources for advanced engineering topics assume a level of
-knowledge well above that which is necessary. See the glossary for a list of
-words and phrases commonly used in control theory, their origins, and their
-meaning. \\
+Most resources for advanced engineering topics assume a level of knowledge well
+above that which is necessary. See the glossary for a list of words and phrases
+commonly used in control theory, their origins, and their meaning. \\
 
-\noindent For example, the \glspl{state} for a DC brushed motor would include
-the angular velocity $\dot{\theta}$ and current $i$. Voltage $V$ is an input.
-With perfect knowledge of the angular velocity and current, all future
-\glspl{state} of the \gls{system} can be predicted given an input voltage
-signal. \\
+For example, the \glspl{state} for a DC brushed motor would include the angular
+velocity $\dot{\theta}$ and current $i$. Voltage $V$ is an input. With perfect
+knowledge of the angular velocity and current, all future \glspl{state} of the
+\gls{system} can be predicted given an input voltage signal. \\
 
 \section{Control system diagrams}
 
 \subsection{What is gain?}
 
-\noindent Gain is a proportional value that shows the relationship between the
-magnitude of the input to the magnitude of the output signal at steady state.
-Many \glspl{system} contain a method by which the gain can be altered, providing
-more or less "power" to the \gls{system}. However, increasing gain or decreasing
-gain beyond a particular safety zone can cause the \gls{system} to become
-unstable.
+Gain is a proportional value that shows the relationship between the magnitude
+of the input to the magnitude of the output signal at steady state. Many
+\glspl{system} contain a method by which the gain can be altered, providing more
+or less "power" to the \gls{system}. However, increasing gain or decreasing gain
+beyond a particular safety zone can cause the \gls{system} to become unstable.
 
 \subsection{Block diagrams}
 
-\noindent When designing or analyzing a control system, it is useful to model it
+When designing or analyzing a control system, it is useful to model it
 graphically. Block diagrams are used for this purpose. They can be manipulated
 and simplified systematically \cite{bib:block_diagrams}. Figure
 \ref{fig:feedback_loop} is an example of one with a feedback configuration.
@@ -166,10 +168,10 @@ and simplified systematically \cite{bib:block_diagrams}. Figure
 
 \subsection{PID basics and theory}
 
-\noindent Negative feedback loops drive the difference between \gls{reference}
-and \gls{output} to zero. \\
+Negative feedback loops drive the difference between \gls{reference} and
+\gls{output} to zero. \\
 
-\noindent \textbf{Proportional} gain compensates for current \gls{error}. \\
+\textbf{Proportional} gain compensates for current \gls{error}. \\
 \textbf{Integral} gain compensates for past error (i.e.,
 \gls{steady-state error}). \\
 \textbf{Derivative} gain compensates for future error by slowing controller down
@@ -208,16 +210,16 @@ and \gls{output} to zero. \\
 
 \subsection{Types of PID controllers}
 
-\noindent PID controller inputs of different orders of derivatives, such as
-position and velocity, affect the \gls{system} response differently. The
-position PID controller is defined as
+PID controller inputs of different orders of derivatives, such as position and
+velocity, affect the \gls{system} response differently. The position PID
+controller is defined as
 
 \begin{equation}
   u(t) = K_p e(t) + K_i \int_0^t e(\tau) d\tau + K_d \frac{de}{dt} \\
 \end{equation}
 \\
-\noindent If a velocity is passed instead, which is a change in position, the
-equation becomes
+If a velocity is passed instead, which is a change in position, the equation
+becomes
 
 \begin{align}
   \frac{du}{dt} &= K_p \frac{de}{dt} + K_i \int_0^t \frac{de}{d\tau} d\tau +
@@ -226,11 +228,11 @@ equation becomes
     \label{eq:pid_vel}
 \end{align}
 \\
-\noindent This shows that $K_i$ and $K_p$ from the position controller act as
-proportional and derivative terms respectively in the velocity controller. $K_i$
-from the position controller has no equivalent in the velocity controller. If we
-were to implement one, it would use a double integral. However, it would be of
-limited use since the $K_i$ term in equation (\ref{eq:pid_vel}) also eliminates
+This shows that $K_i$ and $K_p$ from the position controller act as proportional
+and derivative terms respectively in the velocity controller. $K_i$ from the
+position controller has no equivalent in the velocity controller. If we were to
+implement one, it would use a double integral. However, it would be of limited
+use since the $K_i$ term in equation (\ref{eq:pid_vel}) also eliminates
 steady-state error for step changes in \gls{reference}. Relabelling the
 coefficients to match the position PID controller gives
 
@@ -238,20 +240,19 @@ coefficients to match the position PID controller gives
   \frac{du}{dt} = K_p \int_0^t e(\tau) d\tau + K_d e(t) \\
 \end{equation}
 \\
-\noindent Read \url{https://en.wikipedia.org/wiki/PID_controller} for more
-information.
+Read \url{https://en.wikipedia.org/wiki/PID_controller} for more information.
 
 \subsection{Limitations of PID control}
 
-\noindent PID's hueristic method of tuning is fine when there is no knowledge of
-the \gls{system}. However, controllers with much better response can be
-developed if a dynamical model of the \gls{system} is known.
+PID's hueristic method of tuning is fine when there is no knowledge of the
+\gls{system}. However, controllers with much better response can be developed if
+a dynamical model of the \gls{system} is known.
 
 \section{What is a transfer function?}
 
-\noindent A transfer function maps an input to an output in the Laplace domain.
-This is essentially a two-dimensional frequency domain on the complex plane
-(real numbers on the x-axis and imaginary numbers on the y-axis). These can be
+A transfer function maps an input to an output in the Laplace domain. This is
+essentially a two-dimensional frequency domain on the complex plane (real
+numbers on the x-axis and imaginary numbers on the y-axis). These can be
 obtained by applying the Laplace transform to a differential equation and
 rearranging the terms to obtain a ratio of the output variable to the input
 variable. Equation \ref{eq:transfer_func} is an example of a transfer function.
@@ -260,44 +261,42 @@ variable. Equation \ref{eq:transfer_func} is an example of a transfer function.
   H(s) = \frac{(s-9+9i)(s-9+9i)}{s(s+10)} \\
 \end{equation}
 
-\noindent Roots of the numerator and denominator are called residues. Residues
-on the top are called zeroes while residues on the bottom are called poles. This
-is due to poles making the expression approach infinity for values of $s$ that
-make the residue zero (they look like poles of a circus tent on a 3D graph).
-Similar logic applies to zeroes. Imaginary roots always come in complex
-conjugate pairs (e.g., $-2 + 3i$, $-2 - 3i$).
+Roots of the numerator and denominator are called residues. Residues on the top
+are called zeroes while residues on the bottom are called poles. This is due to
+poles making the expression approach infinity for values of $s$ that make the
+residue zero (they look like poles of a circus tent on a 3D graph). Similar
+logic applies to zeroes. Imaginary roots always come in complex conjugate pairs
+(e.g., $-2 + 3i$, $-2 - 3i$).
 
 \subsection{Transfer functions in feedback}
 
-\noindent For \glspl{controller} to perform their job, they must be placed in
-feedback. attempt to bring about a desired \gls{system} state by
-driving the difference between a \gls{reference} signal and the \gls{output} to
-zero. This is done by placing the controller and \gls{plant} in feedback. For
-example, the transfer function of figure \ref{fig:feedback_loop} from input to
+For \glspl{controller} to perform their job, they must be placed in positive or
+negative feedback with the \gls{plant} (positive or negative depends on the
+\gls{plant} in question). The transfer function of figure
+\ref{fig:feedback_loop}, a control system diagram with feedback, from input to
 output is
 
 \begin{equation}
   G_{cl}(s) = \frac{Y(s)}{X(s)} = \frac{P_1}{1 + P_1 P_2}
 \end{equation}
 
-\noindent The numerator is the \gls{open-loop gain} and the denominator is the
-gain around the feedback loop, which may include parts of the
-\gls{open-loop gain} (see appendix \ref{sec:app_tf_feedback_deriv} for a
-derivation). Plants are generally denoted with the letter $G$. As another
-example, the transfer function from the input to the error is
+The numerator is the \gls{open-loop gain} and the denominator is the gain around
+the feedback loop, which may include parts of the \gls{open-loop gain} (see
+appendix \ref{sec:app_tf_feedback_deriv} for a derivation). Plants are generally
+denoted with the letter $G$. As another example, the transfer function from the
+input to the error is
 
 \begin{equation}
   G_{cl}(s) = \frac{E(s)}{X(s)} = \frac{1}{1 + P_1 P_2}
 \end{equation}
 
-\noindent The roots of the denominator of $G_{cl}(s)$ are different from those
-of the open-loop transfer function $P_1(s)$. These are called the closed-loop
-poles.
+The roots of the denominator of $G_{cl}(s)$ are different from those of the
+open-loop transfer function $P_1(s)$. These are called the closed-loop poles.
 
 \section{Location of Poles and Zeroes}
 
-\noindent The location of the closed-loop poles on the complex plane determine
-the stability of the \gls{system}. Each pole represents a frequency mode of the
+The location of the closed-loop poles on the complex plane determine the
+stability of the \gls{system}. Each pole represents a frequency mode of the
 \gls{system}, and their location determines how much of each response is induced
 for a given input frequency.
 
@@ -324,7 +323,7 @@ for a given input frequency.
 
 \subsection{Root locus}
 
-\noindent In closed-loop, the poles and zeroes can be moved around by the chosen
+In closed-loop, the poles and zeroes can be moved around by the chosen
 controller. The root locus shows where they will go as the controller gain is
 increased. Figure \ref{fig:poster_rlocus} shows the root locus of the transfer
 function from equation (\ref{eq:transfer_func}).
@@ -335,11 +334,11 @@ function from equation (\ref{eq:transfer_func}).
   \label{fig:poster_rlocus}
 \end{figure}
 
-\noindent As the controller gain increases, the poles move toward the zeroes. In
-this case, the \gls{system} eventually becomes unstable. \\
+As the controller gain increases, the poles move toward the zeroes. In this
+case, the \gls{system} eventually becomes unstable. \\
 
-\noindent \textbf{Note:} If poles are much farther left in the LHP than the
-typical \gls{system} dynamics exhibit, they can be considered negligible. Every
+\textbf{Note:} If poles are much farther left in the LHP than the typical
+\gls{system} dynamics exhibit, they can be considered negligible. Every
 \gls{system} has some form of unmodeled high frequency, non-linear dynamics, but
 they can be safely ignored depending on the operating regime.
 
@@ -352,27 +351,27 @@ the zeroes, zeroes impose a "speed limit" on the \gls{system} response because
 it takes a finite amount of time to move the wrong direction, then change
 directions. \\
 
-\noindent One example is bicycle steering. Try riding a bicycle without holding
-the handle bars, then poke the right handle; the bicycle turns right.
+One example is bicycle steering. Try riding a bicycle without holding the handle
+bars, then poke the right handle; the bicycle turns right.
 
 \section{Steady-state error}
 
-\noindent To demonstrate the problem of \gls{steady-state error}, we will use a
-DC brushed motor controlled by a velocity PID controller. A DC brushed motor has
-a transfer function from voltage ($V$) to angular velocity ($\dot{\theta}$) of
+To demonstrate the problem of \gls{steady-state error}, we will use a DC brushed
+motor controlled by a velocity PID controller. A DC brushed motor has a transfer
+function from voltage ($V$) to angular velocity ($\dot{\theta}$) of
 
 \begin{equation}
   G(s) = \frac{\dot{\Theta}(s)}{V(s)} = \frac{K}{(Js+b)(Ls+R)+K^2} \\
 \end{equation}
 
-\noindent First, we'll try controlling it with a P controller defined as
+First, we'll try controlling it with a P controller defined as
 
 \begin{equation*}
   K(s) = K_p \\
 \end{equation*}
 
-\noindent When these are in unity feedback, the transfer function from the input
-voltage to the error is
+When these are in unity feedback, the transfer function from the input voltage
+to the error is
 
 \begin{align*}
   \frac{E(s)}{V(s)} &= \frac{1}{1 + K(s)G(s)} \\
@@ -399,15 +398,15 @@ The steady-state of a transfer function can be found via
   e_{ss} &= \frac{1}{1 + \frac{K_p K}{bR+K^2}} \label{eq:ss_nonzero}
 \end{align}
 
-\noindent Notice that the \gls{steady-state error} is non-zero. To fix this, an
-integrator must be included in the controller.
+Notice that the \gls{steady-state error} is non-zero. To fix this, an integrator
+must be included in the controller.
 
 \begin{equation*}
   K(s) = K_p + \frac{K_i}{s} \\
 \end{equation*}
 
-\noindent The same steady-state calculations are performed as before with the
-new controller.
+The same steady-state calculations are performed as before with the new
+controller.
 
 \begin{align*}
   \frac{E(s)}{V(s)} &= \frac{1}{1 + K(s)G(s)} \\
@@ -427,27 +426,26 @@ new controller.
   e_{ss} &= \frac{0}{K_i \frac{K}{bR+K^2}} \\
 \end{align*}
 
-\noindent The denominator is non-zero, so $e_{ss} = 0$. Therefore, an integrator
-is required to eliminate \gls{steady-state error} in all cases for this model.
-\\
+The denominator is non-zero, so $e_{ss} = 0$. Therefore, an integrator is
+required to eliminate \gls{steady-state error} in all cases for this model. \\
 
-\noindent It should be noted that $e_{ss}$ in equation (\ref{eq:ss_nonzero})
-approaches zero for $K_p = \infty$. This is known as a bang-bang controller. In
-practice, an infinite switching frequency cannot be achieved, but it may be
-close enough for some performance specifications.
+It should be noted that $e_{ss}$ in equation (\ref{eq:ss_nonzero}) approaches
+zero for $K_p = \infty$. This is known as a bang-bang controller. In practice,
+an infinite switching frequency cannot be achieved, but it may be close enough
+for some performance specifications.
 
 \section{Going Digital}
 
-\noindent The complex plane discussed so far deals with continuous
-\glspl{system}. In decades past, \glspl{plant} and controllers were implemented
-using analog electronics, which are continuous in nature. Nowadays,
-microprocessors can be used to achieve cheaper, less complex controller designs.
-However, this comes with drawbacks. \\
+The complex plane discussed so far deals with continuous \glspl{system}. In
+decades past, \glspl{plant} and controllers were implemented using analog
+electronics, which are continuous in nature. Nowadays, microprocessors can be
+used to achieve cheaper, less complex controller designs. However, this comes
+with drawbacks. \\
 
-\noindent Since a microcontroller performs discrete steps, there is phase loss
-introduced in the controller. Large amounts of phase loss can make a stable
-controller in the continuous domain go unstable in discrete. Here are a few ways
-to combat this.
+Since a microcontroller performs discrete steps, there is phase loss introduced
+in the controller. Large amounts of phase loss can make a stable controller in
+the continuous domain go unstable in discrete. Here are a few ways to combat
+this.
 
 \begin{itemize}
   \item Run the controller with a high sample rate.
@@ -459,9 +457,9 @@ to combat this.
 
 \subsection{s-plane to z-plane}
 
-\noindent Transfer functions are converted to impulse responses using the
-Z-transform. The s-plane's LHP maps to the inside of a unit circle in the
-z-plane. Here are a few common points.
+Transfer functions are converted to impulse responses using the Z-transform. The
+s-plane's LHP maps to the inside of a unit circle in the z-plane. Here are a few
+common points.
 
 \begin{table}[ht]
   \caption{Mapping from s-plane to z-plane}
@@ -479,45 +477,45 @@ z-plane. Here are a few common points.
   \label{tab:s-plane2z-plane}
 \end{table}
 
-\noindent You may notice that poles can be placed at $(0, 0)$ in the z-plane.
-This is known as a deadbeat controller. An $\rm N^{th}$ order deadbeat
-controller decays to the \gls{reference} in N timesteps. While this sounds
-great, there are other considerations like actuation effort and robustness.
-These will be discussed in detail with LQR controllers.
+You may notice that poles can be placed at $(0, 0)$ in the z-plane. This is
+known as a deadbeat controller. An $\rm N^{th}$ order deadbeat controller decays
+to the \gls{reference} in N timesteps. While this sounds great, there are other
+considerations like actuation effort and robustness. These will be discussed in
+detail with LQR controllers.
 
 \section{Linear algebra}
 
-\noindent Modern control theory borrows concepts from linear algebra. We
-recommend watching 3Blue1Brown's \textit{Essence of Linear Algebra} video series
+Modern control theory borrows concepts from linear algebra. We recommend
+watching 3Blue1Brown's \textit{Essence of Linear Algebra} video series
 \cite{bib:essence_of_linalg}. It offers an intuitive, geometric understanding of
 linear algebra as a method of linear transformations. \\
 
-\noindent \textit{Note}: The $^T$ in $\mtx{A}^T$ denotes transpose, which flips
-the matrix across its diagonal such that the rows become columns and vice versa.
+\textit{Note}: The $^T$ in $\mtx{A}^T$ denotes transpose, which flips the matrix
+across its diagonal such that the rows become columns and vice versa.
 
 \section{State-space}
 
-\noindent A state-space representation models \glspl{system} as a set of
-\gls{state}, input, and output variables related by first-order differential
-equations. "State space" refers to the Euclidean space in which the \gls{state}
-variables are on the axes. The \gls{state} of the \gls{system} can be
-represented as a vector within that space. \\
+A state-space representation models \glspl{system} as a set of \gls{state},
+input, and output variables related by first-order differential equations.
+"State space" refers to the Euclidean space in which the \gls{state} variables
+are on the axes. The \gls{state} of the \gls{system} can be represented as a
+vector within that space. \\
 
-\noindent To abstract from the number of \glspl{state}, inputs, and outputs,
-these variables are expressed as vectors. Additionally, if the dynamical
-\gls{system} is linear, time-invariant, and finite-dimensional, then the
-differential and algebraic equations may be written in matrix form.
+To abstract from the number of \glspl{state}, inputs, and outputs, these
+variables are expressed as vectors. Additionally, if the dynamical \gls{system}
+is linear, time-invariant, and finite-dimensional, then the differential and
+algebraic equations may be written in matrix form.
 
 \subsection{Benefits over classical output-based control}
 
-\noindent The state-space method is characterized by significant algebraization
-of general system theory. The state-space representation uses the time domain
-instead of the frequency domain, and provides a convenient and compact way to
-model and analyze \glspl{system} with multiple inputs and outputs. With $p$
-inputs and $q$ outputs, we would otherwise have to write down $q \times p$
-Laplace transforms to encode all the information about a system. Unlike the
-frequency domain approach, the use of the state-space representation is not
-limited to systems with linear components and zero initial conditions.
+The state-space method is characterized by significant algebraization of general
+system theory. The state-space representation uses the time domain instead of
+the frequency domain, and provides a convenient and compact way to model and
+analyze \glspl{system} with multiple inputs and outputs. With $p$ inputs and $q$
+outputs, we would otherwise have to write down $q \times p$ Laplace transforms
+to encode all the information about a system. Unlike the frequency domain
+approach, the use of the state-space representation is not limited to systems
+with linear components and zero initial conditions.
 
 \section{State-space notation}
 
@@ -545,18 +543,18 @@ limited to systems with linear components and zero initial conditions.
 
 \section{Canonical forms}
 
-\noindent There are two canonical forms used to represent state-space models:
-controllable canonical form and observable canonical form. They are used to
-provide controllability and observability of a system respectively, which are
+There are two canonical forms used to represent state-space models: controllable
+canonical form and observable canonical form. They are used to provide
+controllability and observability of a system respectively, which are
 mathematical duals of each other. That is, the controller and estimator (state
 observer) are complementary problems. \\
 
 \subsection{Controllable Canonical Form} \label{subsec:ctrl_canon}
 
-\noindent State controllability implies that it is possible -- by admissible
-inputs -- to steer the \glspl{state} from any initial value to any final value
-within some finite time window. A continuous \gls{time-invariant} linear
-state-space model is controllable if and only if
+State controllability implies that it is possible -- by admissible inputs -- to
+steer the \glspl{state} from any initial value to any final value within some
+finite time window. A continuous \gls{time-invariant} linear state-space model
+is controllable if and only if
 
 \begin{equation}
   rank \left[
@@ -567,18 +565,17 @@ state-space model is controllable if and only if
   \label{eq:ctrl_rank}
 \end{equation}
 
-\noindent where rank is the number of linearly independent rows in a matrix and
-$n$ is the number of \gls{state} variables. \\
+where rank is the number of linearly independent rows in a matrix and $n$ is the
+number of \gls{state} variables. \\
 
-\noindent Given a \gls{system} of the form
+Given a \gls{system} of the form
 
 \begin{equation} \label{eq:ctrl_obsv_tf}
   G(s) = \frac{n_1 s^3 + n_2 s^2 + n_3 s + n_4}
     {s^4 + d_1 s^3 + d_2 s^2 + d_3 s + d_4} \\
 \end{equation}
 \\
-\noindent The canonical realization of it that satisfies equation
-(\ref{eq:ctrl_rank}) is
+The canonical realization of it that satisfies equation (\ref{eq:ctrl_rank}) is
 
 \begin{align}
   \dot{\mtx{x}}(t) &= \left[
@@ -605,16 +602,16 @@ $n$ is the number of \gls{state} variables. \\
 
 \subsection{Observable Canonical Form} \label{subsec:obsv_canon}
 
-\noindent Observability is a measure for how well internal \glspl{state} of a
-\gls{system} can be inferred by knowledge of its external outputs. The
-observability and controllability of a \gls{system} are mathematical duals
-(i.e., as controllability proves that an input is available that brings any
-initial \gls{state} to any desired final \gls{state}, observability proves that
-knowing an output trajectory provides enough information to predict the
-initial \gls{state} of the \gls{system}). \\
+Observability is a measure for how well internal \glspl{state} of a \gls{system}
+can be inferred by knowledge of its external outputs. The observability and
+controllability of a \gls{system} are mathematical duals (i.e., as
+controllability proves that an input is available that brings any initial
+\gls{state} to any desired final \gls{state}, observability proves that knowing
+an output trajectory provides enough information to predict the initial
+\gls{state} of the \gls{system}). \\
 
-\noindent A continuous \gls{time-invariant} linear state-space model is
-observable if and only if
+A continuous \gls{time-invariant} linear state-space model is observable if and
+only if
 
 \begin{equation} \label{eq:obsv_rank}
   rank \left[
@@ -627,7 +624,7 @@ observable if and only if
   \right] = n \\
 \end{equation}
 
-\noindent The canonical realization of the \gls{system} in equation
+The canonical realization of the \gls{system} in equation
 (\ref{eq:ctrl_obsv_tf}) that satisfies equation (\ref{eq:obsv_rank}) is
 
 \begin{align}
@@ -655,10 +652,9 @@ observable if and only if
 
 \section{Eigenvalues in state-space}
 
-\noindent Eigenvalues can be used to determine the stability of a \gls{system}.
-\\
+Eigenvalues can be used to determine the stability of a \gls{system}. \\
 
-\noindent We'd like to know whether the \gls{system} defined by equation
+We'd like to know whether the \gls{system} defined by equation
 (\ref{eq:z_ctrl_x}) operating with the input
 $\mtx{u}_k = \mtx{K}(\mtx{R}_k - \mtx{x}_k)$ converges to the \gls{reference}
 $\mtx{R}_k$.
@@ -675,11 +671,11 @@ $\mtx{R}_k$.
     \mtx{B}\mtx{K}\mtx{R}_k \label{eq:ctrl_eig_calc}
 \end{align}
 \\
-\noindent For equation (\ref{eq:ctrl_eig_calc}) to have a bounded output, the
-eigenvalues of $\mtx{A} - \mtx{B}\mtx{K}$ must be within the unit circle. \\
+For equation (\ref{eq:ctrl_eig_calc}) to have a bounded output, the eigenvalues
+of $\mtx{A} - \mtx{B}\mtx{K}$ must be within the unit circle. \\
 
-\noindent This derivation can be performed for a \gls{state} estimator as well
-to determine whether the \gls{state} estimate converges to the true \gls{state}.
+This derivation can be performed for a \gls{state} estimator as well to
+determine whether the \gls{state} estimate converges to the true \gls{state}.
 Plugging equation (\ref{eq:z_obsv_y}) into equation (\ref{eq:z_obsv_x}) gives
 
 \begin{align*}
@@ -691,7 +687,7 @@ Plugging equation (\ref{eq:z_obsv_y}) into equation (\ref{eq:z_obsv_x}) gives
     \mtx{L} (\mtx{y}_k - \mtx{C}\hat{\mtx{x}}_k - \mtx{D}\mtx{u}_k) \\
 \end{align*}
 
-\noindent Plugging in equation (\ref{eq:z_ctrl_y}) gives
+Plugging in equation (\ref{eq:z_ctrl_y}) gives
 
 \begin{align*}
   \hat{\mtx{x}}_{k+1} &= \mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
@@ -706,7 +702,7 @@ Plugging equation (\ref{eq:z_obsv_y}) into equation (\ref{eq:z_obsv_x}) gives
     \mtx{L}\mtx{C}(\mtx{x}_k - \hat{\mtx{x}}_k) \\
 \end{align*}
 
-\noindent Let $E_k = \mtx{x}_k - \hat{\mtx{x}}_k$ be the error in the estimate
+Let $E_k = \mtx{x}_k - \hat{\mtx{x}}_k$ be the error in the estimate
 $\hat{\mtx{x}}_k$.
 
 \begin{equation*}
@@ -714,7 +710,7 @@ $\hat{\mtx{x}}_k$.
     \mtx{L}\mtx{C}\mtx{E}_k \\
 \end{equation*}
 \\
-\noindent Subtracting this from equation (\ref{eq:z_ctrl_x}) gives
+Subtracting this from equation (\ref{eq:z_ctrl_x}) gives
 
 \begin{align}
   \mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}\mtx{u}_k -
@@ -734,21 +730,21 @@ $\hat{\mtx{x}}_k$.
   \mtx{E}_{k+1} &= (\mtx{A} - \mtx{L}\mtx{C})\mtx{E}_k \label{eq:obsv_eig_calc}
 \end{align}
 \\
-\noindent For equation (\ref{eq:obsv_eig_calc}) to have a bounded output, the
-eigenvalues of $\mtx{A} - \mtx{L}\mtx{C}$ must be within the unit circle. These
-eigenvalues represent how fast the estimator converges to the true state of the
-given model. A fast estimator converges quickly while a slow estimator avoids
-amplifying noise in the measurements used to produce a state estimate. \\
+For equation (\ref{eq:obsv_eig_calc}) to have a bounded output, the eigenvalues
+of $\mtx{A} - \mtx{L}\mtx{C}$ must be within the unit circle. These eigenvalues
+represent how fast the estimator converges to the true state of the given model.
+A fast estimator converges quickly while a slow estimator avoids amplifying
+noise in the measurements used to produce a state estimate. \\
 
-\noindent In summary, a controller is stable if the eigenvalues of
+In summary, a controller is stable if the eigenvalues of
 $\mtx{A} - \mtx{B}\mtx{K}$ are within the unit circle, and an estimator is
 stable if the eigenvalues of $\mtx{A} - \mtx{L}\mtx{C}$ are within the unit
 circle. \\
 
-\noindent As stated before, the controller and estimator are dual problems.
-Controller gains can be found assuming perfect estimator (i.e., perfect
-knowledge of all \glspl{state}). Estimator gains can be found assuming an
-accurate model and a controller with perfect \gls{state tracking}.
+As stated before, the controller and estimator are dual problems. Controller
+gains can be found assuming perfect estimator (i.e., perfect knowledge of all
+\glspl{state}). Estimator gains can be found assuming an accurate model and a
+controller with perfect \gls{state tracking}.
 
 \section{State-space controllers}
 
@@ -758,31 +754,30 @@ accurate model and a controller with perfect \gls{state tracking}.
   \mtx{u} = -\mtx{K}\mtx{x}
 \end{equation}
 
-\noindent This means that optimal control can be achieved with simply a set of
-proportional gains on all the states. See the Wikipedia page on Linear-Quadratic
-Regulators \cite{bib:lqr} for an explanation of this choice of feedback control
+This means that optimal control can be achieved with simply a set of
+proportional gains on all the states. See the Wikipedia page on Linear-Quadratic Regulators \cite{bib:lqr} for an explanation of this choice of feedback control
 law.
 
 \subsection{Need full state}
 
-\noindent While we can attain good control with this approach, we need knowledge
-of the full state of the system. That means we either have to measure all our
-states directly or estimate those we do not.
+While we can attain good control with this approach, we need knowledge of the
+full state of the system. That means we either have to measure all our states
+directly or estimate those we do not.
 
 \subsection{Pole placement}
 
-\noindent This is the practice of manually placing the poles of the closed-loop
-system to produce a desired response. This is typically done with controllable
-canonical form (see subsection \ref{subsec:ctrl_canon}). This can be done with
-state observers as well with observable canonical form (see subsection
+This is the practice of manually placing the poles of the closed-loop system to
+produce a desired response. This is typically done with controllable canonical
+form (see subsection \ref{subsec:ctrl_canon}). This can be done with state
+observers as well with observable canonical form (see subsection
 \ref{subsec:obsv_canon}).
 
 \subsection{LQR}
 
-\noindent While we could place the poles for our controller manually, we can do
-better using math to select them for us. "LQR" stands for "Linear-Quadratic
-Regulator". It places the poles of the controller to find the minimum of a
-quadratic cost function, which will be discussed below.
+While we could place the poles for our controller manually, we can do better
+using math to select them for us. "LQR" stands for "Linear-Quadratic Regulator".
+It places the poles of the controller to find the minimum of a quadratic cost
+function, which will be discussed below.
 
 \subsubsection{Pareto optimal curve}
 
@@ -792,23 +787,23 @@ This tradeoff is represented by the cost function
   J = \int\limits_0^\infty \left(x^T Q x + u^T R u \right) dt \\
 \end{equation*}
 
-\noindent LQR attempts to minimize $J$ given the \gls{state} excursion and
-control effort weighting factors $Q$ and $R$. If the solution produces a finite
-value, the resulting controller is guaranteed to be stable and robust with a
-phase margin of 55 degrees.
+LQR attempts to minimize $J$ given the \gls{state} excursion and control effort
+weighting factors $Q$ and $R$. If the solution produces a finite value, the
+resulting controller is guaranteed to be stable and robust with a phase margin
+of 55 degrees.
 
 \subsubsection{Bryson's rule}
 
-\noindent The next obvious question is what values to choose for $Q$ and $R$.
-With Bryson's rule, the $Q$ and $R$ matrices are chosen based on the maximum
+The next obvious question is what values to choose for $Q$ and $R$. With
+Bryson's rule, the $Q$ and $R$ matrices are chosen based on the maximum
 acceptable value for each \gls{state} and actuator. The balance between $Q$ and
 $R$ can be slid along the Pareto optimal curve using a weighting factor $\rho$.
 \\
 
-\noindent Small values of $\rho$ penalize \gls{state} excursions while large
-values of $\rho$ penalize control effort. Small values would be chosen in
-applications like fighter jets where performance is necessary. Spacecrafts would
-use large values to conserve their limited fuel supply.
+Small values of $\rho$ penalize \gls{state} excursions while large values of
+$\rho$ penalize control effort. Small values would be chosen in applications
+like fighter jets where performance is necessary. Spacecrafts would use large
+values to conserve their limited fuel supply.
 
 \section{Estimating unmeasured states}
 
@@ -840,23 +835,22 @@ use large values to conserve their limited fuel supply.
   \label{tab:obsv_def}
 \end{table}
 
-\noindent Using an estimator forfeits the performance guarantees from earlier,
-but the responses are still generally very good.
+Using an estimator forfeits the performance guarantees from earlier, but the
+responses are still generally very good.
 
 \subsection{LQE}
 
-\noindent "LQE" stands for "Linear-Quadratic Estimator". Similar to LQR, it
-places the estimator poles such that it minimizes the sum of squares of the
-error. The Kalman filter is an example of one of these.
+"LQE" stands for "Linear-Quadratic Estimator". Similar to LQR, it places the
+estimator poles such that it minimizes the sum of squares of the error. The
+Kalman filter is an example of one of these.
 
 \subsection{Kalman filter}
 
-\noindent Read
-\url{http://www.bzarg.com/p/how-a-kalman-filter-works-in-pictures/} for a
+Read \url{http://www.bzarg.com/p/how-a-kalman-filter-works-in-pictures/} for a
 graphical introduction to Kalman filters. \\
 
-\noindent The following is a Kalman filter for the $k^{th}$ timestep. The
-current predict step and current update step are shown.
+The following is a Kalman filter for the $k^{th}$ timestep. The current predict
+step and current update step are shown.
 
 \begin{align}
   \text{Predict step} \nonumber \\
@@ -889,31 +883,31 @@ current predict step and current update step are shown.
   \label{tab:kalman_def}
 \end{table}
 
-\noindent where a superscript of minus denotes \textit{a priori} and plus
-denotes \textit{a posteriori} estimate (before and after update respectively).
+where a superscript of minus denotes \textit{a priori} and plus denotes
+\textit{a posteriori} estimate (before and after update respectively).
 $\mtx{\Phi}$ is replaced with $\mtx{A}$ for continuous systems. \\
 
-\noindent Unknown states in a Kalman filter are generally represented by a
-Wiener (pronounced VEE-ner) process. This process has the property that its
-variance increases linearly with time $t$. We'll skip all the probability
-derivations here, but given two data points with associated variances
-represented by Gaussian distribution, the information can be optimally combined
-into a third Gaussian distribution with a mean value and variance. The expected
-value of $x$ given a measurement $z_1$ is
+Unknown states in a Kalman filter are generally represented by a Wiener
+(pronounced VEE-ner) process. This process has the property that its variance
+increases linearly with time $t$. We'll skip all the probability derivations
+here, but given two data points with associated variances represented by
+Gaussian distribution, the information can be optimally combined into a third
+Gaussian distribution with a mean value and variance. The expected value of $x$
+given a measurement $z_1$ is
 
 \begin{equation}
   E[x|z_1] = \mu = \frac{\sigma_0^2}{\sigma_0^2 + \sigma^2}z_1 +
     \frac{\sigma^2}{\sigma_0^2 + \sigma^2}x_0
 \end{equation}
 
-\noindent The variance of $x$ given $z_1$ is
+The variance of $x$ given $z_1$ is
 
 \begin{equation}
   E[(x - \mu)^2|z_1] = \frac{\sigma^2 \sigma_0^2}{\sigma_0^2 + \sigma^2}
 \end{equation}
 
-\noindent The expected value, which is also the maximum likelihood value, is the
-linear combination of the prior expected (maximum likelihood) value and the
+The expected value, which is also the maximum likelihood value, is the linear
+combination of the prior expected (maximum likelihood) value and the
 measurement. The expected value is a reasonable estimator of $x$.
 
 \begin{align}
@@ -922,29 +916,28 @@ measurement. The expected value is a reasonable estimator of $x$.
   \hat{x} &= w_1 z_1 + w_2 x_0 \nonumber
 \end{align}
 \\
-\noindent Note that the weights $w_1$ and $w_2$ sum to 1. When the prior (i.e.,
-prior knowledge of state) is uninformative (a large variance)
+Note that the weights $w_1$ and $w_2$ sum to 1. When the prior (i.e., prior
+knowledge of state) is uninformative (a large variance)
 
 \begin{align}
   w_1 &= \lim_{\sigma_0^2 \to 0} \frac{\sigma_0^2}{\sigma_0^2 + \sigma^2} = 0 \\
   w_2 &= \lim_{\sigma_0^2 \to 0} \frac{\sigma^2}{\sigma_0^2 + \sigma^2} = 1
 \end{align}
 \\
-\noindent and $\hat{x} = z_1$. That is, the weight is on the observations. The
-estimate is identically equal to the measurement. \\
+and $\hat{x} = z_1$. That is, the weight is on the observations. The estimate is
+identically equal to the measurement. \\
 
-\noindent Let us assume we have a model providing an almost exact prior for $x$.
-In that case, $\sigma_0^2$ approaches 0 and
+Let us assume we have a model providing an almost exact prior for $x$. In that
+case, $\sigma_0^2$ approaches 0 and
 
 \begin{align}
   w_1 &= \lim_{\sigma_0^2 \to 0} \frac{\sigma_0^2}{\sigma_0^2 + \sigma^2} = 1 \\
   w_2 &= \lim_{\sigma_0^2 \to 0} \frac{\sigma^2}{\sigma_0^2 + \sigma^2} = 0
 \end{align}
 \\
-\noindent The Kalman filter uses this optimal fusion as the basis for its
-operation. See the Wikipedia page on Kalman filters \cite{bib:kalman_filter} for
-a more thorough explanation of the math involved and a derivation of the
-equations.
+The Kalman filter uses this optimal fusion as the basis for its operation. See
+the Wikipedia page on Kalman filters \cite{bib:kalman_filter} for a more
+thorough explanation of the math involved and a derivation of the equations.
 
 \subsubsection{Equations to model}
 
@@ -972,12 +965,12 @@ equations.
   \label{tab:kf_matrix_dims}
 \end{table}
 
-\noindent The following example system will be used to describe how to define
-and initialize the matrices for a Kalman filter. \\
+The following example system will be used to describe how to define and
+initialize the matrices for a Kalman filter. \\
 
-\noindent A robot is between two parallel walls. It starts driving from one wall
-to the other at a velocity of $0.8 cm/s$ and uses ultrasonic sensors to provide
-noisy measurements of the distances to the walls in front of and behind it. To
+A robot is between two parallel walls. It starts driving from one wall to the
+other at a velocity of $0.8 cm/s$ and uses ultrasonic sensors to provide noisy
+measurements of the distances to the walls in front of and behind it. To
 estimate the distance between the walls, we will define three states: robot
 position, robot velocity, and distance between the walls.
 
@@ -987,7 +980,7 @@ position, robot velocity, and distance between the walls.
   x_{k+1}^w &= x_k^w
 \end{align}
 \\
-\noindent This can be converted to the following state-space model.
+This can be converted to the following state-space model.
 
 \begin{equation}
   \mtx{x}_k = \left[
@@ -1017,8 +1010,8 @@ position, robot velocity, and distance between the walls.
   \end{array} \right] w_k
 \end{equation}
 \\
-\noindent where the Gaussian random variable $w_k$ has zero mean and variance 1.
-The observation model is
+where the Gaussian random variable $w_k$ has zero mean and variance 1. The
+observation model is
 
 \begin{equation}
   \mtx{y}_k = \left[
@@ -1028,12 +1021,12 @@ The observation model is
   \end{array} \right] \mtx{x}_k + \theta_k
 \end{equation}
 
-\noindent where the covariance matrix of Gaussian measurement noise $\theta$ is
-a $2 \times 2$ matrix with both diagonals $10 cm^2$. \\
+where the covariance matrix of Gaussian measurement noise $\theta$ is a
+$2 \times 2$ matrix with both diagonals $10 cm^2$. \\
 
-\noindent The state vector is usually initialized using the first measurement
-or two. The covariance matrix entries are assigned by calculating the covariance
-of the expressions used when assigning the state vector. Let $k = 2$.
+The state vector is usually initialized using the first measurement or two. The
+covariance matrix entries are assigned by calculating the covariance of the
+expressions used when assigning the state vector. Let $k = 2$.
 
 \begin{align}
   \mtx{Q} &= \left[1\right] \\
@@ -1058,16 +1051,16 @@ of the expressions used when assigning the state vector. Let $k = 2$.
 
 \subsubsection{Initial conditions}
 
-\noindent To fill in the $\mtx{P}$ matrix, we calculate the covariance of each
-combination of state variables. The resulting value is a measure of how much
-those variables are correlated. Due to how the covariance calculation works out,
-the covariance between two variables is the sum of the variance of matching
-terms which aren't constants multiplied by any constants the two have. If no
-terms match, the variables are uncorrelated and the covariance is zero. \\
+To fill in the $\mtx{P}$ matrix, we calculate the covariance of each combination
+of state variables. The resulting value is a measure of how much those variables
+are correlated. Due to how the covariance calculation works out, the covariance
+between two variables is the sum of the variance of matching terms which aren't
+constants multiplied by any constants the two have. If no terms match, the
+variables are uncorrelated and the covariance is zero. \\
 
-\noindent In $\mtx{P}_{11}$, the terms in $\mtx{x}_1$ correlate with itself.
-Therefore, $\mtx{P}_{11}$ is $\mtx{x}_1$'s variance, or $\mtx{P}_{11} = 10$.
-For $\mtx{P}_{21}$, One term correlates between $\mtx{x}_1$ and $\mtx{x}_2$, so
+In $\mtx{P}_{11}$, the terms in $\mtx{x}_1$ correlate with itself. Therefore,
+$\mtx{P}_{11}$ is $\mtx{x}_1$'s variance, or $\mtx{P}_{11} = 10$. For
+$\mtx{P}_{21}$, One term correlates between $\mtx{x}_1$ and $\mtx{x}_2$, so
 $\mtx{P}_{21} = \frac{10}{dt}$. The constants from each are simply multiplied
 together. For $\mtx{P}_{22}$, both measurements are correlated, so the variances
 add together. Therefore, $\mtx{P}_{22} = \frac{20}{dt^2}$. It continues in this
@@ -1076,14 +1069,14 @@ the matrix is symmetric. \\
 
 \subsubsection{Selection of priors}
 
-\noindent Choosing good priors is important for a well performing filter, even
-if little information is known. This applies to both the measurement noise and
-the noise model. The act of giving a state variable a large variance means you
-know something about the system. Namely, you aren't sure whether your initial
-guess is close to the true state. If you make a guess and specify a small
-variance, you are telling the filter that you are very confident in your guess.
-If that guess is incorrect, it will take the filter a long time to move away
-from your guess to the true value.
+Choosing good priors is important for a well performing filter, even if little
+information is known. This applies to both the measurement noise and the noise
+model. The act of giving a state variable a large variance means you know
+something about the system. Namely, you aren't sure whether your initial guess
+is close to the true state. If you make a guess and specify a small variance,
+you are telling the filter that you are very confident in your guess. If that
+guess is incorrect, it will take the filter a long time to move away from your
+guess to the true value.
 
 \subsubsection{Covariance selection}
 
@@ -1094,15 +1087,15 @@ infinite time, but it will take longer than otherwise.
 
 \subsubsection{Noise model selection}
 
-\noindent We typically use a Gaussian distribution for the noise model because
-we have some idea of where the central, or mean, value is. If the true value has
-an equal probability of being within a certain range, use a uniform distribution
+We typically use a Gaussian distribution for the noise model because we have
+some idea of where the central, or mean, value is. If the true value has an
+equal probability of being within a certain range, use a uniform distribution
 instead. Each of these communicates information regarding what you know about a
 system in addition to what you do not.
 
 \subsection{Kalman filter as Luenberger observer}
 
-\noindent A Kalman filter can be represented as a Luenberger observer by letting
+A Kalman filter can be represented as a Luenberger observer by letting
 $\mtx{C} = \mtx{H}$ and $\mtx{L} = \mtx{A} \mtx{K}_k$ (see appendix
 \ref{sec:app_kalman_luenberger}). The eigenvalues of the Kalman filter are
 
@@ -1114,16 +1107,16 @@ $\mtx{C} = \mtx{H}$ and $\mtx{L} = \mtx{A} \mtx{K}_k$ (see appendix
 
 \subsection{Derive physical model}
 
-\noindent A model is a set of differential equations describing the system.
-Since state-space representation requires that only single derivatives be used,
-they should be broken up as separate states. For example, below is the model for
-a pendulum
+A model is a set of differential equations describing the system. Since
+state-space representation requires that only single derivatives be used, they
+should be broken up as separate states. For example, below is the model for a
+pendulum
 
 \begin{equation}
   mL\ddot{x} = -mg \mathrm{sin}~x
 \end{equation}
 
-\noindent where $x$ is the angle of the pendulum.
+where $x$ is the angle of the pendulum.
 
 \begin{equation*}
   \ddot{x} = -\frac{g}{L} \mathrm{sin}~x
@@ -1134,8 +1127,8 @@ a pendulum
   \dot{x}_2 &= -\frac{g}{L} \mathrm{sin}~x_1
 \end{align*}
 
-\noindent where $x_1$ is $\theta$ and $x_2$ is $\dot{\theta}$. Since this model
-is non-linear, we should linearize it. We will use the small angle approximation
+where $x_1$ is $\theta$ and $x_2$ is $\dot{\theta}$. Since this model is
+non-linear, we should linearize it. We will use the small angle approximation
 ($\mathrm{sin}~\theta = \theta$ for small values of $\theta$).
 
 \begin{align*}
@@ -1145,7 +1138,7 @@ is non-linear, we should linearize it. We will use the small angle approximation
 
 \subsection{Write model in state-space representation}
 
-\noindent Continuing the example above:
+Continuing the example above:
 
 \begin{align}
   \dot{\left[
@@ -1165,46 +1158,45 @@ is non-linear, we should linearize it. We will use the small angle approximation
 
 \subsection{Add estimator for unmeasured states}
 
-\noindent The states may be a linear combination of measurements. After
-designing an estimator, it can be used to supplement the inputs for a
-controller. \\
+The states may be a linear combination of measurements. After designing an
+estimator, it can be used to supplement the inputs for a controller. \\
 
-\noindent For example, we may only be measuring $\theta$ in the pendulum
-example, not $\dot{\theta}$, so we'll need to estimate the latter.
+For example, we may only be measuring $\theta$ in the pendulum example, not
+$\dot{\theta}$, so we'll need to estimate the latter.
 
 \subsection{Implement controller}
 
-\noindent Use Bryson's rule when making the performance vs actuation effort
-trade-off. For the average system, optimizing actuation effort will get you to
-the reference in the most efficient way possible, which can avoid voltage drops
-on robots with a limited power supply.
+Use Bryson's rule when making the performance vs actuation effort trade-off. For
+the average system, optimizing actuation effort will get you to the reference in
+the most efficient way possible, which can avoid voltage drops on robots with a
+limited power supply.
 
 \subsection{Simulate model/controller}
 
-\noindent This can be done in any platform supporting numerical computation.
-Common choices are MATLAB, v-REP, or Python. Tweak the LQR gain as necessary.
+This can be done in any platform supporting numerical computation. Common
+choices are MATLAB, v-REP, or Python. Tweak the LQR gain as necessary.
 
 \subsection{Verify pole locations}
 
-\noindent Check the pole locations as a sanity check and to potentially gain an
-intuition for the chosen pole locations.
+Check the pole locations as a sanity check and to potentially gain an intuition
+for the chosen pole locations.
 
 \subsection{Unit test}
 
-\noindent Write unit tests to test the model performance and robustness under
-different initial conditions and command inputs. If you are using C++, we
-recommend Google Test.
+Write unit tests to test the model performance and robustness under different
+initial conditions and command inputs. If you are using C++, we recommend Google
+Test.
 
 \subsection{Test on real system}
 
-\noindent Try the controller on a real \gls{system} with low maximum outputs for
-safety. The outputs can be raised later.
+Try the controller on a real \gls{system} with low maximum outputs for safety.
+The outputs can be raised later.
 
 \section{Conclusion}
 
-\noindent While this guide is not comprehensive, you will hopefully have learned
-enough to either implement these concepts yourself or know where to look for
-more information. I hope this guide has enabled you to design and implement
+While this guide is not comprehensive, you will hopefully have learned enough to
+either implement these concepts yourself or know where to look for more
+information. I hope this guide has enabled you to design and implement
 performant, robust controller designs for a variety of robotic applications.
 
 \appendices
@@ -1212,7 +1204,7 @@ performant, robust controller designs for a variety of robotic applications.
 \section{Transfer function feedback derivation}
 \label{sec:app_tf_feedback_deriv}
 
-\noindent Given the following feedback network
+Given the following feedback network
 
 \begin{figure}[H]
   \includegraphics[width=\linewidth]{figs/Closed_Loop_Block_Deriv.png}
@@ -1229,18 +1221,18 @@ performant, robust controller designs for a variety of robotic applications.
   \frac{Y(s)}{X(s)} &= \frac{G(s)}{1 + G(s) H(s)}
 \end{align}
 
-\noindent A more general form is
+A more general form is
 
 \begin{equation}
   \frac{Y(s)}{X(s)} = \frac{G(s)}{1 \mp G(s) H(s)}
 \end{equation}
 
-\noindent where positive feedback uses the top sign and negative feedback uses
-the bottom sign.
+where positive feedback uses the top sign and negative feedback uses the bottom
+sign.
 
 \section{Kalman filter as Luenberger observer} \label{sec:app_kalman_luenberger}
 
-\noindent A Luenberger observer is defined as
+A Luenberger observer is defined as
 
 \begin{align}
   \mtx{x}_{k+1}^+ &= \mtx{A} \mtx{x}_k^- + \mtx{B} \mtx{u}_k + \mtx{L}
@@ -1248,17 +1240,17 @@ the bottom sign.
   \hat{\mtx{y}}_k &= \mtx{C} \mtx{x}_k^- \label{eq:luenberger2} \\ \nonumber
 \end{align}
 
-\noindent where a superscript of minus denotes \textit{a priori} and plus
-denotes \textit{a posteriori} estimate. Combining equation
-(\ref{eq:luenberger1}) and equation (\ref{eq:luenberger2}) gives \\
+where a superscript of minus denotes \textit{a priori} and plus denotes
+\textit{a posteriori} estimate. Combining equation (\ref{eq:luenberger1}) and
+equation (\ref{eq:luenberger2}) gives \\
 \begin{equation} \label{eq:luenberger}
   \mtx{x}_{k+1}^+ = \mtx{A} \mtx{x}_k^- + \mtx{B} \mtx{u}_k + \mtx{L}
     (\mtx{y}_k - \mtx{C} \mtx{x}_k^-) \\
 \end{equation}
 \\
-\noindent The following is a Kalman filter that considers the current update
-step and the next predict step together rather than the current predict step and
-current update step.
+The following is a Kalman filter that considers the current update step and the
+next predict step together rather than the current predict step and current
+update step.
 
 \begin{align}
   \text{Update step} \nonumber \\
@@ -1274,8 +1266,7 @@ current update step.
     \mtx{\Gamma}\mtx{Q}\mtx{\Gamma}^T
 \end{align}
 \\
-\noindent Substitute equation (\ref{eq:post2_x}) into equation
-(\ref{eq:pre2_x}).
+Substitute equation (\ref{eq:post2_x}) into equation (\ref{eq:pre2_x}).
 
 \begin{align*}
   \mtx{x}_{k+1}^+ &= \mtx{A} (\mtx{x}_k^- +
@@ -1286,15 +1277,15 @@ current update step.
     \mtx{A} \mtx{K}_k (\mtx{y}_k - \mtx{H} \mtx{x}_k^-) \\
 \end{align*}
 
-\noindent Let $\mtx{C} = \mtx{H}$ and $\mtx{L} = \mtx{A} \mtx{K}_k$.
+Let $\mtx{C} = \mtx{H}$ and $\mtx{L} = \mtx{A} \mtx{K}_k$.
 
 \begin{equation} \label{eq:app_kalman_leunberger}
   \mtx{x}_{k+1}^+ = \mtx{A} \mtx{x}_k^- + \mtx{B} \mtx{u}_k +
     \mtx{L} (\mtx{y}_k - \mtx{C} \mtx{x}_k^-) \\
 \end{equation}
 \\
-\noindent which matches equation (\ref{eq:luenberger}). Therefore,
-the eigenvalues of the Kalman filter observer can be obtained by
+which matches equation (\ref{eq:luenberger}). Therefore, the eigenvalues of the
+Kalman filter observer can be obtained by
 
 \begin{align}
   &eig(\mtx{A} - \mtx{L}\mtx{C}) \nonumber \\
@@ -1305,12 +1296,12 @@ the eigenvalues of the Kalman filter observer can be obtained by
 \addcontentsline{toc}{section}{Acknowledgement}
 \section*{Acknowledgement}
 
-\noindent I would like to thank my controls engineering instructors Dejan
-Milutinovi\'c and Gabriel Elkaim of University of California, Santa Cruz. They
-taught their classes from a pragmatic perspective focused on application and
-intuition that I appreciated. I would also like to thank Dejan Milutinovi\'c for
-introducing me to the field of control theory and teaching me what it means to
-be a controls engineer.
+I would like to thank my controls engineering instructors Dejan Milutinovi\'c
+and Gabriel Elkaim of University of California, Santa Cruz. They taught their
+classes from a pragmatic perspective focused on application and intuition that I
+appreciated. I would also like to thank Dejan Milutinovi\'c for introducing me
+to the field of control theory and teaching me what it means to be a controls
+engineer.
 
 \bibliographystyle{IEEEtran}
 \bibliography{state-space-guide.bib}

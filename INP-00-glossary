@@ -1,7 +1,8 @@
 \newglossaryentry{controller}{
   name={controller},
-  description={\noindent attempt to bring about a desired system state by
-    driving the difference between a reference signal and the output to zero}}
+  description={used in positive or negative feedback with a plant to bring about
+    a desired system state by driving the difference between a reference signal
+    and the output to zero}}
 \newglossaryentry{disturbance rejection}{
   name={disturbance rejection},
   description={the quality of a feedback control system to compensate for
