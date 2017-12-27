@@ -7,10 +7,19 @@
 \PassOptionsToPackage{hyphens}{url}
   \usepackage[colorlinks=true,linkcolor=blue]{hyperref}
 \usepackage{tabulary}
+\usepackage{tikz}
 \usepackage{tocbibind}
 
 % Load after hyperref
 \usepackage[style=super,nonumberlist,toc]{glossaries}
+
+% Set styles for TikZ objects
+\usetikzlibrary{arrows, positioning, shapes}
+\tikzstyle{block} = [draw, rectangle, minimum height=3em, minimum width=4em]
+\tikzstyle{sum} = [draw, circle, node distance=1cm]
+\tikzstyle{arrow} = [arrows=->, black, align=right]
+\tikzstyle{branch} = [circle, inner sep=0pt, minimum size=1mm, fill=black,
+    draw=black]
 
 \makeglossaries
 
@@ -157,9 +166,24 @@ and simplified systematically \cite{bib:block_diagrams}. Figure
 \ref{fig:feedback_loop} is an example of one with a feedback configuration.
 
 \begin{figure}[H]
-  \centering
-  \def\svgwidth{0.5\columnwidth}
-  \input{Feedback_Loop.pdf_tex}
+  \center
+
+  \begin{tikzpicture}[auto, >=latex']
+    % Place the blocks
+    \node [name=input] {$X(s)$};
+    \node [sum, right=of input] (sum) {};
+    \node [block, right=of sum] (P1) {$P_1$};
+    \node [right=of P1] (output) {$Y(s)$};
+    \node [block, below=of P1] (P2) {$P_2$};
+
+    % Connect the nodes
+    \draw [arrow] (input) -- node[pos=0.85] {$+$} (sum);
+    \draw [arrow] (sum) -- node {} (P1);
+    \draw [arrow] (P1) -- node[name=y] {} (output);
+    \draw [arrow] (y) |- (P2);
+    \draw [arrow] (P2) -| node[pos=0.97, right] {$\mp$} (sum);
+  \end{tikzpicture}
+
   \caption{Feedback block diagram}
   \label{fig:feedback_loop}
 \end{figure}
@@ -178,8 +202,39 @@ Negative feedback loops drive the difference between \gls{reference} and
   if error decreases over time.
 
 \begin{figure}[H]
-  \includegraphics[width=\linewidth]{figs/PID_diagram.png}
-  \caption{PID controller diagram \cite{bib:PID_diagram}}
+  \center
+
+  \begin{tikzpicture}[auto, >=latex']
+    \fontsize{9pt}{10pt}
+
+    % Place the blocks
+    \node [name=input] {$r(t)$};
+    \node [sum, right=0.5cm of input] (errorsum) {};
+    \node [coordinate, right=0.75cm of errorsum] (branch) {};
+    \node [block, right=0.5cm of branch] (I) { $K_i \int_0^t e(\tau) d\tau$ };
+    \node [block, above=0.5cm of I] (P) { $K_p e(t)$ };
+    \node [block, below=0.5cm of I] (D) { $K_d \frac{de(t)}{dt}$ };
+    \node [sum, right=0.5cm of I] (ctrlsum) {};
+    \node [block, right=0.75cm of ctrlsum] (plant) {Plant};
+    \node [right=of plant] (output) {};
+    \node [coordinate, below=0.5cm of D] (measurements) {};
+
+    % Connect the nodes
+    \draw [arrow] (input) -- node[pos=0.9] {$+$} (errorsum);
+    \draw [-] (errorsum) -- node {$e(t)$} (branch);
+    \draw [arrow] (branch) |- (P);
+    \draw [arrow] (branch) -- (I);
+    \draw [arrow] (branch) |- (D);
+    \draw [arrow] (P) -| node[pos=0.95, left] {$+$} (ctrlsum);
+    \draw [arrow] (I) -- node[pos=0.9, below] {$+$} (ctrlsum);
+    \draw [arrow] (D) -| node[pos=0.95, right] {$+$} (ctrlsum);
+    \draw [arrow] (ctrlsum) -- node {$u(t)$} (plant);
+    \draw [arrow] (plant) -- node [name=y] {$y(t)$} (output);
+    \draw [-] (y) |- (measurements);
+    \draw [arrow] (measurements) -| node[pos=0.99, right] {$-$} (errorsum);
+  \end{tikzpicture}
+
+  \caption{PID controller diagram}
   \label{fig:pid_ctrl_diag}
 \end{figure}
 
@@ -244,7 +299,7 @@ Read \url{https://en.wikipedia.org/wiki/PID_controller} for more information.
 
 \subsection{Limitations of PID control}
 
-PID's hueristic method of tuning is fine when there is no knowledge of the
+PID's heuristic method of tuning is fine when there is no knowledge of the
 \gls{system}. However, controllers with much better response can be developed if
 a dynamical model of the \gls{system} is known.
 
@@ -1204,11 +1259,28 @@ performant, robust controller designs for a variety of robotic applications.
 \section{Transfer function feedback derivation}
 \label{sec:app_tf_feedback_deriv}
 
-Given the following feedback network
+Given the following feedback network \\
 
 \begin{figure}[H]
-  \includegraphics[width=\linewidth]{figs/Closed_Loop_Block_Deriv.png}
-  \caption{Closed loop block diagram \cite{bib:closed_loop_block_derivation}}
+  \center
+
+  \begin{tikzpicture}[auto, >=latex']
+    % Place the blocks
+    \node [name=input] {$X(s)$};
+    \node [sum, right=of input] (sum) {};
+    \node [block, right=of sum] (G) {$G(s)$};
+    \node [right=of G] (output) {$Y(s)$};
+    \node [block, below=of G] (measurements) {$H(s)$};
+
+    % Connect the nodes
+    \draw [arrow] (input) -- node[pos=0.85] {$+$} (sum);
+    \draw [arrow] (sum) -- node {$Z(s)$} (G);
+    \draw [arrow] (G) -- node [name=y] {} (output);
+    \draw [arrow] (y) |- (measurements);
+    \draw [arrow] (measurements) -| node[pos=0.99, right] {$-$} (sum);
+  \end{tikzpicture}
+
+  \caption{Closed loop block diagram}
   \label{fig:closed_loop_deriv}
 \end{figure}
 
