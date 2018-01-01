@@ -6,12 +6,34 @@
 \usepackage{graphicx}
 \PassOptionsToPackage{hyphens}{url}
   \usepackage[colorlinks=true,linkcolor=blue]{hyperref}
+\usepackage{listings}
 \usepackage{tabulary}
 \usepackage{tikz}
-\usepackage{tocbibind}
+
+\newcommand{\includecode}[2][c]{%
+  \lstinputlisting[escapechar=, style=custom#1]{#2}
+}
 
 % Load after hyperref
 \usepackage[style=super,nonumberlist,toc]{glossaries}
+\usepackage{tocbibind}
+\usepackage{tocloft}
+
+% Set up snippet environment
+\newcommand{\listsnippetsname}{\Large List of Snippets}
+\newlistof{snippets}{los}{\listsnippetsname}
+\cftsetindents{snippets}{\parindent}{1.5\parindent}
+\newenvironment{snippet}{
+  \renewcommand{\caption}[1]{
+    \refstepcounter{snippets}
+    \begin{center}
+      \par\noindent{\footnotesize Snippet \thesnippets. ##1}
+    \end{center}
+    \addcontentsline{los}{snippets}
+      {\protect \numberline{\thesnippets}{\ignorespaces ##1}}
+  }
+}
+{\par\noindent}
 
 % Set styles for TikZ objects
 \usetikzlibrary{arrows, positioning, shapes}
@@ -30,6 +52,33 @@
 \setlength{\tindent}{\parindent}
 \setlength{\parindent}{0pt}
 \renewcommand{\indent}{\hspace*{\tindent}}
+
+\lstdefinestyle{customMatlab}{
+  language=Matlab,
+  breaklines=true,
+  xleftmargin=0.125in,
+  basicstyle=\footnotesize\ttfamily,
+  keywordstyle=\color{blue},
+  morekeywords=[2]{1}, keywordstyle=[2]{\color{black}},
+  identifierstyle=\color{black},
+  stringstyle=\color[RGB]{170, 55, 241},
+  commentstyle=\color[RGB]{28, 172, 0},
+  showstringspaces=false,
+  emph=[1]{for,end,break},emphstyle=[1]\color{red},
+}
+
+\lstdefinestyle{customcpp}{
+  belowcaptionskip=1\baselineskip,
+  breaklines=true,
+  xleftmargin=0.125in,
+  language=C++,
+  showstringspaces=false,
+  basicstyle=\footnotesize\ttfamily,
+  keywordstyle=\color[RGB]{128, 128, 0},
+  commentstyle=\color[RGB]{0, 128, 0},
+  identifierstyle=\color{black},
+  stringstyle=\color[RGB]{0, 128, 0},
+}
 
 % Paper header
 \usepackage{fancyhdr}
@@ -82,6 +131,7 @@
 \tableofcontents
 \listoffigures
 \listoftables
+\listofsnippets
 \clearpage
 
 \pagenumbering{arabic}
@@ -313,7 +363,7 @@ rearranging the terms to obtain a ratio of the output variable to the input
 variable. Equation \ref{eq:transfer_func} is an example of a transfer function.
 
 \begin{equation} \label{eq:transfer_func}
-  H(s) = \frac{(s-9+9i)(s-9+9i)}{s(s+10)} \\
+  H(s) = \frac{(s-9+9i)(s-9-9i)}{s(s+10)} \\
 \end{equation}
 
 Roots of the numerator and denominator are called residues. Residues on the top
@@ -385,9 +435,16 @@ function from equation (\ref{eq:transfer_func}).
 
 \begin{figure}[H]
   \includegraphics[width=\linewidth]{figs/poster_rlocus.png}
-  \caption{Root locus of equation (\ref{eq:transfer_func})}
+  \caption{Root locus of equation (\ref{eq:transfer_func}). See snippet
+    \ref{snip:poster_rlocus}.}
   \label{fig:poster_rlocus}
 \end{figure}
+
+\begin{snippet}
+  \caption{Root locus in MATLAB}
+  \label{snip:poster_rlocus}
+  \includecode[Matlab]{code/root_locus.m}
+\end{snippet}
 
 As the controller gain increases, the poles move toward the zeroes. In this
 case, the \gls{system} eventually becomes unstable. \\

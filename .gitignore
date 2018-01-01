@@ -10,6 +10,7 @@
 *.ist
 *.lof
 *.log
+*.los
 *.lot
 *.out
 *.pdf_tex
