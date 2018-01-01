@@ -13,6 +13,4 @@ A PDF version is available at https://file.tavsys.net/tav/control/state-space-gu
 
 The document is still very high level for the subject it covers as well as very dense and fast-paced (it covers three classes of feedback control, two of which are for graduate students, in one short document). I'd like to expand the introductions for each section and provide more examples like I did for the Kalman filter design to give the reader practice applying the skills discussed.
 
-I also want to convert the control system diagrams to tikz at some point so I can make my own more specialized diagrams.
-
 The "Implementation Steps" section needs subsections to explain how to do each. A small section on kinematics and dynamics, for example, needs to be written.

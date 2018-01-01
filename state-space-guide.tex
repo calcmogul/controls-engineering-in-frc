@@ -6,6 +6,7 @@
 \usepackage{graphicx}
 \PassOptionsToPackage{hyphens}{url}
   \usepackage[colorlinks=true,linkcolor=blue]{hyperref}
+\usepackage{import}
 \usepackage{listings}
 \usepackage{tabulary}
 \usepackage{tikz}
@@ -116,7 +117,7 @@
     %\begin{figure}[H]
     %  \centering
     %  \def\svgwidth{0.25\columnwidth}
-    %  \input{wpilib.pdf_tex}
+    %  \import{figs/}{wpilib.pdf_tex}
     %\end{figure}
   \end{center}
 
@@ -216,7 +217,7 @@ and simplified systematically \cite{bib:block_diagrams}. Figure
 \ref{fig:feedback_loop} is an example of one with a feedback configuration.
 
 \begin{figure}[H]
-  \center
+  \centering
 
   \begin{tikzpicture}[auto, >=latex']
     % Place the blocks
@@ -252,7 +253,7 @@ Negative feedback loops drive the difference between \gls{reference} and
   if error decreases over time.
 
 \begin{figure}[H]
-  \center
+  \centering
 
   \begin{tikzpicture}[auto, >=latex']
     \fontsize{9pt}{10pt}
@@ -1319,7 +1320,7 @@ performant, robust controller designs for a variety of robotic applications.
 Given the following feedback network \\
 
 \begin{figure}[H]
-  \center
+  \centering
 
   \begin{tikzpicture}[auto, >=latex']
     % Place the blocks

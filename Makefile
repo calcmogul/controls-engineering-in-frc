@@ -1,6 +1,6 @@
 TARGET := state-space-guide.pdf
 
-SVG := $(wildcard *.svg)
+SVG := $(wildcard figs/*.svg)
 PDF_TEX := $(SVG:.svg=.pdf_tex)
 BIB := $(wildcard *.bib)
 CODE := $(wildcard code/*)
@@ -18,4 +18,4 @@ $(TARGET): $(basename $(TARGET)).tex $(PDF_TEX) $(BIB) $(CODE)
 
 .PHONY: clean
 clean:
-	rm -f *.aux *.bbl *.blg *.fdb_latexmk *.fls *.glg *.glo *.gls *.glsdefs *.ist *.lof *.log *.los *.lot *.out *.pdf_tex *.toc *.pdf
+	rm -f figs/*.pdf figs/*.pdf_tex *.aux *.bbl *.blg *.fdb_latexmk *.fls *.glg *.glo *.gls *.glsdefs *.ist *.lof *.log *.los *.lot *.out *.toc *.pdf
