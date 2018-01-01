@@ -17,7 +17,7 @@
 
 % Load after hyperref
 \usepackage[style=super,nonumberlist,toc]{glossaries}
-\usepackage{tocbibind}
+\usepackage[notlof, notlot, nottoc]{tocbibind}
 \usepackage{tocloft}
 
 % Set up snippet environment
@@ -129,13 +129,24 @@
 \thispagestyle{empty}  % no page number on title sheet
 
 \pagenumbering{roman}
+\renewcommand\contentsname{Table of Contents}
 \tableofcontents
 \listoffigures
 \listoftables
 \listofsnippets
+\thispagestyle{empty}  % no page number on table of contents sheet
 \clearpage
 
 \pagenumbering{arabic}
+
+\section*{Acknowledgements}
+
+I would like to thank my controls engineering instructors Dejan Milutinovi\'c
+and Gabriel Elkaim of University of California, Santa Cruz. They taught their
+classes from a pragmatic perspective focused on application and intuition that I
+appreciated. I would also like to thank Dejan Milutinovi\'c for introducing me
+to the field of control theory and teaching me what it means to be a controls
+engineer.
 
 \section{Preface}
 
@@ -197,7 +208,7 @@ commonly used in control theory, their origins, and their meaning. \\
 For example, the \glspl{state} for a DC brushed motor would include the angular
 velocity $\dot{\theta}$ and current $i$. Voltage $V$ is an input. With perfect
 knowledge of the angular velocity and current, all future \glspl{state} of the
-\gls{system} can be predicted given an input voltage signal. \\
+\gls{system} can be predicted given an input voltage signal.
 
 \section{Control system diagrams}
 
@@ -660,7 +671,7 @@ There are two canonical forms used to represent state-space models: controllable
 canonical form and observable canonical form. They are used to provide
 controllability and observability of a system respectively, which are
 mathematical duals of each other. That is, the controller and estimator (state
-observer) are complementary problems. \\
+observer) are complementary problems.
 
 \subsection{Controllable Canonical Form} \label{subsec:ctrl_canon}
 
@@ -1178,7 +1189,7 @@ $\mtx{P}_{21} = \frac{10}{dt}$. The constants from each are simply multiplied
 together. For $\mtx{P}_{22}$, both measurements are correlated, so the variances
 add together. Therefore, $\mtx{P}_{22} = \frac{20}{dt^2}$. It continues in this
 fashion until the matrix is filled up. Order doesn't matter for correlation, so
-the matrix is symmetric. \\
+the matrix is symmetric.
 
 \subsubsection{Selection of priors}
 
@@ -1422,16 +1433,6 @@ Kalman filter observer can be obtained by
   &eig(\mtx{A} - (\mtx{A}\mtx{K}_k)(\mtx{H})) \nonumber \\
   &eig(\mtx{A}(\mtx{I} - \mtx{K}_k\mtx{H}))
 \end{align}
-
-\addcontentsline{toc}{section}{Acknowledgement}
-\section*{Acknowledgement}
-
-I would like to thank my controls engineering instructors Dejan Milutinovi\'c
-and Gabriel Elkaim of University of California, Santa Cruz. They taught their
-classes from a pragmatic perspective focused on application and intuition that I
-appreciated. I would also like to thank Dejan Milutinovi\'c for introducing me
-to the field of control theory and teaching me what it means to be a controls
-engineer.
 
 \bibliographystyle{IEEEtran}
 \bibliography{state-space-guide.bib}
