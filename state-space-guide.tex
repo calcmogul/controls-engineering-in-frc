@@ -665,6 +665,27 @@ with linear components and zero initial conditions.
   \label{tab:ctrl_def}
 \end{table}
 
+\begin{table}[ht]
+  \caption{State-space matrix dimensions}
+  \renewcommand{\arraystretch}{1.5}
+  \centering
+  \begin{tabular}{|ll|}
+    \hline
+    \textbf{Matrix} & \textbf{Dimensions (rows $\times$ columns)} \\
+    \hline
+    $\mtx{A}$ & states $\times$ states \\
+    $\mtx{B}$ & states $\times$ inputs \\
+    $\mtx{C}$ & outputs $\times$ states \\
+    $\mtx{D}$ & outputs $\times$ inputs \\
+    $\mtx{x}$ & states $\times$ 1 \\
+    $\mtx{u}$ & inputs $\times$ 1 \\
+    $\mtx{y}$ & outputs $\times$ 1 \\
+    $\mtx{K}$ & inputs $\times$ states \\
+    \hline
+  \end{tabular}
+  \label{tab:ss_matrix_dims}
+\end{table}
+
 \section{Canonical forms}
 
 There are two canonical forms used to represent state-space models: controllable
@@ -959,6 +980,28 @@ values to conserve their limited fuel supply.
   \label{tab:obsv_def}
 \end{table}
 
+\begin{table}[ht]
+  \caption{Luenberger observer matrix dimensions}
+  \renewcommand{\arraystretch}{1.5}
+  \centering
+  \begin{tabular}{|ll|}
+    \hline
+    \textbf{Matrix} & \textbf{Dimensions (rows $\times$ columns)} \\
+    \hline
+    $\mtx{A}$ & states $\times$ states \\
+    $\mtx{B}$ & states $\times$ inputs \\
+    $\mtx{C}$ & outputs $\times$ states \\
+    $\mtx{D}$ & outputs $\times$ inputs \\
+    $\mtx{L}$ & states $\times$ outputs \\
+    $\hat{\mtx{x}}$ & states $\times$ 1 \\
+    $\mtx{u}$ & inputs $\times$ 1 \\
+    $\mtx{y}$ & outputs $\times$ 1 \\
+    $\hat{\mtx{y}}$ & outputs $\times$ 1 \\
+    \hline
+  \end{tabular}
+  \label{tab:luenberger_matrix_dims}
+\end{table}
+
 Using an estimator forfeits the performance guarantees from earlier, but the
 responses are still generally very good.
 
@@ -1010,6 +1053,30 @@ step and current update step are shown.
 where a superscript of minus denotes \textit{a priori} and plus denotes
 \textit{a posteriori} estimate (before and after update respectively).
 $\mtx{\Phi}$ is replaced with $\mtx{A}$ for continuous systems. \\
+
+\begin{table}[ht]
+  \caption{Kalman filter matrix dimensions}
+  \renewcommand{\arraystretch}{1.5}
+  \centering
+  \begin{tabular}{|ll|}
+    \hline
+    \textbf{Matrix} & \textbf{Dimensions (rows $\times$ columns)} \\
+    \hline
+    $\mtx{\Phi}$ & states $\times$ states \\
+    $\mtx{B}$ & states $\times$ inputs \\
+    $\mtx{H}$ & outputs $\times$ states \\
+    $\mtx{P}$ & states $\times$ states \\
+    $\mtx{K}$ & states $\times$ outputs \\
+    $\mtx{\Gamma}$ & states $\times$ 1 \\
+    $\hat{\mtx{x}}$ & states $\times$ 1 \\
+    $\mtx{u}$ & inputs $\times$ 1 \\
+    $\mtx{y}$ & outputs $\times$ 1 \\
+    $\mtx{Q}$ & states $\times$ states \\
+    $\mtx{R}$ & outputs $\times$ outputs \\
+    \hline
+  \end{tabular}
+  \label{tab:kf_matrix_dims}
+\end{table}
 
 Unknown states in a Kalman filter are generally represented by a Wiener
 (pronounced VEE-ner) process. This process has the property that its variance
@@ -1064,30 +1131,6 @@ the Wikipedia page on Kalman filters \cite{bib:kalman_filter} for a more
 thorough explanation of the math involved and a derivation of the equations.
 
 \subsubsection{Equations to model}
-
-\begin{table}[ht]
-  \caption{Kalman filter matrix dimensions}
-  \renewcommand{\arraystretch}{1.5}
-  \centering
-  \begin{tabular}{|ll|}
-    \hline
-    \textbf{Matrix} & \textbf{Dimensions (rows $\times$ columns)} \\
-    \hline
-    $\mtx{\Phi}$ & states $\times$ states \\
-    $\mtx{B}$ & states $\times$ inputs \\
-    $\mtx{H}$ & outputs $\times$ states \\
-    $\mtx{P}$ & states $\times$ states \\
-    $\mtx{K}$ & states $\times$ outputs \\
-    $\mtx{\Gamma}$ & states $\times$ 1 \\
-    $\mtx{\hat{x}}$ & states $\times$ 1 \\
-    $\mtx{u}$ & inputs $\times$ 1 \\
-    $\mtx{y}$ & outputs $\times$ 1 \\
-    $\mtx{Q}$ & states $\times$ states \\
-    $\mtx{R}$ & outputs $\times$ outputs \\
-    \hline
-  \end{tabular}
-  \label{tab:kf_matrix_dims}
-\end{table}
 
 The following example system will be used to describe how to define and
 initialize the matrices for a Kalman filter. \\
