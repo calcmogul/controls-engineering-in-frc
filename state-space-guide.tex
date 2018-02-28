@@ -2,6 +2,7 @@
 
 \usepackage{amsmath}
 \usepackage{bm}
+\usepackage{datetime}
 \usepackage{float}
 \usepackage{graphicx}
 \PassOptionsToPackage{hyphens}{url}
@@ -92,6 +93,9 @@
 
 \allowdisplaybreaks
 
+\newdateformat{monthdayyeardate}{%
+  \monthname[\THEMONTH]~\THEDAY, \THEYEAR}
+
 \begin{document}
 \input{INP-00-glossary}
 
@@ -108,7 +112,11 @@
 
     \vspace{1.5cm}
 
-    \textbf{Tyler Veness}
+    \textbf{Tyler Veness} \\
+
+    \vspace{1.5cm}
+    \normalsize
+    Generated on \monthdayyeardate\today
 
     \vfill
 
