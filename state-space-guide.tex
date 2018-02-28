@@ -677,18 +677,15 @@ with linear components and zero initial conditions.
   \caption{State-space matrix dimensions}
   \renewcommand{\arraystretch}{1.5}
   \centering
-  \begin{tabular}{|ll|}
+  \begin{tabular}{|ll|ll|}
     \hline
-    \textbf{Matrix} & \textbf{Dimensions (rows $\times$ columns)} \\
+    \textbf{Matrix} & \textbf{Rows $\times$ Columns} &
+    \textbf{Matrix} & \textbf{Rows $\times$ Columns} \\
     \hline
-    $\mtx{A}$ & states $\times$ states \\
-    $\mtx{B}$ & states $\times$ inputs \\
-    $\mtx{C}$ & outputs $\times$ states \\
-    $\mtx{D}$ & outputs $\times$ inputs \\
-    $\mtx{x}$ & states $\times$ 1 \\
-    $\mtx{u}$ & inputs $\times$ 1 \\
-    $\mtx{y}$ & outputs $\times$ 1 \\
-    $\mtx{K}$ & inputs $\times$ states \\
+    $\mtx{A}$ & states $\times$ states & $\mtx{x}$ & states $\times$ 1 \\
+    $\mtx{B}$ & states $\times$ inputs & $\mtx{u}$ & inputs $\times$ 1 \\
+    $\mtx{C}$ & outputs $\times$ states & $\mtx{y}$ & outputs $\times$ 1 \\
+    $\mtx{D}$ & outputs $\times$ inputs & $\mtx{K}$ & inputs $\times$ states \\
     \hline
   \end{tabular}
   \label{tab:ss_matrix_dims}
@@ -992,19 +989,16 @@ values to conserve their limited fuel supply.
   \caption{Luenberger observer matrix dimensions}
   \renewcommand{\arraystretch}{1.5}
   \centering
-  \begin{tabular}{|ll|}
+  \begin{tabular}{|ll|ll|}
     \hline
-    \textbf{Matrix} & \textbf{Dimensions (rows $\times$ columns)} \\
+    \textbf{Matrix} & \textbf{Rows $\times$ Columns} &
+    \textbf{Matrix} & \textbf{Rows $\times$ Columns} \\
     \hline
-    $\mtx{A}$ & states $\times$ states \\
-    $\mtx{B}$ & states $\times$ inputs \\
-    $\mtx{C}$ & outputs $\times$ states \\
-    $\mtx{D}$ & outputs $\times$ inputs \\
-    $\mtx{L}$ & states $\times$ outputs \\
-    $\hat{\mtx{x}}$ & states $\times$ 1 \\
-    $\mtx{u}$ & inputs $\times$ 1 \\
-    $\mtx{y}$ & outputs $\times$ 1 \\
-    $\hat{\mtx{y}}$ & outputs $\times$ 1 \\
+    $\mtx{A}$ & states $\times$ states & $\hat{\mtx{x}}$ & states $\times$ 1 \\
+    $\mtx{B}$ & states $\times$ inputs & $\mtx{u}$ & inputs $\times$ 1 \\
+    $\mtx{C}$ & outputs $\times$ states & $\mtx{y}$ & outputs $\times$ 1 \\
+    $\mtx{D}$ & outputs $\times$ inputs & $\hat{\mtx{y}}$ & outputs $\times$ 1 \\
+    $\mtx{L}$ & states $\times$ outputs &  &  \\
     \hline
   \end{tabular}
   \label{tab:luenberger_matrix_dims}
@@ -1066,21 +1060,17 @@ $\mtx{\Phi}$ is replaced with $\mtx{A}$ for continuous systems. \\
   \caption{Kalman filter matrix dimensions}
   \renewcommand{\arraystretch}{1.5}
   \centering
-  \begin{tabular}{|ll|}
+  \begin{tabular}{|ll|ll|}
     \hline
-    \textbf{Matrix} & \textbf{Dimensions (rows $\times$ columns)} \\
+    \textbf{Matrix} & \textbf{Rows $\times$ Columns} &
+    \textbf{Matrix} & \textbf{Rows $\times$ Columns} \\
     \hline
-    $\mtx{\Phi}$ & states $\times$ states \\
-    $\mtx{B}$ & states $\times$ inputs \\
-    $\mtx{H}$ & outputs $\times$ states \\
-    $\mtx{P}$ & states $\times$ states \\
-    $\mtx{K}$ & states $\times$ outputs \\
-    $\mtx{\Gamma}$ & states $\times$ 1 \\
-    $\hat{\mtx{x}}$ & states $\times$ 1 \\
-    $\mtx{u}$ & inputs $\times$ 1 \\
-    $\mtx{y}$ & outputs $\times$ 1 \\
-    $\mtx{Q}$ & states $\times$ states \\
-    $\mtx{R}$ & outputs $\times$ outputs \\
+    $\mtx{\Phi}$ & states $\times$ states & $\hat{\mtx{x}}$ & states $\times$ 1 \\
+    $\mtx{B}$ & states $\times$ inputs & $\mtx{u}$ & inputs $\times$ 1 \\
+    $\mtx{H}$ & outputs $\times$ states & $\mtx{y}$ & outputs $\times$ 1 \\
+    $\mtx{P}$ & states $\times$ states & $\mtx{Q}$ & states $\times$ states \\
+    $\mtx{K}$ & states $\times$ outputs & $\mtx{R}$ & outputs $\times$ outputs \\
+    $\mtx{\Gamma}$ & states $\times$ 1 &  &  \\
     \hline
   \end{tabular}
   \label{tab:kf_matrix_dims}
