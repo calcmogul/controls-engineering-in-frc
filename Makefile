@@ -19,3 +19,7 @@ $(TARGET): $(basename $(TARGET)).tex $(PDF_TEX) $(BIB) $(CODE)
 .PHONY: clean
 clean:
 	rm -f figs/*.pdf figs/*.pdf_tex *.aux *.bbl *.blg *.fdb_latexmk *.fls *.glg *.glo *.gls *.glsdefs *.ist *.lof *.log *.los *.lot *.out *.toc *.pdf
+
+.PHONY: upload
+upload: all
+	scp $(TARGET) file.tavsys.net:/srv/file/tav/control
