@@ -22,4 +22,4 @@ clean:
 
 .PHONY: upload
 upload: all
-	scp $(TARGET) file.tavsys.net:/srv/file/tav/control
+	scp $(TARGET) file.tavsys.net:/srv/file/control
