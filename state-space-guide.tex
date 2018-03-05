@@ -286,7 +286,7 @@ Negative feedback loops drive the difference between \gls{reference} and
     \node [block, below=0.5cm of I] (D) { $K_d \frac{de(t)}{dt}$ };
     \node [sum, right=0.5cm of I] (ctrlsum) {};
     \node [block, right=0.75cm of ctrlsum] (plant) {Plant};
-    \node [right=of plant] (output) {};
+    \node [right=0.75cm of plant] (output) {};
     \node [coordinate, below=0.5cm of D] (measurements) {};
 
     % Connect the nodes
