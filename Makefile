@@ -2,13 +2,31 @@ TARGET := state-space-guide.pdf
 
 SVG := $(wildcard figs/*.svg)
 PDF_TEX := $(SVG:.svg=.pdf_tex)
+TEX := app-integral_control.tex \
+       app-kalman_luenberger.tex \
+       app-tf_feedback_deriv.tex \
+       back.tex \
+       classical.tex \
+       conclusion.tex \
+       config.tex \
+       front.tex \
+       implementation.tex \
+       INP-00-glossary \
+       layout.tex \
+       macros.tex \
+       preface.tex \
+       review.tex \
+       ss-control.tex \
+       ss-estimation.tex \
+       ss-intro.tex \
+       styles.tex
 BIB := $(wildcard *.bib)
 CODE := $(wildcard code/*)
 
 .PHONY: all
 all: $(TARGET)
 
-$(TARGET): $(basename $(TARGET)).tex $(PDF_TEX) $(BIB) $(CODE)
+$(TARGET): $(basename $(TARGET)).tex $(TEX) $(PDF_TEX) $(BIB) $(CODE)
 	pdflatex $(basename $@)
 	makeglossaries $(basename $@)
 	latexmk -pdf $(basename $@)
