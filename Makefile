@@ -18,6 +18,7 @@ TEX := app-integral_control.tex \
        review.tex \
        ss-control.tex \
        ss-estimation.tex \
+       ss-examples.tex \
        ss-intro.tex \
        styles.tex
 BIB := $(wildcard *.bib)
