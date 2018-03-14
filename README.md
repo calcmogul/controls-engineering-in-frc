@@ -7,7 +7,7 @@ This document reads a lot like a reference manual on control theory and related 
 
 ## Download
 
-A PDF version is available at https://file.tavsys.net/tav/control/state-space-guide.pdf.
+A PDF version is available at https://file.tavsys.net/control/state-space-guide.pdf.
 
 ## Future Improvements
 
