@@ -27,7 +27,8 @@
   description={the desired state}}
 \newglossaryentry{state}{
   name=state,
-  description={used to describe system's future behavior}}
+  description={a characteristic of a system (e.g., velocity) that can be used to
+    determine the system's future behavior}}
 \newglossaryentry{state feedback}{
   name={state feedback},
   description={uses state instead of output in feedback}}
