@@ -652,13 +652,13 @@ with linear components and zero initial conditions.
 \section{State-space notation}
 
 \begin{align}
-  \dot{\mtx{x}} &= \mtx{A}\mtx{x} + \mtx{B}\mtx{u} \label{eq:s_ctrl_x} \\
-  \mtx{y} &= \mtx{C}\mtx{x} + \mtx{D}\mtx{u} \label{eq:s_ctrl_y}
+  \dot{\mtx{x}} &= \mtx{A}\mtx{x} + \mtx{B}\mtx{u} \label{eq:ss_ctrl_x} \\
+  \mtx{y} &= \mtx{C}\mtx{x} + \mtx{D}\mtx{u} \label{eq:ss_ctrl_y}
 \end{align}
 
 \begin{align}
-  \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}\mtx{u}_k \label{eq:z_ctrl_x} \\
-  \mtx{y}_{k+1} &= \mtx{C}\mtx{x}_k + \mtx{D}\mtx{u}_k \label{eq:z_ctrl_y}
+  \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}\mtx{u}_k \label{eq:ssz_ctrl_x} \\
+  \mtx{y}_{k+1} &= \mtx{C}\mtx{x}_k + \mtx{D}\mtx{u}_k \label{eq:ssz_ctrl_y}
 \end{align}
 
 \begin{table}[ht]
@@ -668,9 +668,9 @@ with linear components and zero initial conditions.
     $\mtx{A}$ & system matrix      & $\mtx{x}$ & state vector \\
     $\mtx{B}$ & input matrix       & $\mtx{u}$ & input vector \\
     $\mtx{C}$ & output matrix      & $\mtx{y}$ & output vector \\
-    $\mtx{D}$ & feedthrough matrix & $\mtx{K}$ & controller gain matrix \\
+    $\mtx{D}$ & feedthrough matrix &  \\
   \end{tabulary}
-  \label{tab:ctrl_def}
+  \label{tab:ss_def}
 \end{table}
 
 \begin{table}[ht]
@@ -806,19 +806,19 @@ Eigenvalues can be used to determine the stability of a \gls{system}. \\
 
 We'd like to know whether the \gls{system} defined by equation
 (\ref{eq:z_ctrl_x}) operating with the input
-$\mtx{u}_k = \mtx{K}(\mtx{R}_k - \mtx{x}_k)$ converges to the \gls{reference}
-$\mtx{R}_k$.
+$\mtx{u}_k = \mtx{K}(\mtx{r}_k - \mtx{x}_k)$ converges to the \gls{reference}
+$\mtx{r}_k$.
 
 \begin{align}
   \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}\mtx{u}_k \nonumber \\
-  \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}(\mtx{K}(\mtx{R}_k - \mtx{x}_k))
+  \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}(\mtx{K}(\mtx{r}_k - \mtx{x}_k))
     \nonumber \\
-  \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}\mtx{K}\mtx{R}_k -
+  \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}\mtx{K}\mtx{r}_k -
     \mtx{B}\mtx{K}\mtx{x}_k \nonumber \\
   \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k - \mtx{B}\mtx{K}\mtx{x}_k +
-    \mtx{B}\mtx{K}\mtx{R}_k \nonumber \\
+    \mtx{B}\mtx{K}\mtx{r}_k \nonumber \\
   \mtx{x}_{k+1} &= (\mtx{A} - \mtx{B}\mtx{K})\mtx{x}_k +
-    \mtx{B}\mtx{K}\mtx{R}_k \label{eq:ctrl_eig_calc}
+    \mtx{B}\mtx{K}\mtx{r}_k \label{eq:ctrl_eig_calc}
 \end{align}
 \\
 For equation (\ref{eq:ctrl_eig_calc}) to have a bounded output, the eigenvalues
@@ -907,6 +907,54 @@ controller with perfect \gls{state tracking}.
 This means that optimal control can be achieved with simply a set of
 proportional gains on all the states. See the Wikipedia page on Linear-Quadratic Regulators \cite{bib:lqr} for an explanation of this choice of feedback control
 law.
+
+\subsection{Controller}
+
+\begin{align}
+  \dot{\mtx{x}} &= \mtx{A}\mtx{x} + \mtx{B}\mtx{u} +
+    \mtx{K} (\mtx{r} - \mtx{x}) + \mtx{N}_u\mtx{r} \label{eq:s_ctrl_x} \\
+  \mtx{y} &= \mtx{C}\mtx{x} + \mtx{D}\mtx{u} \label{eq:s_ctrl_y}
+\end{align}
+
+\begin{align}
+  \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}\mtx{u}_k +
+    \mtx{K} (\mtx{r}_k - \mtx{x}_k) \label{eq:z_ctrl_x} + \mtx{N}_u\mtx{r}_k \\
+  \mtx{y}_{k+1} &= \mtx{C}\mtx{x}_k +
+    \mtx{D}\mtx{u}_k \label{eq:z_ctrl_y} \\ \nonumber
+\end{align}
+
+\begin{table}[ht]
+  \renewcommand{\arraystretch}{1.3}
+  \centering
+  \begin{tabulary}{\linewidth}{LLLL}
+    $\mtx{A}$ & system matrix      & $\mtx{x}$ & state vector \\
+    $\mtx{B}$ & input matrix       & $\mtx{u}$ & input vector \\
+    $\mtx{C}$ & output matrix      & $\mtx{y}$ & output vector \\
+    $\mtx{D}$ & feedthrough matrix & $\mtx{r}$ & \gls{reference} vector \\
+    $\mtx{K}$ & controller gain matrix & $\mtx{N}_u$ & \gls{reference}
+      feedfoward matrix \\
+  \end{tabulary}
+  \label{tab:ctrl_def}
+\end{table}
+
+\begin{table}[ht]
+  \caption{Controller matrix dimensions}
+  \renewcommand{\arraystretch}{1.5}
+  \centering
+  \begin{tabular}{|ll|ll|}
+    \hline
+    \textbf{Matrix} & \textbf{Rows $\times$ Columns} &
+    \textbf{Matrix} & \textbf{Rows $\times$ Columns} \\
+    \hline
+    $\mtx{A}$ & states $\times$ states & $\mtx{x}$ & states $\times$ 1 \\
+    $\mtx{B}$ & states $\times$ inputs & $\mtx{u}$ & inputs $\times$ 1 \\
+    $\mtx{C}$ & outputs $\times$ states & $\mtx{y}$ & outputs $\times$ 1 \\
+    $\mtx{D}$ & outputs $\times$ inputs & $\mtx{r}$ & states $\times$ 1 \\
+    $\mtx{K}$ & inputs $\times$ states & $\mtx{N}_u$ & inputs $\times$ states \\
+    \hline
+  \end{tabular}
+  \label{tab:ctrl_matrix_dims}
+\end{table}
 
 \subsection{Need full state}
 
