@@ -1,0 +1,45 @@
+\section{Transfer function feedback derivation}
+\label{sec:app_tf_feedback_deriv}
+
+Given the following feedback network \\
+
+\begin{figure}[H]
+  \centering
+
+  \begin{tikzpicture}[auto, >=latex']
+    % Place the blocks
+    \node [name=input] {$X(s)$};
+    \node [sum, right=of input] (sum) {};
+    \node [block, right=of sum] (G) {$G(s)$};
+    \node [right=of G] (output) {$Y(s)$};
+    \node [block, below=of G] (measurements) {$H(s)$};
+
+    % Connect the nodes
+    \draw [arrow] (input) -- node[pos=0.85] {$+$} (sum);
+    \draw [arrow] (sum) -- node {$Z(s)$} (G);
+    \draw [arrow] (G) -- node [name=y] {} (output);
+    \draw [arrow] (y) |- (measurements);
+    \draw [arrow] (measurements) -| node[pos=0.99, right] {$-$} (sum);
+  \end{tikzpicture}
+
+  \caption{Closed loop block diagram}
+  \label{fig:closed_loop_deriv}
+\end{figure}
+
+\begin{align}
+  Y(s) &= Z(s) G(s) \nonumber \\
+  Z(s) &= X(s) - Y(s) H(s) \nonumber \\
+  X(s) &= Z(s) + Y(s) H(s) \nonumber \\
+  X(s) &= Z(s) + Z(s) G(s) H(s) \nonumber \\
+  \frac{Y(s)}{X(s)} &= \frac{Z(s) G(s)}{Z(s) + Z(s) G(s) H(s)} \nonumber \\
+  \frac{Y(s)}{X(s)} &= \frac{G(s)}{1 + G(s) H(s)}
+\end{align}
+
+A more general form is
+
+\begin{equation}
+  \frac{Y(s)}{X(s)} = \frac{G(s)}{1 \mp G(s) H(s)}
+\end{equation}
+
+where positive feedback uses the top sign and negative feedback uses the bottom
+sign.

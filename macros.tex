@@ -1,0 +1,21 @@
+\newcommand{\includecode}[2][c]{%
+  \lstinputlisting[escapechar=, style=custom#1]{#2}
+}
+
+\newcommand{\mtx}[1] {\bm #1}
+
+% Set up snippet environment
+\newcommand{\listsnippetsname}{\Large List of Snippets}
+\newlistof{snippets}{los}{\listsnippetsname}
+\cftsetindents{snippets}{\parindent}{1.5\parindent}
+\newenvironment{snippet}{
+  \renewcommand{\caption}[1]{
+    \refstepcounter{snippets}
+    \begin{center}
+      \par\noindent{\footnotesize Snippet \thesnippets. ##1}
+    \end{center}
+    \addcontentsline{los}{snippets}
+      {\protect \numberline{\thesnippets}{\ignorespaces ##1}}
+  }
+}
+{\par\noindent}

@@ -1,0 +1,120 @@
+\section{Methods of integral control} \label{sec:integral_control}
+
+A common way of achieving integral control is to add an additional state that is
+the integral of the error of the variable intended to have zero steady-state
+error. \\
+
+There are two drawbacks to this method. First, there is integral windup on a
+unit step input. The second is demonstrated by an example from Jared Russell of
+FRC team 254. Say there is a position/velocity trajectory for some plant to
+follow. Without integral control, one can calculate a desired $\mtx{K}\mtx{x}$
+to use as the reference input to the controller. As a result of using both
+desired position and velocity, reference tracking is really good. With integral
+control added, the reference is always the desired position, but there is no way
+to tell the controller the desired velocity. \\
+
+Consider carefully whether integral control is necessary. One can get relatively
+close without integral control, and integral adds all the issues listed above.
+Below, it is assumed that the controls designer has determined that integral
+control will be worth the inconvenience. \\
+
+There are three methods FRC team 971 has used over the years: \\
+
+\begin{enumerate}
+  \item Augment the plant as described earlier. For an arm, one would add an
+    "integral of position" state.
+  \item Add an integrator to the output of the controller, then estimate the
+    control effort being applied. 971 has calls this Delta U control. The
+    up-side is that it doesn't have the windup issue described above. The
+    downside is it's very confusing to work with it.
+  \item Estimate an "error" in the observer and compensate for it. This quantity
+    is the difference between what was applied and what was observed to happen.
+    To use it, you simply add it to your control output and it will converge.
+    This is 971's primary method.
+\end{enumerate}
+
+\subsection{Plant augmentation}
+
+\subsection{Delta U control}
+
+\subsection{Error estimation}
+
+Let $u_{error}$ be the error in a system's input. The $u_{error}$ term is then
+added to the system as follows.
+
+\begin{align*}
+  \dot{\mtx{x}} &= \mtx{A}\mtx{x} + \mtx{B}\left(\mtx{u} + u_{error}\right) \\
+  \dot{\mtx{x}} &= \mtx{A}\mtx{x} + \mtx{B}\mtx{u} + \mtx{B}u_{error}
+\end{align*}
+\\
+For a multiple-output system, this would be
+
+\begin{equation*}
+  \dot{\mtx{x}} = \mtx{A}\mtx{x} + \mtx{B}\mtx{u} + \mtx{B}_{error}u_{error}
+\end{equation*}
+\\
+where $\mtx{B}_{error}$ is the column vector that maps $u_{error}$ to changes in
+the rest of the state the same way $\mtx{B}$ does for $\mtx{u}$.
+$\mtx{B}_{error}$ is only a column of $\mtx{B}$ if $u_{error}$ corresponds to an
+existing input within $\mtx{u}$. \\
+
+$\mtx{x}$ is augmented as
+
+\begin{equation*}
+  \mtx{x'} = \left[
+  \begin{array}{c}
+    \mtx{x} \\
+    u_{error}
+  \end{array}
+  \right]
+\end{equation*}
+\\
+and the augmented model is
+
+\begin{align*}
+  \dot{\mtx{x}}' &= \left[
+  \begin{array}{cc}
+    \mtx{A} & \mtx{B}_{error} \\
+    0 & 0
+  \end{array}
+  \right] \mtx{x} + \left[
+  \begin{array}{c}
+    \mtx{B} \\
+    0
+  \end{array}
+  \right] \mtx{u}
+\end{align*}
+\\
+With this model, the observer will estimate both the state and the $u_{error}$
+term. The controller is augmented similarly.
+
+\begin{equation*}
+  \mtx{u} = \mtx{K} \left(\mtx{r} - \mtx{x}\right) - u_{error}
+\end{equation*}
+\\
+This can be rewritten as
+
+\begin{equation*}
+  \mtx{u} = \left[
+  \begin{array}{c}
+    \mtx{K} \\
+    1
+  \end{array}
+  \right] \left(\mtx{r}' - \mtx{x}'\right)
+\end{equation*}
+\\
+where a $1$ is augmented if $u_{error}$ corresponds to an existing input and a
+$0$ is augmented otherwise. $\mtx{r}$ is augmented with a zero for the goal
+$u_{error}$ term.
+
+\begin{equation*}
+  \mtx{r}' = \left[
+  \begin{array}{c}
+    \mtx{r} \\
+    0
+  \end{array}
+  \right]
+\end{equation*}
+\\
+This process can be repeated for an arbitrary error which can be corrected via
+some linear combination of the inputs.

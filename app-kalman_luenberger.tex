@@ -1,0 +1,62 @@
+\section{Kalman filter as Luenberger observer} \label{sec:app_kalman_luenberger}
+
+A Luenberger observer is defined as
+
+\begin{align}
+  \mtx{x}_{k+1}^+ &= \mtx{A} \mtx{x}_k^- + \mtx{B} \mtx{u}_k + \mtx{L}
+    (\mtx{y}_k - \hat{\mtx{y}}_k) \label{eq:luenberger1} \\
+  \hat{\mtx{y}}_k &= \mtx{C} \mtx{x}_k^- \label{eq:luenberger2} \\ \nonumber
+\end{align}
+
+where a superscript of minus denotes \textit{a priori} and plus denotes
+\textit{a posteriori} estimate. Combining equation (\ref{eq:luenberger1}) and
+equation (\ref{eq:luenberger2}) gives \\
+\begin{equation} \label{eq:luenberger}
+  \mtx{x}_{k+1}^+ = \mtx{A} \mtx{x}_k^- + \mtx{B} \mtx{u}_k + \mtx{L}
+    (\mtx{y}_k - \mtx{C} \mtx{x}_k^-) \\
+\end{equation}
+\\
+The following is a Kalman filter that considers the current update step and the
+next predict step together rather than the current predict step and current
+update step.
+
+\begin{align}
+  \text{Update step} \nonumber \\
+  \mtx{K}_k &= \mtx{P}_k^- \mtx{H}^T (\mtx{H}\mtx{P}_k^- \mtx{H}^T +
+    \mtx{R})^{-1} \\
+  \mtx{x}_k^+ &= \mtx{x}_k^- + \mtx{K}_k (\mtx{y}_k - \mtx{H} \mtx{x}_k^-)
+    \label{eq:post2_x} \\
+  \mtx{P}_k^+ &= (\mtx{I} - \mtx{K}_k\mtx{H})\mtx{P}_k^- \\
+  \text{Predict step} \nonumber \\
+  \mtx{x}_{k+1}^+ &= \mtx{A} \mtx{x}_k^+ + \mtx{B} \mtx{u}_k
+    \label{eq:pre2_x} \\
+  \mtx{P}_{k+1}^- &= \mtx{A} \mtx{P}_k^+ \mtx{A}^T +
+    \mtx{\Gamma}\mtx{Q}\mtx{\Gamma}^T
+\end{align}
+\\
+Substitute equation (\ref{eq:post2_x}) into equation (\ref{eq:pre2_x}).
+
+\begin{align*}
+  \mtx{x}_{k+1}^+ &= \mtx{A} (\mtx{x}_k^- +
+    \mtx{K}_k (\mtx{y}_k - \mtx{H} \mtx{x}_k^-)) + \mtx{B} \mtx{u}_k \\
+  \mtx{x}_{k+1}^+ &= \mtx{A} \mtx{x}_k^- +
+    \mtx{A} \mtx{K}_k (\mtx{y}_k - \mtx{H} \mtx{x}_k^-) + \mtx{B} \mtx{u}_k \\
+  \mtx{x}_{k+1}^+ &= \mtx{A} \mtx{x}_k^- + \mtx{B} \mtx{u}_k +
+    \mtx{A} \mtx{K}_k (\mtx{y}_k - \mtx{H} \mtx{x}_k^-) \\
+\end{align*}
+
+Let $\mtx{C} = \mtx{H}$ and $\mtx{L} = \mtx{A} \mtx{K}_k$.
+
+\begin{equation} \label{eq:app_kalman_leunberger}
+  \mtx{x}_{k+1}^+ = \mtx{A} \mtx{x}_k^- + \mtx{B} \mtx{u}_k +
+    \mtx{L} (\mtx{y}_k - \mtx{C} \mtx{x}_k^-) \\
+\end{equation}
+\\
+which matches equation (\ref{eq:luenberger}). Therefore, the eigenvalues of the
+Kalman filter observer can be obtained by
+
+\begin{align}
+  &eig(\mtx{A} - \mtx{L}\mtx{C}) \nonumber \\
+  &eig(\mtx{A} - (\mtx{A}\mtx{K}_k)(\mtx{H})) \nonumber \\
+  &eig(\mtx{A}(\mtx{I} - \mtx{K}_k\mtx{H}))
+\end{align}

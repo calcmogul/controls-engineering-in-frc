@@ -1,0 +1,34 @@
+% Set styles for TikZ objects
+\usetikzlibrary{arrows, positioning, shapes}
+\tikzstyle{block} = [draw, rectangle, minimum height=3em, minimum width=4em]
+\tikzstyle{sum} = [draw, circle, node distance=1cm]
+\tikzstyle{arrow} = [arrows=->, black, align=right]
+\tikzstyle{branch} = [circle, inner sep=0pt, minimum size=1mm, fill=black,
+    draw=black]
+
+\lstdefinestyle{customMatlab}{
+  language=Matlab,
+  breaklines=true,
+  xleftmargin=0.125in,
+  basicstyle=\footnotesize\ttfamily,
+  keywordstyle=\color{blue},
+  morekeywords=[2]{1}, keywordstyle=[2]{\color{black}},
+  identifierstyle=\color{black},
+  stringstyle=\color[RGB]{170, 55, 241},
+  commentstyle=\color[RGB]{28, 172, 0},
+  showstringspaces=false,
+  emph=[1]{for,end,break},emphstyle=[1]\color{red},
+}
+
+\lstdefinestyle{customcpp}{
+  belowcaptionskip=1\baselineskip,
+  breaklines=true,
+  xleftmargin=0.125in,
+  language=C++,
+  showstringspaces=false,
+  basicstyle=\footnotesize\ttfamily,
+  keywordstyle=\color[RGB]{128, 128, 0},
+  commentstyle=\color[RGB]{0, 128, 0},
+  identifierstyle=\color{black},
+  stringstyle=\color[RGB]{0, 128, 0},
+}

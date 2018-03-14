@@ -1,0 +1,312 @@
+\section{Estimating unmeasured states}
+
+\subsection{Luenberger observer}
+
+\begin{align}
+  \dot{\hat{\mtx{x}}} &= \mtx{A}\hat{\mtx{x}} + \mtx{B}\mtx{u} +
+    \mtx{L} (\mtx{y} - \hat{\mtx{y}}) \label{eq:s_obsv_x} \\
+  \hat{\mtx{y}} &= \mtx{C}\hat{\mtx{x}} + \mtx{D}\mtx{u} \label{eq:s_obsv_y}
+\end{align}
+
+\begin{align}
+  \hat{\mtx{x}}_{k+1} &= \mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
+    \mtx{L} (\mtx{y}_k - \hat{\mtx{y}}_{k+1}) \label{eq:z_obsv_x} \\
+  \hat{\mtx{y}}_{k+1} &= \mtx{C}\hat{\mtx{x}}_k +
+    \mtx{D}\mtx{u}_k \label{eq:z_obsv_y} \\ \nonumber
+\end{align}
+
+\begin{table}[ht]
+  \renewcommand{\arraystretch}{1.3}
+  \centering
+  \begin{tabulary}{\linewidth}{LLLL}
+    $\mtx{A}$ & system matrix      & $\hat{\mtx{x}}$ & state estimate vector \\
+    $\mtx{B}$ & input matrix       & $\mtx{u}$ & input vector \\
+    $\mtx{C}$ & output matrix      & $\mtx{y}$ & output vector \\
+    $\mtx{D}$ & feedthrough matrix & $\hat{\mtx{y}}$ & output estimate vector \\
+    $\mtx{L}$ & estimator gain matrix & & \\
+  \end{tabulary}
+  \label{tab:obsv_def}
+\end{table}
+
+\begin{table}[ht]
+  \caption{Luenberger observer matrix dimensions}
+  \renewcommand{\arraystretch}{1.5}
+  \centering
+  \begin{tabular}{|ll|ll|}
+    \hline
+    \textbf{Matrix} & \textbf{Rows $\times$ Columns} &
+    \textbf{Matrix} & \textbf{Rows $\times$ Columns} \\
+    \hline
+    $\mtx{A}$ & states $\times$ states & $\hat{\mtx{x}}$ & states $\times$ 1 \\
+    $\mtx{B}$ & states $\times$ inputs & $\mtx{u}$ & inputs $\times$ 1 \\
+    $\mtx{C}$ & outputs $\times$ states & $\mtx{y}$ & outputs $\times$ 1 \\
+    $\mtx{D}$ & outputs $\times$ inputs & $\hat{\mtx{y}}$ & outputs $\times$ 1 \\
+    $\mtx{L}$ & states $\times$ outputs &  &  \\
+    \hline
+  \end{tabular}
+  \label{tab:luenberger_matrix_dims}
+\end{table}
+
+Using an estimator forfeits the performance guarantees from earlier, but the
+responses are still generally very good.
+
+\subsection{LQE}
+
+"LQE" stands for "Linear-Quadratic Estimator". Similar to LQR, it places the
+estimator poles such that it minimizes the sum of squares of the error. The
+Kalman filter is an example of one of these.
+
+\subsection{Kalman filter}
+
+Read \url{http://www.bzarg.com/p/how-a-kalman-filter-works-in-pictures/} for a
+graphical introduction to Kalman filters. \\
+
+The following is a Kalman filter for the $k^{th}$ timestep. The current predict
+step and current update step are shown.
+
+\begin{align}
+  \text{Predict step} \nonumber \\
+  \mtx{x}_{k+1}^- &= \mtx{\Phi} \mtx{x}_k + \mtx{B} \mtx{u}_k
+    \label{eq:pre1_x} \\
+  \mtx{P}_{k+1}^- &= \mtx{\Phi} \mtx{P}_k^- \mtx{\Phi}^T +
+    \mtx{\Gamma}\mtx{Q}\mtx{\Gamma}^T \\
+  \text{Update step} \nonumber \\
+  \mtx{K}_{k+1} &= \mtx{P}_{k+1}^- \mtx{H}^T (\mtx{H}\mtx{P}_{k+1}^- \mtx{H}^T +
+    \mtx{R})^{-1} \\
+  \mtx{x}_{k+1}^+ &= \mtx{x}_{k+1}^- + \mtx{K}_{k+1} (\mtx{y}_{k+1} -
+    \mtx{H} \mtx{x}_{k+1}^-) \label{eq:post1_x} \\
+  \mtx{P}_{k+1}^+ &= (\mtx{I} - \mtx{K}_{k+1}\mtx{H})\mtx{P}_{k+1}^-
+\end{align}
+
+\begin{table}[ht]
+  \renewcommand{\arraystretch}{1.3}
+  \centering
+  \begin{tabulary}{\linewidth}{LLLL}
+    $\mtx{\Phi}$ & system matrix &
+      $\hat{\mtx{x}}$ & state estimate vector \\
+    $\mtx{B}$ & input matrix            & $\mtx{u}$ & input vector \\
+    $\mtx{H}$ & measurement matrix      & $\mtx{y}$ & output vector \\
+    $\mtx{P}$ & error covariance matrix &
+      $\mtx{Q}$ & process noise covariance matrix \\
+    $\mtx{K}$ & Kalman gain matrix &
+      $\mtx{R}$ & measurement noise covariance matrix \\
+    $\mtx{\Gamma}$ & process noise intensity vector &
+  \end{tabulary}
+  \label{tab:kalman_def}
+\end{table}
+
+where a superscript of minus denotes \textit{a priori} and plus denotes
+\textit{a posteriori} estimate (before and after update respectively).
+$\mtx{\Phi}$ is replaced with $\mtx{A}$ for continuous systems. \\
+
+\begin{table}[ht]
+  \caption{Kalman filter matrix dimensions}
+  \renewcommand{\arraystretch}{1.5}
+  \centering
+  \begin{tabular}{|ll|ll|}
+    \hline
+    \textbf{Matrix} & \textbf{Rows $\times$ Columns} &
+    \textbf{Matrix} & \textbf{Rows $\times$ Columns} \\
+    \hline
+    $\mtx{\Phi}$ & states $\times$ states & $\hat{\mtx{x}}$ & states $\times$ 1 \\
+    $\mtx{B}$ & states $\times$ inputs & $\mtx{u}$ & inputs $\times$ 1 \\
+    $\mtx{H}$ & outputs $\times$ states & $\mtx{y}$ & outputs $\times$ 1 \\
+    $\mtx{P}$ & states $\times$ states & $\mtx{Q}$ & states $\times$ states \\
+    $\mtx{K}$ & states $\times$ outputs & $\mtx{R}$ & outputs $\times$ outputs \\
+    $\mtx{\Gamma}$ & states $\times$ 1 &  &  \\
+    \hline
+  \end{tabular}
+  \label{tab:kf_matrix_dims}
+\end{table}
+
+Unknown states in a Kalman filter are generally represented by a Wiener
+(pronounced VEE-ner) process. This process has the property that its variance
+increases linearly with time $t$. We'll skip all the probability derivations
+here, but given two data points with associated variances represented by
+Gaussian distribution, the information can be optimally combined into a third
+Gaussian distribution with a mean value and variance. The expected value of $x$
+given a measurement $z_1$ is
+
+\begin{equation}
+  E[x|z_1] = \mu = \frac{\sigma_0^2}{\sigma_0^2 + \sigma^2}z_1 +
+    \frac{\sigma^2}{\sigma_0^2 + \sigma^2}x_0
+\end{equation}
+
+The variance of $x$ given $z_1$ is
+
+\begin{equation}
+  E[(x - \mu)^2|z_1] = \frac{\sigma^2 \sigma_0^2}{\sigma_0^2 + \sigma^2}
+\end{equation}
+
+The expected value, which is also the maximum likelihood value, is the linear
+combination of the prior expected (maximum likelihood) value and the
+measurement. The expected value is a reasonable estimator of $x$.
+
+\begin{align}
+  \hat{x} &= E[x|z_1] = \frac{\sigma_0^2}{\sigma_0^2 + \sigma^2}z_1 +
+    \frac{\sigma^2}{\sigma_0^2 + \sigma^2}x_0 \\
+  \hat{x} &= w_1 z_1 + w_2 x_0 \nonumber
+\end{align}
+\\
+Note that the weights $w_1$ and $w_2$ sum to 1. When the prior (i.e., prior
+knowledge of state) is uninformative (a large variance)
+
+\begin{align}
+  w_1 &= \lim_{\sigma_0^2 \to 0} \frac{\sigma_0^2}{\sigma_0^2 + \sigma^2} = 0 \\
+  w_2 &= \lim_{\sigma_0^2 \to 0} \frac{\sigma^2}{\sigma_0^2 + \sigma^2} = 1
+\end{align}
+\\
+and $\hat{x} = z_1$. That is, the weight is on the observations. The estimate is
+identically equal to the measurement. \\
+
+Let us assume we have a model providing an almost exact prior for $x$. In that
+case, $\sigma_0^2$ approaches 0 and
+
+\begin{align}
+  w_1 &= \lim_{\sigma_0^2 \to 0} \frac{\sigma_0^2}{\sigma_0^2 + \sigma^2} = 1 \\
+  w_2 &= \lim_{\sigma_0^2 \to 0} \frac{\sigma^2}{\sigma_0^2 + \sigma^2} = 0
+\end{align}
+\\
+The Kalman filter uses this optimal fusion as the basis for its operation. See
+the Wikipedia page on Kalman filters \cite{bib:kalman_filter} for a more
+thorough explanation of the math involved and a derivation of the equations.
+
+\subsubsection{Equations to model}
+
+The following example system will be used to describe how to define and
+initialize the matrices for a Kalman filter. \\
+
+A robot is between two parallel walls. It starts driving from one wall to the
+other at a velocity of $0.8 cm/s$ and uses ultrasonic sensors to provide noisy
+measurements of the distances to the walls in front of and behind it. To
+estimate the distance between the walls, we will define three states: robot
+position, robot velocity, and distance between the walls.
+
+\begin{align}
+  x_{k+1} &= x_k + v_k \Delta T \\
+  v_{k+1} &= v_k \\
+  x_{k+1}^w &= x_k^w
+\end{align}
+\\
+This can be converted to the following state-space model.
+
+\begin{equation}
+  \mtx{x}_k = \left[
+  \begin{array}{c}
+    x_k \\
+    v_k \\
+    x_k^w
+  \end{array} \right]
+\end{equation}
+
+\begin{equation}
+  \mtx{x}_{k+1} = \left[
+  \begin{array}{ccc}
+    1 & 1 & 0 \\
+    0 & 0 & 0 \\
+    0 & 0 & 1
+  \end{array} \right] \mtx{x}_k + \left[
+  \begin{array}{c}
+    0 \\
+    0.8 \\
+    0
+  \end{array} \right] + \left[
+  \begin{array}{c}
+    0 \\
+    0.1 \\
+    0
+  \end{array} \right] w_k
+\end{equation}
+\\
+where the Gaussian random variable $w_k$ has zero mean and variance 1. The
+observation model is
+
+\begin{equation}
+  \mtx{y}_k = \left[
+  \begin{array}{ccc}
+    1 & 0 & 0 \\
+    -1 & 0 & 1
+  \end{array} \right] \mtx{x}_k + \theta_k
+\end{equation}
+
+where the covariance matrix of Gaussian measurement noise $\theta$ is a
+$2 \times 2$ matrix with both diagonals $10 cm^2$. \\
+
+The state vector is usually initialized using the first measurement or two. The
+covariance matrix entries are assigned by calculating the covariance of the
+expressions used when assigning the state vector. Let $k = 2$.
+
+\begin{align}
+  \mtx{Q} &= \left[1\right] \\
+  \mtx{R} &= \left[
+  \begin{array}{cc}
+    10 & 0 \\
+    0 & 10
+  \end{array} \right] \\
+  \hat{\mtx{x}} &= \left[
+  \begin{array}{c}
+    \mtx{y}_{k,1} \\
+    (\mtx{y}_{k,1} - \mtx{y}_{k-1,1})/dt \\
+    \mtx{y}_{k,1} + \mtx{y}_{k,2}
+  \end{array} \right] \\
+  \mtx{P} &= \left[
+  \begin{array}{ccc}
+    10 & 10/dt & 10 \\
+    10/dt & 20/dt^2 & 10/dt \\
+    10 & 10/dt & 20
+  \end{array} \right]
+\end{align}
+
+\subsubsection{Initial conditions}
+
+To fill in the $\mtx{P}$ matrix, we calculate the covariance of each combination
+of state variables. The resulting value is a measure of how much those variables
+are correlated. Due to how the covariance calculation works out, the covariance
+between two variables is the sum of the variance of matching terms which aren't
+constants multiplied by any constants the two have. If no terms match, the
+variables are uncorrelated and the covariance is zero. \\
+
+In $\mtx{P}_{11}$, the terms in $\mtx{x}_1$ correlate with itself. Therefore,
+$\mtx{P}_{11}$ is $\mtx{x}_1$'s variance, or $\mtx{P}_{11} = 10$. For
+$\mtx{P}_{21}$, One term correlates between $\mtx{x}_1$ and $\mtx{x}_2$, so
+$\mtx{P}_{21} = \frac{10}{dt}$. The constants from each are simply multiplied
+together. For $\mtx{P}_{22}$, both measurements are correlated, so the variances
+add together. Therefore, $\mtx{P}_{22} = \frac{20}{dt^2}$. It continues in this
+fashion until the matrix is filled up. Order doesn't matter for correlation, so
+the matrix is symmetric.
+
+\subsubsection{Selection of priors}
+
+Choosing good priors is important for a well performing filter, even if little
+information is known. This applies to both the measurement noise and the noise
+model. The act of giving a state variable a large variance means you know
+something about the system. Namely, you aren't sure whether your initial guess
+is close to the true state. If you make a guess and specify a small variance,
+you are telling the filter that you are very confident in your guess. If that
+guess is incorrect, it will take the filter a long time to move away from your
+guess to the true value.
+
+\subsubsection{Covariance selection}
+
+While one could assume no correlation between the state variables and set the
+covariance matrix entries to zero, this may not reflect reality. The Kalman
+filter is still guarenteed to converge to the steady-state covariance after an
+infinite time, but it will take longer than otherwise.
+
+\subsubsection{Noise model selection}
+
+We typically use a Gaussian distribution for the noise model because we have
+some idea of where the central, or mean, value is. If the true value has an
+equal probability of being within a certain range, use a uniform distribution
+instead. Each of these communicates information regarding what you know about a
+system in addition to what you do not.
+
+\subsection{Kalman filter as Luenberger observer}
+
+A Kalman filter can be represented as a Luenberger observer by letting
+$\mtx{C} = \mtx{H}$ and $\mtx{L} = \mtx{A} \mtx{K}_k$ (see appendix
+\ref{sec:app_kalman_luenberger}). The eigenvalues of the Kalman filter are
+
+\begin{equation}
+  eig(\mtx{A}(\mtx{I} - \mtx{K}_k\mtx{H}))
+\end{equation}

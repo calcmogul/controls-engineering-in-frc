@@ -1,0 +1,106 @@
+\section{State-space controllers}
+
+\subsection{Optimal control law}
+
+\begin{equation}
+  \mtx{u} = -\mtx{K}\mtx{x}
+\end{equation}
+
+This means that optimal control can be achieved with simply a set of
+proportional gains on all the states. See the Wikipedia page on Linear-Quadratic Regulators \cite{bib:lqr} for an explanation of this choice of feedback control
+law.
+
+\subsection{Controller}
+
+\begin{align}
+  \dot{\mtx{x}} &= \mtx{A}\mtx{x} + \mtx{B}\mtx{u} +
+    \mtx{K} (\mtx{r} - \mtx{x}) + \mtx{N}_u\mtx{r} \label{eq:s_ctrl_x} \\
+  \mtx{y} &= \mtx{C}\mtx{x} + \mtx{D}\mtx{u} \label{eq:s_ctrl_y}
+\end{align}
+
+\begin{align}
+  \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}\mtx{u}_k +
+    \mtx{K} (\mtx{r}_k - \mtx{x}_k) \label{eq:z_ctrl_x} + \mtx{N}_u\mtx{r}_k \\
+  \mtx{y}_{k+1} &= \mtx{C}\mtx{x}_k +
+    \mtx{D}\mtx{u}_k \label{eq:z_ctrl_y} \\ \nonumber
+\end{align}
+
+\begin{table}[ht]
+  \renewcommand{\arraystretch}{1.3}
+  \centering
+  \begin{tabulary}{\linewidth}{LLLL}
+    $\mtx{A}$ & system matrix      & $\mtx{x}$ & state vector \\
+    $\mtx{B}$ & input matrix       & $\mtx{u}$ & input vector \\
+    $\mtx{C}$ & output matrix      & $\mtx{y}$ & output vector \\
+    $\mtx{D}$ & feedthrough matrix & $\mtx{r}$ & \gls{reference} vector \\
+    $\mtx{K}$ & controller gain matrix & $\mtx{N}_u$ & \gls{reference}
+      feedfoward matrix \\
+  \end{tabulary}
+  \label{tab:ctrl_def}
+\end{table}
+
+\begin{table}[ht]
+  \caption{Controller matrix dimensions}
+  \renewcommand{\arraystretch}{1.5}
+  \centering
+  \begin{tabular}{|ll|ll|}
+    \hline
+    \textbf{Matrix} & \textbf{Rows $\times$ Columns} &
+    \textbf{Matrix} & \textbf{Rows $\times$ Columns} \\
+    \hline
+    $\mtx{A}$ & states $\times$ states & $\mtx{x}$ & states $\times$ 1 \\
+    $\mtx{B}$ & states $\times$ inputs & $\mtx{u}$ & inputs $\times$ 1 \\
+    $\mtx{C}$ & outputs $\times$ states & $\mtx{y}$ & outputs $\times$ 1 \\
+    $\mtx{D}$ & outputs $\times$ inputs & $\mtx{r}$ & states $\times$ 1 \\
+    $\mtx{K}$ & inputs $\times$ states & $\mtx{N}_u$ & inputs $\times$ states \\
+    \hline
+  \end{tabular}
+  \label{tab:ctrl_matrix_dims}
+\end{table}
+
+\subsection{Need full state}
+
+While we can attain good control with this approach, we need knowledge of the
+full state of the system. That means we either have to measure all our states
+directly or estimate those we do not.
+
+\subsection{Pole placement}
+
+This is the practice of manually placing the poles of the closed-loop system to
+produce a desired response. This is typically done with controllable canonical
+form (see subsection \ref{subsec:ctrl_canon}). This can be done with state
+observers as well with observable canonical form (see subsection
+\ref{subsec:obsv_canon}).
+
+\subsection{LQR}
+
+While we could place the poles for our controller manually, we can do better
+using math to select them for us. "LQR" stands for "Linear-Quadratic Regulator".
+It places the poles of the controller to find the minimum of a quadratic cost
+function, which will be discussed below.
+
+\subsubsection{Pareto optimal curve}
+
+This tradeoff is represented by the cost function
+
+\begin{equation*}
+  J = \int\limits_0^\infty \left(x^T Q x + u^T R u \right) dt \\
+\end{equation*}
+
+LQR attempts to minimize $J$ given the \gls{state} excursion and control effort
+weighting factors $Q$ and $R$. If the solution produces a finite value, the
+resulting controller is guaranteed to be stable and robust with a phase margin
+of 55 degrees.
+
+\subsubsection{Bryson's rule}
+
+The next obvious question is what values to choose for $Q$ and $R$. With
+Bryson's rule, the $Q$ and $R$ matrices are chosen based on the maximum
+acceptable value for each \gls{state} and actuator. The balance between $Q$ and
+$R$ can be slid along the Pareto optimal curve using a weighting factor $\rho$.
+\\
+
+Small values of $\rho$ penalize \gls{state} excursions while large values of
+$\rho$ penalize control effort. Small values would be chosen in applications
+like fighter jets where performance is necessary. Spacecrafts would use large
+values to conserve their limited fuel supply.
