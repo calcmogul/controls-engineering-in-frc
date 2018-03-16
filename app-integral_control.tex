@@ -37,7 +37,7 @@ There are three methods FRC team 971 has used over the years: \\
 
 \subsection{Delta U control}
 
-\subsection{Error estimation}
+\subsection{U error estimation}
 
 Let $u_{error}$ be the error in a system's input. The $u_{error}$ term is then
 added to the system as follows.
@@ -89,23 +89,27 @@ With this model, the observer will estimate both the state and the $u_{error}$
 term. The controller is augmented similarly.
 
 \begin{equation*}
-  \mtx{u} = \mtx{K} \left(\mtx{r} - \mtx{x}\right) - u_{error}
+  \mtx{u} = \mtx{K} \left(\mtx{r} - \mtx{x}\right) - \left[
+  \begin{array}{c}
+    u_{error} \\
+    \mtx{0}
+  \end{array}
+  \right]
 \end{equation*}
 \\
 This can be rewritten as
 
 \begin{equation*}
   \mtx{u} = \left[
-  \begin{array}{c}
-    \mtx{K} \\
-    1
+  \begin{array}{cc}
+    \mtx{K} & \mtx{k}_{error}
   \end{array}
   \right] \left(\mtx{r}' - \mtx{x}'\right)
 \end{equation*}
 \\
-where a $1$ is augmented if $u_{error}$ corresponds to an existing input and a
-$0$ is augmented otherwise. $\mtx{r}$ is augmented with a zero for the goal
-$u_{error}$ term.
+where $\mtx{k}_{error}$ is a column vector with a $1$ in a given row if
+$u_{error}$ should be applied to that input or a $0$ otherwise. $\mtx{r}$ is
+augmented with a zero for the goal $u_{error}$ term.
 
 \begin{equation*}
   \mtx{r}' = \left[
