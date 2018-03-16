@@ -80,16 +80,17 @@ increased. Figure \ref{fig:poster_rlocus} shows the root locus of the transfer
 function from equation (\ref{eq:transfer_func}).
 
 \begin{figure}[H]
-  \includegraphics[width=\linewidth]{figs/poster_rlocus.png}
+  \def\svgwidth{\linewidth}
+  \import{figs/}{root_locus.pdf_tex}
   \caption{Root locus of equation (\ref{eq:transfer_func}). See snippet
     \ref{snip:poster_rlocus}.}
   \label{fig:poster_rlocus}
 \end{figure}
 
 \begin{snippet}
-  \caption{Root locus in MATLAB}
+  \caption{Root locus in Python}
   \label{snip:poster_rlocus}
-  \includecode[Matlab]{code/root_locus.m}
+  \includecode[Python]{code/root_locus.py}
 \end{snippet}
 
 As the controller gain increases, the poles move toward the zeroes. In this

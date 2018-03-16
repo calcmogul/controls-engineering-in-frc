@@ -1,4 +1,7 @@
 \definecolor{lightblue}{rgb}{0.78,0.918,0.992}
+\definecolor{deepblue}{rgb}{0,0,0.5}
+\definecolor{deepred}{rgb}{0.6,0,0}
+\definecolor{deepgreen}{rgb}{0,0.5,0}
 
 % Set styles for TikZ objects
 \usetikzlibrary{arrows, positioning, shapes}
@@ -20,6 +23,19 @@
   commentstyle=\color[RGB]{28, 172, 0},
   showstringspaces=false,
   emph=[1]{for,end,break},emphstyle=[1]\color{red},
+}
+
+\lstdefinestyle{customPython}{
+  language=Python,
+  breaklines=true,
+  xleftmargin=0.125in,
+  basicstyle=\footnotesize\ttfamily,
+  otherkeywords={self,True,False},
+  keywordstyle=\color{deepblue},
+  emph={MyClass,__init__},
+  emphstyle=\color{deepred},
+  stringstyle=\color{deepgreen},
+  showstringspaces=false
 }
 
 \lstdefinestyle{customcpp}{

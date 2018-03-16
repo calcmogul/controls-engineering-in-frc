@@ -16,3 +16,5 @@
 *.pdf_tex
 *.toc
 *.pdf
+
+figs/root_locus.svg
