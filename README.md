@@ -5,6 +5,14 @@ I originally wrote this as a final project for an undergraduate technical writin
 
 This document reads a lot like a reference manual on control theory and related tools. It teaches the reader how to start designing and implementing control systems for practical systems with an emphasis on pragmatism rather than theory. While the theory is mathematically elegant at times and helps inform what is going on, one shouldn't lose sight of how it behaves when applied to real systems.
 
+## Dependencies
+
+* make (to run the makefile)
+* texlive-core (for latexmk and pdflatex)
+* texlive-latexextra (for bibtex and makeglossaries)
+* Python 3.5+ and Python Control (to generate plots and state-space results)
+* Inkscape (to convert SVGs to PDF)
+
 ## Download
 
 A PDF version is available at https://file.tavsys.net/control/state-space-guide.pdf.
