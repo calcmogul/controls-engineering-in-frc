@@ -4,12 +4,16 @@
 \definecolor{deepgreen}{rgb}{0,0.5,0}
 
 % Set styles for TikZ objects
-\usetikzlibrary{arrows, positioning, shapes}
-\tikzstyle{block} = [draw, fill=lightblue, rectangle, minimum height=3em, minimum width=4em]
+\usetikzlibrary{arrows, circuits.ee.IEC, decorations.markings,
+    decorations.pathreplacing, positioning, shapes}
+\tikzstyle{block} = [draw, fill=lightblue, rectangle, minimum height=3em,
+    minimum width=4em]
 \tikzstyle{sum} = [draw, circle, node distance=1cm]
 \tikzstyle{arrow} = [arrows=->, black, align=right]
 \tikzstyle{branch} = [circle, inner sep=0pt, minimum size=1mm, fill=black,
     draw=black]
+\tikzstyle{opencircuit} = [circle, draw=black, fill=white, minimum size=3pt,
+    inner sep=0pt]
 
 \lstdefinestyle{customMatlab}{
   language=Matlab,
