@@ -14,7 +14,6 @@
 *.lot
 *.out
 *.pdf_tex
+*.svg
 *.toc
 *.pdf
-
-figs/root_locus.svg
