@@ -1,4 +1,6 @@
-\section{What is a transfer function?}
+\section{Transfer functions}
+
+\subsection{What is a transfer function?}
 
 A transfer function maps an input to an output in the Laplace domain. This is
 essentially a two-dimensional frequency domain on the complex plane (real
@@ -21,8 +23,8 @@ logic applies to zeroes. Imaginary roots always come in complex conjugate pairs
 \subsection{Transfer functions in feedback}
 
 For \glspl{controller} to do their job, they must be placed in positive or
-negative feedback with the \gls{plant} (positive or negative depends on the
-\gls{plant} in question). The transfer function of figure
+negative feedback with the \gls{plant} (whether to use positive or negative
+depends on the \gls{plant} in question). The transfer function of figure
 \ref{fig:feedback_loop}, a control system diagram with feedback, from input to
 output is
 
@@ -43,7 +45,9 @@ input to the error is
 The roots of the denominator of $G_{cl}(s)$ are different from those of the
 open-loop transfer function $P_1(s)$. These are called the closed-loop poles.
 
-\section{Locations of Poles and Zeroes}
+\section{Laplace domain analysis}
+
+\subsection{Locations of poles and zeroes}
 
 The locations of the closed-loop poles in the complex plane determine the
 stability of the \gls{system}. Each pole represents a frequency mode of the
@@ -118,88 +122,7 @@ directions. \\
 One example is bicycle steering. Try riding a bicycle without holding the handle
 bars, then poke the right handle; the bicycle turns right.
 
-\section{Steady-state error}
-
-To demonstrate the problem of \gls{steady-state error}, we will use a DC brushed
-motor controlled by a velocity PID controller. A DC brushed motor has a transfer
-function from voltage ($V$) to angular velocity ($\dot{\theta}$) of
-
-\begin{equation}
-  G(s) = \frac{\dot{\Theta}(s)}{V(s)} = \frac{K}{(Js+b)(Ls+R)+K^2}
-\end{equation}
-
-First, we'll try controlling it with a P controller defined as
-
-\begin{equation*}
-  K(s) = K_p
-\end{equation*}
-
-When these are in unity feedback, the transfer function from the input voltage
-to the error is
-
-\begin{align*}
-  \frac{E(s)}{V(s)} &= \frac{1}{1 + K(s)G(s)} \\
-  E(s) &= \frac{1}{1 + K(s)G(s)} V(s) \\
-  E(s) &= \frac{1}{1 + (K_p) \left(\frac{K}{(Js+b)(Ls+R)+K^2}\right)} V(s) \\
-  E(s) &= \frac{1}{1 + \frac{K_p K}{(Js+b)(Ls+R)+K^2}} V(s)
-\end{align*}
-
-The steady-state of a transfer function can be found via
-
-\begin{equation}
-  \lim_{s\to0} sH(s)
-\end{equation}
-
-\begin{align}
-  e_{ss} &= \lim_{s\to0} sE(s) \nonumber \\
-  e_{ss} &= \lim_{s\to0} s \frac{1}{1 + \frac{K_p K}{(Js+b)(Ls+R)+K^2}} V(s)
-    \nonumber \\
-  e_{ss} &= \lim_{s\to0} s \frac{1}{1 + \frac{K_p K}{(Js+b)(Ls+R)+K^2}}
-    \frac{1}{s} \nonumber \\
-  e_{ss} &= \lim_{s\to0} \frac{1}{1 + \frac{K_p K}{(Js+b)(Ls+R)+K^2}}
-    \nonumber \\
-  e_{ss} &= \frac{1}{1 + \frac{K_p K}{(J(0)+b)(L(0)+R)+K^2}} \nonumber \\
-  e_{ss} &= \frac{1}{1 + \frac{K_p K}{bR+K^2}} \label{eq:ss_nonzero}
-\end{align}
-
-Notice that the \gls{steady-state error} is non-zero. To fix this, an integrator
-must be included in the controller.
-
-\begin{equation*}
-  K(s) = K_p + \frac{K_i}{s}
-\end{equation*}
-
-The same steady-state calculations are performed as before with the new
-controller.
-
-\begin{align*}
-  \frac{E(s)}{V(s)} &= \frac{1}{1 + K(s)G(s)} \\
-  E(s) &= \frac{1}{1 + K(s)G(s)} V(s) \\
-  E(s) &= \frac{1}{1 + \left(K_p + \frac{K_i}{s}\right)
-    \left(\frac{K}{(Js+b)(Ls+R)+K^2}\right)} \left(\frac{1}{s}\right) \\
-  e_{ss} &= \lim_{s\to0} s \frac{1}{1 + \left(K_p + \frac{K_i}{s}\right)
-    \left(\frac{K}{(Js+b)(Ls+R)+K^2}\right)} \left(\frac{1}{s}\right) \\
-  e_{ss} &= \lim_{s\to0} \frac{1}{1 + \left(K_p + \frac{K_i}{s}\right)
-    \left(\frac{K}{(Js+b)(Ls+R)+K^2}\right)} \\
-  e_{ss} &= \lim_{s\to0} \frac{1}{1 + \left(K_p + \frac{K_i}{s}\right)
-    \left(\frac{K}{(Js+b)(Ls+R)+K^2}\right)} \frac{s}{s} \\
-  e_{ss} &= \lim_{s\to0} \frac{s}{s + \left(K_p s + K_i\right)
-    \left(\frac{K}{(Js+b)(Ls+R)+K^2}\right)} \\
-  e_{ss} &= \frac{0}{0 + (K_p (0) + K_i)
-    \left(\frac{K}{(J(0)+b)(L(0)+R)+K^2}\right)} \\
-  e_{ss} &= \frac{0}{K_i \frac{K}{bR+K^2}} \\
-\end{align*}
-
-The denominator is non-zero, so $e_{ss} = 0$. Therefore, an integrator is
-required to eliminate \gls{steady-state error} in all cases for this
-\gls{model}. \\
-
-It should be noted that $e_{ss}$ in equation (\ref{eq:ss_nonzero}) approaches
-zero for $K_p = \infty$. This is known as a bang-bang controller. In practice,
-an infinite switching frequency cannot be achieved, but it may be close enough
-for some performance specifications.
-
-\section{Gain margin and phase margin} \label{sec:gain_phase_margin}
+\subsection{Gain margin and phase margin} \label{sec:gain_phase_margin}
 
 One generally needs to learn about Bode plots and Nyquist plots to truly
 understand gain and phase margin and their origins, but those plots are large
