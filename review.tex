@@ -1,24 +1,25 @@
 \section{What is control theory?}
 
-How can we prove an autonomous car will behave safely? Control theory is used to
-analyze and predict \gls{system} behavior. It's a pragmatic application of
-algebra, geometry, and jargon with the goal of producing a desired \gls{system}
-response. Feedback control facilitates producing a desired \gls{system}
-response. Control theory involves judiciously expending engineering effort to
-meet performance specifications.
+How can we prove an autonomous car will behave safely and meet certain
+performance specifications in the presence of uncertainty? Control theory is a
+pragmatic application of algebra and geometry that is used to analyze and
+predict the behavior of \glspl{system} such as these, make them respond how we
+want them to, and make them robust to disturbances and uncertainty. \\
+
+But what sets control theory apart from, say, applied math? While control theory
+does have some beautiful math behind it, controls engineering is an engineering
+discipline like any other filled with trade-offs. The solutions control theory
+gives should always be sanity checked and informed by our performance
+specifications. We don't need to be perfect, just good enough to meet our
+specifications.
 
 \section{Nomenclature}
 
 Most resources for advanced engineering topics assume a level of knowledge well
 above that which is necessary. See the glossary for a list of words and phrases
-commonly used in control theory, their origins, and their meaning. \\
+commonly used in control theory, their origins, and their meaning.
 
-For example, the \glspl{state} for a DC brushed motor would include the angular
-velocity $\dot{\theta}$ and current $i$. Voltage $V$ is an input. With perfect
-knowledge of the angular velocity and current, all future \glspl{state} of the
-\gls{system} can be predicted given an input voltage signal.
-
-\section{Control system diagrams}
+\section{Control system basics}
 
 \subsection{What is gain?}
 
@@ -57,6 +58,23 @@ and simplified systematically \cite{bib:block_diagrams}. Figure
   \caption{Feedback block diagram}
   \label{fig:feedback_loop}
 \end{figure}
+
+\subsection{Why feedback control?}
+
+Let's say we are controlling a DC brushed motor. With just a mathematical model
+and knowledge of all current \glspl{state} of the \gls{system} (i.e., angular
+velocity), we can predict all future \glspl{state} given the future voltage
+\glspl{input}. Why then do we need feedback control? If the system is disturbed
+in any way that isn't modeled by our equations, like a load was applied to the
+armature, or voltage sag in the rest of the circuit caused the commanded voltage
+to not match the actual applied voltage, the angular velocity of the motor will
+deviate from the model over time. \\
+
+To combat this, we can take measurements of the system and the environment to
+detect this deviation and account for it. For example, we could measure the
+current position and estimate an angular velocity from it. We can then give the
+motor corrective commands as well as steer our model back to reality. This
+feedback allows us to account for and be robust in the face of uncertainty.
 
 \section{Review of PID controller mathematics}
 
