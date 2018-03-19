@@ -8,7 +8,7 @@ linear algebra as a method of linear transformations. \\
 \textit{Note}: The $^T$ in $\mtx{A}^T$ denotes transpose, which flips the matrix
 across its diagonal such that the rows become columns and vice versa.
 
-\section{State-space}
+\section{State-space representation}
 
 A state-space representation models \glspl{system} as a set of \gls{state},
 input, and output variables related by first-order differential equations.
@@ -23,14 +23,17 @@ algebraic equations may be written in matrix form.
 
 \subsection{Benefits over classical output-based control}
 
-The state-space method is characterized by significant algebraization of general
-system theory. The state-space representation uses the time domain instead of
-the frequency domain, and provides a convenient and compact way to model and
-analyze \glspl{system} with multiple inputs and outputs. With $p$ inputs and $q$
-outputs, we would otherwise have to write down $q \times p$ Laplace transforms
-to encode all the information about a system. Unlike the frequency domain
-approach, the use of the state-space representation is not limited to systems
-with linear components and zero initial conditions.
+The state-space method provides a more convenient and compact way to model and
+analyze \glspl{system} with multiple inputs and outputs. For a system with $p$
+inputs and $q$ outputs, we would have to write $q \times p$ Laplace transforms
+to represent it. Not only is the resulting algebra unwieldy, but it only works
+for linear systems with zero initial conditions. State-space representation uses
+the time domain instead of the frequency domain, so it doesn't have this
+problem. \\
+
+Students are still taught classical control first because it provides a
+framework within which to understand the results we get from the fancy
+mathematical machinery of modern control.
 
 \section{State-space notation}
 
@@ -51,7 +54,7 @@ with linear components and zero initial conditions.
     $\mtx{A}$ & system matrix      & $\mtx{x}$ & state vector \\
     $\mtx{B}$ & input matrix       & $\mtx{u}$ & input vector \\
     $\mtx{C}$ & output matrix      & $\mtx{y}$ & output vector \\
-    $\mtx{D}$ & feedthrough matrix &  \\
+    $\mtx{D}$ & feedthrough matrix &  &  \\
   \end{tabulary}
   \label{tab:ss_def}
 \end{table}
@@ -69,7 +72,7 @@ with linear components and zero initial conditions.
     $\mtx{A}$ & states $\times$ states & $\mtx{x}$ & states $\times$ 1 \\
     $\mtx{B}$ & states $\times$ inputs & $\mtx{u}$ & inputs $\times$ 1 \\
     $\mtx{C}$ & outputs $\times$ states & $\mtx{y}$ & outputs $\times$ 1 \\
-    $\mtx{D}$ & outputs $\times$ inputs & $\mtx{K}$ & inputs $\times$ states \\
+    $\mtx{D}$ & outputs $\times$ inputs &  &  \\
     \hline
   \end{tabular}
   \label{tab:ss_matrix_dims}
@@ -189,7 +192,7 @@ The canonical realization of the \gls{system} in equation
 Eigenvalues can be used to determine the stability of a \gls{system}. \\
 
 We'd like to know whether the \gls{system} defined by equation
-(\ref{eq:z_ctrl_x}) operating with the input
+(\ref{eq:ssz_ctrl_x}) operating with the \gls{control law}
 $\mtx{u}_k = \mtx{K}(\mtx{r}_k - \mtx{x}_k)$ converges to the \gls{reference}
 $\mtx{r}_k$.
 
@@ -214,14 +217,14 @@ Plugging equation (\ref{eq:z_obsv_y}) into equation (\ref{eq:z_obsv_x}) gives
 
 \begin{align*}
   \hat{\mtx{x}}_{k+1} &= \mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
-    \mtx{L} (\mtx{y}_k - \hat{\mtx{y}}_{k+1}) \\
+    \mtx{L} (\mtx{y}_k - \hat{\mtx{y}}_k) \\
   \hat{\mtx{x}}_{k+1} &= \mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
     \mtx{L} (\mtx{y}_k - (\mtx{C}\hat{\mtx{x}}_k + \mtx{D}\mtx{u}_k)) \\
   \hat{\mtx{x}}_{k+1} &= \mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
     \mtx{L} (\mtx{y}_k - \mtx{C}\hat{\mtx{x}}_k - \mtx{D}\mtx{u}_k) \\
 \end{align*}
 
-Plugging in equation (\ref{eq:z_ctrl_y}) gives
+Plugging in equation (\ref{eq:ssz_ctrl_y}) gives
 
 \begin{align*}
   \hat{\mtx{x}}_{k+1} &= \mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
@@ -244,7 +247,7 @@ $\hat{\mtx{x}}_k$.
     \mtx{L}\mtx{C}\mtx{E}_k \\
 \end{equation*}
 \\
-Subtracting this from equation (\ref{eq:z_ctrl_x}) gives
+Subtracting this from equation (\ref{eq:ssz_ctrl_x}) gives
 
 \begin{align}
   \mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}\mtx{u}_k -

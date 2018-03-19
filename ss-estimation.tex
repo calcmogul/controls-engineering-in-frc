@@ -10,9 +10,9 @@
 
 \begin{align}
   \hat{\mtx{x}}_{k+1} &= \mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
-    \mtx{L} (\mtx{y}_k - \hat{\mtx{y}}_{k+1}) \label{eq:z_obsv_x} \\
-  \hat{\mtx{y}}_{k+1} &= \mtx{C}\hat{\mtx{x}}_k +
-    \mtx{D}\mtx{u}_k \label{eq:z_obsv_y} \\ \nonumber
+    \mtx{L}(\mtx{y}_k - \hat{\mtx{y}}_k) \label{eq:z_obsv_x} \\
+  \hat{\mtx{y}}_k &= \mtx{C}\hat{\mtx{x}}_k + \mtx{D}\mtx{u}_k
+    \label{eq:z_obsv_y} \\ \nonumber
 \end{align}
 
 \begin{table}[ht]

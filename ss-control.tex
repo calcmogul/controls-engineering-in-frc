@@ -1,28 +1,57 @@
 \section{State-space controllers}
 
+When we want to command a \gls{system} to a set of states, we design a
+controller with certain \glspl{control law} to do it. PID controllers use the
+system outputs with proportional, integral, and derivative \glspl{control law}.
+In state-space, we also have knowledge of the system states so we can do better.
+
 \subsection{Optimal control law}
+
+The optimal \gls{control law} for a multiple-input, multiple-output system is
+the following.
 
 \begin{equation}
   \mtx{u} = -\mtx{K}\mtx{x}
 \end{equation}
-
+\\
 This means that optimal control can be achieved with simply a set of
 proportional gains on all the states. See the Wikipedia page on Linear-Quadratic Regulators \cite{bib:lqr} for an explanation of this choice of feedback control
-law.
+law. \\
+
+This \gls{control law} will make all states converge to zero assuming the system
+is controllable. To converge to non-zero states, a reference vector $\mtx{r}$
+can be added to the state $\mtx{x}$.
+
+\begin{equation}
+  \mtx{u} = \mtx{K}(\mtx{r} - \mtx{x}) \label{eq:s_ref_ctrl_law} \\
+\end{equation}
 
 \subsection{Controller}
 
-\begin{align}
-  \dot{\mtx{x}} &= \mtx{A}\mtx{x} + \mtx{B}\mtx{u} +
-    \mtx{K} (\mtx{r} - \mtx{x}) + \mtx{N}_u\mtx{r} \label{eq:s_ctrl_x} \\
-  \mtx{y} &= \mtx{C}\mtx{x} + \mtx{D}\mtx{u} \label{eq:s_ctrl_y}
-\end{align}
+Given the \gls{control law} above, we can derive the closed-loop state-space
+equations. \\
+
+First is the state update equation. Substitute equation
+(\ref{eq:s_ref_ctrl_law}) into equation (\ref{eq:ss_ctrl_x}).
 
 \begin{align}
-  \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}\mtx{u}_k +
-    \mtx{K} (\mtx{r}_k - \mtx{x}_k) \label{eq:z_ctrl_x} + \mtx{N}_u\mtx{r}_k \\
-  \mtx{y}_{k+1} &= \mtx{C}\mtx{x}_k +
-    \mtx{D}\mtx{u}_k \label{eq:z_ctrl_y} \\ \nonumber
+  \dot{\mtx{x}} &= \mtx{A}\mtx{x} + \mtx{B}\mtx{K}(\mtx{r} - \mtx{x}) \nonumber
+    \\
+  \dot{\mtx{x}} &= \mtx{A}\mtx{x} + \mtx{B}\mtx{K}\mtx{r} -
+    \mtx{B}\mtx{K}\mtx{x} \nonumber \\
+  \dot{\mtx{x}} &= (\mtx{A} - \mtx{B}\mtx{K})\mtx{x} + \mtx{B}\mtx{K}\mtx{r}
+    \label{eq:s_ref_ctrl_x}
+\end{align}
+\\
+Now for the output equation. Substitute equation (\ref{eq:s_ref_ctrl_law}) into equation
+(\ref{eq:ss_ctrl_y}).
+
+\begin{align}
+  \mtx{y} &= \mtx{C}\mtx{x} + \mtx{D}(\mtx{K}(\mtx{r} - \mtx{x})) \nonumber \\
+  \mtx{y} &= \mtx{C}\mtx{x} + \mtx{D}\mtx{K}\mtx{r} - \mtx{D}\mtx{K}\mtx{x}
+    \nonumber \\
+  \mtx{y} &= (\mtx{C} - \mtx{D}\mtx{K})\mtx{x} + \mtx{D}\mtx{K}\mtx{r}
+    \label{eq:s_ref_ctrl_y}
 \end{align}
 
 \begin{table}[ht]
@@ -33,8 +62,7 @@ law.
     $\mtx{B}$ & input matrix       & $\mtx{u}$ & input vector \\
     $\mtx{C}$ & output matrix      & $\mtx{y}$ & output vector \\
     $\mtx{D}$ & feedthrough matrix & $\mtx{r}$ & \gls{reference} vector \\
-    $\mtx{K}$ & controller gain matrix & $\mtx{N}_u$ & \gls{reference}
-      feedfoward matrix \\
+    $\mtx{K}$ & controller gain matrix &  &  \\
   \end{tabulary}
   \label{tab:ctrl_def}
 \end{table}
@@ -53,11 +81,19 @@ law.
     $\mtx{B}$ & states $\times$ inputs & $\mtx{u}$ & inputs $\times$ 1 \\
     $\mtx{C}$ & outputs $\times$ states & $\mtx{y}$ & outputs $\times$ 1 \\
     $\mtx{D}$ & outputs $\times$ inputs & $\mtx{r}$ & states $\times$ 1 \\
-    $\mtx{K}$ & inputs $\times$ states & $\mtx{N}_u$ & inputs $\times$ states \\
+    $\mtx{K}$ & inputs $\times$ states &  &  \\
     \hline
   \end{tabular}
   \label{tab:ctrl_matrix_dims}
 \end{table}
+
+Instead of commanding the system to a state using the vector $\mtx{u}$ directly,
+we can now specify a vector of desired states through $\mtx{r}$ and the system
+will choose values of $\mtx{u}$ for us over time to make the system converge to
+the reference. The rate of convergence and stability of the closed-loop system
+can be changed by moving the poles via the eigenvalues of $\mtx{A} -
+\mtx{B}\mtx{K}$. $\mtx{A}$ and $\mtx{B}$ are inherent to the system, but
+$\mtx{K}$ can be chosen arbitrarily by the controller designer.
 
 \subsection{Need full state}
 
