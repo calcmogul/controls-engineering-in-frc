@@ -163,8 +163,8 @@ knowledge of state) is uninformative (a large variance)
 and $\hat{x} = z_1$. That is, the weight is on the observations and the estimate
 is equal to the measurement. \\
 
-Let us assume we have a model providing an almost exact prior for $x$. In that
-case, $\sigma_0^2$ approaches 0 and
+Let us assume we have a \gls{model} providing an almost exact prior for $x$. In
+that case, $\sigma_0^2$ approaches 0 and
 
 \begin{align}
   w_1 &= \lim_{\sigma_0^2 \to 0} \frac{\sigma_0^2}{\sigma_0^2 + \sigma^2} = 1 \\
@@ -192,7 +192,7 @@ position, robot velocity, and distance between the walls.
   x_{k+1}^w &= x_k^w
 \end{align}
 
-This can be converted to the following state-space model.
+This can be converted to the following state-space \gls{model}.
 
 \begin{equation}
   \mtx{x}_k = \left[
@@ -223,7 +223,7 @@ This can be converted to the following state-space model.
 \end{equation}
 
 where the Gaussian random variable $w_k$ has zero mean and variance 1. The
-observation model is
+observation \gls{model} is
 
 \begin{equation}
   \mtx{y}_k = \left[
@@ -283,7 +283,7 @@ the matrix is symmetric.
 
 Choosing good priors is important for a well performing filter, even if little
 information is known. This applies to both the measurement noise and the noise
-model. The act of giving a state variable a large variance means you know
+\gls{model}. The act of giving a state variable a large variance means you know
 something about the system. Namely, you aren't sure whether your initial guess
 is close to the true state. If you make a guess and specify a small variance,
 you are telling the filter that you are very confident in your guess. If that
@@ -299,11 +299,13 @@ infinite time, but it will take longer than otherwise.
 
 \subsubsection{Noise model selection}
 
-We typically use a Gaussian distribution for the noise model because we have
-some idea of where the central, or mean, value is. If the true value has an
-equal probability of being within a certain range, use a uniform distribution
-instead. Each of these communicates information regarding what you know about a
-system in addition to what you do not.
+We typically use a Gaussian distribution for the noise \gls{model} because the
+sum of many independent random variables produces a normal distribution by the
+central limit theorem. Kalman filters only require that the noise has a zero
+mean. If the true value has an equal probability of being within a certain
+range, use a uniform distribution instead. Each of these communicates
+information regarding what you know about a system in addition to what you do
+not.
 
 \subsection{Kalman filter as Luenberger observer}
 

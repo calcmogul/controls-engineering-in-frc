@@ -4,7 +4,8 @@ How can we prove an autonomous car will behave safely and meet certain
 performance specifications in the presence of uncertainty? Control theory is a
 pragmatic application of algebra and geometry that is used to analyze and
 predict the behavior of \glspl{system} such as these, make them respond how we
-want them to, and make them robust to disturbances and uncertainty. \\
+want them to, and make them \glslink{robustness}{robust} to \glspl{disturbance}
+and uncertainty. \\
 
 But what sets control theory apart from, say, applied math? While control theory
 does have some beautiful math behind it, controls engineering is an engineering
@@ -61,20 +62,22 @@ and simplified systematically \cite{bib:block_diagrams}. Figure
 
 \subsection{Why feedback control?}
 
-Let's say we are controlling a DC brushed motor. With just a mathematical model
-and knowledge of all current \glspl{state} of the \gls{system} (i.e., angular
-velocity), we can predict all future \glspl{state} given the future voltage
-\glspl{input}. Why then do we need feedback control? If the system is disturbed
-in any way that isn't modeled by our equations, like a load was applied to the
-armature, or voltage sag in the rest of the circuit caused the commanded voltage
-to not match the actual applied voltage, the angular velocity of the motor will
-deviate from the model over time. \\
+Let's say we are controlling a DC brushed motor. With just a mathematical
+\glslink{model}{mathematical model} and knowledge of all current \glspl{state}
+of the \gls{system} (i.e., angular velocity), we can predict all future
+\glspl{state} given the future voltage \glspl{input}. Why then do we need
+feedback control? If the system is \glslink{disturbance}{disturbed} in any way
+that isn't modeled by our equations, like a load was applied to the armature, or
+voltage sag in the rest of the circuit caused the commanded voltage to not match
+the actual applied voltage, the angular velocity of the motor will deviate from
+the \gls{model} over time. \\
 
 To combat this, we can take measurements of the system and the environment to
 detect this deviation and account for it. For example, we could measure the
 current position and estimate an angular velocity from it. We can then give the
-motor corrective commands as well as steer our model back to reality. This
-feedback allows us to account for and be robust in the face of uncertainty.
+motor corrective commands as well as steer our \gls{model} back to reality. This
+feedback allows us to account for and be \glslink{robustness}{robust} in the
+face of uncertainty.
 
 \section{Review of PID controller mathematics}
 
@@ -190,4 +193,4 @@ Read \url{https://en.wikipedia.org/wiki/PID_controller} for more information.
 
 PID's heuristic method of tuning is fine when there is no knowledge of the
 \gls{system}. However, controllers with much better response can be developed if
-a dynamical model of the \gls{system} is known.
+a \glslink{model}{dynamical model} of the \gls{system} is known.

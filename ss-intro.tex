@@ -1,9 +1,9 @@
 \section{Linear algebra}
 
-Modern control theory borrows concepts from linear algebra. I highly recommend
-watching 3Blue1Brown's \textit{Essence of Linear Algebra} video series
-\cite{bib:essence_of_linalg}. It offers an intuitive, geometric understanding of
-linear algebra as a method of linear transformations. \\
+Modern control theory borrows concepts from linear algebra. Watch 3Blue1Brown's
+\textit{Essence of Linear Algebra} video series \cite{bib:essence_of_linalg}. It
+offers an intuitive, geometric understanding of linear algebra as a method of
+linear transformations. \\
 
 \textit{Note}: The $^T$ in $\mtx{A}^T$ denotes transpose, which flips the matrix
 across its diagonal such that the rows become columns and vice versa.
@@ -80,9 +80,9 @@ mathematical machinery of modern control.
 
 \section{Canonical forms}
 
-There are two canonical forms used to represent state-space models: controllable
-canonical form and observable canonical form. They are used to provide
-controllability and observability of a system respectively, which are
+There are two canonical forms used to represent state-space \glspl{model}:
+controllable canonical form and observable canonical form. They are used to
+provide controllability and observability of a system respectively, which are
 mathematical duals of each other. That is, the controller and estimator (state
 observer) are complementary problems.
 
@@ -90,8 +90,8 @@ observer) are complementary problems.
 
 State controllability implies that it is possible -- by admissible inputs -- to
 steer the \glspl{state} from any initial value to any final value within some
-finite time window. A continuous \gls{time-invariant} linear state-space model
-is controllable if and only if
+finite time window. A continuous \gls{time-invariant} linear state-space
+\gls{model} is controllable if and only if
 
 \begin{equation}
   rank \left[
@@ -147,8 +147,8 @@ controllability proves that an input is available that brings any initial
 an output trajectory provides enough information to predict the initial
 \gls{state} of the \gls{system}). \\
 
-A continuous \gls{time-invariant} linear state-space model is observable if and
-only if
+A continuous \gls{time-invariant} linear state-space \gls{model} is observable
+if and only if
 
 \begin{equation} \label{eq:obsv_rank}
   rank \left[
@@ -269,9 +269,9 @@ Subtracting this from equation (\ref{eq:ssz_ctrl_x}) gives
 
 For equation (\ref{eq:obsv_eig_calc}) to have a bounded output, the eigenvalues
 of $\mtx{A} - \mtx{L}\mtx{C}$ must be within the unit circle. These eigenvalues
-represent how fast the estimator converges to the true state of the given model.
-A fast estimator converges quickly while a slow estimator avoids amplifying
-noise in the measurements used to produce a state estimate. \\
+represent how fast the estimator converges to the true state of the given
+\gls{model}. A fast estimator converges quickly while a slow estimator avoids
+amplifying noise in the measurements used to produce a state estimate. \\
 
 In summary, a controller is stable if the eigenvalues of
 $\mtx{A} - \mtx{B}\mtx{K}$ are within the unit circle, and an estimator is
@@ -280,5 +280,5 @@ circle. \\
 
 As stated before, the controller and estimator are dual problems. Controller
 gains can be found assuming perfect estimator (i.e., perfect knowledge of all
-\glspl{state}). Estimator gains can be found assuming an accurate model and a
-controller with perfect \gls{state tracking}.
+\glspl{state}). Estimator gains can be found assuming an accurate \gls{model}
+and a controller with perfect \gls{reference tracking}.

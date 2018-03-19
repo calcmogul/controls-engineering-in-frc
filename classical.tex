@@ -191,14 +191,33 @@ controller.
 \end{align*}
 
 The denominator is non-zero, so $e_{ss} = 0$. Therefore, an integrator is
-required to eliminate \gls{steady-state error} in all cases for this model. \\
+required to eliminate \gls{steady-state error} in all cases for this
+\gls{model}. \\
 
 It should be noted that $e_{ss}$ in equation (\ref{eq:ss_nonzero}) approaches
 zero for $K_p = \infty$. This is known as a bang-bang controller. In practice,
 an infinite switching frequency cannot be achieved, but it may be close enough
 for some performance specifications.
 
-\section{Going Digital}
+\section{Gain margin and phase margin} \label{sec:gain_phase_margin}
+
+One generally needs to learn about Bode plots and Nyquist plots to truly
+understand gain and phase margin and their origins, but those plots are large
+topics unto themselves. Since we won't be using either of these plots for
+controller design, we'll just cover what gain and phase margin are in a general
+sense and how they are used. \\
+
+Gain margin and phase margin are two metrics for measuring a system's relative
+stability. Gain and phase margin are the amounts by which the closed-loop gain
+and phase can be varied respectively before the system becomes unstable. In a
+sense, they are safety margins for when unmodeled dynamics affect the system
+response. \\
+
+For a more thorough explanation of gain and phase margin, watch Brian Douglas's
+video on them \cite{bib:gain_phase_margin}. He has other videos too on classical
+control methods like Bode and Nyquist plots that I recommend.
+
+\section{Going digital}
 
 The complex plane discussed so far deals with continuous \glspl{system}. In
 decades past, \glspl{plant} and controllers were implemented using analog
@@ -207,9 +226,13 @@ used to achieve cheaper, less complex controller designs. However, this comes
 with drawbacks. \\
 
 Since a microcontroller performs discrete steps, there is phase loss introduced
-in the controller. Large amounts of phase loss can make a stable controller in
-the continuous domain go unstable in discrete. Here are a few ways to combat
-this.
+in the controller. Phase loss is the reduction of phase margin (see section
+\ref{sec:gain_phase_margin}) that occurs in digital implementations of feedback
+controllers from sampling the continuous system at discrete time intervals. As
+the sample rate of the controller decreases, the phase margin decreases rapidly
+and will lead to instability if the phase margin reaches zero. Large amounts of
+phase loss can make a stable controller in the continuous domain become unstable
+in the discrete domain. Here are a few ways to combat this.
 
 \begin{itemize}
   \item Run the controller with a high sample rate.
@@ -245,5 +268,5 @@ common points.
 You may notice that poles can be placed at $(0, 0)$ in the z-plane. This is
 known as a deadbeat controller. An $\rm N^{th}$ order deadbeat controller decays
 to the \gls{reference} in N timesteps. While this sounds great, there are other
-considerations like actuation effort and robustness. These will be discussed in
-detail with LQR controllers.
+considerations like actuation effort, \gls{robustness}, and
+\gls{noise immunity}. These will be discussed in detail with LQR controllers.
