@@ -19,6 +19,28 @@ A PDF version is available at https://file.tavsys.net/control/state-space-guide.
 
 ## Future Improvements
 
-The document is still very high level for the subject it covers as well as very dense and fast-paced (it covers three classes of feedback control, two of which are for graduate students, in one short document). I'd like to expand the introductions for each section and provide more examples like I did for the Kalman filter design to give the reader practice applying the skills discussed.
+The document is still very high level for the subject it covers as well as very dense and fast-paced (it covers three classes of feedback control, two of which are for graduate students, in one short document). It's slowly getting better in that respect. I'd like to expand the introductions for each section and provide more examples like I did for the Kalman filter design to give the reader practice applying the skills discussed.
 
-The "Implementation Steps" section needs subsections to explain how to do each. A small section on kinematics and dynamics, for example, needs to be written.
+Redo figs/ResponseVsPoleLocations.png in TikZ instead. The subgraph locations could probably be improved and the subgraph axes should be labeled.
+
+The linear algebra section should be filled out with some basics that are needed
+to understand the examples (how is dimensionality specified, how are matrices multiplied together as linear transformations, what are eigenvalues). Specific videos from the 3Blue1Brown playlist will be referred to for more information. Following the content of the videos in order is an option.
+
+The link to the graphical introduction to Kalman filters should be replaced with something much more comprehensive. The graphics are nice, but there isn't much substance to promote deep understanding. I have a lot of notes from the course I took on Kalman filters I intend to synthesize.
+
+The "Implementation Steps" section needs subsections to explain how to do each or at least examples. A small section on kinematics and dynamics in general would be useful. The following state-space implementation examples are planned:
+
+* Elevator (in progress)
+  * Add u_error state to model
+  * Include discretization and controller tuning steps in Python
+  * Include writing unit tests in Google Test
+  * Include how to implement the model in C++ with Eigen
+* Drivetrain
+  * See 971/y2017/control_loops/python/drivetrain.py
+  * 971/y2017/control_loops/python/polydrivetrain.py?
+* Flywheel
+  * See 971/y2017/control_loops/python/shooter.py
+* Single-jointed arm (pulley with pitch control of bar)
+* Rotating claw with independent top/bottom
+  * See 971/y2014/control_loops/python/claw.py
+  * Use as example of coordinate transformations for states?
