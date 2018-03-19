@@ -55,6 +55,10 @@
 \newglossaryentry{reference}{
   name={reference},
   description={The desired state}}
+\newglossaryentry{reference tracking}{
+  name={state tracking},
+  description={The ability of a feedback control system to make the state follow
+    the reference}}
 \newglossaryentry{robustness}{
   name={robustness},
   description={The quality of a feedback control system to remain stable in
@@ -66,13 +70,13 @@
 \newglossaryentry{state feedback}{
   name={state feedback},
   description={Uses state instead of output in feedback}}
-\newglossaryentry{reference tracking}{
-  name={state tracking},
-  description={The ability of a feedback control system to make the state follow
-    the reference}}
 \newglossaryentry{steady-state error}{
   name={steady-state error},
   description={Error after system reaches equilibrium}}
+\newglossaryentry{stochastic process}{
+  name={stochastic process},
+  description={A process whose model is partially or completely defined by
+    random variables}}
 \newglossaryentry{system}{
   name={system},
   description={Maps inputs to outputs through linear combination of states}}
