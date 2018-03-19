@@ -67,29 +67,28 @@ step and current update step are shown.
 
 \begin{align}
   \text{Predict step} \nonumber \\
-  \mtx{x}_{k+1}^- &= \mtx{\Phi} \mtx{x}_k + \mtx{B} \mtx{u}_k
+  \hat{\mtx{x}}_{k+1}^- &= \mtx{\Phi}\hat{\mtx{x}}_k + \mtx{B} \mtx{u}_k
     \label{eq:pre1_x} \\
   \mtx{P}_{k+1}^- &= \mtx{\Phi} \mtx{P}_k^- \mtx{\Phi}^T +
     \mtx{\Gamma}\mtx{Q}\mtx{\Gamma}^T \\
   \text{Update step} \nonumber \\
   \mtx{K}_{k+1} &= \mtx{P}_{k+1}^- \mtx{H}^T (\mtx{H}\mtx{P}_{k+1}^- \mtx{H}^T +
     \mtx{R})^{-1} \\
-  \mtx{x}_{k+1}^+ &= \mtx{x}_{k+1}^- + \mtx{K}_{k+1} (\mtx{y}_{k+1} -
-    \mtx{H} \mtx{x}_{k+1}^-) \label{eq:post1_x} \\
+  \hat{\mtx{x}}_{k+1}^+ &= \hat{\mtx{x}}_{k+1}^- + \mtx{K}_{k+1}(\mtx{y}_{k+1} -
+    \mtx{H} \hat{\mtx{x}}_{k+1}^-) \label{eq:post1_x} \\
   \mtx{P}_{k+1}^+ &= (\mtx{I} - \mtx{K}_{k+1}\mtx{H})\mtx{P}_{k+1}^-
 \end{align}
 
 \begin{center}
   \renewcommand{\arraystretch}{1.3}
   \begin{tabulary}{\linewidth}{LLLL}
-    $\mtx{\Phi}$ & system matrix &
-      $\hat{\mtx{x}}$ & state estimate vector \\
+    $\mtx{\Phi}$ & system matrix & $\hat{\mtx{x}}$ & state estimate vector \\
     $\mtx{B}$ & input matrix            & $\mtx{u}$ & input vector \\
     $\mtx{H}$ & measurement matrix      & $\mtx{y}$ & output vector \\
-    $\mtx{P}$ & error covariance matrix &
-      $\mtx{Q}$ & process noise covariance matrix \\
-    $\mtx{K}$ & Kalman gain matrix &
-      $\mtx{R}$ & measurement noise covariance matrix \\
+    $\mtx{P}$ & error covariance matrix & $\mtx{Q}$ & process noise covariance
+      matrix \\
+    $\mtx{K}$ & Kalman gain matrix & $\mtx{R}$ & measurement noise covariance
+      matrix \\
     $\mtx{\Gamma}$ & process noise intensity vector &
   \end{tabulary}
 \end{center}
