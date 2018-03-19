@@ -35,7 +35,7 @@ Students are still taught classical control first because it provides a
 framework within which to understand the results we get from the fancy
 mathematical machinery of modern control.
 
-\section{State-space notation}
+\subsection{State-space notation}
 
 \begin{align}
   \dot{\mtx{x}} &= \mtx{A}\mtx{x} + \mtx{B}\mtx{u} \label{eq:ss_ctrl_x} \\
@@ -78,7 +78,7 @@ mathematical machinery of modern control.
   \label{tab:ss_matrix_dims}
 \end{table}
 
-\section{Canonical forms}
+\subsection{Canonical forms}
 
 There are two canonical forms used to represent state-space \glspl{model}:
 controllable canonical form and observable canonical form. They are used to
@@ -86,7 +86,7 @@ provide controllability and observability of a system respectively, which are
 mathematical duals of each other. That is, the controller and estimator (state
 observer) are complementary problems.
 
-\subsection{Controllable canonical form} \label{subsec:ctrl_canon}
+\subsubsection{Controllable canonical form} \label{subsubsec:ctrl_canon}
 
 State controllability implies that it is possible -- by admissible inputs -- to
 steer the \glspl{state} from any initial value to any final value within some
@@ -137,7 +137,7 @@ The canonical realization of it that satisfies equation (\ref{eq:ctrl_rank}) is
   \right] \mtx{x}(t)
 \end{align}
 
-\subsection{Observable canonical form} \label{subsec:obsv_canon}
+\subsubsection{Observable canonical form} \label{subsubsec:obsv_canon}
 
 Observability is a measure for how well internal \glspl{state} of a \gls{system}
 can be inferred by knowledge of its external outputs. The observability and
@@ -187,7 +187,7 @@ The canonical realization of the \gls{system} in equation
   \right] \mtx{x}(t)
 \end{align}
 
-\section{Eigenvalues in state-space}
+\subsection{Eigenvalues in state-space}
 
 Eigenvalues can be used to determine the stability of a \gls{system}. \\
 

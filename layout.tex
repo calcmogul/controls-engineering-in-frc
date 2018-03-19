@@ -5,11 +5,12 @@
 \renewcommand{\indent}{\hspace*{\tindent}}
 
 % Paper header
-\pagestyle{fancy}
-\lhead{Practical Guide to State-space Control}
-\rhead{\thepage}
-\lfoot{}
-\rfoot{}
-\fancyfoot[C]{}  % remove normal page numbers
+\fancypagestyle{plain}{%
+  \fancyhf{}
+  \renewcommand{\headrulewidth}{0.1pt}
+  \fancyhead[L]{Practical Guide to State-space Control}
+  \fancyhead[R]{\thepage}
+}
+\pagestyle{plain}
 
 \allowdisplaybreaks

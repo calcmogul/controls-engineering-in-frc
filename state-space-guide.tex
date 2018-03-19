@@ -29,15 +29,17 @@
 
 \begin{document}
 % Front matter
+\pagenumbering{roman}
 \input{front}
+\input{preface}
 
 % Main body
-\input{preface}
+\pagenumbering{arabic}
 \input{review}
 \input{classical}
 \input{ss-intro}
-\input{ss-control}
-\input{ss-estimation}
+\input{ss-controllers}
+\input{ss-observers}
 \input{implementation}
 \input{ss-examples}
 \input{conclusion}
