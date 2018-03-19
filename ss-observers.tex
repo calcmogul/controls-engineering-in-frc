@@ -17,9 +17,8 @@ State-space observers are used to estimate unmeasured \glspl{state}.
     \label{eq:z_obsv_y} \\ \nonumber
 \end{align}
 
-\begin{table}[ht]
+\begin{center}
   \renewcommand{\arraystretch}{1.3}
-  \centering
   \begin{tabulary}{\linewidth}{LLLL}
     $\mtx{A}$ & system matrix      & $\hat{\mtx{x}}$ & state estimate vector \\
     $\mtx{B}$ & input matrix       & $\mtx{u}$ & input vector \\
@@ -27,10 +26,9 @@ State-space observers are used to estimate unmeasured \glspl{state}.
     $\mtx{D}$ & feedthrough matrix & $\hat{\mtx{y}}$ & output estimate vector \\
     $\mtx{L}$ & estimator gain matrix & & \\
   \end{tabulary}
-  \label{tab:obsv_def}
-\end{table}
+\end{center}
 
-\begin{table}[ht]
+\begin{table}
   \caption{Luenberger observer matrix dimensions}
   \renewcommand{\arraystretch}{1.5}
   \centering
@@ -81,9 +79,8 @@ step and current update step are shown.
   \mtx{P}_{k+1}^+ &= (\mtx{I} - \mtx{K}_{k+1}\mtx{H})\mtx{P}_{k+1}^-
 \end{align}
 
-\begin{table}[ht]
+\begin{center}
   \renewcommand{\arraystretch}{1.3}
-  \centering
   \begin{tabulary}{\linewidth}{LLLL}
     $\mtx{\Phi}$ & system matrix &
       $\hat{\mtx{x}}$ & state estimate vector \\
@@ -95,14 +92,13 @@ step and current update step are shown.
       $\mtx{R}$ & measurement noise covariance matrix \\
     $\mtx{\Gamma}$ & process noise intensity vector &
   \end{tabulary}
-  \label{tab:kalman_def}
-\end{table}
+\end{center}
 
 where a superscript of minus denotes \textit{a priori} and plus denotes
 \textit{a posteriori} estimate (before and after update respectively).
 $\mtx{\Phi}$ is replaced with $\mtx{A}$ for continuous systems.
 
-\begin{table}[ht]
+\begin{table}
   \caption{Kalman filter matrix dimensions}
   \renewcommand{\arraystretch}{1.5}
   \centering

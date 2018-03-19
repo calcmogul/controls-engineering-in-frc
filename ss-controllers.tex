@@ -54,9 +54,8 @@ equation (\ref{eq:ss_ctrl_y}).
     \label{eq:s_ref_ctrl_y}
 \end{align}
 
-\begin{table}[ht]
+\begin{center}
   \renewcommand{\arraystretch}{1.3}
-  \centering
   \begin{tabulary}{\linewidth}{LLLL}
     $\mtx{A}$ & system matrix      & $\mtx{x}$ & state vector \\
     $\mtx{B}$ & input matrix       & $\mtx{u}$ & input vector \\
@@ -64,10 +63,9 @@ equation (\ref{eq:ss_ctrl_y}).
     $\mtx{D}$ & feedthrough matrix & $\mtx{r}$ & \gls{reference} vector \\
     $\mtx{K}$ & controller gain matrix &  &  \\
   \end{tabulary}
-  \label{tab:ctrl_def}
-\end{table}
+\end{center}
 
-\begin{table}[ht]
+\begin{table}
   \caption{Controller matrix dimensions}
   \renewcommand{\arraystretch}{1.5}
   \centering
@@ -105,8 +103,8 @@ directly or estimate those we do not.
 
 This is the practice of manually placing the poles of the closed-loop system to
 produce a desired response. This is typically done with controllable canonical
-form (see subsection \ref{subsubsec:ctrl_canon}). This can be done with state
-observers as well with observable canonical form (see subsection
+form (see subsubsection \ref{subsubsec:ctrl_canon}). This can be done with state
+observers as well with observable canonical form (see subsubsection
 \ref{subsubsec:obsv_canon}).
 
 \subsection{LQR}
