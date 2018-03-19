@@ -9,7 +9,7 @@ CODE := $(wildcard code/*)
 .PHONY: all
 all: $(TARGET)
 
-$(TARGET): $(TEX) $(PDF_TEX) $(BIB) INP-00-glossary $(CODE)
+$(TARGET): $(TEX) $(PDF_TEX) $(BIB) $(CODE)
 	pdflatex $(basename $@)
 	makeglossaries $(basename $@)
 	latexmk -pdf $(basename $@)
