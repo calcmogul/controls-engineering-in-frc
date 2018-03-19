@@ -38,7 +38,7 @@ proportionality constant. This circuit reflects the following relation.
 \begin{equation}
   V = IR + \frac{\omega_m}{K_v} \label{eq:elevator_V}
 \end{equation}
-\\
+
 The mechanical relation for a DC brushed motor is
 
 \begin{equation}
@@ -46,9 +46,7 @@ The mechanical relation for a DC brushed motor is
 \end{equation}
 
 where $\tau_m$ is the torque produced by the motor in Newton-meters and $K_t$ is
-the torque constant in Newton-meters per Amp. \\
-
-Insert diagram of elevator system here.
+the torque constant in Newton-meters per Amp.
 
 \begin{figure}[H]
   \centering
@@ -166,9 +164,11 @@ Insert diagram of elevator system here.
         {mechanics};
   \end{tikzpicture}
 
-  \caption{Elevator}
+  \caption{Elevator system diagram}
   \label{fig:elevator}
 \end{figure}
+
+Based on figure \ref{fig:elevator}:
 
 \begin{equation}
   \tau_m G = \tau_p \label{eq:elevator_tau_m_ratio}
@@ -186,47 +186,47 @@ where $r$ is the radius of the pulley. From equation (\ref{eq:elevator_tau_m}):
 \begin{equation}
   I = \frac{\tau_m}{K_t}
 \end{equation}
-\\
+
 Substitute this into equation (\ref{eq:elevator_V}).
 
 \begin{align*}
   V &= \frac{\tau_m}{K_t} R + \frac{\omega_m}{K_v} \\
   V &= \frac{\tau_m}{K_t} R + \frac{\omega_m}{K_v}
 \end{align*}
-\\
+
 Substitute in equation (\ref{eq:elevator_tau_m}).
 
 \begin{align*}
   V &= \frac{\frac{\tau_p}{G}}{K_t} R + \frac{\omega_m}{K_v} \\
   V &= \frac{\tau_p}{GK_t} R + \frac{\omega_m}{K_v}
 \end{align*}
-\\
+
 Substitute in equation (\ref{eq:elevator_torque_pulley}).
 
 \begin{equation}
   V = \frac{rF_m}{GK_t} R + \frac{\omega_m}{K_v} \label{eq:elevator_Vinter1}
 \end{equation}
-\\
+
 Find $\omega_m$.
 
 \begin{align}
   \omega_m &= G \omega_p \label{eq:elevator_omega_m_ratio} \\
   v_m &= r \omega_p \nonumber
 \end{align}
-\\
+
 where $v_m$ is the velocity of the mass (the elevator carriage).
 
 \begin{equation}
   \omega_p = \frac{v_m}{r} \label{eq:elevator_omega_p}
 \end{equation}
-\\
+
 where $\omega_p$ is the angular velocity of the pulley. Substitute equation
 (\ref{eq:elevator_omega_p}) into equation (\ref{eq:elevator_omega_m_ratio}).
 
 \begin{equation}
   \omega_m = G \frac{v_m}{r} \label{eq:elevator_omega_m}
 \end{equation}
-\\
+
 Substitute equation (\ref{eq:elevator_omega_m}) into equation
 (\ref{eq:elevator_Vinter1}).
 
@@ -246,15 +246,15 @@ Solve for $F_m$.
 \begin{equation}
   \sum F = ma_m \label{eq:elevator_F_ma}
 \end{equation}
-\\
+
 where $\sum F$ is the sum of forces applied to the elevator carriage, $m$ is
 the mass of the elevator carriage in kilograms, and $a_m$ is the acceleration of
 the elevator carriage.
 
-\begin{align}
-  ma_m &= F_m \nonumber
-\end{align}
-\\
+\begin{equation*}
+  ma_m = F_m
+\end{equation*}
+
 Note that gravity is not part of the modeled dynamics because it complicates the
 state-space model and the controller will behave well enough without it.
 
@@ -264,7 +264,7 @@ state-space model and the controller will behave well enough without it.
   a_m &= \frac{GK_t}{Rrm} V - \frac{G^2K_t}{R^2 rmK_v} v_m
     \label{eq:elevator_accel}
 \end{align}
-\\
+
 \subsubsection{Calculating DC brushed motor constants}
 
 Note that a typical motor's datasheet should include graphs of the motor's
@@ -278,7 +278,7 @@ $G$, $r$, and $m$ are given when designing the elevator.
   K_t &= \frac{\tau_m}{I} \nonumber \\
   K_t &= \frac{\tau_{m,stall}}{I_{stall}}
 \end{align}
-\\
+
 where $\tau_{m,stall}$ is the stall torque and $I_{stall}$ is the stall current
 of the motor from its datasheet. \\
 
@@ -287,14 +287,14 @@ Recall equation (\ref{eq:elevator_V}).
 \begin{equation*}
   V = IR + \frac{\omega_m}{K_v}
 \end{equation*}
-\\
+
 When the motor is stalled, $\omega_m = 0$.
 
 \begin{align}
   V &= I_{stall} R \nonumber \\
   R &= \frac{V}{I_{stall}}
 \end{align}
-\\
+
 where $I_{stall}$ is the stall current of the motor and $V$ is the voltage
 applied to the motor at stall. \\
 
@@ -303,14 +303,14 @@ Again recall equation (\ref{eq:elevator_V}).
 \begin{equation*}
   V = IR + \frac{\omega_m}{K_v}
 \end{equation*}
-\\
+
 When the motor is spinning under no load, no current is drawn so $I = 0$.
 
 \begin{align}
   V &= \frac{\omega_m}{K_v} \nonumber \\
   K_v &= \frac{V}{\omega_{m,free}}
 \end{align}
-\\
+
 where $\omega_{m,free}$ is the angular velocity of the motor under no load (also
 known as the free speed) and $V$ is the voltage applied to the motor when
 it's spinning at $\omega_{m,free}$.
@@ -323,13 +323,13 @@ The position and velocity of the elevator can be written as
   \dot{x}_m &= v_m \label{eq:elevator_cont_ss_pos} \\
   \dot{v}_m &= a_m \label{eq:elevator_cont_ss_vel}
 \end{align}
-\\
+
 where from equation (\ref{eq:elevator_accel})
 
 \begin{equation*}
   a_m = \frac{GK_t}{Rrm} V - \frac{G^2 K_t}{R^2 rm K_v} v_m
 \end{equation*}
-\\
+
 Substitute this into equation (\ref{eq:elevator_cont_ss_vel}).
 
 \begin{align}
@@ -390,13 +390,13 @@ The position and velocity of the elevator can be written as
   x_{m,k+1} &= x_{m,k} + v_{m,k} \Delta t \label{eq:elevator_disc_ss_pos} \\
   v_{m,k+1} &= v_{m,k} + a_{m,k} \Delta t \label{eq:elevator_disc_ss_vel}
 \end{align}
-\\
+
 where from equation (\ref{eq:elevator_accel})
 
 \begin{equation*}
   a_{m,k} = \frac{GK_t}{Rrm} V_k - \frac{G^2 K_t}{R^2 rm K_v} v_{m,k}
 \end{equation*}
-\\
+
 Substitute this into equation (\ref{eq:elevator_disc_ss_vel}).
 
 \begin{align}

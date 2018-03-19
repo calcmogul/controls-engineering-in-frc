@@ -18,7 +18,7 @@ close without integral control, and integral adds all the issues listed above.
 Below, it is assumed that the controls designer has determined that integral
 control will be worth the inconvenience. \\
 
-There are three methods FRC team 971 has used over the years: \\
+There are three methods FRC team 971 has used over the years:
 
 \begin{enumerate}
   \item Augment the plant as described earlier. For an arm, one would add an
@@ -46,13 +46,13 @@ added to the system as follows.
   \dot{\mtx{x}} &= \mtx{A}\mtx{x} + \mtx{B}\left(\mtx{u} + u_{error}\right) \\
   \dot{\mtx{x}} &= \mtx{A}\mtx{x} + \mtx{B}\mtx{u} + \mtx{B}u_{error}
 \end{align*}
-\\
+
 For a multiple-output system, this would be
 
 \begin{equation*}
   \dot{\mtx{x}} = \mtx{A}\mtx{x} + \mtx{B}\mtx{u} + \mtx{B}_{error}u_{error}
 \end{equation*}
-\\
+
 where $\mtx{B}_{error}$ is the column vector that maps $u_{error}$ to changes in
 the rest of the state the same way $\mtx{B}$ does for $\mtx{u}$.
 $\mtx{B}_{error}$ is only a column of $\mtx{B}$ if $u_{error}$ corresponds to an
@@ -68,7 +68,7 @@ $\mtx{x}$ is augmented as
   \end{array}
   \right]
 \end{equation*}
-\\
+
 and the augmented model is
 
 \begin{align*}
@@ -84,7 +84,7 @@ and the augmented model is
   \end{array}
   \right] \mtx{u}
 \end{align*}
-\\
+
 With this model, the observer will estimate both the state and the $u_{error}$
 term. The controller is augmented similarly.
 
@@ -96,7 +96,7 @@ term. The controller is augmented similarly.
   \end{array}
   \right]
 \end{equation*}
-\\
+
 This can be rewritten as
 
 \begin{equation*}
@@ -106,7 +106,7 @@ This can be rewritten as
   \end{array}
   \right] \left(\mtx{r}' - \mtx{x}'\right)
 \end{equation*}
-\\
+
 where $\mtx{k}_{error}$ is a column vector with a $1$ in a given row if
 $u_{error}$ should be applied to that input or a $0$ otherwise. $\mtx{r}$ is
 augmented with a zero for the goal $u_{error}$ term.
@@ -119,6 +119,6 @@ augmented with a zero for the goal $u_{error}$ term.
   \end{array}
   \right]
 \end{equation*}
-\\
+
 This process can be repeated for an arbitrary error which can be corrected via
 some linear combination of the inputs.

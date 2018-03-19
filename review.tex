@@ -141,9 +141,9 @@ velocity, affect the \gls{system} response differently. The position PID
 controller is defined as
 
 \begin{equation}
-  u(t) = K_p e(t) + K_i \int_0^t e(\tau) d\tau + K_d \frac{de}{dt} \\
+  u(t) = K_p e(t) + K_i \int_0^t e(\tau) d\tau + K_d \frac{de}{dt}
 \end{equation}
-\\
+
 If a velocity is passed instead, which is a change in position, the equation
 becomes
 
@@ -153,7 +153,7 @@ becomes
   \frac{du}{dt} &= K_p \frac{de}{dt} + K_i e(t) + K_d \frac{d^2e}{dt^2}
     \label{eq:pid_vel}
 \end{align}
-\\
+
 This shows that $K_i$ and $K_p$ from the position controller act as proportional
 and derivative terms respectively in the velocity controller. $K_i$ from the
 position controller has no equivalent in the velocity controller. If we were to
@@ -163,9 +163,9 @@ steady-state error for step changes in \gls{reference}. Relabelling the
 coefficients to match the position PID controller gives
 
 \begin{equation}
-  \frac{du}{dt} = K_p \int_0^t e(\tau) d\tau + K_d e(t) \\
+  \frac{du}{dt} = K_p \int_0^t e(\tau) d\tau + K_d e(t)
 \end{equation}
-\\
+
 Read \url{https://en.wikipedia.org/wiki/PID_controller} for more information.
 
 \subsection{Limitations of PID control}

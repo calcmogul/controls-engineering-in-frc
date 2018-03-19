@@ -111,7 +111,7 @@ Given a \gls{system} of the form
   G(s) = \frac{n_1 s^3 + n_2 s^2 + n_3 s + n_4}
     {s^4 + d_1 s^3 + d_2 s^2 + d_3 s + d_4} \\
 \end{equation}
-\\
+
 The canonical realization of it that satisfies equation (\ref{eq:ctrl_rank}) is
 
 \begin{align}
@@ -207,7 +207,7 @@ $\mtx{r}_k$.
   \mtx{x}_{k+1} &= (\mtx{A} - \mtx{B}\mtx{K})\mtx{x}_k +
     \mtx{B}\mtx{K}\mtx{r}_k \label{eq:ctrl_eig_calc}
 \end{align}
-\\
+
 For equation (\ref{eq:ctrl_eig_calc}) to have a bounded output, the eigenvalues
 of $\mtx{A} - \mtx{B}\mtx{K}$ must be within the unit circle. \\
 
@@ -246,7 +246,7 @@ $\hat{\mtx{x}}_k$.
   \hat{\mtx{x}}_{k+1} = \mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
     \mtx{L}\mtx{C}\mtx{E}_k \\
 \end{equation*}
-\\
+
 Subtracting this from equation (\ref{eq:ssz_ctrl_x}) gives
 
 \begin{align}
@@ -266,7 +266,7 @@ Subtracting this from equation (\ref{eq:ssz_ctrl_x}) gives
   \mtx{E}_{k+1} &= \mtx{A}\mtx{E}_k - \mtx{L}\mtx{C}\mtx{E}_k \nonumber \\
   \mtx{E}_{k+1} &= (\mtx{A} - \mtx{L}\mtx{C})\mtx{E}_k \label{eq:obsv_eig_calc}
 \end{align}
-\\
+
 For equation (\ref{eq:obsv_eig_calc}) to have a bounded output, the eigenvalues
 of $\mtx{A} - \mtx{L}\mtx{C}$ must be within the unit circle. These eigenvalues
 represent how fast the estimator converges to the true state of the given model.

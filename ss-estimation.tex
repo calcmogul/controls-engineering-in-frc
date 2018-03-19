@@ -98,7 +98,7 @@ step and current update step are shown.
 
 where a superscript of minus denotes \textit{a priori} and plus denotes
 \textit{a posteriori} estimate (before and after update respectively).
-$\mtx{\Phi}$ is replaced with $\mtx{A}$ for continuous systems. \\
+$\mtx{\Phi}$ is replaced with $\mtx{A}$ for continuous systems.
 
 \begin{table}[ht]
   \caption{Kalman filter matrix dimensions}
@@ -110,11 +110,13 @@ $\mtx{\Phi}$ is replaced with $\mtx{A}$ for continuous systems. \\
     \textbf{Matrix} & \textbf{Rows $\times$ Columns} &
     \textbf{Matrix} & \textbf{Rows $\times$ Columns} \\
     \hline
-    $\mtx{\Phi}$ & states $\times$ states & $\hat{\mtx{x}}$ & states $\times$ 1 \\
+    $\mtx{\Phi}$ & states $\times$ states & $\hat{\mtx{x}}$ & states $\times$ 1
+      \\
     $\mtx{B}$ & states $\times$ inputs & $\mtx{u}$ & inputs $\times$ 1 \\
     $\mtx{H}$ & outputs $\times$ states & $\mtx{y}$ & outputs $\times$ 1 \\
     $\mtx{P}$ & states $\times$ states & $\mtx{Q}$ & states $\times$ states \\
-    $\mtx{K}$ & states $\times$ outputs & $\mtx{R}$ & outputs $\times$ outputs \\
+    $\mtx{K}$ & states $\times$ outputs & $\mtx{R}$ & outputs $\times$ outputs
+      \\
     $\mtx{\Gamma}$ & states $\times$ 1 &  &  \\
     \hline
   \end{tabular}
@@ -149,7 +151,7 @@ measurement. The expected value is a reasonable estimator of $x$.
     \frac{\sigma^2}{\sigma_0^2 + \sigma^2}x_0 \\
   \hat{x} &= w_1 z_1 + w_2 x_0 \nonumber
 \end{align}
-\\
+
 Note that the weights $w_1$ and $w_2$ sum to 1. When the prior (i.e., prior
 knowledge of state) is uninformative (a large variance)
 
@@ -157,7 +159,7 @@ knowledge of state) is uninformative (a large variance)
   w_1 &= \lim_{\sigma_0^2 \to 0} \frac{\sigma_0^2}{\sigma_0^2 + \sigma^2} = 0 \\
   w_2 &= \lim_{\sigma_0^2 \to 0} \frac{\sigma^2}{\sigma_0^2 + \sigma^2} = 1
 \end{align}
-\\
+
 and $\hat{x} = z_1$. That is, the weight is on the observations and the estimate
 is equal to the measurement. \\
 
@@ -168,7 +170,7 @@ case, $\sigma_0^2$ approaches 0 and
   w_1 &= \lim_{\sigma_0^2 \to 0} \frac{\sigma_0^2}{\sigma_0^2 + \sigma^2} = 1 \\
   w_2 &= \lim_{\sigma_0^2 \to 0} \frac{\sigma^2}{\sigma_0^2 + \sigma^2} = 0
 \end{align}
-\\
+
 The Kalman filter uses this optimal fusion as the basis for its operation. See
 the Wikipedia page on Kalman filters \cite{bib:kalman_filter} for a more
 thorough explanation of the math involved and a derivation of the equations.
@@ -189,7 +191,7 @@ position, robot velocity, and distance between the walls.
   v_{k+1} &= v_k \\
   x_{k+1}^w &= x_k^w
 \end{align}
-\\
+
 This can be converted to the following state-space model.
 
 \begin{equation}
@@ -219,7 +221,7 @@ This can be converted to the following state-space model.
     0
   \end{array} \right] w_k
 \end{equation}
-\\
+
 where the Gaussian random variable $w_k$ has zero mean and variance 1. The
 observation model is
 

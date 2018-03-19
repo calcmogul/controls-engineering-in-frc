@@ -13,7 +13,7 @@ the following.
 \begin{equation}
   \mtx{u} = -\mtx{K}\mtx{x}
 \end{equation}
-\\
+
 This means that optimal control can be achieved with simply a set of
 proportional gains on all the states. See the Wikipedia page on Linear-Quadratic Regulators \cite{bib:lqr} for an explanation of this choice of feedback control
 law. \\
@@ -23,7 +23,7 @@ is controllable. To converge to non-zero states, a reference vector $\mtx{r}$
 can be added to the state $\mtx{x}$.
 
 \begin{equation}
-  \mtx{u} = \mtx{K}(\mtx{r} - \mtx{x}) \label{eq:s_ref_ctrl_law} \\
+  \mtx{u} = \mtx{K}(\mtx{r} - \mtx{x}) \label{eq:s_ref_ctrl_law}
 \end{equation}
 
 \subsection{Controller}
@@ -42,9 +42,9 @@ First is the state update equation. Substitute equation
   \dot{\mtx{x}} &= (\mtx{A} - \mtx{B}\mtx{K})\mtx{x} + \mtx{B}\mtx{K}\mtx{r}
     \label{eq:s_ref_ctrl_x}
 \end{align}
-\\
-Now for the output equation. Substitute equation (\ref{eq:s_ref_ctrl_law}) into equation
-(\ref{eq:ss_ctrl_y}).
+
+Now for the output equation. Substitute equation (\ref{eq:s_ref_ctrl_law}) into
+equation (\ref{eq:ss_ctrl_y}).
 
 \begin{align}
   \mtx{y} &= \mtx{C}\mtx{x} + \mtx{D}(\mtx{K}(\mtx{r} - \mtx{x})) \nonumber \\
@@ -121,7 +121,7 @@ function, which will be discussed below.
 This tradeoff is represented by the cost function
 
 \begin{equation*}
-  J = \int\limits_0^\infty \left(x^T Q x + u^T R u \right) dt \\
+  J = \int\limits_0^\infty \left(x^T Q x + u^T R u \right) dt
 \end{equation*}
 
 LQR attempts to minimize $J$ given the \gls{state} excursion and control effort
