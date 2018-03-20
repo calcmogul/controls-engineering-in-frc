@@ -52,11 +52,69 @@ open-loop transfer function $P_1(s)$. These are called the closed-loop poles.
 The locations of the closed-loop poles in the complex plane determine the
 stability of the \gls{system}. Each pole represents a frequency mode of the
 \gls{system}, and their location determines how much of each response is induced
-for a given input frequency.
+for a given input frequency. Figure \ref{fig:system_response_poles} shows the
+time domain responses for transfer functions with various pole locations. They
+all have an initial condition of one.
 
 \begin{figure}[H]
-  \includegraphics[width=\linewidth]{figs/ResponseVsPoleLocations.png}
-  \caption{System responses vs pole locations \cite{bib:pole_locations}}
+  \centering
+
+  \begin{tikzpicture}[auto, >=latex']
+    % \draw [help lines] (-4,-2) grid (4,4);
+
+    % Draw main axes
+    \draw[->] (-4.2,0) -- (4.2,0) node[below] {\small Re($s$)};
+    \draw[->] (0,-2) -- (0,4.2) node[right] {\small Im($j\omega$)};
+
+    % Stable: e^-1.75t * cos(1.75wt) (80/3*w for readability)
+    \drawtimeplot{-2.125cm}{2.5cm}{0.125cm}{0.44375cm}{
+      exp(-1.75 * \x) * cos(80/3 * 1.75 * deg(\x))}
+    \drawpole{-1.75cm}{1.75cm}
+
+    % Stable: e^-2.5t
+    \drawtimeplot{-2.25cm}{0.75cm}{0.125cm}{0.125cm}{exp(-2 * \x)}
+    \drawpole{-2cm}{0cm}
+
+    % Stable: e^-t
+    \drawtimeplot{-1.125cm}{-0.75cm}{0.125cm}{0.125cm}{exp(-\x)}
+    \drawpole{-1cm}{0cm}
+
+    % Marginally stable: cos(wt) (80/3*w for readability)
+    \drawtimeplot{-0.75cm}{1.125cm}{0.125cm}{0.44375cm}{cos(80/3 * deg(\x))}
+    \drawpole{0cm}{1cm}
+
+    % Marginally stable cos(2wt) (80/3*w for readability)
+    \drawtimeplot{0cm}{2.75cm}{0.125cm}{0.44375cm}{cos(80/3 * 2 * deg(\x))}
+    \drawpole{0cm}{2cm}
+
+    % Integrator
+    \drawtimeplot{0.25cm}{-0.75cm}{0.125cm}{0.125cm}{1}
+    \drawpole{0cm}{0cm}
+
+    % Unstable: e^t
+    \drawtimeplot{1.125cm}{0.75cm}{0.125cm}{0.125cm}{exp(\x)}
+    \drawpole{1cm}{0cm}
+
+    % Unstable: e^2t
+    \drawtimeplot{2.25cm}{-0.75cm}{0.125cm}{0.125cm}{exp(2 * \x)}
+    \drawpole{2cm}{0cm}
+
+    % Unstable: e^0.75t * cos(1.75wt) (80/3*w for readability)
+    \drawtimeplot{1.5cm}{2.25cm}{0.125cm}{0.44375cm}{
+      exp(0.75 * \x) * cos(80/3 * 1.75 * deg(\x))}
+    \drawpole{0.75cm}{1.75cm}
+
+    % LHP and RHP labels
+    \draw (-3.5,1.5) node {LHP};
+    \draw (3.5,1.5) node {RHP};
+
+    % Stable and unstable labels
+    \draw (-2.5,3.5) node {\small Stable};
+    \draw (2.5,3.5) node {\small Unstable};
+  \end{tikzpicture}
+
+  \caption{Time domain system responses vs pole locations}
+  \label{fig:system_response_poles}
 \end{figure}
 
 \begin{table}

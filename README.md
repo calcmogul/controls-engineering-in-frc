@@ -21,8 +21,6 @@ A PDF version is available at https://file.tavsys.net/control/state-space-guide.
 
 The document is still very high level for the subject it covers as well as very dense and fast-paced (it covers three classes of feedback control, two of which are for graduate students, in one short document). It's slowly getting better in that respect. I'd like to expand the introductions for each section and provide more examples like I did for the Kalman filter design to give the reader practice applying the skills discussed.
 
-Redo figs/ResponseVsPoleLocations.png in TikZ instead. The subgraph locations could probably be improved and the subgraph axes should be labeled.
-
 The linear algebra section should be filled out with some basics that are needed
 to understand the examples (how is dimensionality specified, how are matrices multiplied together as linear transformations, what are eigenvalues). Specific videos from the 3Blue1Brown playlist will be referred to for more information. Following the content of the videos in order is an option.
 

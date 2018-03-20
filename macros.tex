@@ -19,3 +19,38 @@
   }
 }
 {\par\noindent}
+
+% #1: xshift
+% #2: yshift
+% #3: xcoordshift
+% #4: ycoordshift
+% #5: func to plot
+\newcommand{\drawtimeplot}[5] {
+  \begin{scope}[xshift=#1-0.5cm,yshift=#2-0.5cm]
+    \def\xcoordshift{#3,0}
+    \def\ycoordshift{0,#4}
+
+    \draw[fill=lightblue] (0,0) rectangle (1,1);
+
+    \begin{scope}[shift=(\xcoordshift)]
+      % Draw Y axis
+      \draw[->] (0cm,0.05cm) -- (0cm,0.9375cm) node {};
+
+      \begin{scope}[shift=(\ycoordshift)]
+        % Draw X axis
+        \draw[->,font=\tiny] (-0.075cm,0cm) -- (0.8125cm,0cm)
+          node[label={[below]90:$t$}] {};
+
+        \draw[xscale=1.2,yscale=0.3,domain=0:0.5,smooth,variable=\x,line width=0.5]
+          plot ({\x},{#5});
+      \end{scope}
+    \end{scope}
+  \end{scope}}
+
+% #1: xshift
+% #2: yshift
+\newcommand{\drawpole}[2] {
+  \begin{scope}[xshift=#1,yshift=#2]
+    \draw[medblue,rotate=45] (-0.1,-0.0025) rectangle (0.1,0.0025);
+    \draw[medblue,rotate=-45] (-0.1,-0.0025) rectangle (0.1,0.0025);
+  \end{scope}}
