@@ -21,10 +21,16 @@ A PDF version is available at https://file.tavsys.net/control/state-space-guide.
 
 The document is still very high level for the subject it covers as well as very dense and fast-paced (it covers three classes of feedback control, two of which are for graduate students, in one short document). It's slowly getting better in that respect. I'd like to expand the introductions for each section and provide more examples like I did for the Kalman filter design to give the reader practice applying the skills discussed.
 
+Since the link to the Wikibooks page on block diagrams only shows a table of simplification steps, that could be written in TikZ as an appendix.
+
 The linear algebra section should be filled out with some basics that are needed
 to understand the examples (how is dimensionality specified, how are matrices multiplied together as linear transformations, what are eigenvalues). Specific videos from the 3Blue1Brown playlist will be referred to for more information. Following the content of the videos in order is an option.
 
+The referencesd derivations for the optimal control law are really just showing the cost function and what K actually is. It should be included in an appendix instead (as should any other results that are good for background, but are unnecessary).
+
 The link to the graphical introduction to Kalman filters should be replaced with something much more comprehensive. The graphics are nice, but there isn't much substance to promote deep understanding. I have a lot of notes from the course I took on Kalman filters I intend to synthesize.
+
+The referenced derivations for the Kalman filter could be added as an appendix since they aren't that involved.
 
 The "Implementation Steps" section needs subsections to explain how to do each or at least examples. A small section on kinematics and dynamics in general would be useful. The following state-space implementation examples are planned:
 
