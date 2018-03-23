@@ -1,13 +1,3 @@
-\section{Linear algebra}
-
-Modern control theory borrows concepts from linear algebra. Watch 3Blue1Brown's
-\textit{Essence of Linear Algebra} video series \cite{bib:essence_of_linalg}. It
-offers an intuitive, geometric understanding of linear algebra as a method of
-linear transformations. \\
-
-\textit{Note}: The $^T$ in $\mtx{A}^T$ denotes transpose, which flips the matrix
-across its diagonal such that the rows become columns and vice versa.
-
 \section{State-space representation}
 
 A state-space representation models \glspl{system} as a set of \gls{state},
@@ -92,11 +82,11 @@ finite time window. A continuous \gls{time-invariant} linear state-space
 \gls{model} is controllable if and only if
 
 \begin{equation}
-  rank \left[
+  \text{rank} \left(\left[
   \begin{array}{ccccc}
-    B & AB & A^2B & \cdots & A^{n-1}B
+    \mtx{B} & \mtx{A}\mtx{B} & \mtx{A}^2\mtx{B} & \cdots & \mtx{A}^{n-1}\mtx{B}
   \end{array}
-  \right] = n
+  \right]\right) = n
   \label{eq:ctrl_rank}
 \end{equation}
 
@@ -110,7 +100,8 @@ Given a \gls{system} of the form
     {s^4 + d_1 s^3 + d_2 s^2 + d_3 s + d_4} \\
 \end{equation}
 
-The canonical realization of it that satisfies equation (\ref{eq:ctrl_rank}) is
+The canonical \gls{realization} of it that satisfies equation
+(\ref{eq:ctrl_rank}) is
 
 \begin{align}
   \dot{\mtx{x}}(t) &= \left[
@@ -149,17 +140,17 @@ A continuous \gls{time-invariant} linear state-space \gls{model} is observable
 if and only if
 
 \begin{equation} \label{eq:obsv_rank}
-  rank \left[
+  \text{rank} \left(\left[
   \begin{array}{c}
     C \\
     CA \\
     \vdots \\
     CA^{n-1}
   \end{array}
-  \right] = n \\
+  \right]\right) = n \\
 \end{equation}
 
-The canonical realization of the \gls{system} in equation
+The canonical \gls{realization} of the \gls{system} in equation
 (\ref{eq:ctrl_obsv_tf}) that satisfies equation (\ref{eq:obsv_rank}) is
 
 \begin{align}
