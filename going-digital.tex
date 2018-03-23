@@ -3,20 +3,40 @@
 The complex plane discussed so far deals with continuous \glspl{system}. In
 decades past, \glspl{plant} and controllers were implemented using analog
 electronics, which are continuous in nature. Nowadays, microprocessors can be
-used to achieve cheaper, less complex controller designs. However,
-discretization (the process of converting a design from continuous to digital)
-has drawbacks.
+used to achieve cheaper, less complex controller designs.
+\glslink{discretization}{Discretization} converts the continuous model we've
+worked with so far from a set of differential equations, for example
+
+\begin{equation}
+  \dot{x} = x - 3 \label{eq:differential_equ_example}
+\end{equation}
+
+to a set of difference equations, for example
+
+\begin{equation}
+  x_{k+1} = x_k + (x_k - 3) \Delta T \label{eq:difference_equ_example}
+\end{equation}
+
+where the difference equation is run a some update rate denoted by $T$,
+$\Delta T$, or sometimes sloppily as $dt$. \\
+
+While higher order terms of a differential equation are derivatives of the state
+variable (e.g., $\ddot{x}$ in relation to equation
+(\ref{eq:differential_equ_example})), higher order terms of a difference
+equation are delayed copies of the state variable (e.g., $x_{k-1}$ with respect
+to $x_k$ in equation (\ref{eq:difference_equ_example})).
 
 \subsection{Phase loss}
 
-Since a microcontroller performs discrete steps, there is phase loss introduced
-in the controller. Phase loss is the reduction of phase margin (see section
-\ref{sec:gain_phase_margin}) that occurs in digital implementations of feedback
-controllers from sampling the continuous system at discrete time intervals. As
-the sample rate of the controller decreases, the phase margin decreases rapidly
-and will lead to instability if the phase margin reaches zero. Large amounts of
-phase loss can make a stable controller in the continuous domain become unstable
-in the discrete domain. Here are a few ways to combat this.
+However, \gls{discretization} has drawbacks. Since a microcontroller performs
+discrete steps, there is phase loss introduced in the controller. Phase loss is
+the reduction of phase margin (see section \ref{sec:gain_phase_margin}) that
+occurs in digital implementations of feedback controllers from sampling the
+continuous system at discrete time intervals. As the sample rate of the
+controller decreases, the phase margin decreases rapidly and will lead to
+instability if the phase margin reaches zero. Large amounts of phase loss can
+make a stable controller in the continuous domain become unstable in the
+discrete domain. Here are a few ways to combat this.
 
 \begin{itemize}
   \item Run the controller with a high sample rate.
