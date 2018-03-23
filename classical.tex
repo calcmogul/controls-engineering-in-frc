@@ -165,7 +165,7 @@ case, the \gls{system} eventually becomes unstable. \\
 
 \textbf{Note:} If poles are much farther left in the LHP than the typical
 \gls{system} dynamics exhibit, they can be considered negligible. Every
-\gls{system} has some form of unmodeled high frequency, non-linear dynamics, but
+\gls{system} has some form of unmodeled high frequency, nonlinear dynamics, but
 they can be safely ignored depending on the operating regime.
 
 \subsubsection{Non-minimum phase zeroes}
@@ -197,57 +197,3 @@ response. \\
 For a more thorough explanation of gain and phase margin, watch Brian Douglas's
 video on them \cite{bib:gain_phase_margin}. He has other videos too on classical
 control methods like Bode and Nyquist plots that I recommend.
-
-\section{Going digital}
-
-The complex plane discussed so far deals with continuous \glspl{system}. In
-decades past, \glspl{plant} and controllers were implemented using analog
-electronics, which are continuous in nature. Nowadays, microprocessors can be
-used to achieve cheaper, less complex controller designs. However, this comes
-with drawbacks. \\
-
-Since a microcontroller performs discrete steps, there is phase loss introduced
-in the controller. Phase loss is the reduction of phase margin (see section
-\ref{sec:gain_phase_margin}) that occurs in digital implementations of feedback
-controllers from sampling the continuous system at discrete time intervals. As
-the sample rate of the controller decreases, the phase margin decreases rapidly
-and will lead to instability if the phase margin reaches zero. Large amounts of
-phase loss can make a stable controller in the continuous domain become unstable
-in the discrete domain. Here are a few ways to combat this.
-
-\begin{itemize}
-  \item Run the controller with a high sample rate.
-  \item Designing the controller in the analog domain with enough phase margin
-    to compensate for any phase loss that occurs as part of discretization.
-  \item Convert the \gls{plant} to the digital domain and design the controller
-    completely in the digital domain.
-\end{itemize}
-
-\subsection{s-plane to z-plane}
-
-Transfer functions are converted to impulse responses using the Z-transform. The
-s-plane's LHP maps to the inside of a unit circle in the z-plane. Here are a few
-common points.
-
-\begin{table}
-  \caption{Mapping from s-plane to z-plane}
-  \renewcommand{\arraystretch}{1.3}
-  \centering
-  \begin{tabular}{|cc|}
-    \hline
-    \rowcolor{lightblue}
-    \textbf{s-plane} & \textbf{z-plane} \\
-    \hline
-    $(0, 0)$ & $(0, 1)$ \\
-    imaginary axis & edge of unit circle \\
-    $(0, -\infty)$ & $(0, 0)$ \\
-    \hline
-  \end{tabular}
-  \label{tab:s-plane2z-plane}
-\end{table}
-
-You may notice that poles can be placed at $(0, 0)$ in the z-plane. This is
-known as a deadbeat controller. An $\rm N^{th}$ order deadbeat controller decays
-to the \gls{reference} in N timesteps. While this sounds great, there are other
-considerations like actuation effort, \gls{robustness}, and
-\gls{noise immunity}. These will be discussed in detail with LQR and LQE.

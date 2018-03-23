@@ -1,0 +1,83 @@
+\section{Going digital}
+
+The complex plane discussed so far deals with continuous \glspl{system}. In
+decades past, \glspl{plant} and controllers were implemented using analog
+electronics, which are continuous in nature. Nowadays, microprocessors can be
+used to achieve cheaper, less complex controller designs. However,
+discretization (the process of converting a design from continuous to digital)
+has drawbacks.
+
+\subsection{Phase loss}
+
+Since a microcontroller performs discrete steps, there is phase loss introduced
+in the controller. Phase loss is the reduction of phase margin (see section
+\ref{sec:gain_phase_margin}) that occurs in digital implementations of feedback
+controllers from sampling the continuous system at discrete time intervals. As
+the sample rate of the controller decreases, the phase margin decreases rapidly
+and will lead to instability if the phase margin reaches zero. Large amounts of
+phase loss can make a stable controller in the continuous domain become unstable
+in the discrete domain. Here are a few ways to combat this.
+
+\begin{itemize}
+  \item Run the controller with a high sample rate.
+  \item Designing the controller in the analog domain with enough phase margin
+    to compensate for any phase loss that occurs as part of discretization.
+  \item Convert the \gls{plant} to the digital domain and design the controller
+    completely in the digital domain.
+\end{itemize}
+
+\subsection{s-plane to z-plane}
+
+Transfer functions are converted to impulse responses using the Z-transform. The
+s-plane's LHP maps to the inside of a unit circle in the z-plane. Table
+\ref{tab:s-plane2z-plane} contains a few common points. \\
+
+\begin{table}
+  \caption{Mapping from s-plane to z-plane}
+  \renewcommand{\arraystretch}{1.3}
+  \centering
+  \begin{tabular}{|cc|}
+    \hline
+    \rowcolor{lightblue}
+    \textbf{s-plane} & \textbf{z-plane} \\
+    \hline
+    $(0, 0)$ & $(0, 1)$ \\
+    imaginary axis & edge of unit circle \\
+    $(0, -\infty)$ & $(0, 0)$ \\
+    \hline
+  \end{tabular}
+  \label{tab:s-plane2z-plane}
+\end{table}
+
+You may notice that poles can be placed at $(0, 0)$ in the z-plane. This is
+known as a deadbeat controller. An $\rm N^{th}$ order deadbeat controller decays
+to the \gls{reference} in N timesteps. While this sounds great, there are other
+considerations like actuation effort, \gls{robustness}, and
+\gls{noise immunity}. These will be discussed in detail with LQR and LQE.
+
+\subsection{Discretization in state-space}
+
+This process is generally done with computers, but for completeness:
+
+\begin{align}
+  \mtx{A}_d &= e^{\mtx{A}_c T} \\
+  \mtx{B}_d &= \int_0^T e^{\mtx{A}_c \tau} d\tau \mtx{B}_c \\
+  \mtx{C}_d &= \mtx{C}_c \\
+  \mtx{D}_d &= \mtx{D}_c
+\end{align}
+
+where a subscript of $d$ denotes discrete, a subscript of $c$ denotes
+continuous, and $T$ is the sample period for the discrete system.
+$e^{\mtx{A}_c T}$ and others are referred to as matrix exponentials. \\
+
+\subsubsection{Computing the matrix exponential}
+
+Let $\mtx{X}$ be an $n \times n$ matrix. The exponential of $\mtx{X}$ denoted by
+$e^{\mtx{X}}$ is the $n \times n$ matrix given by the power series below.
+
+\begin{equation}
+  e^{\mtx{X}} = \sum_{k=0}^\infty \frac{1}{k!} \mtx{X}^k
+\end{equation}
+
+where $\mtx{X}^0$ is defined to be the identity matrix $\mtx{I}$ with the same
+dimensions as $\mtx{X}$.
