@@ -1,0 +1,58 @@
+\section{Control system basics}
+
+\subsection{What is gain?}
+
+Gain is a proportional value that shows the relationship between the magnitude
+of the input to the magnitude of the output signal at steady state. Many
+\glspl{system} contain a method by which the gain can be altered, providing more
+or less "power" to the \gls{system}. However, increasing gain or decreasing gain
+beyond a particular safety zone can cause the \gls{system} to become unstable.
+
+\subsection{Block diagrams}
+
+When designing or analyzing a control system, it is useful to model it
+graphically. Block diagrams are used for this purpose. They can be manipulated
+and simplified systematically \cite{bib:block_diagrams}. Figure
+\ref{fig:feedback_loop} is an example of one with a feedback configuration.
+
+\begin{figure}[H]
+  \centering
+
+  \begin{tikzpicture}[auto, >=latex']
+    % Place the blocks
+    \node [name=input] {$X(s)$};
+    \node [sum, right=of input] (sum) {};
+    \node [block, right=of sum] (P1) {$P_1$};
+    \node [right=of P1] (output) {$Y(s)$};
+    \node [block, below=of P1] (P2) {$P_2$};
+
+    % Connect the nodes
+    \draw [arrow] (input) -- node[pos=0.85] {$+$} (sum);
+    \draw [arrow] (sum) -- node {} (P1);
+    \draw [arrow] (P1) -- node[name=y] {} (output);
+    \draw [arrow] (y) |- (P2);
+    \draw [arrow] (P2) -| node[pos=0.97, right] {$\mp$} (sum);
+  \end{tikzpicture}
+
+  \caption{Feedback block diagram}
+  \label{fig:feedback_loop}
+\end{figure}
+
+\subsection{Why feedback control?}
+
+Let's say we are controlling a DC brushed motor. With just a mathematical
+\glslink{model}{mathematical model} and knowledge of all current \glspl{state}
+of the \gls{system} (i.e., angular velocity), we can predict all future
+\glspl{state} given the future voltage \glspl{input}. Why then do we need
+feedback control? If the system is \glslink{disturbance}{disturbed} in any way
+that isn't modeled by our equations, like a load was applied to the armature, or
+voltage sag in the rest of the circuit caused the commanded voltage to not match
+the actual applied voltage, the angular velocity of the motor will deviate from
+the \gls{model} over time. \\
+
+To combat this, we can take measurements of the system and the environment to
+detect this deviation and account for it. For example, we could measure the
+current position and estimate an angular velocity from it. We can then give the
+motor corrective commands as well as steer our \gls{model} back to reality. This
+feedback allows us to account for and be \glslink{robustness}{robust} in the
+face of uncertainty.
