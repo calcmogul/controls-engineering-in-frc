@@ -97,7 +97,7 @@ Given a \gls{system} of the form
 
 \begin{equation} \label{eq:ctrl_obsv_tf}
   G(s) = \frac{n_1 s^3 + n_2 s^2 + n_3 s + n_4}
-    {s^4 + d_1 s^3 + d_2 s^2 + d_3 s + d_4} \\
+    {s^4 + d_1 s^3 + d_2 s^2 + d_3 s + d_4}
 \end{equation}
 
 The canonical \gls{realization} of it that satisfies equation
@@ -147,7 +147,7 @@ if and only if
     \vdots \\
     CA^{n-1}
   \end{array}
-  \right]\right) = n \\
+  \right]\right) = n
 \end{equation}
 
 The canonical \gls{realization} of the \gls{system} in equation
@@ -210,7 +210,7 @@ Plugging equation (\ref{eq:z_obsv_y}) into equation (\ref{eq:z_obsv_x}) gives
   \hat{\mtx{x}}_{k+1} &= \mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
     \mtx{L} (\mtx{y}_k - (\mtx{C}\hat{\mtx{x}}_k + \mtx{D}\mtx{u}_k)) \\
   \hat{\mtx{x}}_{k+1} &= \mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
-    \mtx{L} (\mtx{y}_k - \mtx{C}\hat{\mtx{x}}_k - \mtx{D}\mtx{u}_k) \\
+    \mtx{L} (\mtx{y}_k - \mtx{C}\hat{\mtx{x}}_k - \mtx{D}\mtx{u}_k)
 \end{align*}
 
 Plugging in equation (\ref{eq:ssz_ctrl_y}) gives
@@ -225,7 +225,7 @@ Plugging in equation (\ref{eq:ssz_ctrl_y}) gives
   \hat{\mtx{x}}_{k+1} &= \mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
     \mtx{L}(\mtx{C}\mtx{x}_k - \mtx{C}\hat{\mtx{x}}_k) \\
   \hat{\mtx{x}}_{k+1} &= \mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
-    \mtx{L}\mtx{C}(\mtx{x}_k - \hat{\mtx{x}}_k) \\
+    \mtx{L}\mtx{C}(\mtx{x}_k - \hat{\mtx{x}}_k)
 \end{align*}
 
 Let $E_k = \mtx{x}_k - \hat{\mtx{x}}_k$ be the error in the estimate
@@ -233,7 +233,7 @@ $\hat{\mtx{x}}_k$.
 
 \begin{equation*}
   \hat{\mtx{x}}_{k+1} = \mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
-    \mtx{L}\mtx{C}\mtx{E}_k \\
+    \mtx{L}\mtx{C}\mtx{E}_k
 \end{equation*}
 
 Subtracting this from equation (\ref{eq:ssz_ctrl_x}) gives
@@ -267,7 +267,7 @@ The effect of noise can be seen if it is modeled
 
 \begin{equation*}
   \hat{\mtx{x}}_{k+1} = \mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
-    \mtx{L} (\mtx{y}_k - \hat{\mtx{y}}_k) + \mtx{L}\mtx{\nu}_k \\
+    \mtx{L} (\mtx{y}_k - \hat{\mtx{y}}_k) + \mtx{L}\mtx{\nu}_k
 \end{equation*}
 
 where $\mtx{\nu}_k$ is the measurement noise. As $\mtx{L}$ increases, the

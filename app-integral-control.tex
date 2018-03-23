@@ -9,9 +9,9 @@ unit step input. The second is demonstrated by an example from Jared Russell of
 FRC team 254. Say there is a position/velocity trajectory for some plant to
 follow. Without integral control, one can calculate a desired $\mtx{K}\mtx{x}$
 to use as the reference input to the controller. As a result of using both
-desired position and velocity, reference tracking is really good. With integral
-control added, the reference is always the desired position, but there is no way
-to tell the controller the desired velocity. \\
+desired position and velocity, reference tracking is good. With integral control
+added, the reference is always the desired position, but there is no way to tell
+the controller the desired velocity. \\
 
 Consider carefully whether integral control is necessary. One can get relatively
 close without integral control, and integral adds all the issues listed above.
