@@ -13,6 +13,10 @@ This document reads a lot like a reference manual on control theory and related 
 * Python 3.5+ and Python Control (to generate plots and state-space results)
 * Inkscape (to convert SVGs to PDF)
 
+## Build
+
+After installing the dependencies, just run `make`.
+
 ## Download
 
 A PDF version is available at https://file.tavsys.net/control/state-space-guide.pdf.

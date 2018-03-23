@@ -10,6 +10,7 @@ CODE := $(wildcard code/*)
 all: $(TARGET)
 
 $(TARGET): $(TEX) $(PDF_TEX) $(BIB) $(CODE)
+	python code/format.py
 	pdflatex $(basename $@)
 	makeglossaries $(basename $@)
 	latexmk -pdf $(basename $@)
