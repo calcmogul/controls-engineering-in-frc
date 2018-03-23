@@ -1,4 +1,7 @@
-\section{Kalman filter as Luenberger observer} \label{sec:app_kalman_luenberger}
+\section{Luenberger observer derivations}
+
+\subsection{Kalman filter as Luenberger observer}
+\label{subsec:app_kalman_luenberger}
 
 A Luenberger observer is defined as
 
@@ -60,4 +63,41 @@ Kalman filter observer can be obtained by
   &eig(\mtx{A} - \mtx{L}\mtx{C}) \nonumber \\
   &eig(\mtx{A} - (\mtx{A}\mtx{K}_k)(\mtx{H})) \nonumber \\
   &eig(\mtx{A}(\mtx{I} - \mtx{K}_k\mtx{H}))
+\end{align}
+
+\subsection{Luenberger observer with separate prediction and update}
+\label{subsec:app_luenberger_separate}
+
+To run a Luenberger observer with separate prediction and update steps,
+substitute the relationship between the Luenberger observer and Kalman filter
+matrices derived above into the Kalman filter equations. \\
+
+Appendix \ref{subsec:app_kalman_luenberger} shows that $\mtx{C} = \mtx{H}$ and
+$\mtx{L} = \mtx{A}\mtx{K}_k$, so $\mtx{K}_k = \mtx{A}^{-1}\mtx{L}$. Substitute
+this and $\mtx{C} = \mtx{H}$ into the Kalman filter update equation.
+
+\begin{align*}
+  \hat{\mtx{x}}_{k+1}^+ &= \hat{\mtx{x}}_{k+1}^- + \mtx{K}_k(\mtx{y}_k -
+    \mtx{H}\hat{\mtx{x}}_k^-) \\
+  \hat{\mtx{x}}_{k+1}^+ &= \hat{\mtx{x}}_{k+1}^- + \mtx{A}^{-1}\mtx{L}
+    (\mtx{y}_k - \mtx{C}\hat{\mtx{x}}_k^-)
+\end{align*}
+
+Substitute in equation (\ref{eq:z_obsv_y}).
+
+\begin{equation*}
+  \hat{\mtx{x}}_{k+1}^+ = \hat{\mtx{x}}_{k+1}^- + \mtx{A}^{-1}\mtx{L}
+    (\mtx{y}_k - \hat{\mtx{y}}_k)
+\end{equation*}
+
+The predict step is the same as the Kalman filter's. Therefore, a Luenberger
+observer run with prediction and update steps is written as follows.
+
+\begin{align}
+  \text{Predict step} \nonumber \\
+  \hat{\mtx{x}}_{k+1}^- &= \mtx{A}\hat{\mtx{x}}_k^- + \mtx{B}\mtx{u}_k \\
+  \text{Update step} \nonumber \\
+  \hat{\mtx{x}}_{k+1}^+ &= \hat{\mtx{x}}_{k+1}^- + \mtx{A}^{-1}\mtx{L}
+    (\mtx{y}_k - \hat{\mtx{y}}_k) \\
+  \hat{\mtx{y}}_k &= \mtx{C} \hat{\mtx{x}}_k^-
 \end{align}
