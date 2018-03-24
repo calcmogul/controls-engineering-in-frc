@@ -9,6 +9,7 @@
 \usepackage{colortbl} % For colored table rows
 \usepackage{datetime} % For the generated date
 \usepackage{fancyhdr} % For the headers
+\usepackage{float} % For preventing figure floating
 \usepackage{gensymb} % For degree symbol
 \usepackage[top=3cm,bottom=3cm,left=3cm,right=3cm,headsep=10pt,a4paper]{geometry}
 \usepackage{graphicx} % For including pictures
@@ -98,6 +99,7 @@
 % Appendix text font settings
 \renewcommand{\chaptermark}[1]{\markboth{\sffamily\normalsize\bfseries\appendixname\ \thechapter.\ #1}{}}
 \chapterimage{appendices.jpg}{Sunset in an airplane over New Mexico}
+\input{appendices/simplifying-block-diagrams}
 \input{appendices/tf-feedback-deriv}
 \input{appendices/installing-python-control}
 \input{appendices/ss-canonical-forms}

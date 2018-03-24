@@ -1,0 +1,231 @@
+\chapter{Simplifying block diagrams} \label{ch:app_simplifying_block_diagrams}
+\index{Block diagrams!simplification}
+
+\section{Cascaded blocks}
+
+\begin{equation}
+  Y = (P_1 P_2)X
+\end{equation}
+
+\begin{nofloatfigure}
+  \begin{tikzpicture}[auto, >=latex']
+    % Place the blocks
+    \node {$X(s)$} (input);
+    \node [block, right=of input] (P1) {$P_1$};
+    \node [block, right=of P1] (P2) {$P_2$};
+    \node [right=of P2] (output) {$Y(s)$};
+
+    % Connect the nodes
+    \draw [arrow] (input) -- (P1);
+    \draw [arrow] (P1) -- (P2);
+    \draw [arrow] (P2) -- (output);
+  \end{tikzpicture}
+
+  \caption{Cascaded blocks}
+  \label{fig:cascaded_blocks}
+\end{nofloatfigure}
+
+\begin{nofloatfigure}
+  \begin{tikzpicture}[auto, >=latex']
+    % Place the blocks
+    \node {$X(s)$} (input);
+    \node [block, right=of input] (P1P2) {$P_1 P_2$};
+    \node [right=of P1P2] (output) {$Y(s)$};
+
+    % Connect the nodes
+    \draw [arrow] (input) -- (P1P2);
+    \draw [arrow] (P1P2) -- (output);
+  \end{tikzpicture}
+
+  \caption{Simplified cascaded blocks}
+  \label{fig:simplified_cascaded_blocks}
+\end{nofloatfigure}
+
+\section{Combining blocks in parallel}
+
+\begin{equation}
+  Y = P_1 X \pm P_2 X
+\end{equation}
+
+\begin{nofloatfigure}
+  \begin{tikzpicture}[auto, >=latex']
+    % Place the blocks
+    \node {$X(s)$} (input);
+    \coordinate [right=of input] (afterin);
+    \node [block, right=of afterin] (P1) {$P_1$};
+    \node [sum, right=of P1] (sum) {};
+    \node [right=of sum] (output) {$Y(s)$};
+    \node [block, below=of P1] (P2) {$P_2$};
+
+    % Connect the nodes
+    \draw [arrow] (input) -- node {} (P1);
+    \draw [arrow] (P1) -- node[pos=0.85] {$+$} (sum);
+    \draw [arrow] (sum) -- node[name=y] {} (output);
+    \draw [arrow] (afterin) |- node {} (P2);
+    \draw [arrow] (P2) -| node[pos=0.97, right] {$\pm$} (sum);
+  \end{tikzpicture}
+
+  \caption{Parallel blocks}
+  \label{fig:parallel_blocks}
+\end{nofloatfigure}
+
+\begin{nofloatfigure}
+  \begin{tikzpicture}[auto, >=latex']
+    % Place the blocks
+    \node {$X(s)$} (input);
+    \node [block, right=of input] (P1P2) {$P_1 \pm P_2$};
+    \node [right=of P1P2] (output) {$Y(s)$};
+
+    % Connect the nodes
+    \draw [arrow] (input) -- (P1P2);
+    \draw [arrow] (P1P2) -- (output);
+  \end{tikzpicture}
+
+  \caption{Simplified parallel blocks}
+  \label{fig:simplified_parallel_blocks}
+\end{nofloatfigure}
+
+\section{Removing a block from a feedforward loop}
+
+\begin{equation}
+  Y = P_1 X \pm P_2 X
+\end{equation}
+
+\begin{nofloatfigure}
+  \begin{tikzpicture}[auto, >=latex']
+    % Place the blocks
+    \node {$X(s)$} (input);
+    \coordinate [right=of input] (afterin);
+    \node [block, right=of afterin] (P1) {$P_1$};
+    \node [sum, right=of P1] (sum) {};
+    \node [right=of sum] (output) {$Y(s)$};
+    \node [block, below=of P1] (P2) {$P_2$};
+
+    % Connect the nodes
+    \draw [arrow] (input) -- node {} (P1);
+    \draw [arrow] (P1) -- node[pos=0.85] {$+$} (sum);
+    \draw [arrow] (sum) -- node[name=y] {} (output);
+    \draw [arrow] (afterin) |- node {} (P2);
+    \draw [arrow] (P2) -| node[pos=0.97, right] {$\pm$} (sum);
+  \end{tikzpicture}
+
+  \caption{Feedforward loop}
+  \label{fig:feedforward_loop}
+\end{nofloatfigure}
+
+\begin{nofloatfigure}
+  \begin{tikzpicture}[auto, >=latex']
+    % Place the blocks
+    \node {$X(s)$} (input);
+    \node [block, right=of input] (P2) {$P_2$};
+    \coordinate [right=of P2] (afterin);
+    \node [block, right=of afterin] (P1P2) {$\frac{P_1}{P_2}$};
+    \node [sum, right=of P1P2] (sum) {};
+    \node [right=of sum] (output) {$Y(s)$};
+    \coordinate [below=of P1P2] (ff);
+
+    % Connect the nodes
+    \draw [arrow] (input) -- node {} (P2);
+    \draw [arrow] (P2) -- node {} (P1P2);
+    \draw [arrow] (P1P2) -- node[pos=0.85] {$+$} (sum);
+    \draw [arrow] (sum) -- node[name=y] {} (output);
+    \draw (afterin) |- node {} (ff);
+    \draw [arrow] (ff) -| node[pos=0.97, right] {$\pm$} (sum);
+  \end{tikzpicture}
+
+  \caption{Transformed feedforward loop}
+  \label{fig:transformed_feedforward loop}
+\end{nofloatfigure}
+
+\section{Eliminating a feedback loop}
+
+\begin{equation}
+  Y = P_1 (X \mp P_2 Y)
+\end{equation}
+
+\begin{nofloatfigure}
+  \begin{tikzpicture}[auto, >=latex']
+    % Place the blocks
+    \node {$X(s)$} (input);
+    \node [sum, right=of input] (sum) {};
+    \node [block, right=of sum] (P1) {$P_1$};
+    \node [right=of P1] (output) {$Y(s)$};
+    \node [block, below=of P1] (P2) {$P_2$};
+
+    % Connect the nodes
+    \draw [arrow] (input) -- node[pos=0.85] {$+$} (sum);
+    \draw [arrow] (sum) -- node {} (P1);
+    \draw [arrow] (P1) -- node[name=y] {} (output);
+    \draw [arrow] (y) |- (P2);
+    \draw [arrow] (P2) -| node[pos=0.97, right] {$\mp$} (sum);
+  \end{tikzpicture}
+
+  \caption{Feedback loop}
+  \label{fig:feedback_loop1}
+\end{nofloatfigure}
+
+\begin{nofloatfigure}
+  \begin{tikzpicture}[auto, >=latex']
+    % Place the blocks
+    \node {$X(s)$} (input);
+    \node [block, right=of input] (P1P2) {$\frac{P_1}{1 \pm P_1 P2}$};
+    \node [right=of P1P2] (output) {$Y(s)$};
+
+    % Connect the nodes
+    \draw [arrow] (input) -- (P1P2);
+    \draw [arrow] (P1P2) -- (output);
+  \end{tikzpicture}
+
+  \caption{Simplified feedback loop}
+  \label{fig:simplified_feedback_loop}
+\end{nofloatfigure}
+
+\section{Removing a block from a feedback loop}
+
+\begin{equation}
+  Y = P_1 (X \mp P_2 Y)
+\end{equation}
+
+\begin{nofloatfigure}
+  \begin{tikzpicture}[auto, >=latex']
+    % Place the blocks
+    \node {$X(s)$} (input);
+    \node [sum, right=of input] (sum) {};
+    \node [block, right=of sum] (P1) {$P_1$};
+    \node [right=of P1] (output) {$Y(s)$};
+    \node [block, below=of P1] (P2) {$P_2$};
+
+    % Connect the nodes
+    \draw [arrow] (input) -- node[pos=0.85] {$+$} (sum);
+    \draw [arrow] (sum) -- node {} (P1);
+    \draw [arrow] (P1) -- node[name=y] {} (output);
+    \draw [arrow] (y) |- (P2);
+    \draw [arrow] (P2) -| node[pos=0.97, right] {$\mp$} (sum);
+  \end{tikzpicture}
+
+  \caption{Feedback loop}
+  \label{fig:feedback_loop2}
+\end{nofloatfigure}
+
+\begin{nofloatfigure}
+  \begin{tikzpicture}[auto, >=latex']
+    % Place the blocks
+    \node {$X(s)$} (input);
+    \node [block, right= of input] (P2) {$\frac{1}{P_2}$};
+    \node [sum, right=of P2] (sum) {};
+    \node [block, right=of sum] (P1P2) {$P_1 P_2$};
+    \node [right=of P1P2] (output) {$Y(s)$};
+    \coordinate [below=of P1P2] (fb);
+
+    % Connect the nodes
+    \draw [arrow] (input) -- (P2);
+    \draw [arrow] (P2) -- node[pos=0.85] {$-$} (sum);
+    \draw [arrow] (sum) -- node {} (P1P2);
+    \draw [arrow] (P1P2) -- node[name=y] {} (output);
+    \draw (y) |- (fb);
+    \draw [arrow] (fb) -| node[pos=0.97, right] {$\mp$} (sum);
+  \end{tikzpicture}
+
+  \caption{Transformed feedback loop}
+  \label{fig:transformed_feedback_loop}
+\end{nofloatfigure}
