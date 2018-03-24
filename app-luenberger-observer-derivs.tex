@@ -73,21 +73,23 @@ substitute the relationship between the Luenberger observer and Kalman filter
 matrices derived above into the Kalman filter equations. \\
 
 Appendix \ref{subsec:app-kalman-luenberger} shows that $\mtx{C} = \mtx{H}$ and
-$\mtx{L} = \mtx{A}\mtx{K}_k$, so $\mtx{K}_k = \mtx{A}^{-1}\mtx{L}$. Substitute
-this and $\mtx{C} = \mtx{H}$ into the Kalman filter update equation.
+$\mtx{L} = \mtx{A}\mtx{K}_k$. Since $\mtx{L}$ and $\mtx{A}$ are constant, one
+must assume $\mtx{K}_k$ has reached steady-state. Then,
+$\mtx{K} = \mtx{A}^{-1}\mtx{L}$. Substitute this and $\mtx{C} = \mtx{H}$ into
+the Kalman filter update equation.
 
 \begin{align*}
-  \hat{\mtx{x}}_{k+1}^+ &= \hat{\mtx{x}}_{k+1}^- + \mtx{K}_k(\mtx{y}_k -
-    \mtx{H}\hat{\mtx{x}}_k^-) \\
+  \hat{\mtx{x}}_{k+1}^+ &= \hat{\mtx{x}}_{k+1}^- + \mtx{K}(\mtx{y}_{k+1} -
+    \mtx{H}\hat{\mtx{x}}_{k+1}^-) \\
   \hat{\mtx{x}}_{k+1}^+ &= \hat{\mtx{x}}_{k+1}^- + \mtx{A}^{-1}\mtx{L}
-    (\mtx{y}_k - \mtx{C}\hat{\mtx{x}}_k^-)
+    (\mtx{y}_{k+1} - \mtx{C}\hat{\mtx{x}}_{k+1}^-)
 \end{align*}
 
 Substitute in equation (\ref{eq:z_obsv_y}).
 
 \begin{equation*}
   \hat{\mtx{x}}_{k+1}^+ = \hat{\mtx{x}}_{k+1}^- + \mtx{A}^{-1}\mtx{L}
-    (\mtx{y}_k - \hat{\mtx{y}}_k)
+    (\mtx{y}_{k+1} - \hat{\mtx{y}}_{k+1})
 \end{equation*}
 
 The predict step is the same as the Kalman filter's. Therefore, a Luenberger
@@ -98,6 +100,6 @@ observer run with prediction and update steps is written as follows.
   \hat{\mtx{x}}_{k+1}^- &= \mtx{A}\hat{\mtx{x}}_k^- + \mtx{B}\mtx{u}_k \\
   \text{Update step} \nonumber \\
   \hat{\mtx{x}}_{k+1}^+ &= \hat{\mtx{x}}_{k+1}^- + \mtx{A}^{-1}\mtx{L}
-    (\mtx{y}_k - \hat{\mtx{y}}_k) \\
-  \hat{\mtx{y}}_k &= \mtx{C} \hat{\mtx{x}}_k^-
+    (\mtx{y}_{k+1} - \hat{\mtx{y}}_{k+1}) \\
+  \hat{\mtx{y}}_{k+1} &= \mtx{C} \hat{\mtx{x}}_{k+1}^-
 \end{align}
