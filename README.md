@@ -30,7 +30,7 @@ Since the link to the Wikibooks page on block diagrams only shows a table of sim
 The linear algebra section should be filled out with some basics that are needed
 to understand the examples (how is dimensionality specified, how are matrices multiplied together as linear transformations, what are eigenvalues). Specific videos from the 3Blue1Brown playlist will be referred to for more information. Following the content of the videos in order is an option.
 
-The referencesd derivations for the optimal control law are really just showing the cost function and what K actually is. It should be included in an appendix instead (as should any other results that are good for background, but are unnecessary).
+Any other results that are good for background, but are unnecessary should be included in an appendix.
 
 The link to the graphical introduction to Kalman filters should be replaced with something much more comprehensive. The graphics are nice, but there isn't much substance to promote deep understanding. I have a lot of notes from the course I took on Kalman filters I intend to synthesize.
 

@@ -15,8 +15,8 @@ the following.
 \end{equation}
 
 This means that optimal control can be achieved with simply a set of
-proportional gains on all the states. See the Wikipedia page on Linear-Quadratic Regulators \cite{bib:lqr} for an explanation of this choice of feedback control
-law. \\
+proportional gains on all the states. The reason for this will be explained when
+discussing Linear-Quadratic Regulators. \\
 
 This \gls{control law} will make all states converge to zero assuming the system
 is controllable. To converge to non-zero states, a reference vector $\mtx{r}$
@@ -116,16 +116,27 @@ function, which will be discussed below.
 
 \subsubsection{Pareto optimal curve}
 
-This tradeoff is represented by the cost function
+A system $\dot{\mtx{x}} = \mtx{A}\mtx{x} + \mtx{B}\mtx{u}$ has the cost function
 
 \begin{equation*}
-  J = \int\limits_0^\infty \left(x^T Q x + u^T R u \right) dt
+  J = \int\limits_0^\infty \left(\mtx{x}^T\mtx{Q}\mtx{x} +
+    \mtx{u}^T\mtx{R}\mtx{u}\right) dt
 \end{equation*}
 
-LQR attempts to minimize $J$ given the \gls{state} excursion and control effort
-weighting factors $Q$ and $R$. If the solution produces a finite value, the
-resulting controller is guaranteed to be stable and \glslink{robustness}{robust}
-with a \gls{phase margin} of 55 degrees.
+where $J$ represents a tradeoff between \gls{state} excursion and control
+effort with the weighting factors $\mtx{Q}$ and $\mtx{R}$. The feedback
+\gls{control law} that minimizes $J$ is
+
+\begin{equation*}
+  \mtx{u} = -\mtx{K}\mtx{x}
+\end{equation*}
+
+See appendix \ref{sec:app-optimal-control-law-deriv} for how $\mtx{K}$ is
+calculated in Python. \\
+
+If the solution produces a finite value, the resulting controller is guaranteed
+to be stable and \glslink{robustness}{robust} with a \gls{phase margin} of 55
+degrees.
 
 \subsubsection{Bryson's rule}
 

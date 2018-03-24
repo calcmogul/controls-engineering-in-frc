@@ -1,0 +1,64 @@
+\section{Optimal control law derivation}
+\label{sec:app-optimal-control-law-deriv}
+
+For a continuous-time linear system described by
+
+\begin{equation}
+  \dot{\mtx{x}} = \mtx{A}\mtx{x} + \mtx{B}\mtx{u}
+\end{equation}
+
+with the cost function
+
+\begin{equation*}
+  J = \int\limits_0^\infty \left(\mtx{x}^T\mtx{Q}\mtx{x} +
+    \mtx{u}^T\mtx{R}\mtx{u}\right) dt
+\end{equation*}
+
+where $J$ represents a tradeoff between \gls{state} excursion and control
+effort with the weighting factors $\mtx{Q}$ and $\mtx{R}$, the feedback
+\gls{control law} which minimizes $J$ is
+
+\begin{equation*}
+  \mtx{u} = -\mtx{K}\mtx{x}
+\end{equation*}
+
+where $\mtx{K}$ is given by
+
+\begin{equation*}
+  \mtx{K} = \mtx{R}^{-1} \left(\mtx{B}^T\mtx{P} + \mtx{N}^T\right)
+\end{equation*}
+
+and $\mtx{P}$ is found by solving the continuous-time algebraic Riccati equation
+defined as
+
+\begin{equation*}
+  \mtx{A}^T\mtx{P} + \mtx{P}\mtx{A} - \left(\mtx{P}\mtx{B} +
+    \mtx{N}\right) \mtx{R}^{-1} \left(\mtx{B}^T\mtx{P} + \mtx{N}^T\right) +
+    \mtx{Q} = 0
+\end{equation*}
+
+or alternatively
+
+\begin{equation*}
+  \mathscrbf{A}^T\mtx{P} + \mtx{P}\mathscrbf{A} -
+    \mtx{P}\mtx{B}\mtx{R}^{-1}\mtx{B}^T\mtx{P} + \mathscrbf{Q} = 0
+\end{equation*}
+
+with
+
+\begin{align*}
+  \mathscrbf{A} &= \mtx{A} - \mtx{B}\mtx{R}^{-1}\mtx{N}^T \\
+  \mathscrbf{Q} &= \mtx{Q} - \mtx{N}\mtx{R}^{-1}\mtx{N}^T
+\end{align*}
+
+Here is code for computing the optimal infinite-horizon, discrete-time LQR
+controller.
+
+\begin{snippet}
+  \caption{Infinite-horizon, discrete-time LQR computation in Python}
+  \label{snip:dlqr}
+  \includecode[Python]{code/dlqr.py}
+\end{snippet}
+
+Other formulations of LQR for finite-horizon and discrete-time can be seen at
+\url{https://en.wikipedia.org/wiki/Linear–quadratic_regulator}.
