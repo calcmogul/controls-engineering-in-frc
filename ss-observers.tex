@@ -318,6 +318,22 @@ range, use a uniform distribution instead. Each of these communicates
 information regarding what you know about a system in addition to what you do
 not.
 
+\subsection{Steady-state error covariance matrix}
+
+One may have noticed that the error covariance matrix can be updated
+independently of the rest of the model. The error covariance matrix tends
+toward a steady-state value, and this matrix can be obtained via the discrete
+algebraic Ricatti equation. This can then be used to compute a steady-state
+Kalman gain. \\
+
+Here is code for computing the steady-state matrices for a Kalman filter.
+
+\begin{snippet}
+  \caption{Steady-state Kalman gain and error covariance matrices calculation in Python}
+  \label{snip:steady_state_kalman}
+  \includecode[Python]{code/kalman.py}
+\end{snippet}
+
 \subsection{Kalman filter as Luenberger observer}
 
 A Kalman filter can be represented as a Luenberger observer by letting
