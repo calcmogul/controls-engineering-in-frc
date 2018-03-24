@@ -28,7 +28,7 @@ The document is still very high level for the subject it covers as well as very 
 Since the link to the Wikibooks page on block diagrams only shows a table of simplification steps, that could be written in TikZ as an appendix.
 
 The linear algebra section should be filled out with some basics that are needed
-to understand the examples (how is dimensionality specified, how are matrices multiplied together as linear transformations, what are eigenvalues). Specific videos from the 3Blue1Brown playlist will be referred to for more information. Following the content of the videos in order is an option.
+to understand the examples based on the videos already linked there.
 
 Any other results that are good for background, but are unnecessary should be included in an appendix.
 
