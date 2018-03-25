@@ -3,48 +3,7 @@
 \subsubsection{Equations of motion}
 
 This elevator consists of a DC brushed motor attached to a pulley that drives a
-mass up or down. The circuit for a DC brushed motor is as follows.
-
-\begin{figure}[H]
-  \centering
-
-  \begin{tikzpicture}[auto, >=latex', circuit ee IEC,
-                      set resistor graphic=var resistor IEC graphic]
-    \node [opencircuit] (start) at (0,0) {};
-    \node [] (V+) at (-0.5,0) { $+$ };
-    \node [opencircuit] (end) at (0,-3.5) {};
-    \node [] (V-) at (-0.5,-3.5) { $-$ };
-    \node [coordinate] (topright) at (2.5,0) {};
-    \node [coordinate] (bottomright) at (2.5,-3.5) {};
-    \node [] at (0, -1.75) { $V$ };
-    \draw (start) to (topright)
-                  to [resistor={near start, info'={ $R$ }},
-                      voltage source={near end, direction info'={<-},
-                      info={ $V_{emf}=\frac{\omega}{K_v}$ }}] (bottomright)
-                  to (end);
-  \end{tikzpicture}
-
-  \caption{DC brushed motor circuit}
-  \label{fig:dc_motor_circuit}
-\end{figure}
-
-where $V$ is the voltage applied to the motor, $I$ is the current through the
-motor in Amps, $R$ is the resistance across the motor in Ohms, $\omega_m$ is the
-angular velocity of the motor in radians per second, and $K_v$ is a
-proportionality constant. This circuit reflects the following relation.
-
-\begin{equation}
-  V = IR + \frac{\omega_m}{K_v} \label{eq:elevator_V}
-\end{equation}
-
-The mechanical relation for a DC brushed motor is
-
-\begin{equation}
-  \tau_m = K_t I \label{eq:elevator_tau_m}
-\end{equation}
-
-where $\tau_m$ is the torque produced by the motor in Newton-meters and $K_t$ is
-the torque constant in Newton-meters per Amp.
+mass up or down.
 
 \begin{figure}[H]
   \centering
@@ -79,7 +38,7 @@ the torque constant in Newton-meters per Amp.
     \draw[fill=black!50] (2.8,1.45) rectangle (3.75,1.55);
 
     % Angular velocity arrow of drive -> transmission
-    \draw[line width=0.7pt,<-] (3.2,1) arc (-30:30:1);
+    \draw[line width=0.7pt,<-] (3.2,1) arc (-30:30:1) node[above] {$\omega_m$};
 
     % Transmission gear two
     \draw[fill=black!50] (3.95,2.51) ellipse (0.13 and 0.67);
@@ -119,7 +78,8 @@ the torque constant in Newton-meters per Amp.
     \draw[fill=black!50] (4.09,2.42) rectangle (5.05,2.52);
 
     % Angular velocity arrow between transmission and pulley
-    \draw[line width=0.7pt,->] (4.54,1.97) arc (-30:30:1);
+    \draw[line width=0.7pt,->] (4.54,1.97) arc (-30:30:1) node[above]
+      {$\omega_p$};
 
     % Pulley front chain
     \draw[fill=black!70, color=black!70] (5.24,2.49) rectangle (5.32,0.32);
@@ -127,7 +87,7 @@ the torque constant in Newton-meters per Amp.
     \draw (5.33,2.49) -- (5.33,0.32);
 
     % Pulley radius arrow
-    \draw[line width=0.7pt,<->] (5.54,2.49) -- (5.54,2.89);
+    \draw[line width=0.7pt,<->] (5.54,2.49) -- node[right] {$r$} (5.54,2.89);
 
     % Mass
     \fill[fill=white] (4.89,1.62) -- (4.89,1.02) -- (5.09,0.82) -- (5.09,1.02)
@@ -140,15 +100,11 @@ the torque constant in Newton-meters per Amp.
     \draw[fill=white] (5.09,1.42) rectangle (5.87,0.82);
 
     % Mass velocity arrow
-    \draw[line width=0.7pt,<-] (6.04,1.35) -- (6.04,0.95);
+    \draw[line width=0.7pt,<-] (6.04,1.35) -- node {$v_m$} (6.04,0.95);
 
     % Descriptions inside graphic
-    \draw (3.2,2.2) node {$\omega_m$};
-    \draw (4.54,3.15) node {$\omega_p$};
-    \draw (5.75,2.66) node {$r$};
     \draw (3.85,0.9) node {$G$};
     \draw (5.48,1.12) node {$m$};
-    \draw (6.24,1.15) node {$v$};
 
     % Descriptions of subsystems under graphic
     \draw[decorate,decoration={brace,amplitude=10pt}]
@@ -174,20 +130,8 @@ torque produced by the pulley.
   rF_m = \tau_p \label{eq:elevator_torque_pulley}
 \end{equation}
 
-where $r$ is the radius of the pulley. From equation (\ref{eq:elevator_tau_m}):
-
-\begin{equation}
-  I = \frac{\tau_m}{K_t}
-\end{equation}
-
-Substitute this into equation (\ref{eq:elevator_V}).
-
-\begin{align*}
-  V &= \frac{\tau_m}{K_t} R + \frac{\omega_m}{K_v} \\
-  V &= \frac{\tau_m}{K_t} R + \frac{\omega_m}{K_v}
-\end{align*}
-
-Substitute in equation (\ref{eq:elevator_tau_m}).
+where $r$ is the radius of the pulley. Substitute equation
+(\ref{eq:elevator_tau_m_ratio}) into equation (\ref{eq:motor_tau_V}).
 
 \begin{align*}
   V &= \frac{\frac{\tau_p}{G}}{K_t} R + \frac{\omega_m}{K_v} \\
@@ -200,21 +144,25 @@ Substitute in equation (\ref{eq:elevator_torque_pulley}).
   V = \frac{rF_m}{GK_t} R + \frac{\omega_m}{K_v} \label{eq:elevator_Vinter1}
 \end{equation}
 
-Find $\omega_m$.
+The angular velocity of the motor armature $\omega_m$ is
 
-\begin{align}
-  \omega_m &= G \omega_p \label{eq:elevator_omega_m_ratio} \\
-  v_m &= r \omega_p \nonumber
-\end{align}
+\begin{equation}
+  \omega_m = G \omega_p \label{eq:elevator_omega_m_ratio} \\
+\end{equation}
 
-where $v_m$ is the velocity of the mass (the elevator carriage).
+where $\omega_p$ is the angular velocity of the pulley. The velocity of the mass
+(the elevator carriage) is
+
+\begin{equation*}
+  v_m = r \omega_p
+\end{equation*}
 
 \begin{equation}
   \omega_p = \frac{v_m}{r} \label{eq:elevator_omega_p}
 \end{equation}
 
-where $\omega_p$ is the angular velocity of the pulley. Substitute equation
-(\ref{eq:elevator_omega_p}) into equation (\ref{eq:elevator_omega_m_ratio}).
+Substitute equation (\ref{eq:elevator_omega_p}) into equation
+(\ref{eq:elevator_omega_m_ratio}).
 
 \begin{equation}
   \omega_m = G \frac{v_m}{r} \label{eq:elevator_omega_m}
@@ -257,56 +205,6 @@ state-space \gls{model} and the controller will behave well enough without it.
   a_m &= \frac{GK_t}{Rrm} V - \frac{G^2K_t}{R^2 rmK_v} v_m
     \label{eq:elevator_accel}
 \end{align}
-
-\subsubsection{Calculating DC brushed motor constants}
-
-Note that a typical motor's datasheet should include graphs of the motor's
-measured torque and current for different angular velocities for a given voltage
-applied to the motor.
-
-$G$, $r$, and $m$ are given when designing the elevator.
-
-\begin{align}
-  \tau_m &= I K_t \nonumber \\
-  K_t &= \frac{\tau_m}{I} \nonumber \\
-  K_t &= \frac{\tau_{m,stall}}{I_{stall}}
-\end{align}
-
-where $\tau_{m,stall}$ is the stall torque and $I_{stall}$ is the stall current
-of the motor from its datasheet. \\
-
-Recall equation (\ref{eq:elevator_V}).
-
-\begin{equation*}
-  V = IR + \frac{\omega_m}{K_v}
-\end{equation*}
-
-When the motor is stalled, $\omega_m = 0$.
-
-\begin{align}
-  V &= I_{stall} R \nonumber \\
-  R &= \frac{V}{I_{stall}}
-\end{align}
-
-where $I_{stall}$ is the stall current of the motor and $V$ is the voltage
-applied to the motor at stall. \\
-
-Again recall equation (\ref{eq:elevator_V}).
-
-\begin{equation*}
-  V = IR + \frac{\omega_m}{K_v}
-\end{equation*}
-
-When the motor is spinning under no load, no current is drawn so $I = 0$.
-
-\begin{align}
-  V &= \frac{\omega_m}{K_v} \nonumber \\
-  K_v &= \frac{V}{\omega_{m,free}}
-\end{align}
-
-where $\omega_{m,free}$ is the angular velocity of the motor under no load (also
-known as the free speed) and $V$ is the voltage applied to the motor when
-it's spinning at $\omega_{m,free}$.
 
 \subsubsection{Continuous state-space model}
 

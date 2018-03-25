@@ -1,0 +1,104 @@
+\subsection{DC brushed motor}
+
+\subsubsection{Equations of motion}
+
+The circuit for a DC brushed motor is shown below.
+
+\begin{figure}[H]
+  \centering
+
+  \begin{tikzpicture}[auto, >=latex', circuit ee IEC,
+                      set resistor graphic=var resistor IEC graphic]
+    \node [opencircuit] (start) at (0,0) {};
+    \node [] (V+) at (-0.5,0) { $+$ };
+    \node [opencircuit] (end) at (0,-3.5) {};
+    \node [] (V-) at (-0.5,-3.5) { $-$ };
+    \node [coordinate] (topright) at (2.5,0) {};
+    \node [coordinate] (bottomright) at (2.5,-3.5) {};
+    \node [] at (0, -1.75) { $V$ };
+    \draw (start) to (topright)
+                  to [resistor={near start, info'={ $R$ }},
+                      voltage source={near end, direction info'={<-},
+                      info={ $V_{emf}=\frac{\omega}{K_v}$ }}] (bottomright)
+                  to (end);
+  \end{tikzpicture}
+
+  \caption{DC brushed motor circuit}
+  \label{fig:dc_motor_circuit}
+\end{figure}
+
+where $V$ is the voltage applied to the motor, $I$ is the current through the
+motor in Amps, $R$ is the resistance across the motor in Ohms, $\omega_m$ is the
+angular velocity of the motor in radians per second, and $K_v$ is a
+proportionality constant. This circuit reflects the following relation.
+
+\begin{equation}
+  V = IR + \frac{\omega_m}{K_v} \label{eq:motor_V}
+\end{equation}
+
+The mechanical relation for a DC brushed motor is
+
+\begin{equation}
+  \tau_m = K_t I \label{eq:motor_tau_m}
+\end{equation}
+
+where $\tau_m$ is the torque produced by the motor in Newton-meters and $K_t$ is
+the torque constant in Newton-meters per Amp. Therefore
+
+\begin{equation*}
+  I = \frac{\tau_m}{K_t}
+\end{equation*}
+
+Substitute this into equation (\ref{eq:motor_V}).
+
+\begin{equation}
+  V = \frac{\tau_m}{K_t} R + \frac{\omega_m}{K_v} \label{eq:motor_tau_V}
+\end{equation}
+
+\subsubsection{Calculating constants}
+
+A typical motor's datasheet should include graphs of the motor's measured torque
+and current for different angular velocities for a given voltage applied to the
+motor. To find $K_t$
+
+\begin{align}
+  \tau_m &= K_t I \nonumber \\
+  K_t &= \frac{\tau_m}{I} \nonumber \\
+  K_t &= \frac{\tau_{m,stall}}{I_{stall}}
+\end{align}
+
+where $\tau_{m,stall}$ is the stall torque and $I_{stall}$ is the stall current
+of the motor from its datasheet. \\
+
+To find $R$, recall equation (\ref{eq:motor_V}).
+
+\begin{equation*}
+  V = IR + \frac{\omega_m}{K_v}
+\end{equation*}
+
+When the motor is stalled, $\omega_m = 0$.
+
+\begin{align}
+  V &= I_{stall} R \nonumber \\
+  R &= \frac{V}{I_{stall}}
+\end{align}
+
+where $I_{stall}$ is the stall current of the motor and $V$ is the voltage
+applied to the motor at stall. \\
+
+To find $K_v$, again recall equation (\ref{eq:motor_V}).
+
+\begin{equation*}
+  V = IR + \frac{\omega_m}{K_v}
+\end{equation*}
+
+When the motor is spinning under no load, no current is drawn so $I = 0$.
+
+\begin{align}
+  V &= \frac{\omega_m}{K_v} \nonumber \\
+  K_v &= \frac{V}{\omega_{m,free}}
+\end{align}
+
+where $\omega_{m,free}$ is the angular velocity of the motor under no load (also
+known as the free speed) and $V$ is the voltage applied to the motor when
+it's spinning at $\omega_{m,free}$.
