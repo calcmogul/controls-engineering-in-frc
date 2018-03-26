@@ -5,6 +5,84 @@
 This single-jointed arm consists of a DC brushed motor attached to a pulley that
 spins a straight bar in pitch.
 
+\begin{figure}[H]
+  \centering
+
+  \begin{tikzpicture}[auto, >=latex', circuit ee IEC,
+                      set resistor graphic=var resistor IEC graphic]
+    % \draw [help lines] (-1,-3) grid (7,4);
+
+    % Electrical equivalent circuit
+    \draw (0,2) to [voltage source={direction info'={->}, info'=$V$}] (0,0);
+    \draw (0,2) to [current direction={info=$I$}] (0,3);
+    \draw (0,3) -- (0.5,3);
+    \draw (0.5,3) to [resistor={info={$R$}}] (2,3);
+
+    \draw (2,3) -- (2.5,3);
+    \draw (2.5,3) to [voltage source={direction info'={->}, info'=$V_{emf}$}]
+      (2.5,0);
+    \draw (0,0) -- (2.5,0);
+
+    % Motor
+    \draw[fill=black] (2.4,1.05) rectangle (2.6,1.95);
+    \draw[fill=white] (2.5,1.5) ellipse (0.3 and 0.3);
+
+    % Transmission gear one
+    \draw[fill=black!50] (3.95,1.5) ellipse (0.08 and 0.33);
+    \draw[fill=black!50, color=black!50] (3.75,1.17) rectangle (3.95,1.83);
+    \draw[fill=white] (3.75,1.5) ellipse (0.08 and 0.33);
+    \draw (3.75,1.83) -- (3.95,1.83);
+    \draw (3.75,1.17) -- (3.95,1.17);
+
+    % Output shaft of motor
+    \draw[fill=black!50] (2.8,1.45) rectangle (3.75,1.55);
+
+    % Angular velocity arrow of drive -> transmission
+    \draw[line width=0.7pt,<-] (3.2,1) arc (-30:30:1) node[above] {$\omega_m$};
+
+    % Transmission gear two
+    \draw[fill=black!50] (3.95,2.51) ellipse (0.13 and 0.67);
+    \draw[fill=black!50, color=black!50] (3.75,1.83) rectangle (3.95,3.18);
+    \draw[fill=white] (3.75,2.51) ellipse (0.13 and 0.67);
+    \draw (3.75,3.18) -- (3.95,3.18);
+    \draw (3.75,1.83) -- (3.95,1.83);
+
+    % Transmission shaft from gear two to arm
+    \draw[fill=black!50] (4.09,2.42) rectangle (5.35,2.52);
+
+    % Single-jointed arm
+    \draw[fill=white] (5.05,2.54) -- (5.15,2.49) -- (5.4,3.99) -- (5.3,4.04)
+      -- cycle;
+    \draw[fill=black!50] (5.15,2.49) -- (5.35,2.49) -- (5.6,3.99) -- (5.4,3.99)
+      -- cycle;
+    \draw[fill=white] (5.3,4.04) -- (5.4,3.99) -- (5.6,3.99) -- (5.5,4.04)
+      -- cycle;
+
+    % Arm length arrow
+    \draw[line width=0.7pt,<->] (5.6,2.49) -- node[right] {$l$} (5.85,3.99);
+
+    % Angular velocity arrow between transmission and arm
+    \draw[line width=0.7pt,->] (4.54,1.97) arc (-30:30:1) node[above]
+      {$\omega_f$};
+
+    % Descriptions inside graphic
+    \draw (3.85,0.9) node {$G$};
+    \draw (4.94,3.24) node {$m$};
+
+    % Descriptions of subsystems under graphic
+    \draw[decorate,decoration={brace,amplitude=10pt}]
+      (3,-0.28) -- (-0.5,-0.28) node[midway,yshift=-20pt] {circuit};
+    \draw[decorate,decoration={brace,amplitude=10pt}]
+      (6.05,-0.28) -- (3.25,-0.28) node[midway,yshift=-20pt] {mechanics};
+  \end{tikzpicture}
+
+  \caption{Single-jointed arm system diagram}
+  \label{fig:single_jointed_arm}
+\end{figure}
+
+Gear ratios are written as output over input, so $G$ is greater than one in
+figure \ref{fig:single_jointed_arm}. \\
+
 \subsubsection{Continuous state-space model}
 
 \subsubsection{Discrete state-space model}
