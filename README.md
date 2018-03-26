@@ -23,9 +23,9 @@ A PDF version is available at https://file.tavsys.net/control/state-space-guide.
 
 ## Future Improvements
 
-The document is still very high level for the subject it covers as well as very dense and fast-paced (it covers three classes of feedback control, two of which are for graduate students, in one short document). It's slowly getting better in that respect. I'd like to expand the introductions for each section and provide more examples like I did for the Kalman filter design to give the reader practice applying the skills discussed.
+The document is still very high level for the subject it covers as well as very dense and fast-paced (it covers three classes of feedback control, two of which are for graduate students, in one short document). I want to make the contents of the document that are in the critical path more accessible. For example, one of my readers said the linear algebra went over their head, so I need to include more of the referenced linear algebra material in the main document (I suspect few readers would actually go watch an hour of supplementary material on YouTube).
 
-Since the link to the Wikibooks page on block diagrams only shows a table of simplification steps, that could be written in TikZ as an appendix.
+I'd also like to expand the introductions for each section and provide more examples like I did for the Kalman filter design to give the reader practice applying the skills discussed.
 
 The linear algebra section should be filled out with some basics that are needed
 to understand the examples based on the videos already linked there.
@@ -34,7 +34,7 @@ Any other results that are good for background, but are unnecessary should be in
 
 The link to the graphical introduction to Kalman filters should be replaced with something much more comprehensive. The graphics are nice, but there isn't much substance to promote deep understanding. I have a lot of notes from the course I took on Kalman filters I intend to synthesize.
 
-The referenced derivations for the Kalman filter could be added as an appendix since they aren't that involved.
+The referenced derivations for the Kalman filter could be added as an appendix since they aren't that long. Does referencing them help the document at all?
 
 The "Implementation Steps" section needs subsections to explain how to do each or at least examples. A small section on kinematics and dynamics in general would be useful. The following state-space implementation examples are planned:
 
