@@ -5,6 +5,234 @@
 This flywheel consists of a DC brushed motor attached to a spinning mass of
 non-negligible moment of inertia.
 
+\begin{figure}[H]
+  \centering
+
+  \begin{tikzpicture}[auto, >=latex', circuit ee IEC,
+                      set resistor graphic=var resistor IEC graphic]
+    % \draw [help lines] (-1,-3) grid (7,4);
+
+    % Electrical equivalent circuit
+    \draw (0,2) to [voltage source={direction info'={->}, info'=$V$}] (0,0);
+    \draw (0,2) to [current direction={info=$I$}] (0,3);
+    \draw (0,3) -- (0.5,3);
+    \draw (0.5,3) to [resistor={info={$R$}}] (2,3);
+
+    \draw (2,3) -- (2.5,3);
+    \draw (2.5,3) to [voltage source={direction info'={->}, info'=$V_{emf}$}]
+      (2.5,0);
+    \draw (0,0) -- (2.5,0);
+
+    % Motor
+    \draw[fill=black] (2.4,1.05) rectangle (2.6,1.95);
+    \draw[fill=white] (2.5,1.5) ellipse (0.3 and 0.3);
+
+    % Transmission gear one
+    \draw[fill=black!50] (3.95,1.5) ellipse (0.08 and 0.33);
+    \draw[fill=black!50, color=black!50] (3.75,1.17) rectangle (3.95,1.83);
+    \draw[fill=white] (3.75,1.5) ellipse (0.08 and 0.33);
+    \draw (3.75,1.83) -- (3.95,1.83);
+    \draw (3.75,1.17) -- (3.95,1.17);
+
+    % Output shaft of motor
+    \draw[fill=black!50] (2.8,1.45) rectangle (3.75,1.55);
+
+    % Angular velocity arrow of drive -> transmission
+    \draw[line width=0.7pt,<-] (3.2,1) arc (-30:30:1) node[above] {$\omega_m$};
+
+    % Transmission gear two
+    \draw[fill=black!50] (3.95,2.51) ellipse (0.13 and 0.67);
+    \draw[fill=black!50, color=black!50] (3.75,1.83) rectangle (3.95,3.18);
+    \draw[fill=white] (3.75,2.51) ellipse (0.13 and 0.67);
+    \draw (3.75,3.18) -- (3.95,3.18);
+    \draw (3.75,1.83) -- (3.95,1.83);
+
+    % Flywheel
+    \draw[fill=white] (5.65,2.49) ellipse (0.13 and 0.4);
+    \draw[fill=white,color=white] (5.05,2.89) rectangle (5.65,2.09);
+    \draw[fill=white] (5.05,2.49) ellipse (0.13 and 0.4);
+    \draw (5.05,2.09) -- (5.65,2.09);
+    \draw (5.05,2.89) -- (5.65,2.89);
+
+    % Transmission shaft from gear two to pulley
+    \draw[fill=black!50] (4.09,2.42) rectangle (5.05,2.52);
+
+    % Angular velocity arrow between transmission and pulley
+    \draw[line width=0.7pt,->] (4.54,1.97) arc (-30:30:1) node[above]
+      {$\omega_f$};
+
+    % Descriptions inside graphic
+    \draw (3.85,0.9) node {$G$};
+    \draw (5.45,2.49) node {$J$};
+
+    % Descriptions of subsystems under graphic
+    \draw[decorate,decoration={brace,amplitude=10pt}]
+      (3,-0.28) -- (-0.5,-0.28) node[midway,yshift=-20pt] {circuit};
+    \draw[decorate,decoration={brace,amplitude=10pt}]
+      (6.05,-0.28) -- (3.25,-0.28) node[midway,yshift=-20pt] {mechanics};
+  \end{tikzpicture}
+
+  \caption{Flywheel system diagram}
+  \label{fig:flywheel}
+\end{figure}
+
+We will start with the equation derived earlier for a DC brushed motor, equation
+(\ref{eq:motor_tau_V}).
+
+\begin{equation*}
+  V = \frac{\tau_m}{K_t} R + \frac{\omega_m}{K_v}
+\end{equation*}
+
+Solve for the angular acceleration. First, we'll rearrange the terms because
+from inspection, $V$ is the model input, $\omega_m$ is the state, and $\tau_m$
+contains the angular acceleration.
+
+\begin{equation*}
+  V = \frac{R}{K_t} \tau_m + \frac{1}{K_v} \omega_m
+\end{equation*}
+
+Since $\tau_m = J \dot{\omega}_m$ where $J$ is the moment of inertia and
+$\dot{\omega}_m$ is the angular acceleration
+
+\begin{align}
+  V &= \frac{R}{K_t} (J \dot{\omega}_m) + \frac{1}{K_v} \omega_m \nonumber \\
+  V &= \frac{RJ}{K_t} \dot{\omega}_m + \frac{1}{K_v} \omega_m \nonumber \\
+  \frac{RJ}{K_t} \dot{\omega}_m &= -\frac{1}{K_v} \omega_m + V \nonumber \\
+  \dot{\omega}_m &= -\frac{K_t}{K_v RJ} \omega_m + \frac{K_t}{RJ} V
+    \label{eq:dot_omega_m}
+\end{align}
+
+The angular velocity of the motor armature $\omega_m$ is
+
+\begin{equation}
+  \omega_m = G \omega_f \label{eq:omega_m_omega_f}
+\end{equation}
+
+where $G$ is the gear ratio between the motor and the flywheel and $\omega_f$ is
+the angular velocity of the flywheel. \\
+
+Substitute equation (\ref{eq:omega_m_omega_f}) into equation
+(\ref{eq:dot_omega_m}).
+
+\begin{align}
+  (G\dot{\omega}_f) &= -\frac{K_t}{K_v RJ} (G\omega_f) + \frac{K_t}{RJ} V
+    \nonumber \\
+  G\dot{\omega}_f &= -\frac{K_t G}{K_v RJ} \omega_f + \frac{K_t}{RJ} V
+    \nonumber \\
+  \dot{\omega}_f &= -\frac{K_t}{K_v RJ} \omega_f + \frac{K_t}{GRJ} V
+    \label{eq:dot_omega_f}
+\end{align}
+
 \subsubsection{Continuous state-space model}
 
+By equation (\ref{eq:dot_omega_f})
+
+\begin{equation*}
+  \dot{\omega}_f = -\frac{K_t}{K_v RJ} \omega_f + \frac{K_t}{GRJ} V
+\end{equation*}
+
+\begin{align*}
+  \dot{\mtx{x}} &= \mtx{A} \mtx{x} + \mtx{B} \mtx{u} \\
+  \dot{\mtx{y}} &= \mtx{C} \mtx{x} + \mtx{D} \mtx{u}
+\end{align*}
+
+\begin{align*}
+  \mtx{x} &= \left[
+  \begin{array}{c}
+    \omega_f
+  \end{array}
+  \right] \\
+  \mtx{y} &= \omega_f \\
+  \mtx{u} &= V
+\end{align*}
+
+\begin{align}
+  \dot{\mtx{x}} &= \left[
+  \begin{array}{c}
+    -\frac{K_t}{K_v RJ}
+  \end{array}
+  \right] \left[
+  \begin{array}{c}
+    \omega_f \\
+  \end{array}
+  \right] + \left[
+  \begin{array}{c}
+    \frac{K_t}{GRJ}
+  \end{array}
+  \right] V \\
+  \mtx{y} &= \left[
+  \begin{array}{c}
+    1
+  \end{array}
+  \right] \left[
+  \begin{array}{c}
+    \omega_f \\
+  \end{array}
+  \right] + 0 \cdot V
+\end{align}
+
 \subsubsection{Discrete state-space model}
+
+The angular velocity of the flywheel can be written as
+
+\begin{align}
+  \omega_{f,k+1} &= \omega_{f,k} + \dot{\omega}_{f,k} \Delta t
+    \label{eq:flywheel_disc_ss_vel} \\
+\end{align}
+
+where by equation (\ref{eq:dot_omega_f})
+
+\begin{equation*}
+  \dot{\omega}_{f,k} = -\frac{K_t}{K_v RJ} \omega_{f,k} + \frac{K_t}{GRJ} V_k
+\end{equation*}
+
+Substitute this into equation (\ref{eq:flywheel_disc_ss_vel}).
+
+\begin{align}
+  \omega_{f,k+1} &= \omega_{f,k} + \left(-\frac{K_t}{K_v RJ} \omega_{f,k} +
+    \frac{K_t}{GRJ} V_k\right) \Delta t \nonumber \\
+  \omega_{f,k+1} &= \omega_{f,k} - \frac{K_t}{K_v RJ} \omega_{f,k} \Delta t +
+    \frac{K_t}{GRJ} \Delta t V_k \nonumber \\
+  \omega_{f,k+1} &= \left(1 - \frac{K_t}{K_v RJ} \Delta t\right) \omega_{f,k} +
+    \frac{K_t}{GRJ} \Delta t V_k \nonumber \\
+\end{align}
+
+\begin{align*}
+  \mtx{x}_{k+1} &= \mtx{A} \mtx{x}_k + \mtx{B} \mtx{u}_k \\
+  \mtx{y}_{k+1} &= \mtx{C} \mtx{x}_k + \mtx{D} \mtx{u}_k
+\end{align*}
+
+\begin{align*}
+  \mtx{x}_k &= \left[
+  \begin{array}{c}
+    \omega_{f,k}
+  \end{array}
+  \right] \\
+  \mtx{y}_k &= \omega_{f,k} \\
+  \mtx{u}_k &= V_k
+\end{align*}
+
+\begin{align}
+  \mtx{x}_{k+1} &= \left[
+  \begin{array}{c}
+    1 - \frac{K_t}{K_v RJ} \Delta t
+  \end{array}
+  \right] \left[
+  \begin{array}{c}
+    \omega_{f,k} \\
+  \end{array}
+  \right] + \left[
+  \begin{array}{c}
+    \frac{K_t}{GRJ} \Delta t
+  \end{array}
+  \right] V_k \\
+  \mtx{y}_k &= \left[
+  \begin{array}{c}
+    1
+  \end{array}
+  \right] \left[
+  \begin{array}{c}
+    \omega_{f,k} \\
+  \end{array}
+  \right] + 0 \cdot V_k
+\end{align}

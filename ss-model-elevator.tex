@@ -215,7 +215,7 @@ The position and velocity of the elevator can be written as
   \dot{v}_m &= a_m \label{eq:elevator_cont_ss_vel}
 \end{align}
 
-where from equation (\ref{eq:elevator_accel})
+where by equation (\ref{eq:elevator_accel})
 
 \begin{equation*}
   a_m = \frac{GK_t}{Rrm} V - \frac{G^2 K_t}{R^2 rm K_v} v_m
@@ -234,7 +234,7 @@ Substitute this into equation (\ref{eq:elevator_cont_ss_vel}).
 \end{align*}
 
 \begin{align*}
-  \dot{\mtx{x}} &= \left[
+  \mtx{x} &= \left[
   \begin{array}{c}
     x \\
     v_m
@@ -270,7 +270,7 @@ Substitute this into equation (\ref{eq:elevator_cont_ss_vel}).
     x \\
     v_m \\
   \end{array}
-  \right] + 0 \cdot V
+  \right] + \mtx{0} \cdot V
 \end{align}
 
 \subsubsection{Discrete state-space model}
@@ -282,7 +282,7 @@ The position and velocity of the elevator can be written as
   v_{m,k+1} &= v_{m,k} + a_{m,k} \Delta t \label{eq:elevator_disc_ss_vel}
 \end{align}
 
-where from equation (\ref{eq:elevator_accel})
+where by equation (\ref{eq:elevator_accel})
 
 \begin{equation*}
   a_{m,k} = \frac{GK_t}{Rrm} V_k - \frac{G^2 K_t}{R^2 rm K_v} v_{m,k}
@@ -343,5 +343,5 @@ Substitute this into equation (\ref{eq:elevator_disc_ss_vel}).
     x_k \\
     v_{m,k} \\
   \end{array}
-  \right] + 0 \cdot V_k
+  \right] + \mtx{0} \cdot V_k
 \end{align}

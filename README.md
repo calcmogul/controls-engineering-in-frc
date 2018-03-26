@@ -43,8 +43,8 @@ The "Implementation Steps" section needs subsections to explain how to do each o
   * Include discretization and controller tuning steps in Python
   * Include writing unit tests in Google Test
   * Include how to implement the model in C++ with Eigen
-* Flywheel
-  * See 971/y2017/control_loops/python/shooter.py
+* Flywheel (in progress)
+  * See elevator items
 * Drivetrain
   * See 971/y2017/control_loops/python/drivetrain.py
   * 971/y2017/control_loops/python/polydrivetrain.py?
