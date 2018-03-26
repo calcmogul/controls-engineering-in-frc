@@ -76,6 +76,9 @@ non-negligible moment of inertia.
   \label{fig:flywheel}
 \end{figure}
 
+Gear ratios are written as output over input, so $G$ is greater than one in
+figure \ref{fig:elevator}. \\
+
 We will start with the equation derived earlier for a DC brushed motor, equation
 (\ref{eq:motor_tau_V}).
 
@@ -91,35 +94,38 @@ contains the angular acceleration.
   V = \frac{R}{K_t} \tau_m + \frac{1}{K_v} \omega_m
 \end{equation*}
 
-Since $\tau_m = J \dot{\omega}_m$ where $J$ is the moment of inertia and
-$\dot{\omega}_m$ is the angular acceleration
+Solve for $\tau_m$.
+
+\begin{align*}
+  V &= \frac{R}{K_t} \tau_m + \frac{1}{K_v} \omega_m \\
+  \frac{R}{K_t} \tau_m &= V - \frac{1}{K_v} \omega_m \\
+  \tau_m &= \frac{K_t}{R} V - \frac{K_t}{K_v R} \omega_m
+\end{align*}
+
+Since $\tau_m G = \tau_f$ and $\omega_m = G \omega_f$
 
 \begin{align}
-  V &= \frac{R}{K_t} (J \dot{\omega}_m) + \frac{1}{K_v} \omega_m \nonumber \\
-  V &= \frac{RJ}{K_t} \dot{\omega}_m + \frac{1}{K_v} \omega_m \nonumber \\
-  \frac{RJ}{K_t} \dot{\omega}_m &= -\frac{1}{K_v} \omega_m + V \nonumber \\
-  \dot{\omega}_m &= -\frac{K_t}{K_v RJ} \omega_m + \frac{K_t}{RJ} V
-    \label{eq:dot_omega_m}
+  \left(\frac{\tau_f}{G}\right) &= \frac{K_t}{R} V -
+    \frac{K_t}{K_v R} (G \omega_f) \nonumber \\
+  \frac{\tau_f}{G} &= \frac{K_t}{R} V - \frac{G K_t}{K_v R} \omega_f \nonumber
+    \\
+  \tau_f &= \frac{G K_t}{R} V - \frac{G^2 K_t}{K_v R} \omega_f \label{eq:tau_f}
 \end{align}
 
-The angular velocity of the motor armature $\omega_m$ is
+The angular velocity of the flywheel is defined as
 
 \begin{equation}
-  \omega_m = G \omega_f \label{eq:omega_m_omega_f}
+  \tau_f = J \dot{\omega}_f \label{eq:tau_f_def}
 \end{equation}
 
-where $G$ is the gear ratio between the motor and the flywheel and $\omega_f$ is
-the angular velocity of the flywheel. \\
-
-Substitute equation (\ref{eq:omega_m_omega_f}) into equation
-(\ref{eq:dot_omega_m}).
+where $J$ is the moment of inertia of the flywheel and $\dot{\omega}_f$ is the
+angular acceleration. Substitute equation (\ref{eq:tau_f_def}) into equation
+(\ref{eq:tau_f}).
 
 \begin{align}
-  (G\dot{\omega}_f) &= -\frac{K_t}{K_v RJ} (G\omega_f) + \frac{K_t}{RJ} V
+  (J \dot{\omega}_f) &= \frac{G K_t}{R} V - \frac{G^2 K_t}{K_v R} \omega_f
     \nonumber \\
-  G\dot{\omega}_f &= -\frac{K_t G}{K_v RJ} \omega_f + \frac{K_t}{RJ} V
-    \nonumber \\
-  \dot{\omega}_f &= -\frac{K_t}{K_v RJ} \omega_f + \frac{K_t}{GRJ} V
+  \dot{\omega}_f &= \frac{G K_t}{RJ} V - \frac{G^2 K_t}{K_v RJ} \omega_f
     \label{eq:dot_omega_f}
 \end{align}
 
@@ -128,7 +134,7 @@ Substitute equation (\ref{eq:omega_m_omega_f}) into equation
 By equation (\ref{eq:dot_omega_f})
 
 \begin{equation*}
-  \dot{\omega}_f = -\frac{K_t}{K_v RJ} \omega_f + \frac{K_t}{GRJ} V
+  \dot{\omega}_f = -\frac{G^2 K_t}{K_v RJ} \omega_f + \frac{G K_t}{RJ} V
 \end{equation*}
 
 \begin{align*}
@@ -149,7 +155,7 @@ By equation (\ref{eq:dot_omega_f})
 \begin{align}
   \dot{\mtx{x}} &= \left[
   \begin{array}{c}
-    -\frac{K_t}{K_v RJ}
+    -\frac{G^2 K_t}{K_v RJ}
   \end{array}
   \right] \left[
   \begin{array}{c}
@@ -157,7 +163,7 @@ By equation (\ref{eq:dot_omega_f})
   \end{array}
   \right] + \left[
   \begin{array}{c}
-    \frac{K_t}{GRJ}
+    \frac{G K_t}{RJ}
   \end{array}
   \right] V \\
   \mtx{y} &= \left[
@@ -183,18 +189,19 @@ The angular velocity of the flywheel can be written as
 where by equation (\ref{eq:dot_omega_f})
 
 \begin{equation*}
-  \dot{\omega}_{f,k} = -\frac{K_t}{K_v RJ} \omega_{f,k} + \frac{K_t}{GRJ} V_k
+  \dot{\omega}_{f,k} = -\frac{G^2 K_t}{K_v RJ} \omega_{f,k} +
+    \frac{G K_t}{RJ} V_k
 \end{equation*}
 
 Substitute this into equation (\ref{eq:flywheel_disc_ss_vel}).
 
 \begin{align}
-  \omega_{f,k+1} &= \omega_{f,k} + \left(-\frac{K_t}{K_v RJ} \omega_{f,k} +
-    \frac{K_t}{GRJ} V_k\right) \Delta t \nonumber \\
-  \omega_{f,k+1} &= \omega_{f,k} - \frac{K_t}{K_v RJ} \omega_{f,k} \Delta t +
-    \frac{K_t}{GRJ} \Delta t V_k \nonumber \\
-  \omega_{f,k+1} &= \left(1 - \frac{K_t}{K_v RJ} \Delta t\right) \omega_{f,k} +
-    \frac{K_t}{GRJ} \Delta t V_k \nonumber \\
+  \omega_{f,k+1} &= \omega_{f,k} + \left(-\frac{G^2 K_t}{K_v RJ} \omega_{f,k} +
+    \frac{G K_t}{RJ} V_k\right) \Delta t \nonumber \\
+  \omega_{f,k+1} &= \omega_{f,k} - \frac{G^2 K_t}{K_v RJ} \omega_{f,k}
+    \Delta t + \frac{G K_t}{RJ} \Delta t V_k \nonumber \\
+  \omega_{f,k+1} &= \left(1 - \frac{G^2 K_t}{K_v RJ} \Delta t\right)
+    \omega_{f,k} + \frac{G K_t}{RJ} \Delta t V_k \nonumber \\
 \end{align}
 
 \begin{align*}
@@ -215,7 +222,7 @@ Substitute this into equation (\ref{eq:flywheel_disc_ss_vel}).
 \begin{align}
   \mtx{x}_{k+1} &= \left[
   \begin{array}{c}
-    1 - \frac{K_t}{K_v RJ} \Delta t
+    1 - \frac{G^2 K_t}{K_v RJ} \Delta t
   \end{array}
   \right] \left[
   \begin{array}{c}
@@ -223,7 +230,7 @@ Substitute this into equation (\ref{eq:flywheel_disc_ss_vel}).
   \end{array}
   \right] + \left[
   \begin{array}{c}
-    \frac{K_t}{GRJ} \Delta t
+    \frac{G K_t}{RJ} \Delta t
   \end{array}
   \right] V_k \\
   \mtx{y}_k &= \left[
