@@ -32,7 +32,7 @@ spins a straight bar in pitch.
     \draw[fill=black!50, color=black!50] (3.75,1.17) rectangle (3.95,1.83);
     \draw[fill=white] (3.75,1.5) ellipse (0.08 and 0.33);
     \draw (3.75,1.83) -- (3.95,1.83);
-    \draw (3.75,1.17) -- (3.95,1.17);
+    \draw (3.75,1.17) -- (3.95,1.17) node[pos=0.5,below] {$G$};
 
     % Output shaft of motor
     \draw[fill=black!50] (2.8,1.45) rectangle (3.75,1.55);
@@ -60,7 +60,7 @@ spins a straight bar in pitch.
       \draw[line width=0.7pt,<->] (0.55,-0.05) -- node[right] {$l$} (0.8,1.45);
 
       % Mass label
-      \draw (-0.11,0.7) node {$m$};
+      \draw (-0.05,1.2) node {$m$};
     \end{scope}
 
     % Transmission shaft from gear two to arm
@@ -68,10 +68,7 @@ spins a straight bar in pitch.
 
     % Angular velocity arrow between transmission and arm
     \draw[line width=0.7pt,->] (4.54,1.97) arc (-30:30:1) node[above]
-      {$\omega_f$};
-
-    % Descriptions inside graphic
-    \draw (3.85,0.9) node {$G$};
+      {$\omega_{arm}$};
 
     % Descriptions of subsystems under graphic
     \draw[decorate,decoration={brace,amplitude=10pt}]
@@ -87,6 +84,195 @@ spins a straight bar in pitch.
 Gear ratios are written as output over input, so $G$ is greater than one in
 figure \ref{fig:single_jointed_arm}. \\
 
+We will start with the equation derived earlier for a DC brushed motor, equation
+(\ref{eq:motor_tau_V}).
+
+\begin{equation*}
+  V = \frac{\tau_m}{K_t} R + \frac{\omega_m}{K_v}
+\end{equation*}
+
+Solve for the angular acceleration. First, we'll rearrange the terms because
+from inspection, $V$ is the model input, $\omega_m$ is the state, and $\tau_m$
+contains the angular acceleration.
+
+\begin{equation*}
+  V = \frac{R}{K_t} \tau_m + \frac{1}{K_v} \omega_m
+\end{equation*}
+
+Solve for $\tau_m$.
+
+\begin{align*}
+  V &= \frac{R}{K_t} \tau_m + \frac{1}{K_v} \omega_m \\
+  \frac{R}{K_t} \tau_m &= V - \frac{1}{K_v} \omega_m \\
+  \tau_m &= \frac{K_t}{R} V - \frac{K_t}{K_v R} \omega_m
+\end{align*}
+
+Since $\tau_m G = \tau_{arm}$ and $\omega_m = G \omega_{arm}$
+
+\begin{align}
+  \left(\frac{\tau_{arm}}{G}\right) &= \frac{K_t}{R} V -
+    \frac{K_t}{K_v R} (G \omega_f) \nonumber \\
+  \frac{\tau_{arm}}{G} &= \frac{K_t}{R} V - \frac{G K_t}{K_v R} \omega_{arm}
+    \nonumber \\
+  \tau_{arm} &= \frac{G K_t}{R} V - \frac{G^2 K_t}{K_v R} \omega_{arm}
+    \label{eq:tau_arm}
+\end{align}
+
+The angular velocity of the arm is defined as
+
+\begin{equation}
+  \tau_{arm} = J \dot{\omega}_{arm} \label{eq:tau_arm_def}
+\end{equation}
+
+where $J$ is the moment of inertia of the arm and $\dot{\omega}_{arm}$ is the
+angular acceleration. Substitute equation (\ref{eq:tau_arm_def}) into equation
+(\ref{eq:tau_arm}).
+
+\begin{align}
+  (J \dot{\omega}_{arm}) &= \frac{G K_t}{R} V - \frac{G^2 K_t}{K_v R}
+    \omega_{arm} \nonumber \\
+  \dot{\omega}_{arm} &= \frac{G K_t}{RJ} V - \frac{G^2 K_t}{K_v RJ} \omega_{arm}
+    \label{eq:dot_omega_arm}
+\end{align}
+
+$J$ can be approximated as the moment of inertia of a thin rod rotating around
+one end. Therefore
+
+\begin{equation}
+  J = \frac{1}{3}ml^2
+\end{equation}
+
+where $m$ is the mass of the arm and $l$ is the length of the arm.
+
 \subsubsection{Continuous state-space model}
 
+The position and velocity of the elevator can be written as
+
+\begin{align}
+  \dot{\theta}_{arm} &= \omega_{arm} \label{eq:arm_cont_ss_pos} \\
+  \dot{\omega}_{arm} &= \dot{\omega}_{arm} \label{eq:arm_cont_ss_vel}
+\end{align}
+
+By equation (\ref{eq:dot_omega_arm})
+
+\begin{equation*}
+  \dot{\omega}_{arm} = -\frac{G^2 K_t}{K_v RJ} \omega_{arm} + \frac{G K_t}{RJ} V
+\end{equation*}
+
+\begin{align*}
+  \dot{\mtx{x}} &= \mtx{A} \mtx{x} + \mtx{B} \mtx{u} \\
+  \dot{\mtx{y}} &= \mtx{C} \mtx{x} + \mtx{D} \mtx{u}
+\end{align*}
+
+\begin{align*}
+  \mtx{x} &= \left[
+  \begin{array}{c}
+    \theta_{arm}
+    \omega_{arm}
+  \end{array}
+  \right] \\
+  \mtx{y} &= \omega_{arm} \\
+  \mtx{u} &= V
+\end{align*}
+
+\begin{align}
+  \dot{\mtx{x}} &= \left[
+  \begin{array}{cc}
+    0 & 1 \\
+    0 & -\frac{G^2 K_t}{K_v RJ}
+  \end{array}
+  \right] \left[
+  \begin{array}{c}
+    \theta_{arm} \\
+    \omega_{arm}
+  \end{array}
+  \right] + \left[
+  \begin{array}{c}
+    0 \\
+    \frac{G K_t}{RJ}
+  \end{array}
+  \right] V \\
+  \mtx{y} &= \left[
+  \begin{array}{cc}
+    1 & 0
+  \end{array}
+  \right] \left[
+  \begin{array}{c}
+    \theta_{arm} \\
+    \omega_{arm}
+  \end{array}
+  \right] + 0 \cdot V
+\end{align}
+
 \subsubsection{Discrete state-space model}
+
+The angle and angular velocity of the arm can be written as
+
+\begin{align}
+  \theta_{arm,k+1} &= \omega_{arm,k} \label{eq:arm_disc_ss_pos} \\
+  \omega_{arm,k+1} &= \omega_{arm,k} + \dot{\omega}_{arm,k} \Delta t
+    \label{eq:arm_disc_ss_vel} \\
+\end{align}
+
+where by equation (\ref{eq:dot_omega_arm})
+
+\begin{equation*}
+  \dot{\omega}_{arm,k} = -\frac{G^2 K_t}{K_v RJ} \omega_{arm,k} +
+    \frac{G K_t}{RJ} V_k
+\end{equation*}
+
+Substitute this into equation (\ref{eq:arm_disc_ss_vel}).
+
+\begin{align}
+  \omega_{arm,k+1} &= \omega_{arm,k} + \left(-\frac{G^2 K_t}{K_v RJ}
+    \omega_{arm,k} + \frac{G K_t}{RJ} V_k\right) \Delta t \nonumber \\
+  \omega_{arm,k+1} &= \omega_{arm,k} - \frac{G^2 K_t}{K_v RJ} \omega_{arm,k}
+    \Delta t + \frac{G K_t}{RJ} \Delta t V_k \nonumber \\
+  \omega_{arm,k+1} &= \left(1 - \frac{G^2 K_t}{K_v RJ} \Delta t\right)
+    \omega_{arm,k} + \frac{G K_t}{RJ} \Delta t V_k \nonumber \\
+\end{align}
+
+\begin{align*}
+  \mtx{x}_{k+1} &= \mtx{A} \mtx{x}_k + \mtx{B} \mtx{u}_k \\
+  \mtx{y}_{k+1} &= \mtx{C} \mtx{x}_k + \mtx{D} \mtx{u}_k
+\end{align*}
+
+\begin{align*}
+  \mtx{x}_k &= \left[
+  \begin{array}{c}
+    \theta_{arm,k} \\
+    \omega_{arm,k}
+  \end{array}
+  \right] \\
+  \mtx{y}_k &= \omega_{arm,k} \\
+  \mtx{u}_k &= V_k
+\end{align*}
+
+\begin{align}
+  \mtx{x}_{k+1} &= \left[
+  \begin{array}{cc}
+    1 & \Delta t \\
+    0 & 1 - \frac{G^2 K_t}{K_v RJ} \Delta t
+  \end{array}
+  \right] \left[
+  \begin{array}{c}
+    \theta_{arm,k} \\
+    \omega_{arm,k}
+  \end{array}
+  \right] + \left[
+  \begin{array}{c}
+    0 \\
+    \frac{G K_t}{RJ} \Delta t
+  \end{array}
+  \right] V_k \\
+  \mtx{y}_k &= \left[
+  \begin{array}{cc}
+    1 & 0
+  \end{array}
+  \right] \left[
+  \begin{array}{c}
+    \theta_{arm,k} \\
+    \omega_{arm,k}
+  \end{array}
+  \right] + 0 \cdot V_k
+\end{align}

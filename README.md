@@ -48,7 +48,8 @@ The "Implementation Steps" section needs subsections to explain how to do each o
 * Drivetrain
   * See 971/y2017/control_loops/python/drivetrain.py
   * 971/y2017/control_loops/python/polydrivetrain.py?
-* Single-jointed arm (pulley with pitch control of bar)
+* Single-jointed arm (in progress)
+  * See elevator items
 * Rotating claw with independent top/bottom
   * See 971/y2014/control_loops/python/claw.py
   * Use as example of coordinate transformations for states?

@@ -32,7 +32,7 @@ non-negligible moment of inertia.
     \draw[fill=black!50, color=black!50] (3.75,1.17) rectangle (3.95,1.83);
     \draw[fill=white] (3.75,1.5) ellipse (0.08 and 0.33);
     \draw (3.75,1.83) -- (3.95,1.83);
-    \draw (3.75,1.17) -- (3.95,1.17);
+    \draw (3.75,1.17) -- (3.95,1.17) node[pos=0.5,below] {$G$};
 
     % Output shaft of motor
     \draw[fill=black!50] (2.8,1.45) rectangle (3.75,1.55);
@@ -62,7 +62,6 @@ non-negligible moment of inertia.
       {$\omega_f$};
 
     % Descriptions inside graphic
-    \draw (3.85,0.9) node {$G$};
     \draw (5.45,2.49) node {$J$};
 
     % Descriptions of subsystems under graphic
@@ -159,7 +158,7 @@ By equation (\ref{eq:dot_omega_f})
   \end{array}
   \right] \left[
   \begin{array}{c}
-    \omega_f \\
+    \omega_f
   \end{array}
   \right] + \left[
   \begin{array}{c}
@@ -172,7 +171,7 @@ By equation (\ref{eq:dot_omega_f})
   \end{array}
   \right] \left[
   \begin{array}{c}
-    \omega_f \\
+    \omega_f
   \end{array}
   \right] + 0 \cdot V
 \end{align}
@@ -226,7 +225,7 @@ Substitute this into equation (\ref{eq:flywheel_disc_ss_vel}).
   \end{array}
   \right] \left[
   \begin{array}{c}
-    \omega_{f,k} \\
+    \omega_{f,k}
   \end{array}
   \right] + \left[
   \begin{array}{c}
@@ -239,7 +238,7 @@ Substitute this into equation (\ref{eq:flywheel_disc_ss_vel}).
   \end{array}
   \right] \left[
   \begin{array}{c}
-    \omega_{f,k} \\
+    \omega_{f,k}
   \end{array}
   \right] + 0 \cdot V_k
 \end{align}

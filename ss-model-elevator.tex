@@ -32,7 +32,7 @@ mass up or down.
     \draw[fill=black!50, color=black!50] (3.75,1.17) rectangle (3.95,1.83);
     \draw[fill=white] (3.75,1.5) ellipse (0.08 and 0.33);
     \draw (3.75,1.83) -- (3.95,1.83);
-    \draw (3.75,1.17) -- (3.95,1.17);
+    \draw (3.75,1.17) -- (3.95,1.17) node[pos=0.5,below] {$G$};
 
     % Output shaft of motor
     \draw[fill=black!50] (2.8,1.45) rectangle (3.75,1.55);
@@ -103,7 +103,6 @@ mass up or down.
     \draw[line width=0.7pt,<-] (6.04,1.35) -- node {$v_m$} (6.04,0.95);
 
     % Descriptions inside graphic
-    \draw (3.85,0.9) node {$G$};
     \draw (5.48,1.12) node {$m$};
 
     % Descriptions of subsystems under graphic
@@ -271,7 +270,7 @@ Substitute this into equation (\ref{eq:elevator_cont_ss_vel}).
   \right] \left[
   \begin{array}{c}
     x \\
-    v_m \\
+    v_m
   \end{array}
   \right] + \mtx{0} \cdot V
 \end{align}
