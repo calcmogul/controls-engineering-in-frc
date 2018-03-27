@@ -47,19 +47,24 @@ spins a straight bar in pitch.
     \draw (3.75,3.18) -- (3.95,3.18);
     \draw (3.75,1.83) -- (3.95,1.83);
 
+    \begin{scope}[xshift=5.075cm,yshift=2.4cm]
+      % Single-jointed arm
+      \draw[fill=white] (0,0) -- (0.1,-0.05) -- (0.35,1.45) -- (0.25,1.5)
+        -- cycle;
+      \draw[fill=black!50] (0.1,-0.05) -- (0.3,-0.05) -- (0.55,1.45) --
+        (0.35,1.45) -- cycle;
+      \draw[fill=white] (0.25,1.5) -- (0.35,1.45) -- (0.55,1.45) -- (0.45,1.5)
+        -- cycle;
+
+      % Arm length arrow
+      \draw[line width=0.7pt,<->] (0.55,-0.05) -- node[right] {$l$} (0.8,1.45);
+
+      % Mass label
+      \draw (-0.11,0.7) node {$m$};
+    \end{scope}
+
     % Transmission shaft from gear two to arm
-    \draw[fill=black!50] (4.09,2.42) rectangle (5.35,2.52);
-
-    % Single-jointed arm
-    \draw[fill=white] (5.05,2.54) -- (5.15,2.49) -- (5.4,3.99) -- (5.3,4.04)
-      -- cycle;
-    \draw[fill=black!50] (5.15,2.49) -- (5.35,2.49) -- (5.6,3.99) -- (5.4,3.99)
-      -- cycle;
-    \draw[fill=white] (5.3,4.04) -- (5.4,3.99) -- (5.6,3.99) -- (5.5,4.04)
-      -- cycle;
-
-    % Arm length arrow
-    \draw[line width=0.7pt,<->] (5.6,2.49) -- node[right] {$l$} (5.85,3.99);
+    \draw[fill=black!50] (4.09,2.42) rectangle (5.15,2.52);
 
     % Angular velocity arrow between transmission and arm
     \draw[line width=0.7pt,->] (4.54,1.97) arc (-30:30:1) node[above]
@@ -67,7 +72,6 @@ spins a straight bar in pitch.
 
     % Descriptions inside graphic
     \draw (3.85,0.9) node {$G$};
-    \draw (4.94,3.24) node {$m$};
 
     % Descriptions of subsystems under graphic
     \draw[decorate,decoration={brace,amplitude=10pt}]
