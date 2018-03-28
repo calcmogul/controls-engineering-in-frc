@@ -201,7 +201,7 @@ By equation (\ref{eq:dot_omega_arm})
     \theta_{arm} \\
     \omega_{arm}
   \end{array}
-  \right] + 0 \cdot V
+  \right] + \mtx{0} \cdot V
 \end{align}
 
 \subsubsection{Discrete state-space model}
@@ -211,7 +211,7 @@ The angle and angular velocity of the arm can be written as
 \begin{align}
   \theta_{arm,k+1} &= \omega_{arm,k} \label{eq:arm_disc_ss_pos} \\
   \omega_{arm,k+1} &= \omega_{arm,k} + \dot{\omega}_{arm,k} \Delta t
-    \label{eq:arm_disc_ss_vel} \\
+    \label{eq:arm_disc_ss_vel}
 \end{align}
 
 where by equation (\ref{eq:dot_omega_arm})
@@ -274,5 +274,5 @@ Substitute this into equation (\ref{eq:arm_disc_ss_vel}).
     \theta_{arm,k} \\
     \omega_{arm,k}
   \end{array}
-  \right] + 0 \cdot V_k
+  \right] + \mtx{0} \cdot V_k
 \end{align}
