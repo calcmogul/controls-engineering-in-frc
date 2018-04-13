@@ -88,20 +88,22 @@ applied to the motor at stall. \\
 
 To find $K_v$, again recall equation (\ref{eq:motor_V}).
 
-\begin{equation*}
-  V = IR + \frac{\omega_m}{K_v}
-\end{equation*}
+\begin{align*}
+  V &= IR + \frac{\omega_m}{K_v} \\
+  V - IR &= \frac{\omega_m}{K_v} \\
+  K_v &= \frac{\omega_m}{V - IR}
+\end{align*}
 
-When the motor is spinning under no load, no current is drawn so $I = 0$.
+When the motor is spinning under no load
 
 \begin{align}
-  V &= \frac{\omega_m}{K_v} \nonumber \\
-  K_v &= \frac{V}{\omega_{m,free}}
+  K_v &= \frac{\omega_{m,free}}{V - I_{free}R}
 \end{align}
 
 where $\omega_{m,free}$ is the angular velocity of the motor under no load (also
-known as the free speed) and $V$ is the voltage applied to the motor when
-it's spinning at $\omega_{m,free}$. \\
+known as the free speed), and $V$ is the voltage applied to the motor when it's
+spinning at $\omega_{m,free}$, and $I_{free}$ is the current drawn by the motor
+under no load. \\
 
 If several identical motors are being used in one gearbox for a mechanism,
 multiply the stall torque, stall current, and free current by the number of
