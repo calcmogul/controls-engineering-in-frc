@@ -6,6 +6,287 @@ This drivetrain consists of two DC brushed motors per side which are chained
 together on their respective sides and drive wheels which are assumed to be
 massless.
 
+% Figure of drivetrain here
+
+From equation (\ref{eq:tau_f}) of the flywheel model derivations
+
+\begin{equation}
+  \tau = \frac{GK_t}{R} V - \frac{G^2K_t}{K_v R} \omega
+    \label{eq:drivetrain_tau}
+\end{equation}
+
+where $\tau$ is the torque applied by one wheel of the drivetrain, $G$ is the
+gear ratio of the drivetrain, $K_t$ is the torque constant of the motor, $R$ is
+the resistance of the motor, and $K_v$ is the angular velocity constant. Since
+$\tau = rF$ and $\omega = \frac{v}{r}$ where $r$ is the drivetrain wheel radius
+
+\begin{align*}
+  (rF) = \frac{GK_t}{R} V - \frac{G^2K_t}{K_v R} \left(\frac{v}{r}\right) \\
+  rF = \frac{GK_t}{R} V - \frac{G^2K_t}{K_v Rr} v \\
+  F = \frac{GK_t}{Rr} V - \frac{G^2K_t}{K_v Rr^2} v \\
+  F = -\frac{G^2K_t}{K_v Rr^2} v + \frac{GK_t}{Rr} V
+\end{align*}
+
+Therefore, for each side of the robot
+
+\begin{align*}
+  F_l &= -\frac{G_l^2 K_t}{K_v R r^2} v_l + \frac{G_l K_t}{Rr} V_l \\
+  F_r &= -\frac{G_r^2 K_t}{K_v R r^2} v_r + \frac{G_r K_t}{Rr} V_r
+\end{align*}
+
+where the $l$ and $r$ subscripts denote the side of the robot to which each
+variable corresponds. \\
+
+Let $C_1 = -\frac{G_l^2 K_t}{K_v R r^2}$, $C_2 = \frac{G_l K_t}{Rr}$,
+$C_3 = -\frac{G_r^2 K_t}{K_v R r^2}$, and $C_4 = \frac{G_r K_t}{Rr}$.
+
+\begin{align}
+  F_l &= C_1 v_l + C_2 V_l \label{eq:drivetrain_Fl} \\
+  F_r &= C_3 v_r + C_4 V_r \label{eq:drivetrain_Fr}
+\end{align}
+
+First, find the sum of forces.
+
+\begin{align}
+  \sum F &= ma \nonumber \\
+  F_l + F_r &= m \dot{v} \nonumber \\
+  F_l + F_r &= m \frac{\dot{v}_l + \dot{v}_r}{2} \nonumber \\
+  \frac{2}{m} (F_l + F_r) &= \dot{v}_l + \dot{v}_r \nonumber \\
+  \dot{v}_l &= \frac{2}{m} (F_l + F_r) - \dot{v}_r \label{eq:drivetrain_dotv_l}
+\end{align}
+
+Next, find the sum of torques.
+
+\begin{align*}
+  \sum \tau &= J \dot{\omega} \\
+  \tau_l + \tau_r &= J \left(\frac{\dot{v}_r - \dot{v}_l}{2 r_b}\right)
+\end{align*}
+
+where $r_b$ is the radius of the drivetrain.
+
+\begin{align*}
+  (-r_b F_l) + (r_b F_r) &= J \frac{\dot{v}_r - \dot{v}_l}{2 r_b} \\
+  -r_b F_l + r_b F_r &= \frac{J}{2 r_b} (\dot{v}_r - \dot{v}_l) \\
+  -F_l + F_r &= \frac{J}{2 r_b^2} (\dot{v}_r - \dot{v}_l) \\
+  \frac{2 r_b^2}{J} (-F_l + F_r) &= \dot{v}_r - \dot{v}_l \\
+  \dot{v}_r &= \dot{v}_l + \frac{2 r_b^2}{J} (-F_l + F_r)
+\end{align*}
+
+Substitute in equation (\ref{eq:drivetrain_dotv_l}) to obtain an expression for
+$\dot{v}_r$.
+
+\begin{align}
+  \dot{v}_r &= \left(\frac{2}{m} (F_l + F_r) - \dot{v}_r\right) +
+    \frac{2 r_b^2}{J} (-F_l + F_r) \nonumber \\
+  2\dot{v}_r &= \frac{2}{m} (F_l + F_r) + \frac{2 r_b^2}{J} (-F_l + F_r)
+    \nonumber \\
+  \dot{v}_r &= \frac{1}{m} (F_l + F_r) + \frac{r_b^2}{J} (-F_l + F_r)
+    \label{eq:drivetrain_vr_2mid} \\
+  \dot{v}_r &= \frac{1}{m} F_l + \frac{1}{m} F_r - \frac{r_b^2}{J} F_l +
+    \frac{r_b^2}{J} F_r \nonumber \\
+  \dot{v}_r &= \left(\frac{1}{m} - \frac{r_b^2}{J}\right) F_l +
+    \left(\frac{1}{m} + \frac{r_b^2}{J}\right) F_r \label{eq:drivetrain_vr_2}
+\end{align}
+
+Substitute equation (\ref{eq:drivetrain_vr_2mid}) back into equation
+(\ref{eq:drivetrain_dotv_l}) to obtain an expression for $\dot{v}_l$.
+
+\begin{align}
+  \dot{v}_l &= \frac{2}{m} (F_l + F_r) - \left(\frac{1}{m} (F_l + F_r) +
+    \frac{r_b^2}{J} (-F_l + F_r)\right) \nonumber \\
+  \dot{v}_l &= \frac{1}{m} (F_l + F_r) - \frac{r_b^2}{J} (-F_l + F_r)
+    \nonumber \\
+  \dot{v}_l &= \frac{1}{m} (F_l + F_r) + \frac{r_b^2}{J} (F_l - F_r) \nonumber
+    \\
+  \dot{v}_l &= \frac{1}{m} F_l + \frac{1}{m} F_r + \frac{r_b^2}{J} F_l -
+    \frac{r_b^2}{J} F_r \nonumber \\
+  \dot{v}_l &= \left(\frac{1}{m} + \frac{r_b^2}{J}\right) F_l +
+    \left(\frac{1}{m} - \frac{r_b^2}{J}\right) F_r \label{eq:drivetrain_vl_2}
+\end{align}
+
+Now, plug the expressions for $F_l$ and $F_r$ into equation
+(\ref{eq:drivetrain_vr_2}).
+
+\begin{align}
+  \dot{v}_r &= \left(\frac{1}{m} - \frac{r_b^2}{J}\right) F_l +
+    \left(\frac{1}{m} + \frac{r_b^2}{J}\right) F_r \nonumber \\
+  \dot{v}_r &= \left(\frac{1}{m} - \frac{r_b^2}{J}\right)
+    \left(C_1 v_l + C_2 V_l\right) \nonumber \\
+  & + \left(\frac{1}{m} + \frac{r_b^2}{J}\right) \left(C_3 v_r + C_4 V_r\right)
+    \label{eq:drivetrain_model_left}
+\end{align}
+
+Now, plug the expressions for $F_l$ and $F_r$ into equation
+(\ref{eq:drivetrain_vl_2}).
+
+\begin{align}
+  \dot{v}_l &= \left(\frac{1}{m} + \frac{r_b^2}{J}\right) F_l +
+    \left(\frac{1}{m} - \frac{r_b^2}{J}\right) F_r \nonumber \\
+  \dot{v}_l &= \left(\frac{1}{m} + \frac{r_b^2}{J}\right)
+    \left(C_1 v_l + C_2 V_l\right) \nonumber \\
+  & + \left(\frac{1}{m} - \frac{r_b^2}{J}\right) \left(C_3 v_r + C_4 V_r\right)
+    \label{eq:drivetrain_model_right}
+\end{align}
+
 \subsubsection{Continuous state-space model}
 
+The position and velocity of each drivetrain side can be written as
+
+\begin{align}
+  \dot{x}_l &= v_l \label{eq:drivetrain_cont_ss_posl} \\
+  \dot{v}_l &= \dot{v}_l \label{eq:drivetrain_cont_ss_vell} \\
+  \dot{x}_r &= v_r \label{eq:drivetrain_cont_ss_posr} \\
+  \dot{v}_r &= \dot{v}_r \label{eq:drivetrain_cont_ss_velr}
+\end{align}
+
+By equations (\ref{eq:drivetrain_model_left}) and
+(\ref{eq:drivetrain_model_right})
+
+\begin{align*}
+  \dot{v}_r &= \left(\frac{1}{m} - \frac{r_b^2}{J}\right)
+    \left(C_1 v_l + C_2 V_l\right) \nonumber \\
+  & + \left(\frac{1}{m} + \frac{r_b^2}{J}\right) \left(C_3 v_r + C_4 V_r\right)
+    \\
+  \dot{v}_l &= \left(\frac{1}{m} + \frac{r_b^2}{J}\right)
+    \left(C_1 v_l + C_2 V_l\right) \nonumber \\
+  & + \left(\frac{1}{m} - \frac{r_b^2}{J}\right) \left(C_3 v_r + C_4 V_r\right)
+\end{align*}
+
+\begin{align*}
+  \dot{\mtx{x}} &= \mtx{A} \mtx{x} + \mtx{B} \mtx{u} \\
+  \mtx{y} &= \mtx{C} \mtx{x} + \mtx{D} \mtx{u}
+\end{align*}
+
+\begin{align*}
+  \mtx{x} &= \left[
+  \begin{array}{c}
+    x_l \\
+    v_l \\
+    x_r \\
+    v_r
+  \end{array}
+  \right] \\
+  \mtx{y} &= \left[
+  \begin{array}{c}
+    x_l \\
+    x_r
+  \end{array}
+  \right] \\
+  \mtx{u} &= \left[
+  \begin{array}{c}
+    V_l \\
+    V_r
+  \end{array}
+  \right]
+\end{align*}
+
+\begin{align}
+  \mtx{A} &= \left[
+  \begin{array}{cccc}
+    0 & 1 & 0 & 0 \\
+    0 & \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_1 & 0 & \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_3 \\
+    0 & 0 & 0 & 1 \\
+    0 & \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_1 & 0 & \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_3
+  \end{array}
+  \right] \\
+  \mtx{B} &= \left[
+  \begin{array}{cc}
+    0 & 0 \\
+    \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_2 & \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_4 \\
+    0 & 0 \\
+    \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_2 & \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_4
+  \end{array}
+  \right] \\
+  \mtx{C} &= \left[
+  \begin{array}{cccc}
+    1 & 0 & 0 & 0 \\
+    0 & 0 & 1 & 0 \\
+  \end{array}
+  \right] \\
+  \mtx{D} &= \mtx{0}_{2 \times 2}
+\end{align}
+
 \subsubsection{Discrete state-space model}
+
+The position and velocity of each drivetrain side can be written as
+
+\begin{align}
+  x_{l,k+1} &= x_{l,k} + v_{l,k} \Delta t \label{eq:drivetrain_disc_ss_posl} \\
+  v_{l,k+1} &= v_{l,k} + \dot{v}_{l,k} \Delta t
+    \label{eq:drivetrain_disc_ss_vell} \\
+  x_{r,k+1} &= x_{r,k} + v_{r,k} \Delta t \label{eq:drivetrain_disc_ss_posr} \\
+  v_{r,k+1} &= v_{r,k} + \dot{v}_{r,k} \Delta t
+    \label{eq:drivetrain_disc_ss_velr}
+\end{align}
+
+where by equations (\ref{eq:drivetrain_model_left}) and
+(\ref{eq:drivetrain_model_right})
+
+\begin{align*}
+  \dot{v}_{r,k} &= \left(\frac{1}{m} - \frac{r_b^2}{J}\right)
+    \left(C_1 v_{l,k} + C_2 V_{l,k}\right) \nonumber \\
+  & + \left(\frac{1}{m} + \frac{r_b^2}{J}\right)\
+    \left(C_3 v_{r,k} + C_4 V_{r,k}\right) \\
+  \dot{v}_{l,k} &= \left(\frac{1}{m} + \frac{r_b^2}{J}\right)
+    \left(C_1 v_{l,k} + C_2 V_{l,k}\right) \nonumber \\
+  & + \left(\frac{1}{m} - \frac{r_b^2}{J}\right)
+    \left(C_3 v_{r,k} + C_4 V_{r,k}\right)
+\end{align*}
+
+\begin{align*}
+  \mtx{x}_{k+1} &= \mtx{A} \mtx{x}_k + \mtx{B} \mtx{u}_k \\
+  \mtx{y}_{k+1} &= \mtx{C} \mtx{x}_k + \mtx{D} \mtx{u}_k
+\end{align*}
+
+\begin{align*}
+  \mtx{x} &= \left[
+  \begin{array}{c}
+    x_l \\
+    v_l \\
+    x_r \\
+    v_r
+  \end{array}
+  \right] \\
+  \mtx{y} &= \left[
+  \begin{array}{c}
+    x_l \\
+    x_r
+  \end{array}
+  \right] \\
+  \mtx{u} &= \left[
+  \begin{array}{c}
+    V_l \\
+    V_r
+  \end{array}
+  \right]
+\end{align*}
+
+\begin{align}
+  \mtx{A} &= \left[
+  \begin{array}{cccc}
+    1 & \Delta t & 0 & 0 \\
+    0 & 1 + \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_1 \Delta t & 0 &
+      1 + \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_3 \\
+    0 & 0 & 1 & \Delta t \\
+    0 & 1 + \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_1 \Delta t & 0 &
+      1 + \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_3 \Delta t
+  \end{array}
+  \right] \\
+  \mtx{B} &= \left[
+  \begin{array}{cc}
+    0 & 0 \\
+    \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_2 \Delta t &
+      \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_4 \Delta t \\
+    0 & 0 \\
+    \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_2 \Delta t &
+      \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_4 \Delta t
+  \end{array}
+  \right] \\
+  \mtx{C} &= \left[
+  \begin{array}{cccc}
+    1 & 0 & 0 & 0 \\
+    0 & 0 & 1 & 0 \\
+  \end{array}
+  \right] \\
+  \mtx{D} &= \mtx{0}_{2 \times 2}
+\end{align}

@@ -161,13 +161,13 @@ By equation (\ref{eq:dot_omega_arm})
 
 \begin{align*}
   \dot{\mtx{x}} &= \mtx{A} \mtx{x} + \mtx{B} \mtx{u} \\
-  \dot{\mtx{y}} &= \mtx{C} \mtx{x} + \mtx{D} \mtx{u}
+  \mtx{y} &= \mtx{C} \mtx{x} + \mtx{D} \mtx{u}
 \end{align*}
 
 \begin{align*}
   \mtx{x} &= \left[
   \begin{array}{c}
-    \theta_{arm}
+    \theta_{arm} \\
     \omega_{arm}
   \end{array}
   \right] \\
@@ -176,32 +176,24 @@ By equation (\ref{eq:dot_omega_arm})
 \end{align*}
 
 \begin{align}
-  \dot{\mtx{x}} &= \left[
+  \mtx{A} &= \left[
   \begin{array}{cc}
     0 & 1 \\
     0 & -\frac{G^2 K_t}{K_v RJ}
   \end{array}
-  \right] \left[
-  \begin{array}{c}
-    \theta_{arm} \\
-    \omega_{arm}
-  \end{array}
-  \right] + \left[
+  \right] \\
+  \mtx{B} &= \left[
   \begin{array}{c}
     0 \\
     \frac{G K_t}{RJ}
   \end{array}
-  \right] V \\
-  \mtx{y} &= \left[
+  \right] \\
+  \mtx{C} &= \left[
   \begin{array}{cc}
     1 & 0
   \end{array}
-  \right] \left[
-  \begin{array}{c}
-    \theta_{arm} \\
-    \omega_{arm}
-  \end{array}
-  \right] + \mtx{0} \cdot V
+  \right] \\
+  \mtx{D} &= 0
 \end{align}
 
 \subsubsection{Discrete state-space model}
@@ -209,7 +201,8 @@ By equation (\ref{eq:dot_omega_arm})
 The angle and angular velocity of the arm can be written as
 
 \begin{align}
-  \theta_{arm,k+1} &= \omega_{arm,k} \label{eq:arm_disc_ss_pos} \\
+  \theta_{arm,k+1} &= \theta_{arm,k} + \omega_{arm,k} \Delta t
+    \label{eq:arm_disc_ss_pos} \\
   \omega_{arm,k+1} &= \omega_{arm,k} + \dot{\omega}_{arm,k} \Delta t
     \label{eq:arm_disc_ss_vel}
 \end{align}
@@ -249,30 +242,22 @@ Substitute this into equation (\ref{eq:arm_disc_ss_vel}).
 \end{align*}
 
 \begin{align}
-  \mtx{x}_{k+1} &= \left[
+  \mtx{A} &= \left[
   \begin{array}{cc}
     1 & \Delta t \\
     0 & 1 - \frac{G^2 K_t}{K_v RJ} \Delta t
   \end{array}
-  \right] \left[
-  \begin{array}{c}
-    \theta_{arm,k} \\
-    \omega_{arm,k}
-  \end{array}
-  \right] + \left[
+  \right] \\
+  \mtx{B} &= \left[
   \begin{array}{c}
     0 \\
     \frac{G K_t}{RJ} \Delta t
   \end{array}
-  \right] V_k \\
-  \mtx{y}_k &= \left[
+  \right] \\
+  \mtx{C} &= \left[
   \begin{array}{cc}
     1 & 0
   \end{array}
-  \right] \left[
-  \begin{array}{c}
-    \theta_{arm,k} \\
-    \omega_{arm,k}
-  \end{array}
-  \right] + \mtx{0} \cdot V_k
+  \right] \\
+  \mtx{D} &= 0
 \end{align}

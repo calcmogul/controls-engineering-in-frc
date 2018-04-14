@@ -138,7 +138,7 @@ By equation (\ref{eq:dot_omega_f})
 
 \begin{align*}
   \dot{\mtx{x}} &= \mtx{A} \mtx{x} + \mtx{B} \mtx{u} \\
-  \dot{\mtx{y}} &= \mtx{C} \mtx{x} + \mtx{D} \mtx{u}
+  \mtx{y} &= \mtx{C} \mtx{x} + \mtx{D} \mtx{u}
 \end{align*}
 
 \begin{align*}
@@ -152,28 +152,18 @@ By equation (\ref{eq:dot_omega_f})
 \end{align*}
 
 \begin{align}
-  \dot{\mtx{x}} &= \left[
+  \mtx{A} &= \left[
   \begin{array}{c}
     -\frac{G^2 K_t}{K_v RJ}
   \end{array}
-  \right] \left[
-  \begin{array}{c}
-    \omega_f
-  \end{array}
-  \right] + \left[
+  \right] \\
+  \mtx{B} &= \left[
   \begin{array}{c}
     \frac{G K_t}{RJ}
   \end{array}
-  \right] V \\
-  \mtx{y} &= \left[
-  \begin{array}{c}
-    1
-  \end{array}
-  \right] \left[
-  \begin{array}{c}
-    \omega_f
-  \end{array}
-  \right] + 0 \cdot V
+  \right] \\
+  \mtx{C} &= 1 \\
+  \mtx{D} &= 0
 \end{align}
 
 \subsubsection{Discrete state-space model}
@@ -219,26 +209,16 @@ Substitute this into equation (\ref{eq:flywheel_disc_ss_vel}).
 \end{align*}
 
 \begin{align}
-  \mtx{x}_{k+1} &= \left[
+  \mtx{A} &= \left[
   \begin{array}{c}
     1 - \frac{G^2 K_t}{K_v RJ} \Delta t
   \end{array}
-  \right] \left[
-  \begin{array}{c}
-    \omega_{f,k}
-  \end{array}
-  \right] + \left[
+  \right] \\
+  \mtx{B} &= \left[
   \begin{array}{c}
     \frac{G K_t}{RJ} \Delta t
   \end{array}
-  \right] V_k \\
-  \mtx{y}_k &= \left[
-  \begin{array}{c}
-    1
-  \end{array}
-  \right] \left[
-  \begin{array}{c}
-    \omega_{f,k}
-  \end{array}
-  \right] + 0 \cdot V_k
+  \right] \\
+  \mtx{C} &= 1 \\
+  \mtx{D} &= 0
 \end{align}
