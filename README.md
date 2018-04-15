@@ -34,9 +34,11 @@ to understand the examples based on the videos already linked there.
 
 Any other results that are good for background, but are unnecessary should be included in an appendix.
 
-The link to the graphical introduction to Kalman filters should be replaced with something much more comprehensive. The graphics are nice, but there isn't much substance to promote deep understanding. I have a lot of notes from the course I took on Kalman filters I intend to synthesize.
+The link to the graphical introduction to Kalman filters should be replaced with something much more comprehensive. The graphics are nice, but there isn't much substance to promote deep understanding. I have a lot of notes from the course I took on Kalman filters I intend to synthesize (also notes PDFs in ~/frc/state-space-guide).
 
 The referenced derivations for the Kalman filter could be added as an appendix since they aren't that long. Does referencing them help the document at all?
+
+Include info from ~/frc/state-space-guide/LQR-derivs.pdf for optimal control/LQR derivations and LQR phase margin proof.
 
 The "Implementation Steps" section needs subsections to explain how to do each or at least examples. A small section on kinematics and dynamics in general would be useful. The following state-space implementation examples are planned:
 
