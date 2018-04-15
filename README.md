@@ -25,6 +25,8 @@ A PDF version is available at https://file.tavsys.net/control/state-space-guide.
 
 The document is still very high level for the subject it covers as well as very dense and fast-paced (it covers three classes of feedback control, two of which are for graduate students, in one short document). I want to make the contents of the document that are in the critical path more accessible. For example, one of my readers said the linear algebra went over their head, so I need to include more of the referenced linear algebra material in the main document (I suspect few readers would actually go watch an hour of supplementary material on YouTube).
 
+It's also not designed for skim reading (e.g., "Which equations do I need to implement a low-fi simulator for a drivetrain?"). Calling out the final results better would probably fix that, as it then can also be used as a quick reference.
+
 I'd also like to expand the introductions for each section and provide more examples like I did for the Kalman filter design to give the reader practice applying the skills discussed.
 
 The linear algebra section should be filled out with some basics that are needed
