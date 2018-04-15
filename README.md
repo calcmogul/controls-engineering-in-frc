@@ -13,6 +13,13 @@ This document reads a lot like a reference manual on control theory and related 
 * Python 3.5+ and Python Control (to generate plots and state-space results)
 * Inkscape (to convert SVGs to PDF)
 
+Python Control can be installed via your system's package manager or via pip. For better root locus plots, build and install Python Control from its Git repo at https://github.com/python-control/python-control instead of using 0.7.0 from pypi.python.org.
+
+```
+git clone git://github.com/python-control/python-control
+pip install --user ./python-control
+```
+
 ## Build
 
 After installing the dependencies, just run `make`.
