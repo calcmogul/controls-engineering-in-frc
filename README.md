@@ -46,7 +46,7 @@ The "Implementation Steps" section needs subsections to explain how to do each o
 * Flywheel (in progress)
   * See elevator items
 * Drivetrain
-  * See 971/y2017/control_loops/python/drivetrain.py
+  * See elevator items
   * 971/y2017/control_loops/python/polydrivetrain.py?
 * Single-jointed arm (in progress)
   * See elevator items
