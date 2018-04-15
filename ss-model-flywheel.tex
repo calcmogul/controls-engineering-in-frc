@@ -48,11 +48,13 @@ non-negligible moment of inertia.
     \draw (3.75,1.83) -- (3.95,1.83);
 
     % Flywheel
-    \draw[fill=white] (5.65,2.49) ellipse (0.13 and 0.4);
-    \draw[fill=white,color=white] (5.05,2.89) rectangle (5.65,2.09);
-    \draw[fill=white] (5.05,2.49) ellipse (0.13 and 0.4);
-    \draw (5.05,2.09) -- (5.65,2.09);
-    \draw (5.05,2.89) -- (5.65,2.89);
+    \begin{scope}[xshift=5.05cm,yshift=2.09cm]
+      \draw[fill=white] (0.6,0.4) ellipse (0.13 and 0.4);
+      \draw[fill=white,color=white] (0,0.8) rectangle (0.6,0);
+      \draw[fill=white] (0,0.4) ellipse (0.13 and 0.4);
+      \draw (0,0) -- (0.6,0);
+      \draw (0,0.8) -- (0.6,0.8);
+    \end{scope}
 
     % Transmission shaft from gear two to flywheel
     \draw[fill=black!50] (4.09,2.42) rectangle (5.05,2.52);
