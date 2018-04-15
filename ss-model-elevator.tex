@@ -24,70 +24,90 @@ mass up or down.
     \draw (0,0) -- (2.5,0);
 
     % Motor
-    \draw[fill=black] (2.4,1.05) rectangle (2.6,1.95);
-    \draw[fill=white] (2.5,1.5) ellipse (0.3 and 0.3);
+    \begin{scope}[xshift=2.4cm,yshift=1.05cm]
+      \draw[fill=black] (0,0) rectangle (0.2,0.9);
+      \draw[fill=white] (0.1,0.45) ellipse (0.3 and 0.3);
+    \end{scope}
 
     % Transmission gear one
-    \draw[fill=black!50] (3.95,1.5) ellipse (0.08 and 0.33);
-    \draw[fill=black!50, color=black!50] (3.75,1.17) rectangle (3.95,1.83);
-    \draw[fill=white] (3.75,1.5) ellipse (0.08 and 0.33);
-    \draw (3.75,1.83) -- (3.95,1.83);
-    \draw (3.75,1.17) -- (3.95,1.17) node[pos=0.5,below] {$G$};
+    \begin{scope}[xshift=3.75cm,yshift=1.17cm]
+      \draw[fill=black!50] (0.2,0.33) ellipse (0.08 and 0.33);
+      \draw[fill=black!50, color=black!50] (0,0) rectangle (0.2,0.66);
+      \draw[fill=white] (0,0.33) ellipse (0.08 and 0.33);
+      \draw (0,0.66) -- (0.2,0.66);
+      \draw (0,0) -- (0.2,0) node[pos=0.5,below] {$G$};
+    \end{scope}
 
     % Output shaft of motor
-    \draw[fill=black!50] (2.8,1.45) rectangle (3.75,1.55);
+    \begin{scope}[xshift=2.8cm,yshift=1.45cm]
+      \draw[fill=black!50] (0,0) rectangle (0.95,0.1);
+    \end{scope}
 
     % Angular velocity arrow of drive -> transmission
     \draw[line width=0.7pt,<-] (3.2,1) arc (-30:30:1) node[above] {$\omega_m$};
 
     % Transmission gear two
-    \draw[fill=black!50] (3.95,2.51) ellipse (0.13 and 0.67);
-    \draw[fill=black!50, color=black!50] (3.75,1.83) rectangle (3.95,3.18);
-    \draw[fill=white] (3.75,2.51) ellipse (0.13 and 0.67);
-    \draw (3.75,3.18) -- (3.95,3.18);
-    \draw (3.75,1.83) -- (3.95,1.83);
+    \begin{scope}[xshift=3.75cm,yshift=1.83cm]
+      \draw[fill=black!50] (0.2,0.68) ellipse (0.13 and 0.67);
+      \draw[fill=black!50, color=black!50] (0,0) rectangle (0.2,1.35);
+      \draw[fill=white] (0,0.68) ellipse (0.13 and 0.67);
+      \draw (0,1.35) -- (0.2,1.35);
+      \draw (0,0) -- (0.2,0);
+    \end{scope}
 
     % Pulley rear chain
-    \draw[fill=black!70, color=black!70] (5.04,2.49) rectangle (5.12,0.32);
-    \draw (5.03,2.49) -- (5.03,0.32);
-    \draw (5.13,2.49) -- (5.13,0.32);
+    \begin{scope}[xshift=5.03cm,yshift=0.32cm]
+      \draw[fill=black!70, color=black!70] (0.01,2.17) rectangle (0.09,0);
+      \draw (0,2.17) -- (0,0);
+      \draw (0.1,2.17) -- (0.1,0);
+    \end{scope}
 
     % Upper pulley
-    \draw[fill=black!50] (5.25,2.49) ellipse (0.13 and 0.4);
-    \draw[fill=black!70] (5.2,2.49) ellipse (0.13 and 0.4);
-    \draw[fill=black!50, color=black!50] (5.05,2.89) rectangle (5.15,2.09);
-    \draw[fill=black!70, color=black!70] (5.15,2.89) rectangle (5.2,2.09);
-    \draw[fill=black!50] (5.1,2.49) ellipse (0.13 and 0.4);
-    \draw[fill=black!50, color=black!50] (5.05,2.89) rectangle (5.1,2.09);
-    \draw[fill=white] (5.05,2.49) ellipse (0.13 and 0.4);
-    \draw (5.05,2.09) -- (5.25,2.09);
-    \draw (5.05,2.89) -- (5.25,2.89);
+    \begin{scope}[xshift=5.05cm,yshift=2.09cm]
+      \draw[fill=black!50] (0.2,0.4) ellipse (0.13 and 0.4);
+      \draw[fill=black!70] (0.15,0.4) ellipse (0.13 and 0.4);
+      \draw[fill=black!50, color=black!50] (0,0) rectangle (0.1,0.8);
+      \draw[fill=black!70, color=black!70] (0.1,0) rectangle (0.15,0.8);
+      \draw[fill=black!50] (0.05,0.4) ellipse (0.13 and 0.4);
+      \draw[fill=black!50, color=black!50] (0,0) rectangle (0.05,0.8);
+      \draw[fill=white] (0,0.4) ellipse (0.13 and 0.4);
+      \draw (0,0) -- (0.2,0);
+      \draw (0,0.8) -- (0.2,0.8);
+    \end{scope}
 
     % Lower pulley
-    \draw[fill=black!50] (5.25,0.35) ellipse (0.13 and 0.4);
-    \draw[fill=black!70] (5.2,0.35) ellipse (0.13 and 0.4);
-    \draw[fill=black!50, color=black!50] (5.05,-0.05) rectangle (5.15,0.75);
-    \draw[fill=black!70, color=black!70] (5.15,-0.05) rectangle (5.2,0.75);
-    \draw[fill=black!50] (5.1,0.35) ellipse (0.13 and 0.4);
-    \draw[fill=black!50, color=black!50] (5.05,-0.05) rectangle (5.1,0.75);
-    \draw[fill=white] (5.05,0.35) ellipse (0.13 and 0.4);
-    \draw (5.05,0.75) -- (5.25,0.75);
-    \draw (5.05,-0.05) -- (5.25,-0.05);
+    \begin{scope}[xshift=5.05cm,yshift=-0.05cm]
+      \draw[fill=black!50] (0.2,0.4) ellipse (0.13 and 0.4);
+      \draw[fill=black!70] (0.15,0.4) ellipse (0.13 and 0.4);
+      \draw[fill=black!50, color=black!50] (0,0) rectangle (0.1,0.8);
+      \draw[fill=black!70, color=black!70] (0.1,0) rectangle (0.15,0.8);
+      \draw[fill=black!50] (0.05,0.4) ellipse (0.13 and 0.4);
+      \draw[fill=black!50, color=black!50] (0,0) rectangle (0.05,0.8);
+      \draw[fill=white] (0,0.4) ellipse (0.13 and 0.4);
+      \draw (0,0) -- (0.2,0);
+      \draw (0,0.8) -- (0.2,0.8);
+    \end{scope}
 
     % Transmission shaft from gear two to pulley
-    \draw[fill=black!50] (4.09,2.42) rectangle (5.05,2.52);
+    \begin{scope}[xshift=4.09cm,yshift=2.42cm]
+      \draw[fill=black!50] (0,0) rectangle (0.96,0.1);
+    \end{scope}
 
     % Angular velocity arrow between transmission and pulley
     \draw[line width=0.7pt,->] (4.54,1.97) arc (-30:30:1) node[above]
       {$\omega_p$};
 
     % Pulley front chain
-    \draw[fill=black!70, color=black!70] (5.24,2.49) rectangle (5.32,0.32);
-    \draw (5.23,2.49) -- (5.23,0.32);
-    \draw (5.33,2.49) -- (5.33,0.32);
+    \begin{scope}[xshift=5.23cm,yshift=0.32cm]
+      \draw[fill=black!70, color=black!70] (0.01,2.17) rectangle (0.09,0);
+      \draw (0,2.17) -- (0,0);
+      \draw (0.1,2.17) -- (0.1,0);
+    \end{scope}
 
     % Pulley radius arrow
-    \draw[line width=0.7pt,<->] (5.54,2.49) -- node[right] {$r$} (5.54,2.89);
+    \begin{scope}[xshift=5.54cm,yshift=2.49]
+      \draw[line width=0.7pt,<->] (0,0) -- node[right] {$r$} (0,0.4);
+    \end{scope}
 
     % Mass
     \begin{scope}[xshift=4.89cm,yshift=0.82cm]
@@ -102,16 +122,20 @@ mass up or down.
     \end{scope}
 
     % Mass velocity arrow
-    \draw[line width=0.7pt,<-] (6.04,1.35) -- node {$v_m$} (6.04,0.95);
+    \begin{scope}[xshift=6.04cm,yshift=0.95cm]
+      \draw[line width=0.7pt,<-] (0,0.4) -- node {$v_m$} (0,0);
+    \end{scope}
 
     % Descriptions inside graphic
     \draw (5.48,1.12) node {$m$};
 
     % Descriptions of subsystems under graphic
-    \draw[decorate,decoration={brace,amplitude=10pt}]
-      (3,-0.28) -- (-0.5,-0.28) node[midway,yshift=-20pt] {circuit};
-    \draw[decorate,decoration={brace,amplitude=10pt}]
-      (6.55,-0.28) -- (3.25,-0.28) node[midway,yshift=-20pt] {mechanics};
+    \begin{scope}[xshift=-0.5cm,yshift=-0.28cm]
+      \draw[decorate,decoration={brace,amplitude=10pt}]
+        (3.5,0) -- (0,0) node[midway,yshift=-20pt] {circuit};
+      \draw[decorate,decoration={brace,amplitude=10pt}]
+        (7.05,0) -- (3.75,0) node[midway,yshift=-20pt] {mechanics};
+    \end{scope}
   \end{tikzpicture}
 
   \caption{Elevator system diagram}
