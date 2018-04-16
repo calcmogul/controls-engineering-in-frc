@@ -9,71 +9,23 @@ underlying it. First, watch 3Blue1Brown's preview video for the
 \cite{bib:linalg_preview}. The goal here is to provide an intuitive, geometric
 understanding of linear algebra as a method of linear transformations.
 
-While only a subset of the material from the videos will be presented here, I
-highly suggest watching the whole series \cite{bib:essence_of_linalg}.
-
-\section{Vectors}
-
-\begin{remark}
-  See the corresponding \textit{Essence of Linear Algebra} video for more (5
-  minutes) \cite{bib:linalg_vectors}.
-\end{remark}
-
-\section{Linear combinations, span, and basis vectors}
+While only a subset of the material from the videos will be presented here that
+we think is relevant to this book, we highly suggest watching the whole series
+\cite{bib:essence_of_linalg}.
 
 \begin{remark}
-  See the corresponding \textit{Essence of Linear Algebra} video for more (10
-  minutes) \cite{bib:linalg_linear_combinations}.
+  The following sections are essentially transcripts of the video content for
+  those who don't want to watch an hour of YouTube videos. However, we suggest
+  watching the video instead because visual media is better at building the
+  geometric intuition involved than text.
 \end{remark}
 
-\section{Linear transformations and matrices}
-
-\begin{remark}
-  See the corresponding \textit{Essence of Linear Algebra} video for more (11
-  minutes) \cite{bib:linalg_linear_transformations_and_matrices}.
-\end{remark}
-
-\section{Matrix multiplication as composition}
-
-\begin{remark}
-  See the corresponding \textit{Essence of Linear Algebra} video for more (10
-  minutes) \cite{bib:linalg_matrix_multiplication_as_composition}.
-\end{remark}
-
-\section{The determinant}
-
-\begin{remark}
-  See the corresponding \textit{Essence of Linear Algebra} video for more (10
-  minutes) \cite{bib:linalg_the_determinant}.
-\end{remark}
-
-\section{Eigenvectors and eigenvalues}
-
-\begin{remark}
-  See the corresponding \textit{Essence of Linear Algebra} video for more (17
-  minutes) \cite{bib:linalg_eigenvectors_and_eigenvalues}.
-\end{remark}
-
-\section{Miscellaneous notation}
-
-This book works with two-dimensional matrices. The dimensionality of these
-matrices is specified by row first, then column. For example, a matrix with two
-rows and three columns would be a two-by-three matrix. A square matrix has the
-same number of rows as columns.
-
-The matrix $\mtx{I}$ is known as the identity matrix, which is a square matrix
-with ones along its diagonal and zeroes elsewhere. For example
-
-\begin{equation*}
-  \begin{bmatrix}
-    1 & 0 & 0 \\
-    0 & 1 & 0 \\
-    0 & 0 & 1
-  \end{bmatrix}
-\end{equation*}
-
-The matrix denoted by $\mtx{0}_{m \times n}$ is a matrix filled with zeroes with
-$m$ rows and $n$ columns.
-
-The $^T$ in $\mtx{A}^T$ denotes transpose, which flips the matrix across its
-diagonal such that the rows become columns and vice versa.
+\input{linear-algebra/vectors}
+\input{linear-algebra/linear-combinations-span-and-basis-vectors}
+\input{linear-algebra/linear-transformations-and-matrices}
+\input{linear-algebra/matrix-multiplication}
+\input{linear-algebra/the-determinant}
+\input{linear-algebra/inverse-matrices-column-space-and-null-space}
+\input{linear-algebra/nonsquare-matrices}
+\input{linear-algebra/eigenvectors-and-eigenvalues}
+\input{linear-algebra/misc-notation}

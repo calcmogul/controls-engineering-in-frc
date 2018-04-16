@@ -1,0 +1,383 @@
+\section{Linear transformations and matrices}
+
+This section focuses on what linear transformations look like in the case of two
+dimensions and how they relate to the idea of a matrix-vector multiplication.
+
+\begin{equation*}
+  \begin{bmatrix}
+    \textcolor{red}{1} & \textcolor{orange}{-3} \\
+    \textcolor{green}{2} & \textcolor{cyan}{4}
+  \end{bmatrix}
+  \begin{bmatrix}
+    \textcolor{blue}{5} \\
+    \textcolor{purple}{7}
+  \end{bmatrix} = \begin{bmatrix}
+    (\textcolor{red}{1})(\textcolor{blue}{5}) +
+      (\textcolor{orange}{-3})(\textcolor{purple}{7}) \\
+    (\textcolor{green}{2})(\textcolor{blue}{5}) +
+      (\textcolor{cyan}{4})(\textcolor{purple}{7})
+  \end{bmatrix}
+\end{equation*}
+
+In particular, we want to show you a way to think about matrix-vector
+multiplication that doesn't rely on memorization of the procedure shown above.
+
+\subsection{What is a linear transformation?}
+
+To start, let's just parse this term "linear transformation". "Transformation"
+is essentially another name for "function". It's something that takes in inputs
+and returns an output for each one. Specifically in the context of linear
+algebra, we consider transformations that take in some vector and spit out
+another vector.
+
+\begin{figure}[H]
+  \centering
+
+  \begin{tikzpicture}[auto, >=latex']
+    % Place the nodes
+    \node [name=input] {
+      $\begin{bmatrix}
+        5 \\
+        7
+      \end{bmatrix}$
+    };
+    \node [name=inputlabel, below=of input] {Vector input};
+    \node [name=func, right=of input] {$L(\vec{v})$};
+    \node [name=output, right=of func] {
+      $\begin{bmatrix}
+        2 \\
+        -3
+      \end{bmatrix}$
+    };
+    \node [name=outputlabel, below=of output] {Vector output};
+
+    % Connect the nodes
+    \draw [arrow] (input) -- node {} (func);
+    \draw [arrow] (func) -- node {} (output);
+  \end{tikzpicture}
+\end{figure}
+
+So why use the word "transformation" instead of "function" if they mean the same
+thing? It's to be suggestive of a certain way to visualize this input-output
+relation. You see, a great way to understand functions of vectors is to use
+movement. If a transformation takes some input vector to some output vector, we
+imagine that input vector moving over to the output vector. Then to understand
+the transformation as a whole, we might imagine watching every possible input
+vector move over to its corresponding output vector. it gets really crowded to
+think about all the vectors all at once, where each one is an arrow. Therefore,
+as we mentioned in the previous section, it's useful to conceptualize each
+vector as a single point where its tip sits rather than an arrow. To think about
+a transformation taking every possible input vector to some output vector, we
+watch every point in space moving to some other point.
+
+The effect of various transformations moving around all of the points in space
+gives the feeling of compressing and morphing space itself. As you can imagine
+though, arbitrary transformations can look complicated. Luckily, linear algebra
+limits itself to a special type of transformation, ones that are easier to
+understand, called "linear" transformations. Visually speaking, a transformation
+is linear if it has two properties: all straight lines must remain as such, and
+the origin must remain fixed in place. In general, you should think of linear
+transformations as keeping grid lines parallel and evenly spaced.
+
+\subsection{Describing transformations numerically}
+
+Some transformations are simple to think about, like rotations about the origin.
+Others are more difficult to describe with words. So how could one describe
+these transformations numerically? If you were, say, programming some animations
+to make a video teaching the topic, what formula could you give the computer so
+that if you give it the coordinates of a vector, it would return the coordinates
+of where that vectors lands?
+
+\begin{figure}[H]
+  \centering
+
+  \begin{tikzpicture}[auto, >=latex']
+    % Place the nodes
+    \node [name=input] {
+      $\begin{bmatrix}
+        x_{in} \\
+        y_{in}
+      \end{bmatrix}$
+    };
+    \node [name=func, right=of input] {$????$};
+    \node [name=output, right=of func] {
+      $\begin{bmatrix}
+        x_{out} \\
+        y_{out}
+      \end{bmatrix}$
+    };
+
+    % Connect the nodes
+    \draw [arrow] (input) -- node {} (func);
+    \draw [arrow] (func) -- node {} (output);
+  \end{tikzpicture}
+\end{figure}
+
+You only need to record where the two basis vectors, $\hat{i}$ and $\hat{j}$,
+each land, and everything else will follow from that. For example, consider the
+vector $v$ with coordinates $(-1, 2)$, meaning $\vec{v} = -1\hat{i} + 2\hat{j}$.
+If we play some transformation and follow where all three of these vectors go,
+the property that grid lines remain parallel and evenly spaced has a really
+important consequence: the place where $\vec{v}$ lands will be $-1$ times the
+vector where $\hat{i}$ landed plus $2$ times the vector where $\hat{j}$ landed.
+In other words, it started off as a certain linear combination of $\hat{i}$ and
+$\hat{j}$ and it ends up as that same linear combination of where those two
+vectors landed. This means you can deduce where $\vec{v}$ must go based only on
+where $\hat{i}$ and $\hat{j}$ each land. For this transformation, $\hat{i}$
+lands on the coordinates $(1, -2)$ and $\hat{j}$ lands on the x-axis at the
+coordinates $(3, 0)$.
+
+\begin{align*}
+  \text{Transformed } \vec{v} &= -1(\text{Transformed } \hat{i}) +
+    2(\text{Transformed } \hat{j}) \\
+  \text{Transformed } \vec{v} &= -1\begin{bmatrix}
+    1 \\
+    -2
+  \end{bmatrix} + 2\begin{bmatrix}
+    3 \\
+    0
+  \end{bmatrix}
+\end{align*}
+
+Adding that all together, you can deduce that $\vec{v}$ has to land on the
+vector $(5, 2)$.
+
+\begin{align*}
+  \text{Transformed } \vec{v} &= \begin{bmatrix}
+    -1(1) + 2(3) \\
+    -1(-2) + 2(0)
+  \end{bmatrix} \\
+  \text{Transformed } \vec{v} &= \begin{bmatrix}
+    5 \\
+    2
+  \end{bmatrix}
+\end{align*}
+
+This is a good point to pause and ponder, because it's pretty important. This
+gives us a technique to deduce where any vectors land, so long as we have a
+record of where $\hat{i}$ and $\hat{j}$ each land, without needing to watch the
+transformation itself.
+
+Given a vector with more general coordinates $x$ and $y$, it will land on $x$
+times the vector where $\hat{i}$ lands $(1, -2)$, plus $y$ times the vector
+where $\hat{j}$ lands $(3, 0)$. Carrying out that sum, you see that it lands at
+$(1x + 3y, -2x + 0y)$.
+
+\begin{equation*}
+  \begin{array}{cc}
+    \hat{i} \rightarrow \begin{bmatrix}
+      1 \\
+      -2
+    \end{bmatrix} &
+    \hat{j} \rightarrow \begin{bmatrix}
+      3 \\
+      0
+    \end{bmatrix}
+  \end{array}
+\end{equation*}
+
+\begin{equation*}
+  \begin{bmatrix}
+    x \\
+    y
+  \end{bmatrix} \rightarrow x\begin{bmatrix}
+    1 \\
+    -2
+  \end{bmatrix} + y\begin{bmatrix}
+    3 \\
+    0
+  \end{bmatrix} = \begin{bmatrix}
+    1x + 3y \\
+    -2x + 0y
+  \end{bmatrix}
+\end{equation*}
+
+Given any vector, this formula will describe where that vector lands.
+
+What all of this is saying is that a two dimensional linear transformation is
+completely described by just four numbers: the two coordinates for where
+$\hat{i}$ lands and the two coordinates for where $\hat{j}$ lands. It's common
+to package these coordinates into a two-by-two grid of numbers, called a
+two-by-two matrix, where you can interpret the columns as the two special
+vectors where $\hat{i}$ and $\hat{j}$ each land. If $\hat{i}$ lands on the
+vector $(3, -2)$ and $\hat{j}$ lands on the vector $(2, 1)$, this two-by-two
+matrix would be
+
+\begin{equation*}
+  \begin{bmatrix}
+    3 & 2 \\
+    -2 & 1
+  \end{bmatrix}
+\end{equation*}
+
+If you're given a two-by-two matrix describing a linear transformation and some
+specific vector, say $(5, 7)$, and you want to know where that linear
+transformation takes that vector, you can multiply the coordinates of the vector
+by the corresponding columns of the matrix, then add together the result.
+
+\begin{equation*}
+  \begin{bmatrix}
+    3 & 2 \\
+    -2 & 1
+  \end{bmatrix}
+  \begin{bmatrix}
+    5 \\
+    7
+  \end{bmatrix} = 5\begin{bmatrix}
+    3 \\
+    -2
+  \end{bmatrix} + 7\begin{bmatrix}
+    2 \\
+    1
+  \end{bmatrix}
+\end{equation*}
+
+This corresponds with the idea of adding the scaled versions of our new basis
+vectors.
+
+Let's see what this looks like in the most general case where your matrix has
+entries $a$, $b$, $c$, $d$.
+
+\begin{equation*}
+  \begin{bmatrix}
+    a & b \\
+    c & d
+  \end{bmatrix}
+\end{equation*}
+
+Remember, this matrix is just a way of packaging the information needed to
+describe a linear transformation. Always remember to interpret that first
+column, $(a, c)$, as the place where the first basis vector lands and that
+second column, $(b, d)$, as the place where the second basis vector lands.
+
+When we apply this transformation to some vector $(x, y)$, the result will be
+$x$ times $(a, c)$ plus $y$ times $(b, d)$. Together, this gives a vector
+$(ax + by, cx + dy)$.
+
+\begin{equation*}
+  \begin{bmatrix}
+    a & b \\
+    c & d
+  \end{bmatrix} \begin{bmatrix}
+    x \\
+    y
+  \end{bmatrix} = x\begin{bmatrix}
+    a \\
+    c
+  \end{bmatrix} + y\begin{bmatrix}
+    b \\
+    d
+  \end{bmatrix} = \begin{bmatrix}
+    ax + by \\
+    cx + dy
+  \end{bmatrix}
+\end{equation*}
+
+You could even define this as matrix-vector multiplication when you put the
+matrix on the left of the vector like it's a function. Then, you could make high
+schoolers memorize this, without showing them the crucial part that makes it
+feel intuitive (yes, that was sarcasm). Isn't it more fun to think about these
+columns as the transformed versions of your basis vectors and to think about the
+result as the appropriate linear combination of those vectors?
+
+\subsection{Examples of linear transformations}
+
+Let's practice describing a few linear transformations with matrices. For
+example, if we rotate all of space $90\degree$ counterclockwise then $\hat{i}$
+lands on the coordinates $(0, 1)$ and $\hat{j}$ lands on the coordinates
+$(-1, 0)$. So the matrix we end up with has the columns $(0, 1)$, $(-1, 0)$.
+
+\begin{equation*}
+  \begin{bmatrix}
+    0 & -1 \\
+    1 & 0
+  \end{bmatrix}
+\end{equation*}
+
+To ascertain what happens to any vector after a $90\degree$ rotation, you could
+just multiply its coordinates by this matrix.
+
+\begin{equation*}
+  \begin{bmatrix}
+    0 & -1 \\
+    1 & 0
+  \end{bmatrix} \begin{bmatrix}
+    x \\
+    y
+  \end{bmatrix}
+\end{equation*}
+
+Here's a fun transformation with a special name, called a "shear". In it,
+$\hat{i}$ remains fixed so the first column of the matrix is $(1, 0)$, but
+$\hat{j}$ moves over to the coordinates $(1, 1)$ which become the second column
+of the matrix.
+
+\begin{equation*}
+  \begin{bmatrix}
+    1 & 1 \\
+    0 & 1
+  \end{bmatrix}
+\end{equation*}
+
+And, at the risk of being redundant here, figuring out how shear transforms a
+given vector comes down to multiplying this matrix by that vector.
+
+\begin{equation*}
+  \begin{bmatrix}
+    1 & 1 \\
+    0 & 1
+  \end{bmatrix} \begin{bmatrix}
+    x \\
+    y
+  \end{bmatrix}
+\end{equation*}
+
+Let's say we want to go the other way around, starting with a matrix, say with
+columns $(1, 2)$ and $(3, 1)$, and we want to deduce what its transformation
+looks like. Pause and take a moment to see if you can imagine it.
+
+\begin{equation*}
+  \begin{bmatrix}
+    1 & 3 \\
+    2 & 1
+  \end{bmatrix}
+\end{equation*}
+
+One way to do this is to first move $\hat{i}$ to $(1, 2)$. Then, move $\hat{j}$
+to $(3, 1)$, always moving the rest of space in such a way that that keeps grid
+lines parallel and evenly spaced.
+
+Suppose that the vectors that $\hat{i}$ and $\hat{j}$ land on are linearly
+dependent as in the following matrix (that is, it has linearly dependent
+columns).
+
+\begin{equation*}
+  \begin{bmatrix}
+    2 & -2 \\
+    1 & -1
+  \end{bmatrix}
+\end{equation*}
+
+If you recall from last section, this means that one vector is a scaled version
+of the other, so that linear transformation compresses all of 2D space onto the
+line where those two vectors sit. This is also known as the one-dimensional span
+of those two linearly dependent vectors.
+
+To sum up, linear transformations are a way to move around space such that the
+grid lines remain parallel and evenly spaced and such that the origin remains
+fixed. Delightfully, these transformations can be described using only a handful
+of numbers: the coordinates of where each basis vector lands. Matrices give us a
+language to describe these transformations where the columns represent those
+coordinates and matrix-vector multiplication is just a way to compute what that
+transformation does to a given vector. The important take-away here is that
+every time you see a matrix, you can interpret it as a certain transformation of
+space. Once you really digest this idea, you're in a great position to
+understand linear algebra deeply. Almost all of the topics coming up, from
+matrix multiplication to determinants, eigenvalues, etc. will become easier to
+understand once you start thinking about matrices as transformations of space.
+
+\begin{remark}
+  See the corresponding \textit{Essence of Linear Algebra} video for a more
+  visual presentation (11 minutes)
+  \cite{bib:linalg_linear_transformations_and_matrices}.
+\end{remark}

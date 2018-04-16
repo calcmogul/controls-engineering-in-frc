@@ -1,0 +1,68 @@
+\section{Nonsquare matrices as transformations between dimensions}
+
+When we've talked about linear transformations so far, we've only really talked
+about transformations from 2D vectors to other 2D vectors, represented with
+$2 \times 2$ matrices; or from 3D vectors to other 3D vectors, represented with
+$3 \times 3$ matrices. What about nonsquare matrices? We'll take a moment to
+discuss what those mean geometrically.
+
+By now, you have most of the background you need to start pondering a question
+like this on your own, but we'll start talking through it, just to give a little
+mental momentum.
+
+It's perfectly reasonable to talk about transformations between dimensions, such
+as one that takes 2D vectors to 3D vectors. Again, what makes one of these
+linear is that grid lines remain parallel and evenly spaced, and that the origin
+maps to the origin.
+
+Encoding one of these transformations with a matrix the same as what we've done
+before. You look at where each basis vector lands and write the coordinates of
+the landing spots as the coordinates of the landing spots as the columns of a
+matrix. For example, the following is a transformation that takes $\hat{i}$ to
+the coordinates $(2, -1, -2)$ and $\hat{j}$ to the coordinates $(0, 1, 1)$.
+
+\begin{equation*}
+  \begin{bmatrix}
+    2 & 0 \\
+    -1 & 1 \\
+    -2 & 1
+  \end{bmatrix}
+\end{equation*}
+
+Notice, this means the matrix encoding our transformation has three rows and two
+columns, which, to use standard terminology, makes it a $3 \times 2$ matrix. In
+the language of last section, the column space of this matrix, the place where
+all the vectors land, is a 2D plane slicing through the origin of 3D space. The
+matrix is still full rank since the number of dimensions in this column space is
+the same as the number of dimensions of the input space.
+
+If you see a $3 \times 2$ matrix out in the wild, you can know that it has the
+geometric interpretation of mapping two dimensions to three dimensions since the
+two columns indicate that the input space has two basis vectors, and the three
+rows indicate that the landing spots for each of those basis vectors is
+described with three separate coordinates.
+
+For a $2 \times 3$ matrix, the three columns indicate a starting space that has
+three basis vectors, so it starts in three dimensions; and the two rows indicate
+that the landing spot for each of those three basis vectors is described with
+only two coordinates, so they must be landing in two dimensions. It's a
+transformation from 3D space onto the 2D plane.
+
+You could also have a transformation from two dimensions to one dimension.
+One-dimensional space is really just the number line, so a transformation like
+this takes in 2D vectors and returns numbers. Thinking about gridlines remaining
+parallel and evenly spaced is messy due to all the compression happening here,
+so in this case, the visual understanding for what linearity means is that if
+you have a line of evenly spaced dots, it would remain evenly spaced once
+they're mapped onto the number line.
+
+One of these transformations is encoded with a $1 \times 2$ matrix, each of
+whose two columns has just a single entry. The two columns represent where the
+basis vectors land, and each one of those columns requires just one number, the
+number that that basis vector landed on.
+
+\begin{remark}
+  See the corresponding \textit{Essence of Linear Algebra} video for a more
+  visual presentation (4 minutes)
+  \cite{bib:linalg_nonsquare_matrices_as_transformations_between_dimensions}.
+\end{remark}

@@ -117,9 +117,6 @@ otherwise mentioned in this book.
 
 ### Teach topics better
 
-The linear algebra section should be filled out with some basics that are needed
-to understand the examples based on the videos already linked there.
-
 Add graphs of zero-order hold and Euler methods of discretization.
 
 The link to the graphical introduction to Kalman filters should be replaced with

@@ -1,0 +1,340 @@
+\section{Matrix multiplication as composition}
+
+Often-times you find yourself wanting to describe the effect of applying one
+transformation and then another. For example, you may want to describe what
+happens when you first rotate the plane $90\degree$ counterclockwise then apply
+a shear. The overall effect here, from start to finish, is another linear
+transformation distinct from the rotation and the shear. This new linear
+transformation is commonly called the "composition" of the two separate
+transformations we applied, and like any linear transformation, it can be
+described with a matrix all its own by following $\hat{i}$ and $\hat{j}$. In
+this example, the ultimate landing spot for $\hat{i}$ after both transformations
+is $(1, 1)$, so that's the first column of the matrix. Likewise, $\hat{j}$
+ultimately ends up at the location $(-1, 0)$, so we make that the second column
+of the matrix.
+
+\begin{equation*}
+  \begin{bmatrix}
+    1 & -1 \\
+    1 & -0
+  \end{bmatrix}
+\end{equation*}
+
+This new matrix captures the overall effect of applying a rotation then a shear
+but as one single action rather than two successive ones.
+
+Here's one way to think about that new matrix: if you were to feed some vector
+through the rotation then the shear, the long way to compute where it ends up is
+to, first, multiply it on the left by the rotation matrix; then, take whatever
+you get and multiply that on the left by the shear matrix.
+
+\begin{equation*}
+  \begin{bmatrix}
+    1 & 1 \\
+    0 & 1
+  \end{bmatrix}\left(
+  \begin{bmatrix}
+    0 & -1 \\
+    1 & 0
+  \end{bmatrix}
+  \begin{bmatrix}
+    x \\
+    y
+  \end{bmatrix}\right)
+\end{equation*}
+
+This is, numerically speaking, what it means to apply a rotation then a shear to
+a given vector, but the result should be the same as just applying this new
+composition matrix we found to that same vector. This applies to any vector
+because this new matrix is supposed to capture the same overall effect as the
+rotation-then-shear action.
+
+\begin{equation*}
+  \begin{bmatrix}
+    1 & 1 \\
+    0 & 1
+  \end{bmatrix}\left(
+  \begin{bmatrix}
+    0 & -1 \\
+    1 & 0
+  \end{bmatrix}
+  \begin{bmatrix}
+    x \\
+    y
+  \end{bmatrix}\right) =
+  \begin{bmatrix}
+    1 & -1 \\
+    1 & 0
+  \end{bmatrix} \begin{bmatrix}
+    x \\
+    y
+  \end{bmatrix}
+\end{equation*}
+
+Based on how things are written down here, it's reasonable to call this new
+matrix the "product" of the original two matrices.
+
+\begin{equation*}
+  \begin{bmatrix}
+    1 & 1 \\
+    0 & 1
+  \end{bmatrix}
+  \begin{bmatrix}
+    0 & -1 \\
+    1 & 0
+  \end{bmatrix} =
+  \begin{bmatrix}
+    1 & -1 \\
+    1 & 0
+  \end{bmatrix}
+\end{equation*}
+
+We can think about how to compute that product more generally in just a moment,
+but it's way too easy to get lost in the forest of numbers. Always remember
+that multiplying two matrices like this has the geometric meaning of applying
+one transformation then another.
+
+One oddity here is that we are reading the transformations from right to left;
+you first apply the transformation represented by the matrix on the right, then
+you apply the transformation represented by the matrix on the left. This stems
+from function notation, since we write functions on the left of variables, so
+every time you compose two functions, you always have to read it right to left.
+
+Let's look at another example. Take the matrix with columns $(1, 1)$ and
+$(-2, 0)$.
+
+\begin{equation*}
+  M_1 = \begin{bmatrix}
+    1 & -2 \\
+    1 & 0
+  \end{bmatrix}
+\end{equation*}
+
+Next, take the matrix with columns $(0, 1)$ and $(2, 0)$.
+
+\begin{equation*}
+  M_2 = \begin{bmatrix}
+    0 & 2 \\
+    1 & 0
+  \end{bmatrix}
+\end{equation*}
+
+The total effect of applying $M_1$ then $M_2$ gives us a new transformation, so
+let's find its matrix. First, we need to determine where $\hat{i}$ goes. After
+applying $M_1$, the new coordinates of $\hat{i}$, by definition, are given by
+that first column of $M_1$, namely, $(1, 1)$. To see what happens after applying
+$M_2$, multiply the matrix for $M_2$ by that vector $(1, 1)$. Working it out the
+way described in the last section, you'll get the vector $(2, 1)$.
+
+\begin{equation*}
+  \begin{bmatrix}
+    0 & 2 \\
+    1 & 0
+  \end{bmatrix}
+  \begin{bmatrix}
+    1 \\
+    1
+  \end{bmatrix} = 1
+  \begin{bmatrix}
+    0 \\
+    1
+  \end{bmatrix} + 1
+  \begin{bmatrix}
+    2 \\
+    0
+  \end{bmatrix} =
+  \begin{bmatrix}
+    2 \\
+    1
+  \end{bmatrix}
+\end{equation*}
+
+This will be the first column of the composition matrix. Likewise, to follow
+$\hat{j}$, the second column of $M_1$ tells us that it first lands on $(-2, 0)$.
+Then, when we apply $M_2$ to that vector, you can work out the matrix-vector
+product to get $(0, -2)$.
+
+\begin{equation*}
+  \begin{bmatrix}
+    0 & 2 \\
+    1 & 0
+  \end{bmatrix}
+  \begin{bmatrix}
+    -2 \\
+    0
+  \end{bmatrix} = -2
+  \begin{bmatrix}
+    0 \\
+    1
+  \end{bmatrix} + 0
+  \begin{bmatrix}
+    2 \\
+    0
+  \end{bmatrix} =
+  \begin{bmatrix}
+    0 \\
+    -2
+  \end{bmatrix}
+\end{equation*}
+
+This will be the second column of the composition matrix.
+
+\begin{equation*}
+  \begin{bmatrix}
+    0 & 2 \\
+    1 & 0
+  \end{bmatrix}
+  \begin{bmatrix}
+    1 & -2 \\
+    1 & 0
+  \end{bmatrix} =
+  \begin{bmatrix}
+    2 & 0 \\
+    1 & -2
+  \end{bmatrix}
+\end{equation*}
+
+\subsection{General matrix multiplication}
+
+Let's go through that same process again, but this time, we'll use variable
+entries in each matrix, just to show that the same line of reasoning works for
+any matrices. This is more symbol-heavy, but it should be pretty satisfying for
+anyone who has previously been taught matrix multiplication the more rote way.
+
+\begin{equation*}
+  \begin{bmatrix}
+    a & b \\
+    c & d
+  \end{bmatrix}
+  \begin{bmatrix}
+    e & f \\
+    g & h
+  \end{bmatrix} =
+  \begin{bmatrix}
+    ? & ? \\
+    ? & ?
+  \end{bmatrix}
+\end{equation*}
+
+To follow where $\hat{i}$ goes, start by looking at the first column of the
+matrix on the right, since this is where $\hat{i}$ initially lands. Multiplying
+that column by the matrix on the left is how you can tell where the intermediate
+version of $\hat{i}$ ends up after applying the second transformation.
+
+\begin{equation*}
+  \begin{bmatrix}
+    a & b \\
+    c & d
+  \end{bmatrix}
+  \begin{bmatrix}
+    e \\
+    g
+  \end{bmatrix} = e
+  \begin{bmatrix}
+    a \\
+    c
+  \end{bmatrix} + g
+  \begin{bmatrix}
+    b \\
+    d
+  \end{bmatrix} =
+  \begin{bmatrix}
+    ae + bg \\
+    ce + dg
+  \end{bmatrix}
+\end{equation*}
+
+So the first column of the composition matrix will always equal the left matrix
+times the first column of the right matrix. Likewise, $\hat{j}$ will always
+initially land on the second column of the right matrix, so multiplying by this
+second column will give its final location, and hence, that's the second column
+of the composition matrix.
+
+\begin{equation*}
+  \begin{bmatrix}
+    a & b \\
+    c & d
+  \end{bmatrix}
+  \begin{bmatrix}
+    f \\
+    h
+  \end{bmatrix} = f
+  \begin{bmatrix}
+    a \\
+    c
+  \end{bmatrix} + h
+  \begin{bmatrix}
+    b \\
+    d
+  \end{bmatrix} =
+  \begin{bmatrix}
+    af + bh \\
+    cf + dh
+  \end{bmatrix}
+\end{equation*}
+
+So the complete composition matrix is
+
+\begin{equation*}
+  \begin{bmatrix}
+    a & b \\
+    c & d
+  \end{bmatrix}
+  \begin{bmatrix}
+    e & f \\
+    g & h
+  \end{bmatrix} =
+  \begin{bmatrix}
+    ae + bg & af + bh \\
+    ce + dg & cf + dh
+  \end{bmatrix}
+\end{equation*}
+
+Notice there's a lot of symbols here, and it's common to be taught this formula
+as something to memorize along with a certain algorithmic process to help
+remember it. Before memorizing that process, you should get in the habit of
+thinking about what matrix multiplication really represents: applying one
+transformation after another. This will give you a much better conceptual
+framework that makes the properties of matrix multiplication much easier to
+understand.
+
+\subsection{Matrix multiplication associativity}
+
+For example, here's a question: does it matter what order we put the two
+matrices in when we multiply them? Let's think through a simple example. Take a
+shear which fixes $\hat{i}$ and moves $\hat{j}$ over to the right, and a
+$90\degree$ rotation. If you first do the shear then rotate, we can see that
+$\hat{i}$ ends up at $(0, 1)$ and $\hat{j}$ ends up at $(-1, 1)$. Both are
+generally pointing close together. If you first rotate then do the shear,
+$\hat{i}$ ends up over at $(1, 1)$ and $\hat{j}$ is off on a different direction
+at $(-1, 0)$ and they're pointing farther apart. The overall effect here is
+clearly different, so evidently, order totally does matter. Notice by thinking
+in terms of transformations, that's the kind of thing that you can do in your
+head by visualizing. No matrix multiplication necessary.
+
+Let's consider trying to prove that matrix multiplication is associative. This
+means that if you have three matrices $A$, $B$, and $C$, and you multiply them
+all together, it shouldn't matter if you first compute $A$ times $B$ then
+multiply the result by $C$, or if you first multiply $B$ times $C$ then multiply
+that result by $A$ on the left. In other words, it doesn't matter where you put
+the parenthesis.
+
+\begin{equation*}
+  (AB)C \stackrel{?}{=} A(BC)
+\end{equation*}
+
+If you try to work through this numerically, it's horrible, and unenligthening
+for that matter. However, when you think about matrix multiplication as applying
+one transformation after another, this property is just trivial. Can you see
+why? What it's saying is that if you first apply $C$ then $B$, then $A$, it's
+the same as applying $C$, then $B$ then $A$. There's nothing to prove, you're
+just applying the same three things one after the other all in the same order.
+This might feel like cheating, but it's not. This is a valid proof that matrix
+multiplication is associative, and even better than that, it's a good
+explanation for why that property should be true.
+
+\begin{remark}
+  See the corresponding \textit{Essence of Linear Algebra} video for a more
+  visual presentation (10 minutes)
+  \cite{bib:linalg_matrix_multiplication_as_composition}.
+\end{remark}

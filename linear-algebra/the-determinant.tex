@@ -1,0 +1,217 @@
+\section{The determinant}
+
+So, moving forward, we will be assuming you have a visual understanding of
+linear transformations and how they're represented with matrices.
+
+\subsection{Scaling areas}
+
+If you think about a couple linear transformations, you might notice how some of
+them seem to stretch space out while others compress it. It's useful for
+understanding these transformations to measure exactly how much it stretches or
+compresses things (more specifically, to measure the factor by which areas are
+scaled). For example, look at the matrix with columns $(3, 0)$, and $(0, 2)$.
+
+\begin{equation*}
+  \begin{bmatrix}
+    3 & 0 \\
+    0 & 2
+  \end{bmatrix}
+\end{equation*}
+
+It scales $\hat{i}$ by a factor of $3$ and scales $\hat{j}$ by a factor of $2$.
+Now, if we focus our attention on the one-by-one square whose bottom sits on
+$\hat{i}$ and whose left side sits on $\hat{j}$, after the transformation, this
+turns into a $2$ by $3$ rectangle. Since this region started out with area $1$
+and ended up with area $6$, we can say the linear transformation has scaled its
+area by a factor of $6$. Compare that to a shear whose matrix has columns
+$(1, 0)$ and $(1, 1)$ meaning $\hat{i}$ stays in place and $\hat{j}$ moves over
+to $(1, 1)$.
+
+\begin{equation*}
+  \begin{bmatrix}
+    1 & 1 \\
+    0 & 1
+  \end{bmatrix}
+\end{equation*}
+
+That same unit square determined by $\hat{i}$ and $\hat{j}$ gets slanted and
+turned into a parallelogram, but the area of that parallelogram is still $1$
+since its base and height each continue to each have length $1$. Even though
+this transformation pushes things about, it seems to leave areas unchanged (at
+least in the case of that one uint square).
+
+Actually though, if you know how much the area of that one single unit square
+changes, you can know how the area of any possible region in space changes.
+First off, notice that whatever happens to one square in the grid has to happen
+to any other square in the grid no matter the size. This follows from the fact
+that grid lines remain parallel and evenly spaced. Then, any shape that's not a
+grid square can be approximated by grid squares pretty well with arbitrarily
+good approximations if you use small enough grid squares. So, since the areas of
+all those tiny grid squares are being scaled by some single amount, the area of
+the shape as a whole will also be scaled by that same single amount.
+
+\subsection{Exploring the determinant}
+
+This special scaling factor, the factor by which a linear transformation changes
+any area, is called the \textit{determinant} of that transformation. We'll show
+how to compute the determinant of a transformation using its matrix later on,
+but understanding what it represents is much more important than the
+computation. For example, the determinant of a transformation would be $3$ if
+that transformation increases the area of the region by a factor of $3$.
+
+\begin{equation*}
+  det\left(\begin{bmatrix}
+    0 & 2 \\
+    -1.5 & 1
+  \end{bmatrix}\right) = 3
+\end{equation*}
+
+The determinant of a matrix is commonly denoted by vertical bars instead of
+square brackets.
+
+\begin{equation*}
+  \begin{vmatrix}
+    0 & 2 \\
+    -1.5 & 1
+  \end{vmatrix} = 3
+\end{equation*}
+
+The determinant of a transformation would be $\frac{1}{2}$ if it compresses all
+areas by a factor of $\frac{1}{2}$.
+
+\begin{equation*}
+  \begin{vmatrix}
+    0.5 & 0.5 \\
+    -0.5 & 0.5
+  \end{vmatrix} = 0.5
+\end{equation*}
+
+The determinant of a 2D transformation is zero if it compresses all of space
+onto a line or even onto a single point since then, the area of any region would
+become zero.
+
+\begin{equation*}
+  \begin{vmatrix}
+    4 & 2 \\
+    2 & 1
+  \end{vmatrix} = 0
+\end{equation*}
+
+That last example proved to be pretty important. It means checking if the
+determinant of a given matrix is zero will give a way of computing whether the
+transformation associated with that matrix compresses everything into a smaller
+dimension.
+
+This analogy so far isn't quite right. The full concept of a determinant allows
+for negative values.
+
+\begin{equation*}
+  \begin{vmatrix}
+    1 & 2 \\
+    3 & 4
+  \end{vmatrix} = -2
+\end{equation*}
+
+What would scaling an area by a negative amount even mean? This has to do with
+the idea of orientation. A 2D transformation with a negative determinant
+essentially flips space over. Any transformations that do this are said to
+"invert the orientation of space". Another way to think about it is in terms of
+$\hat{i}$ and $\hat{j}$. In their starting positions, $\hat{j}$ is to the left
+of $\hat{i}$. If, after a transformation, $\hat{j}$ is now on the right side of
+$\hat{i}$, the orientation of space has been inverted. Whenever this happens,
+the determinant will be negative. The absolute value of the determinant still
+tells you the factor by which areas have been scaled.
+
+For example, the matrix with columns $(1, 1)$ and $(2, -1)$ encodes a
+transformation that has determinant $-3$.
+
+\begin{equation*}
+  \begin{vmatrix}
+    1 & 2 \\
+    1 & -1
+  \end{vmatrix} = -3
+\end{equation*}
+
+This means that space gets flipped over and areas are scaled by a factor of $3$.
+
+Why would this idea of a negative area scaling factor be a natural way to
+describe orientation-flipping? Think about the series of transformations you get
+by slowly letting $\hat{i}$ rotate closer and closer to $\hat{j}$. As $\hat{i}$
+gets closer, all the areas in space are getting compressed more and more meaning
+the determinant approaches zero. Once $\hat{i}$ lines up perfectly with
+$\hat{j}$, the determinant is zero. Then, if $\hat{i}$ continues, doesn't it
+feel natural for the determinant to keep decreasing into negative numbers?
+
+\subsection{The determinant in 3D}
+
+That's the understanding of determinants in two dimensions. What should it mean
+for three dimensions? The determinant of a $3 \times 3$ matrix tells you how
+much volumes get scaled. A determinant of zero would mean that all of space is
+compressed onto something with zero volume meaning either a flat plane, a line,
+or in the most extreme case, a single point. This means that the columns of the
+matrix are linearly dependent.
+
+What should negative determinants mean for three dimensions? One way to describe
+orientation in 3D is with the right-hand rule. Point the forefinger of your
+right hand in the direction if $\hat{i}$, stick out your middle finger in the
+direction of $\hat{j}$, and notice how when you point your thumb up, it is in
+the direction of $\hat{k}$. If you can still do that after the transformation,
+orientation has not changed and the determinant is positive. Otherwise, if after
+the transformation it only makes sense to do that with your left hand,
+orientation has been flipped and the determinant is negative.
+
+\subsection{Computing the determinant}
+
+How do you actually compute the determinant? For a $2 \times 2$ matrix with
+entries $a$, $b$, $c$, $d$, the formula is as follows.
+
+\begin{equation*}
+  \begin{vmatrix}
+    a & b \\
+    c & d
+  \end{vmatrix} = ad - bc
+\end{equation*}
+
+Here's part of an intution for where this formula comes from. Let's say that the
+terms $b$ and $c$ were both zero. Then, the term $a$ tells you how much
+$\hat{i}$ is stretched in the x-direction and the term $d$ tells you how much
+$\hat{j}$ is stretched in the y-direction. Since those other terms are zero, it
+should make sense that $ad$ gives the area of the rectangle that the unit square
+turns into. Even if only one of $b$ or $c$ are zero, you'll have a parallelogram
+with a base of $a$ and a height $d$, so the area should still be $ad$. Loosely
+speaking, if both $b$ and $c$ are nonzero, then that $bc$ term tells you how
+much this parallelogram is stretched or compressed in the diagonal direction.
+
+If you feel like computing determinants by hand is something that you need to
+know (you won't for this book), the only way to get it down is to just practice
+it with a few. This is all triply true for 3D determinants. There is a formula,
+and if you feel like that's something you need to know, you should practice with
+a few matrices.
+
+\begin{equation*}
+  \begin{vmatrix}
+    a & b & c \\
+    d & e & f \\
+    g & h & i
+  \end{vmatrix} =
+  a \begin{vmatrix}
+    e & f \\
+    h & i
+  \end{vmatrix}
+  - b \begin{vmatrix}
+    d & f \\
+    g & i
+  \end{vmatrix}
+  + c \begin{vmatrix}
+    d & e \\
+    g & h
+  \end{vmatrix}
+\end{equation*}
+
+We don't think those computations fall within the essence of linear algebra, but
+understanding what the determinant represents falls within that essence.
+
+\begin{remark}
+  See the corresponding \textit{Essence of Linear Algebra} video for a more
+  visual presentation (10 minutes) \cite{bib:linalg_the_determinant}.
+\end{remark}
