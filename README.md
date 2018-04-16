@@ -10,7 +10,9 @@ This document reads a lot like a reference manual on control theory and related 
 * make (to run the makefile)
 * texlive-core (for latexmk and pdflatex)
 * texlive-latexextra (for bibtex and makeglossaries)
-* Python 3.5+ and Python Control (to generate plots and state-space results)
+* Python 3.5+
+  * Python Control (to generate plots and state-space results)
+  * yapf (to format Python source code)
 * Inkscape (to convert SVGs to PDF)
 
 Python Control can be installed via your system's package manager or via pip. For better root locus plots, build and install Python Control from its Git repo at https://github.com/python-control/python-control instead of using 0.7.0 from pypi.python.org.
