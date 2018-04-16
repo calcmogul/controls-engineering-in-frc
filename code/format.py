@@ -6,7 +6,10 @@ import subprocess
 
 def main():
     files = [
-        f for f in os.listdir("code") if os.path.isfile(f) and f.endswith(".py")
+        os.path.join(dp, f)
+        for dp, dn, fn in os.walk("code")
+        for f in fn
+        if f.endswith(".py")
     ]
 
     for f in files:

@@ -293,67 +293,13 @@ Substitute this into equation (\ref{eq:elevator_cont_ss_vel}).
   \mtx{D} &= 0
 \end{align}
 
-\subsubsection{Discrete state-space model}
+\subsubsection{Simulation}
 
-The position and velocity of the elevator can be written as
+Python Control will be used to discretize the model and simulate it. The script
+below uses the constants and PID controller from a real elevator.
 
-\begin{align}
-  x_{m,k+1} &= x_{m,k} + v_{m,k} \Delta t \label{eq:elevator_disc_ss_pos} \\
-  v_{m,k+1} &= v_{m,k} + a_{m,k} \Delta t \label{eq:elevator_disc_ss_vel}
-\end{align}
-
-where by equation (\ref{eq:elevator_accel})
-
-\begin{equation*}
-  a_{m,k} = \frac{GK_t}{Rrm} V_k - \frac{G^2 K_t}{R^2 rm K_v} v_{m,k}
-\end{equation*}
-
-Substitute this into equation (\ref{eq:elevator_disc_ss_vel}).
-
-\begin{align}
-  v_{m,k+1} &= v_{m,k} + \left(\frac{GK_t}{Rrm} V_k -
-    \frac{G^2 K_t}{R^2 rm K_v} v_{m,k}\right) \Delta t \nonumber \\
-  v_{m,k+1} &= v_{m,k} + \frac{GK_t}{Rrm} \Delta t V_k -
-    \frac{G^2 K_t}{R^2 rm K_v} \Delta t v_{m,k} \nonumber \\
-  v_{m,k+1} &= v_{m,k} - \frac{G^2 K_t}{R^2 rm K_v} \Delta t v_{m,k} +
-    \frac{GK_t}{Rrm} \Delta t V_k \nonumber \\
-  v_{m,k+1} &= \left(1 - \frac{G^2 K_t}{R^2 rm K_v} \Delta t\right) v_{m,k} +
-    \frac{GK_t}{Rrm} \Delta t V_k
-\end{align}
-
-\begin{align*}
-  \mtx{x}_{k+1} &= \mtx{A} \mtx{x}_k + \mtx{B} \mtx{u}_k \\
-  \mtx{y}_k &= \mtx{C} \mtx{x}_k + \mtx{D} \mtx{u}_k
-\end{align*}
-
-\begin{align*}
-  \mtx{x}_k &= \left[
-  \begin{array}{c}
-    x_k \\
-    v_{m,k}
-  \end{array}
-  \right] \\
-  \mtx{y}_k &= x_k \\
-  \mtx{u}_k &= V_k
-\end{align*}
-
-\begin{align}
-  \mtx{A} &= \left[
-  \begin{array}{cc}
-    1 & \Delta t \\
-    0 & 1 - \frac{K_t G^2}{R^2rmK_v} \Delta t
-  \end{array}
-  \right] \\
-  \mtx{B} &= \left[
-  \begin{array}{c}
-    0 \\
-    \frac{GK_t}{Rrm} \Delta t
-  \end{array}
-  \right] \\
-  \mtx{C} &= \left[
-  \begin{array}{cc}
-    1 & 0
-  \end{array}
-  \right] \\
-  \mtx{D} &= 0
-\end{align}
+\begin{snippet}
+  \caption{Elevator simulation in Python}
+  \label{snip:elevator_sim}
+  \includecode[Python]{code/elevator.py}
+\end{snippet}
