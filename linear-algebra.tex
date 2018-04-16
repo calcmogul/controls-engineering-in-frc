@@ -44,7 +44,24 @@ minutes) \cite{bib:linalg_eigenvectors_and_eigenvalues}.
 
 This document works with two-dimensional matrices. The dimensionality of these
 matrices is specified by row first, then column. For example, a matrix with two
-rows and three columns would be a two-by-three matrix. \\
+rows and three columns would be a two-by-three matrix. A square matrix has the
+same number of rows as columns. \\
+
+The matrix $\mtx{I}$ is known as the identity matrix, which is a square matrix
+with ones along its diagonal and zeroes elsewhere. For example
+
+\begin{equation*}
+  \left[
+  \begin{array}{ccc}
+    1 & 0 & 0 \\
+    0 & 1 & 0 \\
+    0 & 0 & 1
+  \end{array}
+  \right]
+\end{equation*}
+
+The matrix denoted by $\mtx{0}_{m \times n}$ is a matrix filled with zeroes with
+$m$ rows and $n$ columns. \\
 
 The $^T$ in $\mtx{A}^T$ denotes transpose, which flips the matrix across its
 diagonal such that the rows become columns and vice versa.
