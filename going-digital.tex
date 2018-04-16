@@ -29,14 +29,14 @@ to $x_k$ in equation (\ref{eq:difference_equ_example})).
 \subsection{Phase loss}
 
 However, \gls{discretization} has drawbacks. Since a microcontroller performs
-discrete steps, there is phase loss introduced in the controller. Phase loss is
-the reduction of phase margin (see section \ref{sec:gain-phase-margin}) that
-occurs in digital implementations of feedback controllers from sampling the
-continuous system at discrete time intervals. As the sample rate of the
-controller decreases, the phase margin decreases rapidly and will lead to
-instability if the phase margin reaches zero. Large amounts of phase loss can
-make a stable controller in the continuous domain become unstable in the
-discrete domain. Here are a few ways to combat this.
+discrete steps, there is a sample delay that introduces phase loss in the
+controller. Phase loss is the reduction of phase margin (see section
+\ref{sec:gain-phase-margin}) that occurs in digital implementations of feedback
+controllers from sampling the continuous system at discrete time intervals. As
+the sample rate of the controller decreases, the phase margin decreases rapidly
+and will lead to instability if the phase margin reaches zero. Large amounts of
+phase loss can make a stable controller in the continuous domain become unstable
+in the discrete domain. Here are a few ways to combat this.
 
 \begin{itemize}
   \item Run the controller with a high sample rate.
@@ -75,9 +75,30 @@ to the \gls{reference} in N timesteps. While this sounds great, there are other
 considerations like actuation effort, \gls{robustness}, and
 \gls{noise immunity}. These will be discussed in detail with LQR and LQE.
 
-\subsection{Discretization in state-space}
+\subsection{Discretization methods}
 
-This process is generally done with computers, but for completeness:
+Discretization is done using a zero-order hold. That is, the system state is
+only updated at discrete intervals and the value is held constant between
+samples. The exact method of applying this uses the matrix exponential, but this
+can be computationaly expensive. Instead, approximations such as the following
+are used.
+
+\begin{enumerate}
+  \item Forward Euler method. This is defined as
+    $y_{n+1} = y_n + f(t_n, y_n) \Delta t$.
+  \item Backward Euler method. This is defined as
+    $y_{n+1} = y_n + f(t_{n+1}, y_{n+1}) \Delta t$.
+  \item Bilinear transform. The first-order bilinear approximation is
+    $s = \frac{2}{T} \frac{1 - z^{-1}}{1 + z^{-1}}$.
+\end{enumerate}
+
+where $T$ is the sample period for the discrete system. Since these are
+approximations, there is distortion between the real discrete system's poles and
+the approximate poles. For fast-changing systems, this distortion can quickly
+lead to instability. \\
+
+The exact method of computing the zero-order hold for state-space is shown
+below.
 
 \begin{align}
   \mtx{A}_d &= e^{\mtx{A}_c T} \\
@@ -88,7 +109,11 @@ This process is generally done with computers, but for completeness:
 
 where a subscript of $d$ denotes discrete, a subscript of $c$ denotes
 continuous, and $T$ is the sample period for the discrete system.
-$e^{\mtx{A}_c T}$ and others are referred to as matrix exponentials. \\
+$e^{\mtx{A}_c T}$ and others are referred to as matrix exponentials. We will use
+Python Control's \texttt{sample\_system()} function to perform these
+calculations later. \\
+
+See the Wikipedia page on discretization for more \cite{bib:discretization}.
 
 \subsubsection{Computing the matrix exponential}
 
