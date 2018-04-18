@@ -29,7 +29,7 @@ root_locus.svg: code/root_locus.py
 
 .PHONY: clean
 clean:
-	rm -f *.aux *.bbl *.blg *.fdb_latexmk *.fls *.glg *.glo *.gls *.glsdefs *.ist *.lof *.log *.los *.lot *.out *.toc *.pdf *.pdf_tex *.svg
+	rm -f *.aux *.bbl *.blg *.fdb_latexmk *.fls *.glg *.glo *.gls *.glsdefs *.ist *.lof *.log *.los *.lot *.out *.toc *.pdf *.pdf_tex *.svg format-stamp
 
 .PHONY: upload
 upload: all
