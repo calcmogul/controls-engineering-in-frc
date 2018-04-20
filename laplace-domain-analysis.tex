@@ -1,6 +1,6 @@
-\section{Laplace domain analysis}
+\chapter{Laplace domain analysis}
 
-\subsection{Locations of poles and zeroes}
+\section{Locations of poles and zeroes}
 
 The locations of the closed-loop poles in the complex plane determine the
 stability of the \gls{system}. Each pole represents a frequency mode of the
@@ -71,12 +71,11 @@ all have an initial condition of one.
 \end{figure}
 
 \begin{table}
-  \caption{Pole location and stabilty}
   \renewcommand{\arraystretch}{1.5}
   \centering
   \begin{tabular}{|ll|}
     \hline
-    \rowcolor{lightblue}
+    \rowcolor{headingbg}
     \textbf{Location} & \textbf{Stability} \\
     \hline
     Left-Half-plane (LHP) & Stable \\
@@ -84,6 +83,7 @@ all have an initial condition of one.
     Right Half-plane (RHP) & Unstable \\
     \hline
   \end{tabular}
+  \caption{Pole location and stabilty}
   \label{tab:pole_locations}
 \end{table}
 
@@ -92,7 +92,7 @@ steady-state. When a system is marginally stable, its output oscillates at a
 constant amplitude forever. When a system is unstable, its output grows without
 bound.
 
-\subsection{Root locus}
+\section{Root locus}
 
 In closed-loop, the poles and zeroes can be moved around by the chosen
 controller. The root locus shows where they will go as the controller gain is
@@ -101,15 +101,15 @@ function from equation (\ref{eq:transfer_func}).
 
 \begin{figure}[H]
   \def\svgwidth{\linewidth}
-  \import{}{root_locus.pdf_tex}
+  \input{root_locus.pdf_tex}
   \caption{Root locus of equation (\ref{eq:transfer_func}). See snippet
-    \ref{snip:poster_rlocus}.}
+    \ref{lst:poster_rlocus}.}
   \label{fig:poster_rlocus}
 \end{figure}
 
 \begin{snippet}
   \caption{Root locus in Python}
-  \label{snip:poster_rlocus}
+  \label{lst:poster_rlocus}
   \includecode[Python]{code/root_locus.py}
 \end{snippet}
 
@@ -121,7 +121,7 @@ case, the \gls{system} eventually becomes unstable. \\
 \gls{system} has some form of unmodeled high frequency, nonlinear dynamics, but
 they can be safely ignored depending on the operating regime.
 
-\subsubsection{Non-minimum phase zeroes}
+\subsection{Non-minimum phase zeroes}
 
 While poles in the RHP are unstable, the same is not true for zeroes. They can
 be characterized by the \gls{system} initially moving in the wrong direction
@@ -133,7 +133,7 @@ directions. \\
 One example is bicycle steering. Try riding a bicycle without holding the handle
 bars, then poke the right handle; the bicycle turns right.
 
-\subsection{Gain margin and phase margin} \label{sec:gain-phase-margin}
+\section{Gain margin and phase margin} \label{sec:gain-phase-margin}
 
 One generally needs to learn about Bode plots and Nyquist plots to truly
 understand gain and phase margin and their origins, but those plots are large

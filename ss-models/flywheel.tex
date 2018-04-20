@@ -1,6 +1,6 @@
-\subsection{Flywheel}
+\section{Flywheel}
 
-\subsubsection{Equations of motion}
+\subsection{Equations of motion}
 
 This flywheel consists of a DC brushed motor attached to a spinning mass of
 non-negligible moment of inertia.
@@ -99,15 +99,15 @@ We will start with the equation derived earlier for a DC brushed motor, equation
   V = \frac{\tau_m}{K_t} R + \frac{\omega_m}{K_v}
 \end{equation*}
 
-Solve for the angular acceleration. First, we'll rearrange the terms because
-from inspection, $V$ is the model input, $\omega_m$ is the state, and $\tau_m$
-contains the angular acceleration.
+\noindent Solve for the angular acceleration. First, we'll rearrange the terms
+because from inspection, $V$ is the model input, $\omega_m$ is the state, and
+$\tau_m$ contains the angular acceleration.
 
 \begin{equation*}
   V = \frac{R}{K_t} \tau_m + \frac{1}{K_v} \omega_m
 \end{equation*}
 
-Solve for $\tau_m$.
+\noindent Solve for $\tau_m$.
 
 \begin{align*}
   V &= \frac{R}{K_t} \tau_m + \frac{1}{K_v} \omega_m \\
@@ -115,7 +115,7 @@ Solve for $\tau_m$.
   \tau_m &= \frac{K_t}{R} V - \frac{K_t}{K_v R} \omega_m
 \end{align*}
 
-Since $\tau_m G = \tau_f$ and $\omega_m = G \omega_f$
+\noindent Since $\tau_m G = \tau_f$ and $\omega_m = G \omega_f$
 
 \begin{align}
   \left(\frac{\tau_f}{G}\right) &= \frac{K_t}{R} V -
@@ -125,15 +125,15 @@ Since $\tau_m G = \tau_f$ and $\omega_m = G \omega_f$
   \tau_f &= \frac{G K_t}{R} V - \frac{G^2 K_t}{K_v R} \omega_f \label{eq:tau_f}
 \end{align}
 
-The torque applied to the flywheel is defined as
+\noindent The torque applied to the flywheel is defined as
 
 \begin{equation}
   \tau_f = J \dot{\omega}_f \label{eq:tau_f_def}
 \end{equation}
 
-where $J$ is the moment of inertia of the flywheel and $\dot{\omega}_f$ is the
-angular acceleration. Substitute equation (\ref{eq:tau_f_def}) into equation
-(\ref{eq:tau_f}).
+\noindent where $J$ is the moment of inertia of the flywheel and
+$\dot{\omega}_f$ is the angular acceleration. Substitute equation
+(\ref{eq:tau_f_def}) into equation (\ref{eq:tau_f}).
 
 \begin{align}
   (J \dot{\omega}_f) &= \frac{G K_t}{R} V - \frac{G^2 K_t}{K_v R} \omega_f
@@ -142,7 +142,7 @@ angular acceleration. Substitute equation (\ref{eq:tau_f_def}) into equation
     \label{eq:dot_omega_f}
 \end{align}
 
-\subsubsection{Continuous state-space model}
+\subsection{Continuous state-space model}
 
 By equation (\ref{eq:dot_omega_f})
 
@@ -180,4 +180,4 @@ By equation (\ref{eq:dot_omega_f})
   \mtx{D} &= 0
 \end{align}
 
-\subsubsection{Simulation}
+\subsection{Simulation}

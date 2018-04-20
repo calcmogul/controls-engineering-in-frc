@@ -1,32 +1,51 @@
-\begin{titlepage}
-  \begin{center}
-    \vspace*{1cm}
+% Title page
+\begingroup
+\thispagestyle{empty}
+\begin{tikzpicture}[remember picture,overlay]
+  \node[inner sep=0pt] (background) at (current page.center) {%
+    \includegraphics[width=\paperwidth]{background}};
+  \draw (current page.center) node%
+    [fill=deeporange!30!white,fill opacity=0.6,text opacity=1,inner sep=1cm]%
+    {\Huge\centering\bfseries\sffamily\parbox[c][][t]{\paperwidth}%
+    {\centering Practical Guide to State-space Control\\[15pt] % Book title
+  {\Large Graduate-level control theory for high schoolers}\\[20pt] % Subtitle
+  {\huge Tyler Veness}}}; % Author name
+\end{tikzpicture}
+\vfill
+\endgroup
 
-    \Huge
-    \textbf{Practical Guide to State-space Control}
+% Copyright page
+\newpage
+~\vfill
+\thispagestyle{empty}
 
-    \vspace{0.5cm}
-    \LARGE
-    Graduate-level control theory for high schoolers
+% Copyright notice
+\noindent Copyright \copyright\ 2017 Tyler Veness \\
 
-    \vspace{1.5cm}
+\noindent Generated on \monthdayyeardate\today \\
 
-    \textbf{Tyler Veness} \\
+% URL
+\noindent \textsc{https://github.com/calcmogul/state-space-guide} \\
 
-    \vspace{1.5cm}
-    \normalsize
-    Generated on \monthdayyeardate\today \\
-    \url{https://github.com/calcmogul/state-space-guide}
-
-    \vfill
-  \end{center}
-\end{titlepage}
-\thispagestyle{empty}  % No page number on title sheet
+% License information
+\noindent Licensed under the Creative Commons Attribution-ShareAlike 4.0
+Unported License (the ``License''). You may not use this file except in
+compliance with the License. You may obtain a copy of the License at
+\url{http://creativecommons.org/licenses/by-sa/4.0}. Unless required by
+applicable law or agreed to in writing, software distributed under the License
+is distributed on an \textsc{``as is'' basis, without warranties or conditions
+of any kind}, either express or implied. See the License for the specific
+language governing permissions and limitations under the License. \\
 
 % Table of contents
-\renewcommand\contentsname{Table of Contents}
-\tableofcontents
-\listoffigures
-\listoftables
-\listofsnippets
-\clearpage
+% \usechapterimagefalse
+
+\chapterimage{chapter_head_1.pdf} % Table of contents heading image
+
+\pagestyle{empty} % No headers
+
+\tableofcontents % Print the table of contents itself
+
+\cleardoublepage
+
+\pagestyle{fancy} % Print headers again

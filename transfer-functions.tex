@@ -1,13 +1,14 @@
-\section{Transfer functions}
+\chapter{Transfer functions}
 
-\subsection{What is a transfer function?}
+\section{What is a transfer function?}
 
 A transfer function maps an input to an output in the Laplace domain. This is
 essentially a two-dimensional frequency domain on the complex plane (real
 numbers on the x-axis and imaginary numbers on the y-axis). These can be
 obtained by applying the Laplace transform to a differential equation and
 rearranging the terms to obtain a ratio of the output variable to the input
-variable. Equation \ref{eq:transfer_func} is an example of a transfer function.
+variable. Equation (\ref{eq:transfer_func}) is an example of a transfer
+function.
 
 \begin{equation} \label{eq:transfer_func}
   H(s) = \frac{(s-9+9i)(s-9-9i)}{s(s+10)}
@@ -20,7 +21,7 @@ residue zero (they look like poles of a circus tent on a 3D graph). Similar
 logic applies to zeroes. Imaginary roots always come in complex conjugate pairs
 (e.g., $-2 + 3i$, $-2 - 3i$).
 
-\subsection{Transfer functions in feedback}
+\section{Transfer functions in feedback}
 
 For \glspl{controller} to do their job, they must be placed in positive or
 negative feedback with the \gls{plant} (whether to use positive or negative
@@ -34,7 +35,7 @@ output is
 
 The numerator is the \gls{open-loop gain} and the denominator is the gain around
 the feedback loop, which may include parts of the \gls{open-loop gain} (see
-appendix \ref{sec:app-tf-feedback-deriv} for a derivation). Plants are generally
+appendix \ref{ch:app-tf-feedback-deriv} for a derivation). Plants are generally
 denoted with the letter $G$. As another example, the transfer function from the
 input to the error is
 
@@ -42,5 +43,6 @@ input to the error is
   G_{cl}(s) = \frac{E(s)}{X(s)} = \frac{1}{1 + P_1 P_2}
 \end{equation}
 
-The roots of the denominator of $G_{cl}(s)$ are different from those of the
-open-loop transfer function $P_1(s)$. These are called the closed-loop poles.
+\noindent The roots of the denominator of $G_{cl}(s)$ are different from those
+of the open-loop transfer function $P_1(s)$. These are called the closed-loop
+poles.

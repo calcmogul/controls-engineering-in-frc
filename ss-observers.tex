@@ -1,8 +1,8 @@
-\section{State-space observers}
+\chapter{State-space observers}
 
 State-space observers are used to estimate unmeasured \glspl{state}.
 
-\subsection{Luenberger observer}
+\section{Luenberger observer}
 
 \begin{align}
   \dot{\hat{\mtx{x}}} &= \mtx{A}\hat{\mtx{x}} + \mtx{B}\mtx{u} +
@@ -28,13 +28,12 @@ State-space observers are used to estimate unmeasured \glspl{state}.
   \end{tabulary}
 \end{center}
 
-\begin{table}[h]
-  \caption{Luenberger observer matrix dimensions}
+\begin{table}[ht]
   \renewcommand{\arraystretch}{1.5}
   \centering
   \begin{tabular}{|ll|ll|}
     \hline
-    \rowcolor{lightblue}
+    \rowcolor{headingbg}
     \textbf{Matrix} & \textbf{Rows $\times$ Columns} &
     \textbf{Matrix} & \textbf{Rows $\times$ Columns} \\
     \hline
@@ -45,6 +44,7 @@ State-space observers are used to estimate unmeasured \glspl{state}.
     $\mtx{L}$ & states $\times$ outputs &  &  \\
     \hline
   \end{tabular}
+  \caption{Luenberger observer matrix dimensions}
   \label{tab:luenberger_matrix_dims}
 \end{table}
 
@@ -65,13 +65,14 @@ To run them separately, use the following equations instead.
 
 See appendix \ref{subsec:app-luenberger-separate} for a derivation.
 
-\subsection{LQE}
+\section{LQE}
 
 "LQE" stands for "Linear-Quadratic Estimator". Similar to LQR, it places the
 estimator poles such that it minimizes the sum of squares of the error. The
 Kalman filter is an example of one of these.
 
-\subsection{Kalman filter}
+\section{Kalman filter}
+\index{Kalman filter}
 
 Read \url{http://www.bzarg.com/p/how-a-kalman-filter-works-in-pictures/} for a
 graphical introduction to Kalman filters. \\
@@ -107,17 +108,16 @@ step and current update step are shown.
   \end{tabulary}
 \end{center}
 
-where a superscript of minus denotes \textit{a priori} and plus denotes
-\textit{a posteriori} estimate (before and after update respectively).
+\noindent where a superscript of minus denotes \textit{a priori} and plus
+denotes \textit{a posteriori} estimate (before and after update respectively).
 $\mtx{\Phi}$ is replaced with $\mtx{A}$ for continuous systems.
 
-\begin{table}[h]
-  \caption{Kalman filter matrix dimensions}
+\begin{table}[ht]
   \renewcommand{\arraystretch}{1.5}
   \centering
   \begin{tabular}{|ll|ll|}
     \hline
-    \rowcolor{lightblue}
+    \rowcolor{headingbg}
     \textbf{Matrix} & \textbf{Rows $\times$ Columns} &
     \textbf{Matrix} & \textbf{Rows $\times$ Columns} \\
     \hline
@@ -131,6 +131,7 @@ $\mtx{\Phi}$ is replaced with $\mtx{A}$ for continuous systems.
     $\mtx{\Gamma}$ & states $\times$ 1 &  &  \\
     \hline
   \end{tabular}
+  \caption{Kalman filter matrix dimensions}
   \label{tab:kf_matrix_dims}
 \end{table}
 
@@ -147,7 +148,7 @@ given a measurement $z_1$ is
     \frac{\sigma^2}{\sigma_0^2 + \sigma^2}x_0
 \end{equation}
 
-The variance of $x$ given $z_1$ is
+\noindent The variance of $x$ given $z_1$ is
 
 \begin{equation}
   E[(x - \mu)^2|z_1] = \frac{\sigma^2 \sigma_0^2}{\sigma_0^2 + \sigma^2}
@@ -163,16 +164,16 @@ measurement. The expected value is a reasonable estimator of $x$.
   \hat{x} &= w_1 z_1 + w_2 x_0 \nonumber
 \end{align}
 
-Note that the weights $w_1$ and $w_2$ sum to 1. When the prior (i.e., prior
-knowledge of state) is uninformative (a large variance)
+\noindent Note that the weights $w_1$ and $w_2$ sum to 1. When the prior (i.e.,
+prior knowledge of state) is uninformative (a large variance)
 
 \begin{align}
   w_1 &= \lim_{\sigma_0^2 \to 0} \frac{\sigma_0^2}{\sigma_0^2 + \sigma^2} = 0 \\
   w_2 &= \lim_{\sigma_0^2 \to 0} \frac{\sigma^2}{\sigma_0^2 + \sigma^2} = 1
 \end{align}
 
-and $\hat{x} = z_1$. That is, the weight is on the observations and the estimate
-is equal to the measurement. \\
+\noindent and $\hat{x} = z_1$. That is, the weight is on the observations and
+the estimate is equal to the measurement. \\
 
 Let us assume we have a \gls{model} providing an almost exact prior for $x$. In
 that case, $\sigma_0^2$ approaches 0 and
@@ -182,11 +183,12 @@ that case, $\sigma_0^2$ approaches 0 and
   w_2 &= \lim_{\sigma_0^2 \to 0} \frac{\sigma^2}{\sigma_0^2 + \sigma^2} = 0
 \end{align}
 
-The Kalman filter uses this optimal fusion as the basis for its operation. See
-the Wikipedia page on Kalman filters \cite{bib:kalman_filter} for a more
-thorough explanation of the math involved and a derivation of the equations.
+\noindent The Kalman filter uses this optimal fusion as the basis for its
+operation. See the Wikipedia page on Kalman filters \cite{bib:kalman_filter} for
+a more thorough explanation of the math involved and a derivation of the
+equations.
 
-\subsubsection{Equations to model}
+\subsection{Equations to model}
 
 The following example system will be used to describe how to define and
 initialize the matrices for a Kalman filter. \\
@@ -203,7 +205,7 @@ position, robot velocity, and distance between the walls.
   x_{k+1}^w &= x_k^w
 \end{align}
 
-This can be converted to the following state-space \gls{model}.
+\noindent This can be converted to the following state-space \gls{model}.
 
 \begin{equation}
   \mtx{x}_k = \left[
@@ -233,8 +235,8 @@ This can be converted to the following state-space \gls{model}.
   \end{array} \right] w_k
 \end{equation}
 
-where the Gaussian random variable $w_k$ has zero mean and variance 1. The
-observation \gls{model} is
+\noindent where the Gaussian random variable $w_k$ has zero mean and variance
+1. The observation \gls{model} is
 
 \begin{equation}
   \mtx{y}_k = \left[
@@ -244,8 +246,8 @@ observation \gls{model} is
   \end{array} \right] \mtx{x}_k + \theta_k
 \end{equation}
 
-where the covariance matrix of Gaussian measurement noise $\theta$ is a
-$2 \times 2$ matrix with both diagonals $10 cm^2$. \\
+\noindent where the covariance matrix of Gaussian measurement noise $\theta$ is
+a $2 \times 2$ matrix with both diagonals $10 cm^2$. \\
 
 The state vector is usually initialized using the first measurement or two. The
 covariance matrix entries are assigned by calculating the covariance of the
@@ -272,7 +274,7 @@ expressions used when assigning the state vector. Let $k = 2$.
   \end{array} \right]
 \end{align}
 
-\subsubsection{Initial conditions}
+\subsection{Initial conditions}
 
 To fill in the $\mtx{P}$ matrix, we calculate the covariance of each combination
 of state variables. The resulting value is a measure of how much those variables
@@ -290,7 +292,7 @@ add together. Therefore, $\mtx{P}_{22} = \frac{20}{dt^2}$. It continues in this
 fashion until the matrix is filled up. Order doesn't matter for correlation, so
 the matrix is symmetric.
 
-\subsubsection{Selection of priors}
+\subsection{Selection of priors}
 
 Choosing good priors is important for a well performing filter, even if little
 information is known. This applies to both the measurement noise and the noise
@@ -301,14 +303,14 @@ you are telling the filter that you are very confident in your guess. If that
 guess is incorrect, it will take the filter a long time to move away from your
 guess to the true value.
 
-\subsubsection{Covariance selection}
+\subsection{Covariance selection}
 
 While one could assume no correlation between the state variables and set the
 covariance matrix entries to zero, this may not reflect reality. The Kalman
 filter is still guarenteed to converge to the steady-state covariance after an
 infinite time, but it will take longer than otherwise.
 
-\subsubsection{Noise model selection}
+\subsection{Noise model selection}
 
 We typically use a Gaussian distribution for the noise \gls{model} because the
 sum of many independent random variables produces a normal distribution by the
@@ -318,7 +320,7 @@ range, use a uniform distribution instead. Each of these communicates
 information regarding what you know about a system in addition to what you do
 not.
 
-\subsection{Steady-state error covariance matrix}
+\section{Steady-state error covariance matrix}
 
 One may have noticed that the error covariance matrix can be updated
 independently of the rest of the model. The error covariance matrix tends
@@ -326,16 +328,16 @@ toward a steady-state value, and this matrix can be obtained via the discrete
 algebraic Ricatti equation. This can then be used to compute a steady-state
 Kalman gain. \\
 
-Snippet \ref{snip:kalman} computes the steady-state matrices for a Kalman
+Snippet \ref{lst:kalman} computes the steady-state matrices for a Kalman
 filter.
 
 \begin{snippet}
   \caption{Steady-state Kalman gain and error covariance matrices calculation in Python}
-  \label{snip:kalman}
+  \label{lst:kalman}
   \includecode[Python]{code/kalman.py}
 \end{snippet}
 
-\subsection{Kalman filter as Luenberger observer}
+\section{Kalman filter as Luenberger observer}
 
 A Kalman filter can be represented as a Luenberger observer by letting
 $\mtx{C} = \mtx{H}$ and $\mtx{L} = \mtx{A} \mtx{K}_k$ (see appendix

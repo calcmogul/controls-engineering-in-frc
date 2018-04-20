@@ -1,4 +1,4 @@
-\section{Methods of integral control} \label{sec:integral-control}
+\chapter{Methods of integral control} \label{ch:integral-control}
 
 A common way of achieving integral control is to add an additional state that is
 the integral of the error of the variable intended to have zero steady-state
@@ -33,11 +33,11 @@ There are three methods FRC team 971 has used over the years:
     This is 971's primary method.
 \end{enumerate}
 
-\subsection{Plant augmentation}
+\section{Plant augmentation}
 
-\subsection{Delta U control}
+\section{Delta U control}
 
-\subsection{U error estimation}
+\section{U error estimation}
 
 Let $u_{error}$ be the error in a system's input. The $u_{error}$ term is then
 added to the system as follows.
@@ -47,14 +47,14 @@ added to the system as follows.
   \dot{\mtx{x}} &= \mtx{A}\mtx{x} + \mtx{B}\mtx{u} + \mtx{B}u_{error}
 \end{align*}
 
-For a multiple-output system, this would be
+\noindent For a multiple-output system, this would be
 
 \begin{equation*}
   \dot{\mtx{x}} = \mtx{A}\mtx{x} + \mtx{B}\mtx{u} + \mtx{B}_{error}u_{error}
 \end{equation*}
 
-where $\mtx{B}_{error}$ is the column vector that maps $u_{error}$ to changes in
-the rest of the state the same way $\mtx{B}$ does for $\mtx{u}$.
+\noindent where $\mtx{B}_{error}$ is the column vector that maps $u_{error}$ to
+changes in the rest of the state the same way $\mtx{B}$ does for $\mtx{u}$.
 $\mtx{B}_{error}$ is only a column of $\mtx{B}$ if $u_{error}$ corresponds to an
 existing input within $\mtx{u}$. \\
 
@@ -69,7 +69,7 @@ $\mtx{x}$ is augmented as
   \right]
 \end{equation*}
 
-and the augmented model is
+\noindent and the augmented model is
 
 \begin{align*}
   \dot{\mtx{x}}' &= \left[
@@ -85,8 +85,8 @@ and the augmented model is
   \right] \mtx{u}
 \end{align*}
 
-With this model, the observer will estimate both the state and the $u_{error}$
-term. The controller is augmented similarly.
+\noindent With this model, the observer will estimate both the state and the
+$u_{error}$ term. The controller is augmented similarly.
 
 \begin{equation*}
   \mtx{u} = \mtx{K} \left(\mtx{r} - \mtx{x}\right) - \left[
@@ -97,7 +97,7 @@ term. The controller is augmented similarly.
   \right]
 \end{equation*}
 
-This can be rewritten as
+\noindent This can be rewritten as
 
 \begin{equation*}
   \mtx{u} = \left[
@@ -107,8 +107,8 @@ This can be rewritten as
   \right] \left(\mtx{r}' - \mtx{x}'\right)
 \end{equation*}
 
-where $\mtx{k}_{error}$ is a column vector with a $1$ in a given row if
-$u_{error}$ should be applied to that input or a $0$ otherwise. $\mtx{r}$ is
+\noindent where $\mtx{k}_{error}$ is a column vector with a $1$ in a given row
+if $u_{error}$ should be applied to that input or a $0$ otherwise. $\mtx{r}$ is
 augmented with a zero for the goal $u_{error}$ term.
 
 \begin{equation*}

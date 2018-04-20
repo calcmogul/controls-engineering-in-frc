@@ -1,24 +1,24 @@
-\section{Going digital}
+\chapter{Going digital}
 
 The complex plane discussed so far deals with continuous \glspl{system}. In
 decades past, \glspl{plant} and controllers were implemented using analog
 electronics, which are continuous in nature. Nowadays, microprocessors can be
 used to achieve cheaper, less complex controller designs.
 \glslink{discretization}{Discretization} converts the continuous model we've
-worked with so far from a set of differential equations, for example
+worked with so far from a set of differential equations like
 
 \begin{equation}
   \dot{x} = x - 3 \label{eq:differential_equ_example}
 \end{equation}
 
-to a set of difference equations, for example
+\noindent to a set of difference equations like
 
 \begin{equation}
   x_{k+1} = x_k + (x_k - 3) \Delta T \label{eq:difference_equ_example}
 \end{equation}
 
-where the difference equation is run a some update rate denoted by $T$,
-$\Delta T$, or sometimes sloppily as $dt$. \\
+\noindent where the difference equation is run a some update rate denoted by
+$T$, $\Delta T$, or sometimes sloppily as $dt$. \\
 
 While higher order terms of a differential equation are derivatives of the state
 variable (e.g., $\ddot{x}$ in relation to equation
@@ -26,7 +26,7 @@ variable (e.g., $\ddot{x}$ in relation to equation
 equation are delayed copies of the state variable (e.g., $x_{k-1}$ with respect
 to $x_k$ in equation (\ref{eq:difference_equ_example})).
 
-\subsection{Phase loss}
+\section{Phase loss}
 
 However, \gls{discretization} has drawbacks. Since a microcontroller performs
 discrete steps, there is a sample delay that introduces phase loss in the
@@ -46,19 +46,18 @@ in the discrete domain. Here are a few ways to combat this.
     completely in the digital domain.
 \end{itemize}
 
-\subsection{s-plane to z-plane}
+\section{s-plane to z-plane}
 
 Transfer functions are converted to impulse responses using the Z-transform. The
 s-plane's LHP maps to the inside of a unit circle in the z-plane. Table
 \ref{tab:s-plane2z-plane} contains a few common points. \\
 
 \begin{table}
-  \caption{Mapping from s-plane to z-plane}
   \renewcommand{\arraystretch}{1.3}
   \centering
   \begin{tabular}{|cc|}
     \hline
-    \rowcolor{lightblue}
+    \rowcolor{headingbg}
     \textbf{s-plane} & \textbf{z-plane} \\
     \hline
     $(0, 0)$ & $(0, 1)$ \\
@@ -66,6 +65,7 @@ s-plane's LHP maps to the inside of a unit circle in the z-plane. Table
     $(0, -\infty)$ & $(0, 0)$ \\
     \hline
   \end{tabular}
+  \caption{Mapping from s-plane to z-plane}
   \label{tab:s-plane2z-plane}
 \end{table}
 
@@ -75,7 +75,7 @@ to the \gls{reference} in N timesteps. While this sounds great, there are other
 considerations like actuation effort, \gls{robustness}, and
 \gls{noise immunity}. These will be discussed in detail with LQR and LQE.
 
-\subsection{Discretization methods}
+\section{Discretization methods}
 
 Discretization is done using a zero-order hold. That is, the system state is
 only updated at discrete intervals and the value is held constant between
@@ -89,13 +89,13 @@ are used.
   \item Backward Euler method. This is defined as
     $y_{n+1} = y_n + f(t_{n+1}, y_{n+1}) \Delta t$.
   \item Bilinear transform. The first-order bilinear approximation is
-    $s = \frac{2}{T} \frac{1 - z^{-1}}{1 + z^{-1}}$.
+    $s = \frac{2}{T} \frac{1 - z^{-1}}{1 + z^{-1}}$. \\
 \end{enumerate}
 
-where $T$ is the sample period for the discrete system. Since these are
-approximations, there is distortion between the real discrete system's poles and
-the approximate poles. For fast-changing systems, this distortion can quickly
-lead to instability. \\
+\noindent where $T$ is the sample period for the discrete system. Since these
+are approximations, there is distortion between the real discrete system's poles
+and the approximate poles. For fast-changing systems, this distortion can
+quickly lead to instability. \\
 
 The exact method of computing the zero-order hold for state-space is shown
 below.
@@ -107,7 +107,7 @@ below.
   \mtx{D}_d &= \mtx{D}_c
 \end{align}
 
-where a subscript of $d$ denotes discrete, a subscript of $c$ denotes
+\noindent where a subscript of $d$ denotes discrete, a subscript of $c$ denotes
 continuous, and $T$ is the sample period for the discrete system.
 $e^{\mtx{A}_c T}$ and others are referred to as matrix exponentials. We will use
 Python Control's \texttt{sample\_system()} function to perform these
@@ -115,7 +115,7 @@ calculations later. \\
 
 See the Wikipedia page on discretization for more \cite{bib:discretization}.
 
-\subsubsection{Computing the matrix exponential}
+\subsection{Computing the matrix exponential}
 
 Let $\mtx{X}$ be an $n \times n$ matrix. The exponential of $\mtx{X}$ denoted by
 $e^{\mtx{X}}$ is the $n \times n$ matrix given by the power series below.
@@ -124,5 +124,5 @@ $e^{\mtx{X}}$ is the $n \times n$ matrix given by the power series below.
   e^{\mtx{X}} = \sum_{k=0}^\infty \frac{1}{k!} \mtx{X}^k
 \end{equation}
 
-where $\mtx{X}^0$ is defined to be the identity matrix $\mtx{I}$ with the same
-dimensions as $\mtx{X}$.
+\noindent where $\mtx{X}^0$ is defined to be the identity matrix $\mtx{I}$ with
+the same dimensions as $\mtx{X}$.

@@ -1,6 +1,6 @@
-\section{Introduction}
+\chapter{Introduction}
 
-\subsection{What is control theory?}
+\section{What is control theory?}
 
 How can we prove an autonomous car will behave safely and meet certain
 performance specifications in the presence of uncertainty? Control theory is a
@@ -16,8 +16,28 @@ gives should always be sanity checked and informed by our performance
 specifications. We don't need to be perfect, just good enough to meet our
 specifications.
 
-\subsection{Nomenclature}
+\section{Nomenclature}
 
 Most resources for advanced engineering topics assume a level of knowledge well
 above that which is necessary. See the glossary for a list of words and phrases
-commonly used in control theory, their origins, and their meaning.
+commonly used in control theory, their origins, and their meaning. Below is a
+table describing how the terms \textit{input} and \textit{output} apply to
+\glspl{plant} vs \glspl{controller} and what letters are commonly associated
+with each when working with them. Namely, that the terms input and output are
+defined with respect to the \gls{plant}, not the \gls{controller}.
+
+\begin{table}
+  \renewcommand{\arraystretch}{1.3}
+  \centering
+  \begin{tabular}{|l|ll|}
+    \hline
+    \rowcolor{headingbg}
+    & \textbf{Plant} & \textbf{Controller} \\
+    \hline
+    Input & $u(t)$ & $r(t)$, $y(t)$ \\
+    Output & $y(t)$ & $u(t)$ \\
+    \hline
+  \end{tabular}
+  \caption{Plant versus controller nomenclature}
+  \label{tab:plant_v_controller}
+\end{table}

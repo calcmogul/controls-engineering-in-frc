@@ -1,11 +1,11 @@
-\section{State-space controllers}
+\chapter{State-space controllers}
 
 When we want to command a \gls{system} to a set of states, we design a
 controller with certain \glspl{control law} to do it. PID controllers use the
 system outputs with proportional, integral, and derivative \glspl{control law}.
 In state-space, we also have knowledge of the system states so we can do better.
 
-\subsection{Optimal control law}
+\section{Optimal control law}
 
 The optimal \gls{control law} for a multiple-input, multiple-output system is
 the following.
@@ -14,7 +14,7 @@ the following.
   \mtx{u} = -\mtx{K}\mtx{x}
 \end{equation}
 
-This means that optimal control can be achieved with simply a set of
+\noindent This means that optimal control can be achieved with simply a set of
 proportional gains on all the states. The reason for this will be explained when
 discussing Linear-Quadratic Regulators. \\
 
@@ -26,7 +26,7 @@ can be added to the state $\mtx{x}$.
   \mtx{u} = \mtx{K}(\mtx{r} - \mtx{x}) \label{eq:s_ref_ctrl_law}
 \end{equation}
 
-\subsection{Controller}
+\section{Controller}
 
 Given the \gls{control law} above, we can derive the closed-loop state-space
 equations. \\
@@ -43,8 +43,8 @@ First is the state update equation. Substitute equation
     \label{eq:s_ref_ctrl_x}
 \end{align}
 
-Now for the output equation. Substitute equation (\ref{eq:s_ref_ctrl_law}) into
-equation (\ref{eq:ss_ctrl_y}).
+\noindent Now for the output equation. Substitute equation
+(\ref{eq:s_ref_ctrl_law}) into equation (\ref{eq:ss_ctrl_y}).
 
 \begin{align}
   \mtx{y} &= \mtx{C}\mtx{x} + \mtx{D}(\mtx{K}(\mtx{r} - \mtx{x})) \nonumber \\
@@ -66,12 +66,11 @@ equation (\ref{eq:ss_ctrl_y}).
 \end{center}
 
 \begin{table}[h]
-  \caption{Controller matrix dimensions}
   \renewcommand{\arraystretch}{1.5}
   \centering
   \begin{tabular}{|ll|ll|}
     \hline
-    \rowcolor{lightblue}
+    \rowcolor{headingbg}
     \textbf{Matrix} & \textbf{Rows $\times$ Columns} &
     \textbf{Matrix} & \textbf{Rows $\times$ Columns} \\
     \hline
@@ -82,6 +81,7 @@ equation (\ref{eq:ss_ctrl_y}).
     $\mtx{K}$ & inputs $\times$ states &  &  \\
     \hline
   \end{tabular}
+  \caption{Controller matrix dimensions}
   \label{tab:ctrl_matrix_dims}
 \end{table}
 
@@ -93,13 +93,13 @@ can be changed by moving the poles via the eigenvalues of $\mtx{A} -
 \mtx{B}\mtx{K}$. $\mtx{A}$ and $\mtx{B}$ are inherent to the system, but
 $\mtx{K}$ can be chosen arbitrarily by the controller designer.
 
-\subsection{Need full state}
+\section{Need full state}
 
 While we can attain good control with this approach, we need knowledge of the
 full state of the system. That means we either have to measure all our states
 directly or estimate those we do not.
 
-\subsection{Pole placement}
+\section{Pole placement}
 
 This is the practice of manually placing the poles of the closed-loop system to
 produce a desired response. This is typically done with controllable canonical
@@ -107,14 +107,14 @@ form (see subsubsection \ref{subsubsec:ctrl-canon}). This can be done with state
 observers as well with observable canonical form (see subsubsection
 \ref{subsubsec:obsv-canon}).
 
-\subsection{LQR}
+\section{LQR}
 
 While we could place the poles for our controller manually, we can do better
 using math to select them for us. "LQR" stands for "Linear-Quadratic Regulator".
 It places the poles of the controller to find the minimum of a quadratic cost
 function, which will be discussed below.
 
-\subsubsection{Pareto optimal curve}
+\subsection{Pareto optimal curve}
 
 A system $\dot{\mtx{x}} = \mtx{A}\mtx{x} + \mtx{B}\mtx{u}$ has the cost function
 
@@ -123,22 +123,22 @@ A system $\dot{\mtx{x}} = \mtx{A}\mtx{x} + \mtx{B}\mtx{u}$ has the cost function
     \mtx{u}^T\mtx{R}\mtx{u}\right) dt
 \end{equation*}
 
-where $J$ represents a tradeoff between \gls{state} excursion and control
-effort with the weighting factors $\mtx{Q}$ and $\mtx{R}$. The feedback
+\noindent where $J$ represents a tradeoff between \gls{state} excursion and
+control effort with the weighting factors $\mtx{Q}$ and $\mtx{R}$. The feedback
 \gls{control law} that minimizes $J$ is
 
 \begin{equation*}
   \mtx{u} = -\mtx{K}\mtx{x}
 \end{equation*}
 
-See appendix \ref{sec:app-optimal-control-law-deriv} for how $\mtx{K}$ is
+See appendix \ref{ch:app-optimal-control-law-deriv} for how $\mtx{K}$ is
 calculated in Python. \\
 
 If the solution produces a finite value, the resulting controller is guaranteed
 to be stable and \glslink{robustness}{robust} with a \gls{phase margin} of 55
 degrees.
 
-\subsubsection{Bryson's rule}
+\subsection{Bryson's rule}
 
 The next obvious question is what values to choose for $Q$ and $R$. With
 Bryson's rule, the $Q$ and $R$ matrices are chosen based on the maximum

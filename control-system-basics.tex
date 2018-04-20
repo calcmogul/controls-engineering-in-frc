@@ -1,6 +1,6 @@
-\section{Control system basics}
+\chapter{Control system basics}
 
-\subsection{What is gain?}
+\section{What is gain?}
 
 Gain is a proportional value that shows the relationship between the magnitude
 of the input to the magnitude of the output signal at steady state. Many
@@ -8,7 +8,7 @@ of the input to the magnitude of the output signal at steady state. Many
 or less "power" to the \gls{system}. However, increasing gain or decreasing gain
 beyond a particular safety zone can cause the \gls{system} to become unstable.
 
-\subsection{Block diagrams}
+\section{Block diagrams}
 
 When designing or analyzing a control system, it is useful to model it
 graphically. Block diagrams are used for this purpose. They can be manipulated
@@ -68,15 +68,15 @@ feedback configuration.
   \label{fig:feedback_loop}
 \end{figure}
 
-The closed-loop gain for figure \ref{fig:feedback_loop} is
+\noindent The closed-loop gain for figure \ref{fig:feedback_loop} is
 
 \begin{equation}
   \frac{Y(s)}{X(s)} = \frac{P_1}{1 \mp P_1 P_2}
 \end{equation}
 
-See appendix \ref{sec:app-tf-feedback-deriv} for a derivation.
+\noindent See appendix \ref{ch:app-tf-feedback-deriv} for a derivation.
 
-\subsection{Why feedback control?}
+\section{Why feedback control?}
 
 Let's say we are controlling a DC brushed motor. With just a mathematical
 \glslink{model}{mathematical model} and knowledge of all current \glspl{state}

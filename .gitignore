@@ -1,5 +1,6 @@
 *.aux
 *.bbl
+*.bcf
 *.blg
 *.fdb_latexmk
 *.fls
@@ -7,6 +8,9 @@
 *.glo
 *.gls
 *.glsdefs
+*.idx
+*.ilg
+*.ind
 *.ist
 *.lof
 *.log
@@ -14,7 +18,12 @@
 *.lot
 *.out
 *.pdf_tex
+*.ptc
 *.svg
 *.toc
 *.pdf
+!pics/*.pdf
+*.xdv
+*.xml
+bib-stamp
 format-stamp

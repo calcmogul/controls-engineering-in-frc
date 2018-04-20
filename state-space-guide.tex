@@ -1,57 +1,112 @@
-\documentclass[10pt,conference,compsoc]{IEEEtran}
+\documentclass[11pt]{book}
 
-\usepackage{amsmath}
+\usepackage{amsmath,amsthm}
+\usepackage[english]{babel} % English language/hyphenation
 \usepackage{bm}
-\usepackage{colortbl}
-\usepackage{datetime}
-\usepackage{fancyhdr}
-\usepackage{float}
-\PassOptionsToPackage{hyphens}{url}
-  \usepackage[colorlinks=true,allcolors=blue]{hyperref}
-\usepackage{import}
+\usepackage{bookmark}
+\bookmarksetup{
+open,
+numbered,
+addtohook={%
+\ifnum\bookmarkget{level}=0 % Chapter
+\bookmarksetup{bold}%
+\fi
+\ifnum\bookmarkget{level}=-1 % Part
+\bookmarksetup{color=deeporange,bold}%
+\fi
+}
+}
+\usepackage{colortbl} % For colored table rows
+\usepackage{datetime} % For the generated date
+\usepackage{fancyhdr} % For the headers
+\usepackage{float} % For making figures not float
+\usepackage[top=3cm,bottom=3cm,left=3cm,right=3cm,headsep=10pt,a4paper]{geometry}
+\usepackage{graphicx} % For including pictures
+\graphicspath{{figs/}} % Specifies the directory where pictures are stored
 \usepackage{listings}
 \usepackage{mathrsfs}
-\DeclareMathAlphabet{\mathscrbf}{OMS}{mdugm}{b}{n}
+\DeclareMathAlphabet{\mathscrbf}{OMS}{cmsy}{m}{n}
 \usepackage{tabulary}
 \usepackage{tikz}
+\usepackage{titletoc}
+
+\usepackage{enumitem} % Customize lists
+\setlist{nolistsep} % Reduce spacing between bullet points and numbered lists
+
+\usepackage{booktabs} % Required for nicer horizontal rules in tables
+
+% Font setup
+\usepackage{microtype} % Slightly tweak font spacing for aesthetics
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+
+% Set main fonts
+\usepackage[no-math]{fontspec}
+\setmainfont[Path=./fonts/,
+             BoldFont=FreeSerifBold.ttf,
+             ItalicFont=FreeSerifItalic.ttf,
+             BoldItalicFont=FreeSerifBoldItalic.ttf]{FreeSerif.ttf}
+\setsansfont[Path=./fonts/,
+             BoldFont=FreeSansBold.ttf,
+             ItalicFont=FreeSansOblique.ttf,
+             BoldItalicFont=FreeSansBoldOblique.ttf]{FreeSans.ttf}
+\renewcommand{\familydefault}{\rmdefault}
+
+\usepackage{csquotes}
+
+% Bibliography setup
+\usepackage[style=numeric,citestyle=numeric,sorting=nyt,sortcites=true,autopunct=true,autolang=hyphen,hyperref=true,abbreviate=false,backref=true,backend=biber]{biblatex}
+\addbibresource{state-space-guide.bib}
+\defbibheading{bibempty}{}
+
+% Index setup
+\usepackage{calc} % For simpler calculation in spacing index letter headings
+\usepackage{makeidx}
+\makeindex
+
+\usepackage{hyperref}
+\hypersetup{hidelinks,colorlinks=false,breaklinks=true,urlcolor=deeporange,
+  bookmarksopen=false,pdftitle={Practical Guide to State-space Control},
+  pdfauthor={Tyler Veness}}
 
 % Load after hyperref
 \usepackage[style=super,nonumberlist,toc]{glossaries}
-\usepackage[notlof, notlot, nottoc]{tocbibind}
-\usepackage{tocloft}
 
 \input{styles}
 \input{macros}
 \input{config}
 \input{layout}
-
 \input{glossary}
 \makeglossaries
 
 \begin{document}
-% Front matter
-\pagenumbering{roman}
+\frontmatter
 \input{front}
 \input{preface}
 
-% Main body
-\pagenumbering{arabic}
+\mainmatter
 \input{introduction}
+\part{Classical control}
 \input{control-system-basics}
 \input{review-of-pid}
 \input{transfer-functions}
 \input{laplace-domain-analysis}
+\part{Modern control}
 \input{linear-algebra}
 \input{ss-representation}
 \input{going-digital}
 \input{ss-controllers}
 \input{ss-observers}
+\part{Implementation}
 \input{implementation-steps}
 \input{ss-model-examples}
 \input{conclusion}
 
 % Appendices
-\appendices
+\part{Appendices}
+\appendix
+
+% Appendix text font settings
+\renewcommand{\chaptermark}[1]{\markboth{\sffamily\normalsize\bfseries\appendixname\ \thechapter.\ #1}{}}
 \input{appendices/tf-feedback-deriv}
 \input{appendices/steady-state-error}
 \input{appendices/optimal-control-law-deriv}
@@ -59,5 +114,6 @@
 \input{appendices/integral-control}
 
 % Back matter
+\renewcommand{\chaptermark}[1]{\markboth{\sffamily\normalsize\bfseries #1}{}}
 \input{back}
 \end{document}

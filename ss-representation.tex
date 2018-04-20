@@ -1,4 +1,4 @@
-\section{State-space representation}
+\chapter{State-space representation}
 
 A state-space representation models \glspl{system} as a set of \gls{state},
 input, and output variables related by first-order differential equations.
@@ -11,7 +11,7 @@ variables are expressed as vectors. Additionally, if the dynamical \gls{system}
 is linear, time-invariant, and finite-dimensional, then the differential and
 algebraic equations may be written in matrix form.
 
-\subsection{Benefits over classical output-based control}
+\section{Benefits over classical output-based control}
 
 The state-space method provides a more convenient and compact way to model and
 analyze \glspl{system} with multiple inputs and outputs. For a system with $p$
@@ -25,7 +25,7 @@ Students are still taught classical control first because it provides a
 framework within which to understand the results we get from the fancy
 mathematical machinery of modern control.
 
-\subsection{State-space notation}
+\section{State-space notation}
 
 \begin{align}
   \dot{\mtx{x}} &= \mtx{A}\mtx{x} + \mtx{B}\mtx{u} \label{eq:ss_ctrl_x} \\
@@ -48,12 +48,11 @@ mathematical machinery of modern control.
 \end{center}
 
 \begin{table}[h]
-  \caption{State-space matrix dimensions}
   \renewcommand{\arraystretch}{1.5}
   \centering
   \begin{tabular}{|ll|ll|}
     \hline
-    \rowcolor{lightblue}
+    \rowcolor{headingbg}
     \textbf{Matrix} & \textbf{Rows $\times$ Columns} &
     \textbf{Matrix} & \textbf{Rows $\times$ Columns} \\
     \hline
@@ -63,10 +62,11 @@ mathematical machinery of modern control.
     $\mtx{D}$ & outputs $\times$ inputs &  &  \\
     \hline
   \end{tabular}
+  \caption{State-space matrix dimensions}
   \label{tab:ss_matrix_dims}
 \end{table}
 
-\subsection{Canonical forms}
+\section{Canonical forms}
 
 There are two canonical forms used to represent state-space \glspl{model}:
 controllable canonical form and observable canonical form. They are used to
@@ -74,7 +74,7 @@ provide controllability and observability of a system respectively, which are
 mathematical duals of each other. That is, the controller and estimator (state
 observer) are complementary problems.
 
-\subsubsection{Controllable canonical form} \label{subsubsec:ctrl-canon}
+\subsection{Controllable canonical form} \label{subsubsec:ctrl-canon}
 
 State controllability implies that it is possible -- by admissible inputs -- to
 steer the \glspl{state} from any initial value to any final value within some
@@ -90,8 +90,8 @@ finite time window. A continuous \gls{time-invariant} linear state-space
   \label{eq:ctrl_rank}
 \end{equation}
 
-where rank is the number of linearly independent rows in a matrix and $n$ is the
-number of \gls{state} variables. \\
+\noindent where rank is the number of linearly independent rows in a matrix and
+$n$ is the number of \gls{state} variables. \\
 
 Given a \gls{system} of the form
 
@@ -100,7 +100,7 @@ Given a \gls{system} of the form
     {s^4 + d_1 s^3 + d_2 s^2 + d_3 s + d_4}
 \end{equation}
 
-The canonical \gls{realization} of it that satisfies equation
+\noindent the canonical \gls{realization} of it that satisfies equation
 (\ref{eq:ctrl_rank}) is
 
 \begin{align}
@@ -126,7 +126,7 @@ The canonical \gls{realization} of it that satisfies equation
   \right] \mtx{x}(t)
 \end{align}
 
-\subsubsection{Observable canonical form} \label{subsubsec:obsv-canon}
+\subsection{Observable canonical form} \label{subsubsec:obsv-canon}
 
 Observability is a measure for how well internal \glspl{state} of a \gls{system}
 can be inferred by knowledge of its external outputs. The observability and
@@ -150,7 +150,7 @@ if and only if
   \right]\right) = n
 \end{equation}
 
-The canonical \gls{realization} of the \gls{system} in equation
+\noindent The canonical \gls{realization} of the \gls{system} in equation
 (\ref{eq:ctrl_obsv_tf}) that satisfies equation (\ref{eq:obsv_rank}) is
 
 \begin{align}
@@ -176,7 +176,7 @@ The canonical \gls{realization} of the \gls{system} in equation
   \right] \mtx{x}(t)
 \end{align}
 
-\subsection{Eigenvalues in state-space}
+\section{Eigenvalues in state-space}
 
 Eigenvalues can be used to determine the stability of a \gls{system}. \\
 
@@ -213,7 +213,7 @@ Plugging equation (\ref{eq:z_obsv_y}) into equation (\ref{eq:z_obsv_x}) gives
     \mtx{L} (\mtx{y}_k - \mtx{C}\hat{\mtx{x}}_k - \mtx{D}\mtx{u}_k)
 \end{align*}
 
-Plugging in equation (\ref{eq:ssz_ctrl_y}) gives
+\noindent Plugging in equation (\ref{eq:ssz_ctrl_y}) gives
 
 \begin{align*}
   \hat{\mtx{x}}_{k+1} &= \mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
@@ -228,7 +228,7 @@ Plugging in equation (\ref{eq:ssz_ctrl_y}) gives
     \mtx{L}\mtx{C}(\mtx{x}_k - \hat{\mtx{x}}_k)
 \end{align*}
 
-Let $E_k = \mtx{x}_k - \hat{\mtx{x}}_k$ be the error in the estimate
+\noindent Let $E_k = \mtx{x}_k - \hat{\mtx{x}}_k$ be the error in the estimate
 $\hat{\mtx{x}}_k$.
 
 \begin{equation*}
@@ -236,7 +236,7 @@ $\hat{\mtx{x}}_k$.
     \mtx{L}\mtx{C}\mtx{E}_k
 \end{equation*}
 
-Subtracting this from equation (\ref{eq:ssz_ctrl_x}) gives
+\noindent Subtracting this from equation (\ref{eq:ssz_ctrl_x}) gives
 
 \begin{align}
   \mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}\mtx{u}_k -
@@ -270,8 +270,8 @@ The effect of noise can be seen if it is modeled
     \mtx{L} (\mtx{y}_k - \hat{\mtx{y}}_k) + \mtx{L}\mtx{\nu}_k
 \end{equation*}
 
-where $\mtx{\nu}_k$ is the measurement noise. As $\mtx{L}$ increases, the
-measurement noise is amplified. \\
+\noindent where $\mtx{\nu}_k$ is the measurement noise. As $\mtx{L}$ increases,
+the measurement noise is amplified. \\
 
 In summary, a controller is stable if the eigenvalues of
 $\mtx{A} - \mtx{B}\mtx{K}$ are within the unit circle, and an estimator is

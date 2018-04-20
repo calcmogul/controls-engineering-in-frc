@@ -1,5 +1,22 @@
-\bibliographystyle{IEEEtran}
-\bibliography{state-space-guide.bib}
 \glsaddall
-\clearpage
-\printglossaries
+\printglossary[title={\sffamily\bfseries Glossary}]
+
+\backmatter
+\chapter{Bibliography}
+
+\phantomsection
+\section*{Online}
+\addcontentsline{toc}{section}{Online}
+\printbibliography[heading=bibempty,type=online]
+
+\phantomsection
+\section*{Misc}
+\addcontentsline{toc}{section}{Miscellaneous}
+\printbibliography[heading=bibempty,type=misc]
+
+% Index
+\cleardoublepage
+\phantomsection
+\setlength{\columnsep}{0.75cm}
+\addcontentsline{toc}{chapter}{\textcolor{deeporange}{Index}}
+\printindex

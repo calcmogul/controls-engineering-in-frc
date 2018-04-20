@@ -10,6 +10,9 @@ This document reads a lot like a reference manual on control theory and related 
 * make (to run the makefile)
 * texlive-core (for latexmk and pdflatex)
 * texlive-latexextra (for bibtex and makeglossaries)
+* texlive-bibtexextra (for additional BibTeX styles and bibliography databases)
+* xelatex (for setting and using custom fonts)
+* biber (for generating bibliography)
 * Python 3.5+
   * Python Control (to generate plots and state-space results)
   * yapf (to format Python source code)

@@ -1,6 +1,6 @@
-\subsection{Elevator}
+\section{Elevator}
 
-\subsubsection{Equations of motion}
+\subsection{Equations of motion}
 
 This elevator consists of a DC brushed motor attached to a pulley that drives a
 mass up or down.
@@ -151,14 +151,14 @@ Based on figure \ref{fig:elevator}
   \tau_m G = \tau_p \label{eq:elevator_tau_m_ratio}
 \end{equation}
 
-where $G$ is the gear ratio between the motor and the pulley and $\tau_p$ is the
-torque produced by the pulley.
+\noindent where $G$ is the gear ratio between the motor and the pulley and
+$\tau_p$ is the torque produced by the pulley.
 
 \begin{equation}
   rF_m = \tau_p \label{eq:elevator_torque_pulley}
 \end{equation}
 
-where $r$ is the radius of the pulley. Substitute equation
+\noindent where $r$ is the radius of the pulley. Substitute equation
 (\ref{eq:elevator_tau_m_ratio}) into equation (\ref{eq:motor_tau_V}).
 
 \begin{align*}
@@ -166,7 +166,7 @@ where $r$ is the radius of the pulley. Substitute equation
   V &= \frac{\tau_p}{GK_t} R + \frac{\omega_m}{K_v}
 \end{align*}
 
-Substitute in equation (\ref{eq:elevator_torque_pulley}).
+\noindent Substitute in equation (\ref{eq:elevator_torque_pulley}).
 
 \begin{equation}
   V = \frac{rF_m}{GK_t} R + \frac{\omega_m}{K_v} \label{eq:elevator_Vinter1}
@@ -178,8 +178,8 @@ The angular velocity of the motor armature $\omega_m$ is
   \omega_m = G \omega_p \label{eq:elevator_omega_m_ratio} \\
 \end{equation}
 
-where $\omega_p$ is the angular velocity of the pulley. The velocity of the mass
-(the elevator carriage) is
+\noindent where $\omega_p$ is the angular velocity of the pulley. The velocity
+of the mass (the elevator carriage) is
 
 \begin{equation*}
   v_m = r \omega_p
@@ -189,14 +189,14 @@ where $\omega_p$ is the angular velocity of the pulley. The velocity of the mass
   \omega_p = \frac{v_m}{r} \label{eq:elevator_omega_p}
 \end{equation}
 
-Substitute equation (\ref{eq:elevator_omega_p}) into equation
+\noindent Substitute equation (\ref{eq:elevator_omega_p}) into equation
 (\ref{eq:elevator_omega_m_ratio}).
 
 \begin{equation}
   \omega_m = G \frac{v_m}{r} \label{eq:elevator_omega_m}
 \end{equation}
 
-Substitute equation (\ref{eq:elevator_omega_m}) into equation
+\noindent Substitute equation (\ref{eq:elevator_omega_m}) into equation
 (\ref{eq:elevator_Vinter1}).
 
 \begin{align*}
@@ -204,7 +204,7 @@ Substitute equation (\ref{eq:elevator_omega_m}) into equation
   V &= \frac{RrF_m}{GK_t} + \frac{G}{RK_v} v_m
 \end{align*}
 
-Solve for $F_m$.
+\noindent Solve for $F_m$.
 
 \begin{align}
   \frac{RrF_m}{GK_t} &= V - \frac{G}{RK_v} v_m \nonumber \\
@@ -216,16 +216,17 @@ Solve for $F_m$.
   \sum F = ma_m \label{eq:elevator_F_ma}
 \end{equation}
 
-where $\sum F$ is the sum of forces applied to the elevator carriage, $m$ is
-the mass of the elevator carriage in kilograms, and $a_m$ is the acceleration of
-the elevator carriage.
+\noindent where $\sum F$ is the sum of forces applied to the elevator carriage,
+$m$ is the mass of the elevator carriage in kilograms, and $a_m$ is the
+acceleration of the elevator carriage.
 
 \begin{equation*}
   ma_m = F_m
 \end{equation*}
 
-Note that gravity is not part of the modeled dynamics because it complicates the
-state-space \gls{model} and the controller will behave well enough without it.
+\noindent Note that gravity is not part of the modeled dynamics because it
+complicates the state-space \gls{model} and the controller will behave well
+enough without it.
 
 \begin{align}
   ma_m &= \left(\frac{GK_t}{Rr} V - \frac{G^2K_t}{R^2 rK_v} v_m\right)
@@ -234,7 +235,7 @@ state-space \gls{model} and the controller will behave well enough without it.
     \label{eq:elevator_accel}
 \end{align}
 
-\subsubsection{Continuous state-space model}
+\subsection{Continuous state-space model}
 
 The position and velocity of the elevator can be written as
 
@@ -243,13 +244,13 @@ The position and velocity of the elevator can be written as
   \dot{v}_m &= a_m \label{eq:elevator_cont_ss_vel}
 \end{align}
 
-where by equation (\ref{eq:elevator_accel})
+\noindent where by equation (\ref{eq:elevator_accel})
 
 \begin{equation*}
   a_m = \frac{GK_t}{Rrm} V - \frac{G^2 K_t}{R^2 rm K_v} v_m
 \end{equation*}
 
-Substitute this into equation (\ref{eq:elevator_cont_ss_vel}).
+\noindent Substitute this into equation (\ref{eq:elevator_cont_ss_vel}).
 
 \begin{align}
   \dot{v}_m &= \frac{GK_t}{Rrm} V - \frac{G^2 K_t}{R^2 rm K_v} v_m \nonumber \\
@@ -293,13 +294,13 @@ Substitute this into equation (\ref{eq:elevator_cont_ss_vel}).
   \mtx{D} &= 0
 \end{align}
 
-\subsubsection{Simulation}
+\subsection{Simulation}
 
 Python Control will be used to discretize the model and simulate it. The script
 below uses the constants and PID controller from a real elevator.
 
 \begin{snippet}
   \caption{Elevator simulation in Python}
-  \label{snip:elevator_sim}
+  \label{lst:elevator_sim}
   \includecode[Python]{code/elevator.py}
 \end{snippet}

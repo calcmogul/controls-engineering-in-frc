@@ -1,4 +1,4 @@
-\section{Steady-state error}
+\chapter{Steady-state error}
 
 To demonstrate the problem of \gls{steady-state error}, we will use a DC brushed
 motor controlled by a velocity PID controller. A DC brushed motor has a transfer
@@ -14,8 +14,8 @@ First, we'll try controlling it with a P controller defined as
   K(s) = K_p
 \end{equation*}
 
-When these are in unity feedback, the transfer function from the input voltage
-to the error is
+\noindent When these are in unity feedback, the transfer function from the input
+voltage to the error is
 
 \begin{align*}
   \frac{E(s)}{V(s)} &= \frac{1}{1 + K(s)G(s)} \\
@@ -24,7 +24,7 @@ to the error is
   E(s) &= \frac{1}{1 + \frac{K_p K}{(Js+b)(Ls+R)+K^2}} V(s)
 \end{align*}
 
-The steady-state of a transfer function can be found via
+\noindent The steady-state of a transfer function can be found via
 
 \begin{equation}
   \lim_{s\to0} sH(s)
@@ -49,8 +49,8 @@ must be included in the controller.
   K(s) = K_p + \frac{K_i}{s}
 \end{equation*}
 
-The same steady-state calculations are performed as before with the new
-controller.
+\noindent The same steady-state calculations are performed as before with the
+new controller.
 
 \begin{align*}
   \frac{E(s)}{V(s)} &= \frac{1}{1 + K(s)G(s)} \\
