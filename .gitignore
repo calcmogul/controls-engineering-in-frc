@@ -22,7 +22,7 @@
 *.svg
 *.toc
 *.pdf
-!pics/*.pdf
+!figs/*.pdf
 *.xdv
 *.xml
 bib-stamp
