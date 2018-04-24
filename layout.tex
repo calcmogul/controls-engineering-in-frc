@@ -1,3 +1,9 @@
+% Disable automatic indent and provide \indent command
+\newlength\tindent
+\setlength{\tindent}{\parindent}
+\setlength{\parindent}{0pt}
+\renewcommand{\indent}{\hspace*{\tindent}}
+
 % Paper header
 \pagestyle{fancy}
 

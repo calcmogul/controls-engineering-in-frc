@@ -2,7 +2,7 @@
 
 A common way of achieving integral control is to add an additional state that is
 the integral of the error of the variable intended to have zero steady-state
-error. \\
+error.
 
 There are two drawbacks to this method. First, there is integral windup on a
 unit step input. The second is demonstrated by an example from Jared Russell of
@@ -11,12 +11,12 @@ follow. Without integral control, one can calculate a desired $\mtx{K}\mtx{x}$
 to use as the reference input to the controller. As a result of using both
 desired position and velocity, reference tracking is good. With integral control
 added, the reference is always the desired position, but there is no way to tell
-the controller the desired velocity. \\
+the controller the desired velocity.
 
 Consider carefully whether integral control is necessary. One can get relatively
 close without integral control, and integral adds all the issues listed above.
 Below, it is assumed that the controls designer has determined that integral
-control will be worth the inconvenience. \\
+control will be worth the inconvenience.
 
 There are three methods FRC team 971 has used over the years:
 
@@ -47,16 +47,16 @@ added to the system as follows.
   \dot{\mtx{x}} &= \mtx{A}\mtx{x} + \mtx{B}\mtx{u} + \mtx{B}u_{error}
 \end{align*}
 
-\noindent For a multiple-output system, this would be
+For a multiple-output system, this would be
 
 \begin{equation*}
   \dot{\mtx{x}} = \mtx{A}\mtx{x} + \mtx{B}\mtx{u} + \mtx{B}_{error}u_{error}
 \end{equation*}
 
-\noindent where $\mtx{B}_{error}$ is the column vector that maps $u_{error}$ to
-changes in the rest of the state the same way $\mtx{B}$ does for $\mtx{u}$.
+where $\mtx{B}_{error}$ is the column vector that maps $u_{error}$ to changes in
+the rest of the state the same way $\mtx{B}$ does for $\mtx{u}$.
 $\mtx{B}_{error}$ is only a column of $\mtx{B}$ if $u_{error}$ corresponds to an
-existing input within $\mtx{u}$. \\
+existing input within $\mtx{u}$.
 
 $\mtx{x}$ is augmented as
 
@@ -69,7 +69,7 @@ $\mtx{x}$ is augmented as
   \right]
 \end{equation*}
 
-\noindent and the augmented model is
+and the augmented model is
 
 \begin{align*}
   \dot{\mtx{x}}' &= \left[
@@ -85,8 +85,8 @@ $\mtx{x}$ is augmented as
   \right] \mtx{u}
 \end{align*}
 
-\noindent With this model, the observer will estimate both the state and the
-$u_{error}$ term. The controller is augmented similarly.
+With this model, the observer will estimate both the state and the $u_{error}$
+term. The controller is augmented similarly.
 
 \begin{equation*}
   \mtx{u} = \mtx{K} \left(\mtx{r} - \mtx{x}\right) - \left[
@@ -97,7 +97,7 @@ $u_{error}$ term. The controller is augmented similarly.
   \right]
 \end{equation*}
 
-\noindent This can be rewritten as
+This can be rewritten as
 
 \begin{equation*}
   \mtx{u} = \left[
@@ -107,8 +107,8 @@ $u_{error}$ term. The controller is augmented similarly.
   \right] \left(\mtx{r}' - \mtx{x}'\right)
 \end{equation*}
 
-\noindent where $\mtx{k}_{error}$ is a column vector with a $1$ in a given row
-if $u_{error}$ should be applied to that input or a $0$ otherwise. $\mtx{r}$ is
+where $\mtx{k}_{error}$ is a column vector with a $1$ in a given row if
+$u_{error}$ should be applied to that input or a $0$ otherwise. $\mtx{r}$ is
 augmented with a zero for the goal $u_{error}$ term.
 
 \begin{equation*}

@@ -11,14 +11,14 @@ worked with so far from a set of differential equations like
   \dot{x} = x - 3 \label{eq:differential_equ_example}
 \end{equation}
 
-\noindent to a set of difference equations like
+to a set of difference equations like
 
 \begin{equation}
   x_{k+1} = x_k + (x_k - 3) \Delta T \label{eq:difference_equ_example}
 \end{equation}
 
-\noindent where the difference equation is run a some update rate denoted by
-$T$, $\Delta T$, or sometimes sloppily as $dt$. \\
+where the difference equation is run a some update rate denoted by $T$,
+$\Delta T$, or sometimes sloppily as $dt$.
 
 While higher order terms of a differential equation are derivatives of the state
 variable (e.g., $\ddot{x}$ in relation to equation
@@ -50,7 +50,7 @@ in the discrete domain. Here are a few ways to combat this.
 
 Transfer functions are converted to impulse responses using the Z-transform. The
 s-plane's LHP maps to the inside of a unit circle in the z-plane. Table
-\ref{tab:s-plane2z-plane} contains a few common points. \\
+\ref{tab:s-plane2z-plane} contains a few common points.
 
 \begin{table}
   \renewcommand{\arraystretch}{1.3}
@@ -89,13 +89,13 @@ are used.
   \item Backward Euler method. This is defined as
     $y_{n+1} = y_n + f(t_{n+1}, y_{n+1}) \Delta t$.
   \item Bilinear transform. The first-order bilinear approximation is
-    $s = \frac{2}{T} \frac{1 - z^{-1}}{1 + z^{-1}}$. \\
+    $s = \frac{2}{T} \frac{1 - z^{-1}}{1 + z^{-1}}$.
 \end{enumerate}
 
-\noindent where $T$ is the sample period for the discrete system. Since these
-are approximations, there is distortion between the real discrete system's poles
-and the approximate poles. For fast-changing systems, this distortion can
-quickly lead to instability. \\
+where $T$ is the sample period for the discrete system. Since these are
+approximations, there is distortion between the real discrete system's poles and
+the approximate poles. For fast-changing systems, this distortion can quickly
+lead to instability.
 
 The exact method of computing the zero-order hold for state-space is shown
 below.
@@ -107,11 +107,11 @@ below.
   \mtx{D}_d &= \mtx{D}_c
 \end{align}
 
-\noindent where a subscript of $d$ denotes discrete, a subscript of $c$ denotes
+where a subscript of $d$ denotes discrete, a subscript of $c$ denotes
 continuous, and $T$ is the sample period for the discrete system.
 $e^{\mtx{A}_c T}$ and others are referred to as matrix exponentials. We will use
 Python Control's \texttt{sample\_system()} function to perform these
-calculations later. \\
+calculations later.
 
 See the Wikipedia page on discretization for more \cite{bib:discretization}.
 
@@ -124,5 +124,5 @@ $e^{\mtx{X}}$ is the $n \times n$ matrix given by the power series below.
   e^{\mtx{X}} = \sum_{k=0}^\infty \frac{1}{k!} \mtx{X}^k
 \end{equation}
 
-\noindent where $\mtx{X}^0$ is defined to be the identity matrix $\mtx{I}$ with
-the same dimensions as $\mtx{X}$.
+where $\mtx{X}^0$ is defined to be the identity matrix $\mtx{I}$ with the same
+dimensions as $\mtx{X}$.

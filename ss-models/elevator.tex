@@ -143,7 +143,7 @@ mass up or down.
 \end{figure}
 
 Gear ratios are written as output over input, so $G$ is greater than one in
-figure \ref{fig:elevator}. \\
+figure \ref{fig:elevator}.
 
 Based on figure \ref{fig:elevator}
 
@@ -151,14 +151,14 @@ Based on figure \ref{fig:elevator}
   \tau_m G = \tau_p \label{eq:elevator_tau_m_ratio}
 \end{equation}
 
-\noindent where $G$ is the gear ratio between the motor and the pulley and
-$\tau_p$ is the torque produced by the pulley.
+where $G$ is the gear ratio between the motor and the pulley and $\tau_p$ is the
+torque produced by the pulley.
 
 \begin{equation}
   rF_m = \tau_p \label{eq:elevator_torque_pulley}
 \end{equation}
 
-\noindent where $r$ is the radius of the pulley. Substitute equation
+where $r$ is the radius of the pulley. Substitute equation
 (\ref{eq:elevator_tau_m_ratio}) into equation (\ref{eq:motor_tau_V}).
 
 \begin{align*}
@@ -166,7 +166,7 @@ $\tau_p$ is the torque produced by the pulley.
   V &= \frac{\tau_p}{GK_t} R + \frac{\omega_m}{K_v}
 \end{align*}
 
-\noindent Substitute in equation (\ref{eq:elevator_torque_pulley}).
+Substitute in equation (\ref{eq:elevator_torque_pulley}).
 
 \begin{equation}
   V = \frac{rF_m}{GK_t} R + \frac{\omega_m}{K_v} \label{eq:elevator_Vinter1}
@@ -175,11 +175,11 @@ $\tau_p$ is the torque produced by the pulley.
 The angular velocity of the motor armature $\omega_m$ is
 
 \begin{equation}
-  \omega_m = G \omega_p \label{eq:elevator_omega_m_ratio} \\
+  \omega_m = G \omega_p \label{eq:elevator_omega_m_ratio}
 \end{equation}
 
-\noindent where $\omega_p$ is the angular velocity of the pulley. The velocity
-of the mass (the elevator carriage) is
+where $\omega_p$ is the angular velocity of the pulley. The velocity of the mass
+(the elevator carriage) is
 
 \begin{equation*}
   v_m = r \omega_p
@@ -189,14 +189,14 @@ of the mass (the elevator carriage) is
   \omega_p = \frac{v_m}{r} \label{eq:elevator_omega_p}
 \end{equation}
 
-\noindent Substitute equation (\ref{eq:elevator_omega_p}) into equation
+Substitute equation (\ref{eq:elevator_omega_p}) into equation
 (\ref{eq:elevator_omega_m_ratio}).
 
 \begin{equation}
   \omega_m = G \frac{v_m}{r} \label{eq:elevator_omega_m}
 \end{equation}
 
-\noindent Substitute equation (\ref{eq:elevator_omega_m}) into equation
+Substitute equation (\ref{eq:elevator_omega_m}) into equation
 (\ref{eq:elevator_Vinter1}).
 
 \begin{align*}
@@ -204,7 +204,7 @@ of the mass (the elevator carriage) is
   V &= \frac{RrF_m}{GK_t} + \frac{G}{RK_v} v_m
 \end{align*}
 
-\noindent Solve for $F_m$.
+Solve for $F_m$.
 
 \begin{align}
   \frac{RrF_m}{GK_t} &= V - \frac{G}{RK_v} v_m \nonumber \\
@@ -216,17 +216,16 @@ of the mass (the elevator carriage) is
   \sum F = ma_m \label{eq:elevator_F_ma}
 \end{equation}
 
-\noindent where $\sum F$ is the sum of forces applied to the elevator carriage,
-$m$ is the mass of the elevator carriage in kilograms, and $a_m$ is the
-acceleration of the elevator carriage.
+where $\sum F$ is the sum of forces applied to the elevator carriage, $m$ is the
+mass of the elevator carriage in kilograms, and $a_m$ is the acceleration of the
+elevator carriage.
 
 \begin{equation*}
   ma_m = F_m
 \end{equation*}
 
-\noindent Note that gravity is not part of the modeled dynamics because it
-complicates the state-space \gls{model} and the controller will behave well
-enough without it.
+Note that gravity is not part of the modeled dynamics because it complicates the
+state-space \gls{model} and the controller will behave well enough without it.
 
 \begin{align}
   ma_m &= \left(\frac{GK_t}{Rr} V - \frac{G^2K_t}{R^2 rK_v} v_m\right)
@@ -244,13 +243,13 @@ The position and velocity of the elevator can be written as
   \dot{v}_m &= a_m \label{eq:elevator_cont_ss_vel}
 \end{align}
 
-\noindent where by equation (\ref{eq:elevator_accel})
+where by equation (\ref{eq:elevator_accel})
 
 \begin{equation*}
   a_m = \frac{GK_t}{Rrm} V - \frac{G^2 K_t}{R^2 rm K_v} v_m
 \end{equation*}
 
-\noindent Substitute this into equation (\ref{eq:elevator_cont_ss_vel}).
+Substitute this into equation (\ref{eq:elevator_cont_ss_vel}).
 
 \begin{align}
   \dot{v}_m &= \frac{GK_t}{Rrm} V - \frac{G^2 K_t}{R^2 rm K_v} v_m \nonumber \\

@@ -94,7 +94,7 @@ spins a straight bar in pitch.
 \end{figure}
 
 Gear ratios are written as output over input, so $G$ is greater than one in
-figure \ref{fig:single_jointed_arm}. \\
+figure \ref{fig:single_jointed_arm}.
 
 We will start with the equation derived earlier for a DC brushed motor, equation
 (\ref{eq:motor_tau_V}).
@@ -103,15 +103,15 @@ We will start with the equation derived earlier for a DC brushed motor, equation
   V = \frac{\tau_m}{K_t} R + \frac{\omega_m}{K_v}
 \end{equation*}
 
-\noindent Solve for the angular acceleration. First, we'll rearrange the terms
-because from inspection, $V$ is the model input, $\omega_m$ is the state, and
-$\tau_m$ contains the angular acceleration.
+Solve for the angular acceleration. First, we'll rearrange the terms because
+from inspection, $V$ is the model input, $\omega_m$ is the state, and $\tau_m$
+contains the angular acceleration.
 
 \begin{equation*}
   V = \frac{R}{K_t} \tau_m + \frac{1}{K_v} \omega_m
 \end{equation*}
 
-\noindent Solve for $\tau_m$.
+Solve for $\tau_m$.
 
 \begin{align*}
   V &= \frac{R}{K_t} \tau_m + \frac{1}{K_v} \omega_m \\
@@ -119,7 +119,7 @@ $\tau_m$ contains the angular acceleration.
   \tau_m &= \frac{K_t}{R} V - \frac{K_t}{K_v R} \omega_m
 \end{align*}
 
-\noindent Since $\tau_m G = \tau_{arm}$ and $\omega_m = G \omega_{arm}$
+Since $\tau_m G = \tau_{arm}$ and $\omega_m = G \omega_{arm}$
 
 \begin{align}
   \left(\frac{\tau_{arm}}{G}\right) &= \frac{K_t}{R} V -
@@ -136,9 +136,9 @@ The angular velocity of the arm is defined as
   \tau_{arm} = J \dot{\omega}_{arm} \label{eq:tau_arm_def}
 \end{equation}
 
-\noindent where $J$ is the moment of inertia of the arm and $\dot{\omega}_{arm}$
-is the angular acceleration. Substitute equation (\ref{eq:tau_arm_def}) into
-equation (\ref{eq:tau_arm}).
+where $J$ is the moment of inertia of the arm and $\dot{\omega}_{arm}$ is the
+angular acceleration. Substitute equation (\ref{eq:tau_arm_def}) into equation
+(\ref{eq:tau_arm}).
 
 \begin{align}
   (J \dot{\omega}_{arm}) &= \frac{G K_t}{R} V - \frac{G^2 K_t}{K_v R}
@@ -154,7 +154,7 @@ one end. Therefore
   J = \frac{1}{3}ml^2
 \end{equation}
 
-\noindent where $m$ is the mass of the arm and $l$ is the length of the arm.
+where $m$ is the mass of the arm and $l$ is the length of the arm.
 
 \subsection{Continuous state-space model}
 
@@ -165,7 +165,7 @@ The position and velocity of the elevator can be written as
   \dot{\omega}_{arm} &= \dot{\omega}_{arm} \label{eq:arm_cont_ss_vel}
 \end{align}
 
-\noindent By equation (\ref{eq:dot_omega_arm})
+By equation (\ref{eq:dot_omega_arm})
 
 \begin{equation*}
   \dot{\omega}_{arm} = -\frac{G^2 K_t}{K_v RJ} \omega_{arm} + \frac{G K_t}{RJ} V

@@ -79,18 +79,18 @@ massless.
   \label{fig:drivetrain}
 \end{figure}
 
-\noindent From equation (\ref{eq:tau_f}) of the flywheel model derivations
+From equation (\ref{eq:tau_f}) of the flywheel model derivations
 
 \begin{equation}
   \tau = \frac{GK_t}{R} V - \frac{G^2K_t}{K_v R} \omega
     \label{eq:drivetrain_tau}
 \end{equation}
 
-\noindent where $\tau$ is the torque applied by one wheel of the drivetrain, $G$
-is the gear ratio of the drivetrain, $K_t$ is the torque constant of the motor,
-$R$ is the resistance of the motor, and $K_v$ is the angular velocity constant.
-Since $\tau = rF$ and $\omega = \frac{v}{r}$ where $v$ is the velocity of a
-given drivetrain side along the ground and $r$ is the drivetrain wheel radius
+where $\tau$ is the torque applied by one wheel of the drivetrain, $G$ is the
+gear ratio of the drivetrain, $K_t$ is the torque constant of the motor, $R$ is
+the resistance of the motor, and $K_v$ is the angular velocity constant. Since
+$\tau = rF$ and $\omega = \frac{v}{r}$ where $v$ is the velocity of a given
+drivetrain side along the ground and $r$ is the drivetrain wheel radius
 
 \begin{align*}
   (rF) = \frac{GK_t}{R} V - \frac{G^2K_t}{K_v R} \left(\frac{v}{r}\right) \\
@@ -99,15 +99,15 @@ given drivetrain side along the ground and $r$ is the drivetrain wheel radius
   F = -\frac{G^2K_t}{K_v Rr^2} v + \frac{GK_t}{Rr} V
 \end{align*}
 
-\noindent Therefore, for each side of the robot
+Therefore, for each side of the robot
 
 \begin{align*}
   F_l &= -\frac{G_l^2 K_t}{K_v R r^2} v_l + \frac{G_l K_t}{Rr} V_l \\
   F_r &= -\frac{G_r^2 K_t}{K_v R r^2} v_r + \frac{G_r K_t}{Rr} V_r
 \end{align*}
 
-\noindent where the $l$ and $r$ subscripts denote the side of the robot to which
-each variable corresponds. \\
+where the $l$ and $r$ subscripts denote the side of the robot to which each
+variable corresponds.
 
 Let $C_1 = -\frac{G_l^2 K_t}{K_v R r^2}$, $C_2 = \frac{G_l K_t}{Rr}$,
 $C_3 = -\frac{G_r^2 K_t}{K_v R r^2}$, and $C_4 = \frac{G_r K_t}{Rr}$.
@@ -134,7 +134,7 @@ Next, find the sum of torques.
   \tau_l + \tau_r &= J \left(\frac{\dot{v}_r - \dot{v}_l}{2 r_b}\right)
 \end{align*}
 
-\noindent where $r_b$ is the radius of the drivetrain.
+where $r_b$ is the radius of the drivetrain.
 
 \begin{align*}
   (-r_b F_l) + (r_b F_r) &= J \frac{\dot{v}_r - \dot{v}_l}{2 r_b} \\
@@ -144,8 +144,8 @@ Next, find the sum of torques.
   \dot{v}_r &= \dot{v}_l + \frac{2 r_b^2}{J} (-F_l + F_r)
 \end{align*}
 
-\noindent Substitute in equation (\ref{eq:drivetrain_dotv_l}) to obtain an
-expression for $\dot{v}_r$.
+Substitute in equation (\ref{eq:drivetrain_dotv_l}) to obtain an expression for
+$\dot{v}_r$.
 
 \begin{align}
   \dot{v}_r &= \left(\frac{2}{m} (F_l + F_r) - \dot{v}_r\right) +
@@ -160,7 +160,7 @@ expression for $\dot{v}_r$.
     \left(\frac{1}{m} + \frac{r_b^2}{J}\right) F_r \label{eq:drivetrain_vr_2}
 \end{align}
 
-\noindent Substitute equation (\ref{eq:drivetrain_vr_2mid}) back into equation
+Substitute equation (\ref{eq:drivetrain_vr_2mid}) back into equation
 (\ref{eq:drivetrain_dotv_l}) to obtain an expression for $\dot{v}_l$.
 
 \begin{align}
@@ -211,7 +211,7 @@ The position and velocity of each drivetrain side can be written as
   \dot{v}_r &= \dot{v}_r \label{eq:drivetrain_cont_ss_velr}
 \end{align}
 
-\noindent By equations (\ref{eq:drivetrain_model_left}) and
+By equations (\ref{eq:drivetrain_model_left}) and
 (\ref{eq:drivetrain_model_right})
 
 \begin{align*}
@@ -278,8 +278,7 @@ The position and velocity of each drivetrain side can be written as
   \mtx{D} &= \mtx{0}_{2 \times 2}
 \end{align}
 
-\noindent where $C_1 = -\frac{G_l^2 K_t}{K_v R r^2}$,
-$C_2 = \frac{G_l K_t}{Rr}$, $C_3 = -\frac{G_r^2 K_t}{K_v R r^2}$, and
-$C_4 = \frac{G_r K_t}{Rr}$.
+where $C_1 = -\frac{G_l^2 K_t}{K_v R r^2}$, $C_2 = \frac{G_l K_t}{Rr}$,
+$C_3 = -\frac{G_r^2 K_t}{K_v R r^2}$, and $C_4 = \frac{G_r K_t}{Rr}$.
 
 \subsection{Simulation}

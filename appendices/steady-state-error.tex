@@ -14,8 +14,8 @@ First, we'll try controlling it with a P controller defined as
   K(s) = K_p
 \end{equation*}
 
-\noindent When these are in unity feedback, the transfer function from the input
-voltage to the error is
+When these are in unity feedback, the transfer function from the input voltage
+to the error is
 
 \begin{align*}
   \frac{E(s)}{V(s)} &= \frac{1}{1 + K(s)G(s)} \\
@@ -24,7 +24,7 @@ voltage to the error is
   E(s) &= \frac{1}{1 + \frac{K_p K}{(Js+b)(Ls+R)+K^2}} V(s)
 \end{align*}
 
-\noindent The steady-state of a transfer function can be found via
+The steady-state of a transfer function can be found via
 
 \begin{equation}
   \lim_{s\to0} sH(s)
@@ -49,8 +49,8 @@ must be included in the controller.
   K(s) = K_p + \frac{K_i}{s}
 \end{equation*}
 
-\noindent The same steady-state calculations are performed as before with the
-new controller.
+The same steady-state calculations are performed as before with the new
+controller.
 
 \begin{align*}
   \frac{E(s)}{V(s)} &= \frac{1}{1 + K(s)G(s)} \\
@@ -72,7 +72,7 @@ new controller.
 
 The denominator is non-zero, so $e_{ss} = 0$. Therefore, an integrator is
 required to eliminate \gls{steady-state error} in all cases for this
-\gls{model}. \\
+\gls{model}.
 
 It should be noted that $e_{ss}$ in equation (\ref{eq:ss_nonzero}) approaches
 zero for $K_p = \infty$. This is known as a bang-bang controller. In practice,

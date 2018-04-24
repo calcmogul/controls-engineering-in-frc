@@ -11,9 +11,9 @@ A Luenberger observer is defined as
   \hat{\mtx{y}}_k &= \mtx{C} \hat{\mtx{x}}_k^- \label{eq:luenberger2}
 \end{align}
 
-\noindent where a superscript of minus denotes \textit{a priori} and plus
-denotes \textit{a posteriori} estimate. Combining equation
-(\ref{eq:luenberger1}) and equation (\ref{eq:luenberger2}) gives
+where a superscript of minus denotes \textit{a priori} and plus denotes
+\textit{a posteriori} estimate. Combining equation (\ref{eq:luenberger1}) and
+equation (\ref{eq:luenberger2}) gives
 
 \begin{equation} \label{eq:luenberger}
   \hat{\mtx{x}}_{k+1}^+ = \mtx{A}\hat{\mtx{x}}_k^- + \mtx{B}\mtx{u}_k + \mtx{L}
@@ -38,8 +38,7 @@ update step.
     \mtx{\Gamma}\mtx{Q}\mtx{\Gamma}^T
 \end{align}
 
-\noindent Substitute equation (\ref{eq:post2_x}) into equation
-(\ref{eq:pre2_x}).
+Substitute equation (\ref{eq:post2_x}) into equation (\ref{eq:pre2_x}).
 
 \begin{align*}
   \hat{\mtx{x}}_{k+1}^+ &= \mtx{A}(\hat{\mtx{x}}_k^- + \mtx{K}_k(\mtx{y}_k -
@@ -50,15 +49,15 @@ update step.
     \mtx{A}\mtx{K}_k(\mtx{y}_k - \mtx{H}\hat{\mtx{x}}_k^-)
 \end{align*}
 
-\noindent Let $\mtx{C} = \mtx{H}$ and $\mtx{L} = \mtx{A} \mtx{K}_k$.
+Let $\mtx{C} = \mtx{H}$ and $\mtx{L} = \mtx{A} \mtx{K}_k$.
 
 \begin{equation} \label{eq:app_kalman_leunberger}
   \hat{\mtx{x}}_{k+1}^+ = \mtx{A}\hat{\mtx{x}}_k^- + \mtx{B}\mtx{u}_k + \mtx{L}
     (\mtx{y}_k - \mtx{C}\hat{\mtx{x}}_k^-)
 \end{equation}
 
-\noindent which matches equation (\ref{eq:luenberger}). Therefore, the
-eigenvalues of the Kalman filter observer can be obtained by
+which matches equation (\ref{eq:luenberger}). Therefore, th eigenvalues of the
+Kalman filter observer can be obtained by
 
 \begin{align}
   &eig(\mtx{A} - \mtx{L}\mtx{C}) \nonumber \\
@@ -71,7 +70,7 @@ eigenvalues of the Kalman filter observer can be obtained by
 
 To run a Luenberger observer with separate prediction and update steps,
 substitute the relationship between the Luenberger observer and Kalman filter
-matrices derived above into the Kalman filter equations. \\
+matrices derived above into the Kalman filter equations.
 
 Appendix \ref{subsec:app-kalman-luenberger} shows that $\mtx{C} = \mtx{H}$ and
 $\mtx{L} = \mtx{A}\mtx{K}_k$. Since $\mtx{L}$ and $\mtx{A}$ are constant, one
@@ -86,7 +85,7 @@ the Kalman filter update equation.
     (\mtx{y}_{k+1} - \mtx{C}\hat{\mtx{x}}_{k+1}^-)
 \end{align*}
 
-\noindent Substitute in equation (\ref{eq:z_obsv_y}).
+Substitute in equation (\ref{eq:z_obsv_y}).
 
 \begin{equation*}
   \hat{\mtx{x}}_{k+1}^+ = \hat{\mtx{x}}_{k+1}^- + \mtx{A}^{-1}\mtx{L}

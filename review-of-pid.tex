@@ -3,9 +3,9 @@
 \section{PID basics and theory}
 
 Negative feedback loops drive the difference between the \gls{reference} and
-\gls{output} to zero. \\
+\gls{output} to zero.
 
-\noindent \textbf{Proportional} gain compensates for current \gls{error}. \\
+\textbf{Proportional} gain compensates for current \gls{error}. \\
 \textbf{Integral} gain compensates for past error (i.e.,
 \gls{steady-state error}). \\
 \textbf{Derivative} gain compensates for future error by slowing controller down
@@ -76,11 +76,11 @@ becomes
     \label{eq:pid_vel}
 \end{align}
 
-\noindent This shows that $K_i$ and $K_p$ from the position controller act as
-proportional and derivative terms respectively in the velocity controller. $K_i$
-from the position controller has no equivalent in the velocity controller. If we
-were to implement one, it would use a double integral. However, it would be of
-limited use since the $K_i$ term in equation (\ref{eq:pid_vel}) also eliminates
+This shows that $K_i$ and $K_p$ from the position controller act as proportional
+and derivative terms respectively in the velocity controller. $K_i$ from the
+position controller has no equivalent in the velocity controller. If we were to
+implement one, it would use a double integral. However, it would be of limited
+use since the $K_i$ term in equation (\ref{eq:pid_vel}) also eliminates
 steady-state error for step changes in \gls{reference}. Relabelling the
 coefficients to match the position PID controller gives
 
@@ -88,8 +88,7 @@ coefficients to match the position PID controller gives
   \frac{du}{dt} = K_p \int_0^t e(\tau) d\tau + K_d e(t)
 \end{equation}
 
-\noindent Read \url{https://en.wikipedia.org/wiki/PID_controller} for more
-information.
+Read \url{https://en.wikipedia.org/wiki/PID_controller} for more information.
 
 \section{Limitations of PID control}
 

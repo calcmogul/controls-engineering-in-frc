@@ -1,8 +1,8 @@
 \chapter{State-space representation}
 
 \begin{remark}
-  Chapters including and after this use Python Control to demonstrate the
-  concepts discussed and perform the complex math required. See appendix
+  Chapters from here on use Python Control to demonstrate the concepts discussed
+  and perform the complex math required. See appendix
   \ref{ch:app-installing-python-control} for how to install it.
 \end{remark}
 
@@ -10,7 +10,7 @@ A state-space representation models \glspl{system} as a set of \gls{state},
 input, and output variables related by first-order differential equations.
 "State space" refers to the Euclidean space in which the \gls{state} variables
 are on the axes. The \gls{state} of the \gls{system} can be represented as a
-vector within that space. \\
+vector within that space.
 
 To abstract from the number of \glspl{state}, inputs, and outputs, these
 variables are expressed as vectors. Additionally, if the dynamical \gls{system}
@@ -25,7 +25,6 @@ inputs and $q$ outputs, we would have to write $q \times p$ Laplace transforms
 to represent it. Not only is the resulting algebra unwieldy, but it only works
 for linear systems with zero initial conditions. State-space representation uses
 the time domain instead of the Laplace domain, so it doesn't have this problem.
-\\
 
 Students are still taught classical control first because it provides a
 framework within which to understand the results we get from the fancy
@@ -96,8 +95,8 @@ finite time window. A continuous \gls{time-invariant} linear state-space
   \label{eq:ctrl_rank}
 \end{equation}
 
-\noindent where rank is the number of linearly independent rows in a matrix and
-$n$ is the number of \gls{state} variables. \\
+where rank is the number of linearly independent rows in a matrix and $n$ is the
+number of \gls{state} variables.
 
 Given a \gls{system} of the form
 
@@ -106,7 +105,7 @@ Given a \gls{system} of the form
     {s^4 + d_1 s^3 + d_2 s^2 + d_3 s + d_4}
 \end{equation}
 
-\noindent the canonical \gls{realization} of it that satisfies equation
+the canonical \gls{realization} of it that satisfies equation
 (\ref{eq:ctrl_rank}) is
 
 \begin{align}
@@ -140,7 +139,7 @@ controllability of a \gls{system} are mathematical duals (i.e., as
 controllability proves that an input is available that brings any initial
 \gls{state} to any desired final \gls{state}, observability proves that knowing
 an output trajectory provides enough information to predict the initial
-\gls{state} of the \gls{system}). \\
+\gls{state} of the \gls{system}).
 
 A continuous \gls{time-invariant} linear state-space \gls{model} is observable
 if and only if
@@ -156,7 +155,7 @@ if and only if
   \right]\right) = n
 \end{equation}
 
-\noindent The canonical \gls{realization} of the \gls{system} in equation
+The canonical \gls{realization} of the \gls{system} in equation
 (\ref{eq:ctrl_obsv_tf}) that satisfies equation (\ref{eq:obsv_rank}) is
 
 \begin{align}
@@ -184,7 +183,7 @@ if and only if
 
 \section{Eigenvalues in state-space}
 
-Eigenvalues can be used to determine the stability of a \gls{system}. \\
+Eigenvalues can be used to determine the stability of a \gls{system}.
 
 We'd like to know whether the \gls{system} defined by equation
 (\ref{eq:ssz_ctrl_x}) operating with the \gls{control law}
@@ -204,7 +203,7 @@ $\mtx{r}_k$.
 \end{align}
 
 For equation (\ref{eq:ctrl_eig_calc}) to have a bounded output, the eigenvalues
-of $\mtx{A} - \mtx{B}\mtx{K}$ must be within the unit circle. \\
+of $\mtx{A} - \mtx{B}\mtx{K}$ must be within the unit circle.
 
 This derivation can be performed for a \gls{state} estimator as well to
 determine whether the \gls{state} estimate converges to the true \gls{state}.
@@ -219,7 +218,7 @@ Plugging equation (\ref{eq:z_obsv_y}) into equation (\ref{eq:z_obsv_x}) gives
     \mtx{L} (\mtx{y}_k - \mtx{C}\hat{\mtx{x}}_k - \mtx{D}\mtx{u}_k)
 \end{align*}
 
-\noindent Plugging in equation (\ref{eq:ssz_ctrl_y}) gives
+Plugging in equation (\ref{eq:ssz_ctrl_y}) gives
 
 \begin{align*}
   \hat{\mtx{x}}_{k+1} &= \mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
@@ -234,7 +233,7 @@ Plugging equation (\ref{eq:z_obsv_y}) into equation (\ref{eq:z_obsv_x}) gives
     \mtx{L}\mtx{C}(\mtx{x}_k - \hat{\mtx{x}}_k)
 \end{align*}
 
-\noindent Let $E_k = \mtx{x}_k - \hat{\mtx{x}}_k$ be the error in the estimate
+Let $E_k = \mtx{x}_k - \hat{\mtx{x}}_k$ be the error in the estimate
 $\hat{\mtx{x}}_k$.
 
 \begin{equation*}
@@ -242,7 +241,7 @@ $\hat{\mtx{x}}_k$.
     \mtx{L}\mtx{C}\mtx{E}_k
 \end{equation*}
 
-\noindent Subtracting this from equation (\ref{eq:ssz_ctrl_x}) gives
+Subtracting this from equation (\ref{eq:ssz_ctrl_x}) gives
 
 \begin{align}
   \mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}\mtx{u}_k -
@@ -266,7 +265,7 @@ For equation (\ref{eq:obsv_eig_calc}) to have a bounded output, the eigenvalues
 of $\mtx{A} - \mtx{L}\mtx{C}$ must be within the unit circle. These eigenvalues
 represent how fast the estimator converges to the true state of the given
 \gls{model}. A fast estimator converges quickly while a slow estimator avoids
-amplifying noise in the measurements used to produce a state estimate. \\
+amplifying noise in the measurements used to produce a state estimate.
 
 The effect of noise can be seen if it is modeled
 \glslink{stochastic process}{stochastically} as
@@ -276,13 +275,13 @@ The effect of noise can be seen if it is modeled
     \mtx{L} (\mtx{y}_k - \hat{\mtx{y}}_k) + \mtx{L}\mtx{\nu}_k
 \end{equation*}
 
-\noindent where $\mtx{\nu}_k$ is the measurement noise. As $\mtx{L}$ increases,
-the measurement noise is amplified. \\
+where $\mtx{\nu}_k$ is the measurement noise. As $\mtx{L}$ increases, the
+measurement noise is amplified.
 
 In summary, a controller is stable if the eigenvalues of
 $\mtx{A} - \mtx{B}\mtx{K}$ are within the unit circle, and an estimator is
 stable if the eigenvalues of $\mtx{A} - \mtx{L}\mtx{C}$ are within the unit
-circle. \\
+circle.
 
 As stated before, the controller and estimator are dual problems. Controller
 gains can be found assuming perfect estimator (i.e., perfect knowledge of all

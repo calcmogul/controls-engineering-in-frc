@@ -14,9 +14,9 @@ the following.
   \mtx{u} = -\mtx{K}\mtx{x}
 \end{equation}
 
-\noindent This means that optimal control can be achieved with simply a set of
+This means that optimal control can be achieved with simply a set of
 proportional gains on all the states. The reason for this will be explained when
-discussing Linear-Quadratic Regulators. \\
+discussing Linear-Quadratic Regulators.
 
 This \gls{control law} will make all states converge to zero assuming the system
 is controllable. To converge to non-zero states, a reference vector $\mtx{r}$
@@ -29,7 +29,7 @@ can be added to the state $\mtx{x}$.
 \section{Controller}
 
 Given the \gls{control law} above, we can derive the closed-loop state-space
-equations. \\
+equations.
 
 First is the state update equation. Substitute equation
 (\ref{eq:s_ref_ctrl_law}) into equation (\ref{eq:ss_ctrl_x}).
@@ -43,8 +43,8 @@ First is the state update equation. Substitute equation
     \label{eq:s_ref_ctrl_x}
 \end{align}
 
-\noindent Now for the output equation. Substitute equation
-(\ref{eq:s_ref_ctrl_law}) into equation (\ref{eq:ss_ctrl_y}).
+Now for the output equation. Substitute equation (\ref{eq:s_ref_ctrl_law}) into
+equation (\ref{eq:ss_ctrl_y}).
 
 \begin{align}
   \mtx{y} &= \mtx{C}\mtx{x} + \mtx{D}(\mtx{K}(\mtx{r} - \mtx{x})) \nonumber \\
@@ -123,8 +123,8 @@ A system $\dot{\mtx{x}} = \mtx{A}\mtx{x} + \mtx{B}\mtx{u}$ has the cost function
     \mtx{u}^T\mtx{R}\mtx{u}\right) dt
 \end{equation*}
 
-\noindent where $J$ represents a tradeoff between \gls{state} excursion and
-control effort with the weighting factors $\mtx{Q}$ and $\mtx{R}$. The feedback
+where $J$ represents a tradeoff between \gls{state} excursion and control effort
+with the weighting factors $\mtx{Q}$ and $\mtx{R}$. The feedback
 \gls{control law} that minimizes $J$ is
 
 \begin{equation*}
@@ -132,7 +132,7 @@ control effort with the weighting factors $\mtx{Q}$ and $\mtx{R}$. The feedback
 \end{equation*}
 
 See appendix \ref{ch:app-optimal-control-law-deriv} for how $\mtx{K}$ is
-calculated in Python. \\
+calculated in Python.
 
 If the solution produces a finite value, the resulting controller is guaranteed
 to be stable and \glslink{robustness}{robust} with a \gls{phase margin} of 55
@@ -144,7 +144,6 @@ The next obvious question is what values to choose for $Q$ and $R$. With
 Bryson's rule, the $Q$ and $R$ matrices are chosen based on the maximum
 acceptable value for each \gls{state} and actuator. The balance between $Q$ and
 $R$ can be slid along the Pareto optimal curve using a weighting factor $\rho$.
-\\
 
 Small values of $\rho$ penalize \gls{state} excursions while large values of
 $\rho$ penalize control effort. Small values would be chosen in applications
