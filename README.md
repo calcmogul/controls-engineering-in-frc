@@ -46,6 +46,9 @@ to understand the examples based on the videos already linked there.
 
 Any other results that are good for background, but are unnecessary should be included in an appendix.
 
+Add graphs of zero-order hold and Euler methods of discretization. Also, answer
+the question "Why is the matrix exponential used for discretization?".
+
 The link to the graphical introduction to Kalman filters should be replaced with something much more comprehensive. The graphics are nice, but there isn't much substance to promote deep understanding. I have a lot of notes from the course I took on Kalman filters I intend to synthesize (also notes PDFs in ~/frc/state-space-guide).
 
 The referenced derivations for the Kalman filter could be added as an appendix since they aren't that long. Does referencing them help the document at all?
@@ -69,5 +72,7 @@ The "Implementation Steps" section needs subsections to explain how to do each o
 * Rotating claw with independent top/bottom
   * See 971/y2014/control_loops/python/claw.py
   * Use as example of coordinate transformations for states?
+
+Fill out the index. This book has potential as a reference manual.
 
 Add a section on polytopes for convex optimization?
