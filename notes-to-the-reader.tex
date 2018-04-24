@@ -1,0 +1,45 @@
+\setcounter{chapter}{-1}
+\chapter{Notes to the reader}
+
+\section{The structure of this book}
+
+This book consists of three parts and a collection of appendices:
+
+\begin{itemize}
+  \item Part I, "Classical control," introduces the basics of control theory,
+    reviews the dynamics of PID controllers, describes what a transfer function
+    is, and shows how they can be used to analyze dynamical systems. Emphasis is
+    placed on the geometric intuition of this analysis rather than the frequency
+    domain math.
+  \item Part II, "Modern control," builds on the intuition gained in part I to
+    describe and control multiple-input, multiple-output (MIMO) systems. It
+    provides a crash course in the geometric intuition behind linear algebra and
+    covers enough of the mechanics of evaluating matrix algebra for the reader
+    to follow along in later chapters. State-space representation, canonical
+    forms of state-space models, discretization, LQR controller design, and LQE
+    observer design are covered.
+  \item Part III, "Controls design/implementation," describes how to apply the
+    concepts learned in the earlier parts to design and implement controllers
+    for real systems. It walks through several examples of common FRC subsystems
+    from deriving the model using kinematics to implementing and testing a
+    digital controller. Finally, Kalman filters are implemented and the models
+    are augmented with $u_error$ estimators to help handle model uncertainty.
+  \item \textit{Appendices} provide useful information that isn't required for
+    a passing understanding of the material. This includes derivations for many
+    of the results presented and used in the main body of the book.
+\end{itemize}
+
+This book is intended as both a tutorial for new students and as a reference
+manual for more experienced readers who need to review a thing or two. While it
+isn't comprehensive, the reader will hopefully learn enough to either implement
+these concepts themselves or know where to look for more information.
+
+\section{Request for feedback}
+
+While we have tried to write a book that makes the topics of control theory
+approachable, it's still very high level for the subject it covers as well as
+very dense and fast-paced (it covers three classes of feedback control, two of
+which are for graduate students, in one short book). Please send us feedback,
+corrections, or suggestions through the GitHub page listed on the copyright
+page. New examples that demonstrate key concepts and make them more accessible
+are also appreciated.
