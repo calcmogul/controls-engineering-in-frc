@@ -5,13 +5,14 @@ the integral of the error of the variable intended to have zero steady-state
 error.
 
 There are two drawbacks to this method. First, there is integral windup on a
-unit step input. The second is demonstrated by an example from Jared Russell of
-FRC team 254. Say there is a position/velocity trajectory for some plant to
-follow. Without integral control, one can calculate a desired $\mtx{K}\mtx{x}$
-to use as the reference input to the controller. As a result of using both
-desired position and velocity, reference tracking is good. With integral control
-added, the reference is always the desired position, but there is no way to tell
-the controller the desired velocity.
+unit step input. That is, the integrator accumulates even if the system is
+tracking the model correctly. The second is demonstrated by an example from
+Jared Russell of FRC team 254. Say there is a position/velocity trajectory for
+some plant to follow. Without integral control, one can calculate a desired
+$\mtx{K}\mtx{x}$ to use as the reference input to the controller. As a result of
+using both desired position and velocity, reference tracking is good. With
+integral control added, the reference is always the desired position, but there
+is no way to tell the controller the desired velocity.
 
 Consider carefully whether integral control is necessary. One can get relatively
 close without integral control, and integral adds all the issues listed above.
@@ -24,9 +25,10 @@ There are three methods FRC team 971 has used over the years:
   \item Augment the plant as described earlier. For an arm, one would add an
     "integral of position" state.
   \item Add an integrator to the output of the controller, then estimate the
-    control effort being applied. 971 has calls this Delta U control. The
-    up-side is that it doesn't have the windup issue described above. The
-    downside is it's very confusing to work with it.
+    control effort being applied. 971 has called this Delta U control. The
+    up-side is that it doesn't have the windup issue described above; the
+    integrator only acts if the system isn't behaving like the model, which was
+    the original intent. The downside is working with it is very confusing.
   \item Estimate an "error" in the observer and compensate for it. This quantity
     is the difference between what was applied and what was observed to happen.
     To use it, you simply add it to your control output and it will converge.

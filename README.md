@@ -8,7 +8,7 @@ This document reads a lot like a reference manual on control theory and related 
 ## Dependencies
 
 * make (to run the makefile)
-* texlive-core (for latexmk and pdflatex)
+* texlive-core (for latexmk)
 * texlive-latexextra (for bibtex and makeglossaries)
 * texlive-bibtexextra (for additional BibTeX styles and bibliography databases)
 * xelatex (for setting and using custom fonts)
