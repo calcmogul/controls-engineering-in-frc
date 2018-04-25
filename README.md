@@ -17,6 +17,7 @@ This document reads a lot like a reference manual on control theory and related 
   * Python Control (to generate plots and state-space results)
   * yapf (to format Python source code)
 * Inkscape (to convert SVGs to PDF)
+* ghostscript (to reduce size of final PDF for publishing)
 
 Python Control can be installed via your system's package manager or via pip. For better root locus plots, build and install Python Control from its Git repo at https://github.com/python-control/python-control instead of using 0.7.0 from pypi.python.org.
 

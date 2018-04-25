@@ -3,7 +3,7 @@
 \thispagestyle{empty}
 \begin{tikzpicture}[remember picture,overlay]
   \node[inner sep=0pt] (background) at (current page.center) {%
-    \includegraphics[width=\paperwidth]{background}};
+    \includegraphics[width=\paperwidth,height=\paperheight]{front.jpg}};
   \draw (current page.center) node%
     [fill=deeporange!30!white,fill opacity=0.6,text opacity=1,inner sep=1cm]%
     {\Huge\centering\bfseries\sffamily\parbox[c][][t]{\paperwidth}%
@@ -40,7 +40,7 @@ language governing permissions and limitations under the License.
 % Table of contents
 % \usechapterimagefalse
 
-\chapterimage{chapter_head_1.pdf} % Table of contents heading image
+\chapterimage{toc.jpg}
 
 \pagestyle{empty} % No headers
 
