@@ -1,11 +1,11 @@
-% MAIN TABLE OF CONTENTS
-
 \usepackage{xcolor}  % Required for specifying colors by name
 \definecolor{deepblue}{rgb}{0,0,0.5}
 \definecolor{deepgreen}{rgb}{0,0.5,0}
 \definecolor{deeporange}{RGB}{243,102,25}
 \definecolor{deepred}{rgb}{0.6,0,0}
 \colorlet{headingbg}{black!5}
+
+% MAIN TABLE OF CONTENTS
 
 \contentsmargin{0cm} % Removes the default margin
 
@@ -23,43 +23,43 @@
 
 % Section text styling
 \titlecontents{section}[1.25cm] % Indentation
-{\addvspace{3pt}\sffamily\bfseries} % Spacing and font options
-{\contentslabel[\thecontentslabel]{1.25cm}} % Section number
-{}
-{\hfill\color{black}\thecontentspage} % Page number
-[]
+  {\addvspace{3pt}\sffamily\bfseries} % Spacing and font options
+  {\contentslabel[\thecontentslabel]{1.25cm}} % Section number
+  {}
+  {\hfill\color{black}\thecontentspage} % Page number
+  []
 
 % Subsection text styling
 \titlecontents{subsection}[1.25cm] % Indentation
-{\addvspace{1pt}\sffamily\small} % Spacing and font options
-{\contentslabel[\thecontentslabel]{1.25cm}} % Subsection number
-{}
-{\ \titlerule*[.5pc]{.}\;\thecontentspage} % Page number
-[]
+  {\addvspace{1pt}\sffamily\small} % Spacing and font options
+  {\contentslabel[\thecontentslabel]{1.25cm}} % Subsection number
+  {}
+  {\ \titlerule*[.5pc]{.}\;\thecontentspage} % Page number
+  []
 
 % List of figures
 \titlecontents{figure}[0em]
-{\addvspace{-5pt}\sffamily}
-{\thecontentslabel\hspace*{1em}}
-{}
-{\ \titlerule*[.5pc]{.}\;\thecontentspage}
-[]
+  {\addvspace{-5pt}\sffamily}
+  {\thecontentslabel\hspace*{1em}}
+  {}
+  {\ \titlerule*[.5pc]{.}\;\thecontentspage}
+  []
 
 % List of tables
 \titlecontents{table}[0em]
-{\addvspace{-5pt}\sffamily}
-{\thecontentslabel\hspace*{1em}}
-{}
-{\ \titlerule*[.5pc]{.}\;\thecontentspage}
-[]
+  {\addvspace{-5pt}\sffamily}
+  {\thecontentslabel\hspace*{1em}}
+  {}
+  {\ \titlerule*[.5pc]{.}\;\thecontentspage}
+  []
 
 % List of snippets
 \titlecontents{snippet}[0em]
-{\addvspace{-5pt}\sffamily}
-{\thecontentslabel\hspace*{1em}}
-{}
-{\ \titlerule*[.5pc]{.}\;\thecontentspage}
-[]
+  {\addvspace{-5pt}\sffamily}
+  {\thecontentslabel\hspace*{1em}}
+  {}
+  {\ \titlerule*[.5pc]{.}\;\thecontentspage}
+  []
 
 % MINI TABLE OF CONTENTS IN PART HEADS
 
@@ -171,7 +171,7 @@
 
 % DEFINITION OF COLORED BOXES
 
-% Required for creating the theorem, definition, exercise, and corollary boxes
+% For creating the theorem, definition, exercise, and corollary boxes
 \RequirePackage[framemethod=default]{mdframed}
 
 % Theorem box
@@ -289,10 +289,6 @@
 
 % PART HEADINGS
 
-\newcommand{\PartialToc}{\vspace*{2pc}\hrule\vspace*{1pc}%
-\startcontents[chapters]\vbox{\bf\Large Outline}
-\printcontents[chapters]{}{1}{}\vspace*{1pc}\hrule}
-
 % numbered part in the table of contents
 \newcommand{\@mypartnumtocformat}[2]{%
   \setlength\fboxsep{0pt}%
@@ -338,10 +334,9 @@
             \color{deeporange!40}\fontsize{220}{100}\sffamily\bfseries\thepart};
           \node[anchor=south east] at (\paperwidth-1cm,-\paperheight+1cm){%
             \parbox[t][][t]{8.5cm}{%
-              %\printcontents{l}{0}{%
-              %  \setcounter{tocdepth}{1}%
-              %}%
-              %\PartialToc
+              \printcontents{l}{0}{%
+                \setcounter{tocdepth}{1}%
+              }%
             }%
           };
           \node[anchor=north east] at (\paperwidth-1.5cm,-3.25cm){%
@@ -459,6 +454,17 @@
   \end{tikzpicture}
   \par\vspace*{270\p@}}
 \makeatother
+
+\usepackage{bookmark}
+\bookmarksetup{open,numbered,addtohook={%
+  \ifnum\bookmarkget{level}=0 % chapter
+    \bookmarksetup{bold}%
+  \fi
+  \ifnum\bookmarkget{level}=-1 % part
+    \bookmarksetup{color=deeporange,bold}%
+  \fi
+}
+}
 
 % Set styles for TikZ objects
 \usetikzlibrary{arrows, circuits.ee.IEC, decorations.markings,

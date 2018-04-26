@@ -3,19 +3,8 @@
 \usepackage{amsmath,amsthm}
 \usepackage[english]{babel} % English language/hyphenation
 \usepackage{bm}
-\usepackage{bookmark}
-\bookmarksetup{
-open,
-numbered,
-addtohook={%
-\ifnum\bookmarkget{level}=0 % Chapter
-\bookmarksetup{bold}%
-\fi
-\ifnum\bookmarkget{level}=-1 % Part
-\bookmarksetup{color=deeporange,bold}%
-\fi
-}
-}
+\usepackage{booktabs} % For nicer horizontal rules in tables
+\usepackage{calc} % For simpler calculation in spacing index letter headings
 \usepackage{colortbl} % For colored table rows
 \usepackage{datetime} % For the generated date
 \usepackage{fancyhdr} % For the headers
@@ -26,6 +15,7 @@ addtohook={%
 \usepackage{listings}
 \usepackage{mathrsfs}
 \DeclareMathAlphabet{\mathscrbf}{OMS}{cmsy}{m}{n}
+\usepackage{makeidx}
 \usepackage{parskip}
 \usepackage{tabulary}
 \usepackage{tikz}
@@ -33,8 +23,6 @@ addtohook={%
 
 \usepackage{enumitem} % Customize lists
 \setlist{nolistsep} % Reduce spacing between bullet points and numbered lists
-
-\usepackage{booktabs} % Required for nicer horizontal rules in tables
 
 % Font setup
 \usepackage{microtype} % Slightly tweak font spacing for aesthetics
@@ -60,8 +48,6 @@ addtohook={%
 \defbibheading{bibempty}{}
 
 % Index setup
-\usepackage{calc} % For simpler calculation in spacing index letter headings
-\usepackage{makeidx}
 \makeindex
 
 \usepackage{hyperref}
