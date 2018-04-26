@@ -1,10 +1,10 @@
 \chapterimage{back.jpg}
 
-\glsaddall
-\printglossary[title={\sffamily\bfseries Glossary},%
-               toctitle={\textcolor{deeporange}{Glossary}}]
-
 \backmatter
+\glsaddall
+\printglossary[title={\sffamily\bfseries Glossary}]
+\addcontentsline{toc}{chapter}{\color{deeporange}Glossary}
+
 \chapter{Bibliography}
 
 \phantomsection
@@ -20,6 +20,6 @@
 % Index
 \cleardoublepage
 \phantomsection
-\setlength{\columnsep}{0.75cm}
 \addcontentsline{toc}{chapter}{\textcolor{deeporange}{Index}}
+\setlength{\columnsep}{0.75cm}
 \printindex
