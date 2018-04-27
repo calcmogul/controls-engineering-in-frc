@@ -25,19 +25,4 @@
 \fancypagestyle{plain}{\fancyhead{}\renewcommand{\headrulewidth}{0pt}}
 
 % Removes the header from odd empty pages at the end of chapters
-\makeatletter
-\renewcommand{\cleardoublepage}{
-  \clearpage
-  \ifodd
-    \c@page
-  \else
-    \vspace*{\stretch{1}}
-    \begin{center}
-      \textit{This page intentionally left blank}
-    \end{center}
-    \vspace*{\stretch{4}}
-    \thispagestyle{empty}
-    \newpage
-  \fi
-}
-\makeatother
+\setcleardoublepage

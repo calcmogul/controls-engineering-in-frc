@@ -51,3 +51,29 @@
     \draw[deeporange,rotate=45] (-0.1,-0.0025) rectangle (0.1,0.0025);
     \draw[deeporange,rotate=-45] (-0.1,-0.0025) rectangle (0.1,0.0025);
   \end{scope}}
+
+% Set custom \cleardoublepage
+\makeatletter
+\newcommand{\setcleardoublepage}{%
+  % Removes the header from odd empty pages at the end of chapters
+  \renewcommand{\cleardoublepage}{%
+    \clearpage
+    \ifodd
+      \c@page
+    \else
+      \vspace*{\stretch{1}}
+      \begin{center}
+        \textit{This page intentionally left blank}
+      \end{center}
+      \vspace*{\stretch{4}}
+      \thispagestyle{empty}
+      \newpage
+    \fi
+  }
+}
+\makeatother
+
+% Make \cleardoublepage do nothing
+\newcommand{\unsetcleardoublepage}{%
+  \renewcommand{\cleardoublepage}{}
+}
