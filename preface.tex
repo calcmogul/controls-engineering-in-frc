@@ -5,32 +5,31 @@
 
 \section*{Motivation}
 
-I am the software mentor for a FIRST Robotics Competition team. My
+I am the software mentor for a FIRST Robotics Competition (FRC) team. My
 responsibilities for that include teaching programming, software engineering
 practices, and applications of control theory. The curriculum I developed so far
 (located at \url{https://csweb.frc3512.com/ci/}) teaches rookies enough to be
 minimally competitive, but many of the more advanced sections are incomplete. It
 provides no formal avenues of growth for veteran students.
 
-This project expands my curriculum to cover control theory topics I have learned
-in my graduate-level engineering classes at University of California,
-Santa Cruz. It introduces state-space controllers and serves as a practical
-guide for formulating and implementing them. State-space control is a way of
-formulating control problems using linear algebra that has several advantages
-over simpler, typically heuristic approaches like
-Proportional-Integral-Derivative (PID).
+Also, out of a six week build season, the software team usually only gets a few
+days with the completed robot due to poor build schedule management. This leads
+to two problems. First, two days is only enough time to verify basic software
+functionality, not test and tune feedback controllers. Second, this is also the
+first time the robot's electromechanical systems have been tested after
+integration, so any issues that arise consume valuable software integration time
+while the team traces the problem to a mechanical, electrical, or software
+cause.
 
-The sections on classical control theory are intended to provide a geometric
-intuition into the mathematical machinery. Some topics have been oversimplified
-to make them easier to grasp. For more detail, please see the Wikibook on
-control systems at \url{https://en.wikibooks.org/wiki/Control_Systems}.
-
-\section*{Abstract}
-
-Control theory is a discipline that deals with the behavior of dynamical
-\glspl{system} with inputs and how their behavior is modified by feedback.
-Topics from classical and modern control are introduced, and advice is given on
-when and how to apply them.
+This book expands my curriculum to cover control theory topics I have learned in
+my graduate-level engineering classes at University of California, Santa Cruz.
+It introduces state-space controllers and serves as a practical guide for
+formulating and implementing them. Since state-space control utilizes a system
+model, both problems mentioned earlier can be addressed. Basic software
+functionality can be tested against it and feedback controllers can be tuned
+automatically based on system constraints. This allows software teams to test
+their work much earlier in the build season in a controlled environment as well
+as save time during feedback controller design, implementation, and testing.
 
 \section*{Intended Audience}
 
