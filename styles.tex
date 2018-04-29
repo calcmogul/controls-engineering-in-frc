@@ -88,6 +88,7 @@
 
 % THEOREM STYLES
 
+\makeatletter
 \newcommand{\intoo}[2]{\mathopen{]}#1\,;#2\mathclose{[}}
 \newcommand{\ud}{\mathop{\mathrm{{}d}}\mathopen{}}
 \newcommand{\intff}[2]{\mathopen{[}#1\,;#2\mathclose{]}}
@@ -95,8 +96,8 @@
 
 % Boxed/framed environments
 \newtheoremstyle{deeporangenumbox} % Theorem style name
-  {0pt} % Space above
-  {0pt} % Space below
+  {5pt} % Space above
+  {5pt} % Space below
   {\normalfont} % Body font
   {} % Indent amount
   {\small\bf\sffamily\color{deeporange}} % Theorem head font
@@ -124,8 +125,8 @@
             \sffamily\bfseries---\nobreakspace#3.}} % Optional theorem note
 
 \newtheoremstyle{blacknumbox} % Theorem style name
-  {0pt} % Space above
-  {0pt} % Space below
+  {5pt} % Space above
+  {5pt} % Space below
   {\normalfont} % Body font
   {} % Indent amount
   {\small\bf\sffamily} % Theorem head font

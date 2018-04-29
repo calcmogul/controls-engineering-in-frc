@@ -1,0 +1,86 @@
+\chapter{Two-state feedforward derivation} \label{ch:app-two-state-ff-deriv}
+
+This feedforward will take the form
+$\mtx{u} = \mtx{K}_{ff} (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k)$ where
+$\mtx{K}_{ff}$ is the feedforwards gain matrix. It is important that
+$\mtx{K}_{ff}$ is \textit{only} computed off the goal and not the feedback
+terms.
+
+Let $\mtx{B}$ be the input matrix with dimensionality $states \times inputs$,
+$\mtx{Q}$ be the state cost matrix with dimensionality
+$states \times states$, and $\mtx{R}$ be the control input cost matrix with
+dimensionality $inputs \times inputs$. We want to find the optimal $\mtx{u}$
+such that we minimize the tracking cost.
+
+To minimize the tracking cost, we'll minimize the following cost function.
+
+\begin{equation*}
+  \mtx{J} = (\mtx{B}\mtx{u} - (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k))^T \mtx{Q}
+    (\mtx{B}\mtx{u} - (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k)) +
+    \mtx{u}^T\mtx{R}\mtx{u}
+\end{equation*}
+
+\begin{align*}
+  \mtx{J} &= (\mtx{B}\mtx{u} - \mtx{r}_{k+1} + \mtx{A}\mtx{r}_k)^T \mtx{Q}
+    (\mtx{B}\mtx{u} - \mtx{r}_{k+1} + \mtx{A}\mtx{r}_k) +
+    \mtx{u}^T\mtx{R}\mtx{u} \\
+  \mtx{J} &= ((\mtx{B}\mtx{u})^T - \mtx{r}_{k+1}^T + (\mtx{A}\mtx{r}_k)^T)
+    \mtx{Q}(\mtx{B}\mtx{u} - \mtx{r}_{k+1} + \mtx{A}\mtx{r}_k) +
+    \mtx{u}^T\mtx{R}\mtx{u} \\
+  \mtx{J} &= (\mtx{u}^T\mtx{B}^T - \mtx{r}_{k+1}^T + \mtx{r}_k^T\mtx{A}^T)
+    \mtx{Q}(\mtx{B}\mtx{u} - \mtx{r}_{k+1} + \mtx{A}\mtx{r}_k) +
+    \mtx{u}^T\mtx{R}\mtx{u} \\
+  \mtx{J} &= (\mtx{u}^T\mtx{B}^T\mtx{Q} - \mtx{r}_{k+1}^T\mtx{Q} +
+    \mtx{r}_k^T\mtx{A}^T\mtx{Q})(\mtx{B}\mtx{u} - \mtx{r}_{k+1} +
+    \mtx{A}\mtx{r}_k) + \mtx{u}^T\mtx{R}\mtx{u} \\
+  \mtx{J} &= \mtx{u}^T\mtx{B}^T\mtx{Q}\mtx{B}\mtx{u} -
+    \mtx{r}_{k+1}^T\mtx{Q}\mtx{B}\mtx{u} +
+    \mtx{r}_k^T\mtx{A}^T\mtx{Q}\mtx{B}\mtx{u} + (\mtx{u}^T\mtx{B}^T\mtx{Q} -
+    \mtx{r}_{k+1}^T\mtx{Q} + \mtx{r}_k^T\mtx{A}^T\mtx{Q})
+    (-\mtx{r}_{k+1} + \mtx{A}\mtx{r}_k) + \mtx{u}^T\mtx{R}\mtx{u}
+\end{align*}
+
+Given theorem \ref{thm:partial}
+
+\begin{theorem}
+  $\frac{\partial}{\partial\mtx{A}}\left(\mtx{A}^T\mtx{B}\mtx{A}\right) =
+    2\mtx{A}^T\mtx{B}$
+  \label{thm:partial}
+\end{theorem}
+
+find the minimum by taking the partial derivative of $\mtx{J}$ with respect to
+$\mtx{u}$ and setting that to $\mtx{0}$.
+
+\begin{align}
+  \frac{\partial\mtx{J}}{\partial\mtx{u}} &=
+    2\mtx{u}^T\mtx{B}^T\mtx{Q}\mtx{B} - 2\mtx{r}_{k+1}^T\mtx{Q}\mtx{B} +
+    2\mtx{r}_k^T\mtx{A}^T\mtx{Q}\mtx{B} + 2\mtx{u}^T\mtx{R} \nonumber \\
+  \mtx{0} &= 2\mtx{u}^T\mtx{B}^T\mtx{Q}\mtx{B} -
+    2\mtx{r}_{k+1}^T\mtx{Q}\mtx{B} + 2\mtx{r}_k^T\mtx{A}^T\mtx{Q}\mtx{B} +
+    2\mtx{u}^T\mtx{R} \nonumber \\
+  \mtx{0} &= \mtx{u}^T\mtx{B}^T\mtx{Q}\mtx{B} - \mtx{r}_{k+1}^T\mtx{Q}\mtx{B} +
+    \mtx{r}_k^T\mtx{A}^T\mtx{Q}\mtx{B} + \mtx{u}^T\mtx{R} \nonumber \\
+  \mtx{u}^T\mtx{B}^T\mtx{Q}\mtx{B} + \mtx{u}^T\mtx{R} &=
+    \mtx{r}_{k+1}^T\mtx{Q}\mtx{B} - \mtx{r}_k^T\mtx{A}^T\mtx{Q}\mtx{B}
+    \nonumber \\
+  \mtx{B}^T\mtx{Q}^T\mtx{B}\mtx{u} + \mtx{R}^T\mtx{u} &=
+    \mtx{B}^T\mtx{Q}^T\mtx{r}_{k+1} - \mtx{B}^T\mtx{Q}^T\mtx{A}\mtx{r}_k
+    \nonumber \\
+  (\mtx{B}^T\mtx{Q}^T\mtx{B} + \mtx{R}^T)\mtx{u} &=
+    \mtx{B}^T\mtx{Q}^T(\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k) \nonumber \\
+  \mtx{u} &= (\mtx{B}^T\mtx{Q}^T\mtx{B} +
+    \mtx{R}^T)^{-1}\mtx{B}^T\mtx{Q}^T(\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k)
+    \nonumber \\
+  \mtx{K}_{ff}(\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k) &=
+    (\mtx{B}^T\mtx{Q}^T\mtx{B} +
+    \mtx{R}^T)^{-1}\mtx{B}^T\mtx{Q}^T(\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k)
+    \nonumber \\
+  \mtx{K}_{ff} &= (\mtx{B}^T\mtx{Q}^T\mtx{B} + \mtx{R}^T)^{-1}\mtx{B}^T\mtx{Q}^T
+\end{align}
+
+If control effort is considered inexpensive, $\mtx{R} \ll \mtx{Q}$ and
+$\mtx{K}_{ff}$ approaches the following.
+
+\begin{equation}
+  \mtx{K}_{ff} = (\mtx{B}^T\mtx{Q}^T\mtx{B})^{-1}\mtx{B}^T\mtx{Q}^T
+\end{equation}
