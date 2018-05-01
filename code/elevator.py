@@ -89,25 +89,36 @@ def main():
         u.append(elevator.u[0, 0])
 
     plt.figure(1)
+
+    # Plot pole-zero map of open-loop system
+    plt.subplot(1, 2, 1)
     wpicnt.dpzmap(elevator.sysd, title="Open-loop system")
 
-    fig = plt.figure(2)
+    # Plot pole-zero map of closed-loop system
+    plt.subplot(1, 2, 2)
     wpicnt.dpzmap(
         wpicnt.ss_closed_loop(elevator.sysd, elevator.K),
         title="Closed-loop system")
 
-    plt.figure(3)
-    plt.title("Time-domain response")
+    plt.figure(2)
 
-    plt.subplot(2, 1, 1)
+    # Plot position over time
+    plt.subplot(3, 1, 1)
+    plt.title("Time-domain responses")
     plt.plot(t, pos)
     plt.plot(t, r_pos)
-    plt.legend(["Position", "Position reference"])
+    plt.legend(["Position (m)", "Position reference (m)"])
 
-    plt.subplot(2, 1, 2)
+    # Plot velocity over time
+    plt.subplot(3, 1, 2)
+    plt.plot(t, vel)
+    plt.legend(["Velocity (m/s)"])
+
+    # Plot control effort over time
+    plt.subplot(3, 1, 3)
     plt.plot(t, u)
     plt.xlabel("Time (s)")
-    plt.legend(["Control effort"])
+    plt.legend(["Control effort (V)"])
 
     plt.show()
 
