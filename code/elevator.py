@@ -1,17 +1,11 @@
 #!/usr/bin/env python3
 
-import control as cnt
 import matplotlib.pyplot as plt
 import numpy as np
+import wpicontrol as wpicnt
 
 
-def frange(x, y, jump):
-    while x < y:
-        yield x
-        x += jump
-
-
-class Elevator:
+class Elevator(wpicnt.System):
 
     def __init__(self, dt):
         self.num_motors = 2.0
@@ -39,43 +33,32 @@ class Elevator:
         # Gear ratio
         self.G = 42.0 / 12.0 * 40.0 / 14.0
 
-        # States: [position; velocity]
-        # Inputs: [voltage]
-        # Outputs: [position]
-        self.A_continuous = np.matrix([[0, 1], [
+        # State feedback matrices
+        # States: [[position], [velocity]]
+        # Inputs: [[voltage]]
+        # Outputs: [[position]]
+        A = np.matrix([[0, 1], [
             0, -self.G**2 * self.Kt / (self.R**2 * self.r * self.m * self.Kv)
         ]])
+        B = np.matrix([[0], [self.G * self.Kt / (self.R * self.r * self.m)]])
+        C = np.matrix([[1, 0]])
+        D = np.matrix([[0]])
+        wpicnt.System.__init__(self, A, B, C, D, -12.0, 12.0, dt)
 
-        self.B_continuous = np.matrix(
-            [[0], [self.G * self.Kt / (self.R * self.r * self.m)]])
-        self.C = np.matrix([[1, 0]])
-        self.D = np.matrix([[0]])
-        self.sysc = cnt.ss(self.A_continuous, self.B_continuous, self.C, self.D)
+        # Design LQR controller
+        Q = self.make_lqr_cost_matrix([0.02, 0.4])
+        R = self.make_lqr_cost_matrix([12.0])
+        self.design_dlqr_controller(Q, R)
 
-        # Discretize model
-        self.sysd = cnt.sample_system(self.sysc, dt)
 
-        self.x = np.matrix([[0], [0]])
-        self.u = np.matrix([[0]])
-
-        # Create controller
-        meter_to_inch = 39.37008
-        Kp = 0.09 * meter_to_inch
-        Ki = 0.004 * meter_to_inch
-        Kd = 0.0 * meter_to_inch
-        self.K = np.matrix([[Kp * 12.0, Kd * 12.0]])
-        self.r = np.matrix([[0], [0]])
-        self.U_min = -12.0
-        self.U_max = 12.0
-
-    def update(self):
-        self.u = np.clip(self.K * (self.r - self.x), self.U_min, self.U_max)
-        self.x = self.sysd.A * self.x + self.sysd.B * self.u
-        self.y = self.sysd.C * self.x + self.sysd.D * self.u
+def frange(x, y, jump):
+    while x < y:
+        yield x
+        x += jump
 
 
 def main():
-    dt = 0.01
+    dt = 0.00505
     elevator = Elevator(dt)
 
     # Set up graphing
@@ -87,6 +70,7 @@ def main():
     pos = []
     r_pos = []
     vel = []
+    u = []
 
     # Run simulation
     for i in range(len(t)):
@@ -102,12 +86,29 @@ def main():
         pos.append(elevator.x[0, 0])
         r_pos.append(elevator.r[0, 0])
         vel.append(elevator.x[1, 0])
+        u.append(elevator.u[0, 0])
 
-    # Generate plots
+    plt.figure(1)
+    wpicnt.dpzmap(elevator.sysd, title="Open-loop system")
+
+    fig = plt.figure(2)
+    wpicnt.dpzmap(
+        wpicnt.ss_closed_loop(elevator.sysd, elevator.K),
+        title="Closed-loop system")
+
+    plt.figure(3)
+    plt.title("Time-domain response")
+
+    plt.subplot(2, 1, 1)
     plt.plot(t, pos)
     plt.plot(t, r_pos)
+    plt.legend(["Position", "Position reference"])
+
+    plt.subplot(2, 1, 2)
+    plt.plot(t, u)
     plt.xlabel("Time (s)")
-    plt.legend(["Position", "Position reference", "Velocity"])
+    plt.legend(["Control effort"])
+
     plt.show()
 
 

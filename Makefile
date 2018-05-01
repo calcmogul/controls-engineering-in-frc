@@ -7,7 +7,7 @@ SVG := root_locus.svg
 PDF_TEX := $(SVG:.svg=.pdf_tex)
 TEX := $(call rwildcard,./,*.tex)
 BIB := $(wildcard *.bib)
-CODE := $(wildcard code/*)
+CODE := $(call rwildcard,./,*.py)
 FIGS := $(wildcard figs/*)
 
 .PHONY: all

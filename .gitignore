@@ -25,5 +25,6 @@
 !figs/*.pdf
 *.xdv
 *.xml
+__pycache__
 bib-stamp
 format-stamp
