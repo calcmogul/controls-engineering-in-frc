@@ -3,6 +3,8 @@
 \definecolor{deepgreen}{rgb}{0,0.5,0}
 \definecolor{deeporange}{RGB}{243,102,25}
 \definecolor{deepred}{rgb}{0.6,0,0}
+
+\colorlet{themecolor}{deeporange}
 \colorlet{headingbg}{black!5}
 
 % MAIN TABLE OF CONTENTS
@@ -15,10 +17,10 @@
 % Chapter text styling
 \titlecontents{chapter}[1.25cm] % Indentation
   {\addvspace{12pt}\large\sffamily\bfseries} % Spacing and font options
-  {\color{deeporange!60}\contentslabel[\Large\thecontentslabel]{1.25cm}%
-   \color{deeporange}} % Chapter number
-  {\color{deeporange}}
-  {\color{deeporange!60}\normalsize\;%
+  {\color{themecolor!60}\contentslabel[\Large\thecontentslabel]{1.25cm}%
+   \color{themecolor}} % Chapter number
+  {\color{themecolor}}
+  {\color{themecolor!60}\normalsize\;%
    \titlerule*[.5pc]{.}\;\thecontentspage} % Page number
 
 % Section text styling
@@ -66,10 +68,10 @@
 % Chapter text styling
 \titlecontents{lchapter}[0em] % Indentation
   {\addvspace{15pt}\large\sffamily\bfseries} % Spacing and font options
-  {\color{deeporange}\contentslabel[\Large\thecontentslabel]{1.25cm}
-   \color{deeporange}} % Chapter number
-  {\color{deeporange}}
-  {\color{deeporange}\normalsize\sffamily\bfseries\;%
+  {\color{themecolor}\contentslabel[\Large\thecontentslabel]{1.25cm}
+   \color{themecolor}} % Chapter number
+  {\color{themecolor}}
+  {\color{themecolor}\normalsize\sffamily\bfseries\;%
    \titlerule*[.5pc]{.}\;\thecontentspage} % Page number
 
 % Section text styling
@@ -95,15 +97,15 @@
 \newtheorem{notation}{Notation}[chapter]
 
 % Boxed/framed environments
-\newtheoremstyle{deeporangenumbox} % Theorem style name
+\newtheoremstyle{themecolornumbox} % Theorem style name
   {5pt} % Space above
   {5pt} % Space below
   {\normalfont} % Body font
   {} % Indent amount
-  {\small\bf\sffamily\color{deeporange}} % Theorem head font
+  {\small\bf\sffamily\color{themecolor}} % Theorem head font
   {\;} % Punctuation after theorem head
   {0.25em} % Space after theorem head
-  {\small\sffamily\color{deeporange}\thmname{#1}\nobreakspace%
+  {\small\sffamily\color{themecolor}\thmname{#1}\nobreakspace%
    \thmnumber{\@ifnotempty{#1}{}\@upn{#2}} % Theorem text (e.g. Theorem 2.1)
    \thmnote{\nobreakspace\the\thm@notefont\sffamily\bfseries%
             \color{black}---\nobreakspace#3.}
@@ -138,15 +140,15 @@
             \sffamily\bfseries---\nobreakspace#3.}} % Optional theorem note
 
 % Non-boxed/non-framed environments
-\newtheoremstyle{deeporangenum} % Theorem style name
+\newtheoremstyle{themecolornum} % Theorem style name
   {5pt} % Space above
   {5pt} % Space below
   {\normalfont} % Body font
   {} % Indent amount
-  {\small\bf\sffamily\color{deeporange}} % Theorem head font
+  {\small\bf\sffamily\color{themecolor}} % Theorem head font
   {\;} % Punctuation after theorem head
   {0.25em} % Space after theorem head
-  {\small\sffamily\color{deeporange}\thmname{#1}\nobreakspace%
+  {\small\sffamily\color{themecolor}\thmname{#1}\nobreakspace%
    \thmnumber{\@ifnotempty{#1}{}\@upn{#2}} % Theorem text (e.g. Theorem 2.1)
   \thmnote{\nobreakspace\the\thm@notefont\sffamily\bfseries%
            \color{black}---\nobreakspace#3.}} % Optional theorem note
@@ -157,7 +159,7 @@
 % styles above
 \newcounter{dummy}
 \numberwithin{dummy}{section}
-\theoremstyle{deeporangenumbox}
+\theoremstyle{themecolornumbox}
 \newtheorem{theoremeT}[dummy]{Theorem}
 \newtheorem{problem}{Problem}[chapter]
 \newtheorem{exerciseT}{Exercise}[chapter]
@@ -167,7 +169,7 @@
 \newtheorem{vocabulary}{Vocabulary}[chapter]
 \newtheorem{definitionT}{Definition}[section]
 \newtheorem{corollaryT}[dummy]{Corollary}
-\theoremstyle{deeporangenum}
+\theoremstyle{themecolornum}
 \newtheorem{proposition}[dummy]{Proposition}
 
 % DEFINITION OF COLORED BOXES
@@ -179,7 +181,7 @@
 \newmdenv[skipabove=7pt,
           skipbelow=7pt,
           backgroundcolor=black!5,
-          linecolor=deeporange,
+          linecolor=themecolor,
           innerleftmargin=5pt,
           innerrightmargin=5pt,
           innertopmargin=5pt,
@@ -194,8 +196,8 @@
           leftline=true,
           topline=false,
           bottomline=false,
-          backgroundcolor=deeporange!10,
-          linecolor=deeporange,
+          backgroundcolor=themecolor!10,
+          linecolor=themecolor,
           innerleftmargin=5pt,
           innerrightmargin=5pt,
           innertopmargin=5pt,
@@ -211,7 +213,7 @@
           leftline=true,
           topline=false,
           bottomline=false,
-          linecolor=deeporange,
+          linecolor=themecolor,
           innerleftmargin=5pt,
           innerrightmargin=5pt,
           innertopmargin=2.5pt,
@@ -242,7 +244,7 @@
 \newenvironment{theorem}{\begin{tBox}\begin{theoremeT}}%
   {\end{theoremeT}\end{tBox}}
 \newenvironment{exercise}{\begin{eBox}\begin{exerciseT}}%
-  {\hfill{\color{deeporange}\tiny\ensuremath{\blacksquare}}%
+  {\hfill{\color{themecolor}\tiny\ensuremath{\blacksquare}}%
    \end{exerciseT}\end{eBox}}
 \newenvironment{definition}{\begin{dBox}\begin{definitionT}}%
   {\end{definitionT}\end{dBox}}
@@ -259,8 +261,8 @@
     \rightmargin=25pt}\item\ignorespaces % Indentation on the right
     \makebox[-2.5pt]{%
       \begin{tikzpicture}[overlay]
-        \node[draw=deeporange!60,line width=1pt,circle,fill=deeporange!25,font=\sffamily\bfseries,inner sep=2pt,outer sep=0pt] at (-15pt,0pt)%
-          {\textcolor{deeporange}{R}}; % Orange R in a circle
+        \node[draw=themecolor!60,line width=1pt,circle,fill=themecolor!25,font=\sffamily\bfseries,inner sep=2pt,outer sep=0pt] at (-15pt,0pt)%
+          {\textcolor{themecolor}{R}}; % Orange R in a circle
       \end{tikzpicture}%
     }
     \advance\baselineskip -1pt}%
@@ -269,7 +271,7 @@
 % SECTION NUMBERING IN THE MARGIN
 
 \makeatletter
-\renewcommand{\@seccntformat}[1]{\llap{\textcolor{deeporange}%
+\renewcommand{\@seccntformat}[1]{\llap{\textcolor{themecolor}%
   {\csname the#1\endcsname}\hspace{1em}}}
 \renewcommand{\section}{\@startsection{section}{1}{\z@}
   {-4ex \@plus -1ex \@minus -.4ex}
@@ -293,17 +295,17 @@
 % numbered part in the table of contents
 \newcommand{\@mypartnumtocformat}[2]{%
   \setlength\fboxsep{0pt}%
-  \noindent\colorbox{deeporange!20}{%
+  \noindent\colorbox{themecolor!20}{%
     \strut\parbox[c][.7cm]{\ecart}{%
-      \color{deeporange!70}\Large\sffamily\bfseries\centering#1}}%
-  \hskip\esp\colorbox{deeporange!40}{%
+      \color{themecolor!70}\Large\sffamily\bfseries\centering#1}}%
+  \hskip\esp\colorbox{themecolor!40}{%
     \strut\parbox[c][.7cm]{\linewidth-\ecart-\esp}{%
       \Large\sffamily\centering#2}}}%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % unnumbered part in the table of contents
 \newcommand{\@myparttocformat}[1]{%
   \setlength\fboxsep{0pt}%
-  \noindent\colorbox{deeporange!40}{%
+  \noindent\colorbox{themecolor!40}{%
     \strut\parbox[c][.7cm]{\linewidth}{%
       \Large\sffamily\centering#1}}}%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -330,9 +332,9 @@
     \begin{tikzpicture}[remember picture,overlay]%
       \node at (current page.north west){%
         \begin{tikzpicture}[remember picture,overlay]%
-          \fill[deeporange!20](0cm,0cm) rectangle (\paperwidth,-\paperheight);
+          \fill[themecolor!20](0cm,0cm) rectangle (\paperwidth,-\paperheight);
           \node[anchor=north] at (4cm,-3.25cm){%
-            \color{deeporange!40}\fontsize{220}{100}\sffamily\bfseries\thepart};
+            \color{themecolor!40}\fontsize{220}{100}\sffamily\bfseries\thepart};
           \node[anchor=south east] at (\paperwidth-1cm,-\paperheight+1cm){%
             \parbox[t][][t]{8.5cm}{%
               \printcontents{l}{0}{%
@@ -356,7 +358,7 @@
   \begin{tikzpicture}[remember picture,overlay]%
     \node at (current page.north west){%
       \begin{tikzpicture}[remember picture,overlay]%
-        \fill[deeporange!20](0cm,0cm) rectangle (\paperwidth,-\paperheight);
+        \fill[themecolor!20](0cm,0cm) rectangle (\paperwidth,-\paperheight);
         \node[anchor=north east] at (\paperwidth-1.5cm,-3.25cm){%
           \parbox[t][][t]{15cm}{%
             \strut\raggedleft\color{white}\fontsize{30}{30}\sffamily\bfseries#1}
@@ -367,7 +369,7 @@
   }
   \addcontentsline{toc}{part}{\texorpdfstring{%
     \setlength\fboxsep{0pt}%
-    \noindent\protect\colorbox{deeporange!40}{%
+    \noindent\protect\colorbox{themecolor!40}{%
       \strut\protect\parbox[c][.7cm]{\linewidth}{%
         \Large\sffamily\protect\centering #1\quad\mbox{}}}}{#1}
   }%
@@ -411,7 +413,7 @@
               {\ifusechapterimage\includegraphics[width=\paperwidth]%
                {\thechapterimage}\fi};
             \draw[anchor=west] (\Gm@lmargin,-9cm) node%
-              [line width=2pt,rounded corners=15pt,draw=deeporange,fill=white,%
+              [line width=2pt,rounded corners=15pt,draw=themecolor,fill=white,%
                fill opacity=0.5,inner sep=15pt]{\strut\makebox[22cm]{}};
             \draw[anchor=west] (\Gm@lmargin+.3cm,-9cm) node%
               {\huge\sffamily\bfseries\color{black}\thechapter\autodot~#1\strut};
@@ -426,7 +428,7 @@
               {\ifusechapterimage\includegraphics[width=\paperwidth]{%
                \thechapterimage}\fi};
             \draw[anchor=west] (\Gm@lmargin,-9cm) node%
-              [line width=2pt,rounded corners=15pt,draw=deeporange,fill=white,%
+              [line width=2pt,rounded corners=15pt,draw=themecolor,fill=white,%
                fill opacity=0.5,inner sep=15pt]{\strut\makebox[22cm]{}};
             \draw[anchor=west] (\Gm@lmargin+.3cm,-9cm) node%
               {\huge\sffamily\bfseries\color{black}#1\strut};
@@ -446,7 +448,7 @@
             \includegraphics[width=\paperwidth]{\thechapterimage}
           \fi};
         \draw[anchor=west] (\Gm@lmargin,-9cm) node%
-          [line width=2pt,rounded corners=15pt,draw=deeporange,fill=white,%
+          [line width=2pt,rounded corners=15pt,draw=themecolor,fill=white,%
            fill opacity=0.5,inner sep=15pt]{\strut\makebox[22cm]{}};
         \draw[anchor=west] (\Gm@lmargin+.3cm,-9cm) node%
           {\huge\sffamily\bfseries\color{black}#1\strut};
@@ -462,7 +464,7 @@
     \bookmarksetup{bold}%
   \fi
   \ifnum\bookmarkget{level}=-1 % part
-    \bookmarksetup{color=deeporange,bold}%
+    \bookmarksetup{color=themecolor,bold}%
   \fi
 }
 }
