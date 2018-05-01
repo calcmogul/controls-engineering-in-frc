@@ -61,12 +61,14 @@ Negative feedback loops drive the difference between the \gls{reference} and
 \section{Types of PID controllers}
 
 PID controller inputs of different orders of derivatives, such as position and
-velocity, affect the \gls{system} response differently. The position PID
-controller is defined as
+velocity, affect the \gls{system} response differently. Below is the standard
+form for a position PID controller.
 
-\begin{equation}
-  u(t) = K_p e(t) + K_i \int_0^t e(\tau) d\tau + K_d \frac{de}{dt}
-\end{equation}
+\begin{definition}[Position PID controller]
+  \begin{equation}
+    u(t) = K_p e(t) + K_i \int_0^t e(\tau) d\tau + K_d \frac{de}{dt}
+  \end{equation}
+\end{definition}
 
 If a velocity is passed instead, which is a change in position, the equation
 becomes
@@ -86,9 +88,11 @@ use since the $K_i$ term in equation (\ref{eq:pid_vel}) also eliminates
 steady-state error for step changes in \gls{reference}. Relabelling the
 coefficients to match the position PID controller gives
 
-\begin{equation}
-  \frac{du}{dt} = K_p \int_0^t e(\tau) d\tau + K_d e(t)
-\end{equation}
+\begin{theorem}[Velocity PID controller]
+  \begin{equation}
+    \frac{du}{dt} = K_p \int_0^t e(\tau) d\tau + K_d e(t)
+  \end{equation}
+\end{theorem}
 
 Read \url{https://en.wikipedia.org/wiki/PID_controller} for more information.
 

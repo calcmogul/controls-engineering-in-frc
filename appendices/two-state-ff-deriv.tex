@@ -74,13 +74,21 @@ $\mtx{u}$ and setting that to $\mtx{0}$.
   \mtx{K}_{ff}(\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k) &=
     (\mtx{B}^T\mtx{Q}^T\mtx{B} +
     \mtx{R}^T)^{-1}\mtx{B}^T\mtx{Q}^T(\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k)
-    \nonumber \\
-  \mtx{K}_{ff} &= (\mtx{B}^T\mtx{Q}^T\mtx{B} + \mtx{R}^T)^{-1}\mtx{B}^T\mtx{Q}^T
+    \nonumber
 \end{align}
+
+\begin{theorem}[Two-state feedforward]
+  \begin{equation}
+    \mtx{K}_{ff} =
+      (\mtx{B}^T\mtx{Q}^T\mtx{B} + \mtx{R}^T)^{-1}\mtx{B}^T\mtx{Q}^T
+  \end{equation}
+\end{theorem}
 
 If control effort is considered inexpensive, $\mtx{R} \ll \mtx{Q}$ and
 $\mtx{K}_{ff}$ approaches the following.
 
-\begin{equation}
-  \mtx{K}_{ff} = (\mtx{B}^T\mtx{Q}^T\mtx{B})^{-1}\mtx{B}^T\mtx{Q}^T
-\end{equation}
+\begin{theorem}[Two-state feedforward with inexpensive control effort]
+  \begin{equation}
+    \mtx{K}_{ff} = (\mtx{B}^T\mtx{Q}^T\mtx{B})^{-1}\mtx{B}^T\mtx{Q}^T
+  \end{equation}
+\end{theorem}

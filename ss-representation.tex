@@ -85,20 +85,25 @@ observer) are complementary problems.
 
 State controllability implies that it is possible -- by admissible inputs -- to
 steer the \glspl{state} from any initial value to any final value within some
-finite time window. A continuous \gls{time-invariant} linear state-space
-\gls{model} is controllable if and only if
+finite time window.
 
-\begin{equation}
-  \text{rank} \left(\left[
-  \begin{array}{ccccc}
-    \mtx{B} & \mtx{A}\mtx{B} & \mtx{A}^2\mtx{B} & \cdots & \mtx{A}^{n-1}\mtx{B}
-  \end{array}
-  \right]\right) = n
-  \label{eq:ctrl_rank}
-\end{equation}
+\begin{theorem}[Controllable canonical form]
+  A continuous \gls{time-invariant} linear state-space \gls{model} is
+  controllable if and only if
 
-where rank is the number of linearly independent rows in a matrix and $n$ is the
-number of \gls{state} variables.
+  \begin{equation}
+    \text{rank} \left(\left[
+    \begin{array}{ccccc}
+      \mtx{B} & \mtx{A}\mtx{B} & \mtx{A}^2\mtx{B} & \cdots &
+      \mtx{A}^{n-1}\mtx{B}
+    \end{array}
+    \right]\right) = n
+    \label{eq:ctrl_rank}
+  \end{equation}
+
+  where rank is the number of linearly independent rows in a matrix and $n$ is
+  the number of \gls{state} variables.
+\end{theorem}
 
 Given a \gls{system} of the form
 
@@ -143,19 +148,24 @@ controllability proves that an input is available that brings any initial
 an output trajectory provides enough information to predict the initial
 \gls{state} of the \gls{system}).
 
-A continuous \gls{time-invariant} linear state-space \gls{model} is observable
-if and only if
+\begin{theorem}[Observable canonical form]
+  A continuous \gls{time-invariant} linear state-space \gls{model} is observable
+  if and only if
 
-\begin{equation} \label{eq:obsv_rank}
-  \text{rank} \left(\left[
-  \begin{array}{c}
-    C \\
-    CA \\
-    \vdots \\
-    CA^{n-1}
-  \end{array}
-  \right]\right) = n
-\end{equation}
+  \begin{equation} \label{eq:obsv_rank}
+    \text{rank} \left(\left[
+    \begin{array}{c}
+      C \\
+      CA \\
+      \vdots \\
+      CA^{n-1}
+    \end{array}
+    \right]\right) = n
+  \end{equation}
+
+  where rank is the number of linearly independent rows in a matrix and $n$ is
+  the number of \gls{state} variables.
+\end{theorem}
 
 The canonical \gls{realization} of the \gls{system} in equation
 (\ref{eq:ctrl_obsv_tf}) that satisfies equation (\ref{eq:obsv_rank}) is

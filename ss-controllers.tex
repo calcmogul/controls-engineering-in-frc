@@ -12,9 +12,11 @@ In state-space, we also have knowledge of the system states so we can do better.
 The optimal \gls{control law} for a multiple-input, multiple-output system is
 the following.
 
-\begin{equation}
-  \mtx{u} = -\mtx{K}\mtx{x}
-\end{equation}
+\begin{theorem}[Optimal control law]
+  \begin{equation}
+    \mtx{u} = -\mtx{K}\mtx{x}
+  \end{equation}
+\end{theorem}
 
 This means that optimal control can be achieved with simply a set of
 proportional gains on all the states. The reason for this will be explained when
@@ -24,9 +26,11 @@ This \gls{control law} will make all states converge to zero assuming the system
 is controllable. To converge to non-zero states, a reference vector $\mtx{r}$
 can be added to the state $\mtx{x}$.
 
-\begin{equation}
-  \mtx{u} = \mtx{K}(\mtx{r} - \mtx{x}) \label{eq:s_ref_ctrl_law}
-\end{equation}
+\begin{theorem}[Optimal control law with non-zero reference]
+  \begin{equation}
+    \mtx{u} = \mtx{K}(\mtx{r} - \mtx{x}) \label{eq:s_ref_ctrl_law}
+  \end{equation}
+\end{theorem}
 
 \section{Controller}
 
@@ -42,7 +46,6 @@ First is the state update equation. Substitute equation
   \dot{\mtx{x}} &= \mtx{A}\mtx{x} + \mtx{B}\mtx{K}\mtx{r} -
     \mtx{B}\mtx{K}\mtx{x} \nonumber \\
   \dot{\mtx{x}} &= (\mtx{A} - \mtx{B}\mtx{K})\mtx{x} + \mtx{B}\mtx{K}\mtx{r}
-    \label{eq:s_ref_ctrl_x}
 \end{align}
 
 Now for the output equation. Substitute equation (\ref{eq:s_ref_ctrl_law}) into
@@ -53,19 +56,27 @@ equation (\ref{eq:ss_ctrl_y}).
   \mtx{y} &= \mtx{C}\mtx{x} + \mtx{D}\mtx{K}\mtx{r} - \mtx{D}\mtx{K}\mtx{x}
     \nonumber \\
   \mtx{y} &= (\mtx{C} - \mtx{D}\mtx{K})\mtx{x} + \mtx{D}\mtx{K}\mtx{r}
-    \label{eq:s_ref_ctrl_y}
 \end{align}
 
-\begin{center}
-  \renewcommand{\arraystretch}{1.3}
-  \begin{tabulary}{\linewidth}{LLLL}
-    $\mtx{A}$ & system matrix      & $\mtx{x}$ & state vector \\
-    $\mtx{B}$ & input matrix       & $\mtx{u}$ & input vector \\
-    $\mtx{C}$ & output matrix      & $\mtx{y}$ & output vector \\
-    $\mtx{D}$ & feedthrough matrix & $\mtx{r}$ & \gls{reference} vector \\
-    $\mtx{K}$ & controller gain matrix &  &  \\
-  \end{tabulary}
-\end{center}
+\begin{theorem}[Closed-loop state-space controller]
+  \begin{align}
+    \dot{\mtx{x}} &= (\mtx{A} - \mtx{B}\mtx{K})\mtx{x} + \mtx{B}\mtx{K}\mtx{r}
+      \label{eq:s_ref_ctrl_x} \\
+    \mtx{y} &= (\mtx{C} - \mtx{D}\mtx{K})\mtx{x} + \mtx{D}\mtx{K}\mtx{r}
+      \label{eq:s_ref_ctrl_y}
+  \end{align}
+
+  \begin{center}
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabulary}{\linewidth}{LLLL}
+      $\mtx{A}$ & system matrix      & $\mtx{x}$ & state vector \\
+      $\mtx{B}$ & input matrix       & $\mtx{u}$ & input vector \\
+      $\mtx{C}$ & output matrix      & $\mtx{y}$ & output vector \\
+      $\mtx{D}$ & feedthrough matrix & $\mtx{r}$ & \gls{reference} vector \\
+      $\mtx{K}$ & controller gain matrix &  &  \\
+    \end{tabulary}
+  \end{center}
+\end{theorem}
 
 \begin{table}[h]
   \renewcommand{\arraystretch}{1.5}

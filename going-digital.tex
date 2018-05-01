@@ -102,29 +102,35 @@ lead to instability.
 The exact method of computing the zero-order hold for state-space is shown
 below.
 
-\begin{align}
-  \mtx{A}_d &= e^{\mtx{A}_c T} \\
-  \mtx{B}_d &= \int_0^T e^{\mtx{A}_c \tau} d\tau \mtx{B}_c \\
-  \mtx{C}_d &= \mtx{C}_c \\
-  \mtx{D}_d &= \mtx{D}_c
-\end{align}
+\begin{theorem}[Zero-order hold for state-space]
+  \begin{align}
+    \mtx{A}_d &= e^{\mtx{A}_c T} \\
+    \mtx{B}_d &= \int_0^T e^{\mtx{A}_c \tau} d\tau \mtx{B}_c \\
+    \mtx{C}_d &= \mtx{C}_c \\
+    \mtx{D}_d &= \mtx{D}_c
+  \end{align}
 
-where a subscript of $d$ denotes discrete, a subscript of $c$ denotes
-continuous, and $T$ is the sample period for the discrete system.
-$e^{\mtx{A}_c T}$ and others are referred to as matrix exponentials. We will use
-Python Control's \texttt{sample\_system()} function to perform these
-calculations later.
+  where a subscript of $d$ denotes discrete, a subscript of $c$ denotes
+  continuous, $T$ is the sample period for the discrete system, and
+  $e^{\mtx{A}_c T}$ is the matrix exponential of $\mtx{A}_c$.
+\end{theorem}
 
 See the Wikipedia page on discretization for more \cite{bib:discretization}.
 
 \subsection{Computing the matrix exponential}
 
-Let $\mtx{X}$ be an $n \times n$ matrix. The exponential of $\mtx{X}$ denoted by
-$e^{\mtx{X}}$ is the $n \times n$ matrix given by the power series below.
+The matrix exponential is typically solved with a computer. We will use Python
+Control's \texttt{sample\_system()} function for this purpose later.
 
-\begin{equation}
-  e^{\mtx{X}} = \sum_{k=0}^\infty \frac{1}{k!} \mtx{X}^k
-\end{equation}
+\begin{definition}[Matrix exponential]
+  Let $\mtx{X}$ be an $n \times n$ matrix. The exponential of $\mtx{X}$ denoted
+  by $e^{\mtx{X}}$ is the $n \times n$ matrix given by the following power
+  series.
 
-where $\mtx{X}^0$ is defined to be the identity matrix $\mtx{I}$ with the same
-dimensions as $\mtx{X}$.
+  \begin{equation}
+    e^{\mtx{X}} = \sum_{k=0}^\infty \frac{1}{k!} \mtx{X}^k
+  \end{equation}
+
+  where $\mtx{X}^0$ is defined to be the identity matrix $\mtx{I}$ with the same
+  dimensions as $\mtx{X}$.
+\end{definition}
