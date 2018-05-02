@@ -22,6 +22,30 @@ def dpzmap(sys, title):
     ax.set_aspect(abs(x1 - x0) / abs(y1 - y0))
 
 
-def ss_closed_loop(sys, K):
-    """Constructs the closed-loop system given a controller K."""
-    return cnt.StateSpace(sys.A - sys.B * K, sys.B, sys.C, sys.D)
+def closed_loop_ctrl(system):
+    """Constructs the closed-loop system for a controller.
+
+    Keyword arguments:
+    system -- a System instance
+
+    Returns:
+    StateSpace instance representing closed-loop controller.
+    """
+    return cnt.StateSpace(system.sysd.A - system.sysd.B * system.K,
+                          system.sysd.B, system.sysd.C, system.sysd.D)
+
+
+1
+
+
+def closed_loop_obsv(system):
+    """Constructs the closed-loop system for an observer.
+
+    Keyword arguments:
+    system -- a System instance
+
+    Returns:
+    StateSpace instance representing closed-loop observer.
+    """
+    return cnt.StateSpace(system.sysd.A - system.L * system.sysd.C,
+                          system.sysd.B, system.sysd.C, system.sysd.D)

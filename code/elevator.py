@@ -28,6 +28,14 @@ class Elevator(wpicnt.System):
         R = self.make_lqr_cost_matrix([12.0])
         self.design_dlqr_controller(Q, R)
 
+        # Design Kalman filter
+        q_pos = 0.05
+        q_vel = 1.0
+        r_pos = 0.0001
+        Q = self.make_cov_matrix([q_pos, q_vel])
+        R = self.make_cov_matrix([r_pos])
+        self.design_kalman_filter(Q, R)
+
 
 def frange(x, y, jump):
     while x < y:
@@ -69,14 +77,16 @@ def main():
     plt.figure(1)
 
     # Plot pole-zero map of open-loop system
-    plt.subplot(1, 2, 1)
+    plt.subplot(2, 2, 1)
     wpicnt.dpzmap(elevator.sysd, title="Open-loop system")
 
     # Plot pole-zero map of closed-loop system
-    plt.subplot(1, 2, 2)
-    wpicnt.dpzmap(
-        wpicnt.ss_closed_loop(elevator.sysd, elevator.K),
-        title="Closed-loop system")
+    plt.subplot(2, 2, 2)
+    wpicnt.dpzmap(wpicnt.closed_loop_ctrl(elevator), title="Closed-loop system")
+
+    # Plot observer poles
+    plt.subplot(2, 2, 3)
+    wpicnt.dpzmap(wpicnt.closed_loop_obsv(elevator), title="Observer poles")
 
     plt.figure(2)
 

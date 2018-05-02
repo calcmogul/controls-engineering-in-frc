@@ -26,9 +26,9 @@ def kalman(sys, Q, R):
 
     # Compute the steady state covariance matrix.
     P_prior, rcond, w, S, T = slycot.sb02od(
-        n=n, m=m, A=A.T, B=C.T, Q=Q, R=R, dico='D')
-    S = C * P_prior * C.T + R
-    K = np.linalg.lstsq(S.T, (P_prior * C.T).T)[0].T
-    P = (I - K * C) * P_prior
+        n=n, m=m, A=sys.A.T, B=sys.C.T, Q=Q, R=R, dico='D')
+    S = sys.C * P_prior * sys.C.T + R
+    K = np.linalg.lstsq(S.T, (P_prior * sys.C.T).T)[0].T
+    P = (I - K * sys.C) * P_prior
 
     return K, P
