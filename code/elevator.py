@@ -1,49 +1,27 @@
 #!/usr/bin/env python3
 
 import matplotlib.pyplot as plt
-import numpy as np
 import wpicontrol as wpicnt
 
 
 class Elevator(wpicnt.System):
 
     def __init__(self, dt):
-        self.num_motors = 2.0
-        # Stall torque in N-m
-        self.stall_torque = 2.402 * self.num_motors * 0.60
-        # Stall current in A
-        self.stall_current = 126.145 * self.num_motors
-        # Free speed in RPM
-        self.free_speed_rpm = 5015.562
-        # Free speed in rotations per second
-        self.free_speed = self.free_speed_rpm / 60
-        # Free current in Amps
-        self.free_current = 1.170 * self.num_motors
+        """Elevator subsystem.
+
+        Keyword arguments:
+        dt -- time between model/controller updates
+        """
         # Robot mass in kg
-        self.m = 52
-        # Resistance of motor
-        self.R = 12.0 / self.stall_current
+        self.m = 6.803886
         # Radius of pulley in meters
         self.r = 0.02762679089
-        # Motor velocity constant
-        self.Kv = ((self.free_speed * 2.0 * np.pi) /
-                   (12.0 - self.R * self.free_current))
-        # Torque constant
-        self.Kt = self.stall_torque / self.stall_current
         # Gear ratio
         self.G = 42.0 / 12.0 * 40.0 / 14.0
 
-        # State feedback matrices
-        # States: [[position], [velocity]]
-        # Inputs: [[voltage]]
-        # Outputs: [[position]]
-        A = np.matrix([[0, 1], [
-            0, -self.G**2 * self.Kt / (self.R**2 * self.r * self.m * self.Kv)
-        ]])
-        B = np.matrix([[0], [self.G * self.Kt / (self.R * self.r * self.m)]])
-        C = np.matrix([[1, 0]])
-        D = np.matrix([[0]])
-        wpicnt.System.__init__(self, A, B, C, D, -12.0, 12.0, dt)
+        self.model = wpicnt.models.elevator(wpicnt.models.MOTOR_CIM, self.m,
+                                            self.r, self.G)
+        wpicnt.System.__init__(self, self.model, -12.0, 12.0, dt)
 
         # Design LQR controller
         Q = self.make_lqr_cost_matrix([0.02, 0.4])

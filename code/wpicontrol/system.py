@@ -9,16 +9,24 @@ from . import dlqr
 
 class System():
 
-    def __init__(self, A, B, C, D, U_min, U_max, dt):
-        self.sysc = cnt.ss(A, B, C, D)
-        self.sysd = self.sysc.sample(dt)  # Discretize model
+    def __init__(self, sysc, U_min, U_max, dt):
+        """Sets up the matrices for a state-space model.
 
-        self.x = np.zeros((A.shape[0], 1))
-        self.u = np.zeros((B.shape[1], 1))
-        self.r = np.zeros((A.shape[0], 1))
+        Keyword arguments:
+        sysc -- StateSpace instance containing continuous state-space model
+        U_min -- vector of minimum control inputs for system
+        U_max -- vector of maximum control inputs for system
+        dt -- time between model/controller updates
+        """
+        self.sysc = sysc
+        self.sysd = sysc.sample(dt)  # Discretize model
+
+        self.x = np.zeros((sysc.A.shape[0], 1))
+        self.u = np.zeros((sysc.B.shape[1], 1))
+        self.r = np.zeros((sysc.A.shape[0], 1))
         self.U_min = U_min
         self.U_max = U_max
-        self.K = np.zeros((B.shape[1], B.shape[0]))
+        self.K = np.zeros((sysc.B.shape[1], sysc.B.shape[0]))
 
     def update(self):
         """Advance the model by one timestep."""
