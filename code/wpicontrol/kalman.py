@@ -1,6 +1,6 @@
 import control as cnt
 import numpy as np
-import slycot
+import scipy
 
 
 def kalman(sys, Q, R):
@@ -25,10 +25,9 @@ def kalman(sys, Q, R):
               observability_rank, n)
 
     # Compute the steady state covariance matrix.
-    P_prior, rcond, w, S, T = slycot.sb02od(
-        n=n, m=m, A=sys.A.T, B=sys.C.T, Q=Q, R=R, dico='D')
+    P_prior = scipy.linalg.solve_discrete_are(a=sys.A.T, b=sys.C.T, q=Q, r=R)
     S = sys.C * P_prior * sys.C.T + R
-    K = np.linalg.lstsq(S.T, (P_prior * sys.C.T).T)[0].T
+    K = np.linalg.lstsq(S.T, (P_prior * sys.C.T).T, rcond=None)[0].T
     P = (I - K * sys.C) * P_prior
 
     return K, P

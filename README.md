@@ -16,6 +16,7 @@ This document reads a lot like a reference manual on control theory and related 
 * Python 3.5+
   * Python Control (to generate plots and state-space results)
   * yapf (to format Python source code)
+* tk (required on some Linux platforms as a backend for matplotlib)
 * Inkscape (to convert SVGs to PDF)
 * ghostscript (to reduce size of final PDF for publishing)
 

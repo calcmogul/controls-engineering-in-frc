@@ -1,5 +1,5 @@
 import numpy as np
-import slycot
+import scipy
 
 
 def dlqr(sys, Q, R):
@@ -19,15 +19,7 @@ def dlqr(sys, Q, R):
   """
 
     # P = (A.T * P * A) - (A.T * P * B * np.linalg.inv(R + B.T * P *B) * (A.T * P.T * B).T + Q
-
-    P, rcond, w, S, T = slycot.sb02od(
-        n=sys.A.shape[0],
-        m=sys.B.shape[1],
-        A=sys.A,
-        B=sys.B,
-        Q=Q,
-        R=R,
-        dico='D')
+    P = scipy.linalg.solve_discrete_are(a=sys.A, b=sys.B, q=Q, r=R)
 
     F = np.linalg.inv(R + sys.B.T * P * sys.B) * sys.B.T * P * sys.A
     return F
