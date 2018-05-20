@@ -88,8 +88,9 @@ class System():
     def __make_lqr_cost_matrix(self, elems):
         """Creates a cost matrix from the given vector for use with LQR.
 
-        The inverse square of each element in the input is taken and placed on
-        the cost matrix diagonal. This is known as Bryson's rule.
+        The cost matrix is constructed using Bryson's rule. The inverse square
+        of each element in the input is taken and placed on the cost matrix
+        diagonal.
 
         Keyword arguments:
         elems -- a vector. For a Q matrix, its elements are the maximum allowed

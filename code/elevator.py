@@ -12,7 +12,7 @@ class Elevator(wpicnt.System):
         Keyword arguments:
         dt -- time between model/controller updates
         """
-        # Robot mass in kg
+        # Elevator carriage mass in kg
         self.m = 6.803886
         # Radius of pulley in meters
         self.r = 0.02762679089
@@ -23,10 +23,8 @@ class Elevator(wpicnt.System):
                                             self.r, self.G)
         wpicnt.System.__init__(self, self.model, -12.0, 12.0, dt)
 
-        # Design LQR controller
         self.design_dlqr_controller([0.02, 0.4], [12.0])
 
-        # Design Kalman filter
         q_pos = 0.05
         q_vel = 1.0
         r_pos = 0.0001
