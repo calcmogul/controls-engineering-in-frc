@@ -24,17 +24,13 @@ class Elevator(wpicnt.System):
         wpicnt.System.__init__(self, self.model, -12.0, 12.0, dt)
 
         # Design LQR controller
-        Q = self.make_lqr_cost_matrix([0.02, 0.4])
-        R = self.make_lqr_cost_matrix([12.0])
-        self.design_dlqr_controller(Q, R)
+        self.design_dlqr_controller([0.02, 0.4], [12.0])
 
         # Design Kalman filter
         q_pos = 0.05
         q_vel = 1.0
         r_pos = 0.0001
-        Q = self.make_cov_matrix([q_pos, q_vel])
-        R = self.make_cov_matrix([r_pos])
-        self.design_kalman_filter(Q, R)
+        self.design_kalman_filter([q_pos, q_vel], [r_pos])
 
 
 def frange(x, y, jump):
