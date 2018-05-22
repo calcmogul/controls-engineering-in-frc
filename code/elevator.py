@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 
+import frccontrol as frccnt
 import matplotlib.pyplot as plt
-import wpicontrol as wpicnt
 
 
-class Elevator(wpicnt.System):
+class Elevator(frccnt.System):
 
     def __init__(self, dt):
         """Elevator subsystem.
@@ -19,9 +19,9 @@ class Elevator(wpicnt.System):
         # Gear ratio
         self.G = 42.0 / 12.0 * 40.0 / 14.0
 
-        self.model = wpicnt.models.elevator(wpicnt.models.MOTOR_CIM, self.m,
+        self.model = frccnt.models.elevator(frccnt.models.MOTOR_CIM, self.m,
                                             self.r, self.G)
-        wpicnt.System.__init__(self, self.model, -12.0, 12.0, dt)
+        frccnt.System.__init__(self, self.model, -12.0, 12.0, dt)
 
         self.design_dlqr_controller([0.02, 0.4], [12.0])
 
@@ -72,15 +72,15 @@ def main():
 
     # Plot pole-zero map of open-loop system
     plt.subplot(2, 2, 1)
-    wpicnt.dpzmap(elevator.sysd, title="Open-loop system")
+    frccnt.dpzmap(elevator.sysd, title="Open-loop system")
 
     # Plot pole-zero map of closed-loop system
     plt.subplot(2, 2, 2)
-    wpicnt.dpzmap(wpicnt.closed_loop_ctrl(elevator), title="Closed-loop system")
+    frccnt.dpzmap(frccnt.closed_loop_ctrl(elevator), title="Closed-loop system")
 
     # Plot observer poles
     plt.subplot(2, 2, 3)
-    wpicnt.dpzmap(wpicnt.closed_loop_obsv(elevator), title="Observer poles")
+    frccnt.dpzmap(frccnt.closed_loop_obsv(elevator), title="Observer poles")
 
     plt.figure(2)
 
