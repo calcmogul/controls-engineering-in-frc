@@ -395,12 +395,14 @@
 
 % CHAPTER HEADINGS
 
-% A switch to conditionally include a picture, implemented by  Christian Hupfer
+% A switch to conditionally include a picture
 \newif\ifusechapterimage
 \usechapterimagetrue
 \newcommand{\thechapterimage}{}%
-\newcommand{\chapterimage}[1]{%
-  \ifusechapterimage\renewcommand{\thechapterimage}{#1}\fi}%
+\newcommand{\thechapterimagecaption}{}%
+\newcommand{\chapterimage}[2]{%
+  \ifusechapterimage\renewcommand{\thechapterimage}{#1}%
+  \renewcommand{\thechapterimagecaption}{#2}\fi}%
 \newcommand{\autodot}{.}
 \def\@makechapterhead#1{{%
   \parindent \z@ \raggedright \normalfont
@@ -412,6 +414,11 @@
             \node[anchor=north west,inner sep=0pt] at (0,0)%
               {\ifusechapterimage\includegraphics[width=\paperwidth]%
                {\thechapterimage}\fi};
+            \draw[anchor=west] (\paperwidth*0.6,-0.5cm) node [line width=2pt,%
+                rounded corners=5pt,fill=white,fill opacity=0.5,%
+                inner sep=0.5pt]{\strut\makebox[8.5cm]{}};
+            \draw[anchor=west] (\paperwidth*0.6,-0.5cm) node%
+              {\tiny\sffamily\bfseries\itshape\color{black}\thechapterimagecaption};
             \draw[anchor=west] (\Gm@lmargin,-9cm) node%
               [line width=2pt,rounded corners=15pt,draw=themecolor,fill=white,%
                fill opacity=0.5,inner sep=15pt]{\strut\makebox[22cm]{}};
@@ -425,8 +432,13 @@
         \node at (current page.north west){%
           \begin{tikzpicture}[remember picture,overlay]
             \node[anchor=north west,inner sep=0pt] at (0,0)%
-              {\ifusechapterimage\includegraphics[width=\paperwidth]{%
-               \thechapterimage}\fi};
+              {\ifusechapterimage\includegraphics[width=\paperwidth]%
+               {\thechapterimage}\fi};
+            \draw[anchor=west] (\paperwidth*0.6,-0.5cm) node [line width=2pt,%
+                rounded corners=5pt,fill=white,fill opacity=0.5,%
+                inner sep=0.5pt]{\strut\makebox[8.5cm]{}};
+            \draw[anchor=west] (\paperwidth*0.6,-0.5cm) node%
+              {\tiny\sffamily\bfseries\itshape\color{black}\thechapterimagecaption};
             \draw[anchor=west] (\Gm@lmargin,-9cm) node%
               [line width=2pt,rounded corners=15pt,draw=themecolor,fill=white,%
                fill opacity=0.5,inner sep=15pt]{\strut\makebox[22cm]{}};
@@ -447,6 +459,11 @@
           \ifusechapterimage
             \includegraphics[width=\paperwidth]{\thechapterimage}
           \fi};
+        \draw[anchor=west] (\paperwidth*0.6,-0.5cm) node [line width=2pt,%
+            rounded corners=5pt,fill=white,fill opacity=0.5,inner sep=0.5pt]%
+            {\strut\makebox[8.5cm]{}};
+        \draw[anchor=west] (\paperwidth*0.6,-0.5cm) node%
+          {\tiny\sffamily\bfseries\itshape\color{black}\thechapterimagecaption};
         \draw[anchor=west] (\Gm@lmargin,-9cm) node%
           [line width=2pt,rounded corners=15pt,draw=themecolor,fill=white,%
            fill opacity=0.5,inner sep=15pt]{\strut\makebox[22cm]{}};
