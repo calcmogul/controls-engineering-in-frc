@@ -67,34 +67,39 @@ form for a position PID controller.
 \begin{definition}[Position PID controller]
   \begin{equation}
     u(t) = K_p e(t) + K_i \int_0^t e(\tau) d\tau + K_d \frac{de}{dt}
+    \label{def:pos_pid}
   \end{equation}
 \end{definition}
 
-If a velocity is passed instead, which is a change in position, the equation
-becomes
+If the controller is measuring and controlling velocity instead, the control
+input $u(t)$ becomes $\frac{du}{dt}$ and the error $e(t)$ becomes
+$\frac{de}{dt}$. Substituting these into equation (\ref{def:pos_pid}) yields
 
 \begin{align}
   \frac{du}{dt} &= K_p \frac{de}{dt} + K_i \int_0^t \frac{de}{d\tau} d\tau +
     K_d \frac{d^2e}{dt^2} \nonumber \\
   \frac{du}{dt} &= K_p \frac{de}{dt} + K_i e(t) + K_d \frac{d^2e}{dt^2}
-    \label{eq:pid_vel}
 \end{align}
 
-This shows that $K_i$ and $K_p$ from the position controller act as proportional
-and derivative terms respectively in the velocity controller. $K_i$ from the
-position controller has no equivalent in the velocity controller. If we were to
-implement one, it would use a double integral. However, it would be of limited
-use since the $K_i$ term in equation (\ref{eq:pid_vel}) also eliminates
-steady-state error for step changes in \gls{reference}. Relabelling the
-coefficients to match the position PID controller gives
+This shows that the proportional action ($K_p$) of a velocity controller is
+caused by the integral action ($K_i$) of a position controller. The derivative
+action ($K_i$) of a velocity controller is caused by the proportional action
+($K_p$) of a position controller. Integral action ($K_i$) of a velocity
+controller has no equivalent in the position formulation. If we were to
+implement one, it would use a double integral.
+
+Since for the velocity controller, the proportional term is controlled by an
+integral action and the derivative term is controlled by a proportional action,
+the coefficients can be relabelled as follows.
 
 \begin{theorem}[Velocity PID controller]
   \begin{equation}
-    \frac{du}{dt} = K_p \int_0^t e(\tau) d\tau + K_d e(t)
+    u = K_p \int_0^t e(\tau) d\tau + K_d e(t)
   \end{equation}
 \end{theorem}
 
-Read \url{https://en.wikipedia.org/wiki/PID_controller} for more information.
+Read \url{https://en.wikipedia.org/wiki/PID_controller} for more information on
+PID control theory.
 
 \section{Limitations of PID control}
 
