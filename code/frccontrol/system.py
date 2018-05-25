@@ -66,6 +66,19 @@ class System():
         R = self.__make_lqr_cost_matrix(R_elems)
         self.K = dlqr(self.sysd, Q, R)
 
+    def place_controller_poles(self, poles):
+        """Design a controller that places the closed-loop system poles at the
+        given locations.
+
+        Most users should just use design_dlqr_controller(). Only use this if
+        you know what you're doing.
+
+        Keyword arguments:
+        poles -- a list of compex numbers which are the desired pole locations.
+                 Complex conjugate poles must be in pairs.
+        """
+        self.K = cnt.place(self.sysd.A, self.sysd.B, poles)
+
     def design_kalman_filter(self, Q_elems, R_elems):
         """Design a discrete-time Kalman filter for the system.
 
@@ -79,6 +92,19 @@ class System():
         R = self.__make_cov_matrix(R_elems)
         KalmanGain, Q_steady = kalman(self.sysd, Q=Q, R=R)
         self.L = self.sysd.A * KalmanGain
+
+    def place_observer_poles(self, poles):
+        """Design a controller that places the closed-loop system poles at the
+        given locations.
+
+        Most users should just use design_kalman_filter(). Only use this if you
+        know what you're doing.
+
+        Keyword arguments:
+        poles -- a list of compex numbers which are the desired pole locations.
+                 Complex conjugate poles must be in pairs.
+        """
+        self.L = cnt.place(self.sysd.A.T, self.sysd.C.T, poles).T
 
     def __update_observer(self):
         """Updates the observer given the current value of u."""
