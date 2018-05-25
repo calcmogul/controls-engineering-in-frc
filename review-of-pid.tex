@@ -101,6 +101,50 @@ the coefficients can be relabelled as follows.
 Read \url{https://en.wikipedia.org/wiki/PID_controller} for more information on
 PID control theory.
 
+\section{PID control in terms of general control theory}
+
+PID control defines \textit{setpoint} as the desired position and
+\textit{process value} as the measured position. Control theory has more general
+terms for these: \gls{reference} and \gls{output} respectively.
+
+The derivative term is commonly used to "slow down" the system if it's already
+heading toward the \gls{reference}. We will explore what $K_p$ and $K_d$ are
+really doing for a two-state system (position and velocity) and why $K_d$ acts
+that way.
+
+First, we will rearrange the equation for a PD controller.
+
+\begin{equation*}
+  u = K_p e_k + K_d \frac{e_k - e_{k-1}}{dt}
+\end{equation*}
+
+where $u$ is the control input and $e_k$ is the error at timestep $k$. $e_k$ is
+defined as $e_k = r_k - x_k$ where $r_k$ is the reference and $x_k$ is the
+current state at timestep $k$.
+
+\begin{align*}
+  u &= K_p (r_k - x_k) + K_d \frac{(r_k - x_k) - (r_{k-1} - x_{k-1})}{dt} \\
+  u &= K_p (r_k - x_k) + K_d \frac{r_k - x_k - r_{k-1} + x_{k-1}}{dt} \\
+  u &= K_p (r_k - x_k) + K_d \frac{r_k - r_{k-1} - x_k + x_{k-1}}{dt} \\
+  u &= K_p (r_k - x_k) + K_d \frac{(r_k - r_{k-1}) - (x_k - x_{k-1})}{dt} \\
+  u &= K_p (r_k - x_k) + K_d \left(\frac{r_k - r_{k-1}}{dt} -
+    \frac{x_k - x_{k-1}}{dt}\right)
+\end{align*}
+
+Notice how $\frac{r_k - r_{k-1}}{dt}$ is the velocity of the reference. By the
+same reasoning, $\frac{x_k - x_{k-1}}{dt}$ is the system's velocity at a given
+timestep. That means the $K_d$ term is driving the estimated velocity to the
+reference velocity. If the reference is constant, that means the $K_d$ term is
+trying to drive the velocity of the system to zero, but it can't because $K_p$
+is trying to make the system move and $K_p$ and $K_d$ are controlling the same
+actuator. If $K_p$ is larger than $K_d$, one is in effect slowing down the
+response of the controller during transients with the hope of decreasing
+overshoot and settling time. If one makes $K_d$ much larger than $K_p$, $K_d$
+overpowers $K_p$ to bring the system to a stop. However, when the velocity is
+low enough, $K_p$ is stronger and starts accelerating the system again. This
+oscillatory behavior in the velocity repeats as the system moves toward the
+reference.
+
 \section{Limitations of PID control}
 
 PID's heuristic method of tuning is fine when there is no knowledge of the
