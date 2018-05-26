@@ -80,3 +80,25 @@ def elevator(motor, m, r, G):
     D = np.matrix([[0]])
 
     return cnt.ss(A, B, C, D)
+
+def flywheel(motor, J, G):
+    """Returns the state-space model for a flywheel.
+
+    States: [[angular velocity]]
+    Inputs: [[voltage]]
+    Outputs: [[angular velocity]]
+
+    Keyword arguments:
+    motor -- instance of DcBrushedMotor
+    J -- flywheel moment of inertia in kg-m^2
+    G -- gear ratio from motor to carriage
+
+    Returns:
+    StateSpace instance containing continuous model
+    """
+    A = np.matrix([[-G**2 * motor.Kt / (motor.Kv * motor.R * J)]])
+    B = np.matrix([[G * motor.Kt / (motor.R * J)]])
+    C = np.matrix([[1]])
+    D = np.matrix([[0]])
+
+    return cnt.ss(A, B, C, D)

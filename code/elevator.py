@@ -89,7 +89,7 @@ def main():
     plt.title("Time-domain responses")
     plt.plot(t, pos)
     plt.plot(t, r_pos)
-    plt.legend(["Position (m)", "Position reference (m)"])
+    plt.legend(["Position (m)", "Position ref (m)"])
 
     # Plot velocity over time
     plt.subplot(3, 1, 2)
