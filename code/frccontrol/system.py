@@ -32,6 +32,7 @@ class System():
         # Controller matrices
         self.r = np.zeros((sysc.A.shape[0], 1))
         self.K = np.zeros((sysc.B.shape[1], sysc.B.shape[0]))
+        self.Kff = np.zeros((sysc.A.shape[0], sysc.A.shape[1]))
 
         # Observer matrices
         self.x_hat = np.zeros((sysc.A.shape[0], 1))
@@ -62,8 +63,8 @@ class System():
         R_elems -- a vector of the maximum allowed excursions of the control
                    inputs from no actuation.
         """
-        Q = self.__make_lqr_cost_matrix(Q_elems)
-        R = self.__make_lqr_cost_matrix(R_elems)
+        Q = self.__make_cost_matrix(Q_elems)
+        R = self.__make_cost_matrix(R_elems)
         self.K = dlqr(self.sysd, Q, R)
 
     def place_controller_poles(self, poles):
@@ -90,8 +91,8 @@ class System():
         """
         Q = self.__make_cov_matrix(Q_elems)
         R = self.__make_cov_matrix(R_elems)
-        KalmanGain, Q_steady = kalman(self.sysd, Q=Q, R=R)
-        self.L = self.sysd.A * KalmanGain
+        kalman_gain, P_steady = kalman(self.sysd, Q=Q, R=R)
+        self.L = self.sysd.A * kalman_gain
 
     def place_observer_poles(self, poles):
         """Design a controller that places the closed-loop system poles at the
@@ -106,12 +107,33 @@ class System():
         """
         self.L = cnt.place(self.sysd.A.T, self.sysd.C.T, poles).T
 
+    def design_two_state_feedforward(self, Q_elems, R_elems):
+        """Computes the feedforward constant for a two-state controller.
+
+        This will take the form u = K_ff * (r_{n+1} - A r_n), where K_ff is the
+        feed-forwards constant. It is important that Kff is *only* computed off
+        the goal and not the feedback terms.
+
+        Keyword arguments:
+        Q_elems -- a vector of the maximum allowed excursions in the state
+                   tracking.
+        R_elems -- a vector of the maximum allowed excursions of the control
+                   inputs from no actuation.
+        """
+        # We want to find the optimal U such that we minimize the tracking cost.
+        # This means that we want to minimize
+        #   (B u - (r_{n+1} - A r_n))^T Q (B u - (r_{n+1} - A r_n)) + u^T R u
+        Q = self.__make_cost_matrix(Q_elems)
+        R = self.__make_cost_matrix(R_elems)
+        self.Kff = np.linalg.inv(self.sysd.B.T * Q.T * self.sysd.B +
+                                 R.T) * self.sysd.B.T * Q.T
+
     def __update_observer(self):
         """Updates the observer given the current value of u."""
         self.x_hat = self.sysd.A * self.x_hat + self.sysd.B * self.u + self.L * (
             self.y - self.sysd.C * self.x_hat - self.sysd.D * self.u)
 
-    def __make_lqr_cost_matrix(self, elems):
+    def __make_cost_matrix(self, elems):
         """Creates a cost matrix from the given vector for use with LQR.
 
         The cost matrix is constructed using Bryson's rule. The inverse square

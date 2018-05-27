@@ -35,9 +35,6 @@ def closed_loop_ctrl(system):
                           system.sysd.B, system.sysd.C, system.sysd.D)
 
 
-1
-
-
 def closed_loop_obsv(system):
     """Constructs the closed-loop system for an observer.
 

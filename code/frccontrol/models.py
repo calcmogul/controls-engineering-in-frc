@@ -73,13 +73,17 @@ def elevator(motor, m, r, G):
     Returns:
     StateSpace instance containing continuous model
     """
+    # yapf: disable
     A = np.matrix([[0, 1],
                    [0, -G**2 * motor.Kt / (motor.R**2 * r * m * motor.Kv)]])
-    B = np.matrix([[0], [G * motor.Kt / (motor.R * r * m)]])
+    B = np.matrix([[0],
+                   [G * motor.Kt / (motor.R * r * m)]])
     C = np.matrix([[1, 0]])
     D = np.matrix([[0]])
+    # yapf: enable
 
     return cnt.ss(A, B, C, D)
+
 
 def flywheel(motor, J, G):
     """Returns the state-space model for a flywheel.
@@ -100,5 +104,47 @@ def flywheel(motor, J, G):
     B = np.matrix([[G * motor.Kt / (motor.R * J)]])
     C = np.matrix([[1]])
     D = np.matrix([[0]])
+
+    return cnt.ss(A, B, C, D)
+
+
+def drivetrain(motor, m, r, rb, J, Gl, Gr):
+    """Returns the state-space model for a drivetrain.
+
+    States: [[left position], [left velocity],
+             [right position], [right velocity]]
+    Inputs: [[left voltage], [right voltage]]
+    Outputs: [[left position], [right position]]
+
+    Keyword arguments:
+    motor -- instance of DcBrushedMotor
+    m -- mass of robot in kg
+    r -- radius of wheels in meters
+    rb -- radius of robot in meters
+    J -- moment of inertia of the drivetrain in kg-m^2
+    Gl -- gear ratio of left side of drivetrain
+    Gr -- gear ratio of right side of drivetrain
+
+    Returns:
+    StateSpace instance containing continuous model
+    """
+    C1 = -Gl**2 * motor.Kt / (motor.Kv * motor.R * r**2)
+    C2 = Gl * motor.Kt / (motor.R * r)
+    C3 = -Gr**2 * motor.Kt / (motor.Kv * motor.R * r**2)
+    C4 = Gr * motor.Kt / (motor.R * r)
+    # yapf: disable
+    A = np.matrix([[0, 1, 0, 0],
+                   [0, (1 / m - rb**2 / J) * C1, 0, (1 / m + rb**2 / J) * C3],
+                   [0, 0, 0, 1],
+                   [0, (1 / m + rb**2 / J) * C1, 0, (1 / m - rb**2 / J) * C3]])
+    B = np.matrix([[0, 0],
+                   [(1 / m + rb**2 / J) * C2, (1 / m - rb**2 / J) * C4],
+                   [0, 0],
+                   [(1 / m - rb**2 / J) * C2, (1 / m + rb**2 / J) * C4]])
+    C = np.matrix([[1, 0, 0, 0],
+                   [0, 0, 1, 0]])
+    D = np.matrix([[0, 0],
+                   [0, 0]])
+    # yapf: enable
 
     return cnt.ss(A, B, C, D)
