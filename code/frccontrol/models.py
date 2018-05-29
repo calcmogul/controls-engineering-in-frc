@@ -148,3 +148,26 @@ def drivetrain(motor, m, r, rb, J, Gl, Gr):
     # yapf: enable
 
     return cnt.ss(A, B, C, D)
+
+
+def single_jointed_arm(motor, J, G):
+    """Returns the state-space model for a flywheel.
+
+    States: [[angle, angular velocity]]
+    Inputs: [[voltage]]
+    Outputs: [[angular velocity]]
+
+    Keyword arguments:
+    motor -- instance of DcBrushedMotor
+    J -- arm moment of inertia in kg-m^2
+    G -- gear ratio from motor to arm
+
+    Returns:
+    StateSpace instance containing continuous model
+    """
+    A = np.matrix([[0, 1], [0, -G**2 * motor.Kt / (motor.Kv * motor.R * J)]])
+    B = np.matrix([[0], [G * motor.Kt / (motor.R * J)]])
+    C = np.matrix([[1, 0]])
+    D = np.matrix([[0]])
+
+    return cnt.ss(A, B, C, D)

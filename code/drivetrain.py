@@ -2,6 +2,7 @@
 
 import frccontrol as frccnt
 import matplotlib.pyplot as plt
+import numpy as np
 
 
 class Drivetrain(frccnt.System):
@@ -12,6 +13,11 @@ class Drivetrain(frccnt.System):
         Keyword arguments:
         dt -- time between model/controller updates
         """
+        state_labels = [("Left position", "m"), ("Left velocity", "m/s"),
+                        ("Right position", "m"), ("Right velocity", "m/s")]
+        u_labels = [("Left input voltage", "V"), ("Right input voltage", "V")]
+        self.set_plot_labels(state_labels, u_labels)
+
         self.in_low_gear = False
 
         # High and low gear ratios of drivetrain
@@ -63,79 +69,31 @@ class Drivetrain(frccnt.System):
         self.design_kalman_filter([q_pos, q_vel, q_pos, q_vel], [r_pos, r_pos])
 
 
-def frange(x, y, jump):
-    while x < y:
-        yield x
-        x += jump
-
-
 def main():
     dt = 0.00505
     drivetrain = Drivetrain(dt)
+
+    drivetrain.plot_pzmaps(1, False)
 
     # Set up graphing
     l0 = 0.1
     l1 = l0 + 5.0
     l2 = l1 + 0.1
-    t = list(frange(0, l2 + 5.0, dt))
+    t = np.linspace(0, l2 + 5.0, (l2 + 5.0) / dt)
 
-    pos = []
-    r_pos = []
-    vel = []
-    u = []
+    refs = []
 
-    # Run simulation
+    # Generate references for simulation
     for i in range(len(t)):
         if t[i] < l0:
-            drivetrain.r[0, 0] = 0.0
+            r = np.matrix([[0.0], [0.0], [0.0], [0.0]])
         elif t[i] < l1:
-            drivetrain.r[0, 0] = 1.524
+            r = np.matrix([[1.524], [0.0], [0.0], [0.0]])
         else:
-            drivetrain.r[0, 0] = 0.0
-        drivetrain.update()
+            r = np.matrix([[0.0], [0.0], [0.0], [0.0]])
+        refs.append(r)
 
-        # Log states for plotting
-        pos.append(drivetrain.x[0, 0])
-        r_pos.append(drivetrain.r[0, 0])
-        vel.append(drivetrain.x[1, 0])
-        u.append(drivetrain.u[0, 0])
-
-    plt.figure(1)
-
-    # Plot pole-zero map of open-loop system
-    plt.subplot(2, 2, 1)
-    frccnt.dpzmap(drivetrain.sysd, title="Open-loop system")
-
-    # Plot pole-zero map of closed-loop system
-    plt.subplot(2, 2, 2)
-    frccnt.dpzmap(
-        frccnt.closed_loop_ctrl(drivetrain), title="Closed-loop system")
-
-    # Plot observer poles
-    plt.subplot(2, 2, 3)
-    frccnt.dpzmap(frccnt.closed_loop_obsv(drivetrain), title="Observer poles")
-
-    plt.figure(2)
-
-    # Plot position over time
-    plt.subplot(3, 1, 1)
-    plt.title("Time-domain responses")
-    plt.plot(t, pos)
-    plt.plot(t, r_pos)
-    plt.legend(["Position (m)", "Position ref (m)"])
-
-    # Plot velocity over time
-    plt.subplot(3, 1, 2)
-    plt.plot(t, vel)
-    plt.legend(["Velocity (m/s)"])
-
-    # Plot control effort over time
-    plt.subplot(3, 1, 3)
-    plt.plot(t, u)
-    plt.xlabel("Time (s)")
-    plt.legend(["Control effort (V)"])
-
-    plt.show()
+    drivetrain.plot_responses(2, t, refs)
 
 
 if __name__ == "__main__":

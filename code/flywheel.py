@@ -3,6 +3,7 @@
 import frccontrol as frccnt
 import math
 import matplotlib.pyplot as plt
+import numpy as np
 
 
 class Flywheel(frccnt.System):
@@ -13,6 +14,10 @@ class Flywheel(frccnt.System):
         Keyword arguments:
         dt -- time between model/controller updates
         """
+        state_labels = [("Angular velocity", "rad/s")]
+        u_labels = [("Input voltage", "V")]
+        self.set_plot_labels(state_labels, u_labels)
+
         # Flywheel moment of inertia in kg-m^2
         self.J = 0.00032
         # Gear ratio
@@ -35,71 +40,31 @@ class Flywheel(frccnt.System):
         # print("Placed L=", self.L)
 
 
-def frange(x, y, jump):
-    while x < y:
-        yield x
-        x += jump
-
-
 def main():
     dt = 0.00505
     flywheel = Flywheel(dt)
+
+    flywheel.plot_pzmaps(1, False)
 
     # Set up graphing
     l0 = 0.1
     l1 = l0 + 5.0
     l2 = l1 + 0.1
-    t = list(frange(0, l2 + 5.0, dt))
+    t = np.linspace(0, l2 + 5.0, (l2 + 5.0) / dt)
 
-    vel = []
-    r_vel = []
-    u = []
+    refs = []
 
-    # Run simulation
+    # Generate references for simulation
     for i in range(len(t)):
         if t[i] < l0:
-            flywheel.r[0, 0] = 0.0
+            r = np.matrix([[0]])
         elif t[i] < l1:
-            flywheel.r[0, 0] = 9000 / 60 * 2 * math.pi
+            r = np.matrix([[9000 / 60 * 2 * math.pi]])
         else:
-            flywheel.r[0, 0] = 0.0
-        flywheel.update()
+            r = np.matrix([[0]])
+        refs.append(r)
 
-        # Log states for plotting
-        vel.append(flywheel.x[0, 0])
-        r_vel.append(flywheel.r[0, 0])
-        u.append(flywheel.u[0, 0])
-
-    plt.figure(1)
-
-    # Plot pole-zero map of open-loop system
-    plt.subplot(2, 2, 1)
-    frccnt.dpzmap(flywheel.sysd, title="Open-loop system")
-
-    # Plot pole-zero map of closed-loop system
-    plt.subplot(2, 2, 2)
-    frccnt.dpzmap(frccnt.closed_loop_ctrl(flywheel), title="Closed-loop system")
-
-    # Plot observer poles
-    plt.subplot(2, 2, 3)
-    frccnt.dpzmap(frccnt.closed_loop_obsv(flywheel), title="Observer poles")
-
-    plt.figure(2)
-
-    # Plot angular velocity over time
-    plt.subplot(2, 1, 1)
-    plt.title("Time-domain responses")
-    plt.plot(t, vel)
-    plt.plot(t, r_vel)
-    plt.legend(["Angular velocity (rad/s)", "Angular velocity ref (rad/s)"])
-
-    # Plot control effort over time
-    plt.subplot(2, 1, 2)
-    plt.plot(t, u)
-    plt.xlabel("Time (s)")
-    plt.legend(["Control effort (V)"])
-
-    plt.show()
+    flywheel.plot_responses(2, t, refs)
 
 
 if __name__ == "__main__":

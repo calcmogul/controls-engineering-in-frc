@@ -183,7 +183,7 @@ By equation (\ref{eq:dot_omega_arm})
     \omega_{arm}
   \end{array}
   \right] \\
-  \mtx{y} &= \omega_{arm} \\
+  \mtx{y} &= \theta_{arm} \\
   \mtx{u} &= V
 \end{align*}
 
@@ -209,3 +209,12 @@ By equation (\ref{eq:dot_omega_arm})
 \end{align}
 
 \subsection{Simulation}
+
+Python Control will be used to discretize the model and simulate it. The script
+below also creates and tests a controller for it.
+
+\begin{snippet}
+  \caption{Single-jointed arm simulation in Python}
+  \label{lst:single_jointed_arm_sim}
+  \includecode[Python]{code/single_jointed_arm.py}
+\end{snippet}
