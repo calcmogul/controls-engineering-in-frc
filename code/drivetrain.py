@@ -15,7 +15,7 @@ class Drivetrain(frccnt.System):
         """
         state_labels = [("Left position", "m"), ("Left velocity", "m/s"),
                         ("Right position", "m"), ("Right velocity", "m/s")]
-        u_labels = [("Left input voltage", "V"), ("Right input voltage", "V")]
+        u_labels = [("Left voltage", "V"), ("Right voltage", "V")]
         self.set_plot_labels(state_labels, u_labels)
 
         self.in_low_gear = False
@@ -93,7 +93,7 @@ def main():
             r = np.matrix([[0.0], [0.0], [0.0], [0.0]])
         refs.append(r)
 
-    drivetrain.plot_responses(2, t, refs)
+    drivetrain.plot_time_responses(2, t, refs)
 
 
 if __name__ == "__main__":

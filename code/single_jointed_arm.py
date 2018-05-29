@@ -15,7 +15,7 @@ class SingleJointedArm(frccnt.System):
         dt -- time between model/controller updates
         """
         state_labels = [("Angle", "rad"), ("Angular velocity", "rad/s")]
-        u_labels = [("Input voltage", "V")]
+        u_labels = [("Voltage", "V")]
         self.set_plot_labels(state_labels, u_labels)
 
         # Mass of arm in kg
@@ -68,7 +68,7 @@ def main():
             r = np.matrix([[0.0], [0.0]])
         refs.append(r)
 
-    single_jointed_arm.plot_responses(2, t, refs)
+    single_jointed_arm.plot_time_responses(2, t, refs)
 
 
 if __name__ == "__main__":

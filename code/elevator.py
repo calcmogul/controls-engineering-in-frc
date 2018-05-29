@@ -14,7 +14,7 @@ class Elevator(frccnt.System):
         dt -- time between model/controller updates
         """
         state_labels = [("Position", "m"), ("Velocity", "m/s")]
-        u_labels = [("Input voltage", "V")]
+        u_labels = [("Voltage", "V")]
         self.set_plot_labels(state_labels, u_labels)
 
         # Elevator carriage mass in kg
@@ -60,7 +60,7 @@ def main():
             r = np.matrix([[0.0], [0.0]])
         refs.append(r)
 
-    elevator.plot_responses(2, t, refs)
+    elevator.plot_time_responses(2, t, refs)
 
 
 if __name__ == "__main__":

@@ -155,7 +155,7 @@ class System():
         if show:
             plt.show()
 
-    def plot_responses(self, figure_num, t, refs, show=True):
+    def plot_time_responses(self, figure_num, t, refs, show=True):
         """Plots time-domain responses of the system and the control inputs.
 
         Keyword arguments:
@@ -182,24 +182,23 @@ class System():
         subplot_max = self.sysd.states + self.sysd.inputs
         for i in range(0, self.sysd.states):
             plt.subplot(subplot_max, 1, i + 1)
+            plt.ylabel(self.state_labels[i])
             if i == 0:
                 plt.title("Time-domain responses")
             plt.plot(
                 t,
                 np.squeeze(np.asarray(state_rec[i, :])),
-                label=self.state_labels[i])
-            plt.legend()
+                label="Estimated state")
             plt.plot(
-                t,
-                np.squeeze(np.asarray(ref_rec[i, :])),
-                label=self.ref_labels[i])
+                t, np.squeeze(np.asarray(ref_rec[i, :])), label="Reference")
             plt.legend()
 
         for i in range(0, self.sysd.inputs):
             plt.subplot(subplot_max, 1, self.sysd.states + i + 1)
-            plt.plot(
-                t, np.squeeze(np.asarray(u_rec[i, :])), label=self.u_labels[i])
             plt.xlabel("Time (s)")
+            plt.ylabel(self.u_labels[i])
+            plt.plot(
+                t, np.squeeze(np.asarray(u_rec[i, :])), label="Control effort")
             plt.legend()
 
         if show:
@@ -213,7 +212,6 @@ class System():
         u_labels -- list of tuples containing name of input and the unit.
         """
         self.state_labels = [x[0] + " (" + x[1] + ")" for x in state_labels]
-        self.ref_labels = [x[0] + " ref (" + x[1] + ")" for x in state_labels]
         self.u_labels = [x[0] + " (" + x[1] + ")" for x in u_labels]
 
     def __update_observer(self):
