@@ -37,41 +37,86 @@ A PDF version is available at https://file.tavsys.net/control/state-space-guide.
 
 ## Future Improvements
 
-The document is still very high level for the subject it covers as well as very dense and fast-paced (it covers three classes of feedback control, two of which are for graduate students, in one short document). I want to make the contents of the document that are in the critical path more accessible. For example, one of my readers said the linear algebra went over their head, so I need to include more of the referenced linear algebra material in the main document (I suspect few readers would actually go watch an hour of supplementary material on YouTube).
+The document is still very high level for the subject it covers as well as very
+dense and fast-paced (it covers three classes of feedback control, two of which
+are for graduate students, in one short document). I want to make the contents
+of the document that are in the critical path more accessible. For example, one
+of my readers said the linear algebra went over their head, so I need to include
+more of the referenced linear algebra material in the main document (I suspect
+few readers would actually go watch an hour of supplementary material on
+YouTube).
 
-What I need to do is read through this book from the perspective of explaining it to my veteran software students, because my in-person tutor-style explanations are generally better than what I write.
+What I need to do is read through this book from the perspective of explaining
+it to my veteran software students, because my in-person tutor-style
+explanations are generally better than what I write.
 
-It's also not designed for skim reading (e.g., "Which equations do I need to implement a low-fi simulator for a drivetrain?"). Calling out the final results better would probably fix that, as it then can also be used as a quick reference.
+It's also not designed for skim reading (e.g., "Which equations do I need to
+implement a low-fi simulator for a drivetrain?"). Calling out the final results
+better would probably fix that, as it then can also be used as a quick
+reference.
 
-I should include my pedagogy from https://csweb.frc3512.com/ci/ in book because a description of how this book fits into the mentorship framework of FRC would be helpful.
+I should include my pedagogy from https://csweb.frc3512.com/ci/ in book because
+a description of how this book fits into the mentorship framework of FRC would
+be helpful.
 
-I'd also like to expand the introductions for each section and provide more examples like I did for the Kalman filter design to give the reader practice applying the skills discussed.
+I'd also like to expand the introductions for each section and provide more
+examples like I did for the Kalman filter design to give the reader practice
+applying the skills discussed.
 
-I should clarify the difference between linear step response and a linear dynamical system. See https://github.com/wpilibsuite/allwpilib/pull/1117#discussion_r191297045 for notes on this.
+I should clarify the difference between linear step response and a linear
+dynamical system. See
+https://github.com/wpilibsuite/allwpilib/pull/1117#discussion_r191297045 for
+notes on this.
 
 The linear algebra section should be filled out with some basics that are needed
 to understand the examples based on the videos already linked there.
 
-Any other results that are good for background, but are unnecessary should be included in an appendix.
+Any other results that are good for background, but are unnecessary should be
+included in an appendix.
 
-Add graphs of zero-order hold and Euler methods of discretization. Also, answer the question "Why is the matrix exponential used for discretization?".
+Add graphs of zero-order hold and Euler methods of discretization. Also, answer
+the question "Why is the matrix exponential used for discretization?".
 
-A section should be included with the state-space representation chapter on building intuition on how to fiddle with the matrices. For example, include how C matrix augmentation doesn't affect state feedback. It's mainly to see what different parts of the system are doing. The reference r can be passed through with BK, control input u with K, and various states with I matrix augmentation. Also cover what plant, controller, and observer augmentation looks like and how that is used for u_error augmentation.
+A section should be included with the state-space representation chapter on
+building intuition on how to fiddle with the matrices. For example, include how
+C matrix augmentation doesn't affect state feedback. It's mainly to see what
+different parts of the system are doing. The reference r can be passed through
+with BK, control input u with K, and various states with I matrix augmentation.
+Also cover what plant, controller, and observer augmentation looks like and how
+that is used for u_error augmentation.
 
-The link to the graphical introduction to Kalman filters should be replaced with something much more comprehensive. The graphics are nice, but there isn't much substance to promote deep understanding. I have a lot of notes from the course I took on Kalman filters I intend to synthesize (also notes PDFs in ~/frc/state-space-guide).
+The link to the graphical introduction to Kalman filters should be replaced with
+something much more comprehensive. The graphics are nice, but there isn't much
+substance to promote deep understanding. I have a lot of notes from the course I
+took on Kalman filters I intend to synthesize (also notes PDFs in
+~/frc/state-space-guide).
 
-The referenced derivations for the Kalman filter could be added as an appendix since they aren't that long. Does referencing them help the document at all?
+The referenced derivations for the Kalman filter could be added as an appendix
+since they aren't that long. Does referencing them help the document at all?
 
-Include info from ~/frc/state-space-guide/LQR-derivs.pdf for optimal control/LQR derivations and LQR phase margin proof.
+Include info from ~/frc/state-space-guide/LQR-derivs.pdf for optimal control/LQR
+derivations and LQR phase margin proof.
 
-A smoother transition is needed between the mindsets of PID control and modern control.
+A smoother transition is needed between the mindsets of PID control and modern
+control.
 
-* "Controls engineers have a more general framework than just PID. Here's how PID fits into that framework."
-* Add intro to modern control part "has three parts: make model, design controller, estimate state. We'll go through each."
-* Add section bridging gap between PID and modern control understanding "more general term for setpoint is reference; former focused on fiddling with controller params as current past and future, explain how those params are seen by modern control (position and velocity gains) and how bad raw integral control is. Explain how PID maps to modern control's states, inputs, and outputs.
-* Modern control cares about making accurate model, then driving the states they care about to zero. Integral control is added with uerror if needed to handle model uncertainty (but prefer not to do so).
+* "Controls engineers have a more general framework than just PID. Here's how
+  PID fits into that framework."
+* Add intro to modern control part "has three parts: make model, design
+  controller, estimate state. We'll go through each."
+* Add section bridging gap between PID and modern control understanding "more
+  general term for setpoint is reference; former focused on fiddling with
+  controller params as current past and future, explain how those params are
+  seen by modern control (position and velocity gains) and how bad raw integral
+  control is. Explain how PID maps to modern control's states, inputs, and
+  outputs.
+* Modern control cares about making accurate model, then driving the states they
+  care about to zero. Integral control is added with uerror if needed to handle
+  model uncertainty (but prefer not to do so).
 
-The "Implementation Steps" section needs subsections to explain how to do each or at least examples. A small section on kinematics and dynamics in general would be useful. The following state-space implementation examples are planned:
+The "Implementation Steps" section needs subsections to explain how to do each
+or at least examples. A small section on kinematics and dynamics in general
+would be useful. The following state-space implementation examples are planned:
 
 * Elevator (in progress)
   * Add u_error state to model
@@ -88,9 +133,12 @@ The "Implementation Steps" section needs subsections to explain how to do each o
   * See 971/y2014/control_loops/python/claw.py
   * Use as example of coordinate transformations for states?
 
-I should include Nx and Nu in a unified appendix on feedforwards (steady-state feedforward section, then two-state feedforward section from existing appendix).
+I should include Nx and Nu in a unified appendix on feedforwards (steady-state
+feedforward section, then two-state feedforward section from existing appendix).
 
-Include information from https://github.com/FRC-PDR/ProgrammingDoneRight/issues/56#issue-314926154 not otherwise mentioned in this book.
+Include information from
+https://github.com/FRC-PDR/ProgrammingDoneRight/issues/56#issue-314926154 not
+otherwise mentioned in this book.
 
 Fill out the index. This book has potential as a reference manual.
 
