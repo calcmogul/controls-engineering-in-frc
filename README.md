@@ -55,10 +55,6 @@ implement a low-fi simulator for a drivetrain?"). Calling out the final results
 better would probably fix that, as it then can also be used as a quick
 reference.
 
-I should include my pedagogy from https://csweb.frc3512.com/ci/ in book because
-a description of how this book fits into the mentorship framework of FRC would
-be helpful.
-
 I'd also like to expand the introductions for each section and provide more
 examples like I did for the Kalman filter design to give the reader practice
 applying the skills discussed.
