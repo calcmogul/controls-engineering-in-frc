@@ -4,7 +4,7 @@ import control as cnt
 import matplotlib.pyplot as plt
 import numpy as np
 
-plt.rc('text', usetex=True)
+plt.rc("text", usetex=True)
 
 
 # Implementation of MATLAB's conv() function

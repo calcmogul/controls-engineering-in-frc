@@ -100,8 +100,6 @@ otherwise mentioned in this book.
 
 ### Teach topics better
 
-Add graphs of zero-order hold and Euler methods of discretization.
-
 The link to the graphical introduction to Kalman filters should be replaced with
 something much more comprehensive. The graphics are nice, but there isn't much
 substance to promote deep understanding. I have a lot of notes from the course I

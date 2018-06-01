@@ -3,7 +3,7 @@ NAME := state-space-guide
 # Make does not offer a recursive wildcard function, so here's one:
 rwildcard=$(wildcard $1$2) $(foreach dir,$(wildcard $1*),$(call rwildcard,$(dir)/,$2))
 
-SVG := root_locus.svg
+SVG := root_locus.svg zoh.svg discretization_methods.svg
 PDF_TEX := $(SVG:.svg=.pdf_tex)
 TEX := $(call rwildcard,./,*.tex)
 BIB := $(wildcard *.bib)
@@ -43,8 +43,14 @@ format-stamp: $(CODE)
 	python code/format.py
 	touch format-stamp
 
-root_locus.svg: code/root_locus.py
+root_locus.svg: format-stamp
 	python code/root_locus.py
+
+zoh.svg: format-stamp
+	python code/zoh.py
+
+discretization_methods.svg: format-stamp
+	python code/discretization_methods.py
 
 .PHONY: clean
 clean:

@@ -155,14 +155,24 @@ class System():
         if show:
             plt.show()
 
-    def plot_time_responses(self, figure_num, t, refs, show=True):
-        """Plots time-domain responses of the system and the control inputs.
+    def extract_row(self, buf, idx):
+        """Extract row from 2D array.
 
         Keyword arguments:
-        figure_num -- number of figure on which to draw pole-zero maps.
+        buf -- matrix containing plot data
+        idx -- index of desired plot in buf
+
+        Returns:
+        Desired list of data from buf
+        """
+        return np.squeeze(np.asarray(buf[idx, :]))
+
+    def generate_time_responses(self, t, refs):
+        """Generate time-domain responses of the system and the control inputs.
+
+        Keyword arguments:
         time -- list of timesteps corresponding to references.
         refs -- list of tuples of time-reference pairs.
-        show -- whether to show plot immediately after drawing it.
         """
         state_rec = np.zeros((self.sysd.states, 0))
         ref_rec = np.zeros((self.sysd.states, 0))
@@ -178,27 +188,35 @@ class System():
             ref_rec = np.concatenate((ref_rec, self.r), axis=1)
             u_rec = np.concatenate((u_rec, self.u), axis=1)
 
+        return state_rec, ref_rec, u_rec
+
+    def plot_time_responses(self, figure_num, t, refs, show=True):
+        """Plots time-domain responses of the system and the control inputs.
+
+        Keyword arguments:
+        figure_num -- number of figure on which to draw pole-zero maps.
+        time -- list of timesteps corresponding to references.
+        refs -- list of tuples of time-reference pairs.
+        show -- whether to show plot immediately after drawing it.
+        """
+        state_rec, ref_rec, u_rec = self.generate_time_responses(t, refs)
+
         plt.figure(figure_num)
         subplot_max = self.sysd.states + self.sysd.inputs
-        for i in range(0, self.sysd.states):
+        for i in range(self.sysd.states):
             plt.subplot(subplot_max, 1, i + 1)
             plt.ylabel(self.state_labels[i])
             if i == 0:
                 plt.title("Time-domain responses")
-            plt.plot(
-                t,
-                np.squeeze(np.asarray(state_rec[i, :])),
-                label="Estimated state")
-            plt.plot(
-                t, np.squeeze(np.asarray(ref_rec[i, :])), label="Reference")
+            plt.plot(t, self.extract_row(state_rec, i), label="Estimated state")
+            plt.plot(t, self.extract_row(ref_rec, i), label="Reference")
             plt.legend()
 
-        for i in range(0, self.sysd.inputs):
+        for i in range(self.sysd.inputs):
             plt.subplot(subplot_max, 1, self.sysd.states + i + 1)
             plt.xlabel("Time (s)")
             plt.ylabel(self.u_labels[i])
-            plt.plot(
-                t, np.squeeze(np.asarray(u_rec[i, :])), label="Control effort")
+            plt.plot(t, self.extract_row(u_rec, i), label="Control effort")
             plt.legend()
 
         if show:
