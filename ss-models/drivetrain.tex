@@ -286,6 +286,14 @@ $C_3 = -\frac{G_r^2 K_t}{K_v R r^2}$, and $C_4 = \frac{G_r K_t}{Rr}$.
 Python Control will be used to discretize the model and simulate it. The script
 below also creates and tests a controller for it.
 
+\begin{remark}
+  Python Control currently doesn't support finding the transmission zeroes of
+  MIMO systems, so \texttt{control.pzmap()} and
+  \texttt{frccontrol.System.plot\_pzmaps()} fail with an error. I submitted a PR
+  to the project to fix that
+  (\url{https://github.com/python-control/python-control/pull/205}).
+\end{remark}
+
 \begin{snippet}
   \caption{Drivetrain simulation in Python}
   \label{lst:drivetrain_sim}

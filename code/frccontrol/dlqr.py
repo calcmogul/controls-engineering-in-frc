@@ -1,5 +1,5 @@
 import numpy as np
-import scipy
+import scipy as sp
 
 
 def dlqr(sys, Q, R):
@@ -18,8 +18,9 @@ def dlqr(sys, Q, R):
     numpy.matrix(states x inputs), K
   """
 
-    # P = (A.T * P * A) - (A.T * P * B * np.linalg.inv(R + B.T * P *B) * (A.T * P.T * B).T + Q
-    P = scipy.linalg.solve_discrete_are(a=sys.A, b=sys.B, q=Q, r=R)
+    # P = A.T * P * A - (A.T * P * B) * np.linalg.inv(R + B.T * P * B) *
+    #     (B.T * P.T * A) + Q
+    P = sp.linalg.solve_discrete_are(a=sys.A, b=sys.B, q=Q, r=R)
 
     F = np.linalg.inv(R + sys.B.T * P * sys.B) * sys.B.T * P * sys.A
     return F
