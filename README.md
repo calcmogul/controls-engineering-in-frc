@@ -1,11 +1,26 @@
 # Practical Guide to State-space Control
 ## Graduate-level control theory for high schoolers
 
-I originally wrote this as a final project for an undergraduate technical writing class I took at University of California, Santa Cruz in Spring 2017 ([CMPE 185](https://cmpe185-spring17-01.courses.soe.ucsc.edu/)). It is intended as a digest of graduate-level control theory aimed at veteran FIRST Robotics Competition (FRC) students who know algebra and a bit of physics and are comfortable with the concept of a PID controller. As I learned the subject of control theory, I found that it wasn't particularly difficult, but very few resources exist outside of academia for learning it. This document is intended to rectify that situation by providing a lower the barrier to entry to the field.
+I originally wrote this as a final project for an undergraduate technical
+writing class I took at University of California, Santa Cruz in Spring 2017
+([CMPE 185](https://cmpe185-spring17-01.courses.soe.ucsc.edu/)). It is intended
+as a digest of graduate-level control theory aimed at veteran FIRST Robotics
+Competition (FRC) students who know algebra and a bit of physics and are
+comfortable with the concept of a PID controller. As I learned the subject of
+control theory, I found that it wasn't particularly difficult, but very few
+resources exist outside of academia for learning it. This book is intended to
+rectify that situation by providing a lower the barrier to entry to the field.
 
-This document reads a lot like a reference manual on control theory and related tools. It teaches the reader how to start designing and implementing control systems for practical systems with an emphasis on pragmatism rather than theory. While the theory is mathematically elegant at times and helps inform what is going on, one shouldn't lose sight of how it behaves when applied to real systems.
+This book reads a lot like a reference manual on control theory and related
+tools. It teaches the reader how to start designing and implementing control
+systems for practical systems with an emphasis on pragmatism rather than theory.
+While the theory is mathematically elegant at times and helps inform what is
+going on, one shouldn't lose sight of how it behaves when applied to real
+systems.
 
 ## Dependencies
+
+To compile the book, the following are required.
 
 * make (to run the makefile)
 * texlive-core (for latexmk)
@@ -20,12 +35,17 @@ This document reads a lot like a reference manual on control theory and related 
 * Inkscape (to convert SVGs to PDF)
 * ghostscript (to reduce size of final PDF for publishing)
 
-Python Control can be installed via your system's package manager or via pip. For better root locus plots, build and install Python Control from its Git repo at https://github.com/python-control/python-control instead of using 0.7.0 from pypi.python.org.
+Python Control can be installed via your system's package manager or via pip.
+For better root locus plots, build and install Python Control from its Git repo
+at https://github.com/python-control/python-control instead of using 0.7.0 from
+pypi.python.org.
 
 ```
 git clone git://github.com/python-control/python-control
 pip install --user ./python-control
 ```
+
+To run the examples, only Python 3.5+ and Python Control are required.
 
 ## Build
 
@@ -37,14 +57,13 @@ A PDF version is available at https://file.tavsys.net/control/state-space-guide.
 
 ## Future Improvements
 
-The document is still very high level for the subject it covers as well as very
+The book is still very high level for the subject it covers as well as very
 dense and fast-paced (it covers three classes of feedback control, two of which
-are for graduate students, in one short document). I want to make the contents
-of the document that are in the critical path more accessible. For example, one
-of my readers said the linear algebra went over their head, so I need to include
-more of the referenced linear algebra material in the main document (I suspect
-few readers would actually go watch an hour of supplementary material on
-YouTube).
+are for graduate students, in one short book). I want to make the contents of
+the book that are in the critical path more accessible. For example, one of my
+readers said the linear algebra went over their head, so I need to include more
+of the referenced linear algebra material in the main text (I suspect few
+readers would actually go watch an hour of supplementary material on YouTube).
 
 What I need to do is read through this book from the perspective of explaining
 it to my veteran software students, because my in-person tutor-style
@@ -88,7 +107,7 @@ took on Kalman filters I intend to synthesize (also notes PDFs in
 ~/frc/state-space-guide).
 
 The referenced derivations for the Kalman filter could be added as an appendix
-since they aren't that long. Does referencing them help the document at all?
+since they aren't that long. Does referencing them help the book at all?
 
 Include info from ~/frc/state-space-guide/LQR-derivs.pdf for optimal control/LQR
 derivations and LQR phase margin proof.
@@ -139,3 +158,9 @@ otherwise mentioned in this book.
 Fill out the index. This book has potential as a reference manual.
 
 Add a section on polytopes for convex optimization?
+
+## Licensing
+
+This project, except for the software, is released under the Creative Commons
+Attribution-ShareAlike 4.0 International license. The software is released under
+the 3-clause BSD license.
