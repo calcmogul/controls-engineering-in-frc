@@ -38,19 +38,19 @@ nonlinear, we should linearize it. We will use the small angle approximation
 Continuing the example above:
 
 \begin{align}
-  \dot{\left[
-  \begin{array}{c}
+  \dot{
+  \begin{bmatrix}
     x_1 \\
     x_2
-  \end{array} \right]} = \left[
-  \begin{array}{cc}
+  \end{bmatrix}} =
+  \begin{bmatrix}
     0 & 1 \\
     -\frac{g}{L} & 0
-  \end{array} \right] \left[
-  \begin{array}{c}
+  \end{bmatrix}
+  \begin{bmatrix}
     x_1 \\
     x_2
-  \end{array} \right]
+  \end{bmatrix}
 \end{align}
 
 \section{Add estimator for unmeasured states}

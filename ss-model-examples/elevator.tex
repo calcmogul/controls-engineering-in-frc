@@ -264,34 +264,30 @@ Substitute this into equation (\ref{eq:elevator_cont_ss_vel}).
 \end{align*}
 
 \begin{align*}
-  \mtx{x} &= \left[
-  \begin{array}{c}
+  \mtx{x} &=
+  \begin{bmatrix}
     x \\
     v_m
-  \end{array}
-  \right] \\
+  \end{bmatrix} \\
   \mtx{y} &= x \\
   \mtx{u} &= V
 \end{align*}
 
 \begin{align}
-  \mtx{A} &= \left[
-  \begin{array}{cc}
+  \mtx{A} &=
+  \begin{bmatrix}
     0 & 1 \\
     0 & -\frac{G^2 K_t}{R^2rmK_v}
-  \end{array}
-  \right] \\
-  \mtx{B} &= \left[
-  \begin{array}{c}
+  \end{bmatrix} \\
+  \mtx{B} &=
+  \begin{bmatrix}
     0 \\
     \frac{GK_t}{Rrm}
-  \end{array}
-  \right] \\
-  \mtx{C} &= \left[
-  \begin{array}{cc}
+  \end{bmatrix} \\
+  \mtx{C} &=
+  \begin{bmatrix}
     1 & 0
-  \end{array}
-  \right] \\
+  \end{bmatrix} \\
   \mtx{D} &= 0
 \end{align}
 

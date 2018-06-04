@@ -63,50 +63,48 @@ existing input within $\mtx{u}$.
 $\mtx{x}$ is augmented as
 
 \begin{equation*}
-  \mtx{x'} = \left[
-  \begin{array}{c}
+  \mtx{x'} =
+  \begin{bmatrix}
     \mtx{x} \\
     u_{error}
-  \end{array}
-  \right]
+  \end{bmatrix}
 \end{equation*}
 
 and the augmented model is
 
 \begin{align*}
-  \dot{\mtx{x}}' &= \left[
-  \begin{array}{cc}
+  \dot{\mtx{x}}' &=
+  \begin{bmatrix}
     \mtx{A} & \mtx{B}_{error} \\
     0 & 0
-  \end{array}
-  \right] \mtx{x} + \left[
-  \begin{array}{c}
+  \end{bmatrix}
+  \mtx{x} +
+  \begin{bmatrix}
     \mtx{B} \\
     0
-  \end{array}
-  \right] \mtx{u}
+  \end{bmatrix}
+  \mtx{u}
 \end{align*}
 
 With this model, the observer will estimate both the state and the $u_{error}$
 term. The controller is augmented similarly.
 
 \begin{equation*}
-  \mtx{u} = \mtx{K} \left(\mtx{r} - \mtx{x}\right) - \left[
-  \begin{array}{c}
+  \mtx{u} = \mtx{K} \left(\mtx{r} - \mtx{x}\right) -
+  \begin{bmatrix}
     u_{error} \\
     \mtx{0}
-  \end{array}
-  \right]
+  \end{bmatrix}
 \end{equation*}
 
 This can be rewritten as
 
 \begin{equation*}
-  \mtx{u} = \left[
-  \begin{array}{cc}
+  \mtx{u} =
+  \begin{bmatrix}
     \mtx{K} & \mtx{k}_{error}
-  \end{array}
-  \right] \left(\mtx{r}' - \mtx{x}'\right)
+  \end{bmatrix}
+  \left(\mtx{r}' - \mtx{x}'\right)
 \end{equation*}
 
 where $\mtx{k}_{error}$ is a column vector with a $1$ in a given row if
@@ -114,12 +112,11 @@ $u_{error}$ should be applied to that input or a $0$ otherwise. $\mtx{r}$ is
 augmented with a zero for the goal $u_{error}$ term.
 
 \begin{equation*}
-  \mtx{r}' = \left[
-  \begin{array}{c}
+  \mtx{r}' =
+  \begin{bmatrix}
     \mtx{r} \\
     0
-  \end{array}
-  \right]
+  \end{bmatrix}
 \end{equation*}
 
 This process can be repeated for an arbitrary error which can be corrected via

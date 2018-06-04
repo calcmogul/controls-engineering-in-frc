@@ -218,42 +218,42 @@ position, robot velocity, and distance between the walls.
 This can be converted to the following state-space \gls{model}.
 
 \begin{equation}
-  \mtx{x}_k = \left[
-  \begin{array}{c}
+  \mtx{x}_k =
+  \begin{bmatrix}
     x_k \\
     v_k \\
     x_k^w
-  \end{array} \right]
+  \end{bmatrix}
 \end{equation}
 
 \begin{equation}
-  \mtx{x}_{k+1} = \left[
-  \begin{array}{ccc}
+  \mtx{x}_{k+1} =
+  \begin{bmatrix}
     1 & 1 & 0 \\
     0 & 0 & 0 \\
     0 & 0 & 1
-  \end{array} \right] \mtx{x}_k + \left[
-  \begin{array}{c}
+  \end{bmatrix} \mtx{x}_k +
+  \begin{bmatrix}
     0 \\
     0.8 \\
     0
-  \end{array} \right] + \left[
-  \begin{array}{c}
+  \end{bmatrix} +
+  \begin{bmatrix}
     0 \\
     0.1 \\
     0
-  \end{array} \right] w_k
+  \end{bmatrix} w_k
 \end{equation}
 
 where the Gaussian random variable $w_k$ has zero mean and variance 1. The
 observation \gls{model} is
 
 \begin{equation}
-  \mtx{y}_k = \left[
-  \begin{array}{ccc}
+  \mtx{y}_k =
+  \begin{bmatrix}
     1 & 0 & 0 \\
     -1 & 0 & 1
-  \end{array} \right] \mtx{x}_k + \theta_k
+  \end{bmatrix} \mtx{x}_k + \theta_k
 \end{equation}
 
 where the covariance matrix of Gaussian measurement noise $\theta$ is a
@@ -264,24 +264,24 @@ covariance matrix entries are assigned by calculating the covariance of the
 expressions used when assigning the state vector. Let $k = 2$.
 
 \begin{align}
-  \mtx{Q} &= \left[1\right] \\
-  \mtx{R} &= \left[
-  \begin{array}{cc}
+  \mtx{Q} &= \begin{bmatrix}1\end{bmatrix} \\
+  \mtx{R} &=
+  \begin{bmatrix}
     10 & 0 \\
     0 & 10
-  \end{array} \right] \\
-  \hat{\mtx{x}} &= \left[
-  \begin{array}{c}
+  \end{bmatrix} \\
+  \hat{\mtx{x}} &=
+  \begin{bmatrix}
     \mtx{y}_{k,1} \\
     (\mtx{y}_{k,1} - \mtx{y}_{k-1,1})/dt \\
     \mtx{y}_{k,1} + \mtx{y}_{k,2}
-  \end{array} \right] \\
-  \mtx{P} &= \left[
-  \begin{array}{ccc}
+  \end{bmatrix} \\
+  \mtx{P} &=
+  \begin{bmatrix}
     10 & 10/dt & 10 \\
     10/dt & 20/dt^2 & 10/dt \\
     10 & 10/dt & 20
-  \end{array} \right]
+  \end{bmatrix}
 \end{align}
 
 \subsection{Initial conditions}

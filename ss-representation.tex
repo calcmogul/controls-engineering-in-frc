@@ -92,12 +92,12 @@ finite time window.
   controllable if and only if
 
   \begin{equation}
-    \text{rank} \left(\left[
-    \begin{array}{ccccc}
+    \text{rank} \left(
+    \begin{bmatrix}
       \mtx{B} & \mtx{A}\mtx{B} & \mtx{A}^2\mtx{B} & \cdots &
       \mtx{A}^{n-1}\mtx{B}
-    \end{array}
-    \right]\right) = n
+    \end{bmatrix}
+    \right) = n
     \label{eq:ctrl_rank}
   \end{equation}
 
@@ -116,26 +116,26 @@ the canonical \gls{realization} of it that satisfies equation
 (\ref{eq:ctrl_rank}) is
 
 \begin{align}
-  \dot{\mtx{x}}(t) &= \left[
-  \begin{array}{cccc}
+  \dot{\mtx{x}}(t) &=
+  \begin{bmatrix}
     0 & 1 & 0 & 0 \\
     0 & 0 & 1 & 0 \\
     0 & 0 & 0 & 1 \\
     -d_4 & -d_3 & -d_2 & -d_1
-  \end{array}
-  \right] \mtx{x}(t) + \left[
-  \begin{array}{c}
+  \end{bmatrix}
+  \mtx{x}(t) +
+  \begin{bmatrix}
     0 \\
     0 \\
     0 \\
     1
-  \end{array}
-  \right] \mtx{u}(t) \\
-  \mtx{y}(t) &= \left[
-  \begin{array}{cccc}
+  \end{bmatrix}
+  \mtx{u}(t) \\
+  \mtx{y}(t) &=
+  \begin{bmatrix}
     n_4 & n_3 & n_2 & n_1
-  \end{array}
-  \right] \mtx{x}(t)
+  \end{bmatrix}
+  \mtx{x}(t)
 \end{align}
 
 \subsection{Observable canonical form} \label{subsubsec:obsv-canon}
@@ -153,14 +153,13 @@ an output trajectory provides enough information to predict the initial
   if and only if
 
   \begin{equation} \label{eq:obsv_rank}
-    \text{rank} \left(\left[
-    \begin{array}{c}
+    \text{rank} \left(
+    \begin{bmatrix}
       C \\
       CA \\
       \vdots \\
       CA^{n-1}
-    \end{array}
-    \right]\right) = n
+    \end{bmatrix}\right) = n
   \end{equation}
 
   where rank is the number of linearly independent rows in a matrix and $n$ is
@@ -171,26 +170,26 @@ The canonical \gls{realization} of the \gls{system} in equation
 (\ref{eq:ctrl_obsv_tf}) that satisfies equation (\ref{eq:obsv_rank}) is
 
 \begin{align}
-  \dot{\mtx{x}}(t) &= \left[
-  \begin{array}{cccc}
+  \dot{\mtx{x}}(t) &=
+  \begin{bmatrix}
     0 & 0 & 0 & -d_4 \\
     1 & 0 & 0 & -d_3 \\
     0 & 1 & 0 & -d_2 \\
     0 & 0 & 1 & -d_1
-  \end{array}
-  \right] \mtx{x}(t) + \left[
-  \begin{array}{c}
+  \end{bmatrix}
+  \mtx{x}(t) +
+  \begin{bmatrix}
     n_4 \\
     n_3 \\
     n_2 \\
     n_1
-  \end{array}
-  \right] \mtx{u}(t) \\
-  \mtx{y}(t) &= \left[
-  \begin{array}{cccc}
+  \end{bmatrix}
+  \mtx{u}(t) \\
+  \mtx{y}(t) &=
+  \begin{bmatrix}
     0 & 0 & 0 & 1
-  \end{array}
-  \right] \mtx{x}(t)
+  \end{bmatrix}
+  \mtx{x}(t)
 \end{align}
 
 \section{Eigenvalues in state-space}
