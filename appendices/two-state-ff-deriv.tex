@@ -20,6 +20,13 @@ To minimize the tracking cost, we'll minimize the following cost function.
     \mtx{u}^T\mtx{R}\mtx{u}
 \end{equation*}
 
+$\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k$ will only return a non-zero vector if the
+reference isn't following the system dynamics. If it is, the feedback controller
+already compensates for it. This feedforward compensates for any unmodeled
+dynamics reflected in how the reference is changing (or not changing). In the
+case of a constant reference, the feedforward opposes any system dynamics that
+would change the state over time.
+
 \begin{align*}
   \mtx{J} &= (\mtx{B}\mtx{u} - \mtx{r}_{k+1} + \mtx{A}\mtx{r}_k)^T \mtx{Q}
     (\mtx{B}\mtx{u} - \mtx{r}_{k+1} + \mtx{A}\mtx{r}_k) +
