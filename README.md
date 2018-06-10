@@ -104,11 +104,10 @@ applying the skills discussed.
 
 ### Teach topics better
 
-The link to the graphical introduction to Kalman filters should be replaced with
-something much more comprehensive. The graphics are nice, but there isn't much
-substance to promote deep understanding. I have a lot of notes from the course I
-took on Kalman filters I intend to synthesize (also notes PDFs in
-~/frc/state-space-guide).
+The probability section and math for stochastic systems needs examples. The
+probability concepts also need a better narrative thread (i.e., "why bring this
+up?"). The stuff on Wiener filters should be expanded to include how it relates
+to combining Gaussian distributions.
 
 ### Finish incomplete topics
 

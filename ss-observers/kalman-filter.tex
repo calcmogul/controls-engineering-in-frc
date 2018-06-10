@@ -1,0 +1,203 @@
+\section{Kalman filter}
+\index{Kalman filter}
+
+Unknown states in a Kalman filter are generally represented by a Wiener
+(pronounced VEE-ner) process. This process has the property that its variance
+increases linearly with time $t$.
+
+Theorem \ref{thm:kalman_filter} shows the predict and update steps for a Kalman
+filter at the $k^{th}$ timestep.
+
+\begin{theorem}[Kalman filter]
+  \begin{align}
+    \text{Predict step} \nonumber \\
+    \hat{\mtx{x}}_{k+1}^- &= \mtx{\Phi}\hat{\mtx{x}}_k + \mtx{B} \mtx{u}_k
+      \label{eq:pre1_x} \\
+    \mtx{P}_{k+1}^- &= \mtx{\Phi} \mtx{P}_k^- \mtx{\Phi}^T +
+      \mtx{\Gamma}\mtx{Q}\mtx{\Gamma}^T \\
+    \text{Update step} \nonumber \\
+    \mtx{K}_{k+1} &=
+      \mtx{P}_{k+1}^- \mtx{H}^T (\mtx{H}\mtx{P}_{k+1}^- \mtx{H}^T +
+      \mtx{R})^{-1} \\
+    \hat{\mtx{x}}_{k+1}^+ &=
+      \hat{\mtx{x}}_{k+1}^- + \mtx{K}_{k+1}(\mtx{y}_{k+1} -
+      \mtx{H} \hat{\mtx{x}}_{k+1}^-) \label{eq:post1_x} \\
+    \mtx{P}_{k+1}^+ &= (\mtx{I} - \mtx{K}_{k+1}\mtx{H})\mtx{P}_{k+1}^-
+  \end{align}
+
+  \begin{figurekey}
+    \begin{tabulary}{\linewidth}{LLLL}
+      $\mtx{\Phi}$ & system matrix & $\hat{\mtx{x}}$ & state estimate vector \\
+      $\mtx{B}$ & input matrix            & $\mtx{u}$ & input vector \\
+      $\mtx{H}$ & measurement matrix      & $\mtx{y}$ & output vector \\
+      $\mtx{P}$ & error covariance matrix & $\mtx{Q}$ & process noise covariance
+        matrix \\
+      $\mtx{K}$ & Kalman gain matrix & $\mtx{R}$ & measurement noise covariance
+        matrix \\
+      $\mtx{\Gamma}$ & process noise intensity vector &
+    \end{tabulary}
+  \end{figurekey}
+
+  where a superscript of minus denotes \textit{a priori} and plus denotes
+  \textit{a posteriori} estimate (before and after update respectively).
+
+  \label{thm:kalman_filter}
+\end{theorem}
+
+$\mtx{\Phi}$ is replaced with $\mtx{A}$ for continuous systems.
+
+\begin{booktable}
+  \begin{tabular}{|ll|ll|}
+    \hline
+    \rowcolor{headingbg}
+    \textbf{Matrix} & \textbf{Rows $\times$ Columns} &
+    \textbf{Matrix} & \textbf{Rows $\times$ Columns} \\
+    \hline
+    $\mtx{\Phi}$ & states $\times$ states & $\hat{\mtx{x}}$ & states $\times$ 1
+      \\
+    $\mtx{B}$ & states $\times$ inputs & $\mtx{u}$ & inputs $\times$ 1 \\
+    $\mtx{H}$ & outputs $\times$ states & $\mtx{y}$ & outputs $\times$ 1 \\
+    $\mtx{P}$ & states $\times$ states & $\mtx{Q}$ & states $\times$ states \\
+    $\mtx{K}$ & states $\times$ outputs & $\mtx{R}$ & outputs $\times$ outputs
+      \\
+    $\mtx{\Gamma}$ & states $\times$ 1 &  &  \\
+    \hline
+  \end{tabular}
+  \caption{Kalman filter matrix dimensions}
+  \label{tab:kf_matrix_dims}
+\end{booktable}
+
+See the Wikipedia page on Kalman filters \cite{bib:kalman_filter} for
+derivations of the update step equations.
+
+\subsection{Equations to model}
+
+The following example system will be used to describe how to define and
+initialize the matrices for a Kalman filter.
+
+A robot is between two parallel walls. It starts driving from one wall to the
+other at a velocity of $0.8 cm/s$ and uses ultrasonic sensors to provide noisy
+measurements of the distances to the walls in front of and behind it. To
+estimate the distance between the walls, we will define three states: robot
+position, robot velocity, and distance between the walls.
+
+\begin{align}
+  x_{k+1} &= x_k + v_k \Delta T \\
+  v_{k+1} &= v_k \\
+  x_{k+1}^w &= x_k^w
+\end{align}
+
+This can be converted to the following state-space \gls{model}.
+
+\begin{equation}
+  \mtx{x}_k =
+  \begin{bmatrix}
+    x_k \\
+    v_k \\
+    x_k^w
+  \end{bmatrix}
+\end{equation}
+
+\begin{equation}
+  \mtx{x}_{k+1} =
+  \begin{bmatrix}
+    1 & 1 & 0 \\
+    0 & 0 & 0 \\
+    0 & 0 & 1
+  \end{bmatrix} \mtx{x}_k +
+  \begin{bmatrix}
+    0 \\
+    0.8 \\
+    0
+  \end{bmatrix} +
+  \begin{bmatrix}
+    0 \\
+    0.1 \\
+    0
+  \end{bmatrix} w_k
+\end{equation}
+
+where the Gaussian random variable $w_k$ has zero mean and variance 1. The
+observation \gls{model} is
+
+\begin{equation}
+  \mtx{y}_k =
+  \begin{bmatrix}
+    1 & 0 & 0 \\
+    -1 & 0 & 1
+  \end{bmatrix} \mtx{x}_k + \theta_k
+\end{equation}
+
+where the covariance matrix of Gaussian measurement noise $\theta$ is a
+$2 \times 2$ matrix with both diagonals $10 cm^2$.
+
+The state vector is usually initialized using the first measurement or two. The
+covariance matrix entries are assigned by calculating the covariance of the
+expressions used when assigning the state vector. Let $k = 2$.
+
+\begin{align}
+  \mtx{Q} &= \begin{bmatrix}1\end{bmatrix} \\
+  \mtx{R} &=
+  \begin{bmatrix}
+    10 & 0 \\
+    0 & 10
+  \end{bmatrix} \\
+  \hat{\mtx{x}} &=
+  \begin{bmatrix}
+    \mtx{y}_{k,1} \\
+    (\mtx{y}_{k,1} - \mtx{y}_{k-1,1})/dt \\
+    \mtx{y}_{k,1} + \mtx{y}_{k,2}
+  \end{bmatrix} \\
+  \mtx{P} &=
+  \begin{bmatrix}
+    10 & 10/dt & 10 \\
+    10/dt & 20/dt^2 & 10/dt \\
+    10 & 10/dt & 20
+  \end{bmatrix}
+\end{align}
+
+\subsection{Initial conditions}
+
+To fill in the $\mtx{P}$ matrix, we calculate the covariance of each combination
+of state variables. The resulting value is a measure of how much those variables
+are correlated. Due to how the covariance calculation works out, the covariance
+between two variables is the sum of the variance of matching terms which aren't
+constants multiplied by any constants the two have. If no terms match, the
+variables are uncorrelated and the covariance is zero.
+
+In $\mtx{P}_{11}$, the terms in $\mtx{x}_1$ correlate with itself. Therefore,
+$\mtx{P}_{11}$ is $\mtx{x}_1$'s variance, or $\mtx{P}_{11} = 10$. For
+$\mtx{P}_{21}$, One term correlates between $\mtx{x}_1$ and $\mtx{x}_2$, so
+$\mtx{P}_{21} = \frac{10}{dt}$. The constants from each are simply multiplied
+together. For $\mtx{P}_{22}$, both measurements are correlated, so the variances
+add together. Therefore, $\mtx{P}_{22} = \frac{20}{dt^2}$. It continues in this
+fashion until the matrix is filled up. Order doesn't matter for correlation, so
+the matrix is symmetric.
+
+\subsection{Selection of priors}
+
+Choosing good priors is important for a well performing filter, even if little
+information is known. This applies to both the measurement noise and the noise
+\gls{model}. The act of giving a state variable a large variance means you know
+something about the system. Namely, you aren't sure whether your initial guess
+is close to the true state. If you make a guess and specify a small variance,
+you are telling the filter that you are very confident in your guess. If that
+guess is incorrect, it will take the filter a long time to move away from your
+guess to the true value.
+
+\subsection{Covariance selection}
+
+While one could assume no correlation between the state variables and set the
+covariance matrix entries to zero, this may not reflect reality. The Kalman
+filter is still guarenteed to converge to the steady-state covariance after an
+infinite time, but it will take longer than otherwise.
+
+\subsection{Noise model selection}
+
+We typically use a Gaussian distribution for the noise \gls{model} because the
+sum of many independent random variables produces a normal distribution by the
+central limit theorem. Kalman filters only require that the noise has a zero
+mean. If the true value has an equal probability of being within a certain
+range, use a uniform distribution instead. Each of these communicates
+information regarding what you know about a system in addition to what you do
+not.

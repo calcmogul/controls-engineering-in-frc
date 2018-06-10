@@ -1,0 +1,334 @@
+\section{Introduction to probability}
+\index{probability}
+
+To understand the theory behind Kalman filters, we have to cover some basic
+concepts in probability.
+
+\subsection{Random variables}
+
+Let $x$ be a random variable (a variable represented by a random process), and
+let $p(x)$ denote the probability density function of $x$. The probability that
+the value of $x$ will be in the interval $x \in [x_1, x_1 + dx]$ is
+$p(x_1) dx_1$.
+
+\begin{svg}{pdf}
+  \caption{Probability density function}
+\end{svg}
+
+Probability density functions (PDFs) require that no probabilities are negative
+and that the sum of all probabilities is $1$.
+
+\begin{equation*}
+  p(x) \geq 0, \int_{-\infty}^\infty p(x) dx = 1
+\end{equation*}
+
+\subsection{Expected value}
+
+Expected value is a weighted average of the values the PDF can produce where the
+weight for each is the corresponding probability of that value occurring.
+
+\begin{equation*}
+  \overline{x} = E[x] = \int_{-\infty}^\infty x p(x) dx
+\end{equation*}
+
+This can be applied to functions as well as variables.
+
+\begin{equation*}
+  E[f(x)] = \int_{-\infty}^\infty f(x) p(x) dx
+\end{equation*}
+
+The mean of a random variable is denoted by an overbar (e.g., $\overline{x}$).
+The expectation of a random variable from its mean converges to zero.
+
+\begin{align*}
+  E[x - \overline{x}] &= \int_{-\infty}^\infty (x - \overline{x}) p(x) dx \\
+  E[x - \overline{x}] &= \int_{-\infty}^\infty x p(x) dx -
+    \int_{-\infty}^\infty \overline{x} p(x) dx \\
+  E[x - \overline{x}] &= \int_{-\infty}^\infty x p(x) dx -
+    \overline{x} \int_{-\infty}^\infty p(x) dx \\
+  E[x - \overline{x}] &= \overline{x} - \overline{x} \cdot 1 \\
+  E[x - \overline{x}] &= 0 \\
+\end{align*}
+
+\subsection{Variance}
+
+\begin{align*}
+  var(x) &= \sigma^2 = E[(x - \overline{x})^2] =
+    \int_{-\infty}^{\infty} (x - \overline{x})^2 p(x) dx \\
+  std[x] &= \sigma = \sqrt{var(x)}
+\end{align*}
+
+\subsection{Joint probability density functions}
+
+$x$ and $y$ are random variables. The joint probability density function
+$p(x, y)$ defines the probability $p(x, y) dx dy$, so that $x$ and $y$ are in
+the intervals $x \in [x, x + dx], y \in [y, y + dy]$.
+
+Joint probability density functions also require that no probabilities are
+negative and that the sum of all probabilities is $1$.
+
+\begin{equation*}
+  p(x, y) \geq 0, \int_{-\infty}^\infty \int_{-\infty}^{\infty} p(x, y) dx dy =
+    1
+\end{equation*}
+
+The expected values for joint PDFs are as follows.
+
+\begin{align*}
+  E[x] &= \int_{-\infty}^\infty \int_{-\infty}^{\infty} x dx dy \\
+  E[y] &= \int_{-\infty}^\infty \int_{-\infty}^{\infty} y dx dy \\
+  E[f(x, y)] &= \int_{-\infty}^\infty \int_{-\infty}^{\infty} f(x, y) dx dy
+\end{align*}
+
+The variance of a joint PDF measures how a variable correlates with itself.
+
+\begin{align*}
+  var(x) &= \Sigma_{xx} = E[(x - \overline{x})^2] =
+    \int_-\infty^{\infty} \int_{-\infty}^\infty (x - \overline{y})^2 p(x, y) dx
+    dy \\
+  var(y) &= \Sigma_{yy} = E[(y - \overline{y})^2] =
+    \int_{-\infty}^\infty \int_{-\infty}^\infty (y - \overline{y})^2 p(x, y)
+    dx dy \\
+\end{align*}
+
+\subsection{Covariance}
+
+A covariance is a measurement of how a variable correlates with another.
+
+\begin{equation*}
+  cov(x, y) = \Sigma_{xy} = E[(x - \overline{x})(y - \overline{y})] =
+    \int_{-\infty}^\infty \int_{-\infty}^\infty (x - \overline{y})
+    (y - \overline{y}) p(x, y) dx dy \\
+\end{equation*}
+
+\subsection{Correlation}
+
+Correlation is defined as
+
+\begin{equation*}
+  \rho(x, y) = \frac{\Sigma_{xy}}{\sqrt{\Sigma_{xx}\Sigma_{yy}}}, |\rho(x, y)|
+    \leq 1
+\end{equation*}
+
+\subsection{Independence}
+
+Two random variables are independent if the following relation is true.
+
+\begin{equation*}
+  p(x, y) = p(x)p(y)
+\end{equation*}
+
+This means that the values of one random variable do not correlate with another.
+If we assume independence,
+
+\begin{align*}
+  E[xy] &= \int_{-\infty}^\infty \int_{-\infty}^\infty xy p(x, y) dx dy \\
+  E[xy] &= \int_{-\infty}^\infty \int_{-\infty}^\infty xy p(x) p(y) dx dy \\
+  E[xy] &= \int_{-\infty}^\infty x p(x) dx \int_{-\infty}^\infty y p(y) dy \\
+  E[xy] &= E[x]E[y] \\
+  E[xy] &= \overline{x}\overline{y}
+\end{align*}
+
+\begin{align*}
+  cov(x, y) &= E[(x - \overline{x})(y - \overline{y})] \\
+  cov(x, y) &= E[(x - \overline{x})]E[(y - \overline{y})] \\
+  cov(x, y) &= 0 \cdot 0 \\
+\end{align*}
+
+Therefore, $\Sigma_{xy} \rightarrow \rho(x, y) = 0$.
+
+\subsection{Marginal density}
+
+The marginal density $p(x)$ expresses the probability of $x$ while $y$ is
+unknown. This is computed as
+
+\begin{equation*}
+  p(x) = \int_{-\infty}^\infty p(x, y) dy
+\end{equation*}
+
+\subsection{Conditional density}
+
+Let us assume that we know the joint density $p(x, y)$ and the exact value for
+$y$. The conditional density gives the probability of $x$ in the interval
+$[x, x + dx]$ for the given value $y$.
+
+If $p(x, y)$ is known, then we also know $p(x, y = y∗)$. However, note that the
+latter is not the conditional density $p(x|y∗)$, instead
+
+\begin{align*}
+  C(y^*) &= \int_{-\infty}^\infty p(x, y = y^*) dx \\
+  p(x|y^*) &= \frac{1}{C(y^*)} p(x, y = y^*)
+\end{align*}
+
+The scale factor $\frac{1}{C(y^*)}$ is used to scale the area under the PDF to
+$1$.
+
+\subsection{Bayes' rule}
+
+\begin{equation*}
+  p(x, y) = p(x|y) p(y) = p(y|x) p(x)
+\end{equation*}
+
+If $x$ and $y$ are independent, $p(x|y) = p(x)$, $p(y|x) = p(y)$,
+$p(x, y) = p(x)p(y)$.
+
+\subsection{Conditional expectation}
+
+\begin{align*}
+  E[x|y] &= \int_{-\infty}^\infty x p(x|y) dx = f(y), E[x|y] \neq E[x] \\
+  E[y|x] &= \int_{-\infty}^\infty y p(y|x) dy = f(x), E[y|x] \neq E[y]
+\end{align*}
+
+\subsection{Conditional variances}
+
+\begin{equation*}
+  var(x|y) = E[(x - E[x|y])^2|y] = \int_{-\infty}^\infty (x - E[x|y])^2 p(x|y)
+    dx = f(y)
+\end{equation*}
+
+\subsection{Random vectors}
+
+\begin{equation*}
+  \mtx{x} = \begin{bmatrix}
+    x_1 \\
+    x_2 \\
+    \ldots \\
+    x_n
+  \end{bmatrix}
+\end{equation*}
+
+The elements of $\mtx{x}$ are scalar variables jointly distributed with a joint
+density $p(x_1, x_2, \ldots, x_n)$. The expectation is
+
+\begin{align*}
+  E[\mtx{x}] &= \meanmtx{x} = \int_{-\infty}^\infty \mtx{x} p(\mtx{x}) d\mtx{x}
+    \\
+  E[\mtx{x}] &= \begin{bmatrix}
+    E[x_1] \\
+    E[x_2] \\
+    \ldots \\
+    E[x_n]
+  \end{bmatrix} \\
+  E[x_i] &= \int_{-\infty}^\infty \ldots \int_{-\infty}^\infty x_i
+    p(x_1, x_2, \ldots, x_n) dx_1 \ldots dx_n \\
+  E[f(\mtx{x})] &= \int_{-\infty}^\infty f(\mtx{x}) p(\mtx{x}) d\mtx{x}
+\end{align*}
+
+\subsection{Covariance matrix}
+
+The covariance matrix for a random vector $\mtx{x} \in \mathbb{R}^n$ is
+
+\begin{align*}
+  \mtx{\Sigma} &= cov(\mtx{x}, \mtx{x}) = E[(\mtx{x} - \meanmtx{x})
+    (\mtx{x} - \meanmtx{x})^T] \\
+  \mtx{\Sigma} &= \begin{bmatrix}
+    cov(x_1, x_1) & cov(x_1, x_2) & \ldots & cov(x_1, x_n) \\
+    cov(x_2, x_1) & cov(x_1, x_2) & \ldots & cov(x_1, x_n) \\
+    \ldots        & \ldots        & \ldots & \ldots \\
+    cov(x_n, x_1) & cov(x_n, x_2) & \ldots & cov(x_n, x_n) \\
+  \end{bmatrix}
+\end{align*}
+
+This $n \times n$ matrix is symmetric and positive semidefinite. A positive
+semidefinite matrix satisfies the relation that for any
+$\mtx{v} \in \mathbb{R}^n$ for which $\mtx{v} \neq 0$,
+$\mtx{v}^T \mtx{\Sigma} \mtx{v} \geq 0$. In other words, the eigenvalues of
+$\mtx{\Sigma}$ are all greater than or equal to zero.
+
+\subsection{Relations for independent random vectors}
+
+First, independent vectors imply linearity from
+$p(\mtx{x}, \mtx{y}) = p(\mtx{x})p(\mtx{y})$.
+
+\begin{align*}
+  E[\mtx{A}\mtx{x} + \mtx{B}\mtx{y}] &= \mtx{A}E[\mtx{x}] + \mtx{B}E[\mtx{y}] \\
+  E[\mtx{A}\mtx{x} + \mtx{B}\mtx{y}] &= \mtx{A}\meanmtx{x} + \mtx{B}\meanmtx{y}
+\end{align*}
+
+Second, independent vectors being uncorrelated means their covariance is zero.
+
+\begin{align}
+  \mtx{\Sigma}_{\mtx{x}\mtx{y}} &= cov(\mtx{x}, \mtx{y}) \nonumber \\
+  \mtx{\Sigma}_{\mtx{x}\mtx{y}} &= E[(\mtx{x} - \meanmtx{x})
+    (\mtx{y} - \meanmtx{y})^T] \nonumber \\
+  \mtx{\Sigma}_{\mtx{x}\mtx{y}} &= E[\mtx{x}\mtx{y}^T] -
+    E[\mtx{x}\meanmtx{y}^T] - E[\meanmtx{x}\mtx{y}^T] +
+    E[\meanmtx{x}\meanmtx{y}^T] \nonumber \\
+  \mtx{\Sigma}_{\mtx{x}\mtx{y}} &= E[\mtx{x}\mtx{y}^T] -
+    E[\mtx{x}]\meanmtx{y}^T - \meanmtx{x}E[\mtx{y}^T] +
+    \meanmtx{x}\meanmtx{y}^T \nonumber \\
+  \mtx{\Sigma}_{\mtx{x}\mtx{y}} &= E[\mtx{x}\mtx{y}^T] -
+    \meanmtx{x}\meanmtx{y}^T - \meanmtx{x}\meanmtx{y}^T +
+    \meanmtx{x}\meanmtx{y}^T \nonumber \\
+  \mtx{\Sigma}_{\mtx{x}\mtx{y}} &= E[\mtx{x}\mtx{y}^T] -
+    \meanmtx{x}\meanmtx{y}^T \label{eq:prb_sigma}
+\end{align}
+
+Now, compute $E[\mtx{x}\mtx{y}^T]$.
+
+\begin{align}
+  E[\mtx{x}\mtx{y}^T] &= \int_X \int_Y \mtx{x}\mtx{y}^T p(\mtx{x})p(\mtx{y})
+    d\mtx{x}d\mtx{y}^T \nonumber \\
+  E[\mtx{x}\mtx{y}^T] &= \int_X p(\mtx{x}) \mtx{x} d\mtx{x}
+    \int_Y p(\mtx{y}) \mtx{y}^T d\mtx{y}^T \nonumber \\
+  E[\mtx{x}\mtx{y}^T] &= \meanmtx{x}\meanmtx{y}^T \label{eq:prb_exyt}
+\end{align}
+
+Substitute equation (\ref{eq:prb_exyt}) into equation (\ref{eq:prb_sigma}).
+
+\begin{align*}
+  \mtx{\Sigma}_{\mtx{x}\mtx{y}} &= (\meanmtx{x}\meanmtx{y}^T) -
+    \meanmtx{x}\meanmtx{y}^T \\
+  \mtx{\Sigma}_{\mtx{x}\mtx{y}} &= 0
+\end{align*}
+
+Using these results, we can compute the covariance of
+$\mtx{z} = \mtx{A}\mtx{x} + \mtx{B}\mtx{y}$ where $\Sigma_{xy} = 0$,
+$\Sigma_x = cov(\mtx{x}, \mtx{x})$, and $\Sigma_y = cov(\mtx{y}, \mtx{y})$.
+
+\begin{align*}
+  \Sigma_z =~& cov(\mtx{z}, \mtx{z}) \\
+  \Sigma_z =~& E[(\mtx{z} - \meanmtx{z})(\mtx{z} - \meanmtx{z})^T] \\
+  \Sigma_z =~& E[(\mtx{A}\mtx{x} + \mtx{B}\mtx{y} - \mtx{A}\meanmtx{x} -
+    \mtx{B}\meanmtx{y})(\mtx{A}\mtx{x} + \mtx{B}\mtx{y} -
+    \mtx{A}\meanmtx{x} - \mtx{B}\meanmtx{y})^T] \\
+  \Sigma_z =~& E[(\mtx{A}(\mtx{x} - \meanmtx{x}) +
+    \mtx{B}(\mtx{y} - \meanmtx{y}))
+    (\mtx{A}(\mtx{x} - \meanmtx{x}) +
+     \mtx{B}(\mtx{y} - \meanmtx{y}))^T] \\
+  \Sigma_z =~& E[(\mtx{A}(\mtx{x} - \meanmtx{x}) +
+    \mtx{B}(\mtx{y} - \meanmtx{y}))
+    ((\mtx{x} - \meanmtx{x})^T\mtx{A}^T +
+     (\mtx{y} - \meanmtx{y})^T\mtx{B}^T)] \\
+  \Sigma_z =~& E[
+    \mtx{A}(\mtx{x} - \meanmtx{x})(\mtx{x} - \meanmtx{x})^T\mtx{A}^T +
+    \mtx{A}(\mtx{x} - \meanmtx{x})(\mtx{y} - \meanmtx{y})^T\mtx{B}^T + \\
+    &\mtx{B}(\mtx{y} - \meanmtx{y})(\mtx{x} - \meanmtx{x})^T\mtx{A}^T +
+    \mtx{B}(\mtx{y} - \meanmtx{y})(\mtx{y} - \meanmtx{y})^T\mtx{B}^T]
+\end{align*}
+
+Since $\mtx{x}$ and $\mtx{y}$ are independent,
+
+\begin{align*}
+  \Sigma_z &= E[
+    \mtx{A}(\mtx{x} - \meanmtx{x})(\mtx{x} - \meanmtx{x})^T\mtx{A}^T + 0 + 0 +
+    \mtx{B}(\mtx{y} - \meanmtx{y})(\mtx{y} - \meanmtx{y})^T\mtx{B}^T] \\
+  \Sigma_z &=
+    E[\mtx{A}(\mtx{x} - \meanmtx{x})(\mtx{x} - \meanmtx{x})^T\mtx{A}^T] +
+    E[\mtx{B}(\mtx{y} - \meanmtx{y})(\mtx{y} - \meanmtx{y})^T\mtx{B}^T] \\
+  \Sigma_z &=
+    \mtx{A}E[(\mtx{x} - \meanmtx{x})(\mtx{x} - \meanmtx{x})^T]\mtx{A}^T +
+    \mtx{B}E[(\mtx{y} - \meanmtx{y})(\mtx{y} - \meanmtx{y})^T]\mtx{B}^T \\
+  \Sigma_z &=\mtx{A}\Sigma_x\mtx{A}^T + \mtx{B}\Sigma_y\mtx{B}^T
+\end{align*}
+
+\subsection{Gaussian random variables}
+
+A Gaussian random variable has the following properties:
+
+\begin{align*}
+  E[x] &= \overline{x} \\
+  var(x) &= \sigma^2 \\
+  p(x) &= \frac{1}{\sqrt{2\pi\sigma^2}}
+    e^{-\frac{(x - \overline{x})^2}{2\sigma^2}}
+\end{align*}

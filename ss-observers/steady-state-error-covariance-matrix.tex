@@ -1,0 +1,16 @@
+\section{Steady-state error covariance matrix}
+
+One may have noticed that the error covariance matrix can be updated
+independently of the rest of the model. The error covariance matrix tends
+toward a steady-state value, and this matrix can be obtained via the discrete
+algebraic Ricatti equation. This can then be used to compute a steady-state
+Kalman gain.
+
+Snippet \ref{lst:kalman} computes the steady-state matrices for a Kalman
+filter.
+
+\begin{snippet}
+  \caption{Steady-state Kalman gain and error covariance matrices calculation in Python}
+  \label{lst:kalman}
+  \includecode[Python]{code/frccontrol/kalman.py}
+\end{snippet}

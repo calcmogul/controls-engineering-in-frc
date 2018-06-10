@@ -1,0 +1,48 @@
+\section{Two-sensor problem}
+
+We'll skip the probability derivations here, but given two data points with
+associated variances represented by Gaussian distribution, the information can
+be optimally combined into a third Gaussian distribution with a mean value and
+variance. The expected value of $x$ given a measurement $z_1$ is
+
+\begin{equation}
+  E[x|z_1] = \mu = \frac{\sigma_0^2}{\sigma_0^2 + \sigma^2}z_1 +
+    \frac{\sigma^2}{\sigma_0^2 + \sigma^2}x_0
+\end{equation}
+
+The variance of $x$ given $z_1$ is
+
+\begin{equation}
+  E[(x - \mu)^2|z_1] = \frac{\sigma^2 \sigma_0^2}{\sigma_0^2 + \sigma^2}
+\end{equation}
+
+The expected value, which is also the maximum likelihood value, is the linear
+combination of the prior expected (maximum likelihood) value and the
+measurement. The expected value is a reasonable estimator of $x$.
+
+\begin{align}
+  \hat{x} &= E[x|z_1] = \frac{\sigma_0^2}{\sigma_0^2 + \sigma^2}z_1 +
+    \frac{\sigma^2}{\sigma_0^2 + \sigma^2}x_0 \\
+  \hat{x} &= w_1 z_1 + w_2 x_0 \nonumber
+\end{align}
+
+Note that the weights $w_1$ and $w_2$ sum to $1$. When the prior (i.e., prior
+knowledge of state) is uninformative (a large variance)
+
+\begin{align}
+  w_1 &= \lim_{\sigma_0^2 \to 0} \frac{\sigma_0^2}{\sigma_0^2 + \sigma^2} = 0 \\
+  w_2 &= \lim_{\sigma_0^2 \to 0} \frac{\sigma^2}{\sigma_0^2 + \sigma^2} = 1
+\end{align}
+
+and $\hat{x} = z_1$. That is, the weight is on the observations and the estimate
+is equal to the measurement.
+
+Let us assume we have a \gls{model} providing an almost exact prior for $x$. In
+that case, $\sigma_0^2$ approaches 0 and
+
+\begin{align}
+  w_1 &= \lim_{\sigma_0^2 \to 0} \frac{\sigma_0^2}{\sigma_0^2 + \sigma^2} = 1 \\
+  w_2 &= \lim_{\sigma_0^2 \to 0} \frac{\sigma^2}{\sigma_0^2 + \sigma^2} = 0
+\end{align}
+
+The Kalman filter uses this optimal fusion as the basis for its operation.

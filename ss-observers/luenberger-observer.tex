@@ -1,0 +1,76 @@
+\section{Luenberger observer}
+
+\begin{theorem}[Luenberger observer]
+  \begin{align}
+    \dot{\hat{\mtx{x}}} &= \mtx{A}\hat{\mtx{x}} + \mtx{B}\mtx{u} +
+      \mtx{L} (\mtx{y} - \hat{\mtx{y}}) \label{eq:s_obsv_x} \\
+    \hat{\mtx{y}} &= \mtx{C}\hat{\mtx{x}} + \mtx{D}\mtx{u} \label{eq:s_obsv_y}
+  \end{align}
+
+  \begin{align}
+    \hat{\mtx{x}}_{k+1} &= \mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
+      \mtx{L}(\mtx{y}_k - \hat{\mtx{y}}_k) \label{eq:z_obsv_x} \\
+    \hat{\mtx{y}}_k &= \mtx{C}\hat{\mtx{x}}_k + \mtx{D}\mtx{u}_k
+      \label{eq:z_obsv_y} \\ \nonumber
+  \end{align}
+
+  \begin{figurekey}
+    \begin{tabulary}{\linewidth}{LLLL}
+      $\mtx{A}$ & system matrix      & $\hat{\mtx{x}}$ & state estimate vector \\
+      $\mtx{B}$ & input matrix       & $\mtx{u}$ & input vector \\
+      $\mtx{C}$ & output matrix      & $\mtx{y}$ & output vector \\
+      $\mtx{D}$ & feedthrough matrix & $\hat{\mtx{y}}$ & output estimate vector \\
+      $\mtx{L}$ & estimator gain matrix & & \\
+    \end{tabulary}
+  \end{figurekey}
+\end{theorem}
+
+\begin{booktable}
+  \begin{tabular}{|ll|ll|}
+    \hline
+    \rowcolor{headingbg}
+    \textbf{Matrix} & \textbf{Rows $\times$ Columns} &
+    \textbf{Matrix} & \textbf{Rows $\times$ Columns} \\
+    \hline
+    $\mtx{A}$ & states $\times$ states & $\hat{\mtx{x}}$ & states $\times$ 1 \\
+    $\mtx{B}$ & states $\times$ inputs & $\mtx{u}$ & inputs $\times$ 1 \\
+    $\mtx{C}$ & outputs $\times$ states & $\mtx{y}$ & outputs $\times$ 1 \\
+    $\mtx{D}$ & outputs $\times$ inputs & $\hat{\mtx{y}}$ & outputs $\times$ 1 \\
+    $\mtx{L}$ & states $\times$ outputs & & \\
+    \hline
+  \end{tabular}
+  \caption{Luenberger observer matrix dimensions}
+  \label{tab:luenberger_matrix_dims}
+\end{booktable}
+
+Variables denoted with a hat are estimates of the corresponding variable. For
+example, $\hat{\mtx{x}}$ is the estimate of the true state $\mtx{x}$.
+
+Notice that a Luenberger observer has an extra term in the state evolution
+equation. This term uses the difference between the estimated outputs and
+measured outputs to steer the estimated state toward the true state. Large
+values of $\mtx{L}$ trust the measurements more while small values trust the
+model more.
+
+\begin{remark}
+  Using an estimator forfeits the performance guarantees from earlier, but the
+  responses are still generally very good.
+\end{remark}
+
+A Luenberger observer combines the prediction and update steps of an estimator.
+To run them separately, use the equations in theorem \ref{thm:luenberger}
+instead.
+
+\begin{theorem}[Luenberger observer with separate predict/update]
+  \begin{align}
+    \text{Predict step} \nonumber \\
+    \hat{\mtx{x}}_{k+1}^- &= \mtx{A}\hat{\mtx{x}}_k^- + \mtx{B}\mtx{u}_k \\
+    \text{Update step} \nonumber \\
+    \hat{\mtx{x}}_{k+1}^+ &= \hat{\mtx{x}}_{k+1}^- + \mtx{A}^{-1}\mtx{L}
+      (\mtx{y}_k - \hat{\mtx{y}}_k) \\
+    \hat{\mtx{y}}_k &= \mtx{C} \hat{\mtx{x}}_k^-
+  \end{align}
+  \label{thm:luenberger}
+\end{theorem}
+
+See appendix \ref{subsec:app-luenberger-separate} for a derivation.
