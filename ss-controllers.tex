@@ -7,6 +7,23 @@ controller with certain \glspl{control law} to do it. PID controllers use the
 system outputs with proportional, integral, and derivative \glspl{control law}.
 In state-space, we also have knowledge of the system states so we can do better.
 
+\section{From PID to model-based control}
+
+As mentioned before, controls engineers have a more general framework to
+describe control theory than just PID control. PID controller designers are
+focused on fiddling with controller parameters relating to the current, past,
+and future error rather than the underlying system states. Integral control is a
+commonly used tool, and some people use integral action as the majority of the
+control action. While this approach works in a lot of situations, it is an
+incomplete view of the world.
+
+Model-based control has a completely different mindset. Controls designers using
+model-based control care about developing an accurate model of the system, then
+driving the states they care about to zero (or to a \gls{reference}). Integral
+control is added with $u_{error}$ estimation if needed to handle model
+uncertainty, but we prefer not to use it because its response is hard to tune
+and some of its destabilizing dynamics aren't visible during simulation.
+
 \section{Optimal control law}
 
 The optimal \gls{control law} for a multiple-input, multiple-output system is

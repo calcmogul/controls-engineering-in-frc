@@ -299,11 +299,19 @@ The effect of noise can be seen if it is modeled
 
 \begin{equation*}
   \hat{\mtx{x}}_{k+1} = \mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
-    \mtx{L} (\mtx{y}_k - \hat{\mtx{y}}_k) + \mtx{L}\mtx{\nu}_k
+    \mtx{L} ((\mtx{y}_k + \mtx{\nu}_k) - \hat{\mtx{y}}_k) \\
 \end{equation*}
 
-where $\mtx{\nu}_k$ is the measurement noise. As $\mtx{L}$ increases, the
-measurement noise is amplified.
+where $\mtx{\nu}_k$ is the measurement noise. Rearranging this equation yields
+
+\begin{align*}
+  \hat{\mtx{x}}_{k+1} &= \mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
+    \mtx{L} (\mtx{y}_k - \hat{\mtx{y}}_k + \mtx{\nu}_k) \\
+  \hat{\mtx{x}}_{k+1} &= \mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
+    \mtx{L} (\mtx{y}_k - \hat{\mtx{y}}_k) + \mtx{L}\mtx{\nu}_k
+\end{align*}
+
+As $\mtx{L}$ increases, the measurement noise is amplified.
 
 In summary, a controller is stable if the eigenvalues of
 $\mtx{A} - \mtx{B}\mtx{K}$ are within the unit circle, and an estimator is

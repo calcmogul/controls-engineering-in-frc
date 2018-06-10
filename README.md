@@ -78,23 +78,6 @@ reference.
 
 ### Bridge the knowledge gap
 
-A smoother transition is needed between the mindsets of PID control and modern
-control.
-
-* "Controls engineers have a more general framework than just PID. Here's how
-  PID fits into that framework."
-* Add intro to modern control part "has three parts: make model, design
-  controller, estimate state. We'll go through each."
-* Add section bridging gap between PID and modern control understanding "more
-  general term for setpoint is reference; former focused on fiddling with
-  controller params as current past and future, explain how those params are
-  seen by modern control (position and velocity gains) and how bad raw integral
-  control is. Explain how PID maps to modern control's states, inputs, and
-  outputs.
-* Modern control cares about making accurate model, then driving the states they
-  care about to zero. Integral control is added with uerror if needed to handle
-  model uncertainty (but prefer not to do so).
-
 A small section on kinematics and dynamics in general would be useful for those
 trying to follow the state-space model derivations.
 
