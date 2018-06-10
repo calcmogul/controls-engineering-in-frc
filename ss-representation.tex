@@ -8,16 +8,10 @@
   \ref{ch:app-installing-python-control} for how to install it.
 \end{remark}
 
-A state-space representation models \glspl{system} as a set of \gls{state},
-input, and output variables related by first-order differential equations.
-"State space" refers to the Euclidean space in which the \gls{state} variables
-are on the axes. The \gls{state} of the \gls{system} can be represented as a
-vector within that space.
-
-To abstract from the number of \glspl{state}, inputs, and outputs, these
-variables are expressed as vectors. Additionally, if the dynamical \gls{system}
-is linear, time-invariant, and finite-dimensional, then the differential and
-algebraic equations may be written in matrix form.
+State-space representation models \glspl{system} as a set of \gls{state}, input,
+and output variables related by first-order differential equations that describe
+how the system's state changes over time given the current \glspl{state} and
+inputs.
 
 \section{Benefits over classical output-based control}
 
@@ -32,7 +26,23 @@ Students are still taught classical control first because it provides a
 framework within which to understand the results we get from the fancy
 mathematical machinery of modern control.
 
+\section{What is state-space?}
+
+Recall from last chapter that 2D space has two axes, $x$ and $y$. We represent
+locations within this space as a pair of numbers packaged in a vector, and each
+coordinate is a measure of how far to move along the corresponding axis.
+State-space is a Cartesian coordinate system with an axis for each \gls{state}
+variable, and we represent locations within it the same way we do for 2D space:
+with a list of numbers in a vector. Each element in the vector corresponds to a
+\gls{state} of the \gls{system}.
+
+In addition to the \gls{state}, inputs and outputs are represented as vectors.
+Since the mapping from the current states and inputs to the change in state is a
+system of equations, it's natural to write it in matrix form.
+
 \section{State-space notation}
+
+Below are the continuous and discrete versions of state-space notation.
 
 \begin{align}
   \dot{\mtx{x}} &= \mtx{A}\mtx{x} + \mtx{B}\mtx{u} \label{eq:ss_ctrl_x} \\
@@ -72,6 +82,11 @@ mathematical machinery of modern control.
   \caption{State-space matrix dimensions}
   \label{tab:ss_matrix_dims}
 \end{table}
+
+In the continuous case, the change in state and the output are linear
+combinations of the state vector and the input vector. The $\mtx{A}$, $\mtx{B}$,
+$\mtx{C}$, and $\mtx{D}$ matrices are used to map the state vector $\mtx{x}$ and
+the input vector $\mtx{u}$ to a change in state.
 
 \section{Canonical forms}
 
@@ -194,7 +209,8 @@ The canonical \gls{realization} of the \gls{system} in equation
 
 \section{Eigenvalues in state-space}
 
-Eigenvalues can be used to determine the stability of a \gls{system}.
+The eigenvalues of the system matrix can be used to determine the stability of a
+\gls{system}.
 
 We'd like to know whether the \gls{system} defined by equation
 (\ref{eq:ssz_ctrl_x}) operating with the \gls{control law}
