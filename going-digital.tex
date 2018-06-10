@@ -115,7 +115,28 @@ below.
   $e^{\mtx{A}_c T}$ is the matrix exponential of $\mtx{A}_c$.
 \end{theorem}
 
-See the Wikipedia page on discretization for more \cite{bib:discretization}.
+To understand why the matrix exponential is used in this process, consider the
+set of differential equations we use to describe systems
+$\dot{\mtx{x}} = \mtx{A}\mtx{x}$ (systems also have a $\mtx{B}\mtx{u}$ term, but
+we'll ignore it for clarity). The solution to this type of differential equation
+uses an exponential. Since we are using matrices and vectors here, we use the
+matrix exponential.
+
+\begin{equation*}
+  \mtx{x}(t) = e^{\mtx{A}t} \mtx{x}_0
+\end{equation*}
+
+where $\mtx{x}_0$ contains the initial conditions. If the initial state is the
+current system state, then we can describe the system's state over time as
+
+\begin{equation*}
+  \mtx{x}_{k+1} = e^{\mtx{A}T} \mtx{x}_k
+\end{equation*}
+
+where $T$ is the time between samples $\mtx{x}_k$ and $\mtx{x}_{k+1}$.
+
+See the Wikipedia page on discretization for more on methods of computation and
+relevant results for stochastic models \cite{bib:discretization}.
 
 \subsection{Computing the matrix exponential}
 
