@@ -26,5 +26,5 @@
 *.xdv
 *.xml
 __pycache__
-bib-stamp
+book-stamp
 format-stamp

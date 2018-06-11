@@ -22,19 +22,22 @@ printer: $(NAME)-printer.pdf
 .PHONY: prepress
 prepress: $(NAME)-prepress.pdf
 
-$(NAME)-ebook.pdf: $(NAME).pdf
+$(NAME)-ebook.pdf: book-stamp
 	gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/ebook -dNOPAUSE -dQUIET -dBATCH -sOutputFile=$(NAME)-ebook.pdf $(NAME).pdf
 
-$(NAME)-printer.pdf: $(NAME).pdf
+$(NAME)-printer.pdf: book-stamp
 	gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/printer -dNOPAUSE -dQUIET -dBATCH -sOutputFile=$(NAME)-printer.pdf $(NAME).pdf
 
-$(NAME)-prepress.pdf: $(NAME).pdf
+$(NAME)-prepress.pdf: book-stamp
 	gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/prepress -dNOPAUSE -dQUIET -dBATCH -sOutputFile=$(NAME)-prepress.pdf $(NAME).pdf
 
-$(NAME).pdf: $(TEX) $(PDF_TEX) $(BIB) $(FIGS) format-stamp
+book-stamp: $(TEX) $(PDF_TEX) $(BIB) $(FIGS) format-stamp
 	xelatex $(NAME)
 	makeglossaries $(NAME)
 	latexmk -xelatex $(NAME)
+	# Marks successful PDF generation because xelatex updates PDF contents even on
+	# failure
+	touch book-stamp
 
 $(PDF_TEX): %.pdf_tex: %.svg
 	inkscape -D -z --file=$< --export-pdf=$(basename $<).pdf --export-latex
@@ -54,7 +57,7 @@ discretization_methods.svg: format-stamp
 
 .PHONY: clean
 clean:
-	rm -f *.aux *.bbl *.bcf *.blg *.fdb_latexmk *.fls *.glg *.glo *.gls *.glsdefs *.idx *.ilg *.ind *.ist *.lof *.log *.los *.lot *.out *.toc *.pdf *.pdf_tex *.ptc *.svg *.xdv *.xml format-stamp
+	rm -f *.aux *.bbl *.bcf *.blg *.fdb_latexmk *.fls *.glg *.glo *.gls *.glsdefs *.idx *.ilg *.ind *.ist *.lof *.log *.los *.lot *.out *.toc *.pdf *.pdf_tex *.ptc *.svg *.xdv *.xml book-stamp format-stamp
 
 .PHONY: upload
 upload: $(NAME)-ebook.pdf
