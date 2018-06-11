@@ -1,7 +1,7 @@
 """The WPILib state-space control library."""
 
-from . import models
-from .ctrlutil import *
-from .dlqr import *
-from .kalman import *
-from .system import *
+from frccontrol import models
+from frccontrol.ctrlutil import *
+from frccontrol.dlqr import *
+from frccontrol.kalman import *
+from frccontrol.system import *

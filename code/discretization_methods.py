@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 
 import frccontrol as frccnt
+from frccontrol.examples.elevator import Elevator
 import matplotlib.pyplot as plt
 import numpy as np
-
-from elevator import Elevator
 
 plt.rc("text", usetex=True)
 
