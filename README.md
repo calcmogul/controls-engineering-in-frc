@@ -49,7 +49,20 @@ To run the examples, only Python 3.5+ and Python Control are required.
 
 ## Build
 
-After installing the dependencies, just run `make`.
+After installing the dependencies, just run `make`. By default, two files will
+be generated: state-space-guide.pdf, which has uncompressed images (way higher
+than 300dpi); and state-space-guide-ebook.pdf, which is suitable for online
+distribution.
+
+The following make targets are supported for compiling the book with various
+levels of image compression.
+
+|Command          |File                            |Purpose                  |
+|-----------------|--------------------------------|-------------------------|
+|`make book-stamp`|`state-space-guide.pdf`         |Quick content development|
+|`make ebook`     |`state-space-guide-ebook.pdf`   |Online distribution      |
+|`make printer`   |`state-space-guide-printer.pdf` |Standard color printing  |
+|`make prepress`  |`state-space-guide-prepress.pdf`|Book publishing          |
 
 ## Download
 
@@ -138,7 +151,7 @@ that is used for u_error augmentation.
 ### More thorough examples
 
 The "Implementation Steps" section needs subsections to explain how to do each
-or at least examples.
+or at least provide examples.
 
 ### Supplementary background
 
