@@ -78,9 +78,6 @@ reference.
 
 ### Bridge the knowledge gap
 
-A small section on kinematics and dynamics in general would be useful for those
-trying to follow the state-space model derivations.
-
 ### Add more practical examples
 
 I'd also like to expand the introductions for each section and provide more

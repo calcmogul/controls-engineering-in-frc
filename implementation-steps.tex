@@ -4,38 +4,327 @@
 
 \section{Derive physical model}
 
-A \gls{model} is a set of differential equations describing the system. Since
-state-space representation requires that only single derivatives be used, they
-should be broken up as separate states. For example, below is the \gls{model}
-for a pendulum
+A \gls{model} is a set of differential equations describing how the system
+behaves over time. There are two common approaches for developing them.
 
-\begin{equation}
-  mL\ddot{x} = -mg \mathrm{sin}~x
-\end{equation}
+\begin{enumerate}
+  \item Collecting data on the physical system's behavior and performing system
+  identification with it.
+  \item Using physics to derive the system's model from first principles.
+\end{enumerate}
 
-where $x$ is the angle of the pendulum.
+We'll use the second approach in this book.
+
+\subsection{Kinematics and Dynamics}
+
+Dynamics is a rather large topic, so for now, we'll just focus on the basics
+required for working with the models in this book. We'll derive the same model,
+a pendulum, using three approaches: sum of forces, sum of torques, and
+conservation of energy.
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \begin{tikzpicture}
+      % Save length of g-vector and theta to macros
+      \pgfmathsetmacro{\Gvec}{1.5}
+      \pgfmathsetmacro{\myAngle}{30}
+      % Calculate lengths of vector components
+      \pgfmathsetmacro{\Gcos}{\Gvec*cos(\myAngle)}
+      \pgfmathsetmacro{\Gsin}{\Gvec*sin(\myAngle)}
+
+      \coordinate (centro) at (0,0);
+      \draw[dashed,gray,-] (centro) -- ++ (0,-3.5) node (mary) [black,below]{$ $};
+      \draw[thick] (centro) -- ++(270+\myAngle:3) coordinate (bob);
+      \path pic [draw, ->, "$\theta$", angle eccentricity=1.5] {angle=mary--centro--bob};
+      \draw [draw=violet,-stealth] (bob) -- ($(bob)!-\Gcos cm!(centro)$)
+        coordinate (gcos)
+        node[midway,above right] {$mg\cos\theta$};
+      \draw [dashed,draw=red,-stealth] (bob) -- ($(bob)!2*\Gsin cm!90:(centro)$)
+        coordinate node[midway,above right] {};
+      \draw [draw=violet,-stealth] (bob) -- ($(bob)!\Gsin cm!90:(centro)$)
+        coordinate (gsin)
+        node[midway,above left] {$mg\sin\theta$};
+      \draw [draw=blue,-stealth] (bob) -- ++(0,-\Gvec)
+        coordinate (g)
+        node[near end,left] {$mg$};
+      \pic [draw, ->, "$\theta$", angle eccentricity=1.5] {angle=g--bob--gcos};
+      \filldraw [fill=black!40,draw=black] (bob) circle[radius=0.2];
+    \end{tikzpicture}
+    \caption{Force diagram of a pendulum.}
+    \label{subfig:force_pendulum}
+  \end{subfigure}%
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \begin{tikzpicture}
+      % Save length of g-vector and theta to macros
+      \pgfmathsetmacro{\Gvec}{1.5}
+      \pgfmathsetmacro{\myAngle}{30}
+      % Calculate lengths of vector components
+      \pgfmathsetmacro{\Gcos}{\Gvec*cos(\myAngle)}
+      \pgfmathsetmacro{\Gsin}{\Gvec*sin(\myAngle)}
+
+      \coordinate (centro) at (0,0);
+      \coordinate (heightmes_lo) at (-1,0);
+      \coordinate (heightmes_hi) at (-0.25,0);
+      \coordinate (h) at (\Gcos/2,\Gsin);
+
+      \draw[thick] (centro) -- ++(270+\myAngle:3) coordinate (bob_lo);
+      \draw[dashed,gray,-] (centro) -- ++ (0,0 |- bob_lo) node (mary) [black,below]{$ $};
+      \draw[dashed,gray,-] (heightmes_lo |- bob_lo) -- (bob_lo) node [black,below]{$ $};
+      \draw[<->] (heightmes_lo) -- ++ (0,0 |- bob_lo) node [black,pos=0.5,left]{$y_1$};
+      \pic [draw, ->, "$\theta$", angle eccentricity=1.5] {angle=mary--centro--bob_lo};
+
+      % Save length of g-vector and theta to macros
+      \pgfmathsetmacro{\Gvec}{1.5}
+      \pgfmathsetmacro{\myAngle}{45}
+      % Calculate lengths of vector components
+      \pgfmathsetmacro{\Gcos}{\Gvec*cos(\myAngle)}
+      \pgfmathsetmacro{\Gsin}{\Gvec*sin(\myAngle)}
+
+      \draw[thick] (centro) -- ++(270+\myAngle:3) coordinate (bob_hi);
+      \pic [draw, ->, "$\theta_0$", angle eccentricity=1.5, angle radius=1cm] {angle=mary--centro--bob_hi};
+
+      \draw[dashed,gray,-] (0,0 |- bob_hi) -- (bob_hi) node (mary) [black,below]{$ $};
+      \draw[<->] (heightmes_hi) -- ++ (0,0 |- bob_hi) node (mary) [black,pos=0.5,left]{$y_0$};
+      \draw[<->] (h |- bob_hi) -- (h |- bob_lo) node [black,pos=0.5,left]{$h$};
+
+      \filldraw [fill=black!40,draw=black] (bob_lo) circle[radius=0.2];
+      \filldraw [fill=black!40,draw=black] (bob_hi) circle[radius=0.2];
+    \end{tikzpicture}
+    \caption{Trigonometry of a pendulum.}
+    \label{subfig:trig_pendulum}
+  \end{subfigure}
+  \caption{Pendulum force diagrams.}
+\end{figure}
+
+\subsubsection{Force derivation}
+
+Consider figure \ref{subfig:force_pendulum}, which shows the forces acting on a
+pendulum.
+
+Note that the path of the pendulum sweeps out an arc of a circle. The angle
+$\theta$ is measured in radians. The blue arrow is the gravitational force
+acting on the bob, and the violet arrows are that same force resolved into
+components parallel and perpendicular to the bob's instantaneous motion. The
+direction of the bob's instantaneous velocity always points along the red axis,
+which is considered the tangential axis because its direction is always tangent
+to the circle. Consider Newton's second law
 
 \begin{equation*}
-  \ddot{x} = -\frac{g}{L} \mathrm{sin}~x
+  F = ma
 \end{equation*}
 
-\begin{align*}
-  \dot{x}_1 &= x_2 \\
-  \dot{x}_2 &= -\frac{g}{L} \mathrm{sin}~x_1
-\end{align*}
-
-where $x_1$ is $\theta$ and $x_2$ is $\dot{\theta}$. Since this \gls{model} is
-nonlinear, we should linearize it. We will use the small angle approximation
-($\mathrm{sin}~\theta = \theta$ for small values of $\theta$).
+where $F$ is the sum of forces on the object, $m$ is mass, and $a$ is the
+acceleration. Because we are only concerned with changes in speed, and because
+the bob is forced to stay in a circular path, we apply Newton's equation to the
+tangential axis only. The short violet arrow represents the component of the
+gravitational force in the tangential axis, and trigonometry can be used to
+determine its magnitude. Therefore
 
 \begin{align*}
-  \dot{x}_1 &= x_2 \\
-  \dot{x}_2 &= -\frac{g}{L} x_1
+  F &= -mg\sin\theta = ma \\
+  a &= -g\sin\theta
 \end{align*}
+
+where $g$ is the acceleration due to gravity near the surface of the earth. The
+negative sign on the right hand side implies that $\theta$ and a always point in
+opposite directions. This makes sense because when a pendulum swings further to
+the left, we would expect it to accelerate back toward the right.
+
+This linear acceleration $a$ along the red axis can be related to the change in
+angle $\theta$ by the arc length formulas; $s$ is arc length and $l$ is the
+length of the pendulum.
+
+\begin{align}
+  s &= l\theta \label{eq:arc_length} \\
+  v &= \frac{ds}{dt} = l\frac{d\theta}{dt} \nonumber \\
+  a &= \frac{d^2s}{dt^2} = l\frac{d^2\theta}{dt^2} \nonumber
+\end{align}
+
+Therefore
+
+\begin{align*}
+  l\frac{d^2\theta}{dt^2} &= -g\sin\theta \\
+  \frac{d^2\theta}{dt^2} &= -\frac{g}{l}\sin\theta \\
+  \ddot{\theta} &= -\frac{g}{l}\sin\theta
+\end{align*}
+
+\subsubsection{Torque derivation}
+
+The equation can be obtained using two definitions for torque.
+
+\begin{equation*}
+  \mtx{\tau} = \mtx{r} \times \mtx{F}
+\end{equation*}
+
+First start by defining the torque on the pendulum bob using the force due to
+gravity.
+
+\begin{equation*}
+  \mtx{\tau} = \mtx{l} \times \mtx{F}_g
+\end{equation*}
+
+where $\mtx{l}$ is the length vector of the pendulum and $\mtx{F}_g$ is the
+force due to gravity.
+
+For now just consider the magnitude of the torque on the pendulum.
+
+\begin{equation*}
+  \lvert\tau\rvert = -mgl\sin\theta
+\end{equation*}
+
+where $m$ is the mass of the pendulum, $g$ is the acceleration due to gravity,
+$l$ is the length of the pendulum and $\theta$ is the angle between the length
+vector and the force due to gravity.
+
+Next rewrite the angular momentum.
+
+\begin{equation*}
+  \mtx{L} = \mtx{r} \times \mtx{p} =
+    m\mtx{r} \times (\mtx{\omega} \times \mtx{r})
+\end{equation*}
+
+Again just consider the magnitude of the angular momentum.
+
+\begin{align*}
+  \lvert\mtx{L}\rvert &= mr^2\omega \\
+  \lvert\mtx{L}\rvert &= ml^2 \frac{d\theta}{dt} \\
+  \frac{d}{dt}\lvert\mtx{L}\rvert &= ml^2 \frac{d^2\theta}{dt^2}
+\end{align*}
+
+According to $\tau = \frac{d\mtx{L}}{dt}$, we can just compare the magnitudes.
+
+\begin{align*}
+  -mgl\sin\theta &= ml^2\frac{d^2\theta}{dt^2} \\
+  -\frac{g}{l}\sin\theta &= \frac{d^2\theta}{dt^2} \\
+  \ddot{\theta} &= -\frac{g}{l}\sin\theta
+\end{align*}
+
+which is the same result from force analysis.
+
+\subsubsection{Energy derivation}
+
+The equation can also be obtained via the conservation of mechanical energy
+principle: any object falling a vertical distance $h$ would acquire kinetic
+energy equal to that which it lost to the fall. In other words, gravitational
+potential energy is converted into kinetic energy. Change in potential energy is
+given by
+
+\begin{equation*}
+  \Delta U = mgh
+\end{equation*}
+
+The change in kinetic energy (body started from rest) is given by
+
+\begin{equation*}
+  \Delta K = \frac{1}{1}mv^2
+\end{equation*}
+
+Since no energy is lost, the gain in one must be equal to the loss in the other
+
+\begin{equation*}
+  \frac{1}{2}mv^2 = mgh
+\end{equation*}
+
+The change in velocity for a given change in height can be expressed as
+
+\begin{equation*}
+  v = \sqrt{2gh}
+\end{equation*}
+
+Using equation (\ref{eq:arc_length}), this equation can be rewritten in terms of
+$\frac{d\theta}{dt}$.
+
+\begin{align}
+  v = l\frac{d\theta}{dt} &= \sqrt{2gh} \nonumber \\
+  \frac{d\theta}{dt} &= \frac{2gh}{l} \label{eq:energy_dtheta}
+\end{align}
+
+where $h$ is the vertical distance the pendulum fell. Look at figure \ref{subfig:trig_pendulum}, which presents the trigonometry of a pendulum. If the pendulum
+starts its swing from some initial angle $\theta_0$, then $y_0$, the vertical
+distance from the pivot point, is given by
+
+\begin{equation*}
+  y_0 = l\cos\theta_0
+\end{equation*}
+
+Similarly for $y_1$, we have
+
+\begin{equation*}
+  y_1 = l\cos\theta
+\end{equation*}
+
+Then $h$ is the difference of the two
+
+\begin{equation*}
+  h = l(\cos\theta - \cos\theta_0)
+\end{equation*}
+
+Substituting this into equation (\ref{eq:energy_dtheta}) gives
+
+\begin{equation*}
+  \frac{d\theta}{dt} = \sqrt{\frac{2g}{l}(\cos\theta - \cos\theta_0)}
+\end{equation*}
+
+This equation is known as the first integral of motion. It gives the velocity in
+terms of the location and includes an integration constant related to the
+initial displacement ($\theta_0$). We can differentiate by applying the chain
+rule with respect to time. Doing so gives the acceleration.
+
+\begin{align*}
+  \frac{d}{dt}\frac{d\theta}{dt} &=
+    \frac{d}{dt}\sqrt{\frac{2g}{l}(\cos\theta - \cos\theta_0)} \\
+  \frac{d^2\theta}{dt^2} &= \frac{1}{2}\frac
+    {-\frac{2g}{l}\sin\theta}
+    {\sqrt{\frac{2g}{l}(\cos\theta - \cos\theta_0)}}\frac{d\theta}{dt} \\
+  \frac{d^2\theta}{dt^2} &= \frac{1}{2}\frac
+    {-\frac{2g}{l}\sin\theta}
+    {\sqrt{\frac{2g}{l}(\cos\theta - \cos\theta_0)}}
+    \sqrt{\frac{2g}{l}(\cos\theta - \cos\theta_0)} \\
+  \frac{d^2\theta}{dt^2} &= -\frac{g}{l}\sin\theta \\
+  \ddot{\theta} &= -\frac{g}{l}\sin\theta
+\end{align*}
+
+which is the same result from force analysis.
 
 \section{Write model in state-space representation}
 
-Continuing the example above:
+Below is the \gls{model} for a pendulum
+
+\begin{equation*}
+  \ddot{\theta} = -\frac{g}{l}\sin\theta
+\end{equation*}
+
+where $\theta$ is the angle of the pendulum and $l$ is the length of the
+pendulum.
+
+Since state-space representation requires that only single derivatives be used,
+they should be broken up as separate states. We'll reassign $\theta$ to be $x_1$
+and $\dot{\theta}$ to be $x_2$ so the derivatives are easier to keep straight
+for state-space representation.
+
+\begin{equation*}
+  \ddot{x}_1 = -\frac{g}{l}\sin x_1
+\end{equation*}
+
+Now separate the states.
+
+\begin{align*}
+  \dot{x}_1 &= x_2 \\
+  \dot{x}_2 &= -\frac{g}{l} \sin x_1
+\end{align*}
+
+Since this \gls{model} is nonlinear, we should linearize it. We will use the
+small angle approximation ($\sin\theta = \theta$ for small values of $\theta$).
+
+\begin{align*}
+  \dot{x}_1 &= x_2 \\
+  \dot{x}_2 &= -\frac{g}{l} x_1
+\end{align*}
+
+Now write the model in state-space representation.
 
 \begin{align}
   \dot{
@@ -45,7 +334,7 @@ Continuing the example above:
   \end{bmatrix}} =
   \begin{bmatrix}
     0 & 1 \\
-    -\frac{g}{L} & 0
+    -\frac{g}{l} & 0
   \end{bmatrix}
   \begin{bmatrix}
     x_1 \\
@@ -55,23 +344,29 @@ Continuing the example above:
 
 \section{Add estimator for unmeasured states}
 
-The states may be a linear combination of measurements. After designing an
-estimator, it can be used to supplement the inputs for a controller.
+For full state feedback, knowledge of all states is required. If not all states
+are measured directly, an estimator can be used to supplement them.
 
 For example, we may only be measuring $\theta$ in the pendulum example, not
 $\dot{\theta}$, so we'll need to estimate the latter.
 
 \section{Implement controller}
 
-Use Bryson's rule when making the performance vs actuation effort trade-off. For
-the average system, optimizing actuation effort will get you to the reference in
-the most efficient way possible, which can avoid voltage drops on robots with a
-limited power supply.
+Use Bryson's rule when making the performance vs actuation effort trade-off.
+Optimizing for performance will get you to the reference as fast as possible
+while optimizing actuation effort will get you to the reference in the most
+``fuel-efficient" way possible. The latter, for example, would potentially avoid
+voltage drops from motor usage on robots with a limited power supply, but the
+result would be slower to reach the reference.
 
 \section{Simulate model/controller}
 
 This can be done in any platform supporting numerical computation. Common
-choices are MATLAB, v-REP, or Python. Tweak the LQR gain as necessary.
+choices are MATLAB, v-REP, or Python. Tweak the LQR gains as necessary.
+
+If you're comfortable enough with it, you can use the controller designed by LQR
+as a starting point and tweak the pole locations after that with pole placement
+to produce the desired response.
 
 \section{Verify pole locations}
 
@@ -87,4 +382,5 @@ recommend Google Test.
 \section{Test on real system}
 
 Try the controller on a real \gls{system} with low maximum outputs for safety.
-The outputs can be raised later.
+The outputs can be increased after verifying the sensors function and mechanisms
+move the correct direction.
