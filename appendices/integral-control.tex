@@ -23,16 +23,16 @@ There are three methods FRC team 971 has used over the years:
 
 \begin{enumerate}
   \item Augment the plant as described earlier. For an arm, one would add an
-    "integral of position" state.
+    ``integral of position" state.
   \item Add an integrator to the output of the controller, then estimate the
     control effort being applied. 971 has called this Delta U control. The
     up-side is that it doesn't have the windup issue described above; the
     integrator only acts if the system isn't behaving like the model, which was
     the original intent. The downside is working with it is very confusing.
-  \item Estimate an "error" in the observer and compensate for it. This quantity
-    is the difference between what was applied and what was observed to happen.
-    To use it, you simply add it to your control output and it will converge.
-    This is 971's primary method.
+  \item Estimate an ``error" in the observer and compensate for it. This
+    quantity is the difference between what was applied and what was observed to
+    happen. To use it, you simply add it to your control output and it will
+    converge. This is 971's primary method.
 \end{enumerate}
 
 \section{Plant augmentation}

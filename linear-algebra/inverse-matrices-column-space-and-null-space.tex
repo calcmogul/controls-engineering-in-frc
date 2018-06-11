@@ -7,9 +7,9 @@ inverse matrices, columns space, rank, and null space through that lens. A fair
 warning though: we're not going to talk about the methods for actually computing
 these things, and some would argue that that's pretty important. There are a lot
 of very good resources for learning those methods outside of this chapter.
-Keywords: "Gaussian elimination" and "row echelon form". Most of the value that
-we actually have to add here is on the intuition half. Plus, in practice, we
-usually use software to compute these things for us anyway.
+Keywords: ``Gaussian elimination" and ``row echelon form". Most of the value
+that we actually have to add here is on the intuition half. Plus, in practice,
+we usually use software to compute these things for us anyway.
 
 \subsection{Linear systems of equations}
 
@@ -18,7 +18,7 @@ a hint for how it's used in describing the manipulation of space, which is
 useful for computer graphics and robotics. However, one of the main reasons that
 linear algebra is more broadly applicable, and required for just about any
 technical discipline, is that it lets us solve certain systems of equations.
-When we say "system of equations", we mean there is a list of variables, things
+When we say ``system of equations", we mean there is a list of variables, things
 you don't know, and a list of equations relating them. For example,
 
 \begin{align*}
@@ -48,7 +48,7 @@ one of the equations.
   1x + 3y + 0z &= 2
 \end{align*}
 
-This is called a "linear system of equations". You might notice that this looks
+This is called a ``linear system of equations". You might notice that this looks
 a lot like matrix-vector multiplication. In fact, you can package all of the
 equations together into a single vector equation, where you have the matrix
 containing all the constant coefficients, a vector containing all the constant
@@ -130,7 +130,7 @@ undo the transformation, you'll find the vector $\mtx{x}$ such that $\mtx{A}$
 times $\mtx{x}$ equals $\mtx{v}$.
 
 When you play the transformation in reverse, it actually corresponds to a
-separate linear transformation, commonly called "the inverse of $\mtx{A}$"
+separate linear transformation, commonly called the ``inverse of $\mtx{A}$"
 denoted $\mtx{A}^{-1}$.
 
 \begin{equation*}
@@ -170,9 +170,9 @@ after another is captured algebraically with matrix multiplication, so the core
 property of this transformation $\mtx{A}^{-1}$ is that $\mtx{A}^{-1}\mtx{A}$
 equals the matrix that corresponds to doing nothing.
 
-The transformation that does nothing is called the "identity transformation". It
-leaves $\hat{i}$ and $\hat{j}$ each where they are, unmoved, so its columns are
-$(1, 0)$ and $(0, 1)$.
+The transformation that does nothing is called the ``identity transformation".
+It leaves $\hat{i}$ and $\hat{j}$ each where they are, unmoved, so its columns
+are $(1, 0)$ and $(0, 1)$.
 
 \begin{equation*}
   \mtx{A}^{-1}\mtx{A} =
@@ -230,11 +230,11 @@ You might notice that some of these zero determinant cases feel a lot more
 restrictive than others. Given a $3 \times 3$ matrix, for example, it seems a
 lot harder for a solution to exist when it compresses space onto a line compared
 to when it compresses space onto a plane even though both of those have zero
-determinant. We have some language that's more specific than just saying "zero
+determinant. We have some language that's more specific than just saying ``zero
 determinant". When the output of a transformation is a line, meaning it's
 one-dimensional, we say the transformation has a \textit{rank} of one. If all
 the vectors land on some two-dimensional plane, we say the transformation has a
-rank of two. The word "rank" means the number of dimensions in the output of a
+rank of two. The word ``rank" means the number of dimensions in the output of a
 transformation.
 
 For instance, in the case of $2 \times 2$ matrices, the highest possible rank is
@@ -251,7 +251,7 @@ where the basis vectors land, and the span of those transformed basis vectors
 gives you all possible outputs. In other words, the column space is the span of
 the columns of your matrix, so a more precise definition of rank would be that
 it's the number of dimensions in the column space. When this rank is as high as
-it can be, meaning it equals the number of columns, we call the matrix "full
+it can be, meaning it equals the number of columns, we call the matrix ``full
 rank".
 
 \subsection{Null space}
