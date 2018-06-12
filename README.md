@@ -97,12 +97,6 @@ I'd also like to expand the introductions for each section and provide more
 examples like I did for the Kalman filter design to give the reader practice
 applying the skills discussed.
 
-### Clarify existing misconceptions
-
-Include information from
-https://github.com/FRC-PDR/ProgrammingDoneRight/issues/56#issue-314926154 not
-otherwise mentioned in this book.
-
 ### Teach topics better
 
 The link to the graphical introduction to Kalman filters should be replaced with

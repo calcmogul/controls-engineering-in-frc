@@ -64,6 +64,18 @@ equation, unlike the one shown before, is actually linear because it only
 consists of multiplications and additions relating the input $V$ and current
 state $\omega$.
 
+Also of note is that the relation between the input voltage and the angular
+velocity of the output shaft is a linear regression. You'll see why if you model
+a DC brushed motor as a voltage source and generator producing back-EMF (in the
+equation above, $bV$ corresponds to the voltage source and $-a\omega$
+corresponds to the back-EMF). As you increase the input voltage, the back-EMF
+increases linearly with the motor's angular velocity. If there was a friction
+term that varied with the angular velocity squared (air resistance is one
+example), the relation from input to output would be a curve. Friction that
+scales with just the angular velocity would result in a lower maximum angular
+velocity, but because that term can be lumped into the back-EMF term, the
+response is still linear.
+
 \section{What is state-space?}
 
 Recall from last chapter that 2D space has two axes, $x$ and $y$. We represent
