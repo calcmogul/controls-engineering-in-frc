@@ -124,8 +124,8 @@ The following state-space implementation examples are planned:
   * See 971/y2014/control_loops/python/claw.py
   * Use as example of coordinate transformations for states?
 
-I should include Nx and Nu in a unified appendix on feedforwards (steady-state
-feedforward section, then two-state feedforward section from existing appendix).
+Complete sections on integral control for plant augmentation and delta U
+control.
 
 ### Add content for building understanding and intuition
 

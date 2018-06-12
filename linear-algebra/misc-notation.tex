@@ -23,3 +23,8 @@ $m$ rows and $n$ columns.
 
 The $^T$ in $\mtx{A}^T$ denotes transpose, which flips the matrix across its
 diagonal such that the rows become columns and vice versa.
+
+The $^\dagger$ in $\mtx{B}^\dagger$ denotes the Moore-Penrose pseudoinverse
+given by $\mtx{B}^\dagger = (\mtx{B}^T\mtx{B})^{-1}\mtx{B}^T$. The pseudoinverse
+is used when the matrix is nonsquare and thus not invertible to produce a close
+approximation of an inverse.
