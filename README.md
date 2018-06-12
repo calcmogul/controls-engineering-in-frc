@@ -66,7 +66,8 @@ levels of image compression.
 
 ## Download
 
-A PDF version is available at https://file.tavsys.net/control/state-space-guide.pdf.
+A PDF version is available at
+https://file.tavsys.net/control/state-space-guide.pdf.
 
 ## Future Improvements
 
@@ -85,9 +86,8 @@ it to my veteran software students, because my in-person tutor-style
 explanations are generally better than what I write.
 
 It's also not designed for skim reading (e.g., "Which equations do I need to
-implement a low-fi simulator for a drivetrain?"). Calling out the final results
-better would probably fix that, as it then can also be used as a quick
-reference.
+implement a low-fi simulator for a drivetrain?"). I already call out final
+results, so filling out the index might help.
 
 ### Bridge the knowledge gap
 
@@ -98,11 +98,6 @@ examples like I did for the Kalman filter design to give the reader practice
 applying the skills discussed.
 
 ### Clarify existing misconceptions
-
-I should clarify the difference between linear step response and a linear
-dynamical system. See
-https://github.com/wpilibsuite/allwpilib/pull/1117#discussion_r191297045 for
-notes on this.
 
 Include information from
 https://github.com/FRC-PDR/ProgrammingDoneRight/issues/56#issue-314926154 not
@@ -170,10 +165,6 @@ Include info from ~/frc/state-space-guide/LQR-derivs.pdf for optimal control/LQR
 derivations and LQR phase margin proof.
 
 Add a section on polytopes for convex optimization?
-
-### Bookkeeping
-
-Fill out the index. This book has potential as a reference manual.
 
 ## Licensing
 

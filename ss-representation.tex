@@ -19,12 +19,50 @@ The state-space method provides a more convenient and compact way to model and
 analyze \glspl{system} with multiple inputs and outputs. For a system with $p$
 inputs and $q$ outputs, we would have to write $q \times p$ Laplace transforms
 to represent it. Not only is the resulting algebra unwieldy, but it only works
-for linear systems with zero initial conditions. State-space representation uses
-the time domain instead of the Laplace domain, so it doesn't have this problem.
+for linear systems. Including nonzero initial conditions complicates the algebra
+even more. State-space representation uses the time domain instead of the
+Laplace domain, so it can model nonlinear systems and trivially supports nonzero
+initial conditions. With that said, this book only covers analysis and control
+of linear systems.
 
 Students are still taught classical control first because it provides a
 framework within which to understand the results we get from the fancy
 mathematical machinery of modern control.
+
+\section{What is a linear dynamical system?}
+
+A dynamical system is a system whose motion varies according to a set of
+differential equations. A dynamical system is considered \textit{linear} if the
+differential equations describing its dynamics consist only of linear operators.
+Linear operators are things like constant gain multiplications, derivatives, and
+integrals. You can define reasonably accurate linear models for pretty much
+everything you'll see in FRC with just those relations.
+
+But let's say you have a DC brushed motor hooked up to a power supply and you
+applied a constant voltage to it from rest. The motor approaches a steady-state
+angular velocity, but the shape of the angular velocity curve over time isn't a
+line. In fact, it's a decaying exponential curve akin to
+
+\begin{equation*}
+  \omega = \omega_0\left(1 - e^{-t}\right)
+\end{equation*}
+
+where $\omega$ is the angular velocity and $\omega_0$ is the initial condition.
+If the motor behaves linearly, then why is this?
+
+Remember that linearity refers to a system's equations of motion, not its
+time-domain response. The equation defining the motor's change in angular
+velocity over time looks like
+
+\begin{equation*}
+  \dot{\omega} = -a\omega + bV
+\end{equation*}
+
+where $\dot{\omega}$ is the derivative of $\omega$ with respect to time, $V$ is
+the input voltage, and $a$ and $b$ are constants specific to the motor. This
+equation, unlike the one shown before, is actually linear because it only
+consists of multiplications and additions relating the input $V$ and current
+state $\omega$.
 
 \section{What is state-space?}
 
