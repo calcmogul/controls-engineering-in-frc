@@ -35,9 +35,11 @@ conservation of energy.
       \pgfmathsetmacro{\Gsin}{\Gvec*sin(\myAngle)}
 
       \coordinate (centro) at (0,0);
-      \draw[dashed,gray,-] (centro) -- ++ (0,-3.5) node (mary) [black,below]{$ $};
+      \draw[dashed,gray,-] (centro) -- ++ (0,-3.5)
+        node (mary) [black,below] {$ $};
       \draw[thick] (centro) -- ++(270+\myAngle:3) coordinate (bob);
-      \path pic [draw, ->, "$\theta$", angle eccentricity=1.5] {angle=mary--centro--bob};
+      \path pic [draw,->,"$\theta$",angle eccentricity=1.5]
+        {angle=mary--centro--bob};
       \draw [draw=violet,-stealth] (bob) -- ($(bob)!-\Gcos cm!(centro)$)
         coordinate (gcos)
         node[midway,above right] {$mg\cos\theta$};
@@ -49,7 +51,7 @@ conservation of energy.
       \draw [draw=blue,-stealth] (bob) -- ++(0,-\Gvec)
         coordinate (g)
         node[near end,left] {$mg$};
-      \pic [draw, ->, "$\theta$", angle eccentricity=1.5] {angle=g--bob--gcos};
+      \pic [draw,->,"$\theta$",angle eccentricity=1.5] {angle=g--bob--gcos};
       \filldraw [fill=black!40,draw=black] (bob) circle[radius=0.2];
     \end{tikzpicture}
     \caption{Force diagram of a pendulum.}
@@ -71,27 +73,40 @@ conservation of energy.
       \coordinate (h) at (\Gcos/2,\Gsin);
 
       \draw[thick] (centro) -- ++(270+\myAngle:3) coordinate (bob_lo);
-      \draw[dashed,gray,-] (centro) -- ++ (0,0 |- bob_lo) node (mary) [black,below]{$ $};
-      \draw[dashed,gray,-] (heightmes_lo |- bob_lo) -- (bob_lo) node [black,below]{$ $};
-      \draw[<->] (heightmes_lo) -- ++ (0,0 |- bob_lo) node [black,pos=0.5,left]{$y_1$};
-      \pic [draw, ->, "$\theta$", angle eccentricity=1.5] {angle=mary--centro--bob_lo};
+      \draw[dashed,gray,-] (centro) -- ++ (0,0 |- bob_lo)
+        node (mary) [black,below]{$ $};
+      \draw[dashed,gray,-] (heightmes_lo |- bob_lo) -- (bob_lo)
+        node [black,below]{$ $};
+      \draw[<->] (heightmes_lo) -- ++ (0,0 |- bob_lo)
+        node [black,pos=0.5,left]{$y_1$};
+      \pic [draw,->, "$\theta$",angle eccentricity=1.5]
+        {angle=mary--centro--bob_lo};
 
       % Save length of g-vector and theta to macros
-      \pgfmathsetmacro{\Gvec}{1.5}
+      \pgfmathsetmacro{\Gvec}{1.5cm}
       \pgfmathsetmacro{\myAngle}{45}
       % Calculate lengths of vector components
       \pgfmathsetmacro{\Gcos}{\Gvec*cos(\myAngle)}
       \pgfmathsetmacro{\Gsin}{\Gvec*sin(\myAngle)}
 
-      \draw[thick] (centro) -- ++(270+\myAngle:3) coordinate (bob_hi);
-      \pic [draw, ->, "$\theta_0$", angle eccentricity=1.5, angle radius=1cm] {angle=mary--centro--bob_hi};
+      \draw[gray,thick] (centro) -- ++(270+\myAngle:3) coordinate (bob_hi);
+      \pic [draw,->,"$\theta_0$",angle eccentricity=1.5,angle radius=1cm]
+        {angle=mary--centro--bob_hi};
 
-      \draw[dashed,gray,-] (0,0 |- bob_hi) -- (bob_hi) node (mary) [black,below]{$ $};
-      \draw[<->] (heightmes_hi) -- ++ (0,0 |- bob_hi) node (mary) [black,pos=0.5,left]{$y_0$};
-      \draw[<->] (h |- bob_hi) -- (h |- bob_lo) node [black,pos=0.5,left]{$h$};
+      \draw[dashed,gray,-] (0,0 |- bob_hi) -- (bob_hi)
+        node (mary) [black,below]{$ $};
+      \draw[<->] (heightmes_hi) -- ++ (0,0 |- bob_hi)
+        node (mary) [black,pos=0.5,left]{$y_0$};
+      \draw[<->] (h |- bob_hi) -- (h |- bob_lo)
+        node [black,pos=0.5,left]{$h$};
 
+      % Path of pendulum
+      \pic [draw,dashed,gray,<-,angle eccentricity=1.5,angle radius=2*\Gvec]
+        {angle=mary--centro--bob_hi};
+
+      % Pendulum balls
       \filldraw [fill=black!40,draw=black] (bob_lo) circle[radius=0.2];
-      \filldraw [fill=black!40,draw=black] (bob_hi) circle[radius=0.2];
+      \filldraw [fill=black!20,draw=gray] (bob_hi) circle[radius=0.2];
     \end{tikzpicture}
     \caption{Trigonometry of a pendulum.}
     \label{subfig:trig_pendulum}
