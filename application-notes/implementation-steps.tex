@@ -1,8 +1,6 @@
-\chapterimage{implementation-steps.jpg}{Trees by Interdisciplinary Sciences building at UCSC}
+\section{Implementation steps} \label{sec:implementation-steps}
 
-\chapter{Implementation steps} \label{ch:implementation-steps}
-
-\section{Derive physical model}
+\subsection{Derive physical model}
 
 A \gls{model} is a set of differential equations describing how the system
 behaves over time. There are two common approaches for developing them.
@@ -15,12 +13,10 @@ behaves over time. There are two common approaches for developing them.
 
 We'll use the second approach in this book.
 
-\subsection{Kinematics and Dynamics}
-
-Dynamics is a rather large topic, so for now, we'll just focus on the basics
-required for working with the models in this book. We'll derive the same model,
-a pendulum, using three approaches: sum of forces, sum of torques, and
-conservation of energy.
+Kinematics and dynamics are a rather large topics, so for now, we'll just focus
+on the basics required for working with the models in this book. We'll derive
+the same model, a pendulum, using three approaches: sum of forces, sum of
+torques, and conservation of energy.
 
 \begin{figure}[H]
   \centering
@@ -304,7 +300,7 @@ rule with respect to time. Doing so gives the acceleration.
 
 which is the same result from force analysis.
 
-\section{Write model in state-space representation}
+\subsection{Write model in state-space representation}
 
 Below is the \gls{model} for a pendulum
 
@@ -357,7 +353,7 @@ Now write the model in state-space representation.
   \end{bmatrix}
 \end{align}
 
-\section{Add estimator for unmeasured states}
+\subsection{Add estimator for unmeasured states}
 
 For full state feedback, knowledge of all states is required. If not all states
 are measured directly, an estimator can be used to supplement them.
@@ -365,7 +361,7 @@ are measured directly, an estimator can be used to supplement them.
 For example, we may only be measuring $\theta$ in the pendulum example, not
 $\dot{\theta}$, so we'll need to estimate the latter.
 
-\section{Implement controller}
+\subsection{Implement controller}
 
 Use Bryson's rule when making the performance vs actuation effort trade-off.
 Optimizing for performance will get you to the reference as fast as possible
@@ -374,7 +370,7 @@ while optimizing actuation effort will get you to the reference in the most
 voltage drops from motor usage on robots with a limited power supply, but the
 result would be slower to reach the reference.
 
-\section{Simulate model/controller}
+\subsection{Simulate model/controller}
 
 This can be done in any platform supporting numerical computation. Common
 choices are MATLAB, v-REP, or Python. Tweak the LQR gains as necessary.
@@ -383,18 +379,18 @@ If you're comfortable enough with it, you can use the controller designed by LQR
 as a starting point and tweak the pole locations after that with pole placement
 to produce the desired response.
 
-\section{Verify pole locations}
+\subsection{Verify pole locations}
 
 Check the pole locations as a sanity check and to potentially gain an intuition
 for the chosen pole locations.
 
-\section{Unit test}
+\subsection{Unit test}
 
 Write unit tests to test the \gls{model} performance and \gls{robustness} under
 different initial conditions and command inputs. If you are using C++, we
 recommend Google Test.
 
-\section{Test on real system}
+\subsection{Test on real system}
 
 Try the controller on a real \gls{system} with low maximum outputs for safety.
 The outputs can be increased after verifying the sensors function and mechanisms

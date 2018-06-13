@@ -1,6 +1,6 @@
-\chapter{Feedforwards} \label{ch:feedforward}
+\section{Feedforwards}
 
-\section{Steady-state feedforward}
+\subsection{Steady-state feedforward}
 
 $\mtx{N}_x$ converts a desired output $\mtx{y}_c$ to a desired state
 $\mtx{x}_c$ (also known as $\mtx{r}$).
@@ -109,7 +109,7 @@ After computing the feedforward for each actuator-output pair, the respective
 collections of $\mtx{N}_x$ and $\mtx{N}_u$ matrices can be summed to produce
 combined versions of each.
 
-\section{Two-state feedforward}
+\subsection{Two-state feedforward}
 
 Let's start with the equation for the reference dynamics
 
@@ -215,7 +215,7 @@ $\mtx{u}_{ff}$ and setting that to $\mtx{0}$.
 \begin{theorem}[Two-state feedforward]
   \begin{align}
     &\mtx{u}_{ff} = \mtx{K}_{ff} (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k) \\
-    &\text{where $\mtx{K}_{ff}$ is given by } \mtx{K}_{ff} =
+    &\text{where } \mtx{K}_{ff} =
       (\mtx{B}^T\mtx{Q}^T\mtx{B} + \mtx{R}^T)^{-1}\mtx{B}^T\mtx{Q}^T
   \end{align}
 \end{theorem}
@@ -226,7 +226,7 @@ $\mtx{u}_{ff}$ approaches the following.
 \begin{theorem}[Two-state feedforward with inexpensive control effort]
   \begin{align}
     &\mtx{u}_{ff} = \mtx{K}_{ff} (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k) \\
-    &\text{where $\mtx{K}_{ff}$ is given by } \mtx{K}_{ff} =
+    &\text{where } \mtx{K}_{ff} =
       (\mtx{B}^T\mtx{Q}^T\mtx{B})^{-1}\mtx{B}^T\mtx{Q}^T
   \end{align}
 \end{theorem}
