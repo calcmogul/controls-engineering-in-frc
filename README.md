@@ -129,6 +129,9 @@ control.
 
 ### Add content for building understanding and intuition
 
+Show example of unstable elevator controller resulting from low sample rates and
+Euler approximation used in model update.
+
 ### More thorough examples
 
 The "Implementation Steps" section needs subsections to explain how to do each
@@ -151,6 +154,17 @@ Include info from ~/frc/state-space-guide/LQR-derivs.pdf for optimal control/LQR
 derivations and LQR phase margin proof.
 
 Add a section on polytopes for convex optimization?
+
+Add an appendix on nonlinear control?
+* Linearization
+* Mention Lyapunov in passing
+  * Nonlinear systems have moving poles since A isn't constant. Lyapunov just
+    says the controller is stable for all configurations of the state-space if
+    it's stable for all possible eigenvalues of A.
+* Nonlinear estimation with Kalman filters
+  * Extended Kalman filter
+  * Nonlinear observation model
+  * Unscented Kalman filter
 
 ## Licensing
 
