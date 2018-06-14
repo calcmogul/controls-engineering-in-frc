@@ -379,6 +379,20 @@ If you're comfortable enough with it, you can use the controller designed by LQR
 as a starting point and tweak the pole locations after that with pole placement
 to produce the desired response.
 
+\subsubsection{Simulating a closed-loop system}
+
+Recall that a closed-loop system is written as
+$\dot{\mtx{x}} = (\mtx{A} - \mtx{B}\mtx{K})\mtx{x} + \mtx{B}\mtx{K}\mtx{r}$. In
+the open-loop system, our control input was just $\mtx{u}$, but in the
+closed-loop system, our control input $\mtx{u}$ is $\mtx{K}\mtx{r}$. To use this
+form in simulation, the corresponding state-space matrices, which we'll denote
+$\mtx{A}'$ and $\mtx{B}'$, would be
+
+\begin{align*}
+  \mtx{A}' &= \mtx{A} - \mtx{B}\mtx{K} \\
+  \mtx{B}' &= \mtx{B}\mtx{K}
+\end{align*}
+
 \subsection{Verify pole locations}
 
 Check the pole locations as a sanity check and to potentially gain an intuition

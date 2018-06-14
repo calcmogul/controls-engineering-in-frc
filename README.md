@@ -129,14 +129,6 @@ control.
 
 ### Add content for building understanding and intuition
 
-A section should be included with the state-space representation chapter on
-building intuition on how to fiddle with the matrices. For example, include how
-C matrix augmentation doesn't affect state feedback. It's mainly to see what
-different parts of the system are doing. The reference r can be passed through
-with BK, control input u with K, and various states with I matrix augmentation.
-Also cover what plant, controller, and observer augmentation looks like and how
-that is used for u_error augmentation.
-
 ### More thorough examples
 
 The "Implementation Steps" section needs subsections to explain how to do each
