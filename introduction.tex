@@ -24,11 +24,12 @@ Most resources for advanced engineering topics assume a level of knowledge well
 above that which is necessary. Part of the problem is the use of jargon. While
 it efficiently communicates ideas to those within the field, new people who
 aren't familiar with it are lost. See the glossary for a list of words and
-phrases commonly used in control theory, their origins, and their meaning. Below
-is a table describing how the terms \textit{input} and \textit{output} apply to
-\glspl{plant} versus \glspl{controller} and what letters are commonly associated
-with each when working with them. Namely, that the terms input and output are
-defined with respect to the \gls{plant}, not the \gls{controller}.
+phrases commonly used in control theory, their origins, and their meaning. Table
+\ref{tab:plant_v_controller} describes how the terms \textit{input} and
+\textit{output} apply to \glspl{plant} versus \glspl{controller} and what
+letters are commonly associated with each when working with them. Namely, that
+the terms input and output are defined with respect to the \gls{plant}, not the
+\gls{controller}.
 
 \begin{booktable}
   \begin{tabular}{|l|ll|}
@@ -36,8 +37,8 @@ defined with respect to the \gls{plant}, not the \gls{controller}.
     \rowcolor{headingbg}
     & \textbf{Plant} & \textbf{Controller} \\
     \hline
-    Input & $u(t)$ & $r(t)$, $y(t)$ \\
-    Output & $y(t)$ & $u(t)$ \\
+    Inputs & $u(t)$ & $r(t)$, $y(t)$ \\
+    Outputs & $y(t)$ & $u(t)$ \\
     \hline
   \end{tabular}
   \caption{Plant versus controller nomenclature}

@@ -218,10 +218,11 @@ $\mtx{u}_{ff}$ and setting that to $\mtx{0}$.
     &\text{where } \mtx{K}_{ff} =
       (\mtx{B}^T\mtx{Q}^T\mtx{B} + \mtx{R}^T)^{-1}\mtx{B}^T\mtx{Q}^T
   \end{align}
+  \label{thm:two-state_ff}
 \end{theorem}
 
 If control effort is considered inexpensive, $\mtx{R} \ll \mtx{Q}$ and
-$\mtx{u}_{ff}$ approaches the following.
+$\mtx{u}_{ff}$ approaches theorem \ref{thm:two-state_ff_no_r}.
 
 \begin{theorem}[Two-state feedforward with inexpensive control effort]
   \begin{align}
@@ -229,6 +230,7 @@ $\mtx{u}_{ff}$ approaches the following.
     &\text{where } \mtx{K}_{ff} =
       (\mtx{B}^T\mtx{Q}^T\mtx{B})^{-1}\mtx{B}^T\mtx{Q}^T
   \end{align}
+  \label{thm:two-state_ff_no_r}
 \end{theorem}
 
 \begin{remark}

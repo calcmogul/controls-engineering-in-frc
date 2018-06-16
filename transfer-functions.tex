@@ -35,7 +35,7 @@ $-2 + 3i$, $-2 - 3i$).
 For \glspl{controller} to \glslink{regulator}{regulate} a system or
 \glslink{tracking}{track} a reference, they must be placed in positive or
 negative feedback with the \gls{plant} (whether to use positive or negative
-depends on the \gls{plant} in question). Given the following block diagram
+depends on the \gls{plant} in question).
 
 \begin{bookfigure}
   \begin{tikzpicture}[auto, >=latex']
@@ -60,10 +60,16 @@ depends on the \gls{plant} in question). Given the following block diagram
   \label{fig:feedback_controller_block_diagram}
 \end{bookfigure}
 
-where $K$ is the controller gain, $G$ is the plant transfer function, and
-$H$ is the measurement transfer function. The transfer function of figure
-\ref{fig:feedback_controller_block_diagram}, a control system diagram with
-feedback, from input to output is
+\begin{figurekey}
+  \begin{tabulary}{\linewidth}{LLLL}
+    $X(s)$ & input & $H$ & measurement transfer function \\
+    $K$ & controller gain & $Y(s)$ & output \\
+    $G$ & plant transfer function & & \\
+  \end{tabulary}
+\end{figurekey}
+
+The transfer function of figure \ref{fig:feedback_controller_block_diagram}, a
+control system diagram with feedback, from input to output is
 
 \begin{equation}
   G_{cl}(s) = \frac{Y(s)}{X(s)} = \frac{KG}{1 + KGH}

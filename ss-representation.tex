@@ -94,25 +94,24 @@ system of equations, it's natural to write it in matrix form.
 
 Below are the continuous and discrete versions of state-space notation.
 
-\begin{align}
-  \dot{\mtx{x}} &= \mtx{A}\mtx{x} + \mtx{B}\mtx{u} \label{eq:ss_ctrl_x} \\
-  \mtx{y} &= \mtx{C}\mtx{x} + \mtx{D}\mtx{u} \label{eq:ss_ctrl_y}
-\end{align}
+\begin{definition}[State-space notation]%
+  \begin{align}
+    \dot{\mtx{x}} &= \mtx{A}\mtx{x} + \mtx{B}\mtx{u} \label{eq:ss_ctrl_x} \\
+    \mtx{y} &= \mtx{C}\mtx{x} + \mtx{D}\mtx{u} \label{eq:ss_ctrl_y} \\
+    \nonumber \\
+    \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}\mtx{u}_k \label{eq:ssz_ctrl_x} \\
+    \mtx{y}_{k+1} &= \mtx{C}\mtx{x}_k + \mtx{D}\mtx{u}_k \label{eq:ssz_ctrl_y}
+  \end{align}
 
-\begin{align}
-  \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}\mtx{u}_k \label{eq:ssz_ctrl_x} \\
-  \mtx{y}_{k+1} &= \mtx{C}\mtx{x}_k + \mtx{D}\mtx{u}_k \label{eq:ssz_ctrl_y}
-\end{align}
-
-\begin{center}
-  \renewcommand{\arraystretch}{1.3}
-  \begin{tabulary}{\linewidth}{LLLL}
-    $\mtx{A}$ & system matrix      & $\mtx{x}$ & state vector \\
-    $\mtx{B}$ & input matrix       & $\mtx{u}$ & input vector \\
-    $\mtx{C}$ & output matrix      & $\mtx{y}$ & output vector \\
-    $\mtx{D}$ & feedthrough matrix &  &  \\
-  \end{tabulary}
-\end{center}
+  \begin{figurekey}
+    \begin{tabulary}{\linewidth}{LLLL}
+      $\mtx{A}$ & system matrix      & $\mtx{x}$ & state vector \\
+      $\mtx{B}$ & input matrix       & $\mtx{u}$ & input vector \\
+      $\mtx{C}$ & output matrix      & $\mtx{y}$ & output vector \\
+      $\mtx{D}$ & feedthrough matrix &  &  \\
+    \end{tabulary}
+  \end{figurekey}
+\end{definition}
 
 \begin{booktable}
   \begin{tabular}{|ll|ll|}

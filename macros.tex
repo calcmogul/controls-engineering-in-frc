@@ -3,7 +3,7 @@
 }
 
 \newenvironment{bookfigure}%
-  {\begin{figure}[H]%
+  {\begin{figure}%
     \centering%
   }%
   {\end{figure}}
@@ -23,7 +23,7 @@
 
 % #1: file name without extension
 \newenvironment{svg}[1]
-  {\begin{figure}[H]%
+  {\begin{figure}%
     \def\svgwidth{\linewidth}%
     \input{#1.pdf_tex}}
   {\end{figure}}

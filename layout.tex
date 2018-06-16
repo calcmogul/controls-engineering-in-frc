@@ -26,3 +26,6 @@
 
 % Removes the header from odd empty pages at the end of chapters
 \setcleardoublepage
+
+\let\oldsection\section
+\renewcommand\section{\FloatBarrier\oldsection}
