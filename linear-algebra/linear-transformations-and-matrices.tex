@@ -30,9 +30,7 @@ and returns an output for each one. Specifically in the context of linear
 algebra, we consider transformations that take in some vector and spit out
 another vector.
 
-\begin{figure}[H]
-  \centering
-
+\begin{bookfigure}
   \begin{tikzpicture}[auto, >=latex']
     % Place the nodes
     \node [name=input] {
@@ -55,7 +53,7 @@ another vector.
     \draw [arrow] (input) -- node {} (func);
     \draw [arrow] (func) -- node {} (output);
   \end{tikzpicture}
-\end{figure}
+\end{bookfigure}
 
 So why use the word ``transformation" instead of ``function" if they mean the
 same thing? It's to be suggestive of a certain way to visualize this
@@ -89,9 +87,7 @@ to make a video teaching the topic, what formula could you give the computer so
 that if you give it the coordinates of a vector, it would return the coordinates
 of where that vectors lands?
 
-\begin{figure}[H]
-  \centering
-
+\begin{bookfigure}
   \begin{tikzpicture}[auto, >=latex']
     % Place the nodes
     \node [name=input] {
@@ -112,7 +108,7 @@ of where that vectors lands?
     \draw [arrow] (input) -- node {} (func);
     \draw [arrow] (func) -- node {} (output);
   \end{tikzpicture}
-\end{figure}
+\end{bookfigure}
 
 You only need to record where the two basis vectors, $\hat{i}$ and $\hat{j}$,
 each land, and everything else will follow from that. For example, consider the

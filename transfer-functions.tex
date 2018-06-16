@@ -37,9 +37,7 @@ For \glspl{controller} to \glslink{regulator}{regulate} a system or
 negative feedback with the \gls{plant} (whether to use positive or negative
 depends on the \gls{plant} in question). Given the following block diagram
 
-\begin{figure}[H]
-  \centering
-
+\begin{bookfigure}
   \begin{tikzpicture}[auto, >=latex']
     % Place the blocks
     \node [name=input] {$X(s)$};
@@ -60,7 +58,7 @@ depends on the \gls{plant} in question). Given the following block diagram
 
   \caption{Feedback controller block diagram}
   \label{fig:feedback_controller_block_diagram}
-\end{figure}
+\end{bookfigure}
 
 where $K$ is the controller gain, $G$ is the plant transfer function, and
 $H$ is the measurement transfer function. The transfer function of figure

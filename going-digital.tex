@@ -54,9 +54,7 @@ Transfer functions are converted to impulse responses using the Z-transform. The
 s-plane's LHP maps to the inside of a unit circle in the z-plane. Table
 \ref{tab:s-plane2z-plane} contains a few common points.
 
-\begin{table}
-  \renewcommand{\arraystretch}{1.3}
-  \centering
+\begin{booktable}
   \begin{tabular}{|cc|}
     \hline
     \rowcolor{headingbg}
@@ -69,7 +67,7 @@ s-plane's LHP maps to the inside of a unit circle in the z-plane. Table
   \end{tabular}
   \caption{Mapping from s-plane to z-plane}
   \label{tab:s-plane2z-plane}
-\end{table}
+\end{booktable}
 
 You may notice that poles can be placed at $(0, 0)$ in the z-plane. This is
 known as a deadbeat controller. An $\rm N^{th}$ order deadbeat controller decays
@@ -99,17 +97,13 @@ approximations, there is distortion between the real discrete system's poles and
 the approximate poles. For fast-changing systems, this distortion can quickly
 lead to instability.
 
-\begin{figure}[H]
-  \def\svgwidth{\linewidth}
-  \input{zoh.pdf_tex}
+\begin{svg}{zoh}
   \caption{Zero-order hold of a system response.}
-\end{figure}
+\end{svg}
 
-\begin{figure}[H]
-  \def\svgwidth{\linewidth}
-  \input{discretization_methods.pdf_tex}
+\begin{svg}{discretization_methods}
   \caption{Discretization methods of a system response.}
-\end{figure}
+\end{svg}
 
 The exact method of computing the zero-order hold for state-space is shown
 below.

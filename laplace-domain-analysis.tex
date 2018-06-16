@@ -11,9 +11,7 @@ for a given input frequency. Figure \ref{fig:system_response_poles} shows the
 time domain responses for transfer functions with various pole locations. They
 all have an initial condition of one.
 
-\begin{figure}[H]
-  \centering
-
+\begin{bookfigure}
   \begin{tikzpicture}[auto, >=latex']
     % \draw [help lines] (-4,-2) grid (4,4);
 
@@ -70,11 +68,9 @@ all have an initial condition of one.
 
   \caption{Time domain system response vs pole location}
   \label{fig:system_response_poles}
-\end{figure}
+\end{bookfigure}
 
-\begin{table}
-  \renewcommand{\arraystretch}{1.5}
-  \centering
+\begin{booktable}
   \begin{tabular}{|ll|}
     \hline
     \rowcolor{headingbg}
@@ -85,9 +81,10 @@ all have an initial condition of one.
     Right Half-plane (RHP) & Unstable \\
     \hline
   \end{tabular}
-  \caption{Pole location and stabilty}
+
+  \caption{Pole location and stability}
   \label{tab:pole_locations}
-\end{table}
+\end{booktable}
 
 When a system is stable, its output may oscillate but it converges to
 steady-state. When a system is marginally stable, its output oscillates at a
@@ -101,13 +98,11 @@ controller gain. The root locus shows where they will go as the controller gain 
 increased. Figure \ref{fig:poster_rlocus} shows the root locus of the transfer
 function from equation (\ref{eq:transfer_func}).
 
-\begin{figure}[H]
-  \def\svgwidth{\linewidth}
-  \input{root_locus.pdf_tex}
+\begin{svg}{root_locus}
   \caption{Root locus of equation (\ref{eq:transfer_func}). See snippet
     \ref{lst:poster_rlocus}.}
   \label{fig:poster_rlocus}
-\end{figure}
+\end{svg}
 
 \begin{snippet}
   \caption{Root locus in Python}

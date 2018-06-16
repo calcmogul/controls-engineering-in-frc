@@ -18,9 +18,7 @@ graphically. Block diagrams are used for this purpose. They can be manipulated
 and simplified systematically \cite{bib:block_diagrams}. Figure
 \ref{fig:gain_nomenclature} is an example of one.
 
-\begin{figure}[H]
-  \centering
-
+\begin{bookfigure}
   \begin{tikzpicture}[auto, >=latex']
     % Place the blocks
     \node [name=input] {input};
@@ -39,7 +37,7 @@ and simplified systematically \cite{bib:block_diagrams}. Figure
 
   \caption{Block diagram with nomenclature}
   \label{fig:gain_nomenclature}
-\end{figure}
+\end{bookfigure}
 
 The open-loop gain is the total gain from the sum node at the input to the
 output branch. The feedback gain is the total gain from the output back to the
@@ -48,9 +46,7 @@ input sum node. The circle produces the sum of its inputs as its output.
 Figure \ref{fig:feedback_block_diagram} is a block diagram with more formal
 notation in a feedback configuration.
 
-\begin{figure}[H]
-  \centering
-
+\begin{bookfigure}
   \begin{tikzpicture}[auto, >=latex']
     % Place the blocks
     \node [name=input] {$X(s)$};
@@ -69,7 +65,7 @@ notation in a feedback configuration.
 
   \caption{Feedback block diagram}
   \label{fig:feedback_block_diagram}
-\end{figure}
+\end{bookfigure}
 
 \begin{theorem}[Closed-loop gain for a feedback loop]
   \begin{equation}

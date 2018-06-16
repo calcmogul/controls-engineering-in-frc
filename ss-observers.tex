@@ -20,8 +20,7 @@ State-space observers are used to estimate unmeasured \glspl{state}.
       \label{eq:z_obsv_y} \\ \nonumber
   \end{align}
 
-  \begin{center}
-    \renewcommand{\arraystretch}{1.3}
+  \begin{figurekey}
     \begin{tabulary}{\linewidth}{LLLL}
       $\mtx{A}$ & system matrix      & $\hat{\mtx{x}}$ & state estimate vector \\
       $\mtx{B}$ & input matrix       & $\mtx{u}$ & input vector \\
@@ -29,12 +28,10 @@ State-space observers are used to estimate unmeasured \glspl{state}.
       $\mtx{D}$ & feedthrough matrix & $\hat{\mtx{y}}$ & output estimate vector \\
       $\mtx{L}$ & estimator gain matrix & & \\
     \end{tabulary}
-  \end{center}
+  \end{figurekey}
 \end{theorem}
 
-\begin{table}[ht]
-  \renewcommand{\arraystretch}{1.5}
-  \centering
+\begin{booktable}
   \begin{tabular}{|ll|ll|}
     \hline
     \rowcolor{headingbg}
@@ -50,13 +47,14 @@ State-space observers are used to estimate unmeasured \glspl{state}.
   \end{tabular}
   \caption{Luenberger observer matrix dimensions}
   \label{tab:luenberger_matrix_dims}
-\end{table}
+\end{booktable}
 
 Using an estimator forfeits the performance guarantees from earlier, but the
 responses are still generally very good.
 
 A Luenberger observer combines the prediction and update steps of an estimator.
-To run them separately, use the following equations instead.
+To run them separately, use the equations in theorem \ref{thm:luenberger}
+instead.
 
 \begin{theorem}[Luenberger observer with separate predict/update]
   \begin{align}
@@ -67,6 +65,7 @@ To run them separately, use the following equations instead.
       (\mtx{y}_k - \hat{\mtx{y}}_k) \\
     \hat{\mtx{y}}_k &= \mtx{C} \hat{\mtx{x}}_k^-
   \end{align}
+  \label{thm:luenberger}
 \end{theorem}
 
 See appendix \ref{subsec:app-luenberger-separate} for a derivation.
@@ -123,9 +122,7 @@ step and current update step are shown.
 
 $\mtx{\Phi}$ is replaced with $\mtx{A}$ for continuous systems.
 
-\begin{table}[ht]
-  \renewcommand{\arraystretch}{1.5}
-  \centering
+\begin{booktable}
   \begin{tabular}{|ll|ll|}
     \hline
     \rowcolor{headingbg}
@@ -144,7 +141,7 @@ $\mtx{\Phi}$ is replaced with $\mtx{A}$ for continuous systems.
   \end{tabular}
   \caption{Kalman filter matrix dimensions}
   \label{tab:kf_matrix_dims}
-\end{table}
+\end{booktable}
 
 Unknown states in a Kalman filter are generally represented by a Wiener
 (pronounced VEE-ner) process. This process has the property that its variance

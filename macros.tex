@@ -2,6 +2,32 @@
   \lstinputlisting[escapechar=, style=custom#1]{#2}
 }
 
+\newenvironment{bookfigure}%
+  {\begin{figure}[H]%
+    \centering%
+  }%
+  {\end{figure}}
+
+% #1: column arguments to tabulary
+\newenvironment{figurekey}%
+  {\begin{center}%
+    \renewcommand{\arraystretch}{1.3}}
+  {\end{center}}
+
+\newenvironment{booktable}%
+  {\begin{table}%
+    \renewcommand{\arraystretch}{1.5}%
+    \centering%
+  }%
+  {\end{table}}
+
+% #1: file name without extension
+\newenvironment{svg}[1]
+  {\begin{figure}[H]%
+    \def\svgwidth{\linewidth}%
+    \input{#1.pdf_tex}}
+  {\end{figure}}
+
 \newcommand{\mtx}[1] {\mathbf{#1}}
 
 % Set up snippet environment
