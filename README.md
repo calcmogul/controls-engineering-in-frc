@@ -45,7 +45,12 @@ git clone git://github.com/python-control/python-control
 pip install --user ./python-control
 ```
 
-To run the examples, only Python 3.5+ and Python Control are required.
+The examples only require Python 3.5+ and Python Control. To run them, execute
+the following in the `code` directory.
+
+```
+PYTHONPATH=. ./frccontrol/examples/elevator.py
+```
 
 ## Build
 
