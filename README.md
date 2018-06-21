@@ -147,11 +147,6 @@ or at least provide examples.
 Any other results that are good for background but are unnecessary should be
 included in an appendix.
 
-Import equations from discretization Wikipedia page into "Going digital"
-chapter.
-* Method of discretizing A and B at once for on-the-fly discretization
-* Discretization of stochastic process matrices
-
 The referenced derivations for the Kalman filter could be added as an appendix
 since they aren't that long. Does referencing them help the book at all?
 
