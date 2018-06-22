@@ -25,20 +25,20 @@ class System():
         self.sysd = sysc.sample(dt)  # Discretize model
 
         # Model matrices
-        self.x = np.zeros((sysc.A.shape[0], 1))
-        self.u = np.zeros((sysc.B.shape[1], 1))
-        self.y = np.zeros((sysc.C.shape[0], 1))
+        self.x = np.zeros((self.sysc.A.shape[0], 1))
+        self.u = np.zeros((self.sysc.B.shape[1], 1))
+        self.y = np.zeros((self.sysc.C.shape[0], 1))
         self.u_min = u_min
         self.u_max = u_max
 
         # Controller matrices
-        self.r = np.zeros((sysc.A.shape[0], 1))
-        self.K = np.zeros((sysc.B.shape[1], sysc.B.shape[0]))
-        self.Kff = np.zeros((sysc.A.shape[0], sysc.A.shape[1]))
+        self.r = np.zeros((self.sysc.A.shape[0], 1))
+        self.K = np.zeros((self.sysc.B.shape[1], self.sysc.B.shape[0]))
+        self.Kff = np.zeros((self.sysc.A.shape[0], self.sysc.A.shape[1]))
 
         # Observer matrices
-        self.x_hat = np.zeros((sysc.A.shape[0], 1))
-        self.L = np.zeros((sysc.A.shape[0], sysc.C.shape[0]))
+        self.x_hat = np.zeros((self.sysc.A.shape[0], 1))
+        self.L = np.zeros((self.sysc.A.shape[0], self.sysc.C.shape[0]))
 
     def update(self):
         """Advance the model by one timestep."""

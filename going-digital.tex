@@ -233,6 +233,19 @@ account the response time of your system. Some systems like heaters have outputs
 loop at 1kHz doesn't make sense for this because the plant input the controller
 computes won't change much, if at all, in 1ms.
 
+Figure \ref{fig:sampling_simulation} shows simulations of the same controller
+for different sampling methods and sample rates, which have varying levels of
+fidelity to the real system.
+
+\begin{svg}{sampling_simulation}
+  \caption{Sampling methods for system simulation.}
+  \label{fig:sampling_simulation}
+\end{svg}
+
+Forward Euler is numerically unstable for low sample rates whereas zero-order
+hold remains stable due to the matrix exponential including terms beyond
+first-order.
+
 \section{Computing the matrix exponential}
 
 The matrix exponential is typically solved with a computer. We will use Python

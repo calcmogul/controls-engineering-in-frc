@@ -134,9 +134,6 @@ control.
 
 ### Add content for building understanding and intuition
 
-Show example of unstable elevator controller resulting from low sample rates and
-Euler approximation used in model update.
-
 ### More thorough examples
 
 The "Implementation Steps" section needs subsections to explain how to do each
