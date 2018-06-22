@@ -242,14 +242,16 @@ fidelity to the real system.
   \label{fig:sampling_simulation}
 \end{svg}
 
-Forward Euler is numerically unstable for low sample rates whereas zero-order
-hold remains stable due to the matrix exponential including terms beyond
-first-order.
+Forward Euler is numerically unstable for low sample rates. The bilinear
+transform is a significant improvement due to it being a second-order
+approximation, but zero-order hold performs best due to the matrix exponential
+including much higher orders (it is, in effect, exact).
 
 \section{Computing the matrix exponential}
 
-The matrix exponential is typically solved with a computer. We will use Python
-Control's \texttt{sample\_system()} function for this purpose later.
+The matrix exponential (and system discretization in general) is typically
+solved with a computer. Python Control's \texttt{StateSpace.sample()} with the
+``zoh" method (the default) does this.
 
 \begin{definition}[Matrix exponential]
   Let $\mtx{X}$ be an $n \times n$ matrix. The exponential of $\mtx{X}$ denoted

@@ -42,6 +42,8 @@ def simulate(elevator, dt, method):
         label = "Zero-order hold"
     elif method == "euler":
         label = "Forward Euler"
+    elif method == "bilinear":
+        label = "Bilinear transform"
     label += " (T={}s)".format(dt)
     plt.plot(t, pos, label=label)
 
@@ -56,6 +58,7 @@ def main():
     simulate(elevator, 0.1, "zoh")
     simulate(elevator, 0.1, "euler")
     simulate(elevator, 0.01, "euler")
+    simulate(elevator, 0.1, "bilinear")
 
     plt.ylim([-0.25, 3])
     plt.legend()
