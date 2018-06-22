@@ -4,6 +4,7 @@
 *.blg
 *.fdb_latexmk
 *.fls
+*.format-stamp
 *.glg
 *.glo
 *.gls
@@ -27,4 +28,3 @@
 *.xml
 __pycache__
 book-stamp
-format-stamp
