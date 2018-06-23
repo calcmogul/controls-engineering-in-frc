@@ -18,6 +18,11 @@ While the theory is mathematically elegant at times and helps inform what is
 going on, one shouldn't lose sight of how it behaves when applied to real
 systems.
 
+## Download
+
+A PDF version is available at
+https://file.tavsys.net/control/state-space-guide.pdf.
+
 ## Dependencies
 
 To compile the book, the following are required.
@@ -68,11 +73,6 @@ levels of image compression.
 |`make ebook`     |`state-space-guide-ebook.pdf`   |Online distribution      |
 |`make printer`   |`state-space-guide-printer.pdf` |Standard color printing  |
 |`make prepress`  |`state-space-guide-prepress.pdf`|Book publishing          |
-
-## Download
-
-A PDF version is available at
-https://file.tavsys.net/control/state-space-guide.pdf.
 
 ## Future Improvements
 
