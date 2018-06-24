@@ -100,7 +100,7 @@ Next, we will compute the expectation of the output $\mtx{y}$.
 \subsection{Measurement covariance matrix}
 
 Now, we will use this to compute how the measurement covariance matrix
-$\mtx{P}$ evolves.
+$\mtx{S}$ evolves.
 
 \begin{align*}
   \mtx{y}_k - \meanmtx{y}_k &= \mtx{H}\mtx{x}_k + \mtx{D}\mtx{u}_k + \mtx{v}_k -
@@ -112,13 +112,13 @@ $\mtx{P}$ evolves.
   E[(\mtx{y}_k - \meanmtx{y}_k)(\mtx{y}_k - \meanmtx{y}_k)^T] &=
     E[(\mtx{H}(\mtx{x}_k - \meanmtx{x}_k) + \mtx{v}_k)
       (\mtx{H}(\mtx{x}_k - \meanmtx{x}_k) + \mtx{v}_k)^T] \\
-  E[(\mtx{y}_k - \meanmtx{y}_k)(\mtx{y}_k - \meanmtx{y}_k)^T] &=
-    E[(\mtx{H}(\mtx{x}_k - \meanmtx{x}_k)
-      (\mtx{x}_k - \meanmtx{x}_k)^T\mtx{H}^T] +
-    E[\mtx{v}_k\mtx{v}_k^T] \\
-  E[(\mtx{y}_k - \meanmtx{y}_k)(\mtx{y}_k - \meanmtx{y}_k)^T] &=
+  \mtx{S}_k &= E[(\mtx{H}(\mtx{x}_k - \meanmtx{x}_k) + \mtx{v}_k)
+                 (\mtx{H}(\mtx{x}_k - \meanmtx{x}_k) + \mtx{v}_k)^T] \\
+  \mtx{S}_k &= E[(\mtx{H}(\mtx{x}_k - \meanmtx{x}_k)
+                 (\mtx{x}_k - \meanmtx{x}_k)^T\mtx{H}^T] +
+               E[\mtx{v}_k\mtx{v}_k^T] \\
+  \mtx{S}_k &=
     \mtx{H}E[((\mtx{x}_k - \meanmtx{x}_k)(\mtx{x}_k - \meanmtx{x}_k)^T]
     \mtx{H}^T + \mtx{R}_k \\
-  E[(\mtx{y}_k - \meanmtx{y}_k)(\mtx{y}_k - \meanmtx{y}_k)^T] &=
-    \mtx{H}\mtx{P}_k\mtx{H}^T + \mtx{R}_k
+  \mtx{S}_k &= \mtx{H}\mtx{P}_k\mtx{H}^T + \mtx{R}_k
 \end{align*}

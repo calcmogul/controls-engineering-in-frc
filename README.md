@@ -142,9 +142,6 @@ or at least provide examples.
 Any other results that are good for background but are unnecessary should be
 included in an appendix.
 
-The referenced derivations for the Kalman filter could be added as an appendix
-since they aren't that long. Does referencing them help the book at all?
-
 Include info from ~/frc/state-space-guide/LQR-derivs.pdf for optimal control/LQR
 derivations and LQR phase margin proof.
 
