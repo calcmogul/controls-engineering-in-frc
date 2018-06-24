@@ -23,11 +23,16 @@ independent, so $E[\mtx{w}_k\mtx{w}_j^T] = 0$ and $E[\mtx{v}_k\mtx{v}_k^T] = 0$
 where $k \neq j$. Furthermore, process noise samples are independent from
 measurement noise samples.
 
+We'll compute the expectation of these equations and their covariance matrices,
+which we'll use later for deriving the Kalman filter.
+
 \subsection{State vector expectation evolution}
+
+First, we will compute how the expectation of the system state evolves.
 
 \begin{align*}
   E[\mtx{x}_{k+1}] &= E[\mtx{\Phi}\mtx{x}_k + \mtx{B}\mtx{u}_k +
-    \mtx{\Gamma}\mtx{w}_k \\
+    \mtx{\Gamma}\mtx{w}_k] \\
   E[\mtx{x}_{k+1}] &= E[\mtx{\Phi}\mtx{x}_k] + E[\mtx{B}\mtx{u}_k] +
     E[\mtx{\Gamma}\mtx{w}_k] \\
   E[\mtx{x}_{k+1}] &= \mtx{\Phi}E[\mtx{x}_k] + \mtx{B}E[\mtx{u}_k] +
@@ -38,6 +43,9 @@ measurement noise samples.
 \end{align*}
 
 \subsection{State covariance matrix evolution}
+
+Now, we will use this to compute how the state covariance matrix $\mtx{P}$
+evolves.
 
 \begin{align*}
   \mtx{x}_{k+1} - \meanmtx{x}_{k+1} &= \mtx{\Phi}\mtx{x}_k +
@@ -62,24 +70,26 @@ measurement noise samples.
       \mtx{\Phi}^T] +
     E[\mtx{\Phi}(\mtx{x}_k - \meanmtx{x}_k)\mtx{w}_k^T\mtx{\Gamma}^T] + \\
     &E[\mtx{\Gamma}\mtx{w}_k(\mtx{x}_k - \meanmtx{x}_k)^T\mtx{\Phi}^T] +
-    E[\mtx{\Gamma}\mtx{w}_k\mtx{w}_k^T\mtx{\Gamma}_k^T] \\
+    E[\mtx{\Gamma}\mtx{w}_k\mtx{w}_k^T\mtx{\Gamma}^T] \\
   \mtx{P}_{k+1} =~&
     \mtx{\Phi}E[(\mtx{x}_k - \meanmtx{x}_k)(\mtx{x}_k - \meanmtx{x}_k)^T]
     \mtx{\Phi}^T +
     \mtx{\Phi}E[(\mtx{x}_k - \meanmtx{x}_k)\mtx{w}_k^T]\mtx{\Gamma}^T + \\
     &\mtx{\Gamma} E[\mtx{w}_k(\mtx{x}_k - \meanmtx{x}_k)^T]\mtx{\Phi}^T +
-    \mtx{\Gamma} E[\mtx{w}_k\mtx{w}_k^T]\mtx{\Gamma}_k^T \\
+    \mtx{\Gamma} E[\mtx{w}_k\mtx{w}_k^T]\mtx{\Gamma}^T \\
   \mtx{P}_{k+1} =~& \mtx{\Phi}\mtx{P}_k\mtx{\Phi}^T +
     \mtx{\Phi}E[(\mtx{x}_k - \meanmtx{x}_k)\mtx{w}_k^T]\mtx{\Gamma}^T + \\
     &\mtx{\Gamma} E[\mtx{w}_k(\mtx{x}_k - \meanmtx{x}_k)^T]\mtx{\Phi}^T +
-    \mtx{\Gamma}\mtx{Q}\mtx{\Gamma}_k^T \\
+    \mtx{\Gamma}\mtx{Q}_k\mtx{\Gamma}_k^T \\
   \mtx{P}_{k+1} =~& \mtx{\Phi}\mtx{P}_k\mtx{\Phi}^T + 0 + 0 +
-    \mtx{\Gamma}\mtx{Q}\mtx{\Gamma}_k^T \\
+    \mtx{\Gamma}\mtx{Q}_k\mtx{\Gamma}^T \\
   \mtx{P}_{k+1} =~& \mtx{\Phi}\mtx{P}_k\mtx{\Phi}^T +
-    \mtx{\Gamma}\mtx{Q}\mtx{\Gamma}_k^T
+    \mtx{\Gamma}\mtx{Q}_k\mtx{\Gamma}^T
 \end{align*}
 
 \subsection{Measurement vector expectation}
+
+Next, we will compute the expectation of the output $\mtx{y}$.
 
 \begin{align*}
   E[\mtx{y}_k] &= E[\mtx{H}\mtx{x}_k + \mtx{D}\mtx{u}_k + \mtx{v}_k] \\
@@ -88,6 +98,9 @@ measurement noise samples.
 \end{align*}
 
 \subsection{Measurement covariance matrix}
+
+Now, we will use this to compute how the measurement covariance matrix
+$\mtx{P}$ evolves.
 
 \begin{align*}
   \mtx{y}_k - \meanmtx{y}_k &= \mtx{H}\mtx{x}_k + \mtx{D}\mtx{u}_k + \mtx{v}_k -
@@ -105,7 +118,7 @@ measurement noise samples.
     E[\mtx{v}_k\mtx{v}_k^T] \\
   E[(\mtx{y}_k - \meanmtx{y}_k)(\mtx{y}_k - \meanmtx{y}_k)^T] &=
     \mtx{H}E[((\mtx{x}_k - \meanmtx{x}_k)(\mtx{x}_k - \meanmtx{x}_k)^T]
-    \mtx{H}^T + \mtx{R} \\
+    \mtx{H}^T + \mtx{R}_k \\
   E[(\mtx{y}_k - \meanmtx{y}_k)(\mtx{y}_k - \meanmtx{y}_k)^T] &=
-    \mtx{H}\mtx{P}_k\mtx{H}^T + \mtx{R}
+    \mtx{H}\mtx{P}_k\mtx{H}^T + \mtx{R}_k
 \end{align*}

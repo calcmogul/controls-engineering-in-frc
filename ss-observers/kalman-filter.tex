@@ -1,10 +1,6 @@
 \section{Kalman filter}
 \index{Kalman filter}
 
-Unknown states in a Kalman filter are generally represented by a Wiener
-(pronounced VEE-ner) process. This process has the property that its variance
-increases linearly with time $t$.
-
 Theorem \ref{thm:kalman_filter} shows the predict and update steps for a Kalman
 filter at the $k^{th}$ timestep.
 
@@ -69,6 +65,10 @@ $\mtx{\Phi}$ is replaced with $\mtx{A}$ for continuous systems.
 
 See the Wikipedia page on Kalman filters \cite{bib:kalman_filter} for
 derivations of the update step equations.
+
+Unknown states in a Kalman filter are generally represented by a Wiener
+(pronounced VEE-ner) process. This process has the property that its variance
+increases linearly with time $t$.
 
 \subsection{Equations to model}
 

@@ -105,9 +105,8 @@ applying the skills discussed.
 ### Teach topics better
 
 The probability section and math for stochastic systems needs examples. The
-probability concepts also need a better narrative thread (i.e., "why bring this
-up?"). The stuff on Wiener filters should be expanded to include how it relates
-to combining Gaussian distributions.
+stuff on Wiener filters should be expanded to include how it relates to
+combining Gaussian distributions.
 
 ### Finish incomplete topics
 

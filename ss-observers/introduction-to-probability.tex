@@ -6,17 +6,27 @@ concepts in probability.
 
 \subsection{Random variables}
 
-Let $x$ be a random variable (a variable represented by a random process), and
-let $p(x)$ denote the probability density function of $x$. The probability that
-the value of $x$ will be in the interval $x \in [x_1, x_1 + dx]$ is
-$p(x_1) dx_1$.
+A random variable is a variable whose values are the outcomes of a random
+phenomenon. As such, a random variable is defined as a function that maps the
+outcomes of an unpredictable process to numerical quantities.
+
+A probability density function (PDF) is a function whose value at any given
+sample in the sample space (the set of possible values taken by the random
+variable) can be interpreted as providing a relative likelihood that the value
+of the random variable would equal that sample.
+
+Let $x$ be a random variable, and let $p(x)$ denote the probability density
+function of $x$. The probability that the value of $x$ will be in the interval
+$x \in [x_1, x_1 + dx]$ is $p(x_1) dx_1$ (see figure
+\ref{fig:prb_density_func}).
 
 \begin{svg}{pdf}
   \caption{Probability density function}
+  \label{fig:prb_density_func}
 \end{svg}
 
-Probability density functions (PDFs) require that no probabilities are negative
-and that the sum of all probabilities is $1$.
+Probability density functions require that no probabilities are negative and
+that the sum of all probabilities is $1$.
 
 \begin{equation*}
   p(x) \geq 0, \int_{-\infty}^\infty p(x) dx = 1
@@ -38,7 +48,8 @@ This can be applied to functions as well as variables.
 \end{equation*}
 
 The mean of a random variable is denoted by an overbar (e.g., $\overline{x}$).
-The expectation of a random variable from its mean converges to zero.
+The expectation of the difference between a random variable and its mean
+converges to zero.
 
 \begin{align*}
   E[x - \overline{x}] &= \int_{-\infty}^\infty (x - \overline{x}) p(x) dx \\
@@ -52,6 +63,11 @@ The expectation of a random variable from its mean converges to zero.
 
 \subsection{Variance}
 
+Informally, variance is a measure of how far the outcome of a random variable
+deviates from its mean. Later, we will use variance to quantify how confident we
+are in the estimate of a random variable. The standard deviation is the square
+root of the variance.
+
 \begin{align*}
   var(x) &= \sigma^2 = E[(x - \overline{x})^2] =
     \int_{-\infty}^{\infty} (x - \overline{x})^2 p(x) dx \\
@@ -60,9 +76,10 @@ The expectation of a random variable from its mean converges to zero.
 
 \subsection{Joint probability density functions}
 
-$x$ and $y$ are random variables. The joint probability density function
-$p(x, y)$ defines the probability $p(x, y) dx dy$, so that $x$ and $y$ are in
-the intervals $x \in [x, x + dx], y \in [y, y + dy]$.
+Probability density functions can include more than one variable. Let $x$ and
+$y$ are random variables. The joint probability density function $p(x, y)$
+defines the probability $p(x, y) dx dy$, so that $x$ and $y$ are in the
+intervals $x \in [x, x + dx], y \in [y, y + dy]$.
 
 Joint probability density functions also require that no probabilities are
 negative and that the sum of all probabilities is $1$.
@@ -93,7 +110,9 @@ The variance of a joint PDF measures how a variable correlates with itself.
 
 \subsection{Covariance}
 
-A covariance is a measurement of how a variable correlates with another.
+A covariance is a measurement of how a variable correlates with another. If they
+vary the same way, the covariance increases. If they vary opposite ways, the
+covariance decreases.
 
 \begin{equation*}
   cov(x, y) = \Sigma_{xy} = E[(x - \overline{x})(y - \overline{y})] =
@@ -118,8 +137,8 @@ Two random variables are independent if the following relation is true.
   p(x, y) = p(x)p(y)
 \end{equation*}
 
-This means that the values of one random variable do not correlate with another.
-If we assume independence,
+This means that the values of $x$ do not correlate with the values of $y$. If we
+assume independence,
 
 \begin{align*}
   E[xy] &= \int_{-\infty}^\infty \int_{-\infty}^\infty xy p(x, y) dx dy \\
@@ -135,44 +154,53 @@ If we assume independence,
   cov(x, y) &= 0 \cdot 0 \\
 \end{align*}
 
-Therefore, $\Sigma_{xy} \rightarrow \rho(x, y) = 0$.
+Therefore, the covariance $\Sigma_{xy}$ is zero. Furthermore, $\rho(x, y) = 0$.
 
-\subsection{Marginal density}
+\subsection{Marginal probability density functions}
 
-The marginal density $p(x)$ expresses the probability of $x$ while $y$ is
-unknown. This is computed as
+Given two random variables $x$ and $y$ whose joint distribution is known, the
+marginal PDF $p(x)$ expresses the probability of $x$ averaged over information
+about $y$. In other words, it's the PDF of $x$ when $y$ is unknown. This is
+calculated by integrating the joint PDF over $y$.
 
 \begin{equation*}
   p(x) = \int_{-\infty}^\infty p(x, y) dy
 \end{equation*}
 
-\subsection{Conditional density}
+\subsection{Conditional probability density functions}
 
-Let us assume that we know the joint density $p(x, y)$ and the exact value for
-$y$. The conditional density gives the probability of $x$ in the interval
-$[x, x + dx]$ for the given value $y$.
+Let us assume that we know the joint PDF $p(x, y)$ and the exact value for $y$.
+The conditional PDF gives the probability of $x$ in the interval $[x, x + dx]$
+for the given value $y$.
 
-If $p(x, y)$ is known, then we also know $p(x, y = y∗)$. However, note that the
-latter is not the conditional density $p(x|y∗)$, instead
+If $p(x, y)$ is known, then we also know $p(x, y = y^\ast)$. However, note that
+the latter is not the conditional density $p(x|y^\ast)$, instead
 
 \begin{align*}
-  C(y^*) &= \int_{-\infty}^\infty p(x, y = y^*) dx \\
-  p(x|y^*) &= \frac{1}{C(y^*)} p(x, y = y^*)
+  C(y^\ast) &= \int_{-\infty}^\infty p(x, y = y^\ast) dx \\
+  p(x|y^\ast) &= \frac{1}{C(y^\ast)} p(x, y = y^\ast)
 \end{align*}
 
-The scale factor $\frac{1}{C(y^*)}$ is used to scale the area under the PDF to
-$1$.
+The scale factor $\frac{1}{C(y^\ast)}$ is used to scale the area under the PDF
+to $1$.
 
 \subsection{Bayes' rule}
+
+Bayes' rule is used to determine the probability of an event based on prior
+knowledge of conditions related to the event.
 
 \begin{equation*}
   p(x, y) = p(x|y) p(y) = p(y|x) p(x)
 \end{equation*}
 
-If $x$ and $y$ are independent, $p(x|y) = p(x)$, $p(y|x) = p(y)$,
+If $x$ and $y$ are independent, then $p(x|y) = p(x)$, $p(y|x) = p(y)$, and
 $p(x, y) = p(x)p(y)$.
 
 \subsection{Conditional expectation}
+
+The concept of expectation can also be applied to conditional PDFs. This allows
+us to determine what the mean of a variable is given prior knowledge of other
+variables.
 
 \begin{align*}
   E[x|y] &= \int_{-\infty}^\infty x p(x|y) dx = f(y), E[x|y] \neq E[x] \\
@@ -181,12 +209,15 @@ $p(x, y) = p(x)p(y)$.
 
 \subsection{Conditional variances}
 
-\begin{equation*}
-  var(x|y) = E[(x - E[x|y])^2|y] = \int_{-\infty}^\infty (x - E[x|y])^2 p(x|y)
-    dx = f(y)
-\end{equation*}
+\begin{align*}
+  var(x|y) &= E[(x - E[x|y])^2|y] \\
+  var(x|y) &= \int_{-\infty}^\infty (x - E[x|y])^2 p(x|y) dx
+\end{align*}
 
 \subsection{Random vectors}
+
+Now we will extend the probability concepts discussed so far to vectors where
+each element has a PDF.
 
 \begin{equation*}
   \mtx{x} = \begin{bmatrix}
@@ -332,3 +363,23 @@ A Gaussian random variable has the following properties:
   p(x) &= \frac{1}{\sqrt{2\pi\sigma^2}}
     e^{-\frac{(x - \overline{x})^2}{2\sigma^2}}
 \end{align*}
+
+While we could use any random variable to represent a random process, we use the
+Gaussian random variable a lot in probability theory due to the central limit
+theorem.
+
+\begin{definition}[Central limit theorem]
+  When independent random variables are added, their properly normalized sum
+  tends toward a normal distribution (a Gaussian distribution or ``bell curve").
+\end{definition}
+
+This is the case even if the original variables themselves are not normally
+distributed. The theorem is a key concept in probability theory because it
+implies that probabilistic and statistical methods that work for normal
+distributions can be applicable to many problems involving other types of
+distributions.
+
+For example, suppose that a sample is obtained containing a large number of
+independent observations, and that the arithmetic mean of the observed values
+is computed. The central limit theorem says that the computed values of the
+mean will tend toward being distributed according to a normal distribution.
