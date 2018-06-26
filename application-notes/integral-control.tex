@@ -26,18 +26,92 @@ There are three methods FRC team 971 has used over the years:
     ``integral of position" state.
   \item Add an integrator to the output of the controller, then estimate the
     control effort being applied. 971 has called this Delta U control. The
-    up-side is that it doesn't have the windup issue described above; the
+    upside is that it doesn't have the windup issue described above; the
     integrator only acts if the system isn't behaving like the model, which was
     the original intent. The downside is working with it is very confusing.
   \item Estimate an ``error" in the observer and compensate for it. This
     quantity is the difference between what was applied and what was observed to
-    happen. To use it, you simply add it to your control output and it will
+    happen. To use it, you simply add it to your control input and it will
     converge. This is 971's primary method.
 \end{enumerate}
 
+We'll present the first and third methods since the third is strictly better
+than the second.
+
 \subsection{Plant augmentation}
 
-\subsection{Delta U control}
+We want to augment the system with an integral term that integrates the error
+$\mtx{e} = \mtx{r} - \mtx{y} = \mtx{r} - \mtx{C}\mtx{x}$.
+
+\begin{align*}
+  \mtx{x}_I &= \int \mtx{e} \,dt \\
+  \dot{\mtx{x}}_I &= \mtx{e} = \mtx{r} - \mtx{C}\mtx{x}
+\end{align*}
+
+The plant is augmented as
+
+\begin{align*}
+  \dot{\begin{bmatrix}
+    \mtx{x} \\
+    \mtx{x}_I
+  \end{bmatrix}} &=
+  \begin{bmatrix}
+    \mtx{A} & \mtx{0} \\
+    -\mtx{C} & \mtx{0}
+  \end{bmatrix}
+  \begin{bmatrix}
+    \mtx{x} \\
+    \mtx{x}_I
+  \end{bmatrix} +
+  \begin{bmatrix}
+    \mtx{B} \\
+    \mtx{0}
+  \end{bmatrix}
+  \mtx{u} +
+  \begin{bmatrix}
+    \mtx{0} \\
+    \mtx{I}
+  \end{bmatrix}
+  \mtx{r} \\
+  \dot{\begin{bmatrix}
+    \mtx{x} \\
+    \mtx{x}_I
+  \end{bmatrix}} &=
+  \begin{bmatrix}
+    \mtx{A} & \mtx{0} \\
+    -\mtx{C} & \mtx{0}
+  \end{bmatrix}
+  \begin{bmatrix}
+    \mtx{x} \\
+    \mtx{x}_I
+  \end{bmatrix} +
+  \begin{bmatrix}
+    \mtx{B} & \mtx{0} \\
+    \mtx{0} & \mtx{I}
+  \end{bmatrix}
+  \begin{bmatrix}
+    \mtx{u} \\
+    \mtx{r}
+  \end{bmatrix}
+\end{align*}
+
+The controller is augmented as
+
+\begin{align*}
+  \mtx{u} &= \mtx{K} (\mtx{r} - \mtx{x}) - \mtx{K}_I\mtx{x}_I \\
+  \mtx{u} &=
+  \begin{bmatrix}
+    \mtx{K} & \mtx{K}_I
+  \end{bmatrix}
+  \left(\begin{bmatrix}
+    \mtx{r} \\
+    \mtx{0}
+  \end{bmatrix} -
+  \begin{bmatrix}
+    \mtx{x} \\
+    \mtx{x}_I
+  \end{bmatrix}\right)
+\end{align*}
 
 \subsection{U error estimation}
 
@@ -60,25 +134,21 @@ the rest of the state the same way $\mtx{B}$ does for $\mtx{u}$.
 $\mtx{B}_{error}$ is only a column of $\mtx{B}$ if $u_{error}$ corresponds to an
 existing input within $\mtx{u}$.
 
-$\mtx{x}$ is augmented as
-
-\begin{equation*}
-  \mtx{x'} =
-  \begin{bmatrix}
-    \mtx{x} \\
-    u_{error}
-  \end{bmatrix}
-\end{equation*}
-
-and the augmented model is
+The plant is augmented as
 
 \begin{align*}
-  \dot{\mtx{x}}' &=
+  \dot{\begin{bmatrix}
+    \mtx{x} \\
+    u_{error}
+  \end{bmatrix}} &=
   \begin{bmatrix}
     \mtx{A} & \mtx{B}_{error} \\
     0 & 0
   \end{bmatrix}
-  \mtx{x} +
+  \begin{bmatrix}
+    \mtx{x} \\
+    u_{error}
+  \end{bmatrix} +
   \begin{bmatrix}
     \mtx{B} \\
     0
@@ -87,37 +157,28 @@ and the augmented model is
 \end{align*}
 
 With this model, the observer will estimate both the state and the $u_{error}$
-term. The controller is augmented similarly.
+term. The controller is augmented similarly. $\mtx{r}$ is augmented with a zero
+for the goal $u_{error}$ term.
 
-\begin{equation*}
-  \mtx{u} = \mtx{K} \left(\mtx{r} - \mtx{x}\right) -
-  \begin{bmatrix}
-    u_{error} \\
-    \mtx{0}
-  \end{bmatrix}
-\end{equation*}
-
-This can be rewritten as
-
-\begin{equation*}
-  \mtx{u} =
+\begin{align*}
+  \mtx{u} &= \mtx{K} \left(\mtx{r} - \mtx{x}\right) - \mtx{k}_{error}u_{error}
+    \\
+  \mtx{u} &=
   \begin{bmatrix}
     \mtx{K} & \mtx{k}_{error}
   \end{bmatrix}
-  \left(\mtx{r}' - \mtx{x}'\right)
-\end{equation*}
-
-where $\mtx{k}_{error}$ is a column vector with a $1$ in a given row if
-$u_{error}$ should be applied to that input or a $0$ otherwise. $\mtx{r}$ is
-augmented with a zero for the goal $u_{error}$ term.
-
-\begin{equation*}
-  \mtx{r}' =
-  \begin{bmatrix}
+  \left(\begin{bmatrix}
     \mtx{r} \\
     0
-  \end{bmatrix}
-\end{equation*}
+  \end{bmatrix} -
+  \begin{bmatrix}
+    \mtx{x} \\
+    u_{error}
+  \end{bmatrix}\right)
+\end{align*}
+
+where $\mtx{k}_{error}$ is a column vector with a $1$ in a given row if
+$u_{error}$ should be applied to that input or a $0$ otherwise.
 
 This process can be repeated for an arbitrary error which can be corrected via
 some linear combination of the inputs.

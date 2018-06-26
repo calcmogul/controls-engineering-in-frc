@@ -127,9 +127,6 @@ The following state-space implementation examples are planned:
   * See 971/y2014/control_loops/python/claw.py
   * Use as example of coordinate transformations for states?
 
-Complete sections on integral control for plant augmentation and delta U
-control?
-
 ### Add content for building understanding and intuition
 
 ### Supplementary background
