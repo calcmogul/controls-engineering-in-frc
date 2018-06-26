@@ -101,6 +101,11 @@ applying the skills discussed.
 
 ### Teach topics better
 
+The classical control sections are glossed over. Also the stability portion
+doesn't talk on how PID affects stability. There is mention of the root locus
+but the student has no idea why it's important or how it relates to something
+like a PID controller.
+
 The probability section and math for stochastic systems needs examples.
 
 ### Finish incomplete topics
@@ -127,10 +132,6 @@ control?
 
 ### Add content for building understanding and intuition
 
-The classical control sections are glossed over. Also the stability portion
-doesn't talk on how PID affects stability. There is mention of the root locus
-but a student will just look at it and go "um, okay".
-
 ### More thorough examples
 
 The "Implementation Steps" section needs subsections to explain how to do each
@@ -141,7 +142,9 @@ or at least provide examples.
 Any other results that are good for background but are unnecessary should be
 included in an appendix.
 
-Add a section on polytopes for convex optimization?
+Add a section on polytopes for convex optimization? So far, I've seen it used
+for handling saturated control inputs to prioritize tracking some states over
+others using the limited control input.
 
 ## Licensing
 
