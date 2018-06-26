@@ -142,9 +142,6 @@ or at least provide examples.
 Any other results that are good for background but are unnecessary should be
 included in an appendix.
 
-Include info from ~/frc/state-space-guide/LQR-derivs.pdf for optimal control/LQR
-derivations and LQR phase margin proof.
-
 Add a section on polytopes for convex optimization?
 
 Add an appendix on nonlinear control?
