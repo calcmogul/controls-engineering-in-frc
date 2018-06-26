@@ -132,11 +132,6 @@ control?
 
 ### Add content for building understanding and intuition
 
-### More thorough examples
-
-The "Implementation Steps" section needs subsections to explain how to do each
-or at least provide examples.
-
 ### Supplementary background
 
 Any other results that are good for background but are unnecessary should be

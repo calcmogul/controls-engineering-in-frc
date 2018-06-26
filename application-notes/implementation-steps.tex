@@ -358,7 +358,15 @@ For full state feedback, knowledge of all states is required. If not all states
 are measured directly, an estimator can be used to supplement them.
 
 For example, we may only be measuring $\theta$ in the pendulum example, not
-$\dot{\theta}$, so we'll need to estimate the latter.
+$\dot{\theta}$, so we'll need to estimate the latter. The $\mtx{C}$ matrix the
+observer would use in this case is
+
+\begin{equation*}
+  \mtx{C} = \begin{bmatrix}
+    1 \\
+    0
+  \end{bmatrix}
+\end{equation*}
 
 \subsection{Implement controller}
 
