@@ -78,19 +78,25 @@ Lyapunov stability is a fundamental concept in nonlinear control, so we're going
 to give a brief overview of what it is so students can research it further.
 
 Since the state evolution in nonlinear systems is defined by a function rather
-than a constant matrix, the system's poles as defined by linearizing move
-around. From a linear system point of view, Lyapunov says the system is stable
-if, for a given initial condition, all possible eigenvalues of A from that point
-in time remain in the left-half plane. Nonlinear control thinks about this
-differently though.
+than a constant matrix, the system's poles as determed by linearizing move
+around. Nonlinear control uses Lyapunov stability to determine if nonlinear
+systems are stable. From a linear control theory point of view, Lyapunov
+stability says the system is stable if, for a given initial condition, all
+possible eigenvalues of $\mtx{A}$ from that point on remain in the left-half
+plane. However, nonlinear control uses a different definition.
 
-Essentially, stability (also called stability in the sense of Lyapunov, or
-Lyapunov stability) means that the system trajectory can be kept arbitrarily
-close to the origin by starting sufficiently close to it. Lyapunov's direct
-method is concerned with finding a function representing the energy in a system
-to prove that the system is stable around an equilibrium point. This can be used
-to prove a system's open-loop stability as well as its closed-loop stability in
-the presence of a controller.
+Essentially, Lyapunov stability means that the system trajectory can be kept
+arbitrarily close to the origin by starting sufficiently close to it. Lyapunov's
+direct method is concerned with finding a function representing the energy in a
+system to prove that the system is stable around an equilibrium point. This can
+be used to prove a system's open-loop stability as well as its closed-loop
+stability in the presence of a controller. Typically, these functions include
+the energy of the system or the derivatives of the system state, which are then
+used to show the system decays to some ground state.
+
+Lyapunov functions are only sufficient to prove stability. If one function
+doesn't prove it, another candidate should be tried. For this reason, we refer
+to these functions as \textit{Lyapunov candidate functions}.
 
 \section{Further reading}
 
