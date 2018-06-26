@@ -1,0 +1,98 @@
+\chapter{Nonlinear control} \label{ch:nonlinear-control}
+
+While many tools exist for designing controllers for linear systems, all systems
+in reality are inherently nonlinear. We'll briefly mention some considerations
+for nonlinear systems.
+
+\section{Introduction}
+
+Recall from linear system theory that we defined systems as having the following
+form:
+
+\begin{align*}
+  \dot{\mtx{x}} &= \mtx{A}\mtx{x} + \mtx{B}\mtx{u} + \mtx{\Gamma}\mtx{w} \\
+  \mtx{y} &= \mtx{C}\mtx{x} + \mtx{D}\mtx{u} + \mtx{v}
+\end{align*}
+
+In this equation, $\mtx{A}$ and $\mtx{B}$ are constant matrices. In nonlinear
+systems, the state evolution and output are defined by arbitrary functions of
+the current states and inputs.
+
+\begin{align*}
+  \dot{\mtx{x}} &= f(\mtx{x}, \mtx{u}, \mtx{w}) \\
+  \mtx{y} &= h(\mtx{x}, \mtx{u}, \mtx{v})
+\end{align*}
+
+\section{Linearization}
+
+One way to control nonlinear systems is to linearize the model around a
+reference point. Then, all the powerful tools that exist for linear controls can
+be applied. This is done by taking the partial derivative of the functions.
+
+\begin{align*}
+  \mtx{A} = \frac{\partial f(\mtx{x}, \mtx{0}, \mtx{0})}{\partial \mtx{x}},
+  \mtx{B} = \frac{\partial f(\mtx{0}, \mtx{u}, \mtx{0})}{\partial \mtx{u}},
+  \mtx{C} = \frac{\partial h(\mtx{x}, \mtx{0}, \mtx{0})}{\partial \mtx{x}},
+  \mtx{D} = \frac{\partial h(\mtx{0}, \mtx{u}, \mtx{0})}{\partial \mtx{u}}
+\end{align*}
+
+Higher order partial derivatives can be added to better approximate the
+nonlinear dynamics.
+
+\section{Nonlinear observers}
+
+In this book, we have covered the Kalman filter, which is the optimal unbiased
+estimator for linear systems. It isn't optimal for nonlinear systems, but
+several extensions to it have been developed to make it more accurate.
+
+\subsection{Extended Kalman filter}
+
+This method linearizes the matrices used during the prediction step. In addition
+to the $\mtx{A}$, $\mtx{B}$, $\mtx{C}$, and $\mtx{D}$ matrices above, the
+process noise intensity vector $\Gamma$ is linearized as follows:
+
+\begin{equation*}
+  \mtx{\Gamma} = \frac{\partial f(\mtx{x}, \mtx{0}, \mtx{0})}{\partial \mtx{w}}
+\end{equation*}
+
+where $\mtx{w}$ is the process noise included in the stochastic model.
+
+From there, the continuous Kalman filter equations are used like normal to
+compute the error covariance matrix $\mtx{P}$ and Kalman gain matrix. The state
+estimate update can still use the function $h(\mtx{x})$ for accuracy.
+
+\begin{equation*}
+  \hat{\mtx{x}}_{k+1}^+ = \hat{\mtx{x}}_{k+1}^- +
+    \mtx{K}_{k+1}(\mtx{y}_{k+1} - h(\hat{\mtx{x}}_{k+1}^-))
+\end{equation*}
+
+\subsection{Unscented Kalman filter}
+
+This method linearizes around carefully chosen points to minimize the modeling
+error. There's a lot of detail to cover, so we recommend just reading a paper on
+it \cite{bib:unscented-kalman-filter}.
+
+\section{Lyapunov stability}
+
+Lyapunov stability is a fundamental concept in nonlinear control, so we're going
+to give a brief overview of what it is so students can research it further.
+
+Since the state evolution in nonlinear systems is defined by a function rather
+than a constant matrix, the system's poles as defined by linearizing move
+around. From a linear system point of view, Lyapunov says the system is stable
+if, for a given initial condition, all possible eigenvalues of A from that point
+in time remain in the left-half plane. Nonlinear control thinks about this
+differently though.
+
+Essentially, stability (also called stability in the sense of Lyapunov, or
+Lyapunov stability) means that the system trajectory can be kept arbitrarily
+close to the origin by starting sufficiently close to it. Lyapunov's direct
+method is concerned with finding a function representing the energy in a system
+to prove that the system is stable around an equilibrium point. This can be used
+to prove a system's open-loop stability as well as its closed-loop stability in
+the presence of a controller.
+
+\section{Further reading}
+
+For learning more about nonlinear control, we recommend reading the book
+\textit{Applied Nonlinear Control} by Jean-Jacques Slotine.

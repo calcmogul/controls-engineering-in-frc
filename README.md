@@ -143,19 +143,6 @@ included in an appendix.
 
 Add a section on polytopes for convex optimization?
 
-Add an appendix on nonlinear control?
-* Linearization
-* Lyapunov stability
-  * Nonlinear systems have moving poles since A isn't constant. From a linear
-    system point of view, Lyapunov says the system is stable if, for a given
-    initial condition, all possible eigenvalues of A from that point are in the
-    left-half plane. Nonlinear control thinks about this differently though.
-  * See "Applied Nonlinear Control" by Slotine
-* Nonlinear estimation with Kalman filters
-  * Extended Kalman filter
-  * Nonlinear observation model
-  * Unscented Kalman filter
-
 ## Licensing
 
 This project, except for the software, is released under the Creative Commons
