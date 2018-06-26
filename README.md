@@ -81,10 +81,7 @@ levels of image compression.
 The book is still very high level for the subject it covers as well as very
 dense and fast-paced (it covers three classes of feedback control, two of which
 are for graduate students, in one short book). I want to make the contents of
-the book that are in the critical path more accessible. For example, one of my
-readers said the linear algebra went over their head, so I need to include more
-of the referenced linear algebra material in the main text (I suspect few
-readers would actually go watch an hour of supplementary material on YouTube).
+the book that are in the critical path more accessible.
 
 What I need to do is read through this book from the perspective of explaining
 it to my veteran software students, because my in-person tutor-style
@@ -104,9 +101,7 @@ applying the skills discussed.
 
 ### Teach topics better
 
-The probability section and math for stochastic systems needs examples. The
-stuff on Wiener filters should be expanded to include how it relates to
-combining Gaussian distributions.
+The probability section and math for stochastic systems needs examples.
 
 ### Finish incomplete topics
 
@@ -128,9 +123,13 @@ The following state-space implementation examples are planned:
   * Use as example of coordinate transformations for states?
 
 Complete sections on integral control for plant augmentation and delta U
-control.
+control?
 
 ### Add content for building understanding and intuition
+
+The classical control sections are glossed over. Also the stability portion
+doesn't talk on how PID affects stability. There is mention of the root locus
+but a student will just look at it and go "um, okay".
 
 ### More thorough examples
 
