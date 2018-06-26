@@ -17,7 +17,7 @@ of the random variable would equal that sample.
 
 Let $x$ be a random variable, and let $p(x)$ denote the probability density
 function of $x$. The probability that the value of $x$ will be in the interval
-$x \in [x_1, x_1 + dx]$ is $p(x_1) dx_1$ (see figure
+$x \in [x_1, x_1 + dx]$ is $p(x_1) \,dx_1$ (see figure
 \ref{fig:prb_density_func}).
 
 \begin{svg}{pdf}
@@ -29,7 +29,7 @@ Probability density functions require that no probabilities are negative and
 that the sum of all probabilities is $1$.
 
 \begin{equation*}
-  p(x) \geq 0, \int_{-\infty}^\infty p(x) dx = 1
+  p(x) \geq 0, \int_{-\infty}^\infty p(x) \,dx = 1
 \end{equation*}
 
 \subsection{Expected value}
@@ -38,13 +38,13 @@ Expected value is a weighted average of the values the PDF can produce where the
 weight for each is the corresponding probability of that value occurring.
 
 \begin{equation*}
-  \overline{x} = E[x] = \int_{-\infty}^\infty x p(x) dx
+  \overline{x} = E[x] = \int_{-\infty}^\infty x \,p(x) \,dx
 \end{equation*}
 
 This can be applied to functions as well as variables.
 
 \begin{equation*}
-  E[f(x)] = \int_{-\infty}^\infty f(x) p(x) dx
+  E[f(x)] = \int_{-\infty}^\infty f(x) \,p(x) \,dx
 \end{equation*}
 
 The mean of a random variable is denoted by an overbar (e.g., $\overline{x}$).
@@ -52,11 +52,11 @@ The expectation of the difference between a random variable and its mean
 converges to zero.
 
 \begin{align*}
-  E[x - \overline{x}] &= \int_{-\infty}^\infty (x - \overline{x}) p(x) dx \\
-  E[x - \overline{x}] &= \int_{-\infty}^\infty x p(x) dx -
-    \int_{-\infty}^\infty \overline{x} p(x) dx \\
-  E[x - \overline{x}] &= \int_{-\infty}^\infty x p(x) dx -
-    \overline{x} \int_{-\infty}^\infty p(x) dx \\
+  E[x - \overline{x}] &= \int_{-\infty}^\infty (x - \overline{x}) \,p(x) \,dx \\
+  E[x - \overline{x}] &= \int_{-\infty}^\infty x \, p(x) \,dx -
+    \int_{-\infty}^\infty \overline{x} \,p(x) \,dx \\
+  E[x - \overline{x}] &= \int_{-\infty}^\infty x \,p(x) \,dx -
+    \overline{x} \int_{-\infty}^\infty p(x) \,dx \\
   E[x - \overline{x}] &= \overline{x} - \overline{x} \cdot 1 \\
   E[x - \overline{x}] &= 0 \\
 \end{align*}
@@ -70,7 +70,7 @@ root of the variance.
 
 \begin{align*}
   var(x) &= \sigma^2 = E[(x - \overline{x})^2] =
-    \int_{-\infty}^{\infty} (x - \overline{x})^2 p(x) dx \\
+    \int_{-\infty}^{\infty} (x - \overline{x})^2 \,p(x) \,dx \\
   std[x] &= \sigma = \sqrt{var(x)}
 \end{align*}
 
@@ -78,34 +78,34 @@ root of the variance.
 
 Probability density functions can include more than one variable. Let $x$ and
 $y$ are random variables. The joint probability density function $p(x, y)$
-defines the probability $p(x, y) dx dy$, so that $x$ and $y$ are in the
+defines the probability $p(x, y) \,dx \,dy$, so that $x$ and $y$ are in the
 intervals $x \in [x, x + dx], y \in [y, y + dy]$.
 
 Joint probability density functions also require that no probabilities are
 negative and that the sum of all probabilities is $1$.
 
 \begin{equation*}
-  p(x, y) \geq 0, \int_{-\infty}^\infty \int_{-\infty}^{\infty} p(x, y) dx dy =
-    1
+  p(x, y) \geq 0, \int_{-\infty}^\infty \int_{-\infty}^{\infty} p(x, y) \,dx
+    \,dy = 1
 \end{equation*}
 
 The expected values for joint PDFs are as follows.
 
 \begin{align*}
-  E[x] &= \int_{-\infty}^\infty \int_{-\infty}^{\infty} x dx dy \\
-  E[y] &= \int_{-\infty}^\infty \int_{-\infty}^{\infty} y dx dy \\
-  E[f(x, y)] &= \int_{-\infty}^\infty \int_{-\infty}^{\infty} f(x, y) dx dy
+  E[x] &= \int_{-\infty}^\infty \int_{-\infty}^{\infty} x \,dx \,dy \\
+  E[y] &= \int_{-\infty}^\infty \int_{-\infty}^{\infty} y \,dx \,dy \\
+  E[f(x, y)] &= \int_{-\infty}^\infty \int_{-\infty}^{\infty} f(x, y) \,dx \,dy
 \end{align*}
 
 The variance of a joint PDF measures how a variable correlates with itself.
 
 \begin{align*}
   var(x) &= \Sigma_{xx} = E[(x - \overline{x})^2] =
-    \int_-\infty^{\infty} \int_{-\infty}^\infty (x - \overline{y})^2 p(x, y) dx
-    dy \\
+    \int_-\infty^{\infty} \int_{-\infty}^\infty (x - \overline{y})^2 \,p(x, y)
+    \,dx \,dy \\
   var(y) &= \Sigma_{yy} = E[(y - \overline{y})^2] =
-    \int_{-\infty}^\infty \int_{-\infty}^\infty (y - \overline{y})^2 p(x, y)
-    dx dy \\
+    \int_{-\infty}^\infty \int_{-\infty}^\infty (y - \overline{y})^2 \,p(x, y)
+    \,dx \,dy \\
 \end{align*}
 
 \subsection{Covariance}
@@ -117,7 +117,7 @@ covariance decreases.
 \begin{equation*}
   cov(x, y) = \Sigma_{xy} = E[(x - \overline{x})(y - \overline{y})] =
     \int_{-\infty}^\infty \int_{-\infty}^\infty (x - \overline{y})
-    (y - \overline{y}) p(x, y) dx dy \\
+    (y - \overline{y}) \,p(x, y) \,dx \,dy \\
 \end{equation*}
 
 \subsection{Correlation}
@@ -134,16 +134,18 @@ Correlation is defined as
 Two random variables are independent if the following relation is true.
 
 \begin{equation*}
-  p(x, y) = p(x)p(y)
+  p(x, y) = p(x) \,p(y)
 \end{equation*}
 
 This means that the values of $x$ do not correlate with the values of $y$. If we
 assume independence,
 
 \begin{align*}
-  E[xy] &= \int_{-\infty}^\infty \int_{-\infty}^\infty xy p(x, y) dx dy \\
-  E[xy] &= \int_{-\infty}^\infty \int_{-\infty}^\infty xy p(x) p(y) dx dy \\
-  E[xy] &= \int_{-\infty}^\infty x p(x) dx \int_{-\infty}^\infty y p(y) dy \\
+  E[xy] &= \int_{-\infty}^\infty \int_{-\infty}^\infty xy \,p(x, y) \,dx \,dy \\
+  E[xy] &= \int_{-\infty}^\infty \int_{-\infty}^\infty xy \,p(x) \,p(y) \,dx
+    \,dy \\
+  E[xy] &= \int_{-\infty}^\infty x \,p(x) \,dx \int_{-\infty}^\infty y \,p(y)
+    \,dy \\
   E[xy] &= E[x]E[y] \\
   E[xy] &= \overline{x}\overline{y}
 \end{align*}
@@ -164,7 +166,7 @@ about $y$. In other words, it's the PDF of $x$ when $y$ is unknown. This is
 calculated by integrating the joint PDF over $y$.
 
 \begin{equation*}
-  p(x) = \int_{-\infty}^\infty p(x, y) dy
+  p(x) = \int_{-\infty}^\infty p(x, y) \,dy
 \end{equation*}
 
 \subsection{Conditional probability density functions}
@@ -177,7 +179,7 @@ If $p(x, y)$ is known, then we also know $p(x, y = y^\ast)$. However, note that
 the latter is not the conditional density $p(x|y^\ast)$, instead
 
 \begin{align*}
-  C(y^\ast) &= \int_{-\infty}^\infty p(x, y = y^\ast) dx \\
+  C(y^\ast) &= \int_{-\infty}^\infty p(x, y = y^\ast) \,dx \\
   p(x|y^\ast) &= \frac{1}{C(y^\ast)} p(x, y = y^\ast)
 \end{align*}
 
@@ -190,11 +192,11 @@ Bayes' rule is used to determine the probability of an event based on prior
 knowledge of conditions related to the event.
 
 \begin{equation*}
-  p(x, y) = p(x|y) p(y) = p(y|x) p(x)
+  p(x, y) = p(x|y) \,p(y) = p(y|x) \,p(x)
 \end{equation*}
 
 If $x$ and $y$ are independent, then $p(x|y) = p(x)$, $p(y|x) = p(y)$, and
-$p(x, y) = p(x)p(y)$.
+$p(x, y) = p(x) \,p(y)$.
 
 \subsection{Conditional expectation}
 
@@ -203,15 +205,15 @@ us to determine what the mean of a variable is given prior knowledge of other
 variables.
 
 \begin{align*}
-  E[x|y] &= \int_{-\infty}^\infty x p(x|y) dx = f(y), E[x|y] \neq E[x] \\
-  E[y|x] &= \int_{-\infty}^\infty y p(y|x) dy = f(x), E[y|x] \neq E[y]
+  E[x|y] &= \int_{-\infty}^\infty x \,p(x|y) \,dx = f(y), E[x|y] \neq E[x] \\
+  E[y|x] &= \int_{-\infty}^\infty y \,p(y|x) \,dy = f(x), E[y|x] \neq E[y]
 \end{align*}
 
 \subsection{Conditional variances}
 
 \begin{align*}
   var(x|y) &= E[(x - E[x|y])^2|y] \\
-  var(x|y) &= \int_{-\infty}^\infty (x - E[x|y])^2 p(x|y) dx
+  var(x|y) &= \int_{-\infty}^\infty (x - E[x|y])^2 \,p(x|y) \,dx
 \end{align*}
 
 \subsection{Random vectors}
@@ -232,8 +234,8 @@ The elements of $\mtx{x}$ are scalar variables jointly distributed with a joint
 density $p(x_1, x_2, \ldots, x_n)$. The expectation is
 
 \begin{align*}
-  E[\mtx{x}] &= \meanmtx{x} = \int_{-\infty}^\infty \mtx{x} p(\mtx{x}) d\mtx{x}
-    \\
+  E[\mtx{x}] &= \meanmtx{x} = \int_{-\infty}^\infty \mtx{x} \,p(\mtx{x})
+    \,d\mtx{x} \\
   E[\mtx{x}] &= \begin{bmatrix}
     E[x_1] \\
     E[x_2] \\
@@ -241,8 +243,8 @@ density $p(x_1, x_2, \ldots, x_n)$. The expectation is
     E[x_n]
   \end{bmatrix} \\
   E[x_i] &= \int_{-\infty}^\infty \ldots \int_{-\infty}^\infty x_i
-    p(x_1, x_2, \ldots, x_n) dx_1 \ldots dx_n \\
-  E[f(\mtx{x})] &= \int_{-\infty}^\infty f(\mtx{x}) p(\mtx{x}) d\mtx{x}
+    \,p(x_1, x_2, \ldots, x_n) \,dx_1 \ldots dx_n \\
+  E[f(\mtx{x})] &= \int_{-\infty}^\infty f(\mtx{x}) \,p(\mtx{x}) \,d\mtx{x}
 \end{align*}
 
 \subsection{Covariance matrix}
@@ -269,7 +271,7 @@ $\mtx{\Sigma}$ are all greater than or equal to zero.
 \subsection{Relations for independent random vectors}
 
 First, independent vectors imply linearity from
-$p(\mtx{x}, \mtx{y}) = p(\mtx{x})p(\mtx{y})$.
+$p(\mtx{x}, \mtx{y}) = p(\mtx{x}) \,p(\mtx{y})$.
 
 \begin{align*}
   E[\mtx{A}\mtx{x} + \mtx{B}\mtx{y}] &= \mtx{A}E[\mtx{x}] + \mtx{B}E[\mtx{y}] \\
@@ -298,10 +300,10 @@ Second, independent vectors being uncorrelated means their covariance is zero.
 Now, compute $E[\mtx{x}\mtx{y}^T]$.
 
 \begin{align}
-  E[\mtx{x}\mtx{y}^T] &= \int_X \int_Y \mtx{x}\mtx{y}^T p(\mtx{x})p(\mtx{y})
-    d\mtx{x}d\mtx{y}^T \nonumber \\
-  E[\mtx{x}\mtx{y}^T] &= \int_X p(\mtx{x}) \mtx{x} d\mtx{x}
-    \int_Y p(\mtx{y}) \mtx{y}^T d\mtx{y}^T \nonumber \\
+  E[\mtx{x}\mtx{y}^T] &= \int_X \int_Y \mtx{x}\mtx{y}^T \,p(\mtx{x})
+    \,p(\mtx{y}) \,d\mtx{x} \,d\mtx{y}^T \nonumber \\
+  E[\mtx{x}\mtx{y}^T] &= \int_X p(\mtx{x}) \,\mtx{x} \,d\mtx{x}
+    \int_Y p(\mtx{y}) \,\mtx{y}^T \,d\mtx{y}^T \nonumber \\
   E[\mtx{x}\mtx{y}^T] &= \meanmtx{x}\meanmtx{y}^T \label{eq:prb_exyt}
 \end{align}
 

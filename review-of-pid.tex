@@ -21,7 +21,7 @@ Negative feedback loops drive the difference between the \gls{reference} and
     \node [name=input] {$r(t)$};
     \node [sum, right=0.5cm of input] (errorsum) {};
     \node [coordinate, right=0.75cm of errorsum] (branch) {};
-    \node [block, right=0.5cm of branch] (I) { $K_i \int_0^t e(\tau) d\tau$ };
+    \node [block, right=0.5cm of branch] (I) { $K_i \int_0^t e(\tau) \,d\tau$ };
     \node [block, above=0.5cm of I] (P) { $K_p e(t)$ };
     \node [block, below=0.5cm of I] (D) { $K_d \frac{de(t)}{dt}$ };
     \node [sum, right=0.5cm of I] (ctrlsum) {};
@@ -63,7 +63,7 @@ form for a position PID controller.
 
 \begin{definition}[Position PID controller]
   \begin{equation}
-    u(t) = K_p e(t) + K_i \int_0^t e(\tau) d\tau + K_d \frac{de}{dt}
+    u(t) = K_p e(t) + K_i \int_0^t e(\tau) \,d\tau + K_d \frac{de}{dt}
     \label{def:pos_pid}
   \end{equation}
 \end{definition}
@@ -91,7 +91,7 @@ the coefficients can be relabelled as follows.
 
 \begin{theorem}[Velocity PID controller]
   \begin{equation}
-    u = K_p \int_0^t e(\tau) d\tau + K_d e(t)
+    u = K_p \int_0^t e(\tau) \,d\tau + K_d e(t)
   \end{equation}
 \end{theorem}
 
