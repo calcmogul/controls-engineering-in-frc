@@ -158,65 +158,80 @@ cost matrix with dimensionality $inputs \times inputs$.
   system dynamics that would change the state over time.
 \end{remark}
 
-\begin{align*}
-  \mtx{J} &= (\mtx{B}\mtx{u}_{ff} - \mtx{r}_{k+1} + \mtx{A}\mtx{r}_k)^T \mtx{Q}
-    (\mtx{B}\mtx{u}_{ff} - \mtx{r}_{k+1} + \mtx{A}\mtx{r}_k) +
-    \mtx{u}_{ff}^T\mtx{R}\mtx{u}_{ff} \\
-  \mtx{J} &= ((\mtx{B}\mtx{u}_{ff})^T - \mtx{r}_{k+1}^T + (\mtx{A}\mtx{r}_k)^T)
-    \mtx{Q}(\mtx{B}\mtx{u}_{ff} - \mtx{r}_{k+1} + \mtx{A}\mtx{r}_k) +
-    \mtx{u}_{ff}^T\mtx{R}\mtx{u}_{ff} \\
-  \mtx{J} &= (\mtx{u}_{ff}^T\mtx{B}^T - \mtx{r}_{k+1}^T + \mtx{r}_k^T\mtx{A}^T)
-    \mtx{Q}(\mtx{B}\mtx{u}_{ff} - \mtx{r}_{k+1} + \mtx{A}\mtx{r}_k) +
-    \mtx{u}_{ff}^T\mtx{R}\mtx{u}_{ff} \\
-  \mtx{J} &= (\mtx{u}_{ff}^T\mtx{B}^T\mtx{Q} - \mtx{r}_{k+1}^T\mtx{Q} +
-    \mtx{r}_k^T\mtx{A}^T\mtx{Q})(\mtx{B}\mtx{u}_{ff} - \mtx{r}_{k+1} +
-    \mtx{A}\mtx{r}_k) + \mtx{u}_{ff}^T\mtx{R}\mtx{u}_{ff} \\
-  \begin{split}
-    \mtx{J} &= \mtx{u}_{ff}^T\mtx{B}^T\mtx{Q}\mtx{B}\mtx{u}_{ff} -
-      \mtx{r}_{k+1}^T\mtx{Q}\mtx{B}\mtx{u}_{ff} +
-      \mtx{r}_k^T\mtx{A}^T\mtx{Q}\mtx{B}\mtx{u}_{ff} + \\
-      &(\mtx{u}_{ff}^T\mtx{B}^T\mtx{Q} -
-       \mtx{r}_{k+1}^T\mtx{Q} + \mtx{r}_k^T\mtx{A}^T\mtx{Q})
-      (-\mtx{r}_{k+1} + \mtx{A}\mtx{r}_k) + \mtx{u}_{ff}^T\mtx{R}\mtx{u}_{ff}
-  \end{split}
-\end{align*}
-
-Given theorem \ref{thm:partial_aba}
+The following thorems will be needed to find the minimum of $\mtx{J}$.
 
 \begin{theorem}
-  $\frac{\partial}{\partial\mtx{A}}\left(\mtx{A}^T\mtx{B}\mtx{A}\right) =
-    2\mtx{A}^T\mtx{B}$ where $\mtx{B}$ is symmetric.
-  \label{thm:partial_aba}
+  $\frac{\partial \mtx{x}^T\mtx{A}\mtx{x}}{\partial\mtx{x}} =
+    2\mtx{A}\mtx{x}$ where $\mtx{A}$ is symmetric.
+  \label{thm:partial_xax}
 \end{theorem}
 
-find the minimum by taking the partial derivative of $\mtx{J}$ with respect to
-$\mtx{u}_{ff}$ and setting that to $\mtx{0}$.
+\begin{theorem}
+  $\frac{\partial (\mtx{A}\mtx{x} + \mtx{b})^T\mtx{C}
+    (\mtx{D}\mtx{x} + \mtx{e})}{\partial\mtx{x}} =
+    \mtx{A}^T\mtx{C}(\mtx{D}\mtx{x} + \mtx{e}) + \mtx{D}^T\mtx{C}^T
+    (\mtx{A}\mtx{x} + \mtx{b})$
+  \label{thm:partial_ax_b}
+\end{theorem}
+
+\begin{corollary}
+  $\frac{\partial (\mtx{A}\mtx{x} + \mtx{b})^T\mtx{C}
+    (\mtx{A}\mtx{x} + \mtx{b})}{\partial\mtx{x}} =
+    2\mtx{A}^T\mtx{C}(\mtx{A}\mtx{x} + \mtx{b})$ where $\mtx{C}$ is symmetric.
+  \label{cor:partial_ax_b}
+
+  Proof:
+  \begin{align*}
+    \frac{\partial (\mtx{A}\mtx{x} + \mtx{b})^T\mtx{C}
+      (\mtx{A}\mtx{x} + \mtx{b})}{\partial\mtx{x}} &=
+      \mtx{A}^T\mtx{C}(\mtx{A}\mtx{x} + \mtx{b}) + \mtx{A}^T\mtx{C}^T
+      (\mtx{A}\mtx{x} + \mtx{b}) \\
+    \frac{\partial (\mtx{A}\mtx{x} + \mtx{b})^T\mtx{C}
+      (\mtx{A}\mtx{x} + \mtx{b})}{\partial\mtx{x}} &=
+      (\mtx{A}^T\mtx{C} + \mtx{A}^T\mtx{C}^T)(\mtx{A}\mtx{x} + \mtx{b})
+  \end{align*}
+
+  $\mtx{C}$ is symmetric, so
+
+  \begin{align*}
+    \frac{\partial (\mtx{A}\mtx{x} + \mtx{b})^T\mtx{C}
+      (\mtx{A}\mtx{x} + \mtx{b})}{\partial\mtx{x}} &=
+      (\mtx{A}^T\mtx{C} + \mtx{A}^T\mtx{C})(\mtx{A}\mtx{x} + \mtx{b}) \\
+    \frac{\partial (\mtx{A}\mtx{x} + \mtx{b})^T\mtx{C}
+      (\mtx{A}\mtx{x} + \mtx{b})}{\partial\mtx{x}} &=
+      2\mtx{A}^T\mtx{C}(\mtx{A}\mtx{x} + \mtx{b})
+  \end{align*}
+\end{corollary}
+
+Given theorem \ref{thm:partial_xax} and corollary \ref{cor:partial_ax_b}, find
+the minimum of $\mtx{J}$ by taking the partial derivative with respect to
+$\mtx{u}_{ff}$ and setting the result to $\mtx{0}$.
 
 \begin{align*}
-  \frac{\partial\mtx{J}}{\partial\mtx{u}_{ff}} &=
-    2\mtx{u}_{ff}^T\mtx{B}^T\mtx{Q}\mtx{B} - 2\mtx{r}_{k+1}^T\mtx{Q}\mtx{B} +
-    2\mtx{r}_k^T\mtx{A}^T\mtx{Q}\mtx{B} + 2\mtx{u}_{ff}^T\mtx{R} \\
-  \mtx{0} &= 2\mtx{u}_{ff}^T\mtx{B}^T\mtx{Q}\mtx{B} -
-    2\mtx{r}_{k+1}^T\mtx{Q}\mtx{B} + 2\mtx{r}_k^T\mtx{A}^T\mtx{Q}\mtx{B} +
-    2\mtx{u}_{ff}^T\mtx{R} \\
-  \mtx{0} &= \mtx{u}_{ff}^T\mtx{B}^T\mtx{Q}\mtx{B} -
-    \mtx{r}_{k+1}^T\mtx{Q}\mtx{B} + \mtx{r}_k^T\mtx{A}^T\mtx{Q}\mtx{B} +
-    \mtx{u}_{ff}^T\mtx{R} \\
-  \mtx{u}_{ff}^T\mtx{B}^T\mtx{Q}\mtx{B} + \mtx{u}_{ff}^T\mtx{R} &=
-    \mtx{r}_{k+1}^T\mtx{Q}\mtx{B} - \mtx{r}_k^T\mtx{A}^T\mtx{Q}\mtx{B} \\
-  \mtx{B}^T\mtx{Q}^T\mtx{B}\mtx{u}_{ff} + \mtx{R}^T\mtx{u}_{ff} &=
-    \mtx{B}^T\mtx{Q}^T\mtx{r}_{k+1} - \mtx{B}^T\mtx{Q}^T\mtx{A}\mtx{r}_k \\
-  (\mtx{B}^T\mtx{Q}^T\mtx{B} + \mtx{R}^T)\mtx{u}_{ff} &=
-    \mtx{B}^T\mtx{Q}^T(\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k) \\
-  \mtx{u}_{ff} &= (\mtx{B}^T\mtx{Q}^T\mtx{B} +
-    \mtx{R}^T)^{-1}\mtx{B}^T\mtx{Q}^T(\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k)
+  \frac{\partial\mtx{J}}{\partial\mtx{u}_{ff}} &= 2\mtx{B}^T\mtx{Q}
+    (\mtx{B}\mtx{u}_{ff} - (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k)) +
+    2\mtx{R}\mtx{u}_{ff} \\
+  \mtx{0} &= 2\mtx{B}^T\mtx{Q}
+    (\mtx{B}\mtx{u}_{ff} - (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k)) +
+    2\mtx{R}\mtx{u}_{ff} \\
+  \mtx{0} &= \mtx{B}^T\mtx{Q}
+    (\mtx{B}\mtx{u}_{ff} - (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k)) +
+    \mtx{R}\mtx{u}_{ff} \\
+  \mtx{0} &= \mtx{B}^T\mtx{Q}\mtx{B}\mtx{u}_{ff} -
+    \mtx{B}^T\mtx{Q}(\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k) + \mtx{R}\mtx{u}_{ff} \\
+  \mtx{B}^T\mtx{Q}\mtx{B}\mtx{u}_{ff} + \mtx{R}\mtx{u}_{ff} &=
+    \mtx{B}^T\mtx{Q}(\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k) \\
+  (\mtx{B}^T\mtx{Q}\mtx{B} + \mtx{R})\mtx{u}_{ff} &=
+    \mtx{B}^T\mtx{Q}(\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k) \\
+  \mtx{u}_{ff} &= (\mtx{B}^T\mtx{Q}\mtx{B} + \mtx{R})^{-1}
+    \mtx{B}^T\mtx{Q}(\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k)
 \end{align*}
 
 \begin{theorem}[Two-state feedforward]
   \begin{align}
     &\mtx{u}_{ff} = \mtx{K}_{ff} (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k) \\
     &\text{where } \mtx{K}_{ff} =
-      (\mtx{B}^T\mtx{Q}^T\mtx{B} + \mtx{R}^T)^{-1}\mtx{B}^T\mtx{Q}^T
+      (\mtx{B}^T\mtx{Q}\mtx{B} + \mtx{R})^{-1}\mtx{B}^T\mtx{Q}
   \end{align}
   \label{thm:two-state_ff}
 \end{theorem}
@@ -228,7 +243,7 @@ $\mtx{u}_{ff}$ approaches theorem \ref{thm:two-state_ff_no_r}.
   \begin{align}
     &\mtx{u}_{ff} = \mtx{K}_{ff} (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k) \\
     &\text{where } \mtx{K}_{ff} =
-      (\mtx{B}^T\mtx{Q}^T\mtx{B})^{-1}\mtx{B}^T\mtx{Q}^T
+      (\mtx{B}^T\mtx{Q}\mtx{B})^{-1}\mtx{B}^T\mtx{Q}
   \end{align}
   \label{thm:two-state_ff_no_r}
 \end{theorem}

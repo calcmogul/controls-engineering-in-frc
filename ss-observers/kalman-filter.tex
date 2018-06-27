@@ -132,8 +132,8 @@ used in the trace are on the diagonal.
 Given theorems \ref{thm:partial_tr_aba} and \ref{thm:partial_tr_ac}
 
 \begin{theorem}
-  $\frac{\partial}{\partial\mtx{A}}\tr(\mtx{A}^T\mtx{B}\mtx{A}) =
-    2\mtx{A}^T\mtx{B}$ where $\mtx{B}$ is symmetric.
+  $\frac{\partial}{\partial\mtx{A}}\tr(\mtx{A}\mtx{B}\mtx{A}^T) =
+    2\mtx{A}\mtx{B}$ where $\mtx{B}$ is symmetric.
   \label{thm:partial_tr_aba}
 \end{theorem}
 
@@ -143,7 +143,7 @@ Given theorems \ref{thm:partial_tr_aba} and \ref{thm:partial_tr_ac}
 \end{theorem}
 
 find the minimum of the trace of $\mtx{P}_{k+1}^+$ by taking the partial
-derivative with respect to $\mtx{K}$ and setting that to $\mtx{0}$.
+derivative with respect to $\mtx{K}$ and setting the result to $\mtx{0}$.
 
 \begin{align*}
   \frac{\partial\tr(\mtx{P}_{k+1}^+)}{\partial\mtx{K}} &=
