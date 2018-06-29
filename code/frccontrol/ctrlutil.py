@@ -2,6 +2,21 @@
 
 import control as cnt
 import matplotlib.pyplot as plt
+import numpy as np
+
+
+def conv(polynomial, *args):
+    """Implementation of MATLAB's conv() function.
+
+    Keyword arguments:
+    polynomial -- list of coefficients of first polynomial
+
+    Arguments:
+    *args -- more lists of polynomial coefficients
+    """
+    for arg in args:
+        polynomial = np.convolve(polynomial, arg).tolist()
+    return polynomial
 
 
 def dpzmap(sys, title):
@@ -23,7 +38,20 @@ def dpzmap(sys, title):
 
 
 def closed_loop_ctrl(system):
-    """Constructs the closed-loop system for a controller.
+    """Constructs the closed-loop system for a continuous controller.
+
+    Keyword arguments:
+    system -- a System instance
+
+    Returns:
+    StateSpace instance representing closed-loop controller.
+    """
+    return cnt.StateSpace(system.sysc.A - system.sysc.B * system.K,
+                          system.sysc.B, system.sysc.C, system.sysc.D)
+
+
+def closed_loop_dctrl(system):
+    """Constructs the closed-loop system for a discrete controller.
 
     Keyword arguments:
     system -- a System instance
@@ -36,7 +64,20 @@ def closed_loop_ctrl(system):
 
 
 def closed_loop_obsv(system):
-    """Constructs the closed-loop system for an observer.
+    """Constructs the closed-loop system for a continuous observer.
+
+    Keyword arguments:
+    system -- a System instance
+
+    Returns:
+    StateSpace instance representing closed-loop observer.
+    """
+    return cnt.StateSpace(system.sysc.A - system.L * system.sysc.C,
+                          system.sysc.B, system.sysc.C, system.sysc.D)
+
+
+def closed_loop_dobsv(system):
+    """Constructs the closed-loop system for a discrete observer.
 
     Keyword arguments:
     system -- a System instance

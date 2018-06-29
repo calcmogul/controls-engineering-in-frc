@@ -1,6 +1,9 @@
-\newcommand{\includecode}[2][c]{%
-  \lstinputlisting[escapechar=, style=custom#1]{#2}
-}
+\newenvironment{code}[2]%
+  {\FloatBarrier
+   \begin{snippet}
+     \lstinputlisting[escapechar=, style=custom#1]{#2}}%
+ {\end{snippet}
+   \FloatBarrier}
 
 \newenvironment{bookfigure}%
   {\begin{figure}%
@@ -30,7 +33,7 @@
 
 % #1: file name without extension
 \newenvironment{minisvg}[1]
-  {\begin{minipage}{0.495\linewidth}%
+  {\begin{minipage}{0.475\linewidth}%
     \def\svgwidth{\textwidth}%
     \input{#1.pdf_tex}}
   {\end{minipage}}

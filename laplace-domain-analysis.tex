@@ -2,6 +2,11 @@
 
 \chapter{Laplace domain analysis}
 
+This chapter briefly discusses how the locations of poles and zeroes affects
+system response and stability as well as how controllers affect pole locations.
+The case studies cover various aspects of PID control using the algebraic
+approach of transfer functions.
+
 \section{Locations of poles and zeroes}
 
 The locations of the closed-loop poles in the complex plane determine the
@@ -89,29 +94,45 @@ all have an initial condition of one.
 When a system is stable, its output may oscillate but it converges to
 steady-state. When a system is marginally stable, its output oscillates at a
 constant amplitude forever. When a system is unstable, its output grows without
-bound.
+bound. See figure \ref{fig:system_response_poles} for system responses with
+hypothetical pole locations.
 
 \section{Root locus}
 
-In closed-loop, the poles and zeroes can be moved around by adjusting the
-controller gain. The root locus shows where they will go as the controller gain is
-increased. Figure \ref{fig:poster_rlocus} shows the root locus of the transfer
-function from equation (\ref{eq:transfer_func}).
+In closed-loop, the poles can be moved around by adjusting the controller gain,
+but the zeroes stay put. The root locus shows where the poles will go as the
+gain for a P controller is increased and tells us for what range of gains the
+controller will be stable. As the controller gain is increased, poles can move
+toward negative infinity (figure \ref{fig:rlocus_infty}), move toward each other
+then split toward asymptotes (figure \ref{fig:rlocus_asymptotes}), or move
+toward zeroes (figure \ref{fig:rlocus_zeroes}).
 
-\begin{svg}{root_locus}
-  \caption{Root locus of equation (\ref{eq:transfer_func}). See snippet
-    \ref{lst:poster_rlocus}.}
-  \label{fig:poster_rlocus}
-\end{svg}
+\begin{figure}
+  \begin{minisvg}{rlocus_infty}
+    \caption{Root locus showing pole moving toward negative infinity.}
+    \label{fig:rlocus_infty}
+  \end{minisvg}
+  \hfill
+  \begin{minisvg}{rlocus_asymptotes}
+    \caption{Root locus showing poles moving toward asymptotes.}
+    \label{fig:rlocus_asymptotes}
+  \end{minisvg}
+  \begin{minisvg}{rlocus_zeroes}
+    \caption{Root locus of equation (\ref{eq:transfer_func}) showing poles
+      moving toward zeroes. Drawn using snippet \ref{lst:rlocus_zeroes}.}
+    \label{fig:rlocus_zeroes}
+  \end{minisvg}
+\end{figure}
 
-\begin{snippet}
-  \caption{Root locus in Python}
-  \label{lst:poster_rlocus}
-  \includecode[Python]{code/root_locus.py}
-\end{snippet}
+Root locus plots can be drawn using code like snippet \ref{lst:rlocus_zeroes}.
 
-As the controller gain increases, the poles move toward the zeroes. In this
-case, the \gls{system} eventually becomes unstable.
+\begin{code}{Python}{code/rlocus_zeroes.py}
+  \caption{Root locus in Python.}
+  \label{lst:rlocus_zeroes}
+\end{code}
+
+In figure \ref{fig:rlocus_zeroes}, the poles orbit around a point toward the
+zeroes and the \gls{system} eventually becomes unstable.
 
 \begin{remark}
   If poles are much farther left in the LHP than the typical \gls{system}
@@ -119,6 +140,14 @@ case, the \gls{system} eventually becomes unstable.
   some form of unmodeled high frequency, nonlinear dynamics, but they can be
   safely ignored depending on the operating regime.
 \end{remark}
+
+We won't cover PID control in relation to the root locus because classical
+control isn't the focus of this book. However, we'll use the transfer function
+for a PID controller later in the case studies.
+
+\begin{equation*}
+  K(s) = K_p + \frac{K_i}{s} + K_ds
+\end{equation*}
 
 \subsection{Non-minimum phase zeroes}
 
@@ -324,7 +353,7 @@ speaking, gotten nothing good out of it. Zeros should be avoided if at all
 possible because they amplify unwanted high frequency modes of the system. At
 least this is a stable zero, but still.
 
-In summary, derivative doesn't help on a flywheel. $Kd$ may help if the real
+In summary, derivative doesn't help on a flywheel. $K_d$ may help if the real
 system isn't ideal, but we don't suggest relying on that.
 
 \subsection{Steady-state error}

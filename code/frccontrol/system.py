@@ -146,11 +146,11 @@ class System():
 
         # Plot pole-zero map of closed-loop system
         plt.subplot(2, 2, 2)
-        frccnt.dpzmap(frccnt.closed_loop_ctrl(self), title="Closed-loop system")
+        frccnt.dpzmap(frccnt.closed_loop_dctrl(self), title="Closed-loop system")
 
         # Plot observer poles
         plt.subplot(2, 2, 3)
-        frccnt.dpzmap(frccnt.closed_loop_obsv(self), title="Observer poles")
+        frccnt.dpzmap(frccnt.closed_loop_dobsv(self), title="Observer poles")
 
         if show:
             plt.show()
