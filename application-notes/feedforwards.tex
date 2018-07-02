@@ -237,16 +237,16 @@ $\mtx{u}_{ff}$ and setting the result to $\mtx{0}$.
 \end{theorem}
 
 If control effort is considered inexpensive, $\mtx{R} \ll \mtx{Q}$ and
-$\mtx{u}_{ff}$ approaches theorem \ref{thm:two-state_ff_no_r}.
+$\mtx{u}_{ff}$ approaches corollary \ref{cor:two-state_ff_no_r}.
 
-\begin{theorem}[Two-state feedforward with inexpensive control effort]
+\begin{corollary}[Two-state feedforward with inexpensive control effort]
   \begin{align}
     &\mtx{u}_{ff} = \mtx{K}_{ff} (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k) \\
     &\text{where } \mtx{K}_{ff} =
       (\mtx{B}^T\mtx{Q}\mtx{B})^{-1}\mtx{B}^T\mtx{Q}
   \end{align}
-  \label{thm:two-state_ff_no_r}
-\end{theorem}
+  \label{cor:two-state_ff_no_r}
+\end{corollary}
 
 \begin{remark}
   If the cost matrix $\mtx{Q}$ isn't included in the cost function (that is,

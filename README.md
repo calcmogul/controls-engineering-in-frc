@@ -95,11 +95,10 @@ results, so filling out the index might help.
 
 ### Add more practical examples
 
-I'd also like to expand the introductions for each section and provide more
-examples like I did for the Kalman filter design to give the reader practice
-applying the skills discussed.
+I'd like to provide more examples like I did for the Kalman filter design to
+give the reader practice applying the skills discussed.
 
-### Teach topics better
+### Teach topics more thoroughly
 
 The probability section and math for stochastic systems needs examples.
 
