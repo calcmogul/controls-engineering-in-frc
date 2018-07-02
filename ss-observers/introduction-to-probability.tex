@@ -8,26 +8,28 @@ concepts in probability.
 
 A random variable is a variable whose values are the outcomes of a random
 phenomenon. As such, a random variable is defined as a function that maps the
-outcomes of an unpredictable process to numerical quantities.
+outcomes of an unpredictable process to numerical quantities. A particular
+output of this function is called a sample. The sample space is the set of
+possible values taken by the random variable.
 
 A probability density function (PDF) is a function whose value at any given
-sample in the sample space (the set of possible values taken by the random
-variable) provides a relative likelihood that the value of the random variable
-would equal that sample. The area under the function over a range gives the
-probability that the sample falls within that range.
-
-Let $x$ be a random variable, and let $p(x)$ denote the probability density
-function of $x$. The probability that the value of $x$ will be in the interval
-$x \in [x_1, x_1 + dx]$ is $p(x_1) \,dx_1$ (see figure
-\ref{fig:prb_density_func}).
+sample in the sample space is the probability of the value of the random
+variable equaling that sample. The area under the function over a range gives
+the probability that the sample falls within that range. Let $x$ be a random
+variable, and let $p(x)$ denote the probability density function of $x$. The
+probability that the value of $x$ will be in the interval
+$x \in [x_1, x_1 + dx]$ is $p(x_1) \,dx_1$ (see figure \ref{fig:pdf}).
 
 \begin{svg}{pdf}
   \caption{Probability density function}
-  \label{fig:prb_density_func}
+  \label{fig:pdf}
 \end{svg}
 
-Probability density functions require that no probabilities are negative and
-that the sum of all probabilities is $1$.
+A probability of zero means that the sample will not occur and a probability of
+one means that the sample will always occur. Probability density functions
+require that no probabilities are negative and that the sum of all probabilities
+is $1$. If the probabilities sum to $1$, that means one of those outcomes
+\textit{must} happen.
 
 \begin{equation*}
   p(x) \geq 0, \int_{-\infty}^\infty p(x) \,dx = 1
@@ -35,14 +37,15 @@ that the sum of all probabilities is $1$.
 
 \subsection{Expected value}
 
-Expected value is a weighted average of the values the PDF can produce where the
-weight for each is the corresponding probability of that value occurring.
+Expected value or expectation is a weighted average of the values the PDF can
+produce where the weight for each is the corresponding probability of that value
+occurring. This can be written mathematically as
 
 \begin{equation*}
   \overline{x} = E[x] = \int_{-\infty}^\infty x \,p(x) \,dx
 \end{equation*}
 
-This can be applied to functions as well as variables.
+The expectation can be applied to random functions as well as random variables.
 
 \begin{equation*}
   E[f(x)] = \int_{-\infty}^\infty f(x) \,p(x) \,dx
@@ -50,7 +53,8 @@ This can be applied to functions as well as variables.
 
 The mean of a random variable is denoted by an overbar (e.g., $\overline{x}$).
 The expectation of the difference between a random variable and its mean
-converges to zero.
+converges to zero. In other words, the expectation of a random variable is its
+mean.
 
 \begin{align*}
   E[x - \overline{x}] &= \int_{-\infty}^\infty (x - \overline{x}) \,p(x) \,dx \\
@@ -77,10 +81,16 @@ root of the variance.
 
 \subsection{Joint probability density functions}
 
-Probability density functions can include more than one variable. Let $x$ and
-$y$ are random variables. The joint probability density function $p(x, y)$
+Probability density functions can also include more than one variable. Let $x$
+and $y$ are random variables. The joint probability density function $p(x, y)$
 defines the probability $p(x, y) \,dx \,dy$, so that $x$ and $y$ are in the
-intervals $x \in [x, x + dx], y \in [y, y + dy]$.
+intervals $x \in [x, x + dx], y \in [y, y + dy]$ (see figure
+\ref{fig:joint_pdf} for an example of a joint PDF).
+
+\begin{svg}{joint_pdf}
+  \caption{Joint probability density function}
+  \label{fig:joint_pdf}
+\end{svg}
 
 Joint probability density functions also require that no probabilities are
 negative and that the sum of all probabilities is $1$.
@@ -112,8 +122,8 @@ The variance of a joint PDF measures how a variable correlates with itself.
 \subsection{Covariance}
 
 A covariance is a measurement of how a variable correlates with another. If they
-vary the same way, the covariance increases. If they vary opposite ways, the
-covariance decreases.
+vary in the same direction, the covariance increases. If they vary in opposite
+directions, the covariance decreases.
 
 \begin{equation*}
   cov(x, y) = \Sigma_{xy} = E[(x - \overline{x})(y - \overline{y})] =
@@ -138,7 +148,8 @@ Two random variables are independent if the following relation is true.
   p(x, y) = p(x) \,p(y)
 \end{equation*}
 
-This means that the values of $x$ do not correlate with the values of $y$. If we
+This means that the values of $x$ do not correlate with the values of $y$. That
+is, the outcome of one random variable does not affect another's outcome. If we
 assume independence,
 
 \begin{align*}
@@ -148,7 +159,7 @@ assume independence,
   E[xy] &= \int_{-\infty}^\infty x \,p(x) \,dx \int_{-\infty}^\infty y \,p(y)
     \,dy \\
   E[xy] &= E[x]E[y] \\
-  E[xy] &= \overline{x}\overline{y}
+  E[xy] &= \overline{x}\,\overline{y}
 \end{align*}
 
 \begin{align*}
