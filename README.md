@@ -23,6 +23,18 @@ systems.
 A PDF version is available at
 https://file.tavsys.net/control/state-space-guide.pdf.
 
+## Examples
+
+The examples only require Python 3.5+ and Python Control. To run them, execute
+the following in the `code` directory.
+
+```
+PYTHONPATH=. ./frccontrol/examples/elevator.py
+```
+
+Instructions for installing Python Control are in the
+[Dependencies](#dependencies) section below.
+
 ## Dependencies
 
 To compile the book, the following are required.
@@ -48,13 +60,6 @@ pypi.python.org.
 ```
 git clone git://github.com/python-control/python-control
 pip install --user ./python-control
-```
-
-The examples only require Python 3.5+ and Python Control. To run them, execute
-the following in the `code` directory.
-
-```
-PYTHONPATH=. ./frccontrol/examples/elevator.py
 ```
 
 ## Build
