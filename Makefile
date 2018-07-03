@@ -60,4 +60,4 @@ clean:
 
 .PHONY: upload
 upload: $(NAME)-ebook.pdf
-	scp $(NAME)-ebook.pdf file.tavsys.net:/srv/file/control/$(NAME).pdf
+	rsync $(NAME)-ebook.pdf file.tavsys.net:/srv/file/control/$(NAME).pdf
