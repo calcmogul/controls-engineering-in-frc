@@ -92,10 +92,6 @@ What I need to do is read through this book from the perspective of explaining
 it to my veteran software students, because my in-person tutor-style
 explanations are generally better than what I write.
 
-It's also not designed for skim reading (e.g., "Which equations do I need to
-implement a low-fi simulator for a drivetrain?"). I already call out final
-results, so filling out the index might help.
-
 ### Bridge the knowledge gap
 
 ### Add more practical examples

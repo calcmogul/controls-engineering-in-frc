@@ -1,5 +1,4 @@
 \section{Kalman filter}
-\index{Kalman filter}
 
 So far, we've derived equations for updating the expected value and state
 covariance without measurements and how to incorporate measurements into an
@@ -7,6 +6,7 @@ initial state optimally. Now, we'll combine these concepts to produce an
 estimator which minimizes the error covariance for linear systems.
 
 \subsection{Derivations}
+\index{State-space observers!Kalman filter!derivations}
 
 Given the posteriori update equation $\hat{\mtx{x}}_{k+1}^+ =
 \hat{\mtx{x}}_{k+1}^- + \mtx{K}_{k+1}(\mtx{y}_{k+1} -
@@ -194,6 +194,7 @@ Now that we've derived all the pieces we need, we can finally write all the
 equations for a Kalman filter. Theorem \ref{thm:kalman_filter} shows the predict
 and update steps for a Kalman filter at the $k^{th}$ timestep.
 
+\index{State-space observers!Kalman filter!equations}
 \begin{theorem}[Kalman filter]
   \begin{align}
     \text{Predict step} \nonumber \\
@@ -259,6 +260,7 @@ Unknown states in a Kalman filter are generally represented by a Wiener
 increases linearly with time $t$.
 
 \subsection{Equations to model}
+\index{State-space observers!Kalman filter!setup}
 
 The following example system will be used to describe how to define and
 initialize the matrices for a Kalman filter.

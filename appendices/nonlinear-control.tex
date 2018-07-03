@@ -24,10 +24,12 @@ the current states and inputs.
 \end{align*}
 
 \section{Linearization}
+\index{Nonlinear control!linearization}
 
-One way to control nonlinear systems is to linearize the model around a
-reference point. Then, all the powerful tools that exist for linear controls can
-be applied. This is done by taking the partial derivative of the functions.
+One way to control nonlinear systems is to \glslink{linearization}{linearize}
+the model around a reference point. Then, all the powerful tools that exist for
+linear controls can be applied. This is done by taking the partial derivative of
+the functions.
 
 \begin{align*}
   \mtx{A} = \frac{\partial f(\mtx{x}, \mtx{0}, \mtx{0})}{\partial \mtx{x}},
@@ -46,6 +48,8 @@ estimator for linear systems. It isn't optimal for nonlinear systems, but
 several extensions to it have been developed to make it more accurate.
 
 \subsection{Extended Kalman filter}
+\index{Nonlinear control!extended Kalman filter}
+\index{State-space observers!Kalman filter!extended Kalman filter}
 
 This method linearizes the matrices used during the prediction step. In addition
 to the $\mtx{A}$, $\mtx{B}$, $\mtx{C}$, and $\mtx{D}$ matrices above, the
@@ -67,12 +71,15 @@ estimate update can still use the function $h(\mtx{x})$ for accuracy.
 \end{equation*}
 
 \subsection{Unscented Kalman filter}
+\index{Nonlinear control!unscented Kalman filter}
+\index{State-space observers!Kalman filter!unscented Kalman filter}
 
 This method linearizes around carefully chosen points to minimize the modeling
 error. There's a lot of detail to cover, so we recommend just reading a paper on
 it \cite{bib:unscented-kalman-filter}.
 
 \section{Lyapunov stability}
+\index{Nonlinear control!Lyapunov stability}
 
 Lyapunov stability is a fundamental concept in nonlinear control, so we're going
 to give a brief overview of what it is so students can research it further.

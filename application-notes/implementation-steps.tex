@@ -110,6 +110,7 @@ torques, and conservation of energy.
 \end{bookfigure}
 
 \subsubsection{Force derivation}
+\index{Physics!sum of forces}
 
 Consider figure \ref{subfig:force_pendulum}, which shows the forces acting on a
 pendulum.
@@ -162,6 +163,7 @@ Therefore
 \end{align*}
 
 \subsubsection{Torque derivation}
+\index{Physics!sum of torques}
 
 The equation can be obtained using two definitions for torque.
 
@@ -215,6 +217,7 @@ According to $\tau = \frac{d\mtx{L}}{dt}$, we can just compare the magnitudes.
 which is the same result from force analysis.
 
 \subsubsection{Energy derivation}
+\index{Physics!conservation of energy}
 
 The equation can also be obtained via the conservation of mechanical energy
 principle: any object falling a vertical distance $h$ would acquire kinetic
@@ -326,8 +329,10 @@ Now separate the states.
   \dot{\omega} &= -\frac{g}{l} \sin\theta
 \end{align*}
 
-Since this \gls{model} is nonlinear, we should linearize it. We will use the
-small angle approximation ($\sin\theta = \theta$ for small values of $\theta$).
+Since this \gls{model} is nonlinear, we should
+\glslink{linearization}{linearize} \index{Nonlinear control!linearization} it.
+We will use the small angle approximation ($\sin\theta = \theta$ for small
+values of $\theta$).
 
 \begin{align*}
   \dot{\theta} &= \omega \\

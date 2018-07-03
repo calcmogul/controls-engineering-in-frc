@@ -8,6 +8,7 @@ The case studies cover various aspects of PID control using the algebraic
 approach of transfer functions.
 
 \section{Locations of poles and zeroes}
+\index{Stability!poles and zeroes}
 
 The locations of the closed-loop poles in the complex plane determine the
 stability of the \gls{system}. Each pole represents a frequency mode of the
@@ -98,6 +99,7 @@ bound. See figure \ref{fig:system_response_poles} for system responses with
 hypothetical pole locations.
 
 \section{Root locus}
+\index{Stability!root locus}
 
 In closed-loop, the poles can be moved around by adjusting the controller gain,
 but the zeroes stay put. The root locus shows where the poles will go as the
@@ -173,6 +175,8 @@ speed to pitch backward and slow itself down. To come to a stop, the segway
 rolls backward again to level itself out.
 
 \section{Gain margin and phase margin} \label{sec:gain-phase-margin}
+\index{Stability!gain margin}
+\index{Stability!phase margin}
 
 One generally needs to learn about Bode plots and Nyquist plots to truly
 understand gain and phase margin and their origins, but those plots are large
@@ -193,6 +197,7 @@ control methods like Bode and Nyquist plots that we recommend.
 \section{Case studies}
 
 \subsection{Flywheel PID control}
+\index{PID control}
 
 PID controllers typically control voltage to a motor in FRC independent of the
 equations of motion of that motor. For position PID control, large values of
@@ -203,7 +208,7 @@ wouldn't $K_d$ provide damping for velocity overshoots in this case?
 PID is designed to control second order and first order systems well. It can be
 used to control a lot of things, but struggles when given higher order systems.
 It has three degrees of freedom. Two are used to place the two poles of the
-system, and the third is used to remove steady state error. With higher order
+system, and the third is used to remove steady-state error. With higher order
 systems like a one input, seven state system, there aren't enough degrees of
 freedom to place the system's poles in desired locations. This will result in
 poor control.
@@ -357,6 +362,7 @@ In summary, derivative doesn't help on a flywheel. $K_d$ may help if the real
 system isn't ideal, but we don't suggest relying on that.
 
 \subsection{Steady-state error}
+\index{Steady-state error}
 
 To demonstrate the problem of \gls{steady-state error}, we will use a DC brushed
 motor controlled by a velocity PID controller. A DC brushed motor has a transfer

@@ -76,6 +76,7 @@ considerations like actuation effort, \gls{robustness}, and
 \gls{noise immunity}. These will be discussed in detail with LQR and LQE.
 
 \section{Discretization methods}
+\index{Discretization}
 
 Discretization is done using a zero-order hold. That is, the system state is
 only updated at discrete intervals and the value is held constant between
@@ -86,10 +87,13 @@ are used.
 \begin{enumerate}
   \item Forward Euler method. This is defined as
     $y_{n+1} = y_n + f(t_n, y_n) \Delta t$.
+    \index{Discretization!forward Euler method}
   \item Backward Euler method. This is defined as
     $y_{n+1} = y_n + f(t_{n+1}, y_{n+1}) \Delta t$.
+    \index{Discretization!backward Euler method}
   \item Bilinear transform. The first-order bilinear approximation is
     $s = \frac{2}{T} \frac{1 - z^{-1}}{1 + z^{-1}}$.
+    \index{Discretization!bilinear transform}
 \end{enumerate}
 
 where $T$ is the sample period for the discrete system. Since these are
@@ -108,6 +112,7 @@ lead to instability.
 \end{figure}
 
 \section{Zero-order hold for state-space}
+\index{Discretization!zero-order hold}
 
 Assume the following continuous-time state space model
 
@@ -250,6 +255,7 @@ approximation, but zero-order hold performs best due to the matrix exponential
 including much higher orders (it is, in effect, exact).
 
 \section{Computing the matrix exponential}
+\index{Discretization!matrix exponential}
 
 The matrix exponential (and system discretization in general) is typically
 solved with a computer. Python Control's \texttt{StateSpace.sample()} with the
