@@ -79,50 +79,47 @@ levels of image compression.
 |`make printer`   |`state-space-guide-printer.pdf` |Standard color printing  |
 |`make prepress`  |`state-space-guide-prepress.pdf`|Book publishing          |
 
-## Future Improvements
+## Future improvements
 
-### Simplify for the target audience
+### Teach topics more thoroughly
 
 The book is still very high level for the subject it covers as well as very
 dense and fast-paced (it covers three classes of feedback control, two of which
 are for graduate students, in one short book). I want to make the contents of
 the book that are in the critical path more accessible.
 
-What I need to do is read through this book from the perspective of explaining
-it to my veteran software students, because my in-person tutor-style
-explanations are generally better than what I write.
+More examples of concepts will help slow the pace down. I should read through
+this book as if I was explaining it to my veteran software students and
+anticipate gaps in their understanding.
 
-### Bridge the knowledge gap
+The probability section and math for stochastic systems needs examples.
 
 ### Add more practical examples
 
 I'd like to provide more examples like I did for the Kalman filter design to
 give the reader practice applying the skills discussed.
 
-### Teach topics more thoroughly
-
-The probability section and math for stochastic systems needs examples.
-
 ### Finish incomplete topics
 
-The following state-space implementation examples are planned:
+The following state-space implementation examples are in progress:
 
-* Elevator (in progress)
+* Elevator
   * Add u_error state to model
   * Include writing unit tests in Google Test
   * Include how to implement the model in C++ with Eigen
-* Flywheel (in progress)
+* Flywheel
   * See elevator items
 * Drivetrain
   * See elevator items
   * 971/y2017/control_loops/python/polydrivetrain.py?
-* Single-jointed arm (in progress)
+* Single-jointed arm
   * See elevator items
+
+The following state-space implementation examples are planned:
+
 * Rotating claw with independent top/bottom
   * See 971/y2014/control_loops/python/claw.py
   * Use as example of coordinate transformations for states?
-
-### Add content for building understanding and intuition
 
 ### Supplementary background
 
