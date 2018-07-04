@@ -34,6 +34,7 @@ class SingleJointedArm(frccnt.System):
         q_pos = 0.01745
         q_vel = 0.08726
         self.design_dlqr_controller([q_pos, q_vel], [12.0])
+        self.design_two_state_feedforward([q_pos, q_vel], [12.0])
 
         q_pos = 0.01745
         q_vel = 0.1745329
@@ -45,6 +46,7 @@ class SingleJointedArm(frccnt.System):
 def main():
     dt = 0.00505
     single_jointed_arm = SingleJointedArm(dt)
+    single_jointed_arm.export_cpp_coeffs("SingleJointedArm")
 
     single_jointed_arm.plot_pzmaps(1, False)
 

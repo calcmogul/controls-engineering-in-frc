@@ -28,7 +28,10 @@ class Elevator(frccnt.System):
                                             self.r, self.G)
         frccnt.System.__init__(self, self.model, -12.0, 12.0, dt)
 
-        self.design_dlqr_controller([0.02, 0.4], [12.0])
+        q = [0.02, 0.4]
+        r = [12.0]
+        self.design_dlqr_controller(q, r)
+        self.design_two_state_feedforward(q, r)
 
         q_pos = 0.05
         q_vel = 1.0
@@ -39,6 +42,7 @@ class Elevator(frccnt.System):
 def main():
     dt = 0.00505
     elevator = Elevator(dt)
+    elevator.export_cpp_coeffs("Elevator")
 
     elevator.plot_pzmaps(1, False)
 

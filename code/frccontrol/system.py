@@ -7,10 +7,11 @@ import frccontrol as frccnt
 import matplotlib.pyplot as plt
 import numpy as np
 from . import dlqr
-from . import kalman
+from . import kalmd
+from . import system_writer
 
 
-class System():
+class System:
 
     def __init__(self, sysc, u_min, u_max, dt):
         """Sets up the matrices for a state-space model.
@@ -28,8 +29,8 @@ class System():
         self.x = np.zeros((self.sysc.A.shape[0], 1))
         self.u = np.zeros((self.sysc.B.shape[1], 1))
         self.y = np.zeros((self.sysc.C.shape[0], 1))
-        self.u_min = u_min
-        self.u_max = u_max
+        self.u_min = np.asmatrix(u_min)
+        self.u_max = np.asmatrix(u_max)
 
         # Controller matrices
         self.r = np.zeros((self.sysc.A.shape[0], 1))
@@ -91,9 +92,9 @@ class System():
         R_elems -- a vector of the standard deviations of each output
                    measurement.
         """
-        Q = self.__make_cov_matrix(Q_elems)
-        R = self.__make_cov_matrix(R_elems)
-        kalman_gain, P_steady = kalman(self.sysd, Q=Q, R=R)
+        self.Q = self.__make_cov_matrix(Q_elems)
+        self.R = self.__make_cov_matrix(R_elems)
+        kalman_gain, self.P_steady = kalmd(self.sysd, Q=self.Q, R=self.R)
         self.L = self.sysd.A * kalman_gain
 
     def place_observer_poles(self, poles):
@@ -127,8 +128,8 @@ class System():
         #   (B u - (r_{n+1} - A r_n))^T Q (B u - (r_{n+1} - A r_n)) + u^T R u
         Q = self.__make_cost_matrix(Q_elems)
         R = self.__make_cost_matrix(R_elems)
-        self.Kff = np.linalg.inv(self.sysd.B.T * Q.T * self.sysd.B +
-                                 R.T) * self.sysd.B.T * Q.T
+        self.Kff = np.linalg.inv(self.sysd.B.T * Q * self.sysd.B +
+                                 R.T) * self.sysd.B.T * Q
 
     def plot_pzmaps(self, figure_num, show=True):
         """Plots pole-zero maps of open-loop system, closed-loop system, and
@@ -146,7 +147,8 @@ class System():
 
         # Plot pole-zero map of closed-loop system
         plt.subplot(2, 2, 2)
-        frccnt.dpzmap(frccnt.closed_loop_dctrl(self), title="Closed-loop system")
+        frccnt.dpzmap(
+            frccnt.closed_loop_dctrl(self), title="Closed-loop system")
 
         # Plot observer poles
         plt.subplot(2, 2, 3)
@@ -271,3 +273,16 @@ class System():
         Process noise or measurement noise covariance matrix
         """
         return np.diag(np.square(elems))
+
+    def export_cpp_coeffs(self, name, period_variant=False):
+        """Exports matrices to pair of C++ source files.
+
+        Keyword arguments:
+        name -- subsystem class name in camel case
+        period_variant -- True to use PeriodVariantLoop, False to use
+                          StateSpaceLoop
+        """
+        system_writer = frccnt.system_writer.SystemWriter(
+            self, name, period_variant)
+        system_writer.write_cpp_header()
+        system_writer.write_cpp_source("")

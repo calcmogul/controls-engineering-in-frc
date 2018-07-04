@@ -53,7 +53,10 @@ class Drivetrain(frccnt.System):
             q_pos = 0.14
             q_vel = 0.95
 
-        self.design_dlqr_controller([q_pos, q_vel, q_pos, q_vel], [12.0, 12.0])
+        q = [q_pos, q_vel, q_pos, q_vel]
+        r = [12.0, 12.0]
+        self.design_dlqr_controller(q, r)
+        self.design_two_state_feedforward(q, r)
 
         qff_pos = 0.005
         qff_vel = 1.0
@@ -72,6 +75,7 @@ class Drivetrain(frccnt.System):
 def main():
     dt = 0.00505
     drivetrain = Drivetrain(dt)
+    drivetrain.export_cpp_coeffs("Drivetrain")
 
     drivetrain.plot_pzmaps(1, False)
 

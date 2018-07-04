@@ -7,7 +7,7 @@ rwildcard=$(wildcard $1$2) $(foreach dir,$(wildcard $1*),$(call rwildcard,$(dir)
 FORMAT_STAMP := $(subst .py,.format-stamp,$(notdir $(wildcard code/*.py)))
 
 # Python files that generate SVG files
-SVGGEN := $(filter-out code/format.py,$(wildcard code/*.py))
+SVGGEN := $(filter-out code/format.py code/format_all.py,$(wildcard code/*.py))
 
 SVG := $(notdir $(SVGGEN:.py=.svg))
 PDF_TEX := $(SVG:.svg=.pdf_tex)

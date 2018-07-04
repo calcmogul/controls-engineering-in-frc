@@ -27,22 +27,22 @@ class Flywheel(frccnt.System):
                                             self.G)
         frccnt.System.__init__(self, self.model, -12.0, 12.0, dt)
 
-        self.design_dlqr_controller([9.42], [12.0])
-        print("K=", self.K)
+        q = [9.42]
+        r = [12.0]
+        self.design_dlqr_controller(q, r)
         # self.place_controller_poles([0.87])
-        # print("Placed K=", self.K)
+        self.design_two_state_feedforward(q, r)
 
         q_vel = 1.0
         r_vel = 0.01
         self.design_kalman_filter([q_vel], [r_vel])
-        print("L=", self.L)
         # self.place_observer_poles([0.3])
-        # print("Placed L=", self.L)
 
 
 def main():
     dt = 0.00505
     flywheel = Flywheel(dt)
+    flywheel.export_cpp_coeffs("Flywheel")
 
     flywheel.plot_pzmaps(1, False)
 
