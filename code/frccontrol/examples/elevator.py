@@ -17,6 +17,8 @@ class Elevator(frccnt.System):
         u_labels = [("Voltage", "V")]
         self.set_plot_labels(state_labels, u_labels)
 
+        # Number of motors
+        self.num_motors = 2.0
         # Elevator carriage mass in kg
         self.m = 6.803886
         # Radius of pulley in meters
@@ -24,8 +26,8 @@ class Elevator(frccnt.System):
         # Gear ratio
         self.G = 42.0 / 12.0 * 40.0 / 14.0
 
-        self.model = frccnt.models.elevator(frccnt.models.MOTOR_CIM, self.m,
-                                            self.r, self.G)
+        self.model = frccnt.models.elevator(
+            frccnt.models.MOTOR_CIM, self.num_motors, self.m, self.r, self.G)
         frccnt.System.__init__(self, self.model, -12.0, 12.0, dt)
 
         q = [0.02, 0.4]
@@ -44,7 +46,8 @@ def main():
     elevator = Elevator(dt)
     elevator.export_cpp_coeffs("Elevator")
 
-    elevator.plot_pzmaps(1, False)
+    elevator.plot_pzmaps(1)
+    plt.savefig("elevator_pzmaps.svg")
 
     # Set up graphing
     l0 = 0.1
@@ -65,6 +68,10 @@ def main():
         refs.append(r)
 
     elevator.plot_time_responses(2, t, refs)
+    plt.savefig("elevator_response.svg")
+
+    # Uncomment to see plots immediately
+    # plt.show()
 
 
 if __name__ == "__main__":

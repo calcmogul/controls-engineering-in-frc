@@ -131,13 +131,12 @@ class System:
         self.Kff = np.linalg.inv(self.sysd.B.T * Q * self.sysd.B +
                                  R.T) * self.sysd.B.T * Q
 
-    def plot_pzmaps(self, figure_num, show=True):
+    def plot_pzmaps(self, figure_num):
         """Plots pole-zero maps of open-loop system, closed-loop system, and
         observer poles.
 
         Keyword arguments:
         figure_num -- number of figure on which to draw pole-zero maps.
-        show -- whether to show plot immediately after drawing it.
         """
         plt.figure(figure_num)
 
@@ -153,9 +152,6 @@ class System:
         # Plot observer poles
         plt.subplot(2, 2, 3)
         frccnt.dpzmap(frccnt.closed_loop_dobsv(self), title="Observer poles")
-
-        if show:
-            plt.show()
 
     def extract_row(self, buf, idx):
         """Extract row from 2D array.
@@ -192,14 +188,13 @@ class System:
 
         return state_rec, ref_rec, u_rec
 
-    def plot_time_responses(self, figure_num, t, refs, show=True):
+    def plot_time_responses(self, figure_num, t, refs):
         """Plots time-domain responses of the system and the control inputs.
 
         Keyword arguments:
         figure_num -- number of figure on which to draw pole-zero maps.
         time -- list of timesteps corresponding to references.
         refs -- list of tuples of time-reference pairs.
-        show -- whether to show plot immediately after drawing it.
         """
         state_rec, ref_rec, u_rec = self.generate_time_responses(t, refs)
 
@@ -220,9 +215,6 @@ class System:
             plt.ylabel(self.u_labels[i])
             plt.plot(t, self.extract_row(u_rec, i), label="Control effort")
             plt.legend()
-
-        if show:
-            plt.show()
 
     def set_plot_labels(self, state_labels, u_labels):
         """Sets label data for time-domain response plots.

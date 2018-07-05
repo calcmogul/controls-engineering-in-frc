@@ -20,6 +20,9 @@ class Drivetrain(frccnt.System):
 
         self.in_low_gear = False
 
+        # Number of motors per side
+        self.num_motors = 2.0
+
         # High and low gear ratios of drivetrain
         Glow = 11.0 / 60.0
         Ghigh = 11.0 / 60.0
@@ -41,9 +44,9 @@ class Drivetrain(frccnt.System):
             self.Gl = Ghigh
             self.Gr = Ghigh
 
-        self.model = frccnt.models.drivetrain(frccnt.models.MOTOR_CIM, self.m,
-                                              self.r, self.rb, self.J, self.Gl,
-                                              self.Gr)
+        self.model = frccnt.models.drivetrain(frccnt.models.MOTOR_CIM,
+                                              self.num_motors, self.m, self.r,
+                                              self.rb, self.J, self.Gl, self.Gr)
         frccnt.System.__init__(self, self.model, -12.0, 12.0, dt)
 
         if self.in_low_gear:
@@ -77,7 +80,8 @@ def main():
     drivetrain = Drivetrain(dt)
     drivetrain.export_cpp_coeffs("Drivetrain")
 
-    drivetrain.plot_pzmaps(1, False)
+    drivetrain.plot_pzmaps(1)
+    plt.savefig("drivetrain_pzmaps.svg")
 
     # Set up graphing
     l0 = 0.1
@@ -98,6 +102,10 @@ def main():
         refs.append(r)
 
     drivetrain.plot_time_responses(2, t, refs)
+    plt.savefig("drivetrain_response.svg")
+
+    # Uncomment to see plots immediately
+    # plt.show()
 
 
 if __name__ == "__main__":

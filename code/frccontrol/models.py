@@ -19,13 +19,15 @@ class DcBrushedMotor:
         self.stall_torque = stall_torque
         self.stall_current = stall_current
         self.free_current = free_current
-        self.free_speed = free_speed / 60  # Convert from RPM to revs/s
+
+        # Convert from RPM to rad/s
+        self.free_speed = free_speed / 60 * (2.0 * np.pi)
 
         # Resistance of motor
         self.R = self.nominal_voltage / self.stall_current
 
         # Motor velocity constant
-        self.Kv = self.free_speed * (2.0 * np.pi) / (
+        self.Kv = self.free_speed / (
             self.nominal_voltage - self.R * self.free_current)
 
         # Torque constant
@@ -57,7 +59,17 @@ MOTOR_AM_9015 = DcBrushedMotor(12.0, 0.36, 71.0, 3.7, 14270.0)
 MOTOR_BB_RS550 = DcBrushedMotor(12.0, 0.38, 84.0, 0.4, 19000.0)
 
 
-def elevator(motor, m, r, G):
+def gearbox(motor, num_motors):
+    """Returns a DcBrushedMotor with the same characteristics as the specified
+    number of motors in a gearbox.
+    """
+    return DcBrushedMotor(motor.nominal_voltage,
+                          motor.stall_torque * num_motors, motor.stall_current,
+                          motor.free_current,
+                          motor.free_speed / (2.0 * np.pi) * 60)
+
+
+def elevator(motor, num_motors, m, r, G):
     """Returns the state-space model for an elevator.
 
     States: [[position], [velocity]]
@@ -66,6 +78,7 @@ def elevator(motor, m, r, G):
 
     Keyword arguments:
     motor -- instance of DcBrushedMotor
+    num_motors -- number of motors driving the mechanism
     m -- carriage mass in kg
     r -- pulley radius in meters
     G -- gear ratio from motor to carriage
@@ -73,6 +86,8 @@ def elevator(motor, m, r, G):
     Returns:
     StateSpace instance containing continuous model
     """
+    motor = gearbox(motor, num_motors)
+
     # yapf: disable
     A = np.matrix([[0, 1],
                    [0, -G**2 * motor.Kt / (motor.R**2 * r * m * motor.Kv)]])
@@ -85,7 +100,7 @@ def elevator(motor, m, r, G):
     return cnt.ss(A, B, C, D)
 
 
-def flywheel(motor, J, G):
+def flywheel(motor, num_motors, J, G):
     """Returns the state-space model for a flywheel.
 
     States: [[angular velocity]]
@@ -94,12 +109,15 @@ def flywheel(motor, J, G):
 
     Keyword arguments:
     motor -- instance of DcBrushedMotor
+    num_motors -- number of motors driving the mechanism
     J -- flywheel moment of inertia in kg-m^2
     G -- gear ratio from motor to carriage
 
     Returns:
     StateSpace instance containing continuous model
     """
+    motor = gearbox(motor, num_motors)
+
     A = np.matrix([[-G**2 * motor.Kt / (motor.Kv * motor.R * J)]])
     B = np.matrix([[G * motor.Kt / (motor.R * J)]])
     C = np.matrix([[1]])
@@ -108,7 +126,7 @@ def flywheel(motor, J, G):
     return cnt.ss(A, B, C, D)
 
 
-def drivetrain(motor, m, r, rb, J, Gl, Gr):
+def drivetrain(motor, num_motors, m, r, rb, J, Gl, Gr):
     """Returns the state-space model for a drivetrain.
 
     States: [[left position], [left velocity],
@@ -118,6 +136,7 @@ def drivetrain(motor, m, r, rb, J, Gl, Gr):
 
     Keyword arguments:
     motor -- instance of DcBrushedMotor
+    num_motors -- number of motors driving the mechanism
     m -- mass of robot in kg
     r -- radius of wheels in meters
     rb -- radius of robot in meters
@@ -128,6 +147,8 @@ def drivetrain(motor, m, r, rb, J, Gl, Gr):
     Returns:
     StateSpace instance containing continuous model
     """
+    motor = gearbox(motor, num_motors)
+
     C1 = -Gl**2 * motor.Kt / (motor.Kv * motor.R * r**2)
     C2 = Gl * motor.Kt / (motor.R * r)
     C3 = -Gr**2 * motor.Kt / (motor.Kv * motor.R * r**2)
@@ -150,7 +171,7 @@ def drivetrain(motor, m, r, rb, J, Gl, Gr):
     return cnt.ss(A, B, C, D)
 
 
-def single_jointed_arm(motor, J, G):
+def single_jointed_arm(motor, num_motors, J, G):
     """Returns the state-space model for a flywheel.
 
     States: [[angle, angular velocity]]
@@ -159,12 +180,15 @@ def single_jointed_arm(motor, J, G):
 
     Keyword arguments:
     motor -- instance of DcBrushedMotor
+    num_motors -- number of motors driving the mechanism
     J -- arm moment of inertia in kg-m^2
     G -- gear ratio from motor to arm
 
     Returns:
     StateSpace instance containing continuous model
     """
+    motor = gearbox(motor, num_motors)
+
     A = np.matrix([[0, 1], [0, -G**2 * motor.Kt / (motor.Kv * motor.R * J)]])
     B = np.matrix([[0], [G * motor.Kt / (motor.R * J)]])
     C = np.matrix([[1, 0]])

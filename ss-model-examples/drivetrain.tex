@@ -285,5 +285,26 @@ creates and tests a controller for it.
   Python Control currently doesn't support finding the transmission zeroes of
   MIMO systems with a different number of inputs than outputs, so
   \texttt{control.pzmap()} and \texttt{frccontrol.System.plot\_pzmaps()} fail
-  with an error.
+  with an error if Slycot isn't installed.
 \end{remark}
+
+Figure \ref{fig:drivetrain_pzmaps} shows the pole-zero maps for the open-loop
+system, closed-loop system, and observer. Figure \ref{fig:drivetrain_response}
+shows the system response with them.
+
+\begin{svg}{build/code/frccontrol/examples/drivetrain_pzmaps}
+  \caption{Drivetrain pole-zero maps.}
+  \label{fig:drivetrain_pzmaps}
+\end{svg}
+
+\begin{svg}{build/code/frccontrol/examples/drivetrain_response}
+  \caption{Drivetrain response.}
+  \label{fig:drivetrain_response}
+\end{svg}
+
+Given the high inertia in drivetrains, it's better to drive the reference with a
+motion profile instead of a step input for reproducibility.
+
+\subsection{Implementation}
+
+The script linked above also generates two files: DrivetrainCoeffs.h and DrivetrainCoeffs.cpp.

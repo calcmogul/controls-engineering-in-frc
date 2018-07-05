@@ -18,6 +18,8 @@ class SingleJointedArm(frccnt.System):
         u_labels = [("Voltage", "V")]
         self.set_plot_labels(state_labels, u_labels)
 
+        # Number of motors
+        self.num_motors = 1.0
         # Mass of arm in kg
         self.m = 2.2675
         # Length of arm in m
@@ -27,8 +29,8 @@ class SingleJointedArm(frccnt.System):
         # Gear ratio
         self.G = 1.0 / 20.0
 
-        self.model = frccnt.models.single_jointed_arm(frccnt.models.MOTOR_CIM,
-                                                      self.J, self.G)
+        self.model = frccnt.models.single_jointed_arm(
+            frccnt.models.MOTOR_CIM, self.num_motors, self.J, self.G)
         frccnt.System.__init__(self, self.model, -12.0, 12.0, dt)
 
         q_pos = 0.01745
@@ -48,7 +50,8 @@ def main():
     single_jointed_arm = SingleJointedArm(dt)
     single_jointed_arm.export_cpp_coeffs("SingleJointedArm")
 
-    single_jointed_arm.plot_pzmaps(1, False)
+    single_jointed_arm.plot_pzmaps(1)
+    plt.savefig("single_jointed_arm_pzmaps.svg")
 
     # Set up graphing
     l0 = 0.1
@@ -71,6 +74,10 @@ def main():
         refs.append(r)
 
     single_jointed_arm.plot_time_responses(2, t, refs)
+    plt.savefig("single_jointed_arm_response.svg")
+
+    # Uncomment to see plots immediately
+    # plt.show()
 
 
 if __name__ == "__main__":

@@ -3,14 +3,17 @@ NAME := state-space-guide
 # Make does not offer a recursive wildcard function, so here's one:
 rwildcard=$(wildcard $1$2) $(foreach dir,$(wildcard $1*),$(call rwildcard,$(dir)/,$2))
 
-# Format all Python files
-FORMAT_STAMP := $(subst .py,.format-stamp,$(notdir $(wildcard code/*.py)))
-
 # Python files that generate SVG files
-SVGGEN := $(filter-out code/format.py code/format_all.py,$(wildcard code/*.py))
+PY := $(wildcard code/*.py)
+SVGGEN := $(filter-out code/format_all.py,$(wildcard code/*.py))
+SVG := $(SVGGEN:.py=.svg)
+SVG := $(addprefix build/,$(SVG))
+PDF := $(SVG:.svg=.pdf)
 
-SVG := $(notdir $(SVGGEN:.py=.svg))
-PDF_TEX := $(SVG:.svg=.pdf_tex)
+EXAMPLES_PY := $(call rwildcard,code/frccontrol/examples/,*.py)
+EXAMPLES_STAMP := $(EXAMPLES_PY:.py=.stamp)
+EXAMPLES_STAMP := $(addprefix build/,$(EXAMPLES_STAMP))
+
 TEX := $(call rwildcard,./,*.tex)
 BIB := $(wildcard *.bib)
 FIGS := $(wildcard figs/*)
@@ -36,7 +39,7 @@ $(NAME)-printer.pdf: book-stamp
 $(NAME)-prepress.pdf: book-stamp
 	gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/prepress -dNOPAUSE -dQUIET -dBATCH -sOutputFile=$(NAME)-prepress.pdf $(NAME).pdf
 
-book-stamp: $(TEX) $(PDF_TEX) $(BIB) $(FIGS)
+book-stamp: $(TEX) $(PDF) $(EXAMPLES_STAMP) $(BIB) $(FIGS)
 	xelatex $(NAME)
 	makeglossaries $(NAME)
 	latexmk -xelatex $(NAME)
@@ -44,19 +47,28 @@ book-stamp: $(TEX) $(PDF_TEX) $(BIB) $(FIGS)
 	# failure
 	touch book-stamp
 
-$(PDF_TEX): %.pdf_tex: %.svg
-	inkscape -D -z --file=$< --export-pdf=$(basename $<).pdf --export-latex
+$(PDF): build/%.pdf: build/%.svg
+	@mkdir -p $(@D)
+	inkscape -D -z --file=$< --export-pdf=$@
 
-$(SVG): %.svg: %.format-stamp
-	python code/$(subst .format-stamp,.py,$<)
+$(SVG): build/%.svg: %.py
+	@mkdir -p $(@D)
+	PYTHONPATH=code ./$<
+	mv $(notdir $@) $(@D)
 
-$(FORMAT_STAMP): %.format-stamp: code/%.py
-	python code/format.py $<
+$(EXAMPLES_STAMP): build/%.stamp: %.py
+	@mkdir -p $(@D)
+	PYTHONPATH=code ./$<
+	inkscape -D -z --file=$(<F:.py=_pzmaps.svg) \
+		--export-pdf=$(<F:.py=_pzmaps.pdf)
+	inkscape -D -z --file=$(<F:.py=_response.svg) \
+		--export-pdf=$(<F:.py=_response.pdf)
+	mv *.cpp *.h *.pdf *.svg $(@D)
 	touch $@
 
 .PHONY: clean
 clean:
-	rm -f *.aux *.bbl *.bcf *.blg *.fdb_latexmk *.fls *.format-stamp *.glg *.glo *.gls *.glsdefs *.idx *.ilg *.ind *.ist *.lof *.log *.los *.lot *.out *.toc *.pdf *.pdf_tex *.ptc *.svg *.xdv *.xml book-stamp
+	rm -rf build *.aux *.bbl *.bcf *.blg *.cpp *.fdb_latexmk *.fls *.glg *.glo *.gls *.glsdefs *.h *.idx *.ilg *.ind *.ist *.lof *.log *.los *.lot *.out *.toc *.pdf *.ptc *.svg *.xdv *.xml book-stamp
 
 .PHONY: upload
 upload: $(NAME)-ebook.pdf

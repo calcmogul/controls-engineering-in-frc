@@ -18,13 +18,15 @@ class Flywheel(frccnt.System):
         u_labels = [("Voltage", "V")]
         self.set_plot_labels(state_labels, u_labels)
 
+        # Number of motors
+        self.num_motors = 1.0
         # Flywheel moment of inertia in kg-m^2
         self.J = 0.00032
         # Gear ratio
         self.G = 12.0 / 18.0
 
-        self.model = frccnt.models.flywheel(frccnt.models.MOTOR_775PRO, self.J,
-                                            self.G)
+        self.model = frccnt.models.flywheel(frccnt.models.MOTOR_775PRO,
+                                            self.num_motors, self.J, self.G)
         frccnt.System.__init__(self, self.model, -12.0, 12.0, dt)
 
         q = [9.42]
@@ -44,7 +46,8 @@ def main():
     flywheel = Flywheel(dt)
     flywheel.export_cpp_coeffs("Flywheel")
 
-    flywheel.plot_pzmaps(1, False)
+    flywheel.plot_pzmaps(1)
+    plt.savefig("flywheel_pzmaps.svg")
 
     # Set up graphing
     l0 = 0.1
@@ -65,6 +68,10 @@ def main():
         refs.append(r)
 
     flywheel.plot_time_responses(2, t, refs)
+    plt.savefig("flywheel_response.svg")
+
+    # Uncomment to see plots immediately
+    # plt.show()
 
 
 if __name__ == "__main__":

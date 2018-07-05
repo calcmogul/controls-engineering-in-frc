@@ -27,15 +27,13 @@
 % #1: file name without extension
 \newenvironment{svg}[1]
   {\begin{figure}%
-    \def\svgwidth{\linewidth}%
-    \input{#1.pdf_tex}}
+    \includegraphics[width=\linewidth]{#1.pdf}}%
   {\end{figure}}
 
 % #1: file name without extension
 \newenvironment{minisvg}[1]
   {\begin{minipage}{0.475\linewidth}%
-    \def\svgwidth{\textwidth}%
-    \input{#1.pdf_tex}}
+    \includegraphics[width=\textwidth]{#1.pdf}}%
   {\end{minipage}}
 
 \newcommand{\mtx}[1] {\mathbf{#1}}
