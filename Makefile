@@ -4,15 +4,10 @@ NAME := state-space-guide
 rwildcard=$(wildcard $1$2) $(foreach dir,$(wildcard $1*),$(call rwildcard,$(dir)/,$2))
 
 # Python files that generate SVG files
-PY := $(wildcard code/*.py)
-SVGGEN := $(filter-out code/format_all.py,$(wildcard code/*.py))
-SVG := $(SVGGEN:.py=.svg)
-SVG := $(addprefix build/,$(SVG))
-PDF := $(SVG:.svg=.pdf)
-
-EXAMPLES_PY := $(call rwildcard,code/frccontrol/examples/,*.py)
-EXAMPLES_STAMP := $(EXAMPLES_PY:.py=.stamp)
-EXAMPLES_STAMP := $(addprefix build/,$(EXAMPLES_STAMP))
+PY := $(wildcard code/*.py) \
+	$(call rwildcard,code/frccontrol/examples/,*.py)
+STAMP := $(PY:.py=.stamp)
+STAMP := $(addprefix build/,$(STAMP))
 
 TEX := $(call rwildcard,./,*.tex)
 BIB := $(wildcard *.bib)
@@ -39,7 +34,7 @@ $(NAME)-printer.pdf: book-stamp
 $(NAME)-prepress.pdf: book-stamp
 	gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/prepress -dNOPAUSE -dQUIET -dBATCH -sOutputFile=$(NAME)-prepress.pdf $(NAME).pdf
 
-book-stamp: $(TEX) $(PDF) $(EXAMPLES_STAMP) $(BIB) $(FIGS)
+book-stamp: $(TEX) $(STAMP) $(BIB) $(FIGS)
 	xelatex $(NAME)
 	makeglossaries $(NAME)
 	latexmk -xelatex $(NAME)
@@ -47,23 +42,11 @@ book-stamp: $(TEX) $(PDF) $(EXAMPLES_STAMP) $(BIB) $(FIGS)
 	# failure
 	touch book-stamp
 
-$(PDF): build/%.pdf: build/%.svg
-	@mkdir -p $(@D)
-	inkscape -D -z --file=$< --export-pdf=$@
-
-$(SVG): build/%.svg: %.py
+$(STAMP): build/%.stamp: %.py
 	@mkdir -p $(@D)
 	PYTHONPATH=code ./$<
-	mv $(notdir $@) $(@D)
-
-$(EXAMPLES_STAMP): build/%.stamp: %.py
-	@mkdir -p $(@D)
-	PYTHONPATH=code ./$<
-	inkscape -D -z --file=$(<F:.py=_pzmaps.svg) \
-		--export-pdf=$(<F:.py=_pzmaps.pdf)
-	inkscape -D -z --file=$(<F:.py=_response.svg) \
-		--export-pdf=$(<F:.py=_response.pdf)
-	mv *.cpp *.h *.pdf *.svg $(@D)
+	./svg2pdf.py
+	mv *.pdf *.svg $(@D)
 	touch $@
 
 .PHONY: clean

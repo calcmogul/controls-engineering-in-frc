@@ -79,10 +79,10 @@ considerations like actuation effort, \gls{robustness}, and
 \index{Discretization}
 
 Discretization is done using a zero-order hold. That is, the system state is
-only updated at discrete intervals and the value is held constant between
-samples. The exact method of applying this uses the matrix exponential, but this
-can be computationaly expensive. Instead, approximations such as the following
-are used.
+only updated at discrete intervals and it's held constant between samples. The
+exact method of applying this uses the matrix exponential, but this can be
+computationaly expensive. Instead, approximations such as the following are
+used.
 
 \begin{enumerate}
   \item Forward Euler method. This is defined as
@@ -96,10 +96,13 @@ are used.
     \index{Discretization!bilinear transform}
 \end{enumerate}
 
-where $T$ is the sample period for the discrete system. Since these are
-approximations, there is distortion between the real discrete system's poles and
-the approximate poles. For fast-changing systems, this distortion can quickly
-lead to instability.
+where the function $f(t_n, y_n)$ is the slope of $y$ at $n$ and $T$ is the
+sample period for the discrete system. Each of these metthods is essentially
+finding the area underneath a curve. The forward and backward Euler methods use
+rectangles to approximate that area while the bilinear transform uses
+trapezoids. Since these are approximations, there is distortion between the real
+discrete system's poles and the approximate poles. For fast-changing systems,
+this distortion can quickly lead to instability.
 
 \begin{figure}
   \begin{minisvg}{build/code/zoh}
@@ -107,7 +110,8 @@ lead to instability.
   \end{minisvg}
   \hfill
   \begin{minisvg}{build/code/discretization_methods}
-    \caption{Discretization methods of a system response.}
+    \caption{Discretization methods of a system response for the same velocity
+             data.}
   \end{minisvg}
 \end{figure}
 
@@ -240,13 +244,24 @@ account the response time of your system. Some systems like heaters have outputs
 loop at 1kHz doesn't make sense for this because the plant input the controller
 computes won't change much, if at all, in 1ms.
 
-Figure \ref{fig:sampling_simulation} shows simulations of the same controller
+Figures \ref{fig:sampling_simulation_0.1}, \ref{fig:sampling_simulation_0.05},
+and \ref{fig:sampling_simulation_0.04} show simulations of the same controller
 for different sampling methods and sample rates, which have varying levels of
 fidelity to the real system.
 
-\begin{svg}{build/code/sampling_simulation}
-  \caption{Sampling methods for system simulation.}
-  \label{fig:sampling_simulation}
+\begin{svg}{build/code/sampling_simulation_010}
+  \caption{Sampling methods for system simulation with $T = 0.1s$.}
+  \label{fig:sampling_simulation_0.1}
+\end{svg}
+
+\begin{svg}{build/code/sampling_simulation_005}
+  \caption{Sampling methods for system simulation with $T = 0.05s$.}
+  \label{fig:sampling_simulation_0.05}
+\end{svg}
+
+\begin{svg}{build/code/sampling_simulation_004}
+  \caption{Sampling methods for system simulation with $T = 0.04s$.}
+  \label{fig:sampling_simulation_0.04}
 \end{svg}
 
 Forward Euler is numerically unstable for low sample rates. The bilinear

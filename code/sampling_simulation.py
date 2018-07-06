@@ -42,6 +42,8 @@ def simulate(elevator, dt, method):
         label = "Zero-order hold"
     elif method == "euler":
         label = "Forward Euler"
+    elif method == "backward_diff":
+        label = "Backward Euler"
     elif method == "bilinear":
         label = "Bilinear transform"
     label += " (T={}s)".format(dt)
@@ -54,15 +56,35 @@ def main():
     plt.figure(1)
     plt.xlabel("Time (s)")
     plt.ylabel("Position (m)")
-
     simulate(elevator, 0.1, "zoh")
     simulate(elevator, 0.1, "euler")
-    simulate(elevator, 0.01, "euler")
+    simulate(elevator, 0.1, "backward_diff")
     simulate(elevator, 0.1, "bilinear")
-
-    plt.ylim([-0.25, 3])
+    plt.ylim([-2, 3])
     plt.legend()
-    plt.savefig("sampling_simulation.svg")
+    plt.savefig("sampling_simulation_010.svg")
+
+    plt.figure(2)
+    plt.xlabel("Time (s)")
+    plt.ylabel("Position (m)")
+    simulate(elevator, 0.05, "zoh")
+    simulate(elevator, 0.05, "euler")
+    simulate(elevator, 0.05, "backward_diff")
+    simulate(elevator, 0.05, "bilinear")
+    plt.ylim([-2, 3])
+    plt.legend()
+    plt.savefig("sampling_simulation_005.svg")
+
+    plt.figure(3)
+    plt.xlabel("Time (s)")
+    plt.ylabel("Position (m)")
+    simulate(elevator, 0.04, "zoh")
+    simulate(elevator, 0.04, "euler")
+    simulate(elevator, 0.04, "backward_diff")
+    simulate(elevator, 0.04, "bilinear")
+    plt.ylim([-0.25, 2])
+    plt.legend()
+    plt.savefig("sampling_simulation_004.svg")
 
 
 if __name__ == "__main__":
