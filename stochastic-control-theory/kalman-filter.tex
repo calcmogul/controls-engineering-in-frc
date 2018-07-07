@@ -391,3 +391,31 @@ mean. If the true value has an equal probability of being within a certain
 range, use a uniform distribution instead. Each of these communicates
 information regarding what you know about a system in addition to what you do
 not.
+
+\subsection{Steady-state error covariance matrix}
+
+One may have noticed that the error covariance matrix can be updated
+independently of the rest of the model. The error covariance matrix tends
+toward a steady-state value, and this matrix can be obtained via the discrete
+algebraic Ricatti equation. This can then be used to compute a steady-state
+Kalman gain.
+
+Snippet \ref{lst:kalman} computes the steady-state matrices for a Kalman
+filter.
+
+\begin{code}{Python}{code/frccontrol/kalmd.py}
+  \caption{Steady-state Kalman gain and error covariance matrices calculation in
+    Python}
+  \label{lst:kalman}
+\end{code}
+
+\subsection{Kalman filter as Luenberger observer}
+\index{State-space observers!Kalman filter!as Luenberger observer}
+
+A Kalman filter can be represented as a Luenberger observer by letting
+$\mtx{C} = \mtx{H}$ and $\mtx{L} = \mtx{A} \mtx{K}_k$ (see appendix
+\ref{subsec:app-kalman-luenberger}). The eigenvalues of the Kalman filter are
+
+\begin{equation}
+  eig(\mtx{A}(\mtx{I} - \mtx{K}_k\mtx{H}))
+\end{equation}
