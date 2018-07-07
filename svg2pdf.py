@@ -3,12 +3,7 @@
 import os
 import subprocess
 
-files = [
-    os.path.join(dp, f)
-    for dp, dn, fn in os.walk(".")
-    for f in fn
-    if f.endswith(".svg")
-]
+files = [f for f in os.listdir(".") if f.endswith(".svg")]
 
 for f in files:
     subprocess.run([

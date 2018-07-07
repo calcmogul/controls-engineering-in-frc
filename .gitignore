@@ -27,5 +27,6 @@
 *.pdf
 *.xdv
 *.xml
-__pycache__
+__pycache__/
 book-stamp
+init-stamp
