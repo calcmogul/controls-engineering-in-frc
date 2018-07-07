@@ -12,7 +12,21 @@ using the algebraic approach of transfer functions.
 The Laplace domain is a two-dimensional coordinate system whose coordinates are
 represented by a complex number $s = \sigma + j\omega$. The real part $\sigma$
 cooresponds to the x-axis and the imaginary part $j\omega$ cooresponds to the
-y-axis.
+y-axis. See figure \ref{fig:laplace_domain}.
+
+\begin{bookfigure}
+  \begin{tikzpicture}[auto, >=latex']
+    % \draw [help lines] (-4,-2) grid (4,4);
+
+    % Draw main axes
+    \draw[->] (-4.2,0) -- (4.2,0) node[below] {\small Re($\sigma$)};
+    \draw[->] (0,-2) -- (0,4.2) node[right] {\small Im($j\omega$)};
+  \end{tikzpicture}
+
+  \caption{Laplace domain}
+  \label{fig:laplace_domain}
+\end{bookfigure}
+
 
 A transfer function maps an input coordinate to an output coordinate in the
 Laplace domain. These can be obtained by applying the Laplace transform to a
@@ -197,12 +211,12 @@ toward zeroes (figure \ref{fig:rlocus_zeroes}).
 
 \begin{figure}
   \begin{minisvg}{build/code/rlocus_infty}
-    \caption{Root locus showing pole moving toward negative infinity.}
+    \caption{Root locus showing pole moving toward negative infinity}
     \label{fig:rlocus_infty}
   \end{minisvg}
   \hfill
   \begin{minisvg}{build/code/rlocus_asymptotes}
-    \caption{Root locus showing poles moving toward asymptotes.}
+    \caption{Root locus showing poles moving toward asymptotes}
     \label{fig:rlocus_asymptotes}
   \end{minisvg}
   \begin{minisvg}{build/code/rlocus_zeroes}
@@ -215,7 +229,7 @@ toward zeroes (figure \ref{fig:rlocus_zeroes}).
 Root locus plots can be drawn using code like snippet \ref{lst:rlocus_zeroes}.
 
 \begin{code}{Python}{code/rlocus_zeroes.py}
-  \caption{Root locus in Python.}
+  \caption{Root locus in Python}
   \label{lst:rlocus_zeroes}
 \end{code}
 
