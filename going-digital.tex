@@ -75,6 +75,22 @@ to the \gls{reference} in N timesteps. While this sounds great, there are other
 considerations like actuation effort, \gls{robustness}, and
 \gls{noise immunity}. These will be discussed in detail with LQR and LQE.
 
+Poles from $(-1, 0)$ to $(0, 0)$ on the x-axis exhibit oscillatory behavior
+similar to complex conjugate pairs. See figures \ref{fig:z_oscillations_1p} and
+\ref{fig:z_oscillations_2p}.
+
+\begin{figure}
+  \begin{minisvg}{build/code/z_oscillations_1p}
+    \caption{Single poles in various locations in z-plane.}
+    \label{fig:z_oscillations_1p}
+  \end{minisvg}
+  \hfill
+  \begin{minisvg}{build/code/z_oscillations_2p}
+    \caption{Complex conjugate poles in various locations in z-plane.}
+    \label{fig:z_oscillations_2p}
+  \end{minisvg}
+\end{figure}
+
 \section{Discretization methods}
 \index{Discretization}
 
