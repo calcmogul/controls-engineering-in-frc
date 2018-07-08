@@ -54,7 +54,7 @@ To use the control law, we need knowledge of the full state of the system. That
 means we either have to measure all our states directly or estimate those we do
 not measure.
 
-\section{Controller}
+\section{Closed-loop controller}
 
 Given the \gls{control law} above, we can derive the closed-loop state-space
 equations.
@@ -160,14 +160,20 @@ law} that minimizes $J$ is
 \end{equation*}
 \index{Optimal control!LQR!optimal control law}
 
-$Q$ and $R$ slide the cost along a Pareto optimal curve between state tracking
-and control effort. This means that an improvement in state tracking cannot be
-obtained without using more control effort to do so. Also, a reduction in
-control effort cannot be obtained without sacrificing state tracking
-performance.
-
 See appendix \ref{ch:app-optimal-control-law-deriv} for how $\mtx{K}$ is
-calculated in Python.
+calculated in Python. $\mtx{Q}$ and $\mtx{R}$ slide the cost along a Pareto
+optimal curve between state tracking and control effort (see figure
+\ref{fig:pareto_curve}). This means that an improvement in state tracking cannot
+be obtained without using more control effort to do so. Also, a reduction in
+control effort cannot be obtained without sacrificing state tracking
+performance. Pole placement, on the other hand, will have a cost anywhere on or
+above/to the right of the Pareto optimal curve (no cost can be inside the
+curve).
+
+\begin{svg}{build/code/pareto_curve}
+  \caption{Pareto optimal curve for LQR}
+  \label{fig:pareto_curve}
+\end{svg}
 
 If the solution produces a finite value, the resulting controller is guaranteed
 to be stable and \glslink{robustness}{robust} with a \gls{phase margin} of 60
@@ -181,7 +187,15 @@ Bryson's rule, the $Q$ and $R$ matrices are chosen based on the maximum
 acceptable value for each \gls{state} and actuator. The balance between $Q$ and
 $R$ can be slid along the Pareto optimal curve using a weighting factor $\rho$.
 
-Small values of $\rho$ penalize \gls{state} excursions while large values of
-$\rho$ penalize control effort. Small values would be chosen in applications
-like fighter jets where performance is necessary. Spacecrafts would use large
+\begin{equation*}
+  J = \int\limits_0^\infty \left(\rho \left[
+    \left(\frac{x_1}{x_{1,max}}\right)^2 + \ldots +
+    \left(\frac{x_n}{x_{n,max}}\right)^2\right] + \left[
+    \left(\frac{u_1}{u_{1,max}}\right)^2 + \ldots +
+    \left(\frac{u_n}{u_{n,max}}\right)^2\right]\right) dt
+\end{equation*}
+
+Small values of $\rho$ penalize control effort while large values of $\rho$
+penalize \gls{state} excursions. Large values would be chosen in applications
+like fighter jets where performance is necessary. Spacecrafts would use small
 values to conserve their limited fuel supply.
