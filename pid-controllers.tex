@@ -6,13 +6,18 @@
 \index{PID control}
 
 Negative feedback loops drive the difference between the \gls{reference} and
-\gls{output} to zero.
+\gls{output} to zero. PID control has three gains for this.
 
 \textbf{Proportional} gain compensates for current \gls{error}. \\
 \textbf{Integral} gain compensates for past error (i.e.,
 \gls{steady-state error}). \\
 \textbf{Derivative} gain compensates for future error by slowing controller down
   if error decreases over time.
+
+These gains act more when farther away from the \gls{reference} and less as the
+error decreases. They are like ``software springs" in a sense that pull the
+system's \gls{output} toward the \gls{reference}. Figure \ref{fig:pid_ctrl_diag}
+shows a block diagram for a system controlled by a PID controller.
 
 \begin{bookfigure}
   \begin{tikzpicture}[auto, >=latex']
@@ -47,14 +52,31 @@ Negative feedback loops drive the difference between the \gls{reference} and
 
   \caption{PID controller diagram}
   \label{fig:pid_ctrl_diag}
+
+  \begin{figurekey}
+    \begin{tabulary}{\linewidth}{LLLL}
+      $r(t)$ & \gls{reference} input & $u(t)$ & control input \\
+      $e(t)$ & error & $y(t)$ & \gls{output} \\
+    \end{tabulary}
+  \end{figurekey}
 \end{bookfigure}
 
-\begin{figurekey}
-  \begin{tabulary}{\linewidth}{LLLL}
-    $r(t)$ & \gls{reference} input & $u(t)$ & control input \\
-    $e(t)$ & error & $y(t)$ & \gls{output} \\
-  \end{tabulary}
-\end{figurekey}
+A system driven by a PID controller generally has three types of responses:
+underdamped, overdamped, and critically damped. These are shown in figure
+\ref{fig:pid_responses}.
+
+\begin{svg}{build/code/pid_responses}
+  \caption{Types of PID controller responses}
+  \label{fig:pid_responses}
+\end{svg}
+
+For the step responses in figure \ref{fig:pid_responses}, \textit{rise time} is
+the time the system takes to initially reach the \gls{reference} after applying
+the step input. \textit{Settling time} is the time the system takes to settle at
+the \gls{reference} after the step input is applied. An underdamped response
+oscillates around the \gls{reference} before settling. An overdamped response is
+slow to rise and does not overshoot the \gls{reference}. A critically damped
+response has the fastest rise time without overshooting the \gls{reference}.
 
 \section{Types of PID controllers}
 
