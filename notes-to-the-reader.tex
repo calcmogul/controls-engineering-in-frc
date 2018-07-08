@@ -18,8 +18,8 @@ This book consists of three parts and a collection of appendices:
     provides a crash course in the geometric intuition behind linear algebra and
     covers enough of the mechanics of evaluating matrix algebra for the reader
     to follow along in later chapters. State-space representation, canonical
-    forms of state-space models, discretization, LQR controller design, and LQE
-    observer design are covered.
+    forms of state-space models, discretization, LQR controller design, LQE
+    observer design, and stochastic control theory are covered.
   \item Part III, ``Controls design/implementation," describes how to apply the
     concepts learned in the earlier parts to design and implement controllers
     for real systems. It walks through several examples of common FRC subsystems
@@ -28,8 +28,11 @@ This book consists of three parts and a collection of appendices:
     are augmented with $u_{error}$ estimators to help handle model uncertainty.
   \item The appendices provide further enrichment that isn't required for a
     passing understanding of the material. This includes derivations for many of
-    the results presented and used in the main body of the book.
+    the results presented and used in the main matter of the book.
 \end{itemize}
+
+Source code examples are available in this book's Git repository. Its location
+is listed on the copyright page (page 2).
 
 This book is intended as both a tutorial for new students and as a reference
 manual for more experienced readers who need to review a thing or two. While it
@@ -45,8 +48,8 @@ The sections on classical control theory are intended to provide a geometric
 intuition into the mathematical machinery of modern control theory. Modern
 control requires doing roughly three things: develop a kinematic model of the
 system, design a controller for the system based on the model, and design an
-observer to estimate hidden states of the system. This book covers how to do
-each.
+observer to estimate hidden states of the system or account for noise. This book
+covers how to do each.
 
 Some topics have been oversimplified to make them easier to grasp. For more
 detail, please see the Wikibook on control systems at
