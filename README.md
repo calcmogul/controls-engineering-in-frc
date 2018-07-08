@@ -112,8 +112,10 @@ The following state-space implementation examples are in progress:
 * Drivetrain
   * See elevator items
   * 971/y2017/control_loops/python/polydrivetrain.py?
+  * Implement motion profiles to improve state tracking
 * Single-jointed arm
   * See elevator items
+  * Implement motion profiles to improve state tracking
 
 The following state-space implementation examples are planned:
 

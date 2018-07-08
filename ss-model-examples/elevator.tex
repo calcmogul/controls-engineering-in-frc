@@ -310,3 +310,16 @@ shows the system response with them.
   \caption{Elevator response}
   \label{fig:elevator_response}
 \end{svg}
+
+\subsection{Implementation}
+
+The script linked above also generates two files: ElevatorCoeffs.h and
+ElevatorCoeffs.cpp. These can be used with the WPILib StateSpacePlant,
+StateSpaceController, and StateSpaceObserver classes in C++ and Java (example
+coming soon).
+
+\begin{remark}
+  Instead of implementing $u_{error}$ estimation to compensate for gravity, one
+  can apply a constant voltage feedforward since input voltage is proportional
+  to force and gravity is a constant force.
+\end{remark}
