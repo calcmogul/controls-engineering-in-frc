@@ -298,9 +298,52 @@ solved with a computer. Python Control's \texttt{StateSpace.sample()} with the
   series.
 
   \begin{equation}
-    e^{\mtx{X}} = \sum_{k=0}^\infty \frac{1}{k!} \mtx{X}^k
+    e^{\mtx{X}} = \sum_{k=0}^\infty \frac{1}{k!} \mtx{X}^k \label{eq:mat_exp}
   \end{equation}
 
   where $\mtx{X}^0$ is defined to be the identity matrix $\mtx{I}$ with the same
   dimensions as $\mtx{X}$.
 \end{definition}
+
+We'll expand the first few terms of the Taylor series expansion in equation
+(\ref{eq:mat_exp}) for $\mtx{X} = \mtx{A}T$ so we can compare it with other
+methods.
+
+\begin{equation*}
+  \sum_{k=0}^3 \frac{1}{k!} (\mtx{A}T)^k = \mtx{I} + \mtx{A}T +
+    \frac{1}{2}\mtx{A}^2T^2 + \frac{1}{6}\mtx{A}^3T^3
+\end{equation*}
+
+Table \ref{tab:disc-approx} compares the Taylor expansions of the discretization
+methods presented so far. The bilinear transform does best with accuracy
+trailing off after the third order term. Forward Euler has no second order or
+higher terms, so it undershoots. Backward Euler has twice the second order term
+and overshoots the remaining higher order terms as well.
+
+\begin{booktable}
+  \begin{tabular}{|cll|}
+    \hline
+    \rowcolor{headingbg}
+    \multicolumn{1}{|c}{\textbf{Discretization method}} &
+      \multicolumn{1}{c}{\textbf{Conversion}} &
+      \multicolumn{1}{c|}{\textbf{Taylor series expansion}} \\
+    \hline
+    Matrix exponential (exact) &
+      $\mtx{\Phi} = e^{\mtx{A}T}$ &
+      $\mtx{\Phi} = 1 + \mtx{A}T + \frac{1}{2}\mtx{A}^2T^2 +
+        \frac{1}{6}\mtx{A}^3T^3 + \ldots$ \\
+    Bilinear transformation &
+      $\mtx{\Phi} = \frac{1 + \frac{1}{2}\mtx{A}T}{1 - \frac{1}{2}\mtx{A}T}$ &
+      $\mtx{\Phi} = 1 + \mtx{A}T + \frac{1}{2}\mtx{A}^2T^2 +
+        \frac{1}{4}\mtx{A}^3T^3 + \ldots$ \\
+    Forward Euler &
+      $\mtx{\Phi} = 1 + \mtx{A}T$ &
+      $\mtx{\Phi} = 1 + \mtx{A}T$ \\
+    Reverse Euler &
+      $\mtx{\Phi} = \frac{1}{1 - \mtx{A}T}$ &
+      $\mtx{\Phi} = 1 + \mtx{A}T + \mtx{A}^2T^2 + \mtx{A}^3T^3 + \ldots$ \\
+    \hline
+  \end{tabular}
+  \caption{Taylor series expansions of discretization methods}
+  \label{tab:disc-approx}
+\end{booktable}
