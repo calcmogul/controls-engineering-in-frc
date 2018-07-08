@@ -50,6 +50,10 @@ be added to the state $\mtx{x}$.
   \end{equation}
 \end{theorem}
 
+To use the control law, we need knowledge of the full state of the system. That
+means we either have to measure all our states directly or estimate those we do
+not measure.
+
 \section{Controller}
 
 Given the \gls{control law} above, we can derive the closed-loop state-space
@@ -121,26 +125,19 @@ can be changed by moving the poles via the eigenvalues of $\mtx{A} -
 \mtx{B}\mtx{K}$. $\mtx{A}$ and $\mtx{B}$ are inherent to the system, but
 $\mtx{K}$ can be chosen arbitrarily by the controller designer.
 
-\section{Need full state}
-
-While we can attain good control with this approach, we need knowledge of the
-full state of the system. That means we either have to measure all our states
-directly or estimate those we do not.
-
 \section{Pole placement}
 \index{Controller design!pole placement}
 
 This is the practice of manually placing the poles of the closed-loop system to
 produce a desired response. This is typically done with controllable canonical
-form (see subsubsection \ref{sec:ctrl-canon}). This can be done with state
-observers as well with observable canonical form (see subsubsection
-\ref{sec:obsv-canon}).
+form (see section \ref{sec:ctrl-canon}). This can be done with state observers
+as well with observable canonical form (see section \ref{sec:obsv-canon}).
 
 \section{LQR}
 \index{Controller design!LQR}
 \index{Optimal control!LQR}
 
-While we could place the poles for our controller manually, we can do better
+While we could place the poles for our controller manually, we can do better by
 using math to select them for us. ``LQR" stands for ``Linear-Quadratic
 Regulator". It places the poles of the controller to find the minimum of a
 quadratic cost function, which will be discussed below.
