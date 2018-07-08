@@ -1,0 +1,72 @@
+\chapter{State-space canonical forms}
+
+There are two canonical forms used to represent state-space \glspl{model}:
+controllable canonical form and observable canonical form. They are used to
+provide controllability and observability of a system respectively, which are
+mathematical duals of each other. That is, the controller and estimator (state
+observer) are complementary problems.
+
+\section{Controllable canonical form} \label{sec:ctrl-canon}
+\index{Controller design!controllable canonical form}
+
+Given a \gls{system} of the form
+
+\begin{equation} \label{eq:ctrl_obsv_tf}
+  G(s) = \frac{n_1 s^3 + n_2 s^2 + n_3 s + n_4}
+    {s^4 + d_1 s^3 + d_2 s^2 + d_3 s + d_4}
+\end{equation}
+
+the canonical \gls{realization} of it that satisfies equation
+(\ref{eq:ctrl_rank}) is
+
+\begin{align}
+  \dot{\mtx{x}}(t) &=
+  \begin{bmatrix}
+    0 & 1 & 0 & 0 \\
+    0 & 0 & 1 & 0 \\
+    0 & 0 & 0 & 1 \\
+    -d_4 & -d_3 & -d_2 & -d_1
+  \end{bmatrix}
+  \mtx{x}(t) +
+  \begin{bmatrix}
+    0 \\
+    0 \\
+    0 \\
+    1
+  \end{bmatrix}
+  \mtx{u}(t) \\
+  \mtx{y}(t) &=
+  \begin{bmatrix}
+    n_4 & n_3 & n_2 & n_1
+  \end{bmatrix}
+  \mtx{x}(t)
+\end{align}
+
+\section{Observable canonical form} \label{sec:obsv-canon}
+\index{Controller design!observable canonical form}
+
+The canonical \gls{realization} of the \gls{system} in equation
+(\ref{eq:ctrl_obsv_tf}) that satisfies equation (\ref{eq:obsv_rank}) is
+
+\begin{align}
+  \dot{\mtx{x}}(t) &=
+  \begin{bmatrix}
+    0 & 0 & 0 & -d_4 \\
+    1 & 0 & 0 & -d_3 \\
+    0 & 1 & 0 & -d_2 \\
+    0 & 0 & 1 & -d_1
+  \end{bmatrix}
+  \mtx{x}(t) +
+  \begin{bmatrix}
+    n_4 \\
+    n_3 \\
+    n_2 \\
+    n_1
+  \end{bmatrix}
+  \mtx{u}(t) \\
+  \mtx{y}(t) &=
+  \begin{bmatrix}
+    0 & 0 & 0 & 1
+  \end{bmatrix}
+  \mtx{x}(t)
+\end{align}
