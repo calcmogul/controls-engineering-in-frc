@@ -20,7 +20,7 @@ def main():
     plt.figure(1)
     plt.xticks(np.arange(min(T), max(T) + 1, 1.0))
     plt.xlabel("Time (s)")
-    plt.ylabel("Position")
+    plt.ylabel("Step response")
     tf = cnt.TransferFunction(1, [1, -0.6], dt)
     sim(tf, T, "Single pole in RHP")
     tf = cnt.TransferFunction(1, [1, 0.6], dt)
@@ -29,7 +29,7 @@ def main():
 
     plt.figure(2)
     plt.xlabel("Time (s)")
-    plt.ylabel("Position")
+    plt.ylabel("Step response")
     tf = cnt.TransferFunction(1, conv([1, 0.6 + 0.6j], [1, 0.6 - 0.6j]), dt)
     sim(tf, T, "Complex conjugate poles in LHP")
     tf = cnt.TransferFunction(1, conv([1, -0.6 + 0.6j], [1, -0.6 - 0.6j]), dt)
