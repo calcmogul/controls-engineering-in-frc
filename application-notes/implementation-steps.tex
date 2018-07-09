@@ -398,11 +398,13 @@ $\dot{\mtx{x}} = (\mtx{A} - \mtx{B}\mtx{K})\mtx{x} + \mtx{B}\mtx{K}\mtx{r}$. In
 the open-loop system, our control input was just $\mtx{u}$, but in the
 closed-loop system, our control input $\mtx{u}$ is $\mtx{K}\mtx{r}$. To use this
 form in simulation, the corresponding state-space matrices, which we'll denote
-$\mtx{A}'$ and $\mtx{B}'$, would be
+with apostrophes, would be
 
 \begin{align*}
   \mtx{A}' &= \mtx{A} - \mtx{B}\mtx{K} \\
-  \mtx{B}' &= \mtx{B}\mtx{K}
+  \mtx{B}' &= \mtx{B}\mtx{K} \\
+  \mtx{C}' &= \mtx{C} - \mtx{D}\mtx{K} \\
+  \mtx{D}' &= \mtx{D}\mtx{K}
 \end{align*}
 
 \subsection{Verify pole locations}

@@ -47,7 +47,9 @@ def closed_loop_ctrl(system):
     StateSpace instance representing closed-loop controller.
     """
     return cnt.StateSpace(system.sysc.A - system.sysc.B * system.K,
-                          system.sysc.B, system.sysc.C, system.sysc.D)
+                          system.sysc.B * system.K,
+                          system.sysc.C - system.sysc.D * system.K,
+                          system.sysc.D * system.K)
 
 
 def closed_loop_dctrl(system):
@@ -60,7 +62,9 @@ def closed_loop_dctrl(system):
     StateSpace instance representing closed-loop controller.
     """
     return cnt.StateSpace(system.sysd.A - system.sysd.B * system.K,
-                          system.sysd.B, system.sysd.C, system.sysd.D)
+                          system.sysd.B * system.K,
+                          system.sysd.C - system.sysd.D * system.K,
+                          system.sysd.D * system.K)
 
 
 def closed_loop_obsv(system):
