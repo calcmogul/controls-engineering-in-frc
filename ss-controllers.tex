@@ -139,8 +139,17 @@ as well with observable canonical form (see section \ref{sec:obsv-canon}).
 
 While we could place the poles for our controller manually, we can do better by
 using math to select them for us. ``LQR" stands for ``Linear-Quadratic
-Regulator". It places the poles of the controller to find the minimum of a
-quadratic cost function, which will be discussed below.
+\glslink{regulator}{Regulator}". This method of controller design uses a
+quadratic function for the cost-to-go that takes into account the error and
+control effort of the linear system over time. LQR places the poles of the
+controller such that this cost function is minimized.
+
+The minimum of LQR's cost function is found by setting the derivative of the
+cost function to zero and solving for the control law $\mtx{u}$. However, matrix
+calculus is used instead of normal calculus to take the derivative.
+
+Next, we'll define the cost function used by LQR and offer some advice for
+tuning its parameters.
 
 \subsection{Pareto optimal curve}
 
