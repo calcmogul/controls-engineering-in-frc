@@ -163,9 +163,13 @@ open-loop transfer function $KG(s)$. These are called the closed-loop poles.
 The locations of the closed-loop poles in the complex plane determine the
 stability of the \gls{system}. Each pole represents a frequency mode of the
 \gls{system}, and their location determines how much of each response is induced
-for a given input frequency. Figure \ref{fig:system_response_poles} shows the
-time domain responses for transfer functions with various pole locations. They
-all have an initial condition of one.
+for a given input frequency. Figure \ref{fig:impulse_response_poles} shows the
+impulse responses\footnote{An impulse response is the response of a \gls{system}
+to the Dirac delta function. The Dirac delta function is zero everywhere except
+near the origin. The nonzero region has an infinitesimal width and a height such
+that the area within that region is $1$.} in the time domain for transfer
+functions with various pole locations. They all have an initial condition of
+one.
 
 \begin{bookfigure}
   \begin{tikzpicture}[auto, >=latex']
@@ -222,8 +226,8 @@ all have an initial condition of one.
     \draw (2.5,3.5) node {\small Unstable};
   \end{tikzpicture}
 
-  \caption{Time domain system response vs pole location}
-  \label{fig:system_response_poles}
+  \caption{Impulse response vs pole location}
+  \label{fig:impulse_response_poles}
 \end{bookfigure}
 
 \begin{booktable}
@@ -245,63 +249,7 @@ all have an initial condition of one.
 When a system is stable, its output may oscillate but it converges to
 steady-state. When a system is marginally stable, its output oscillates at a
 constant amplitude forever. When a system is unstable, its output grows without
-bound. See figure \ref{fig:system_response_poles} for system responses with
-hypothetical pole locations.
-
-\section{Root locus}
-\index{Stability!root locus}
-
-In closed-loop, the poles can be moved around by adjusting the controller gain,
-but the zeroes stay put. The root locus shows where the poles will go as the
-gain for a P controller is increased and tells us for what range of gains the
-controller will be stable. As the controller gain is increased, poles can move
-toward negative infinity (figure \ref{fig:rlocus_infty}), move toward each other
-then split toward asymptotes (figure \ref{fig:rlocus_asymptotes}), or move
-toward zeroes (figure \ref{fig:rlocus_zeroes}).
-
-\begin{figure}
-  \begin{minisvg}{build/code/rlocus_infty}
-    \caption{Root locus showing pole moving toward negative infinity}
-    \label{fig:rlocus_infty}
-  \end{minisvg}
-  \hfill
-  \begin{minisvg}{build/code/rlocus_asymptotes}
-    \caption{Root locus showing poles moving toward asymptotes}
-    \label{fig:rlocus_asymptotes}
-  \end{minisvg}
-  \begin{minisvg}{build/code/rlocus_zeroes}
-    \caption{Root locus of equation (\ref{eq:transfer_func}) showing poles
-      moving toward zeroes. Drawn using snippet \ref{lst:rlocus_zeroes}.}
-    \label{fig:rlocus_zeroes}
-  \end{minisvg}
-\end{figure}
-
-Root locus plots can be drawn using code like snippet \ref{lst:rlocus_zeroes}.
-We won't be using root locus plots for any of our control systems analysis, but
-it does help provide an intuition for what controllers actually do to a system.
-
-\begin{code}{Python}{code/rlocus_zeroes.py}
-  \caption{Root locus in Python}
-  \label{lst:rlocus_zeroes}
-\end{code}
-
-In figure \ref{fig:rlocus_zeroes}, the poles orbit around a point toward the
-zeroes, and the \gls{system} eventually becomes unstable.
-
-\begin{remark}
-  If poles are much farther left in the LHP than the typical \gls{system}
-  dynamics exhibit, they can be considered negligible. Every \gls{system} has
-  some form of unmodeled high frequency, nonlinear dynamics, but they can be
-  safely ignored depending on the operating regime.
-\end{remark}
-
-We won't cover PID control in relation to the root locus because classical
-control isn't the focus of this book. However, we'll use the transfer function
-for a PID controller later in the case studies.
-
-\begin{equation*}
-  K(s) = K_p + \frac{K_i}{s} + K_ds
-\end{equation*}
+bound.
 
 \subsection{Non-minimum phase zeroes}
 
@@ -326,6 +274,46 @@ it reaches the target distance. At that point, the segway increases its forward
 speed to pitch backward and slow itself down. To come to a stop, the segway
 rolls backward again to level itself out.
 
+\section{Root locus}
+\index{Stability!root locus}
+
+In closed-loop, the poles can be moved around by adjusting the controller gain,
+but the zeroes stay put. The root locus shows where the poles will go as the
+gain for a P controller is increased and tells us for what range of gains the
+controller will be stable. As the controller gain is increased, poles can move
+toward negative infinity (figure \ref{fig:rlocus_infty}), move toward each other
+then split toward asymptotes (figure \ref{fig:rlocus_asymptotes}), or move
+toward zeroes (figure \ref{fig:rlocus_zeroes}). The \gls{system} in figure
+\ref{fig:rlocus_zeroes} becomes unstable as the gain is increased.
+
+\begin{figure}
+  \begin{minisvg}{build/code/rlocus_infty}
+    \caption{Root locus showing pole moving toward negative infinity}
+    \label{fig:rlocus_infty}
+  \end{minisvg}
+  \hfill
+  \begin{minisvg}{build/code/rlocus_asymptotes}
+    \caption{Root locus showing poles moving toward asymptotes}
+    \label{fig:rlocus_asymptotes}
+  \end{minisvg}
+  \begin{minisvg}{build/code/rlocus_zeroes}
+    \caption{Root locus of equation (\ref{eq:transfer_func}) showing poles
+      moving toward zeroes.}
+    \label{fig:rlocus_zeroes}
+  \end{minisvg}
+\end{figure}
+
+We won't be using root locus plots for any of our control systems analysis
+later, but it does help provide an intuition for what controllers actually do to
+a system.
+
+\begin{remark}
+  If poles are much farther left in the LHP than the typical \gls{system}
+  dynamics exhibit, they can be considered negligible. Every \gls{system} has
+  some form of unmodeled high frequency, nonlinear dynamics, but they can be
+  safely ignored depending on the operating regime.
+\end{remark}
+
 \section{Gain margin and phase margin} \label{sec:gain-phase-margin}
 \index{Stability!gain margin}
 \index{Stability!phase margin}
@@ -347,6 +335,13 @@ video on them \cite{bib:gain_phase_margin}. He has other videos too on classical
 control methods like Bode and Nyquist plots that we recommend.
 
 \section{Case studies of Laplace domain analysis}
+
+We'll be using equation (\ref{eq:pid_tf}), the transfer function for a PID
+controller, in the case studies.
+
+\begin{equation}
+  K(s) = K_p + \frac{K_i}{s} + K_ds \label{eq:pid_tf}
+\end{equation}
 
 \subsection{Flywheel PID control} \label{subsec:flywheel-pid-control}
 \index{PID control}
