@@ -112,8 +112,8 @@ as well with observable canonical form (see section \ref{sec:obsv-canon}).
 While we could place the poles for our controller manually, we can do better by
 using math to select them for us. ``LQR" stands for ``Linear-Quadratic
 \glslink{regulator}{Regulator}". This method of controller design uses a
-quadratic function for the cost-to-go that takes into account the error and
-control effort of the linear system over time. LQR places the poles of the
+quadratic function for the cost-to-go defined as the sum of the error and
+control effort over time for the linear system. LQR places the poles of the
 controller such that this cost function is minimized.
 
 The minimum of LQR's cost function is found by setting the derivative of the

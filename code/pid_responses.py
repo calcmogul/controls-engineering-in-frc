@@ -19,6 +19,7 @@ def make_closed_loop_plant(G, Kp):
     K = cnt.TransferFunction(Kp, 1)
     return cnt.feedback(G, K)
 
+
 def sim(tf, T, label):
     T, yout = cnt.step_response(tf, T=T)
 

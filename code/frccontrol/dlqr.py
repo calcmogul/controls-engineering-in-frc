@@ -16,7 +16,7 @@ def dlqr(sys, Q, R):
 
     Returns:
     numpy.matrix(states x inputs), K
-  """
+    """
 
     # P = A.T * P * A - (A.T * P * B) * np.linalg.inv(R + B.T * P * B) *
     #     (B.T * P.T * A) + Q
