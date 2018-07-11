@@ -162,6 +162,10 @@ finite time window.
   the number of \gls{state} variables.
 \end{theorem}
 
+The matrix in equation (\ref{eq:ctrl_rank}) being rank-deficient means the
+inputs cannot apply transforms along all axes in the state-space; the
+transformation the matrix represents is collapsed into a lower dimension.
+
 \section{Observability}
 \index{Controller design!observability}
 
@@ -177,19 +181,24 @@ an output trajectory provides enough information to predict the initial
   A continuous \gls{time-invariant} linear state-space \gls{model} is observable
   if and only if
 
-  \begin{equation} \label{eq:obsv_rank}
+  \begin{equation}
     \text{rank} \left(
     \begin{bmatrix}
       C \\
       CA \\
       \vdots \\
       CA^{n-1}
-    \end{bmatrix}\right) = n
+    \end{bmatrix}\right) = n \label{eq:obsv_rank}
   \end{equation}
 
   where rank is the number of linearly independent rows in a matrix and $n$ is
   the number of \gls{state} variables.
 \end{theorem}
+
+The matrix in equation (\ref{eq:obsv_rank}) being rank-deficient means the
+outputs do not contain contributions from every state. That is, not all states
+are mapped to a linear commbination in the output. Therefore, the outputs alone
+are insufficient to estimate all the states.
 
 \section{Eigenvalues in state-space}
 \index{Stability!eigenvalues}
