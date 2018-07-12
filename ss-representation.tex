@@ -44,11 +44,11 @@ angular velocity, but the shape of the angular velocity curve over time isn't a
 line. In fact, it's a decaying exponential curve akin to
 
 \begin{equation*}
-  \omega = \omega_0\left(1 - e^{-t}\right)
+  \omega = \omega_{max}\left(1 - e^{-t}\right)
 \end{equation*}
 
-where $\omega$ is the angular velocity and $\omega_0$ is the initial condition.
-If the motor behaves linearly, then why is this?
+where $\omega$ is the angular velocity and $\omega_{max}$ is the maximum angular
+velocity. If the motor behaves linearly, then why is this?
 
 Remember that linearity refers to a system's equations of motion, not its
 time-domain response. The equation defining the motor's change in angular

@@ -35,10 +35,12 @@ discrete steps, there is a sample delay that introduces phase loss in the
 controller. Phase loss is the reduction of phase margin (see section
 \ref{sec:gain-phase-margin}) that occurs in digital implementations of feedback
 controllers from sampling the continuous system at discrete time intervals. As
-the sample rate of the controller decreases, the phase margin decreases rapidly
-and will lead to instability if the phase margin reaches zero. Large amounts of
-phase loss can make a stable controller in the continuous domain become unstable
-in the discrete domain. Here are a few ways to combat this.
+the sample rate of the controller decreases, the phase margin decreases
+according to $-\frac{T}{2}\omega$ where $T$ is the sample period and $\omega$ is
+the frequency of the system dynamics. Instability occurs if the phase margin of
+the system reaches zero. Large amounts of phase loss can make a stable
+controller in the continuous domain become unstable in the discrete domain. Here
+are a few ways to combat this.
 
 \begin{itemize}
   \item Run the controller with a high sample rate.
@@ -314,11 +316,12 @@ methods.
     \frac{1}{2}\mtx{A}^2T^2 + \frac{1}{6}\mtx{A}^3T^3
 \end{equation*}
 
-Table \ref{tab:disc-approx} compares the Taylor expansions of the discretization
-methods presented so far. The bilinear transform does best with accuracy
-trailing off after the third order term. Forward Euler has no second order or
-higher terms, so it undershoots. Backward Euler has twice the second order term
-and overshoots the remaining higher order terms as well.
+Table \ref{tab:disc_approx_scalar} compares the Taylor expansions of the
+discretization methods presented so far (these are found using polynomial
+division). The bilinear transform does best with accuracy trailing off after the
+third order term. Forward Euler has no second order or higher terms, so it
+undershoots. Backward Euler has twice the second order term and overshoots the
+remaining higher order terms as well.
 
 \begin{booktable}
   \begin{tabular}{|cll|}
@@ -328,22 +331,51 @@ and overshoots the remaining higher order terms as well.
       \multicolumn{1}{c}{\textbf{Conversion}} &
       \multicolumn{1}{c|}{\textbf{Taylor series expansion}} \\
     \hline
-    Matrix exponential (exact) &
-      $\mtx{\Phi} = e^{\mtx{A}T}$ &
-      $\mtx{\Phi} = 1 + \mtx{A}T + \frac{1}{2}\mtx{A}^2T^2 +
-        \frac{1}{6}\mtx{A}^3T^3 + \ldots$ \\
+    Zero-order hold (exact) &
+      $z = e^{Ts}$ &
+      $z = 1 + Ts + \frac{1}{2}T^2s^2 + \frac{1}{6}T^3s^3 + \ldots$ \\
     Bilinear transformation &
-      $\mtx{\Phi} = \frac{1 + \frac{1}{2}\mtx{A}T}{1 - \frac{1}{2}\mtx{A}T}$ &
-      $\mtx{\Phi} = 1 + \mtx{A}T + \frac{1}{2}\mtx{A}^2T^2 +
-        \frac{1}{4}\mtx{A}^3T^3 + \ldots$ \\
+      $z = \frac{1 + \frac{1}{2}Ts}{1 - \frac{1}{2}Ts}$ &
+      $z = 1 + Ts + \frac{1}{2}T^2s^2 + \frac{1}{4}T^3s^3 + \ldots$ \\
     Forward Euler &
-      $\mtx{\Phi} = 1 + \mtx{A}T$ &
-      $\mtx{\Phi} = 1 + \mtx{A}T$ \\
+      $z = 1 + Ts$ &
+      $z = 1 + Ts$ \\
     Reverse Euler &
-      $\mtx{\Phi} = \frac{1}{1 - \mtx{A}T}$ &
-      $\mtx{\Phi} = 1 + \mtx{A}T + \mtx{A}^2T^2 + \mtx{A}^3T^3 + \ldots$ \\
+      $z = \frac{1}{1 - Ts}$ &
+      $z = 1 + Ts + T^2s^2 + T^3s^3 + \ldots$ \\
     \hline
   \end{tabular}
-  \caption{Taylor series expansions of discretization methods}
-  \label{tab:disc-approx}
+  \caption{Taylor series expansions of discretization methods (scalar case)}
+  \label{tab:disc_approx_scalar}
+\end{booktable}
+
+\begin{booktable}
+  \begin{tabular}{|cll|}
+    \hline
+    \rowcolor{headingbg}
+    \multicolumn{1}{|c}{\textbf{Discretization method}} &
+      \multicolumn{1}{c}{\textbf{Conversion}} &
+      \multicolumn{1}{c|}{\textbf{Taylor series expansion}} \\
+    \hline
+    Zero-order hold (exact) &
+      $\mtx{\Phi} = e^{\mtx{A}T}$ &
+      $\mtx{\Phi} = \mtx{I} + \mtx{A}T + \frac{1}{2}\mtx{A}^2T^2 +
+        \frac{1}{6}\mtx{A}^3T^3 + \ldots$ \\
+    Bilinear transformation &
+      $\mtx{\Phi} =
+        \left(\mtx{I} + \frac{1}{2}\mtx{A}T\right)
+        \left(\mtx{I} - \frac{1}{2}\mtx{A}T\right)^{-1}$ &
+      $\mtx{\Phi} = \mtx{I} + \mtx{A}T + \frac{1}{2}\mtx{A}^2T^2 +
+        \frac{1}{4}\mtx{A}^3T^3 + \ldots$ \\
+    Forward Euler &
+      $\mtx{\Phi} = \mtx{I} + \mtx{A}T$ &
+      $\mtx{\Phi} = \mtx{I} + \mtx{A}T$ \\
+    Reverse Euler &
+      $\mtx{\Phi} = \left(\mtx{I} - \mtx{A}T\right)^{-1}$ &
+      $\mtx{\Phi} =
+        \mtx{I} + \mtx{A}T + \mtx{A}^2T^2 + \mtx{A}^3T^3 + \ldots$ \\
+    \hline
+  \end{tabular}
+  \caption{Taylor series expansions of discretization methods (matrix case)}
+  \label{tab:disc_approx_matrix}
 \end{booktable}
