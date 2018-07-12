@@ -94,6 +94,44 @@ anticipate gaps in their understanding.
 
 The probability section and math for stochastic systems needs examples.
 
+#### Feedback from FRC team
+
+##### s-plane
+
+Add the second order motor root locus as an example of unstable high order
+dynamics that can be ignored. When the fastest pole is removed, the closed-loop
+plant is stable again. Also notice that while the root locus shows the poles
+becoming unstable, the step response is still stable due to the exceedingly
+small contribution of the fast pole.
+
+* Why can't high frequency unstable poles be ignored?
+  * High frequency stable poles decay quickly, so they can be ignored if the
+    system response never reaches those frequencies. Why can't high frequency
+    unstable poles be ignored in the same way? Unlike high freq poles, poles
+    just barely unstable can't be ignored because any unstable dynamics grow to
+    infinity and dominate the response.
+
+##### z-plane
+
+* Why are eigenvalues in z-plane stable?
+  * Given $x_{k+1} = ax$, $a < 1$ makes $x_{k+1}$ converge to zero. The same
+    applies to a complex number. If the magnitude of the complex number is less
+    than one, $x_{k+1}$ converges to zero. Values with a magnitude of $1$
+    oscillate forever because $x_{k+1}$ never decays.
+  * Add figure of s-plane mapped onto z-plane for coordinates in mapping table
+    (table 7.1)
+    * Add right after "\ref{tab:s-plane2z-plane} contains a few common points"
+    * See CE 242 lecture's?
+* Add plots of approximations with velocity graph before position graph,
+  including one to demonstrate trapezoid approximation
+    * This will also help explain the concept of integration.
+* Explain what Taylor series is
+  * The Taylor series is a method of approximating an analytic function like
+    $e^t$ via summation of weighted polynomial terms. The polynomial terms
+    increase in power and the weights by which they are multiplied decrease.
+  * The scalar case in table {tab:?} just uses long division. The matrix case
+    uses a more complex formula that we won't present here.
+
 ### Add more practical examples
 
 I'd like to provide more examples like I did for the Kalman filter design to
