@@ -4,6 +4,7 @@ import frccontrol as frccnt
 import math
 import matplotlib.pyplot as plt
 import numpy as np
+import sys
 
 
 class SingleJointedArm(frccnt.System):
@@ -50,7 +51,7 @@ def main():
     single_jointed_arm = SingleJointedArm(dt)
     single_jointed_arm.export_cpp_coeffs("SingleJointedArm")
 
-    single_jointed_arm.plot_pzmaps(1)
+    # single_jointed_arm.plot_pzmaps(1)
     plt.savefig("single_jointed_arm_pzmaps.svg")
 
     # Set up graphing
@@ -76,8 +77,8 @@ def main():
     single_jointed_arm.plot_time_responses(2, t, refs)
     plt.savefig("single_jointed_arm_response.svg")
 
-    # Uncomment to see plots immediately
-    # plt.show()
+    if "--noninteractive" not in sys.argv:
+        plt.show()
 
 
 if __name__ == "__main__":

@@ -3,6 +3,7 @@
 import frccontrol as frccnt
 import matplotlib.pyplot as plt
 import numpy as np
+import sys
 
 
 class Elevator(frccnt.System):
@@ -46,7 +47,7 @@ def main():
     elevator = Elevator(dt)
     elevator.export_cpp_coeffs("Elevator")
 
-    elevator.plot_pzmaps(1)
+    # elevator.plot_pzmaps(1)
     plt.savefig("elevator_pzmaps.svg")
 
     # Set up graphing
@@ -70,8 +71,8 @@ def main():
     elevator.plot_time_responses(2, t, refs)
     plt.savefig("elevator_response.svg")
 
-    # Uncomment to see plots immediately
-    # plt.show()
+    if "--noninteractive" not in sys.argv:
+        plt.show()
 
 
 if __name__ == "__main__":

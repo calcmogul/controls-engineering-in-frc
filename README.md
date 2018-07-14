@@ -23,17 +23,18 @@ systems.
 A PDF version is available at
 https://file.tavsys.net/control/state-space-guide.pdf.
 
-## Examples
+## Running the examples
 
-The examples only require Python 3.5+ and Python Control. To run them, execute
-the following in the `code` directory.
+The examples only require Python 3.5+ and Python Control. Instructions for
+installing Python Control are in the
+[Installing Python Control](#installing-python-control) section below.
+
+To run an example, it must be prefixed with `PYTHONPATH=.` and be run from the
+`code` directory. For example:
 
 ```
 PYTHONPATH=. ./frccontrol/examples/elevator.py
 ```
-
-Instructions for installing Python Control are in the
-[Dependencies](#dependencies) section below.
 
 ## Dependencies
 
@@ -52,17 +53,19 @@ To compile the book, the following are required.
 * Inkscape (to convert SVGs to PDF)
 * ghostscript (to reduce size of final PDF for publishing)
 
-Python Control can be installed via your system's package manager or via pip.
-For better root locus plots, build and install Python Control from its Git repo
-at https://github.com/python-control/python-control instead of using 0.7.0 from
+### Installing Python Control
+
+Python Control can be installed via pip3. For better root locus plots, build and
+install Python Control from its Git repo at
+https://github.com/python-control/python-control instead of using 0.7.0 from
 pypi.python.org.
 
 ```
 git clone git://github.com/python-control/python-control
-pip install --user ./python-control
+pip3 install --user ./python-control
 ```
 
-## Build
+## Compiling the book
 
 After installing the dependencies, just run `make`. By default, two files will
 be generated: state-space-guide.pdf, which has uncompressed images (way higher
@@ -108,8 +111,9 @@ small contribution of the fast pole.
   * High frequency stable poles decay quickly, so they can be ignored if the
     system response never reaches those frequencies. Why can't high frequency
     unstable poles be ignored in the same way? Unlike high freq poles, poles
-    just barely unstable can't be ignored because any unstable dynamics grow to
-    infinity and dominate the response.
+    just barely unstable can't be ignored because any unstable dynamics cause
+    the system output to grow to infinity. This obviously dominates the
+    response.
 
 ##### z-plane
 

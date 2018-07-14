@@ -55,7 +55,7 @@ init-stamp: $(STAMP)
 
 $(STAMP): build/%.stamp: %.py
 	@mkdir -p $(@D)
-	PYTHONPATH=code ./$<
+	PYTHONPATH=code ./$< --noninteractive
 	./svg2pdf.py
 	mv *.pdf *.svg $(@D)
 	touch $@

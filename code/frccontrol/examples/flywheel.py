@@ -4,6 +4,7 @@ import frccontrol as frccnt
 import math
 import matplotlib.pyplot as plt
 import numpy as np
+import sys
 
 
 class Flywheel(frccnt.System):
@@ -70,8 +71,8 @@ def main():
     flywheel.plot_time_responses(2, t, refs)
     plt.savefig("flywheel_response.svg")
 
-    # Uncomment to see plots immediately
-    # plt.show()
+    if "--noninteractive" not in sys.argv:
+        plt.show()
 
 
 if __name__ == "__main__":

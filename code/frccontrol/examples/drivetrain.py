@@ -3,6 +3,7 @@
 import frccontrol as frccnt
 import matplotlib.pyplot as plt
 import numpy as np
+import sys
 
 
 class Drivetrain(frccnt.System):
@@ -80,7 +81,7 @@ def main():
     drivetrain = Drivetrain(dt)
     drivetrain.export_cpp_coeffs("Drivetrain")
 
-    drivetrain.plot_pzmaps(1)
+    # drivetrain.plot_pzmaps(1)
     plt.savefig("drivetrain_pzmaps.svg")
 
     # Set up graphing
@@ -104,8 +105,8 @@ def main():
     drivetrain.plot_time_responses(2, t, refs)
     plt.savefig("drivetrain_response.svg")
 
-    # Uncomment to see plots immediately
-    # plt.show()
+    if "--noninteractive" not in sys.argv:
+        plt.show()
 
 
 if __name__ == "__main__":
