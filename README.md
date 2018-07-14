@@ -25,15 +25,19 @@ https://file.tavsys.net/control/state-space-guide.pdf.
 
 ## Running the examples
 
-The examples only require Python 3.5+ and Python Control. Instructions for
-installing Python Control are in the
-[Installing Python Control](#installing-python-control) section below.
-
-To run an example, it must be prefixed with `PYTHONPATH=.` and be run from the
-`code` directory. For example:
+Examples can be obtained from frccontrol's Git repository at
+https://github.com/calcmogul/frccontrol/tree/master/examples. They require
+Python 3.5+ and frccontrol. frccontrol can be installed with the following
+command.
 
 ```
-PYTHONPATH=. ./frccontrol/examples/elevator.py
+pip3 install --user frccontrol
+```
+
+Examples can be run like follows:
+
+```
+./examples/elevator.py
 ```
 
 ## Dependencies
@@ -48,6 +52,7 @@ To compile the book, the following are required.
 * biber (for generating bibliography)
 * Python 3.5+
   * Python Control (to generate plots and state-space results)
+  * frccontrol (to provide FRC wrappers for Python Control)
   * yapf (to format Python source code)
 * tk (required on some Linux platforms as a backend for matplotlib)
 * Inkscape (to convert SVGs to PDF)
@@ -63,6 +68,12 @@ pypi.python.org.
 ```
 git clone git://github.com/python-control/python-control
 pip3 install --user ./python-control
+```
+
+After that, install frccontrol via pip3.
+
+```
+pip3 install --user frccontrol
 ```
 
 ## Compiling the book
