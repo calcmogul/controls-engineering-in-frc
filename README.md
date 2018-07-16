@@ -132,12 +132,6 @@ small contribution of the fast pole.
 * Add plots of approximations with velocity graph before position graph,
   including one to demonstrate trapezoid approximation
     * This will also help explain the concept of integration.
-* Explain what Taylor series is
-  * The Taylor series is a method of approximating an analytic function like
-    $e^t$ via summation of weighted polynomial terms. The polynomial terms
-    increase in power and the weights by which they are multiplied decrease.
-  * The scalar case in table {tab:?} just uses long division. The matrix case
-    uses a more complex formula that we won't present here.
 
 ### Add more practical examples
 

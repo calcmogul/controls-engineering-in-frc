@@ -305,6 +305,14 @@ solved with a computer. Python Control's \texttt{StateSpace.sample()} with the
   dimensions as $\mtx{X}$.
 \end{definition}
 
+The definition for the matrix exponential and the approximations below all use
+the \textit{Taylor series expansion}. The Taylor series is a method of
+approximating an analytic function like $e^t$ via summation of weighted
+polynomial terms like $t^k$. The polynomial terms increase in power and the
+weights by which they are multiplied decrease. For certain functions like $e^t$,
+this approximation converges for all $t$ as the number of terms approaches
+infinity.
+
 We'll expand the first few terms of the Taylor series expansion in equation
 (\ref{eq:mat_exp}) for $\mtx{X} = \mtx{A}T$ so we can compare it with other
 methods.
@@ -314,6 +322,7 @@ methods.
     \frac{1}{2}\mtx{A}^2T^2 + \frac{1}{6}\mtx{A}^3T^3
 \end{equation*}
 
+\index{Discretization!Taylor series}
 Table \ref{tab:disc_approx_scalar} compares the Taylor expansions of the
 discretization methods presented so far (these are found using polynomial
 division). The bilinear transform does best with accuracy trailing off after the
@@ -346,6 +355,10 @@ remaining higher order terms as well.
   \caption{Taylor series expansions of discretization methods (scalar case)}
   \label{tab:disc_approx_scalar}
 \end{booktable}
+
+Table \ref{tab:disc_approx_matrix} compares the Taylor expansions of the
+discretization methods for the matrix case. These use a more complex formula
+which we won't present here.
 
 \begin{booktable}
   \begin{tabular}{|cll|}
