@@ -307,12 +307,16 @@ We won't be using root locus plots for any of our control systems analysis
 later, but it does help provide an intuition for what controllers actually do to
 a system.
 
-\begin{remark}
-  If poles are much farther left in the LHP than the typical \gls{system}
-  dynamics exhibit, they can be considered negligible. Every \gls{system} has
-  some form of unmodeled high frequency, nonlinear dynamics, but they can be
-  safely ignored depending on the operating regime.
-\end{remark}
+If poles are much farther left in the LHP than the typical \gls{system} dynamics
+exhibit, they can be considered negligible. Every \gls{system} has some form of
+unmodeled high frequency, nonlinear dynamics, but they can be safely ignored
+depending on the operating regime.
+
+Why can't unstable poles close to the origin be ignored in the same way? The
+response of high frequency stable poles decays rapidly. Unstable poles, on the
+other hand, represent unstable dynamics which cause the system output to grow to
+infinity. Regardless of how slow these unstable dynamics are, they will
+eventially dominate the response.
 
 \section{Gain margin and phase margin} \label{sec:gain-phase-margin}
 \index{Stability!gain margin}
@@ -322,7 +326,8 @@ One generally needs to learn about Bode plots and Nyquist plots to truly
 understand gain and phase margin and their origins, but those plots are large
 topics unto themselves. Since we won't be using either of these plots for
 controller design, we'll just cover what gain and phase margin are in a general
-sense and how they are used.
+sense and how they are used. We'll be discussing how discretization affects
+phase margin in section \ref{sec:phase_loss}.
 
 Gain margin and phase margin are two metrics for measuring a system's relative
 stability. Gain and phase margin are the amounts by which the closed-loop gain

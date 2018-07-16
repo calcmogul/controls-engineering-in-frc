@@ -118,14 +118,6 @@ plant is stable again. Also notice that while the root locus shows the poles
 becoming unstable, the step response is still stable due to the exceedingly
 small contribution of the fast pole.
 
-* Why can't high frequency unstable poles be ignored?
-  * High frequency stable poles decay quickly, so they can be ignored if the
-    system response never reaches those frequencies. Why can't high frequency
-    unstable poles be ignored in the same way? Unlike high freq poles, poles
-    just barely unstable can't be ignored because any unstable dynamics cause
-    the system output to grow to infinity. This obviously dominates the
-    response.
-
 ##### z-plane
 
 * Why are eigenvalues in z-plane stable?
