@@ -49,7 +49,7 @@ $(NAME).gls: $(NAME).aux
 $(NAME).aux: init-stamp
 
 init-stamp: $(STAMP)
-	rm -rf build/frccontrol && git clone git://github.com/calcmogul/frccontrol build/frccontrol
+	rm -rf build/frccontrol && git clone git://github.com/calcmogul/frccontrol build/frccontrol --depth=1
 	cd build && ./frccontrol/examples/drivetrain.py --noninteractive
 	cd build && ./frccontrol/examples/elevator.py --noninteractive
 	cd build && ./frccontrol/examples/flywheel.py --noninteractive

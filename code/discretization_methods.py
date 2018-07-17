@@ -2,6 +2,7 @@
 
 import frccontrol as frccnt
 import matplotlib.pyplot as plt
+import math
 import numpy as np
 
 plt.rc("text", usetex=True)
@@ -43,7 +44,7 @@ class Elevator(frccnt.System):
         self.design_kalman_filter([q_pos, q_vel], [r_pos])
 
 
-def generate_forward_euler(data, dt, sample_period):
+def generate_forward_euler_vel(data, dt, sample_period):
     """Generates forward Euler approximation of data set.
 
     Keyword arguments:
@@ -52,18 +53,17 @@ def generate_forward_euler(data, dt, sample_period):
     sample_period -- desired time between samples in approximation
     """
     y = []
-    count = 0
     val = 0
     for i in range(len(data)):
-        count += 1
-        if count >= sample_period / dt:
-            val += data[i] * sample_period
-            count = 0
+        t1 = int(math.floor(i * dt / sample_period) * sample_period / dt)
+        t2 = int((math.floor(i * dt / sample_period) + 1) * sample_period / dt)
+        if t2 < len(data):
+            val = data[t2]
         y.append(val)
     return y
 
 
-def generate_backward_euler(data, dt, sample_period):
+def generate_backward_euler_vel(data, dt, sample_period):
     """Generates backward Euler approximation of data set.
 
     Keyword arguments:
@@ -72,19 +72,17 @@ def generate_backward_euler(data, dt, sample_period):
     sample_period -- desired time between samples in approximation
     """
     y = []
-    count = 0
     val = 0
     for i in range(len(data)):
-        count += 1
-        if count >= sample_period / dt:
-            if i < len(data):
-                val += data[i + 1] * sample_period
-            count = 0
+        t1 = int(math.floor(i * dt / sample_period) * sample_period / dt)
+        t2 = int((math.floor(i * dt / sample_period) + 1) * sample_period / dt)
+        if t1 < len(data):
+            val = data[t1]
         y.append(val)
     return y
 
 
-def generate_bilinear_transform(data, dt, sample_period):
+def generate_bilinear_transform_vel(data, dt, sample_period):
     """Generates bilinear transform approximation of data set.
 
     Keyword arguments:
@@ -93,14 +91,71 @@ def generate_bilinear_transform(data, dt, sample_period):
     sample_period -- desired time between samples in approximation
     """
     y = []
-    count = 0
     val = 0
     for i in range(len(data)):
-        count += 1
-        if count >= sample_period / dt:
-            if i < len(data):
-                val += (data[i] + data[i + 1]) * sample_period / 2
-            count = 0
+        t1 = int(math.floor(i * dt / sample_period) * sample_period / dt)
+        t2 = int((math.floor(i * dt / sample_period) + 1) * sample_period / dt)
+        if t2 < len(data):
+            alpha = (i - t1) / (t2 - t1)
+            val = (1 - alpha) * data[t1] + alpha * data[t2]
+        y.append(val)
+    return y
+
+
+def generate_forward_euler_pos(data, dt, sample_period):
+    """Generates forward Euler approximation of data set.
+
+    Keyword arguments:
+    data -- array of velocity data
+    dt -- dt of original data samples
+    sample_period -- desired time between samples in approximation
+    """
+    y = []
+    val = 0
+    for i in range(len(data)):
+        t1 = int(math.floor(i * dt / sample_period) * sample_period / dt)
+        t2 = int((math.floor(i * dt / sample_period) + 1) * sample_period / dt)
+        if t2 < len(data):
+            val += data[t2] * dt
+        y.append(val)
+    return y
+
+
+def generate_backward_euler_pos(data, dt, sample_period):
+    """Generates backward Euler approximation of data set.
+
+    Keyword arguments:
+    data -- array of velocity data
+    dt -- dt of original data samples
+    sample_period -- desired time between samples in approximation
+    """
+    y = []
+    val = 0
+    for i in range(len(data)):
+        t1 = int(math.floor(i * dt / sample_period) * sample_period / dt)
+        t2 = int((math.floor(i * dt / sample_period) + 1) * sample_period / dt)
+        if t1 < len(data):
+            val += data[t1] * dt
+        y.append(val)
+    return y
+
+
+def generate_bilinear_transform_pos(data, dt, sample_period):
+    """Generates bilinear transform approximation of data set.
+
+    Keyword arguments:
+    data -- array of velocity data
+    dt -- dt of original data samples
+    sample_period -- desired time between samples in approximation
+    """
+    y = []
+    val = 0
+    for i in range(len(data)):
+        t1 = int(math.floor(i * dt / sample_period) * sample_period / dt)
+        t2 = int((math.floor(i * dt / sample_period) + 1) * sample_period / dt)
+        if t2 < len(data):
+            alpha = (i - t1) / (t2 - t1)
+            val += ((1 - alpha) * data[t1] + alpha * data[t2]) * dt
         y.append(val)
     return y
 
@@ -134,15 +189,30 @@ def main():
     vel = elevator.extract_row(state_rec, 1)
 
     plt.figure(1)
-    plt.plot(t, pos, label="Continuous")
-    y = generate_forward_euler(vel, dt, sample_period)
+    plt.xlabel("Time (s)")
+    plt.ylabel("Velocity (m/s)")
+    plt.plot(t, vel, label="Continuous")
+    y = generate_forward_euler_vel(vel, dt, sample_period)
     plt.plot(t, y, label="Forward Euler (T={}s)".format(sample_period))
-    y = generate_backward_euler(vel, dt, sample_period)
+    y = generate_backward_euler_vel(vel, dt, sample_period)
     plt.plot(t, y, label="Backward Euler (T={}s)".format(sample_period))
-    y = generate_bilinear_transform(vel, dt, sample_period)
+    y = generate_bilinear_transform_vel(vel, dt, sample_period)
     plt.plot(t, y, label="Bilinear transform (T={}s)".format(sample_period))
     plt.legend()
-    plt.savefig("discretization_methods.svg")
+    plt.savefig("discretization_methods_vel.svg")
+
+    plt.figure(2)
+    plt.xlabel("Time (s)")
+    plt.ylabel("Position (m)")
+    plt.plot(t, pos, label="Continuous")
+    y = generate_forward_euler_pos(vel, dt, sample_period)
+    plt.plot(t, y, label="Forward Euler (T={}s)".format(sample_period))
+    y = generate_backward_euler_pos(vel, dt, sample_period)
+    plt.plot(t, y, label="Backward Euler (T={}s)".format(sample_period))
+    y = generate_bilinear_transform_pos(vel, dt, sample_period)
+    plt.plot(t, y, label="Bilinear transform (T={}s)".format(sample_period))
+    plt.legend()
+    plt.savefig("discretization_methods_pos.svg")
 
 
 if __name__ == "__main__":

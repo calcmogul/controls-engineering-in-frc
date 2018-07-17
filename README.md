@@ -129,9 +129,6 @@ small contribution of the fast pole.
     (table 7.1)
     * Add right after "\ref{tab:s-plane2z-plane} contains a few common points"
     * See CE 242 lecture's?
-* Add plots of approximations with velocity graph before position graph,
-  including one to demonstrate trapezoid approximation
-    * This will also help explain the concept of integration.
 
 ### Add more practical examples
 
