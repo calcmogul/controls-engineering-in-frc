@@ -118,14 +118,6 @@ plant is stable again. Also notice that while the root locus shows the poles
 becoming unstable, the step response is still stable due to the exceedingly
 small contribution of the fast pole.
 
-##### z-plane
-
-* Why are eigenvalues in z-plane stable?
-  * Given $x_{k+1} = ax$, $a < 1$ makes $x_{k+1}$ converge to zero. The same
-    applies to a complex number. If the magnitude of the complex number is less
-    than one, $x_{k+1}$ converges to zero. Values with a magnitude of $1$
-    oscillate forever because $x_{k+1}$ never decays.
-
 ### Add more practical examples
 
 I'd like to provide more examples like I did for the Kalman filter design to
