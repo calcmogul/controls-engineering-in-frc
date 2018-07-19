@@ -149,6 +149,8 @@ The following state-space implementation examples are planned:
 Any other results that are good for background but are unnecessary should be
 included in an appendix.
 
+Add an appendix on Ito calculus to explain where the Wiener process comes from?
+
 Add a section on polytopes for convex optimization? So far, I've seen it used
 for handling saturated control inputs to prioritize tracking some states over
 others using the limited control input.
