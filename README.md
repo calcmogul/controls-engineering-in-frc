@@ -130,7 +130,6 @@ The following state-space implementation examples are in progress:
 * Elevator
   * Add u_error state to model
   * Include writing unit tests in Google Test
-  * Include how to implement the model in C++ with Eigen
 * Flywheel
   * See elevator items
 * Drivetrain
