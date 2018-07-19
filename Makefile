@@ -50,10 +50,10 @@ $(NAME).aux: init-stamp
 
 init-stamp: $(STAMP)
 	rm -rf build/frccontrol && git clone git://github.com/calcmogul/frccontrol build/frccontrol --depth=1
-	cd build && ./frccontrol/examples/drivetrain.py --noninteractive
-	cd build && ./frccontrol/examples/elevator.py --noninteractive
-	cd build && ./frccontrol/examples/flywheel.py --noninteractive
-	cd build && ./frccontrol/examples/single_jointed_arm.py --noninteractive
+	cd build && ./frccontrol/examples/drivetrain.py --save-plots --noninteractive
+	cd build && ./frccontrol/examples/elevator.py --save-plots --noninteractive
+	cd build && ./frccontrol/examples/flywheel.py --save-plots --noninteractive
+	cd build && ./frccontrol/examples/single_jointed_arm.py --save-plots --noninteractive
 	cd build && ../svg2pdf.py
 	xelatex $(NAME)
 	touch init-stamp
