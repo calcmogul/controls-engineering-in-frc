@@ -130,10 +130,10 @@ enough samples to reconstruct the continuous system's dynamics.
 \index{Discretization}
 
 Discretization is done using a zero-order hold. That is, the system state is
-only updated at discrete intervals and it's held constant between samples. The
-exact method of applying this uses the matrix exponential, but this can be
-computationaly expensive. Instead, approximations such as the following are
-used.
+only updated at discrete intervals and it's held constant between samples (see
+figure \ref{fig:zoh}). The exact method of applying this uses the matrix
+exponential, but this can be computationaly expensive. Instead, approximations
+such as the following are used.
 
 \begin{enumerate}
   \item Forward Euler method. This is defined as
@@ -148,24 +148,206 @@ used.
 \end{enumerate}
 
 where the function $f(t_n, y_n)$ is the slope of $y$ at $n$ and $T$ is the
-sample period for the discrete system. Each of these metthods is essentially
+sample period for the discrete system. Each of these methods is essentially
 finding the area underneath a curve. The forward and backward Euler methods use
 rectangles to approximate that area while the bilinear transform uses
-trapezoids. Since these are approximations, there is distortion between the real
-discrete system's poles and the approximate poles. For fast-changing systems,
-this distortion can quickly lead to instability.
+trapezoids (see figures \ref{fig:discretization_methods_vel} and
+\ref{fig:discretization_methods_pos}). Since these are approximations, there is
+distortion between the real discrete system's poles and the approximate poles.
+This is in addition to the phase loss introduced by discretizing at a given
+sample rate in the first place. For fast-changing systems, this distortion can
+quickly lead to instability.
 
 \begin{svg}{build/code/zoh}
     \caption{Zero-order hold of a system response}
+    \label{fig:zoh}
 \end{svg}
 
 \begin{svg}{build/code/discretization_methods_vel}
   \caption{Discretization methods applied to velocity data}
+  \label{fig:discretization_methods_vel}
 \end{svg}
 
 \begin{svg}{build/code/discretization_methods_pos}
   \caption{Position plot of discretization methods applied to velocity data}
+  \label{fig:discretization_methods_pos}
 \end{svg}
+
+\section{Effects of discretization on controller performance}
+
+Running a feedback controller at a faster update rate doesn't always mean better
+control. In fact, you may be using more computational resources than you need.
+However, here are some reasons for running at a faster update rate.
+
+Firstly, if you have a discrete model of the system, that model can more
+accurately approximate the underlying continuous system. Most applications of
+PID control don't have a model though.
+
+Secondly, the controller can better handle fast system dynamics. If the system
+can move from its initial state to the desired one in under 250ms, you obviously
+want to run the controller with a period less than this. When you reduce the
+sample period, you're making the discrete controller more accurately reflect
+what the equivalent continuous controller would do (controllers built from
+analog circuit components like op-amps are continuous).
+
+Running at a lower sample rate only causes problems if you don't take into
+account the response time of your system. Some systems like heaters have outputs
+(output = measurement) that change on the order of minutes. Running a control
+loop at 1kHz doesn't make sense for this because the plant input the controller
+computes won't change much, if at all, in 1ms.
+
+Figures \ref{fig:sampling_simulation_0.1}, \ref{fig:sampling_simulation_0.05},
+and \ref{fig:sampling_simulation_0.04} show simulations of the same controller
+for different sampling methods and sample rates, which have varying levels of
+fidelity to the real system.
+
+\begin{svg}{build/code/sampling_simulation_010}
+  \caption{Sampling methods for system simulation with $T = 0.1s$}
+  \label{fig:sampling_simulation_0.1}
+\end{svg}
+
+\begin{svg}{build/code/sampling_simulation_005}
+  \caption{Sampling methods for system simulation with $T = 0.05s$}
+  \label{fig:sampling_simulation_0.05}
+\end{svg}
+
+\begin{svg}{build/code/sampling_simulation_004}
+  \caption{Sampling methods for system simulation with $T = 0.04s$}
+  \label{fig:sampling_simulation_0.04}
+\end{svg}
+
+Forward Euler is numerically unstable for low sample rates. The bilinear
+transform is a significant improvement due to it being a second-order
+approximation, but zero-order hold performs best due to the matrix exponential
+including much higher orders (we'll cover the matrix exponential in the next
+section).
+
+Table \ref{tab:disc_approx_scalar} compares the Taylor series expansions of the
+discretization methods presented so far (these are found using polynomial
+division). The bilinear transform does best with accuracy trailing off after the
+third order term. Forward Euler has no second order or higher terms, so it
+undershoots. Backward Euler has twice the second order term and overshoots the
+remaining higher order terms as well.
+
+\begin{booktable}
+  \begin{tabular}{|cll|}
+    \hline
+    \rowcolor{headingbg}
+    \multicolumn{1}{|c}{\textbf{Discretization method}} &
+      \multicolumn{1}{c}{\textbf{Conversion}} &
+      \multicolumn{1}{c|}{\textbf{Taylor series expansion}} \\
+    \hline
+    Zero-order hold (exact) &
+      $z = e^{Ts}$ &
+      $z = 1 + Ts + \frac{1}{2}T^2s^2 + \frac{1}{6}T^3s^3 + \ldots$ \\
+    Bilinear transformation &
+      $z = \frac{1 + \frac{1}{2}Ts}{1 - \frac{1}{2}Ts}$ &
+      $z = 1 + Ts + \frac{1}{2}T^2s^2 + \frac{1}{4}T^3s^3 + \ldots$ \\
+    Forward Euler &
+      $z = 1 + Ts$ &
+      $z = 1 + Ts$ \\
+    Reverse Euler &
+      $z = \frac{1}{1 - Ts}$ &
+      $z = 1 + Ts + T^2s^2 + T^3s^3 + \ldots$ \\
+    \hline
+  \end{tabular}
+  \caption{Taylor series expansions of discretization methods (scalar case)}
+  \label{tab:disc_approx_scalar}
+\end{booktable}
+
+\section{The matrix exponential}
+\index{Discretization!matrix exponential}
+
+The matrix exponential (and system discretization in general) is typically
+solved with a computer. Python Control's \texttt{StateSpace.sample()} with the
+``zoh" method (the default) does this.
+
+\begin{definition}[Matrix exponential]
+  Let $\mtx{X}$ be an $n \times n$ matrix. The exponential of $\mtx{X}$ denoted
+  by $e^{\mtx{X}}$ is the $n \times n$ matrix given by the following power
+  series.
+
+  \begin{equation}
+    e^{\mtx{X}} = \sum_{k=0}^\infty \frac{1}{k!} \mtx{X}^k \label{eq:mat_exp}
+  \end{equation}
+
+  where $\mtx{X}^0$ is defined to be the identity matrix $\mtx{I}$ with the same
+  dimensions as $\mtx{X}$.
+\end{definition}
+
+To understand why the matrix exponential is used in the discretization process,
+consider the set of differential equations $\dot{\mtx{x}} = \mtx{A}\mtx{x}$ we
+use to describe systems (systems also have a $\mtx{B}\mtx{u}$ term, but we'll
+ignore it for clarity). The solution to this type of differential equation uses
+an exponential. Since we are using matrices and vectors here, we use the matrix
+exponential.
+
+\begin{equation*}
+  \mtx{x}(t) = e^{\mtx{A}t} \mtx{x}_0
+\end{equation*}
+
+where $\mtx{x}_0$ contains the initial conditions. If the initial state is the
+current system state, then we can describe the system's state over time as
+
+\begin{equation*}
+  \mtx{x}_{k+1} = e^{\mtx{A}T} \mtx{x}_k
+\end{equation*}
+
+where $T$ is the time between samples $\mtx{x}_k$ and $\mtx{x}_{k+1}$.
+
+\section{The Taylor series}
+\index{Discretization!Taylor series}
+The definition for the matrix exponential and the approximations below all use
+the \textit{Taylor series expansion}. The Taylor series is a method of
+approximating an analytic function like $e^t$ via summation of weighted
+polynomial terms like $t^k$. The polynomial terms increase in power and the
+weights by which they are multiplied decrease. For certain functions like $e^t$,
+this approximation converges for all $t$ as the number of terms approaches
+infinity.
+
+We'll expand the first few terms of the Taylor series expansion in equation
+(\ref{eq:mat_exp}) for $\mtx{X} = \mtx{A}T$ so we can compare it with other
+methods.
+
+\begin{equation*}
+  \sum_{k=0}^3 \frac{1}{k!} (\mtx{A}T)^k = \mtx{I} + \mtx{A}T +
+    \frac{1}{2}\mtx{A}^2T^2 + \frac{1}{6}\mtx{A}^3T^3
+\end{equation*}
+
+Table \ref{tab:disc_approx_matrix} compares the Taylor series expansions of the
+discretization methods for the matrix case. These use a more complex formula
+which we won't present here.
+
+\begin{booktable}
+  \begin{tabular}{|cll|}
+    \hline
+    \rowcolor{headingbg}
+    \multicolumn{1}{|c}{\textbf{Discretization method}} &
+      \multicolumn{1}{c}{\textbf{Conversion}} &
+      \multicolumn{1}{c|}{\textbf{Taylor series expansion}} \\
+    \hline
+    Zero-order hold (exact) &
+      $\mtx{\Phi} = e^{\mtx{A}T}$ &
+      $\mtx{\Phi} = \mtx{I} + \mtx{A}T + \frac{1}{2}\mtx{A}^2T^2 +
+        \frac{1}{6}\mtx{A}^3T^3 + \ldots$ \\
+    Bilinear transformation &
+      $\mtx{\Phi} =
+        \left(\mtx{I} + \frac{1}{2}\mtx{A}T\right)
+        \left(\mtx{I} - \frac{1}{2}\mtx{A}T\right)^{-1}$ &
+      $\mtx{\Phi} = \mtx{I} + \mtx{A}T + \frac{1}{2}\mtx{A}^2T^2 +
+        \frac{1}{4}\mtx{A}^3T^3 + \ldots$ \\
+    Forward Euler &
+      $\mtx{\Phi} = \mtx{I} + \mtx{A}T$ &
+      $\mtx{\Phi} = \mtx{I} + \mtx{A}T$ \\
+    Reverse Euler &
+      $\mtx{\Phi} = \left(\mtx{I} - \mtx{A}T\right)^{-1}$ &
+      $\mtx{\Phi} =
+        \mtx{I} + \mtx{A}T + \mtx{A}^2T^2 + \mtx{A}^3T^3 + \ldots$ \\
+    \hline
+  \end{tabular}
+  \caption{Taylor series expansions of discretization methods (matrix case)}
+  \label{tab:disc_approx_matrix}
+\end{booktable}
 
 \section{Zero-order hold for state-space}
 \index{Discretization!zero-order hold}
@@ -218,6 +400,9 @@ with covariances
   $\mtx{A}_c$.
 \end{theorem}
 
+See the Wikipedia page on discretization for derivations
+\cite{bib:discretization}.
+
 $\mtx{Q}_d$ is computed as
 
 \begin{equation*}
@@ -233,33 +418,8 @@ $\mtx{Q}_d$ is computed as
 \end{equation*}
 
 and $\mtx{Q}_d$ is the lower-right quadrant multiplied by the upper-right
-quadrant \cite{bib:integral_matrix_exp}.
-
-See the Wikipedia page on discretization for derivations
-\cite{bib:discretization}.
-
-To understand why the matrix exponential is used in the discretization process,
-consider the set of differential equations $\dot{\mtx{x}} = \mtx{A}\mtx{x}$ we
-use to describe systems (systems also have a $\mtx{B}\mtx{u}$ term, but we'll
-ignore it for clarity). The solution to this type of differential equation uses
-an exponential. Since we are using matrices and vectors here, we use the matrix
-exponential.
-
-\begin{equation*}
-  \mtx{x}(t) = e^{\mtx{A}t} \mtx{x}_0
-\end{equation*}
-
-where $\mtx{x}_0$ contains the initial conditions. If the initial state is the
-current system state, then we can describe the system's state over time as
-
-\begin{equation*}
-  \mtx{x}_{k+1} = e^{\mtx{A}T} \mtx{x}_k
-\end{equation*}
-
-where $T$ is the time between samples $\mtx{x}_k$ and $\mtx{x}_{k+1}$.
-
-To compute $\mtx{A}_d$ and $\mtx{B}_d$ in one step, one can utilize the
-following property.
+quadrant \cite{bib:integral_matrix_exp}. To compute $\mtx{A}_d$ and $\mtx{B}_d$
+in one step, one can utilize the following property.
 
 \begin{equation*}
   e^{
@@ -272,157 +432,3 @@ following property.
     \mtx{0} & \mtx{I}
   \end{bmatrix}
 \end{equation*}
-
-\section{Effects of discretization on controller performance}
-
-Running a feedback controller at a faster update rate doesn't always mean better
-control. In fact, you may be using more computational resources than you need.
-However, here are some reasons for running at a faster update rate.
-
-Firstly, if you have a discrete model of the system, that model can more
-accurately approximate the underlying continuous system. Most applications of
-PID control don't have a model though.
-
-Secondly, the controller can better handle fast system dynamics. If the system
-can move from its initial state to the desired one in under 250ms, you obviously
-want to run the controller with a period less than this. When you reduce the
-sample period, you're making the discrete controller more accurately reflect
-what the equivalent continuous controller would do (controllers built from
-analog circuit components like op-amps are continuous).
-
-Running at a lower sample rate only causes problems if you don't take into
-account the response time of your system. Some systems like heaters have outputs
-(output = measurement) that change on the order of minutes. Running a control
-loop at 1kHz doesn't make sense for this because the plant input the controller
-computes won't change much, if at all, in 1ms.
-
-Figures \ref{fig:sampling_simulation_0.1}, \ref{fig:sampling_simulation_0.05},
-and \ref{fig:sampling_simulation_0.04} show simulations of the same controller
-for different sampling methods and sample rates, which have varying levels of
-fidelity to the real system.
-
-\begin{svg}{build/code/sampling_simulation_010}
-  \caption{Sampling methods for system simulation with $T = 0.1s$}
-  \label{fig:sampling_simulation_0.1}
-\end{svg}
-
-\begin{svg}{build/code/sampling_simulation_005}
-  \caption{Sampling methods for system simulation with $T = 0.05s$}
-  \label{fig:sampling_simulation_0.05}
-\end{svg}
-
-\begin{svg}{build/code/sampling_simulation_004}
-  \caption{Sampling methods for system simulation with $T = 0.04s$}
-  \label{fig:sampling_simulation_0.04}
-\end{svg}
-
-Forward Euler is numerically unstable for low sample rates. The bilinear
-transform is a significant improvement due to it being a second-order
-approximation, but zero-order hold performs best due to the matrix exponential
-including much higher orders (it is, in effect, exact).
-
-\section{Computing the matrix exponential}
-\index{Discretization!matrix exponential}
-
-The matrix exponential (and system discretization in general) is typically
-solved with a computer. Python Control's \texttt{StateSpace.sample()} with the
-``zoh" method (the default) does this.
-
-\begin{definition}[Matrix exponential]
-  Let $\mtx{X}$ be an $n \times n$ matrix. The exponential of $\mtx{X}$ denoted
-  by $e^{\mtx{X}}$ is the $n \times n$ matrix given by the following power
-  series.
-
-  \begin{equation}
-    e^{\mtx{X}} = \sum_{k=0}^\infty \frac{1}{k!} \mtx{X}^k \label{eq:mat_exp}
-  \end{equation}
-
-  where $\mtx{X}^0$ is defined to be the identity matrix $\mtx{I}$ with the same
-  dimensions as $\mtx{X}$.
-\end{definition}
-
-The definition for the matrix exponential and the approximations below all use
-the \textit{Taylor series expansion}. The Taylor series is a method of
-approximating an analytic function like $e^t$ via summation of weighted
-polynomial terms like $t^k$. The polynomial terms increase in power and the
-weights by which they are multiplied decrease. For certain functions like $e^t$,
-this approximation converges for all $t$ as the number of terms approaches
-infinity.
-
-We'll expand the first few terms of the Taylor series expansion in equation
-(\ref{eq:mat_exp}) for $\mtx{X} = \mtx{A}T$ so we can compare it with other
-methods.
-
-\begin{equation*}
-  \sum_{k=0}^3 \frac{1}{k!} (\mtx{A}T)^k = \mtx{I} + \mtx{A}T +
-    \frac{1}{2}\mtx{A}^2T^2 + \frac{1}{6}\mtx{A}^3T^3
-\end{equation*}
-
-\index{Discretization!Taylor series}
-Table \ref{tab:disc_approx_scalar} compares the Taylor expansions of the
-discretization methods presented so far (these are found using polynomial
-division). The bilinear transform does best with accuracy trailing off after the
-third order term. Forward Euler has no second order or higher terms, so it
-undershoots. Backward Euler has twice the second order term and overshoots the
-remaining higher order terms as well.
-
-\begin{booktable}
-  \begin{tabular}{|cll|}
-    \hline
-    \rowcolor{headingbg}
-    \multicolumn{1}{|c}{\textbf{Discretization method}} &
-      \multicolumn{1}{c}{\textbf{Conversion}} &
-      \multicolumn{1}{c|}{\textbf{Taylor series expansion}} \\
-    \hline
-    Zero-order hold (exact) &
-      $z = e^{Ts}$ &
-      $z = 1 + Ts + \frac{1}{2}T^2s^2 + \frac{1}{6}T^3s^3 + \ldots$ \\
-    Bilinear transformation &
-      $z = \frac{1 + \frac{1}{2}Ts}{1 - \frac{1}{2}Ts}$ &
-      $z = 1 + Ts + \frac{1}{2}T^2s^2 + \frac{1}{4}T^3s^3 + \ldots$ \\
-    Forward Euler &
-      $z = 1 + Ts$ &
-      $z = 1 + Ts$ \\
-    Reverse Euler &
-      $z = \frac{1}{1 - Ts}$ &
-      $z = 1 + Ts + T^2s^2 + T^3s^3 + \ldots$ \\
-    \hline
-  \end{tabular}
-  \caption{Taylor series expansions of discretization methods (scalar case)}
-  \label{tab:disc_approx_scalar}
-\end{booktable}
-
-Table \ref{tab:disc_approx_matrix} compares the Taylor expansions of the
-discretization methods for the matrix case. These use a more complex formula
-which we won't present here.
-
-\begin{booktable}
-  \begin{tabular}{|cll|}
-    \hline
-    \rowcolor{headingbg}
-    \multicolumn{1}{|c}{\textbf{Discretization method}} &
-      \multicolumn{1}{c}{\textbf{Conversion}} &
-      \multicolumn{1}{c|}{\textbf{Taylor series expansion}} \\
-    \hline
-    Zero-order hold (exact) &
-      $\mtx{\Phi} = e^{\mtx{A}T}$ &
-      $\mtx{\Phi} = \mtx{I} + \mtx{A}T + \frac{1}{2}\mtx{A}^2T^2 +
-        \frac{1}{6}\mtx{A}^3T^3 + \ldots$ \\
-    Bilinear transformation &
-      $\mtx{\Phi} =
-        \left(\mtx{I} + \frac{1}{2}\mtx{A}T\right)
-        \left(\mtx{I} - \frac{1}{2}\mtx{A}T\right)^{-1}$ &
-      $\mtx{\Phi} = \mtx{I} + \mtx{A}T + \frac{1}{2}\mtx{A}^2T^2 +
-        \frac{1}{4}\mtx{A}^3T^3 + \ldots$ \\
-    Forward Euler &
-      $\mtx{\Phi} = \mtx{I} + \mtx{A}T$ &
-      $\mtx{\Phi} = \mtx{I} + \mtx{A}T$ \\
-    Reverse Euler &
-      $\mtx{\Phi} = \left(\mtx{I} - \mtx{A}T\right)^{-1}$ &
-      $\mtx{\Phi} =
-        \mtx{I} + \mtx{A}T + \mtx{A}^2T^2 + \mtx{A}^3T^3 + \ldots$ \\
-    \hline
-  \end{tabular}
-  \caption{Taylor series expansions of discretization methods (matrix case)}
-  \label{tab:disc_approx_matrix}
-\end{booktable}
