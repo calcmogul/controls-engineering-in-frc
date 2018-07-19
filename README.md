@@ -106,17 +106,15 @@ More examples of concepts will help slow the pace down. I should read through
 this book as if I was explaining it to my veteran software students and
 anticipate gaps in their understanding.
 
-The probability section and math for stochastic systems needs examples.
-
-#### Feedback from FRC team
-
-##### s-plane
-
 Add the second order motor root locus as an example of unstable high order
 dynamics that can be ignored. When the fastest pole is removed, the closed-loop
 plant is stable again. Also notice that while the root locus shows the poles
 becoming unstable, the step response is still stable due to the exceedingly
 small contribution of the fast pole.
+
+Add plots demonstrating sampling and the Nyquist frequency more explicitly.
+
+The probability section and math for stochastic systems needs examples.
 
 ### Add more practical examples
 
