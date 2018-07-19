@@ -97,6 +97,32 @@ can be changed by moving the poles via the eigenvalues of $\mtx{A} -
 \mtx{B}\mtx{K}$. $\mtx{A}$ and $\mtx{B}$ are inherent to the system, but
 $\mtx{K}$ can be chosen arbitrarily by the controller designer.
 
+\subsection{Eigenvalues of closed-loop controller}
+\index{Stability!eigenvalues}
+
+The eigenvalues of the system matrix can be used to determine the stability of a
+\gls{system}.
+
+We'd like to know whether the \gls{system} defined by equation
+(\ref{eq:ssz_ctrl_x}) operating with the \gls{control law}
+$\mtx{u}_k = \mtx{K}(\mtx{r}_k - \mtx{x}_k)$ converges to the \gls{reference}
+$\mtx{r}_k$.
+
+\begin{align}
+  \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}\mtx{u}_k \nonumber \\
+  \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}(\mtx{K}(\mtx{r}_k - \mtx{x}_k))
+    \nonumber \\
+  \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}\mtx{K}\mtx{r}_k -
+    \mtx{B}\mtx{K}\mtx{x}_k \nonumber \\
+  \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k - \mtx{B}\mtx{K}\mtx{x}_k +
+    \mtx{B}\mtx{K}\mtx{r}_k \nonumber \\
+  \mtx{x}_{k+1} &= (\mtx{A} - \mtx{B}\mtx{K})\mtx{x}_k +
+    \mtx{B}\mtx{K}\mtx{r}_k \label{eq:ctrl_eig_calc}
+\end{align}
+
+For equation (\ref{eq:ctrl_eig_calc}) to have a bounded output, the eigenvalues
+of $\mtx{A} - \mtx{B}\mtx{K}$ must be within the unit circle.
+
 \section{Pole placement}
 \index{Controller design!pole placement}
 
@@ -290,3 +316,93 @@ instead.
 \end{theorem}
 
 See appendix \ref{subsec:app-luenberger-separate} for a derivation.
+
+\subsection{Eigenvalues of closed-loop observer}
+\index{Stability!eigenvalues}
+
+The eigenvalues of the system matrix can be used to determine whether a
+\gls{state} observer's estimate will converge to the true \gls{state}.
+
+Plugging equation (\ref{eq:z_obsv_y}) into equation (\ref{eq:z_obsv_x}) gives
+
+\begin{align*}
+  \hat{\mtx{x}}_{k+1} &= \mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
+    \mtx{L} (\mtx{y}_k - \hat{\mtx{y}}_k) \\
+  \hat{\mtx{x}}_{k+1} &= \mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
+    \mtx{L} (\mtx{y}_k - (\mtx{C}\hat{\mtx{x}}_k + \mtx{D}\mtx{u}_k)) \\
+  \hat{\mtx{x}}_{k+1} &= \mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
+    \mtx{L} (\mtx{y}_k - \mtx{C}\hat{\mtx{x}}_k - \mtx{D}\mtx{u}_k)
+\end{align*}
+
+Plugging in equation (\ref{eq:ssz_ctrl_y}) gives
+
+\begin{align*}
+  \hat{\mtx{x}}_{k+1} &= \mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
+    \mtx{L}((\mtx{C}\mtx{x}_k + \mtx{D}\mtx{u}_k) - \mtx{C}\hat{\mtx{x}}_k -
+    \mtx{D}\mtx{u}_k) \\
+  \hat{\mtx{x}}_{k+1} &= \mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
+    \mtx{L}(\mtx{C}\mtx{x}_k + \mtx{D}\mtx{u}_k - \mtx{C}\hat{\mtx{x}}_k -
+    \mtx{D}\mtx{u}_k) \\
+  \hat{\mtx{x}}_{k+1} &= \mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
+    \mtx{L}(\mtx{C}\mtx{x}_k - \mtx{C}\hat{\mtx{x}}_k) \\
+  \hat{\mtx{x}}_{k+1} &= \mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
+    \mtx{L}\mtx{C}(\mtx{x}_k - \hat{\mtx{x}}_k)
+\end{align*}
+
+Let $E_k = \mtx{x}_k - \hat{\mtx{x}}_k$ be the error in the estimate
+$\hat{\mtx{x}}_k$.
+
+\begin{equation*}
+  \hat{\mtx{x}}_{k+1} = \mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
+    \mtx{L}\mtx{C}\mtx{E}_k
+\end{equation*}
+
+Subtracting this from equation (\ref{eq:ssz_ctrl_x}) gives
+
+\begin{align}
+  \mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}\mtx{u}_k -
+    (\mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
+     \mtx{L}\mtx{C}\mtx{E}_k) \nonumber \\
+  \mtx{E}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}\mtx{u}_k -
+    (\mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k + \mtx{L}\mtx{C}\mtx{E}_k)
+    \nonumber \\
+  \mtx{E}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}\mtx{u}_k -
+    \mtx{A}\hat{\mtx{x}}_k - \mtx{B}\mtx{u}_k - \mtx{L}\mtx{C}\mtx{E}_k
+    \nonumber \\
+  \mtx{E}_{k+1} &= \mtx{A}\mtx{x}_k - \mtx{A}\hat{\mtx{x}}_k -
+    \mtx{L}\mtx{C}\mtx{E}_k \nonumber \\
+  \mtx{E}_{k+1} &= \mtx{A}(\mtx{x}_k - \hat{\mtx{x}}_k) -
+    \mtx{L}\mtx{C}\mtx{E}_k \nonumber \\
+  \mtx{E}_{k+1} &= \mtx{A}\mtx{E}_k - \mtx{L}\mtx{C}\mtx{E}_k \nonumber \\
+  \mtx{E}_{k+1} &= (\mtx{A} - \mtx{L}\mtx{C})\mtx{E}_k \label{eq:obsv_eig_calc}
+\end{align}
+
+For equation (\ref{eq:obsv_eig_calc}) to have a bounded output, the eigenvalues
+of $\mtx{A} - \mtx{L}\mtx{C}$ must be within the unit circle. These eigenvalues
+represent how fast the estimator converges to the true state of the given
+\gls{model}. A fast estimator converges quickly while a slow estimator avoids
+amplifying noise in the measurements used to produce a state estimate.
+
+As stated before, the controller and estimator are dual problems. Controller
+gains can be found assuming perfect estimator (i.e., perfect knowledge of all
+\glspl{state}). Estimator gains can be found assuming an accurate \gls{model}
+and a controller with perfect \gls{tracking}.
+
+The effect of noise can be seen if it is modeled
+\glslink{stochastic process}{stochastically} as
+
+\begin{equation*}
+  \hat{\mtx{x}}_{k+1} = \mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
+    \mtx{L} ((\mtx{y}_k + \mtx{\nu}_k) - \hat{\mtx{y}}_k) \\
+\end{equation*}
+
+where $\mtx{\nu}_k$ is the measurement noise. Rearranging this equation yields
+
+\begin{align*}
+  \hat{\mtx{x}}_{k+1} &= \mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
+    \mtx{L} (\mtx{y}_k - \hat{\mtx{y}}_k + \mtx{\nu}_k) \\
+  \hat{\mtx{x}}_{k+1} &= \mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
+    \mtx{L} (\mtx{y}_k - \hat{\mtx{y}}_k) + \mtx{L}\mtx{\nu}_k
+\end{align*}
+
+As $\mtx{L}$ increases, the measurement noise is amplified.
