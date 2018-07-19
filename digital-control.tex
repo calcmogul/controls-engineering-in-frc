@@ -54,7 +54,8 @@ are a few ways to combat this.
 
 Transfer functions are converted to impulse responses using the Z-transform. The
 s-plane's LHP maps to the inside of a unit circle in the z-plane. Table
-\ref{tab:s-plane2z-plane} contains a few common points.
+\ref{tab:s2z_mapping} contains a few common points and figure
+\ref{fig:s2z_mapping} shows the mapping visually.
 
 \begin{booktable}
   \begin{tabular}{|cc|}
@@ -68,8 +69,23 @@ s-plane's LHP maps to the inside of a unit circle in the z-plane. Table
     \hline
   \end{tabular}
   \caption{Mapping from s-plane to z-plane}
-  \label{tab:s-plane2z-plane}
+  \label{tab:s2z_mapping}
 \end{booktable}
+
+\begin{figure}
+  \begin{minisvg}{build/code/s_plane}
+  \end{minisvg}
+  \begin{minisvg}{build/code/z_plane}
+  \end{minisvg}
+  \caption{Mapping of axes from s-plane (left) to z-plane (right)}
+  \label{fig:s2z_mapping}
+\end{figure}
+
+As $\omega$ increases in $s = j\omega$, a pole there moves around the perimeter
+of the unit circle in the z-plane. Once it hits $\frac{\omega_s}{2}$ (half the
+sampling frequency) at $(-1, 0)$, the pole wraps around. This is due to poles
+faster than the sample frequency folding down to below the sample frequency
+(that is, higher frequency signals \textit{alias} to lower frequency ones).
 
 You may notice that poles can be placed at $(0, 0)$ in the z-plane. This is
 known as a deadbeat controller. An $\rm N^{th}$ order deadbeat controller decays
@@ -77,9 +93,15 @@ to the \gls{reference} in N timesteps. While this sounds great, there are other
 considerations like actuation effort, \gls{robustness}, and
 \gls{noise immunity}. These will be discussed in detail with LQR and LQE.
 
-Poles from $(-1, 0)$ to $(0, 0)$ on the x-axis exhibit oscillatory behavior
-similar to complex conjugate pairs. See figures \ref{fig:z_oscillations_1p} and
-\ref{fig:z_oscillations_2p}.
+If poles from $(1, 0)$ to $(0, 0)$ on the x-axis approach infinity, then what do
+poles from $(-1, 0)$ to $(0, 0)$ represent? Them being faster than infinity
+doesn't make sense. Poles in this location exhibit oscillatory behavior similar
+to complex conjugate pairs. See figures \ref{fig:z_oscillations_1p} and
+\ref{fig:z_oscillations_2p}. The jaggedness of these signals is due to the
+frequency of the system dynamics being above the Nyquist frequency\footnote{The
+Nyquist frequency is the minimum frequency required to reconstruct a signal from
+samples taken of it at some frequency.}. The discretized signal doesn't have
+enough samples to reconstruct the continuous system's dynamics.
 
 \begin{figure}
   \begin{minisvg}{build/code/z_oscillations_1p}

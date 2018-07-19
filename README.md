@@ -125,10 +125,6 @@ small contribution of the fast pole.
     applies to a complex number. If the magnitude of the complex number is less
     than one, $x_{k+1}$ converges to zero. Values with a magnitude of $1$
     oscillate forever because $x_{k+1}$ never decays.
-  * Add figure of s-plane mapped onto z-plane for coordinates in mapping table
-    (table 7.1)
-    * Add right after "\ref{tab:s-plane2z-plane} contains a few common points"
-    * See CE 242 lecture's?
 
 ### Add more practical examples
 

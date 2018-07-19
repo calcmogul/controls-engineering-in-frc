@@ -7,6 +7,8 @@ rwildcard=$(wildcard $1$2) $(foreach dir,$(wildcard $1*),$(call rwildcard,$(dir)
 PY := $(wildcard code/*.py)
 STAMP := $(PY:.py=.stamp)
 STAMP := $(addprefix build/,$(STAMP))
+EXAMPLES := drivetrain.py elevator.py flywheel.py single_jointed_arm.py
+EXAMPLES := $(addprefix build/frccontrol/examples/,$(EXAMPLES))
 
 TEX := $(call rwildcard,./,*.tex)
 BIB := $(wildcard *.bib)
@@ -48,8 +50,12 @@ $(NAME).gls: $(NAME).aux
 
 $(NAME).aux: init-stamp
 
-init-stamp: $(STAMP)
+build/frccontrol:
 	rm -rf build/frccontrol && git clone git://github.com/calcmogul/frccontrol build/frccontrol --depth=1
+
+$(EXAMPLES): | build/frccontrol
+
+init-stamp: $(EXAMPLES) $(STAMP)
 	cd build && ./frccontrol/examples/drivetrain.py --save-plots --noninteractive
 	cd build && ./frccontrol/examples/elevator.py --save-plots --noninteractive
 	cd build && ./frccontrol/examples/flywheel.py --save-plots --noninteractive
