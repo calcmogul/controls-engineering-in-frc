@@ -112,6 +112,94 @@ Other formulations of LQR for finite-horizon and discrete-time can be seen at
 MIT OpenCourseWare has a rigorous proof of the results shown above
 \cite{bib:lqr-derivs}.
 
+\section{Zero-order hold for state-space}
+\label{sec:deriv-zoh-ss}
+
+Starting with the continuous model
+
+\begin{equation*}
+  \dot{\mtx{x}}(t) = \mtx{A}\mtx{x}(t) + \mtx{B}\mtx{u}(t)
+\end{equation*}
+
+we know that the matrix exponential is
+
+\begin{equation*}
+  \frac{d}{dt}e^{\mtx{A}t} = \mtx{A}e^{\mtx{A}t} = e^{\mtx{A}t}\mtx{A}
+\end{equation*}
+
+and by premultiplying the model we get
+
+\begin{equation*}
+  e^{-\mtx{A}t}\dot{\mtx{x}}(t) = e^{-\mtx{A}t}\mtx{A}\mtx{x}(t) +
+    e^{-\mtx{A}t}\mtx{B}\mtx{u}(t)
+\end{equation*}
+
+which we recognize as
+
+\begin{equation*}
+  \frac{d}{dt}\left(e^{-\mtx{A}t}\mtx{x}(t)\right) =
+    e^{-\mtx{A}t}\mtx{B}\mtx{u}(t)
+\end{equation*}
+
+By integrating this equation, we get
+
+\begin{align*}
+  e^{-\mtx{A}t}\mtx{x}(t) - e^0\mtx{x}(0) &=
+    \int_0^t e^{-\mtx{A}\tau}\mtx{B}\mtx{u}(\tau) \,d\tau \\
+  \mtx{x}(t) &= e^{\mtx{A}t}\mtx{x}(0) +
+    \int_0^t e^{\mtx{A}(t - \tau)}\mtx{B}\mtx{u}(\tau) \,d\tau
+\end{align*}
+
+which is an analytical solution to the continuous model. Now we want to
+discretize it.
+
+\begin{align*}
+  \mtx{x}_k &\stackrel{def}{=} \mtx{x}(kT) \\
+  \mtx{x}_k &= e^{\mtx{A}kT}\mtx{x}(0) +
+    \int_0^{kT} e^{\mtx{A}(kT - \tau)}\mtx{B}\mtx{u}(\tau) \,d\tau \\
+  \mtx{x}_{k+1} &= e^{\mtx{A}(k + 1)T}\mtx{x}(0) +
+    \int_0^{(k + 1)T} e^{\mtx{A}((k + 1)T - \tau)}\mtx{B}\mtx{u}(\tau) \,d\tau
+    \\
+  \mtx{x}_{k+1} &= e^{\mtx{A}(k + 1)T}\mtx{x}(0) +
+    \int_0^{kT} e^{\mtx{A}((k + 1)T - \tau)}\mtx{B}\mtx{u}(\tau) \,d\tau +
+    \int_{kT}^{(k + 1)T} e^{\mtx{A}((k + 1)T - \tau)}\mtx{B}\mtx{u}(\tau)
+    \,d\tau \\
+  \mtx{x}_{k+1} &= e^{\mtx{A}(k + 1)T}\mtx{x}(0) +
+    \int_0^{kT} e^{\mtx{A}((k + 1)T - \tau)}\mtx{B}\mtx{u}(\tau) \,d\tau +
+    \int_{kT}^{(k + 1)T} e^{\mtx{A}(kT + T - \tau)}\mtx{B}\mtx{u}(\tau) \,d\tau
+    \\
+  \mtx{x}_{k+1} &= e^{\mtx{A}T} \underbrace{\left(e^{\mtx{A}kT}\mtx{x}(0) +
+    \int_0^{kT} e^{\mtx{A}(kT - \tau)}\mtx{B}\mtx{u}(\tau)
+    \,d\tau\right)}_{\mtx{x}_k} +
+    \int_{kT}^{(k + 1)T} e^{\mtx{A}(kT + T - \tau)}\mtx{B}\mtx{u}(\tau) \,d\tau
+\end{align*}
+
+We assume that $\mtx{u}$ is constant during each timestep, so it can be pulled
+out of the integral.
+
+\begin{equation*}
+  \mtx{x}_{k+1} = e^{\mtx{A}T}\mtx{x}_k +
+    \left(\int_{kT}^{(k + 1)T} e^{\mtx{A}(kT + T - \tau)} \,d\tau\right)
+    \mtx{B}\mtx{u}_k
+\end{equation*}
+
+The second term can be simplified by substituting it with the function
+$v(\tau) = kT + T - \tau$. Note that $d\tau = -dv$.
+
+\begin{align*}
+  \mtx{x}_{k+1} &= e^{\mtx{A}T}\mtx{x}_k -
+    \left(\int_{v(kT)}^{v((k + 1)T)} e^{\mtx{A}v} \,dv\right)
+    \mtx{B}\mtx{u}_k \\
+  \mtx{x}_{k+1} &= e^{\mtx{A}T}\mtx{x}_k -
+    \left(\int_T^0 e^{\mtx{A}v} \,dv\right) \mtx{B}\mtx{u}_k \\
+  \mtx{x}_{k+1} &= e^{\mtx{A}T}\mtx{x}_k +
+    \left(\int_0^T e^{\mtx{A}v} \,dv\right) \mtx{B}\mtx{u}_k \\
+  \mtx{x}_{k+1} &= e^{\mtx{A}T}\mtx{x}_k +
+    \mtx{A}^{-1}(e^{\mtx{A}T} - \mtx{I}) \mtx{B}\mtx{u}_k
+\end{align*}
+
+which is an exact solution to the discretization problem.
+
 \section{Kalman filter as Luenberger observer}
 \label{sec:deriv-kalman-luenberger}
 
