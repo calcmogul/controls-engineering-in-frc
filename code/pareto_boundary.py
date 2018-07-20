@@ -7,14 +7,18 @@ plt.rc("text", usetex=True)
 
 
 def main():
-    x_axis = np.arange(1 / 3, 3, 0.001)
-    plt.plot(x_axis, [1 / x for x in x_axis], label="LQR")
+    x = np.arange(1 / 3, 3, 0.001)
+    y1 = [1 / val for val in x]
+    y2 = [3 for val in x]
+    plt.plot(x, y1, label="LQR")
+    plt.fill_between(
+        x, y1, y2, color=(1, 0.5, 0.05), alpha=0.5, label="Pole placement")
     plt.xlabel("$\Vert u^TRu \Vert_2$")
     plt.ylabel("$\Vert x^TQx \Vert_2$")
     plt.xticks([])
     plt.yticks([])
     plt.legend()
-    plt.savefig("pareto_curve.svg")
+    plt.savefig("pareto_boundary.svg")
 
 
 if __name__ == "__main__":
