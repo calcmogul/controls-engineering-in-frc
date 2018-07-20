@@ -27,5 +27,8 @@
 % Removes the header from odd empty pages at the end of chapters
 \setcleardoublepage
 
+\allowdisplaybreaks
+
+% Keep floats within their sections
 \let\oldsection\section
 \renewcommand\section{\FloatBarrier\oldsection}
