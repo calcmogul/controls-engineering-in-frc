@@ -194,10 +194,10 @@ To use the control law, we need knowledge of the full state of the system. That
 means we either have to measure all our states directly or estimate those we do
 not measure.
 
-See appendix \ref{ch:app-optimal-control-law-deriv} for how $\mtx{K}$ is
-calculated in Python. If the result is finite, the controller is guaranteed to
-be stable and \glslink{robustness}{robust} with a \gls{phase margin} of 60
-degrees \cite{bib:lqr-phase-margin}.
+See appendix \ref{sec:deriv-optimal-control-law} for how $\mtx{K}$ is calculated
+in Python. If the result is finite, the controller is guaranteed to be stable
+and \glslink{robustness}{robust} with a \gls{phase margin} of 60 degrees
+\cite{bib:lqr-phase-margin}.
 
 \subsection{Bryson's rule}
 \index{Optimal control!LQR!Bryson's rule}
@@ -309,7 +309,7 @@ instead.
   \label{thm:luenberger}
 \end{theorem}
 
-See appendix \ref{subsec:app-luenberger-separate} for a derivation.
+See appendix \ref{subsec:deriv-luenberger-separate} for a derivation.
 
 \subsection{Eigenvalues of closed-loop observer}
 \index{Stability!eigenvalues}
