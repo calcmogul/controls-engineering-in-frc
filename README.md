@@ -97,29 +97,15 @@ levels of image compression.
 
 ### Teach topics more thoroughly
 
-The book is still very high level for the subject it covers as well as very
-dense and fast-paced (it covers three classes of feedback control, two of which
-are for graduate students, in one short book). I want to make the contents of
-the book that are in the critical path more accessible.
-
-More examples of concepts will help slow the pace down. I should read through
+The book is still somewhat dense and fast-paced (it covers three classes of
+feedback control, two of which are for graduate students, in one short book).
+More examples of concepts should help slow the pace down. I should read through
 this book as if I was explaining it to my veteran software students and
 anticipate gaps in their understanding.
-
-Add the second order motor root locus as an example of unstable high order
-dynamics that can be ignored. When the fastest pole is removed, the closed-loop
-plant is stable again. Also notice that while the root locus shows the poles
-becoming unstable, the step response is still stable due to the exceedingly
-small contribution of the fast pole.
 
 Add plots demonstrating sampling and the Nyquist frequency more explicitly.
 
 The probability section and math for stochastic systems needs examples.
-
-### Add more practical examples
-
-I'd like to provide more examples like I did for the Kalman filter design to
-give the reader practice applying the skills discussed.
 
 ### Finish incomplete topics
 

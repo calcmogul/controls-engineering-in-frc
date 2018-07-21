@@ -312,6 +312,52 @@ exhibit, they can be considered negligible. Every \gls{system} has some form of
 unmodeled high frequency, nonlinear dynamics, but they can be safely ignored
 depending on the operating regime.
 
+To demonstrate this, consider the transfer function for a second-order DC
+brushed motor from voltage to position
+
+\begin{equation*}
+  G(s) = \frac{K}{s((Js + b)(Ls + R) + K^2)}
+\end{equation*}
+
+where $J = 3.2284 \times 10^{-6}$ $kg$-$m^2$, $b = 3.5077 \times 10^{-6}$
+$N$-$m$-$s$, $K_e = K_t = 0.0274 \,V/rad/s$, $R = 4 \,\Omega$, and
+$L = 2.75 \times 10^{-6} \,H$.
+
+This plant has the root locus shown in figure
+\ref{fig:highfreq_unstable_rlocus}. In proportional feedback, the plant is
+unstable for large values of $K$. However, if we remove the unstable pole by
+setting $L$ in the transfer function to zero, we get the root locus in figure
+\ref{fig:highfreq_stable_rlocus}. For small values of $K$, both systems are
+stable and have nearly indistinguishable step responses due to the exceedingly
+small contribution from the fast pole (see figures
+\ref{fig:highfreq_unstable_step} and \ref{fig:highfreq_stable_step}). The high
+frequency dynamics only cause instability for large values of $K$ that induce
+fast system responses. In other words, the system responses of the second-order
+model and its first-order approximation are similar for low frequency operating
+regimes.
+
+\begin{figure}
+  \begin{minisvg}{build/code/highfreq_unstable_rlocus}
+    \caption{Root locus of second-order DC brushed motor plant}
+    \label{fig:highfreq_unstable_rlocus}
+  \end{minisvg}
+  \begin{minisvg}{build/code/highfreq_stable_rlocus}
+    \caption{Root locus of first-order DC brushed motor plant}
+    \label{fig:highfreq_stable_rlocus}
+  \end{minisvg}
+\end{figure}
+
+\begin{figure}
+  \begin{minisvg}{build/code/highfreq_unstable_step}
+    \caption{Step response of second-order DC brushed motor plant}
+    \label{fig:highfreq_unstable_step}
+  \end{minisvg}
+  \begin{minisvg}{build/code/highfreq_stable_step}
+    \caption{Step response of first-order DC brushed motor plant}
+    \label{fig:highfreq_stable_step}
+  \end{minisvg}
+\end{figure}
+
 Why can't unstable poles close to the origin be ignored in the same way? The
 response of high frequency stable poles decays rapidly. Unstable poles, on the
 other hand, represent unstable dynamics which cause the system output to grow to
