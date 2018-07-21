@@ -109,10 +109,14 @@ poles from $(-1, 0)$ to $(0, 0)$ represent? Them being faster than infinity
 doesn't make sense. Poles in this location exhibit oscillatory behavior similar
 to complex conjugate pairs. See figures \ref{fig:z_oscillations_1p} and
 \ref{fig:z_oscillations_2p}. The jaggedness of these signals is due to the
-frequency of the system dynamics being above the Nyquist frequency\footnote{The
-Nyquist frequency is the minimum frequency required to reconstruct a signal from
-samples taken of it at some frequency.}. The discretized signal doesn't have
-enough samples to reconstruct the continuous system's dynamics.
+frequency of the system dynamics being above the Nyquist frequency\footnote{To
+completely reconstruct a signal, it must be sampled at twice the highest
+frequency it contains, called the Nyquist rate. The highest frequency a given
+sample rate can capture is called the Nyquist frequency, which is half the
+sample rate. Frequencies above this threshold are folded down across it. The
+higher frequency and the folded down lower frequency are said to alias each
+other.}. The discretized signal doesn't have enough samples to reconstruct the
+continuous system's dynamics.
 
 \begin{figure}
   \begin{minisvg}{build/code/z_oscillations_1p}
