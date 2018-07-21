@@ -8,8 +8,8 @@ plt.rc("text", usetex=True)
 
 
 def main():
-    x_axis = np.arange(-7.5, 9.5, 0.001)
-    plt.plot(x_axis, norm.pdf(x_axis, loc=1, scale=2))
+    x = np.arange(-7.5, 9.5, 0.001)
+    plt.plot(x, norm.pdf(x, loc=1, scale=2))
     plt.axvline(x=2.0, label="$x_1$", color="k", linestyle="--")
     plt.axvline(x=2.5, label="$x_1 + dx_1$", color="k", linestyle="-.")
     plt.xlabel("$x$")

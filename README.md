@@ -103,8 +103,6 @@ More examples of concepts should help slow the pace down. I should read through
 this book as if I was explaining it to my veteran software students and
 anticipate gaps in their understanding.
 
-Add plots demonstrating sampling and the Nyquist frequency more explicitly.
-
 The probability section and math for stochastic systems needs examples.
 
 ### Finish incomplete topics
