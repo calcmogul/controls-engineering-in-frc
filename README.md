@@ -58,24 +58,6 @@ To compile the book, the following are required.
 * Inkscape (to convert SVGs to PDF)
 * ghostscript (to reduce size of final PDF for publishing)
 
-### Installing Python Control
-
-Python Control can be installed via pip3. For better root locus plots, build and
-install Python Control from its Git repo at
-https://github.com/python-control/python-control instead of using 0.7.0 from
-pypi.python.org.
-
-```
-git clone git://github.com/python-control/python-control
-pip3 install --user ./python-control
-```
-
-After that, install frccontrol via pip3.
-
-```
-pip3 install --user frccontrol
-```
-
 ## Compiling the book
 
 After installing the dependencies, just run `make`. By default, two files will
