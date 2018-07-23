@@ -203,11 +203,12 @@ By equation (\ref{eq:dot_omega_arm})
   \mtx{D} &= 0
 \end{align}
 
+\subsection{Model augmentation}
+
 \subsection{Simulation}
 
-Python Control will be used to discretize the model and simulate it. The script
-at
-\url{https://github.com/calcmogul/frccontrol/blob/master/examples/single_jointed_arm.py}
+Python Control will be used to discretize the model and simulate it. One of the
+frccontrol examples\footnote{\url{https://github.com/calcmogul/frccontrol/blob/master/examples/single_jointed_arm.py}}
 creates and tests a controller for it.
 
 Figure \ref{fig:single_jointed_arm_pzmaps} shows the pole-zero maps for the
@@ -229,5 +230,5 @@ open-loop system, closed-loop system, and observer. Figure
 The script linked above also generates two files: SingleJointedArmCoeffs.h and
 SingleJointedArmCoeffs.cpp. These can be used with the WPILib StateSpacePlant,
 StateSpaceController, and StateSpaceObserver classes in C++ and Java. A C++
-implementation of this single-jointed arm controller is located at
-\url{https://github.com/calcmogul/allwpilib/tree/state-space/wpilibcExamples/src/main/cpp/examples/StateSpaceSingleJointedArm}.
+implementation of this single-jointed arm controller is available
+online\footnote{\url{https://github.com/calcmogul/allwpilib/tree/state-space/wpilibcExamples/src/main/cpp/examples/StateSpaceSingleJointedArm}}.

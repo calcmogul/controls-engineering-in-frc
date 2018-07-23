@@ -176,11 +176,12 @@ By equation (\ref{eq:dot_omega_f})
   \mtx{D} &= 0
 \end{align}
 
+\subsection{Model augmentation}
+
 \subsection{Simulation}
 
-Python Control will be used to discretize the model and simulate it. The script
-at
-\url{https://github.com/calcmogul/frccontrol/blob/master/examples/flywheel.py}
+Python Control will be used to discretize the model and simulate it. One of the
+frccontrol examples\footnote{\url{https://github.com/calcmogul/frccontrol/blob/master/examples/flywheel.py}}
 creates and tests a controller for it.
 
 Figure \ref{fig:flywheel_pzmaps} shows the pole-zero maps for the open-loop
@@ -202,5 +203,5 @@ shows the system response with them.
 The script linked above also generates two files: FlywheelCoeffs.h and
 FlywheelCoeffs.cpp. These can be used with the WPILib StateSpacePlant,
 StateSpaceController, and StateSpaceObserver classes in C++ and Java. A C++
-implementation of this flywheel controller is located at
-\url{https://github.com/calcmogul/allwpilib/tree/state-space/wpilibcExamples/src/main/cpp/examples/StateSpaceFlywheel}.
+implementation of this flywheel controller is available online\footnote{
+\url{https://github.com/calcmogul/allwpilib/tree/state-space/wpilibcExamples/src/main/cpp/examples/StateSpaceFlywheel}}.

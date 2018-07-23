@@ -290,11 +290,12 @@ Substitute this into equation (\ref{eq:elevator_cont_ss_vel}).
   \mtx{D} &= 0
 \end{align}
 
+\subsection{Model augmentation}
+
 \subsection{Simulation}
 
-Python Control will be used to discretize the model and simulate it. The script
-at
-\url{https://github.com/calcmogul/frccontrol/blob/master/examples/elevator.py}
+Python Control will be used to discretize the model and simulate it. One of the
+frccontrol examples\footnote{\url{https://github.com/calcmogul/frccontrol/blob/master/examples/elevator.py}}
 creates and tests a controller for it.
 
 Figure \ref{fig:elevator_pzmaps} shows the pole-zero maps for the open-loop
@@ -316,8 +317,8 @@ shows the system response with them.
 The script linked above also generates two files: ElevatorCoeffs.h and
 ElevatorCoeffs.cpp. These can be used with the WPILib StateSpacePlant,
 StateSpaceController, and StateSpaceObserver classes in C++ and Java. A C++
-implementation of this elevator controller is located at
-\url{https://github.com/calcmogul/allwpilib/tree/state-space/wpilibcExamples/src/main/cpp/examples/StateSpaceElevator}.
+implementation of this elevator controller is available online\footnote{
+\url{https://github.com/calcmogul/allwpilib/tree/state-space/wpilibcExamples/src/main/cpp/examples/StateSpaceElevator}}.
 
 \begin{remark}
   Instead of implementing $u_{error}$ estimation to compensate for gravity, one

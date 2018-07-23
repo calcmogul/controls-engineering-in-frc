@@ -274,11 +274,12 @@ By equations (\ref{eq:drivetrain_model_left}) and
 where $C_1 = -\frac{G_l^2 K_t}{K_v R r^2}$, $C_2 = \frac{G_l K_t}{Rr}$,
 $C_3 = -\frac{G_r^2 K_t}{K_v R r^2}$, and $C_4 = \frac{G_r K_t}{Rr}$.
 
+\subsection{Model augmentation}
+
 \subsection{Simulation}
 
-Python Control will be used to discretize the model and simulate it. The script
-at
-\url{https://github.com/calcmogul/frccontrol/blob/master/examples/drivetrain.py}
+Python Control will be used to discretize the model and simulate it. One of the
+frccontrol examples\footnote{\url{https://github.com/calcmogul/frccontrol/blob/master/examples/drivetrain.py}}
 creates and tests a controller for it.
 
 \begin{remark}
@@ -310,5 +311,5 @@ motion profile instead of a step input for reproducibility.
 The script linked above also generates two files: DrivetrainCoeffs.h and
 DrivetrainCoeffs.cpp. These can be used with the WPILib StateSpacePlant,
 StateSpaceController, and StateSpaceObserver classes in C++ and Java. A C++
-implementation of this drivetrain controller is located at
-\url{https://github.com/calcmogul/allwpilib/tree/state-space/wpilibcExamples/src/main/cpp/examples/StateSpaceDrivetrain}.
+implementation of this drivetrain controller is available online\footnote{
+\url{https://github.com/calcmogul/allwpilib/tree/state-space/wpilibcExamples/src/main/cpp/examples/StateSpaceDrivetrain}}.
