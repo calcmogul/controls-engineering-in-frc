@@ -117,8 +117,9 @@ The controller is augmented as
 \subsection{U error estimation}
 \index{Integral control!U error augmentation}
 
-Let $u_{error}$ be the error in a system's input. The $u_{error}$ term is then
-added to the system as follows.
+Let $u_{error}$ be the difference between the input actually applied to a system
+and the desired input. The $u_{error}$ term is then added to the system as
+follows.
 
 \begin{align*}
   \dot{\mtx{x}} &= \mtx{A}\mtx{x} + \mtx{B}\left(\mtx{u} + u_{error}\right) \\
