@@ -1,28 +1,38 @@
 \section{Feedforwards}
 
+Feedforwards are used to inject information about either the system's dynamics
+(like a model does) or the intended movement into a controller. Feedforward is
+generally used to handle the control actions we already know must be applied to
+make a system track a reference, then let the feedback controller correct for
+what we do not or cannot know about the system at runtime. We will present
+two ways of implementing feedforward for state feedback.
+
 \subsection{Steady-state feedforward}
 
-$\mtx{N}_x$ converts a desired output $\mtx{y}_c$ to a desired state
-$\mtx{x}_c$ (also known as $\mtx{r}$).
+Steady-state feedforwards apply the control effort required to keep a system at
+the reference if it is no longer moving (i.e., the system is at steady-state).
+The first steady-state feedforward converts a desired output to a desired state.
 
 \begin{equation*}
   \mtx{x}_c = \mtx{N}_x\mtx{y}_c
 \end{equation*}
 
-For steady-state, that is
+$\mtx{N}_x$ converts a desired output $\mtx{y}_c$ to a desired state
+$\mtx{x}_c$ (also known as $\mtx{r}$). For steady-state, that is
 
 \begin{equation*}
   \mtx{x}_{ss} = \mtx{N}_x\mtx{y}_{ss}
 \end{equation*}
 
-$\mtx{N}_u$ converts the desired output $\mtx{y}$ to the control input
-$\mtx{u}$ required at steady-state.
+The second steady-state feedforward converts the desired output $\mtx{y}$ to the
+control input required at steady-state.
 
 \begin{equation*}
   \mtx{u}_c = \mtx{N}_u\mtx{y}_c
 \end{equation*}
 
-For steady-state, that is
+$\mtx{N}_u$ converts the desired output $\mtx{y}$ to the control input $\mtx{u}$
+required at steady-state. For steady-state, that is
 
 \begin{equation*}
   \mtx{u}_{ss} = \mtx{N}_u\mtx{y}_{ss}
