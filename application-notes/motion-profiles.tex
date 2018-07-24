@@ -1,4 +1,5 @@
 \section{Motion profiles}
+\index{Motion profiles}
 
 If smooth, predictable motion of a system over time is desired, it's best to
 only change a system's reference as fast as the system is able to physically
@@ -29,6 +30,7 @@ trajectory. The trapezoidal profile has a velocity trajectory shaped like a
 trapezoid and the S-curve profile has a velocity trajectory shaped like an
 S-curve.
 
+\index{Motion profiles!S-curve}
 In the context of a point-to-point move, a full S-curve consists of seven
 distinct phases of motion. Phase I starts moving the system from rest at a
 linearly increasing acceleration until it reaches the maximum acceleration. In
@@ -38,6 +40,7 @@ phase III when the acceleration linearly decreases until it reaches zero. In
 phase IV, the velocity is constant until deceleration begins, at which point the
 profiles decelerates in a manner symmetric to phases I, II and III.
 
+\index{Motion profiles!trapezoidal}
 A trapezoidal profile, on the other hand, has three phases. It is a subset of an
 S-curve profile, having only the phases corresponding to phase II of the S-curve
 profile (constant acceleration), phase IV (constant velocity), and phase VI
