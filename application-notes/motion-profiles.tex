@@ -1,0 +1,157 @@
+\section{Motion profiles}
+
+If smooth, predictable motion of a system over time is desired, it's best to
+only change a system's reference as fast as the system is able to physically
+move. Motion profiles, also known as trajectories, are used for this purpose.
+
+For one degree of freedom ($1$ DOF) point-to-point movements in FRC, the most
+commonly used profiles are the trapezoidal profile (figure
+\ref{fig:trapezoidal_profile}) and S-curve profile (figure
+\ref{fig:s_curve_profile}). These profiles accelerate the system to a maximum
+velocity from rest, then decelerate it later such that the final acceleration
+velocity, are zero at the moment the system arrives at the desired location.
+
+\begin{svg}{build/code/trapezoid_profile}
+  \caption{Trapezoidal profile}
+  \label{fig:trapezoidal_profile}
+\end{svg}
+
+\begin{svg}{build/code/s_curve_profile}
+  \caption{S-curve profile}
+  \label{fig:s_curve_profile}
+\end{svg}
+
+These profiles are given their names based on the shape of their velocity
+trajectory. The trapezoidal profile has a velocity trajectory shaped like a
+trapezoid and the S-curve profile has a velocity trajectory shaped like an
+S-curve.
+
+In the context of a point-to-point move, a full S-curve consists of seven
+distinct phases of motion. Phase I starts moving the system from rest at a
+linearly increasing acceleration until it reaches the maximum acceleration. In
+phase II, the profile accelerates at this maximum acceleration rate until it
+must start decreasing as it approaches the maximum velocity. This occurs in
+phase III when the acceleration linearly decreases until it reaches zero. In
+phase IV, the velocity is constant until deceleration begins, at which point the
+profiles decelerates in a manner symmetric to phases I, II and III.
+
+A trapezoidal profile, on the other hand, has three phases. It is a subset of an
+S-curve profile, having only the phases corresponding to phase II of the S-curve
+profile (constant acceleration), phase IV (constant velocity), and phase VI
+(constant deceleration). This reduced number of phases underscores the
+difference between these two profiles: the S-curve profile has extra motion
+phases which transition between periods of acceleration, and periods of
+non-acceleration; the trapezoidal profile has instantaneous transitions between
+these phases. This can be seen in the acceleration graphs of the corresponding
+velocity profiles for these two profile types.
+
+\subsection{Jerk}
+
+The motion characteristic that defines the change in acceleration, or
+transitional period, is known as "jerk". Jerk is defined as the rate of change
+of acceleration with time. In a trapezoidal profile, the jerk (change in
+acceleration) is infinite at the phase transitions, while in the S-curve profile
+the jerk is a constant value, spreading the change in acceleration over a period
+of time.
+
+From figures \ref{fig:trapezoidal_profile} and \ref{fig:s_curve_profile}, we can
+see S-curve profiles are smoother than trapezoidal profiles. Why, however, do
+the S-curve profile result in less load oscillation? For a given load, the
+higher the jerk, the greater the amount of unwanted vibration energy will be
+generated, and the broader the frequency spectrum of the vibration's energy will
+be.
+
+This means that more rapid changes in acceleration induce more powerful
+vibrations, and more vibrational modes will be excited. Because vibrational
+energy is absorbed in the system mechanics, it may cause an increase in settling
+time or reduced accuracy if the vibration frequency matches resonances in the
+mechanical system.
+
+\subsection{Profile selection}
+
+Since trapezoidal profiles spend their time at full acceleration or full
+deceleration, they are, from the standpoint of profile execution, faster than
+S-curve profiles. However, if this ``all on"/``all off" approach causes an
+increase in settling time, the advantage is lost. Often, only a small amount of
+``S" (transition between acceleration and no acceleration) can substantially
+reduce induced vibration. Therefore to optimize throughput, the S-curve profile
+must be tuned for each a given load and given desired transfer speed.
+
+What S-curve form is right for a given system? On an application by application
+basis, the specific choice of the form of the S-curve will depend on the
+mechanical nature of the system and the desired performance specifications. For
+example, in medical applications which involve liquid transfers that should not
+be jostled, it would be appropriate to choose a profile with no phase II and VI
+segment at all. Instead the acceleration transitions would be spread out as far
+as possible, thereby maximizing smoothness.
+
+In other applications involving high speed pick and place, overall transfer
+speed is most important, so a good choice might be an S-curve with transition
+phases (phases I, III, V, and VII) that are five to fifteen percent of phase II
+and VI. In this case, the S-curve profile will add a small amount of time to the
+overall transfer time. However, the reduced load oscillation at the end of the
+move considerably decreases the total effective transfer time. Trial and error
+using a motion measurement system is generally the best way to determine the
+right amount of ``S" because modelling high frequency dynamics is difficult to
+do accurately.
+
+Another consideration is whether that ``S" segment will actually lead to
+smoother control of the system. If the high frequency dynamics at play are
+negligible, one can use the simpler trapezoidal profile.
+
+\subsection{Profile equations}
+
+The trapezoidal profile uses the following equations.
+
+\begin{align*}
+  x(t) &= x_0 + v_0t + \frac{1}{2}at^2 \\
+  v(t) &= v_0 + at
+\end{align*}
+
+where $x(t)$ is the position at time $t$, $x_0$ is the initial position, $v_0$
+is the initial velocity, and $a$ is the acceleration at time $t$. The S-curve
+profile equations also include jerk.
+
+\begin{align*}
+  x(t) &= x_0 + v_0t + \frac{1}{2}at^2 + \frac{1}{6}jt^3 \\
+  v(t) &= v_0 + at + \frac{1}{2}jt^2 \\
+  a(t) &= a_0 + jt
+\end{align*}
+
+where $j$ is the jerk at time $t$, $a(t)$ is the acceleration at time $t$, and
+$a_0$ is the initial acceleration.
+
+More derivations are required to determine when to start and stop the different
+profile phases. The derivations for a trapezoid profile are in appendix \ref{sec:deriv-trapezoid-profile} and the derivations for an S-curve profile are in
+appendix \ref{sec:deriv-s-curve-profile}.
+
+\subsection{Other profile types}
+
+The ultimate goal of any profile is to match the motion system characteristics
+to the desired application. Trapezoidal and S-curve profiles work well when the
+motion system's torque response curve is fairly flat. In other words, when the
+output torque does not vary that much over the range of velocities the system
+will be experiencing. This is true for most servo motor systems, whether DC
+Brush or Brushless DC.
+
+Step motors, however, do not have flat torque/speed curves. Torque output is
+nonlinear, sometimes has a large drop at a location called the ``mid-range
+instability", and generally drops off at higher velocities.
+
+Mid-range instability occurs at the step frequency when the motor's natural
+resonance frequency matches the current step rate. To address mid-range
+instability, the most common technique is to use a non-zero starting velocity.
+This means that the profile instantly ``jumps" to a programmed velocity upon
+initial acceleration, and while decelerating. While crude, this technique
+sometimes provides better results than a smooth ramp for zero, particularly for
+systems that do not use a microstepping drive technique.
+
+To address torque drop-off at higher velocities, a parabolic profile can be
+used. The corresponding acceleration curve has the smallest acceleration when
+the velocity is highest. This is a good match for step-motor systems because
+there is less torque available at higher speeds. However, notice that starting
+and ending accelerations are very high, and there is no ``S" phase where the
+acceleration smoothly transitions to zero. If load oscillation is a problem,
+parabolic profiles may not work as well as an S-curve despite the fact that a
+standard S-curve profile is not optimized for a step motor from the standpoint
+of the torque/speed curve.
