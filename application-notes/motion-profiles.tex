@@ -3,10 +3,13 @@
 If smooth, predictable motion of a system over time is desired, it's best to
 only change a system's reference as fast as the system is able to physically
 move. Motion profiles, also known as trajectories, are used for this purpose.
+For multi-state systems, each state is given its own trajectory. Since these
+states are usually position and velocity, they share different derivatives of
+the same profile.
 
 For one degree of freedom ($1$ DOF) point-to-point movements in FRC, the most
 commonly used profiles are the trapezoidal profile (figure
-\ref{fig:trapezoidal_profile}) and S-curve profile (figure
+\ref{fig:trapezoidal_profile}) and the S-curve profile (figure
 \ref{fig:s_curve_profile}). These profiles accelerate the system to a maximum
 velocity from rest, then decelerate it later such that the final acceleration
 velocity, are zero at the moment the system arrives at the desired location.
@@ -155,3 +158,8 @@ acceleration smoothly transitions to zero. If load oscillation is a problem,
 parabolic profiles may not work as well as an S-curve despite the fact that a
 standard S-curve profile is not optimized for a step motor from the standpoint
 of the torque/speed curve.
+
+\subsection{Further reading}
+
+FRC teams 254 and 971 gave a talk at FIRST World Championships in 2015 about
+motion profiles \cite{bib:motion-profiles}.
