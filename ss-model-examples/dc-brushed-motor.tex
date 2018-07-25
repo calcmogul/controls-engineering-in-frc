@@ -1,5 +1,16 @@
 \section{DC brushed motor}
 
+We will be deriving a first-order model for a DC brushed motor. A second-order
+model would include the inductance of the motor windings as well, but we're
+assuming the time constant of the inductor is small enough that its affect on
+the model behavior is negligible for FRC use cases (see section
+\ref{sec:root_locus} for a demonstration of this for a real DC brushed motor).
+
+The first-order model will only require numbers from the motor's datasheet. The
+second-order model would require measuring the motor inductance as well, which
+generally isn't in the datasheet. It can be difficult to measure accurately
+without the right equipment.
+
 \subsection{Equations of motion}
 
 The circuit for a DC brushed motor is shown below.

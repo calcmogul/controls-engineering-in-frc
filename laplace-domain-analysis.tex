@@ -274,7 +274,7 @@ it reaches the target distance. At that point, the segway increases its forward
 speed to pitch backward and slow itself down. To come to a stop, the segway
 rolls backward again to level itself out.
 
-\section{Root locus}
+\section{Root locus} \label{sec:root_locus}
 \index{Stability!root locus}
 
 In closed-loop, the poles can be moved around by adjusting the controller gain,
@@ -507,7 +507,7 @@ single pole controller to place all of its poles anywhere.
 
 \begin{remark}
   This analysis assumes that the motor is well coupled to the mass and that the
-  time constant of the inductor is fast enough that it doesn't factor into the
+  time constant of the inductor is small enough that it doesn't factor into the
   motor equations. In Austin Schuh's experience with 971's robots, these are
   pretty good assumptions.
 \end{remark}
