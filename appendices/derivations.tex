@@ -195,6 +195,10 @@ $v(\tau) = kT + T - \tau$. Note that $d\tau = -dv$.
   \mtx{x}_{k+1} &= e^{\mtx{A}T}\mtx{x}_k +
     \left(\int_0^T e^{\mtx{A}v} \,dv\right) \mtx{B}\mtx{u}_k \\
   \mtx{x}_{k+1} &= e^{\mtx{A}T}\mtx{x}_k +
+    \mtx{A}^{-1}e^{\mtx{A}v} \rvert_0^T \mtx{B}\mtx{u}_k \\
+  \mtx{x}_{k+1} &= e^{\mtx{A}T}\mtx{x}_k +
+    \mtx{A}^{-1}(e^{\mtx{A}T} - e^{\mtx{A}0}) \mtx{B}\mtx{u}_k \\
+  \mtx{x}_{k+1} &= e^{\mtx{A}T}\mtx{x}_k +
     \mtx{A}^{-1}(e^{\mtx{A}T} - \mtx{I}) \mtx{B}\mtx{u}_k
 \end{align*}
 
