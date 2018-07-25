@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import matplotlib as mpl
+mpl.use("svg")
 import matplotlib.patches as pts
 import matplotlib.pyplot as plt
 

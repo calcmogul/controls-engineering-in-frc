@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import matplotlib as mpl
+mpl.use("svg")
 import matplotlib.pyplot as plt
 from matplotlib import cm
 from mpl_toolkits.mplot3d import Axes3D

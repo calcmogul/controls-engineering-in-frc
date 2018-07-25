@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import matplotlib as mpl
+mpl.use("svg")
 import control as cnt
 import matplotlib.pyplot as plt
 

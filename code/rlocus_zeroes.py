@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import matplotlib as mpl
+mpl.use("svg")
 import control as cnt
 from frccontrol import conv
 import matplotlib.pyplot as plt

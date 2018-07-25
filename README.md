@@ -40,6 +40,9 @@ Examples can be run like follows:
 ./examples/elevator.py
 ```
 
+Some Linux platforms use tk as a backend for matplotlib, so that may need to be
+installed to see the plots.
+
 ## Dependencies
 
 To compile the book, the following are required.
@@ -51,11 +54,16 @@ To compile the book, the following are required.
 * xelatex (for setting and using custom fonts)
 * biber (for generating bibliography)
 * Python 3.5+
-  * Python Control (to generate plots and state-space results)
   * frccontrol (to provide FRC wrappers for Python Control)
-  * yapf (to format Python source code)
-* tk (required on some Linux platforms as a backend for matplotlib)
+  * Python Control (to generate plots and state-space results)
+    * Installed automatically as a dependency of frccontrol
 * Inkscape (to convert SVGs to PDF)
+
+The following are optional because the book can compile without them.
+
+* Optional python packages
+  * slycot (to generate pole-zero maps for certain state-space model examples)
+  * yapf (to format Python source code)
 * ghostscript (to reduce size of final PDF for publishing)
 
 ## Compiling the book

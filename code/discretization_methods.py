@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import matplotlib as mpl
+mpl.use("svg")
 import frccontrol as frccnt
 import matplotlib.pyplot as plt
 import math

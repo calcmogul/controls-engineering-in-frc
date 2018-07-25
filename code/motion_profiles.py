@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
 import math
+import matplotlib as mpl
+mpl.use("svg")
 import matplotlib.pyplot as plt
 
 plt.rc("text", usetex=True)
