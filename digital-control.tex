@@ -113,16 +113,6 @@ frequency of the system dynamics being above the Nyquist frequency. The
 discretized signal doesn't have enough samples to reconstruct the continuous
 system's dynamics.
 
-To completely reconstruct a signal, it must be sampled at a frequency at least
-twice the highest frequency it contains (the Nyquist rate). The highest
-frequency a given sample rate can capture is called the Nyquist frequency, which
-is half the sample rate. Frequencies above this threshold are folded down across
-it. The higher frequency and the folded down lower frequency are said to alias
-each other\footnote{The aliases of a frequency $f$ can be expressed as
-$f_{alias}(N) \stackrel{def}{=} |f - Nf_s|$. For example, if a $200\,Hz$ sine
-wave is sampled at $150\,Hz$, the observer will see a $50\,Hz$ signal instead of
-a $200\,Hz$ one.}.
-
 \begin{figure}
   \begin{minisvg}{build/code/z_oscillations_1p}
     \caption{Single poles in various locations in z-plane}
@@ -134,6 +124,36 @@ a $200\,Hz$ one.}.
     \label{fig:z_oscillations_2p}
   \end{minisvg}
 \end{figure}
+
+\subsection{Nyquist frequency}
+\index{Digital signal processing!Nyquist frequency}
+\index{Digital signal processing!aliasing}
+
+To completely reconstruct a signal, the Nyquist-Shannon sampling theorem states
+that it must be sampled at a frequency at least twice the maximum frequency it
+contains. The highest frequency a given sample rate can capture is called the
+Nyquist frequency, which is half the sample frequency. This is why recorded
+audio is sampled at $44.1k\,Hz$. The maximum frequency a typical human can hear
+is about $20\,kHz$, so the Nyquist frequency is $40\,kHz$. ($44.1kHz$ in
+particular was chosen for unrelated historical reasons.)
+
+Frequencies above the Nyquist frequency are folded down across it. The higher
+frequency and the folded down lower frequency are said to alias each
+other\footnote{The aliases of a frequency $f$ can be expressed as
+$f_{alias}(N) \stackrel{def}{=} |f - Nf_s|$. For example, if a $200\,Hz$ sine
+wave is sampled at $150\,Hz$, the observer will see a $50\,Hz$ signal instead of
+a $200\,Hz$ one.}. Figure \ref{fig:nyquist} provides a demonstration of
+aliasing.
+
+\begin{svg}{build/code/nyquist}
+  \caption{The samples of two sine waves can be identical when at least one of
+    them is at a frequency above half the sample rate. In this case, the $2\,Hz$
+    sine wave is above the Nyquist frequency $1.5\,Hz$.}
+  \label{fig:nyquist}
+\end{svg}
+
+The effect of these high-frequency aliases can be reduced with a low-pass filter
+(called an anti-aliasing filter in this application).
 
 \section{Discretization methods} \label{sec:discretization_methods}
 \index{Discretization}
