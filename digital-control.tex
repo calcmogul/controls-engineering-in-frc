@@ -308,11 +308,26 @@ where $T$ is the time between samples $\mtx{x}_k$ and $\mtx{x}_{k+1}$.
 \index{Discretization!Taylor series}
 The definition for the matrix exponential and the approximations below all use
 the \textit{Taylor series expansion}. The Taylor series is a method of
-approximating an analytic function like $e^t$ via summation of weighted
-polynomial terms like $t^k$. The polynomial terms increase in power and the
-weights by which they are multiplied decrease. For certain functions like $e^t$,
-this approximation converges for all $t$ as the number of terms approaches
-infinity.
+approximating a function like $e^t$ via the summation of weighted polynomial
+terms like $t^k$. $e^t$ has the following Taylor series around $t = 0$.
+
+\begin{equation*}
+  e^t = \sum_{n = 0}^\infty \frac{t^n}{n!}
+\end{equation*}
+
+where a finite upper bound on the number of terms produces an approximation of
+$e^t$. As $n$ increases, the polynomial terms increase in power and the weights
+by which they are multiplied decrease. For $e^t$ and some other functions, the
+Taylor series expansion equals the original function for all values of $t$ as
+the number of terms approaches infinity\footnote{Functions for which their
+Taylor series expansion converges to and also equals it are called analytic
+functions.}. Figure \ref{fig:taylor_series} shows the Taylor series expansion of
+$e^t$ around $t = 0$ for a varying number of terms.
+
+\begin{svg}{build/code/taylor_series}
+  \caption{Taylor series expansions of $e^t$ around $t = 0$ for $n$ terms}
+  \label{fig:taylor_series}
+\end{svg}
 
 We'll expand the first few terms of the Taylor series expansion in equation
 (\ref{eq:mat_exp}) for $\mtx{X} = \mtx{A}T$ so we can compare it with other
