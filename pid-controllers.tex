@@ -12,7 +12,7 @@ Negative feedback loops drive the difference between the \gls{reference} and
 \textbf{Integral} gain compensates for past error (i.e.,
 \gls{steady-state error}). \\
 \textbf{Derivative} gain compensates for future error by slowing controller down
-  if error decreases over time.
+if error decreases over time.
 
 These gains act more when farther away from the \gls{reference} and less as the
 error decreases. They are like ``software springs" in a sense that pull the
@@ -87,35 +87,55 @@ form for a position PID controller.
 \begin{definition}[Position PID controller]
   \begin{equation}
     u(t) = K_p e(t) + K_i \int_0^t e(\tau) \,d\tau + K_d \frac{de}{dt}
-    \label{def:pos_pid}
+    \label{eq:pos_pid}
   \end{equation}
+
+  where $e(t)$ is the position error at the current time $t$, $\tau$ is the
+  integration variable, $K_p$ is the proportional gain, $K_i$ is the integral
+  gain, and $K_d$ is the derivative gain.
 \end{definition}
 
-If the controller is measuring and controlling velocity instead, the control
-input $u(t)$ becomes $\frac{du}{dt}$ and the error $e(t)$ becomes
-$\frac{de}{dt}$. Substituting these into equation (\ref{def:pos_pid}) yields
+The integral integrates from time $0$ to the current time $t$. We use $\tau$ for
+the integration because we need a variable to take on multiple values throughout
+the integral, but we can't use $t$ because we already defined that as the
+current time.
+
+If the position controller formulation is measuring and controlling velocity
+instead, the error $e(t)$ becomes $\frac{de}{dt}$. Substituting this into
+equation (\ref{eq:pos_pid}) yields
 
 \begin{align}
-  \frac{du}{dt} &= K_p \frac{de}{dt} + K_i \int_0^t \frac{de}{d\tau} d\tau +
+  u(t) &= K_p \frac{de}{dt} + K_i \int_0^t \frac{de}{d\tau} \,d\tau +
     K_d \frac{d^2e}{dt^2} \nonumber \\
-  \frac{du}{dt} &= K_p \frac{de}{dt} + K_i e(t) + K_d \frac{d^2e}{dt^2}
+  u(t) &= K_p \frac{de}{dt} + K_i e(t) + K_d \frac{d^2e}{dt^2}
+    \label{eq:u_de_dt}
 \end{align}
 
-This shows that the proportional action ($K_p$) of a velocity controller is
-caused by the integral action ($K_i$) of a position controller. The derivative
-action ($K_i$) of a velocity controller is caused by the proportional action
-($K_p$) of a position controller. Integral action ($K_i$) of a velocity
-controller has no equivalent in the position formulation. If we were to
-implement one, it would use a double integral.
+So the velocity $\frac{de}{dt}$ is integrated by the integral term. By the
+fundamental theorem of calculus, the derivative and integral cancel because they
+are inverse operations. This produces just the error $e(t)$, so the $K_i$ term
+has the effect of proportional control. Furthermore, the $K_p$ term in equation
+(\ref{eq:u_de_dt}) behaves like a derivative term for velocity PID control due
+to the $\frac{de}{dt}$. Letting $e_v = \frac{de}{dt}$, this means the velocity
+controller is analogous to theorem \ref{thm:vel_pid}.
 
-Since for the velocity controller, the proportional term is controlled by an
-integral action and the derivative term is controlled by a proportional action,
-the coefficients can be relabelled as follows.
+Note this isn't strictly true because the fundamental theorem of calculus
+requires that $e(t)$ is continuous, but when we actually implement the
+controller, $e(t)$ is discrete. Therefore, the result here is only correct up to
+the accuracy of the iterative integration method used. We'll discuss
+approximations like these in section \ref{sec:discretization_methods} and how
+they affect controller behavior.
 
 \begin{theorem}[Velocity PID controller]
   \begin{equation}
-    u = K_p \int_0^t e(\tau) \,d\tau + K_d e(t)
+    u(t) = K_p e_v(t) + K_i \int_0^t e_v(\tau) \,d\tau
   \end{equation}
+
+  where $e_v(t)$ is the velocity error at the current time $t$, $\tau$ is the
+  integration variable, $K_p$ is now the derivative gain, and $K_i$ is now the
+  proportional gain.
+
+  \label{thm:vel_pid}
 \end{theorem}
 
 Integral control for the velocity is analogous to the throttle pedal on a car.
@@ -139,30 +159,32 @@ that way.
 First, we will rearrange the equation for a PD controller.
 
 \begin{equation*}
-  u = K_p e_k + K_d \frac{e_k - e_{k-1}}{dt}
+  u_k = K_p e_k + K_d \frac{e_k - e_{k-1}}{dt}
 \end{equation*}
 
-where $u$ is the control input and $e_k$ is the error at timestep $k$. $e_k$ is
-defined as $e_k = r_k - x_k$ where $r_k$ is the reference and $x_k$ is the
-current state at timestep $k$.
+where $u_k$ is the control input at timestep $k$ and $e_k$ is the error at
+timestep $k$. $e_k$ is defined as $e_k = r_k - x_k$ where $r_k$ is the reference
+and $x_k$ is the current state at timestep $k$.
 
 \begin{align*}
-  u &= K_p (r_k - x_k) + K_d \frac{(r_k - x_k) - (r_{k-1} - x_{k-1})}{dt} \\
-  u &= K_p (r_k - x_k) + K_d \frac{r_k - x_k - r_{k-1} + x_{k-1}}{dt} \\
-  u &= K_p (r_k - x_k) + K_d \frac{r_k - r_{k-1} - x_k + x_{k-1}}{dt} \\
-  u &= K_p (r_k - x_k) + K_d \frac{(r_k - r_{k-1}) - (x_k - x_{k-1})}{dt} \\
-  u &= K_p (r_k - x_k) + K_d \left(\frac{r_k - r_{k-1}}{dt} -
+  u_k &= K_p (r_k - x_k) + K_d \frac{(r_k - x_k) - (r_{k-1} - x_{k-1})}{dt} \\
+  u_k &= K_p (r_k - x_k) + K_d \frac{r_k - x_k - r_{k-1} + x_{k-1}}{dt} \\
+  u_k &= K_p (r_k - x_k) + K_d \frac{r_k - r_{k-1} - x_k + x_{k-1}}{dt} \\
+  u_k &= K_p (r_k - x_k) + K_d \frac{(r_k - r_{k-1}) - (x_k - x_{k-1})}{dt} \\
+  u_k &= K_p (r_k - x_k) + K_d \left(\frac{r_k - r_{k-1}}{dt} -
     \frac{x_k - x_{k-1}}{dt}\right)
 \end{align*}
 
 Notice how $\frac{r_k - r_{k-1}}{dt}$ is the velocity of the reference. By the
 same reasoning, $\frac{x_k - x_{k-1}}{dt}$ is the system's velocity at a given
-timestep. That means the $K_d$ term is driving the estimated velocity to the
-reference velocity. If the reference is constant, that means the $K_d$ term is
-trying to drive the velocity of the system to zero, but it can't because $K_p$
-is trying to make the system move and $K_p$ and $K_d$ are controlling the same
-actuator. If $K_p$ is larger than $K_d$, one is in effect slowing down the
-response of the controller during transients with the hope of decreasing
+timestep. That means the $K_d$ term of the PD controller is driving the
+estimated velocity to the reference velocity. If the reference is constant, that
+means the $K_d$ term is trying to drive the velocity of the system to zero.
+
+However, $K_p$ and $K_d$ are controlling the same actuator, and their effects
+conflict with each other; $K_p$ is trying to make the system move while $K_d$ is
+trying to stop it. If $K_p$ is larger than $K_d$, one is in effect slowing down
+the response of the controller during transients with the hope of decreasing
 overshoot and settling time. If one makes $K_d$ much larger than $K_p$, $K_d$
 overpowers $K_p$ to bring the system to a stop. However, when the velocity is
 low enough, $K_p$ is stronger and starts accelerating the system again. This
