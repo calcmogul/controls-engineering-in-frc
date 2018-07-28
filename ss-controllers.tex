@@ -221,15 +221,25 @@ penalize \gls{state} excursions. Large values would be chosen in applications
 like fighter jets where performance is necessary. Spacecrafts would use small
 values to conserve their limited fuel supply.
 
-\section{State-space observers}
+\section{Localization}
 
 State-space observers are used to estimate \glspl{state} which cannot be
 measured directly. This can be due to noisy measurements or the state not being
-measurable.
+measurable. This information can be used for \gls{localization}, which is the
+process of using external measurements to determine an \gls{agent}'s
+pose\footnote{An agent is a system-agnostic term for independent controlled
+actors like robots or aircraft.}, or orientation in the world.
 
-``LQE" stands for ``Linear-Quadratic Estimator". Similar to LQR, it places the
-estimator poles such that it minimizes the sum of squares of the error. The
-Luenberger observer and Kalman filter are examples of these.
+One type of state estimator is LQE. ``LQE" stands for ``Linear-Quadratic
+Estimator". Similar to LQR, it places the estimator poles such that it minimizes
+the sum of squares of the error. The Luenberger observer and Kalman filter are
+examples of these.
+
+Computer vision can also be used for \gls{localization}. By extracting features
+from an image taken by the \gls{agent}'s camera, like a retroreflective target
+in FRC, and comparing them to known dimensions, one can determine where the
+\gls{agent}'s camera would have to be to see that image. This can be used to
+correct your state estimate in the same way we do with an encoder or gyroscope.
 
 \subsection{Luenberger observer}
 \index{State-space observers!Luenberger observer}
@@ -311,7 +321,7 @@ instead.
 
 See appendix \ref{subsec:deriv-luenberger-separate} for a derivation.
 
-\subsection{Eigenvalues of closed-loop observer}
+\subsubsection{Eigenvalues of closed-loop observer}
 \index{Stability!eigenvalues}
 
 The eigenvalues of the system matrix can be used to determine whether a
