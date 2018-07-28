@@ -389,10 +389,39 @@ infinite time, but it will take longer than otherwise.
 We typically use a Gaussian distribution for the noise \gls{model} because the
 sum of many independent random variables produces a normal distribution by the
 central limit theorem. Kalman filters only require that the noise has a zero
-mean. If the true value has an equal probability of being within a certain
-range, use a uniform distribution instead. Each of these communicates
+mean. If the true value has an equal probability of being anywhere within a
+certain range, use a uniform distribution instead. Each of these communicates
 information regarding what you know about a system in addition to what you do
 not.
+
+\subsection{Simulation}
+
+Figure \ref{fig:kalman_robot_all} shows the state estimates and measurements of
+the Kalman filter over time. Figure \ref{fig:kalman_robot_position} shows the
+position estimate and variance over time. Figure \ref{fig:kalman_robot_wall}
+shows the wall position estimate and variance over time. Notice how the
+variances decrease over time as the filter gathers more measurements. This means
+that the filter becomes more confident in its state estimates.
+
+The final precisions in estimating the position of the robot and the wall are
+the square roots of the corresponding elements in the covariance matrix. That
+is, $0.5188\,m$ and $0.4491\,m$ respectively. They are smaller than the
+precision of the raw measurements, $\sqrt{10} = 3.1623\,m$. As expected,
+combining the information from several measurements produces a better estimate
+than any one measurement alone.
+
+\begin{svg}{build/code/kalman_robot_all}
+  \caption{State estimates and measurements}
+  \label{fig:kalman_robot_all}
+\end{svg}
+\begin{svg}{build/code/kalman_robot_position}
+  \caption{Robot position estimate and variance}
+  \label{fig:kalman_robot_position}
+\end{svg}
+\begin{svg}{build/code/kalman_robot_wall}
+  \caption{Wall position estimate and variance}
+  \label{fig:kalman_robot_wall}
+\end{svg}
 
 \subsection{Steady-state error covariance matrix}
 
