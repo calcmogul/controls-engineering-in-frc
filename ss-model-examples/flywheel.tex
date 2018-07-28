@@ -198,6 +198,10 @@ shows the system response with them.
   \label{fig:flywheel_response}
 \end{svg}
 
+Notice how the control effort when the reference is reached is nonzero. This is
+the two-state feedforward compensating for the system dynamics attempting to
+slow the flywheel down when no voltage is applied.
+
 \subsection{Implementation}
 
 The script linked above also generates two files: FlywheelCoeffs.h and
