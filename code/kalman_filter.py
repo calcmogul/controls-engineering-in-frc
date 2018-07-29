@@ -84,29 +84,29 @@ def main():
     # State estimates and measurements
     plt.figure(1)
     plt.xlabel("Time (s)")
-    plt.plot(t, squeeze(xhat_rec[0, :]), label="Robot position estimate (m)")
-    plt.plot(t, squeeze(xhat_rec[1, :]), label="Robot velocity estimate (m/s)")
-    plt.plot(t, squeeze(xhat_rec[2, :]), label="Wall position estimate (m)")
-    plt.plot(t, squeeze(y[0, 2:]), label="Robot to corner measurement (m)")
-    plt.plot(t, squeeze(y[1, 2:]), label="Robot to wall measurement (m)")
+    plt.plot(t, squeeze(xhat_rec[0, :]), label="Robot position estimate (cm)")
+    plt.plot(t, squeeze(xhat_rec[1, :]), label="Robot velocity estimate (cm/s)")
+    plt.plot(t, squeeze(xhat_rec[2, :]), label="Wall position estimate (cm)")
+    plt.plot(t, squeeze(y[0, 2:]), label="Robot to corner measurement (cm)")
+    plt.plot(t, squeeze(y[1, 2:]), label="Robot to wall measurement (cm)")
     plt.legend()
-    plt.savefig("kalman_robot_all.svg")
+    plt.savefig("kalman_filter_all.svg")
 
     # Robot position estimate and variance
     plt.figure(2)
     plt.xlabel("Time (s)")
-    plt.plot(t, squeeze(xhat_rec[0, :]), label="Robot position estimate (m)")
-    plt.plot(t, squeeze(P_rec[0, :]), label="Robot position variance ($m^2$)")
+    plt.plot(t, squeeze(xhat_rec[0, :]), label="Robot position estimate (cm)")
+    plt.plot(t, squeeze(P_rec[0, :]), label="Robot position variance ($cm^2$)")
     plt.legend()
-    plt.savefig("kalman_robot_position.svg")
+    plt.savefig("kalman_filter_robot_pos.svg")
 
     # Wall position estimate and variance
     plt.figure(3)
     plt.xlabel("Time (s)")
-    plt.plot(t, squeeze(xhat_rec[2, :]), label="Wall position estimate (m)")
-    plt.plot(t, squeeze(P_rec[2, :]), label="Wall position variance ($m^2$)")
+    plt.plot(t, squeeze(xhat_rec[2, :]), label="Wall position estimate (cm)")
+    plt.plot(t, squeeze(P_rec[2, :]), label="Wall position variance ($cm^2$)")
     plt.legend()
-    plt.savefig("kalman_robot_wall.svg")
+    plt.savefig("kalman_filter_wall_pos.svg")
 
 
 if __name__ == "__main__":

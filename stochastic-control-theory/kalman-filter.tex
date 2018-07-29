@@ -394,14 +394,14 @@ certain range, use a uniform distribution instead. Each of these communicates
 information regarding what you know about a system in addition to what you do
 not.
 
-\subsection{Simulation}
+\subsection{Simulation} \label{subsec:filter_simulation}
 
-Figure \ref{fig:kalman_robot_all} shows the state estimates and measurements of
-the Kalman filter over time. Figure \ref{fig:kalman_robot_position} shows the
-position estimate and variance over time. Figure \ref{fig:kalman_robot_wall}
-shows the wall position estimate and variance over time. Notice how the
-variances decrease over time as the filter gathers more measurements. This means
-that the filter becomes more confident in its state estimates.
+Figure \ref{fig:filter_all} shows the state estimates and measurements of the
+Kalman filter over time. Figure \ref{fig:filter_robot_pos} shows the position
+estimate and variance over time. Figure \ref{fig:filter_wall_pos} shows the wall
+position estimate and variance over time. Notice how the variances decrease over
+time as the filter gathers more measurements. This means that the filter becomes
+more confident in its state estimates.
 
 The final precisions in estimating the position of the robot and the wall are
 the square roots of the corresponding elements in the covariance matrix. That
@@ -410,17 +410,19 @@ precision of the raw measurements, $\sqrt{10} = 3.1623\,m$. As expected,
 combining the information from several measurements produces a better estimate
 than any one measurement alone.
 
-\begin{svg}{build/code/kalman_robot_all}
-  \caption{State estimates and measurements}
-  \label{fig:kalman_robot_all}
+\begin{svg}{build/code/kalman_filter_all}
+  \caption{State estimates and measurements with Kalman filter}
+  \label{fig:filter_all}
 \end{svg}
-\begin{svg}{build/code/kalman_robot_position}
-  \caption{Robot position estimate and variance}
-  \label{fig:kalman_robot_position}
+
+\begin{svg}{build/code/kalman_filter_robot_pos}
+  \caption{Robot position estimate and variance with Kalman filter}
+  \label{fig:filter_robot_pos}
 \end{svg}
-\begin{svg}{build/code/kalman_robot_wall}
-  \caption{Wall position estimate and variance}
-  \label{fig:kalman_robot_wall}
+
+\begin{svg}{build/code/kalman_filter_wall_pos}
+  \caption{Wall position estimate and variance with Kalman filter}
+  \label{fig:filter_wall_pos}
 \end{svg}
 
 \subsection{Steady-state error covariance matrix}
@@ -450,3 +452,58 @@ $\mtx{C} = \mtx{H}$ and $\mtx{L} = \mtx{A} \mtx{K}_k$ (see appendix
 \begin{equation}
   eig(\mtx{A}(\mtx{I} - \mtx{K}_k\mtx{H}))
 \end{equation}
+
+\subsection{Kalman smoother}
+\index{State-space observers!Kalman filter!smoother}
+
+The Kalman filter uses the data up to the current time to produce an optimal
+estimate of the system state. If data beyond the current time is available, it
+can be ran through a Kalman smoother to produce a better estimate. This is done
+by recording measurements, then applying the smoother to it offline.
+
+The Kalman smoother does a forward pass on the available data, then a backward
+pass through the system dynamics so it takes into account the data before and
+after the current time. This produces state variances that are lower than that
+of a Kalman filter. Using the same data from subsection
+\ref{subsec:filter_simulation}, figures \ref{fig:smoother_robot_pos},
+\ref{fig:smoother_robot_vel}, and \ref{fig:smoother_wall_pos} show the improved
+state estimates and figure \ref{fig:smoother_robot_pos_variance} shows the
+improved robot position covariance with a Kalman smoother.
+
+Notice how the wall position produced by the smoother is a constant. This is
+because that state has no dynamics, so the final estimate from the Kalman filter
+is already the best estimate.
+
+\begin{svg}{build/code/kalman_smoother_robot_pos}
+  \caption{Robot position with Kalman smoother}
+  \label{fig:smoother_robot_pos}
+\end{svg}
+
+\begin{svg}{build/code/kalman_smoother_robot_vel}
+  \caption{Robot velocity with Kalman smoother}
+  \label{fig:smoother_robot_vel}
+\end{svg}
+
+\begin{svg}{build/code/kalman_smoother_wall_pos}
+  \caption{Wall position with Kalman smoother}
+  \label{fig:smoother_wall_pos}
+\end{svg}
+
+\begin{svg}{build/code/kalman_smoother_robot_pos_variance}
+  \caption{Robot position variance with Kalman smoother}
+  \label{fig:smoother_robot_pos_variance}
+\end{svg}
+
+\subsection{MMAE}
+\index{State-space observers!Kalman filter!MMAE}
+
+MMAE stands for Multiple Model Adaptive Estimation. MMAE runs multiple Kalman
+filters with different models on the same data. The Kalman filter with the
+lowest residual has the highest likelihood of accurately reflecting reality.
+This can be used to detect certain system states like an aircraft engine failing
+without needing to invest in costly sensors to determine this directly.
+
+For example, say you have three Kalman filters: one for turning left, one for
+turning right, and one for going straight. If the control input is attempting to
+fly the plane straight and the Kalman filter for going left has the lowest
+residual, the aircraft probably lost its left engine.
