@@ -7,6 +7,8 @@ import matplotlib.pyplot as plt
 import math
 import numpy as np
 
+import latexutils
+
 plt.rc("text", usetex=True)
 
 
@@ -201,7 +203,7 @@ def main():
     y = generate_bilinear_transform_vel(vel, dt, sample_period)
     plt.plot(t, y, label="Bilinear transform (T={}s)".format(sample_period))
     plt.legend()
-    plt.savefig("discretization_methods_vel.svg")
+    latexutils.savefig("discretization_methods_vel")
 
     plt.figure(2)
     plt.xlabel("Time (s)")
@@ -214,7 +216,7 @@ def main():
     y = generate_bilinear_transform_pos(vel, dt, sample_period)
     plt.plot(t, y, label="Bilinear transform (T={}s)".format(sample_period))
     plt.legend()
-    plt.savefig("discretization_methods_pos.svg")
+    latexutils.savefig("discretization_methods_pos")
 
 
 if __name__ == "__main__":

@@ -5,6 +5,8 @@ mpl.use("svg")
 import control as cnt
 import matplotlib.pyplot as plt
 
+import latexutils
+
 #          1
 # G(s) = -----
 #        s - 1
@@ -14,4 +16,4 @@ cnt.root_locus(G)
 plt.title("Root Locus")
 plt.xlabel("Real Axis (seconds$^{-1}$)")
 plt.ylabel("Imaginary Axis (seconds$^{-1}$)")
-plt.savefig("rlocus_infty.svg")
+latexutils.savefig("rlocus_infty")

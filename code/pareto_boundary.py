@@ -5,6 +5,8 @@ mpl.use("svg")
 import matplotlib.pyplot as plt
 import numpy as np
 
+import latexutils
+
 plt.rc("text", usetex=True)
 
 
@@ -20,7 +22,7 @@ def main():
     plt.xticks([])
     plt.yticks([])
     plt.legend()
-    plt.savefig("pareto_boundary.svg")
+    latexutils.savefig("pareto_boundary")
 
 
 if __name__ == "__main__":

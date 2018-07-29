@@ -20,6 +20,7 @@ build/
 *.out
 *.pdf
 *.ptc
+*.pyc
 *.toc
 *.xdv
 *.xml

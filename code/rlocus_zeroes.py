@@ -6,6 +6,8 @@ import control as cnt
 from frccontrol import conv
 import matplotlib.pyplot as plt
 
+import latexutils
+
 #        (s - 9 + 9i)(s - 9 - 9i)
 # G(s) = ------------------------
 #               s(s + 10)
@@ -17,4 +19,4 @@ plt.title("Root Locus")
 plt.xlabel("Real Axis (seconds$^{-1}$)")
 plt.ylabel("Imaginary Axis (seconds$^{-1}$)")
 plt.gca().set_aspect("equal")
-plt.savefig("rlocus_zeroes.svg")
+latexutils.savefig("rlocus_zeroes")

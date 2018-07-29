@@ -6,6 +6,8 @@ import control as cnt
 import matplotlib.pyplot as plt
 import numpy as np
 
+import latexutils
+
 plt.rc("text", usetex=True)
 
 
@@ -51,7 +53,7 @@ def main():
     cnt.root_locus(G)
     plt.xlabel("Real Axis (seconds$^{-1}$)")
     plt.ylabel("Imaginary Axis (seconds$^{-1}$)")
-    plt.savefig("highfreq_unstable_rlocus.svg")
+    latexutils.savefig("highfreq_unstable_rlocus")
 
     plt.figure(2)
     plt.xlabel("Time ($s$)")
@@ -59,7 +61,7 @@ def main():
     sim(cnt.TransferFunction(1, 1), T, "Reference")
     Gcl = make_closed_loop_plant(G, 3)
     sim(Gcl, T, "Step response")
-    plt.savefig("highfreq_unstable_step.svg")
+    latexutils.savefig("highfreq_unstable_step")
 
     # Stable plant (L = 0)
     # s((Js + b)R + K^2)
@@ -70,7 +72,7 @@ def main():
     cnt.root_locus(G)
     plt.xlabel("Real Axis (seconds$^{-1}$)")
     plt.ylabel("Imaginary Axis (seconds$^{-1}$)")
-    plt.savefig("highfreq_stable_rlocus.svg")
+    latexutils.savefig("highfreq_stable_rlocus")
 
     plt.figure(4)
     plt.xlabel("Time ($s$)")
@@ -78,7 +80,7 @@ def main():
     sim(cnt.TransferFunction(1, 1), T, "Reference")
     Gcl = make_closed_loop_plant(G, 3)
     sim(Gcl, T, "Step response")
-    plt.savefig("highfreq_stable_step.svg")
+    latexutils.savefig("highfreq_stable_step")
 
 
 if __name__ == "__main__":

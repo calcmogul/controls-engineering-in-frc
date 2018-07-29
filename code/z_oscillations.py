@@ -7,6 +7,10 @@ from frccontrol import conv
 import matplotlib.pyplot as plt
 import numpy as np
 
+import latexutils
+
+plt.rc("text", usetex=True)
+
 
 def sim(tf, T, label):
     T, yout = cnt.step_response(tf, T=T)
@@ -27,7 +31,7 @@ def main():
     sim(tf, T, "Single pole in RHP")
     tf = cnt.TransferFunction(1, [1, 0.6], dt)
     sim(tf, T, "Single pole in LHP")
-    plt.savefig("z_oscillations_1p.svg")
+    latexutils.savefig("z_oscillations_1p")
 
     plt.figure(2)
     plt.xlabel("Time (s)")
@@ -36,7 +40,7 @@ def main():
     sim(tf, T, "Complex conjugate poles in LHP")
     tf = cnt.TransferFunction(1, conv([1, -0.6 + 0.6j], [1, -0.6 - 0.6j]), dt)
     sim(tf, T, "Complex conjugate poles in RHP")
-    plt.savefig("z_oscillations_2p.svg")
+    latexutils.savefig("z_oscillations_2p")
 
 
 if __name__ == "__main__":

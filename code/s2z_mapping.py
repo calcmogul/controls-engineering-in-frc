@@ -5,6 +5,8 @@ mpl.use("svg")
 import matplotlib.patches as pts
 import matplotlib.pyplot as plt
 
+import latexutils
+
 plt.rc("text", usetex=True)
 GREEN = (0, 0.75, 0)
 BLUE = (0, 0, 0.75)
@@ -184,10 +186,10 @@ def draw_z_plane():
 def main():
     plt.figure(1)
     draw_s_plane()
-    plt.savefig("s_plane.svg")
+    latexutils.savefig("s_plane")
     plt.figure(2)
     draw_z_plane()
-    plt.savefig("z_plane.svg")
+    latexutils.savefig("z_plane")
 
 
 if __name__ == "__main__":

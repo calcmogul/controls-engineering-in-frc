@@ -5,6 +5,8 @@ import matplotlib as mpl
 mpl.use("svg")
 import matplotlib.pyplot as plt
 
+import latexutils
+
 plt.rc("text", usetex=True)
 
 
@@ -132,7 +134,7 @@ def main():
     plt.xlabel("Time (s)")
     plt.ylabel("Acceleration ($m/s^2$)")
     plt.plot(t, a, label="Acceleration")
-    plt.savefig("trapezoid_profile.svg")
+    latexutils.savefig("trapezoid_profile")
 
     t, x, v, a = generate_s_curve_profile(
         max_v=7.0, max_a=3.5, time_to_max_a=1.0, dt=0.05, goal=50.0)
@@ -147,7 +149,7 @@ def main():
     plt.xlabel("Time (s)")
     plt.ylabel("Acceleration ($m/s^2$)")
     plt.plot(t, a, label="Acceleration")
-    plt.savefig("s_curve_profile.svg")
+    latexutils.savefig("s_curve_profile")
 
 
 if __name__ == "__main__":

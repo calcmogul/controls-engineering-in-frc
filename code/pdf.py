@@ -6,6 +6,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.stats import norm
 
+import latexutils
+
 plt.rc("text", usetex=True)
 
 
@@ -17,7 +19,7 @@ def main():
     plt.xlabel("$x$")
     plt.ylabel("$p(x)$")
     plt.legend()
-    plt.savefig("pdf.svg")
+    latexutils.savefig("pdf")
 
 
 if __name__ == "__main__":

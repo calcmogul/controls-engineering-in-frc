@@ -6,6 +6,8 @@ import frccontrol as frccnt
 import matplotlib.pyplot as plt
 import numpy as np
 
+import latexutils
+
 plt.rc("text", usetex=True)
 
 
@@ -99,7 +101,7 @@ def main():
     y = generate_zoh(pos, dt, sample_period)
     plt.plot(t, y, label="Zero-order hold (T={}s)".format(sample_period))
     plt.legend()
-    plt.savefig("zoh.svg")
+    latexutils.savefig("zoh")
 
 
 if __name__ == "__main__":

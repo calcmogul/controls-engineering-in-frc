@@ -6,6 +6,8 @@ mpl.use("svg")
 import matplotlib.pyplot as plt
 import numpy as np
 
+import latexutils
+
 plt.rc("text", usetex=True)
 
 
@@ -30,7 +32,7 @@ def main():
     plt.xlabel("$t$")
     plt.ylabel("$f(t)$")
     plt.legend()
-    plt.savefig("taylor_series.svg")
+    latexutils.savefig("taylor_series")
 
 
 if __name__ == "__main__":

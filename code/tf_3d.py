@@ -8,6 +8,8 @@ from mpl_toolkits.mplot3d import Axes3D
 import math
 import numpy as np
 
+import latexutils
+
 plt.rc("text", usetex=True)
 
 
@@ -36,7 +38,7 @@ def main():
     ax.set_zlabel("$H(s)$")
     ax.set_zticks([])
 
-    plt.savefig("tf_3d.svg")
+    latexutils.savefig("tf_3d")
 
 
 if __name__ == "__main__":

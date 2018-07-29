@@ -6,6 +6,8 @@ import frccontrol as frccnt
 import matplotlib.pyplot as plt
 import numpy as np
 
+import latexutils
+
 plt.rc("text", usetex=True)
 
 
@@ -100,7 +102,7 @@ def main():
     simulate(elevator, 0.1, "bilinear")
     plt.ylim([-2, 3])
     plt.legend()
-    plt.savefig("sampling_simulation_010.svg")
+    latexutils.savefig("sampling_simulation_010")
 
     plt.figure(2)
     plt.xlabel("Time (s)")
@@ -111,7 +113,7 @@ def main():
     simulate(elevator, 0.05, "bilinear")
     plt.ylim([-2, 3])
     plt.legend()
-    plt.savefig("sampling_simulation_005.svg")
+    latexutils.savefig("sampling_simulation_005")
 
     plt.figure(3)
     plt.xlabel("Time (s)")
@@ -122,7 +124,7 @@ def main():
     simulate(elevator, 0.04, "bilinear")
     plt.ylim([-0.25, 2])
     plt.legend()
-    plt.savefig("sampling_simulation_004.svg")
+    latexutils.savefig("sampling_simulation_004")
 
 
 if __name__ == "__main__":

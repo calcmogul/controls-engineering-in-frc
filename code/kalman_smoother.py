@@ -5,6 +5,8 @@ mpl.use("svg")
 import matplotlib.pyplot as plt
 import numpy as np
 
+import latexutils
+
 plt.rc("text", usetex=True)
 
 
@@ -23,7 +25,7 @@ def main():
     # y_2: measurement of distance from robot to wall
     y = []
     import csv
-    with open("code/kalman_robot.csv", newline="") as data:
+    with open("../../code/kalman_robot.csv", newline="") as data:
         reader = csv.reader(data)
         for i, row in enumerate(reader):
             yrow = np.asmatrix([float(x) for x in row])
@@ -116,7 +118,7 @@ def main():
     plt.plot(t[1:], squeeze(xhat_post_rec[0, 0, 1:]), label="Kalman filter")
     plt.plot(t[1:], squeeze(xhat_smooth_rec[0, 0, 1:]), label="Kalman smoother")
     plt.legend()
-    plt.savefig("kalman_smoother_robot_pos.svg")
+    latexutils.savefig("kalman_smoother_robot_pos")
 
     # Robot velocity
     plt.figure(2)
@@ -125,7 +127,7 @@ def main():
     plt.plot(t[1:], squeeze(xhat_post_rec[1, 0, 1:]), label="Kalman filter")
     plt.plot(t[1:], squeeze(xhat_smooth_rec[1, 0, 1:]), label="Kalman smoother")
     plt.legend()
-    plt.savefig("kalman_smoother_robot_vel.svg")
+    latexutils.savefig("kalman_smoother_robot_vel")
 
     # Wall position
     plt.figure(3)
@@ -134,7 +136,7 @@ def main():
     plt.plot(t[1:], squeeze(xhat_post_rec[2, 0, 1:]), label="Kalman filter")
     plt.plot(t[1:], squeeze(xhat_smooth_rec[2, 0, 1:]), label="Kalman smoother")
     plt.legend()
-    plt.savefig("kalman_smoother_wall_pos.svg")
+    latexutils.savefig("kalman_smoother_wall_pos")
 
     # Robot position variance
     plt.figure(4)
@@ -143,7 +145,7 @@ def main():
     plt.plot(t[1:], squeeze(P_post_rec[1, 1, 1:]), label="Kalman filter")
     plt.plot(t[1:], squeeze(P_smooth_rec[1, 1, 1:]), label="Kalman smoother")
     plt.legend()
-    plt.savefig("kalman_smoother_robot_pos_variance.svg")
+    latexutils.savefig("kalman_smoother_robot_pos_variance")
 
 
 if __name__ == "__main__":

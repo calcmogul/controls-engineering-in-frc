@@ -7,6 +7,8 @@ from frccontrol import conv
 import matplotlib.pyplot as plt
 import numpy as np
 
+import latexutils
+
 plt.rc("text", usetex=True)
 
 
@@ -48,7 +50,7 @@ def main():
     Gcl = make_closed_loop_plant(G, 6.268)
     sim(Gcl, T, "Critically damped")
 
-    plt.savefig("pid_responses.svg")
+    latexutils.savefig("pid_responses")
 
 
 if __name__ == "__main__":

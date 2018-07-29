@@ -5,6 +5,8 @@ mpl.use("svg")
 import matplotlib.pyplot as plt
 import numpy as np
 
+import latexutils
+
 plt.rc("text", usetex=True)
 
 
@@ -23,7 +25,7 @@ def main():
     # y_2: measurement of distance from robot to wall
     y = []
     import csv
-    with open("code/kalman_robot.csv", newline="") as data:
+    with open("../../code/kalman_robot.csv", newline="") as data:
         reader = csv.reader(data)
         for i, row in enumerate(reader):
             yrow = np.asmatrix([float(x) for x in row])
@@ -90,7 +92,7 @@ def main():
     plt.plot(t, squeeze(y[0, 2:]), label="Robot to corner measurement (cm)")
     plt.plot(t, squeeze(y[1, 2:]), label="Robot to wall measurement (cm)")
     plt.legend()
-    plt.savefig("kalman_filter_all.svg")
+    latexutils.savefig("kalman_filter_all")
 
     # Robot position estimate and variance
     plt.figure(2)
@@ -98,7 +100,7 @@ def main():
     plt.plot(t, squeeze(xhat_rec[0, :]), label="Robot position estimate (cm)")
     plt.plot(t, squeeze(P_rec[0, :]), label="Robot position variance ($cm^2$)")
     plt.legend()
-    plt.savefig("kalman_filter_robot_pos.svg")
+    latexutils.savefig("kalman_filter_robot_pos")
 
     # Wall position estimate and variance
     plt.figure(3)
@@ -106,7 +108,7 @@ def main():
     plt.plot(t, squeeze(xhat_rec[2, :]), label="Wall position estimate (cm)")
     plt.plot(t, squeeze(P_rec[2, :]), label="Wall position variance ($cm^2$)")
     plt.legend()
-    plt.savefig("kalman_filter_wall_pos.svg")
+    latexutils.savefig("kalman_filter_wall_pos")
 
 
 if __name__ == "__main__":
