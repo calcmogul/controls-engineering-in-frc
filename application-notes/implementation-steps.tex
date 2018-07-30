@@ -395,10 +395,10 @@ to produce the desired response.
 
 Recall equation (\ref{eq:s_ref_ctrl_x}) where a closed-loop system is written as
 $\dot{\mtx{x}} = (\mtx{A} - \mtx{B}\mtx{K})\mtx{x} + \mtx{B}\mtx{K}\mtx{r}$. In
-the open-loop system, our control input was just $\mtx{u}$, but in the
-closed-loop system, our control input $\mtx{u}$ is $\mtx{K}\mtx{r}$. To use this
-form in simulation, the corresponding state-space matrices, which we'll denote
-with apostrophes, would be
+the open-loop system, our control input $\mtx{u}$ was a vector of system inputs.
+In the closed-loop system, our control input $\mtx{u}$ is now a vector of
+reference states $\mtx{r}$. To use this form in simulation, the corresponding
+state-space matrices, which we'll denote with apostrophes, would be
 
 \begin{align*}
   \mtx{A}' &= \mtx{A} - \mtx{B}\mtx{K} \\
