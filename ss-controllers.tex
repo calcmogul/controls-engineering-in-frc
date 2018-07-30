@@ -203,10 +203,10 @@ and \glslink{robustness}{robust} with a \gls{phase margin} of 60 degrees
 \index{Optimal control!LQR!Bryson's rule}
 
 The next obvious question is what values to choose for $\mtx{Q}$ and $\mtx{R}$.
-With Bryson's rule, the $\mtx{Q}$ and $\mtx{R}$ matrices are chosen based on the
-maximum acceptable value for each \gls{state} and actuator. The balance between
-$\mtx{Q}$ and $\mtx{R}$ can be slid along the Pareto boundary using a weighting
-factor $\rho$.
+With Bryson's rule, the diagonals of the $\mtx{Q}$ and $\mtx{R}$ matrices are
+chosen based on the maximum acceptable value for each \gls{state} and actuator.
+The nondiagonal elements are zero. The balance between $\mtx{Q}$ and $\mtx{R}$
+can be slid along the Pareto boundary using a weighting factor $\rho$.
 
 \begin{equation*}
   J = \int\limits_0^\infty \left(\rho \left[
@@ -214,6 +214,23 @@ factor $\rho$.
     \left(\frac{x_n}{x_{n,max}}\right)^2\right] + \left[
     \left(\frac{u_1}{u_{1,max}}\right)^2 + \ldots +
     \left(\frac{u_n}{u_{n,max}}\right)^2\right]\right) dt
+\end{equation*}
+
+\begin{equation*}
+  \begin{array}{cc}
+    \mtx{Q} = \begin{bmatrix}
+      \frac{\rho}{x_{1,max}^2} & 0 & \ldots & 0 \\
+      0 & \frac{\rho}{x_{2,max}^2} & & \vdots \\
+      \vdots & & \ddots & 0 \\
+      0 & \ldots & 0 & \frac{\rho}{x_{n,max}^2}
+    \end{bmatrix} &
+    \mtx{R} = \begin{bmatrix}
+      \frac{1}{u_{1,max}^2} & 0 & \ldots & 0 \\
+      0 & \frac{1}{u_{2,max}^2} & & \vdots \\
+      \vdots & & \ddots & 0 \\
+      0 & \ldots & 0 & \frac{1}{u_{n,max}^2}
+    \end{bmatrix}
+  \end{array}
 \end{equation*}
 
 Small values of $\rho$ penalize control effort while large values of $\rho$
