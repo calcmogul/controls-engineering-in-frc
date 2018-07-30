@@ -8,8 +8,16 @@ example can be obtained from frccontrol's Git repository at
 \url{https://github.com/calcmogul/frccontrol/tree/master/examples}.
 See appendix \ref{ch:app-installing-python-control} for setup instructions.
 
-The models derived here assume all motor controllers driving DC brushed motors
-are set to brake mode instead of coast mode.
+The models derived here should cover most types of motion seen on an FRC robot.
+Furthermore, they can be easily tweaked to describe many types of mechanisms
+just by pattern-matching. There's only so many ways to hook up a mass to a motor
+in FRC. The flywheel model can be used for spinning mechanisms, the elevator
+model can be used for spinning mechanisms transformed to linear motion, and the
+single-jointed arm model can be used for rotating servo mechanisms (it's just
+the flywheel model augmented with a position state).
+
+These models assume all motor controllers driving DC brushed motors are set to
+brake mode instead of coast mode.
 
 \input{ss-model-examples/dc-brushed-motor}
 \input{ss-model-examples/elevator}
