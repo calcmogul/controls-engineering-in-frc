@@ -93,6 +93,13 @@ More examples of concepts should help slow the pace down. I should read through
 this book as if I was explaining it to my veteran software students and
 anticipate gaps in their understanding.
 
+* Rewrite Laplace domain section to build up intuition via basis contributions
+  * Fourier as process of finding component frequencies in a signal and their
+    contributions. Each frequency is an orthogonal basis. Laplace is a
+    generalization of this, but has a nonorthogonal basis.
+* Add code examples of each type of model augmentation
+* Introduce glossary terms more explicitly since the links aren't visible.
+
 ### Finish incomplete topics
 
 The following state-space implementation examples are in progress:
@@ -121,14 +128,37 @@ The following state-space implementation examples are planned:
 Any other results that are good for background but are unnecessary should be
 included in an appendix.
 
-Add derivations for trapezoidal and S-curve profiles to the derivations
-appendix.
+* Add derivations for trapezoidal and S-curve profiles to the derivations
+  appendix.
+* Import an LQR derivation based on Lagrange multipliers?
+* Explain N term for LQR
+  * It's a cross term between error and control effort. One application for it
+    is making one system behave like some other desired system. This is used on
+    the Blackhawk helicopter at NASA Ames when they want to make it fly like
+    experimental aircraft (within the limits of the helicopter's actuators, of
+    course).
+* Add an appendix on Ito calculus to explain where the Wiener process comes from?
+* Add equations for Kalman smoother and MMAE.
+* Derive the two-sensor and three-sensor problems from first principles. The
+  two-sensor problem uses p(x) and p(z_1|x). The three-sensor problem uses p(x),
+  p(z_1|x), and p(z_2|x).
+* Add Ramsete and GVF papers to nonlinear control appendix.
+  * Control of Wheeled Mobile Robots: An Experimental Overview
+    (https://www.dis.uniroma1.it/~labrob/pub/papers/Ramsete01.pdf)
+  * A guiding vector field algorithm for path following control of nonholonomic
+    mobile robots (https://arxiv.org/pdf/1610.04391.pdf)
+* Add a section on polytopes for convex optimization? So far, I've seen it used
+  for handling saturated control inputs to prioritize tracking some states over
+  others using the limited control input.
 
-Add an appendix on Ito calculus to explain where the Wiener process comes from?
+### Miscellaneous fixes
 
-Add a section on polytopes for convex optimization? So far, I've seen it used
-for handling saturated control inputs to prioritize tracking some states over
-others using the limited control input.
+* Modify pareto_boundary.py to find and plot real Pareto boundary for LQR
+  instead of using a hand-wavey approximation
+* Fix bugs in dependencies
+  * Fix nonsquare system pzmaps in Python Control, then enable non-Slycot pzmaps
+    for remaining examples
+* Eventually convert the book to ConTeXt
 
 ## Licensing
 
