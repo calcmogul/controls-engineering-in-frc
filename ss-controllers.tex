@@ -53,6 +53,8 @@ Now for the output equation. Substitute the control law into equation
 \end{align}
 
 \begin{theorem}[Closed-loop state-space controller]
+  \index{State-space controllers!closed-loop}
+
   \begin{align}
     \dot{\mtx{x}} &= (\mtx{A} - \mtx{B}\mtx{K})\mtx{x} + \mtx{B}\mtx{K}\mtx{r}
       \label{eq:s_ref_ctrl_x} \\
@@ -62,11 +64,10 @@ Now for the output equation. Substitute the control law into equation
 
   \begin{figurekey}
     \begin{tabulary}{\linewidth}{LLLL}
-      $\mtx{A}$ & system matrix      & $\mtx{x}$ & state vector \\
-      $\mtx{B}$ & input matrix       & $\mtx{u}$ & input vector \\
-      $\mtx{C}$ & output matrix      & $\mtx{y}$ & output vector \\
-      $\mtx{D}$ & feedthrough matrix & $\mtx{r}$ & \gls{reference} vector \\
-      $\mtx{K}$ & controller gain matrix &  &  \\
+      $\mtx{A}$ & system matrix      & $\mtx{K}$ & controller gain matrix \\
+      $\mtx{B}$ & input matrix       & $\mtx{x}$ & state vector \\
+      $\mtx{C}$ & output matrix      & $\mtx{r}$ & \gls{reference} vector \\
+      $\mtx{D}$ & feedthrough matrix & $\mtx{y}$ & output vector \\
     \end{tabulary}
   \end{figurekey}
 \end{theorem}
