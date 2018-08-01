@@ -70,7 +70,14 @@ Substitute this into equation (\ref{eq:motor_V}).
 
 A typical motor's datasheet should include graphs of the motor's measured torque
 and current for different angular velocities for a given voltage applied to the
-motor. To find $K_t$
+motor. Figure \ref{fig:motor_data} is an example.
+
+\begin{svg}{build/code/motor_data}
+  \caption{Example motor datasheet for 775pro}
+  \label{fig:motor_data}
+\end{svg}
+
+To find $K_t$
 
 \begin{align}
   \tau_m &= K_t I \nonumber \\
