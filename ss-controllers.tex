@@ -243,10 +243,11 @@ values to conserve their limited fuel supply.
 
 State-space observers are used to estimate \glspl{state} which cannot be
 measured directly. This can be due to noisy measurements or the state not being
-measurable. This information can be used for \gls{localization}, which is the
-process of using external measurements to determine an \gls{agent}'s
-pose\footnote{An agent is a system-agnostic term for independent controlled
-actors like robots or aircraft.}, or orientation in the world.
+measurable (a hidden state). This information can be used for
+\gls{localization}, which is the process of using external measurements to
+determine an \gls{agent}'s pose\footnote{An agent is a system-agnostic term for
+independent controlled actors like robots or aircraft.}, or orientation in the
+world.
 
 One type of state estimator is LQE. ``LQE" stands for ``Linear-Quadratic
 Estimator". Similar to LQR, it places the estimator poles such that it minimizes
