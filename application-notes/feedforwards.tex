@@ -20,9 +20,9 @@ The first steady-state feedforward converts a desired output to a desired state.
 $\mtx{N}_x$ converts a desired output $\mtx{y}_c$ to a desired state
 $\mtx{x}_c$ (also known as $\mtx{r}$). For steady-state, that is
 
-\begin{equation*}
-  \mtx{x}_{ss} = \mtx{N}_x\mtx{y}_{ss}
-\end{equation*}
+\begin{equation}
+  \mtx{x}_{ss} = \mtx{N}_x\mtx{y}_{ss} \label{eq:x_ss}
+\end{equation}
 
 The second steady-state feedforward converts the desired output $\mtx{y}$ to the
 control input required at steady-state.
@@ -34,9 +34,9 @@ control input required at steady-state.
 $\mtx{N}_u$ converts the desired output $\mtx{y}$ to the control input $\mtx{u}$
 required at steady-state. For steady-state, that is
 
-\begin{equation*}
-  \mtx{u}_{ss} = \mtx{N}_u\mtx{y}_{ss}
-\end{equation*}
+\begin{equation}
+  \mtx{u}_{ss} = \mtx{N}_u\mtx{y}_{ss} \label{eq:u_ss}
+\end{equation}
 
 To find the control input required at steady-state, set equation
 (\ref{eq:ss_ctrl_x}) to zero.
@@ -85,16 +85,56 @@ To find the control input required at steady-state, set equation
   \begin{bmatrix}
     \mtx{N}_x \\
     \mtx{N}_u
+  \end{bmatrix} \\
+  \begin{bmatrix}
+    \mtx{N}_x \\
+    \mtx{N}_u
+  \end{bmatrix} &=
+  \begin{bmatrix}
+    \mtx{A} & \mtx{B} \\
+    \mtx{C} & \mtx{D}
+  \end{bmatrix}^{\dagger}
+  \begin{bmatrix}
+    \mtx{0} \\
+    \mtx{1}
   \end{bmatrix}
 \end{align*}
+
+where $^\dagger$ is the Moore-Penrose pseudoinverse.
+
+Now, we'll find an expression that uses $\mtx{N}_x$ and $\mtx{N}_u$ to convert
+the reference $\mtx{r}$ to a control input feedforward $\mtx{u}_{ff}$. Let's
+start with equation (\ref{eq:x_ss}).
+
+\begin{align*}
+  \mtx{x}_{ss} &= \mtx{N}_x \mtx{y}_{ss} \\
+  \mtx{N}_x^\dagger \mtx{x}_{ss} &= \mtx{y}_{ss}
+\end{align*}
+
+Now substitute this into equation (\ref{eq:u_ss}).
+
+\begin{align*}
+  \mtx{u}_{ss} &= \mtx{N}_u \mtx{y}_{ss} \\
+  \mtx{u}_{ss} &= \mtx{N}_u (\mtx{N}_x^\dagger \mtx{x}_{ss}) \\
+  \mtx{u}_{ss} &= \mtx{N}_u \mtx{N}_x^\dagger \mtx{x}_{ss}
+\end{align*}
+
+$\mtx{u}_{ss}$ and $\mtx{x}_{ss}$ are also known as $\mtx{u}_{ff}$ and $\mtx{r}$
+respectively.
+
+\begin{align*}
+  \mtx{u}_{ff} = \mtx{N}_u \mtx{N}_x^\dagger \mtx{r}
+\end{align*}
+
+So all together, we get theorem \ref{thm:steady-state_ff}.
 
 \index{Feedforward!steady-state feedforward}
 \begin{theorem}[Steady-state feedforward]
   \begin{align}
-    &\begin{bmatrix}
+    \begin{bmatrix}
       \mtx{N}_x \\
       \mtx{N}_u
-    \end{bmatrix} =
+    \end{bmatrix} &=
     \begin{bmatrix}
       \mtx{A} & \mtx{B} \\
       \mtx{C} & \mtx{D}
@@ -103,8 +143,10 @@ To find the control input required at steady-state, set equation
       \mtx{0} \\
       \mtx{1}
     \end{bmatrix} \\
-    &\text{where $^\dagger$ is the Moore-Penrose pseudoinverse.} \nonumber
+    \mtx{u}_{ff} &= \mtx{N}_u \mtx{N}_x^\dagger \mtx{r}
   \end{align}
+
+  where $^\dagger$ is the Moore-Penrose pseudoinverse.
 
   In the augmented matrix, $\mtx{B}$ should contain one column corresponding to
   an actuator and $\mtx{C}$ should contain one row whose output will be driven
@@ -112,13 +154,15 @@ To find the control input required at steady-state, set equation
   computation at once, but the result won't be the same as if they were computed
   independently and summed afterward.
 
-  If the augmented matrix is square (number of inputs = number of outputs), the
-  normal inverse can be used instead.
+  After computing the feedforward for each actuator-output pair, the respective
+  collections of $\mtx{N}_x$ and $\mtx{N}_u$ matrices can summed to produce the
+  combined feedforward.
+
+  \label{thm:steady-state_ff}
 \end{theorem}
 
-After computing the feedforward for each actuator-output pair, the respective
-collections of $\mtx{N}_x$ and $\mtx{N}_u$ matrices can be summed to produce
-combined versions of each.
+If the augmented matrix in theorem \ref{thm:steady-state_ff} is square (number
+of inputs = number of outputs), the normal inverse can be used instead.
 
 \subsection{Two-state feedforward}
 
@@ -169,7 +213,7 @@ cost matrix with dimensionality $inputs \times inputs$.
   system dynamics that would change the state over time.
 \end{remark}
 
-The following thorems will be needed to find the minimum of $\mtx{J}$.
+The following theorems will be needed to find the minimum of $\mtx{J}$.
 
 \begin{theorem}
   $\frac{\partial \mtx{x}^T\mtx{A}\mtx{x}}{\partial\mtx{x}} =
