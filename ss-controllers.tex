@@ -7,7 +7,7 @@ controller with certain \glspl{control law} to do it. PID controllers use the
 system outputs with proportional, integral, and derivative \glspl{control law}.
 In state-space, we also have knowledge of the system states so we can do better.
 
-\section{From PID to model-based control}
+\section{From PID control to model-based control}
 \index{PID control}
 
 As mentioned before, controls engineers have a more general framework to
@@ -52,6 +52,21 @@ Now for the output equation. Substitute the control law into equation
   \mtx{y} &= (\mtx{C} - \mtx{D}\mtx{K})\mtx{x} + \mtx{D}\mtx{K}\mtx{r}
 \end{align}
 
+Now, we'll do the same for the discrete system. We'd like to know whether the
+\gls{system} defined by equation (\ref{eq:ssz_ctrl_x}) operating with the
+\gls{control law} $\mtx{u}_k = \mtx{K}(\mtx{r}_k - \mtx{x}_k)$ converges to the
+\gls{reference} $\mtx{r}_k$.
+
+\begin{align*}
+  \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}\mtx{u}_k \\
+  \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}(\mtx{K}(\mtx{r}_k - \mtx{x}_k)) \\
+  \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}\mtx{K}\mtx{r}_k -
+    \mtx{B}\mtx{K}\mtx{x}_k \\
+  \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k - \mtx{B}\mtx{K}\mtx{x}_k +
+    \mtx{B}\mtx{K}\mtx{r}_k \\
+  \mtx{x}_{k+1} &= (\mtx{A} - \mtx{B}\mtx{K})\mtx{x}_k + \mtx{B}\mtx{K}\mtx{r}_k
+\end{align*}
+
 \begin{theorem}[Closed-loop state-space controller]
   \index{State-space controllers!closed-loop}
 
@@ -60,6 +75,13 @@ Now for the output equation. Substitute the control law into equation
       \label{eq:s_ref_ctrl_x} \\
     \mtx{y} &= (\mtx{C} - \mtx{D}\mtx{K})\mtx{x} + \mtx{D}\mtx{K}\mtx{r}
       \label{eq:s_ref_ctrl_y}
+  \end{align}
+
+  \begin{align}
+    \mtx{x}_{k+1} &= (\mtx{A} - \mtx{B}\mtx{K})\mtx{x}_k +
+      \mtx{B}\mtx{K}\mtx{r}_k \label{eq:z_ref_ctrl_x} \\
+    \mtx{y}_k &= (\mtx{C} - \mtx{D}\mtx{K})\mtx{x}_k + \mtx{D}\mtx{K}\mtx{r}_k
+      \label{eq:z_ref_ctrl_y}
   \end{align}
 
   \begin{figurekey}
@@ -90,57 +112,43 @@ Now for the output equation. Substitute the control law into equation
   \label{tab:ctrl_matrix_dims}
 \end{booktable}
 
+\index{Stability!eigenvalues}
 Instead of commanding the system to a state using the vector $\mtx{u}$ directly,
 we can now specify a vector of desired states through $\mtx{r}$ and the system
 will choose values of $\mtx{u}$ for us over time to make the system converge to
-the reference. The rate of convergence and stability of the closed-loop system
-can be changed by moving the poles via the eigenvalues of $\mtx{A} -
-\mtx{B}\mtx{K}$. $\mtx{A}$ and $\mtx{B}$ are inherent to the system, but
-$\mtx{K}$ can be chosen arbitrarily by the controller designer.
+the reference. For equation (\ref{eq:s_ref_ctrl_x}) to reach steady-state, the
+eigenvalues of $\mtx{A} - \mtx{B}\mtx{K}$ must be in the left-half plane. For
+equation (\ref{eq:z_ref_ctrl_x}) to have a bounded output, the eigenvalues of
+$\mtx{A} - \mtx{B}\mtx{K}$ must be within the unit circle.
 
-\subsection{Eigenvalues of closed-loop controller}
-\index{Stability!eigenvalues}
-
-The eigenvalues of the system matrix can be used to determine the stability of a
-\gls{system}.
-
-We'd like to know whether the \gls{system} defined by equation
-(\ref{eq:ssz_ctrl_x}) operating with the \gls{control law}
-$\mtx{u}_k = \mtx{K}(\mtx{r}_k - \mtx{x}_k)$ converges to the \gls{reference}
-$\mtx{r}_k$.
-
-\begin{align}
-  \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}\mtx{u}_k \nonumber \\
-  \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}(\mtx{K}(\mtx{r}_k - \mtx{x}_k))
-    \nonumber \\
-  \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}\mtx{K}\mtx{r}_k -
-    \mtx{B}\mtx{K}\mtx{x}_k \nonumber \\
-  \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k - \mtx{B}\mtx{K}\mtx{x}_k +
-    \mtx{B}\mtx{K}\mtx{r}_k \nonumber \\
-  \mtx{x}_{k+1} &= (\mtx{A} - \mtx{B}\mtx{K})\mtx{x}_k +
-    \mtx{B}\mtx{K}\mtx{r}_k \label{eq:ctrl_eig_calc}
-\end{align}
-
-For equation (\ref{eq:ctrl_eig_calc}) to have a bounded output, the eigenvalues
-of $\mtx{A} - \mtx{B}\mtx{K}$ must be within the unit circle.
+The eigenvalues of $\mtx{A} - \mtx{B}\mtx{K}$ are the poles of the closed-loop
+system. Therefore, the rate of convergence and stability of the closed-loop
+system can be changed by moving the poles via the eigenvalues of
+$\mtx{A} - \mtx{B}\mtx{K}$. $\mtx{A}$ and $\mtx{B}$ are inherent to the system,
+but $\mtx{K}$ can be chosen arbitrarily by the controller designer.
 
 \section{Pole placement}
 \index{Controller design!pole placement}
 
-This is the practice of manually placing the poles of the closed-loop system to
-produce a desired response. This is typically done with controllable canonical
-form (see section \ref{sec:ctrl-canon}). This can be done with state observers
-as well with observable canonical form (see section \ref{sec:obsv-canon}).
+This is the practice of placing the poles of a closed-loop system directly to
+produce a desired response. This can be done manually for state feedback
+controllers with controllable canonical form (see section \ref{sec:ctrl-canon}).
+This can also be done manually for state observers with observable canonical
+form (see section \ref{sec:obsv-canon}).
+
+In general, pole placement should only be used if you know what you're doing.
+It's much easier to let LQR place the poles for you, then use those as a
+starting point for pole placement.
 
 \section{LQR} \label{sec:lqr}
 \index{Controller design!LQR}
 \index{Optimal control!LQR}
 
-While we could place the poles for our controller manually, we can do better by
-using math to select them for us. ``LQR" stands for ``Linear-Quadratic
-\glslink{regulator}{Regulator}". This method of controller design uses a
-quadratic function for the cost-to-go defined as the sum of the error and
-control effort over time for the linear system
+Instead of placing the poles of a system manually, LQR design places the poles
+for us based on acceptable error and control effort constraints. ``LQR" stands
+for ``Linear-Quadratic \glslink{regulator}{Regulator}". This method of
+controller design uses a quadratic function for the cost-to-go defined as the
+sum of the error and control effort over time for the linear system
 $\dot{\mtx{x}} = \mtx{A}\mtx{x} + \mtx{B}\mtx{u}$.
 
 \begin{equation*}
@@ -177,6 +185,7 @@ The feedback \gls{control law} that minimizes $J$, which we'll call the
   \end{equation}
   \label{thm:optimal_control_law}
 \end{theorem}
+\index{Controller design!LQR!optimal control law}
 \index{Optimal control!LQR!optimal control law}
 
 This means that optimal control can be achieved with simply a set of
@@ -201,6 +210,7 @@ and \glslink{robustness}{robust} with a \gls{phase margin} of 60 degrees
 \cite{bib:lqr-phase-margin}.
 
 \subsection{Bryson's rule}
+\index{Controller design!LQR!Bryson's rule}
 \index{Optimal control!LQR!Bryson's rule}
 
 The next obvious question is what values to choose for $\mtx{Q}$ and $\mtx{R}$.
