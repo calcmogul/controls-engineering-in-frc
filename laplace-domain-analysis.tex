@@ -430,17 +430,17 @@ $K_p$ can lead to overshoot and $K_d$ is commonly used to reduce overshoots.
 Let's consider a flywheel controlled with a standard PID controller. Why
 wouldn't $K_d$ provide damping for velocity overshoots in this case?
 
-PID is designed to control second order and first order systems well. It can be
-used to control a lot of things, but struggles when given higher order systems.
-It has three degrees of freedom. Two are used to place the two poles of the
-system, and the third is used to remove steady-state error. With higher order
-systems like a one input, seven state system, there aren't enough degrees of
-freedom to place the system's poles in desired locations. This will result in
+PID control is designed to control second-order and first-order systems well. It
+can be used to control a lot of things, but struggles when given higher order
+systems. It has three degrees of freedom. Two are used to place the two poles of
+the system, and the third is used to remove steady-state error. With higher
+order systems like a one input, seven state system, there aren't enough degrees
+of freedom to place the system's poles in desired locations. This will result in
 poor control.
 
 The math for PID doesn't assume voltage, a motor, etc. It defines an output
 based on derivatives and integrals of the input. We happen to use it for motors
-because it actually works pretty well for it because motors are second order
+because it actually works pretty well for it because motors are second-order
 systems.
 
 The following math will be in continuous time, but the same ideas apply to

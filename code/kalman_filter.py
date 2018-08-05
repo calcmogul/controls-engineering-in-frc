@@ -10,11 +10,6 @@ import latexutils
 plt.rc("text", usetex=True)
 
 
-def squeeze(mat):
-    """Squeezes a 1D numpy matrix into a Python list."""
-    return np.squeeze(np.asarray(mat))
-
-
 def main():
     # x_1: robot position measured from corner
     # x_2: robot velocity with positive direction toward wall
@@ -52,9 +47,10 @@ def main():
                    [-1, 0, 1]])
     # yapf: enable
 
-    xhat_rec = np.matrix([[], [], []])
-    P_rec = np.matrix([[], [], []])
-    t = []
+    num_points = y.shape[1]
+    xhat_rec = np.zeros((3, 1, num_points))
+    P_rec = np.zeros((3, 3, num_points))
+    t = np.linspace(0, num_points, num_points)
 
     dt = 1
 
@@ -68,6 +64,10 @@ def main():
                            [10 / dt, 20 / dt**2, 10 / dt],
                            [10, 10 / dt, 20]])
             # yapf: enable
+
+            xhat_rec[:, :, k] = xhat
+            Ptemp = np.matrix([P[0, 0], P[1, 1], P[2, 2]]).T
+            P_rec[:, :, k] = Ptemp
         elif k > 1:
             # Predict
             xhat = phi * xhat + np.matrix([0, 0.8, 0]).T
@@ -78,35 +78,34 @@ def main():
             xhat = xhat + K * (y[:, k] - H * xhat)
             P = (np.eye(3, 3) - K * H) * P
 
-            xhat_rec = np.concatenate((xhat_rec, xhat), axis=1)
+            xhat_rec[:, :, k] = xhat
             Ptemp = np.matrix([P[0, 0], P[1, 1], P[2, 2]]).T
-            P_rec = np.concatenate((P_rec, Ptemp), axis=1)
-            t.append(len(t))
+            P_rec[:, :, k] = Ptemp
 
     # State estimates and measurements
     plt.figure(1)
     plt.xlabel("Time (s)")
-    plt.plot(t, squeeze(xhat_rec[0, :]), label="Robot position estimate (cm)")
-    plt.plot(t, squeeze(xhat_rec[1, :]), label="Robot velocity estimate (cm/s)")
-    plt.plot(t, squeeze(xhat_rec[2, :]), label="Wall position estimate (cm)")
-    plt.plot(t, squeeze(y[0, 2:]), label="Robot to corner measurement (cm)")
-    plt.plot(t, squeeze(y[1, 2:]), label="Robot to wall measurement (cm)")
+    plt.plot(t[1:], xhat_rec[0, 0, 1:], label="Robot position estimate (cm)")
+    plt.plot(t[1:], xhat_rec[1, 0, 1:], label="Robot velocity estimate (cm/s)")
+    plt.plot(t[1:], xhat_rec[2, 0, 1:], label="Wall position estimate (cm)")
+    plt.plot(t[1:], y[0, 1:].T, label="Robot to corner measurement (cm)")
+    plt.plot(t[1:], y[1, 1:].T, label="Robot to wall measurement (cm)")
     plt.legend()
     latexutils.savefig("kalman_filter_all")
 
     # Robot position estimate and variance
     plt.figure(2)
     plt.xlabel("Time (s)")
-    plt.plot(t, squeeze(xhat_rec[0, :]), label="Robot position estimate (cm)")
-    plt.plot(t, squeeze(P_rec[0, :]), label="Robot position variance ($cm^2$)")
+    plt.plot(t[1:], xhat_rec[0, 0, 1:], label="Robot position estimate (cm)")
+    plt.plot(t[1:], P_rec[0, 0, 1:], label="Robot position variance ($cm^2$)")
     plt.legend()
     latexutils.savefig("kalman_filter_robot_pos")
 
     # Wall position estimate and variance
     plt.figure(3)
     plt.xlabel("Time (s)")
-    plt.plot(t, squeeze(xhat_rec[2, :]), label="Wall position estimate (cm)")
-    plt.plot(t, squeeze(P_rec[2, :]), label="Wall position variance ($cm^2$)")
+    plt.plot(t[1:], xhat_rec[2, 0, 1:], label="Wall position estimate (cm)")
+    plt.plot(t[1:], P_rec[2, 0, 1:], label="Wall position variance ($cm^2$)")
     plt.legend()
     latexutils.savefig("kalman_filter_wall_pos")
 

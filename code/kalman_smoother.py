@@ -10,11 +10,6 @@ import latexutils
 plt.rc("text", usetex=True)
 
 
-def squeeze(mat):
-    """Squeezes a 1D numpy matrix into a Python list."""
-    return np.squeeze(np.asarray(mat))
-
-
 def main():
     # x_1: robot position measured from corner
     # x_2: robot velocity with positive direction toward wall
@@ -115,8 +110,8 @@ def main():
     plt.figure(1)
     plt.xlabel("Time (s)")
     plt.ylabel("Position (cm)")
-    plt.plot(t[1:], squeeze(xhat_post_rec[0, 0, 1:]), label="Kalman filter")
-    plt.plot(t[1:], squeeze(xhat_smooth_rec[0, 0, 1:]), label="Kalman smoother")
+    plt.plot(t[1:], xhat_post_rec[0, 0, 1:], label="Kalman filter")
+    plt.plot(t[1:], xhat_smooth_rec[0, 0, 1:], label="Kalman smoother")
     plt.legend()
     latexutils.savefig("kalman_smoother_robot_pos")
 
@@ -124,8 +119,8 @@ def main():
     plt.figure(2)
     plt.xlabel("Time (s)")
     plt.ylabel("Velocity (cm)")
-    plt.plot(t[1:], squeeze(xhat_post_rec[1, 0, 1:]), label="Kalman filter")
-    plt.plot(t[1:], squeeze(xhat_smooth_rec[1, 0, 1:]), label="Kalman smoother")
+    plt.plot(t[1:], xhat_post_rec[1, 0, 1:], label="Kalman filter")
+    plt.plot(t[1:], xhat_smooth_rec[1, 0, 1:], label="Kalman smoother")
     plt.legend()
     latexutils.savefig("kalman_smoother_robot_vel")
 
@@ -133,8 +128,8 @@ def main():
     plt.figure(3)
     plt.xlabel("Time (s)")
     plt.ylabel("Wall position (cm)")
-    plt.plot(t[1:], squeeze(xhat_post_rec[2, 0, 1:]), label="Kalman filter")
-    plt.plot(t[1:], squeeze(xhat_smooth_rec[2, 0, 1:]), label="Kalman smoother")
+    plt.plot(t[1:], xhat_post_rec[2, 0, 1:], label="Kalman filter")
+    plt.plot(t[1:], xhat_smooth_rec[2, 0, 1:], label="Kalman smoother")
     plt.legend()
     latexutils.savefig("kalman_smoother_wall_pos")
 
@@ -142,8 +137,8 @@ def main():
     plt.figure(4)
     plt.xlabel("Time (s)")
     plt.ylabel("Robot position variance ($cm^2$)")
-    plt.plot(t[1:], squeeze(P_post_rec[1, 1, 1:]), label="Kalman filter")
-    plt.plot(t[1:], squeeze(P_smooth_rec[1, 1, 1:]), label="Kalman smoother")
+    plt.plot(t[1:], P_post_rec[1, 1, 1:], label="Kalman filter")
+    plt.plot(t[1:], P_smooth_rec[1, 1, 1:], label="Kalman smoother")
     plt.legend()
     latexutils.savefig("kalman_smoother_robot_pos_variance")
 
