@@ -46,9 +46,8 @@ def main():
 
     # Steady-state feedforward
     tmp1 = concatenate(
-        (concatenate(
-            (sysd.A - np.eye(sysd.A.shape[0], sysd.A.shape[1]), sysd.B),
-            axis=1), concatenate((sysd.C, sysd.D), axis=1)),
+        (concatenate((sysd.A - np.eye(sysd.A.shape[0]), sysd.B), axis=1),
+         concatenate((sysd.C, sysd.D), axis=1)),
         axis=0)
     tmp2 = concatenate(
         (np.zeros((sysd.A.shape[0], 1)), np.ones((sysd.C.shape[0], 1))), axis=0)
