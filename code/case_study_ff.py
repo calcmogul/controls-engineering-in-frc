@@ -57,91 +57,92 @@ def main():
     NxNu = np.linalg.pinv(tmp1) * tmp2
     Nx = NxNu[0:sysd.A.shape[0], 0]
     Nu = NxNu[sysd.C.shape[0] + 1:, 0]
-    Kff1 = Nu * np.linalg.pinv(Nx)
+    Kff_ss = Nu * np.linalg.pinv(Nx)
 
     # Two-state feedforwards
-    Kff2 = np.linalg.inv(sysd.B.T * Q * sysd.B + R) * (sysd.B.T * Q)
-    Kff3 = np.linalg.inv(sysd.B.T * Q * sysd.B) * (sysd.B.T * Q)
+    Kff_ts1 = np.linalg.inv(sysd.B.T * Q * sysd.B + R) * (sysd.B.T * Q)
+    Kff_ts2 = np.linalg.inv(sysd.B.T * Q * sysd.B) * (sysd.B.T * Q)
 
     t = np.arange(0, tmax, dt)
     r = np.matrix([[2000 * 0.1047], [0]])
     r_rec = np.zeros((2, 1, len(t)))
 
     # No feedforward
-    x0 = np.matrix([[0], [0]])
-    x0_rec = np.zeros((2, 1, len(t)))
-    u0_rec = np.zeros((1, 1, len(t)))
+    x = np.matrix([[0], [0]])
+    x_rec = np.zeros((2, 1, len(t)))
+    u_rec = np.zeros((1, 1, len(t)))
 
     # Steady-state feedforward
-    x1 = np.matrix([[0], [0]])
-    x1_rec = np.zeros((2, 1, len(t)))
-    u1_rec = np.zeros((1, 1, len(t)))
+    x_ss = np.matrix([[0], [0]])
+    x_ss_rec = np.zeros((2, 1, len(t)))
+    u_ss_rec = np.zeros((1, 1, len(t)))
 
     # Two-state feedforward
-    x2 = np.matrix([[0], [0]])
-    x2_rec = np.zeros((2, 1, len(t)))
-    u2_rec = np.zeros((1, 1, len(t)))
+    x_ts1 = np.matrix([[0], [0]])
+    x_ts1_rec = np.zeros((2, 1, len(t)))
+    u_ts1_rec = np.zeros((1, 1, len(t)))
 
     # Two-state feedforward (no R cost)
-    x3 = np.matrix([[0], [0]])
-    x3_rec = np.zeros((2, 1, len(t)))
-    u3_rec = np.zeros((1, 1, len(t)))
+    x_ts2 = np.matrix([[0], [0]])
+    x_ts2_rec = np.zeros((2, 1, len(t)))
+    u_ts2_rec = np.zeros((1, 1, len(t)))
 
     u_min = np.asmatrix(-12)
     u_max = np.asmatrix(12)
 
     for k in range(len(t)):
+        r_rec[:, :, k] = r
+
         # Without feedforward
-        u0 = K * (r - x0)
+        u = K * (r - x)
+        u = np.clip(u, u_min, u_max)
+        x = sysd.A * x + sysd.B * u
+        x_rec[:, :, k] = x
+        u_rec[:, :, k] = u
 
         # With steady-state feedforward
-        u1 = K * (r - x1) + Kff1 * r
+        u_ss = K * (r - x_ss) + Kff_ss * r
+        u_ss = np.clip(u_ss, u_min, u_max)
+        x_ss = sysd.A * x_ss + sysd.B * u_ss
+        x_ss_rec[:, :, k] = x_ss
+        u_ss_rec[:, :, k] = u_ss
 
-        # With two-state feedforwards
-        u2 = K * (r - x2) + Kff2 * (r - sysd.A * r)
-        u3 = K * (r - x3) + Kff3 * (r - sysd.A * r)
+        # With two-state feedforward
+        u_ts1 = K * (r - x_ts1) + Kff_ts1 * (r - sysd.A * r)
+        u_ts1 = np.clip(u_ts1, u_min, u_max)
+        x_ts1 = sysd.A * x_ts1 + sysd.B * u_ts1
+        x_ts1_rec[:, :, k] = x_ts1
+        u_ts1_rec[:, :, k] = u_ts1
 
-        u0 = np.clip(u0, u_min, u_max)
-        x0 = sysd.A * x0 + sysd.B * u0
-        u1 = np.clip(u1, u_min, u_max)
-        x1 = sysd.A * x1 + sysd.B * u1
-        u2 = np.clip(u2, u_min, u_max)
-        x2 = sysd.A * x2 + sysd.B * u2
-        u3 = np.clip(u3, u_min, u_max)
-        x3 = sysd.A * x3 + sysd.B * u3
-
-        r_rec[:, :, k] = r
-        x0_rec[:, :, k] = x0
-        u0_rec[:, :, k] = u0
-        x1_rec[:, :, k] = x1
-        u1_rec[:, :, k] = u1
-        x2_rec[:, :, k] = x2
-        u2_rec[:, :, k] = u2
-        x3_rec[:, :, k] = x3
-        u3_rec[:, :, k] = u3
+        # With two-state feedforward (no R cost)
+        u_ts2 = K * (r - x_ts2) + Kff_ts2 * (r - sysd.A * r)
+        u_ts2 = np.clip(u_ts2, u_min, u_max)
+        x_ts2 = sysd.A * x_ts2 + sysd.B * u_ts2
+        x_ts2_rec[:, :, k] = x_ts2
+        u_ts2_rec[:, :, k] = u_ts2
 
     plt.figure(1)
 
     plt.subplot(3, 1, 1)
     plt.plot(t, r_rec[0, 0, :], label="Reference")
     plt.ylabel("$\omega$ (rad/s)")
-    plt.plot(t, x0_rec[0, 0, :], label="No FF")
-    plt.plot(t, x1_rec[0, 0, :], label="Steady-state FF")
-    plt.plot(t, x2_rec[0, 0, :], label="Two-state FF")
+    plt.plot(t, x_rec[0, 0, :], label="No FF")
+    plt.plot(t, x_ss_rec[0, 0, :], label="Steady-state FF")
+    plt.plot(t, x_ts1_rec[0, 0, :], label="Two-state FF")
     plt.legend()
 
     plt.subplot(3, 1, 2)
     plt.plot(t, r_rec[1, 0, :], label="Reference")
     plt.ylabel("Current (A)")
-    plt.plot(t, x0_rec[1, 0, :], label="No FF")
-    plt.plot(t, x1_rec[1, 0, :], label="Steady-state FF")
-    plt.plot(t, x2_rec[1, 0, :], label="Two-state FF")
+    plt.plot(t, x_rec[1, 0, :], label="No FF")
+    plt.plot(t, x_ss_rec[1, 0, :], label="Steady-state FF")
+    plt.plot(t, x_ts1_rec[1, 0, :], label="Two-state FF")
     plt.legend()
 
     plt.subplot(3, 1, 3)
-    plt.plot(t, u0_rec[0, 0, :], label="No FF")
-    plt.plot(t, u1_rec[0, 0, :], label="Steady-state FF")
-    plt.plot(t, u2_rec[0, 0, :], label="Two-state FF")
+    plt.plot(t, u_rec[0, 0, :], label="No FF")
+    plt.plot(t, u_ss_rec[0, 0, :], label="Steady-state FF")
+    plt.plot(t, u_ts1_rec[0, 0, :], label="Two-state FF")
     plt.legend()
     plt.ylabel("Control effort (V)")
     plt.xlabel("Time (s)")
@@ -154,20 +155,20 @@ def main():
     plt.subplot(3, 1, 1)
     plt.plot(t, r_rec[0, 0, :], label="Reference")
     plt.ylabel("$\omega$ (rad/s)")
-    plt.plot(t, x2_rec[0, 0, :], label="Two-state FF")
-    plt.plot(t, x3_rec[0, 0, :], label="Two-state FF (no R cost)")
+    plt.plot(t, x_ts1_rec[0, 0, :], label="Two-state FF")
+    plt.plot(t, x_ts2_rec[0, 0, :], label="Two-state FF (no R cost)")
     plt.legend()
 
     plt.subplot(3, 1, 2)
     plt.plot(t, r_rec[1, 0, :], label="Reference")
     plt.ylabel("Current (A)")
-    plt.plot(t, x2_rec[1, 0, :], label="Two-state FF")
-    plt.plot(t, x3_rec[1, 0, :], label="Two-state FF (no R cost)")
+    plt.plot(t, x_ts1_rec[1, 0, :], label="Two-state FF")
+    plt.plot(t, x_ts2_rec[1, 0, :], label="Two-state FF (no R cost)")
     plt.legend()
 
     plt.subplot(3, 1, 3)
-    plt.plot(t, u2_rec[0, 0, :], label="Two-state FF")
-    plt.plot(t, u3_rec[0, 0, :], label="Two-state FF (no R cost)")
+    plt.plot(t, u_ts1_rec[0, 0, :], label="Two-state FF")
+    plt.plot(t, u_ts2_rec[0, 0, :], label="Two-state FF (no R cost)")
     plt.legend()
     plt.ylabel("Control effort (V)")
     plt.xlabel("Time (s)")

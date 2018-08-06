@@ -45,56 +45,56 @@ def main():
                    [0, 1 / 40**2]])
     R = np.matrix([[1 / 12**2]])
     # yapf: enable
-    Kpp1 = cnt.place(sysd.A, sysd.B, [0.1, 0.9])
-    Kpp2 = cnt.place(sysd.A, sysd.B, [0.1, 0.8])
-    Klqr = frccnt.dlqr(sysd, Q, R)
+    K_pp1 = cnt.place(sysd.A, sysd.B, [0.1, 0.9])
+    K_pp2 = cnt.place(sysd.A, sysd.B, [0.1, 0.8])
+    K_lqr = frccnt.dlqr(sysd, Q, R)
 
     t = np.arange(0, tmax, dt)
     r = np.matrix([[2000 * 0.1047], [0]])
     r_rec = np.zeros((2, 1, len(t)))
 
     # Pole placement 1
-    xpp1 = np.matrix([[0], [0]])
-    xpp1_rec = np.zeros((2, 1, len(t)))
-    upp1_rec = np.zeros((1, 1, len(t)))
+    x_pp1 = np.matrix([[0], [0]])
+    x_pp1_rec = np.zeros((2, 1, len(t)))
+    u_pp1_rec = np.zeros((1, 1, len(t)))
 
     # Pole placement 2
-    xpp2 = np.matrix([[0], [0]])
-    xpp2_rec = np.zeros((2, 1, len(t)))
-    upp2_rec = np.zeros((1, 1, len(t)))
+    x_pp2 = np.matrix([[0], [0]])
+    x_pp2_rec = np.zeros((2, 1, len(t)))
+    u_pp2_rec = np.zeros((1, 1, len(t)))
 
     # LQR
-    xlqr = np.matrix([[0], [0]])
-    xlqr_rec = np.zeros((2, 1, len(t)))
-    ulqr_rec = np.zeros((1, 1, len(t)))
+    x_lqr = np.matrix([[0], [0]])
+    x_lqr_rec = np.zeros((2, 1, len(t)))
+    u_lqr_rec = np.zeros((1, 1, len(t)))
 
     u_min = np.asmatrix(-12)
     u_max = np.asmatrix(12)
 
     for k in range(len(t)):
         # Pole placement 1
-        upp1 = Kpp1 * (r - xpp1)
+        u_pp1 = K_pp1 * (r - x_pp1)
 
         # Pole placement 2
-        upp2 = Kpp2 * (r - xpp2)
+        u_pp2 = K_pp2 * (r - x_pp2)
 
         # LQR
-        ulqr = Klqr * (r - xlqr)
+        u_lqr = K_lqr * (r - x_lqr)
 
-        upp1 = np.clip(upp1, u_min, u_max)
-        xpp1 = sysd.A * xpp1 + sysd.B * upp1
-        upp2 = np.clip(upp2, u_min, u_max)
-        xpp2 = sysd.A * xpp2 + sysd.B * upp2
-        ulqr = np.clip(ulqr, u_min, u_max)
-        xlqr = sysd.A * xlqr + sysd.B * ulqr
+        u_pp1 = np.clip(u_pp1, u_min, u_max)
+        x_pp1 = sysd.A * x_pp1 + sysd.B * u_pp1
+        u_pp2 = np.clip(u_pp2, u_min, u_max)
+        x_pp2 = sysd.A * x_pp2 + sysd.B * u_pp2
+        u_lqr = np.clip(u_lqr, u_min, u_max)
+        x_lqr = sysd.A * x_lqr + sysd.B * u_lqr
 
         r_rec[:, :, k] = r
-        xpp1_rec[:, :, k] = xpp1
-        upp1_rec[:, :, k] = upp1
-        xpp2_rec[:, :, k] = xpp2
-        upp2_rec[:, :, k] = upp2
-        xlqr_rec[:, :, k] = xlqr
-        ulqr_rec[:, :, k] = ulqr
+        x_pp1_rec[:, :, k] = x_pp1
+        u_pp1_rec[:, :, k] = u_pp1
+        x_pp2_rec[:, :, k] = x_pp2
+        u_pp2_rec[:, :, k] = u_pp2
+        x_lqr_rec[:, :, k] = x_lqr
+        u_lqr_rec[:, :, k] = u_lqr
 
     plt.figure(1)
 
@@ -103,13 +103,13 @@ def main():
     plt.ylabel("$\omega$ (rad/s)")
     plt.plot(
         t,
-        xpp1_rec[0, 0, :],
+        x_pp1_rec[0, 0, :],
         label="Pole placement at $(0.1, 0)$ and $(0.9, 0)$")
     plt.plot(
         t,
-        xpp2_rec[0, 0, :],
+        x_pp2_rec[0, 0, :],
         label="Pole placement at $(0.1, 0)$ and $(0.8, 0)$")
-    plt.plot(t, xlqr_rec[0, 0, :], label="LQR")
+    plt.plot(t, x_lqr_rec[0, 0, :], label="LQR")
     plt.legend()
 
     plt.subplot(3, 1, 2)
@@ -117,25 +117,25 @@ def main():
     plt.ylabel("Current (A)")
     plt.plot(
         t,
-        xpp1_rec[1, 0, :],
+        x_pp1_rec[1, 0, :],
         label="Pole placement at $(0.1, 0)$ and $(0.9, 0)$")
     plt.plot(
         t,
-        xpp2_rec[1, 0, :],
+        x_pp2_rec[1, 0, :],
         label="Pole placement at $(0.1, 0)$ and $(0.8, 0)$")
-    plt.plot(t, xlqr_rec[1, 0, :], label="LQR")
+    plt.plot(t, x_lqr_rec[1, 0, :], label="LQR")
     plt.legend()
 
     plt.subplot(3, 1, 3)
     plt.plot(
         t,
-        upp1_rec[0, 0, :],
+        u_pp1_rec[0, 0, :],
         label="Pole placement at $(0.1, 0)$ and $(0.9, 0)$")
     plt.plot(
         t,
-        upp2_rec[0, 0, :],
+        u_pp2_rec[0, 0, :],
         label="Pole placement at $(0.1, 0)$ and $(0.8, 0)$")
-    plt.plot(t, ulqr_rec[0, 0, :], label="LQR")
+    plt.plot(t, u_lqr_rec[0, 0, :], label="LQR")
     plt.legend()
     plt.ylabel("Control effort (V)")
     plt.xlabel("Time (s)")
