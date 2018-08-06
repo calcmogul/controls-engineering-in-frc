@@ -263,31 +263,35 @@ Substitute this into equation (\ref{eq:elevator_cont_ss_vel}).
 \end{align*}
 
 \begin{align*}
-  \mtx{x} &=
-  \begin{bmatrix}
-    x \\
-    v_m
-  \end{bmatrix} \\
-  \mtx{y} &= x \\
-  \mtx{u} &= V
+  \begin{array}{ccc}
+    \mtx{x} =
+    \begin{bmatrix}
+      x \\
+      v_m
+    \end{bmatrix} &
+    \mtx{y} = x &
+    \mtx{u} = V
+  \end{array}
 \end{align*}
 
 \begin{align}
-  \mtx{A} &=
-  \begin{bmatrix}
-    0 & 1 \\
-    0 & -\frac{G^2 K_t}{R^2rmK_v}
-  \end{bmatrix} \\
-  \mtx{B} &=
-  \begin{bmatrix}
-    0 \\
-    \frac{GK_t}{Rrm}
-  \end{bmatrix} \\
-  \mtx{C} &=
-  \begin{bmatrix}
-    1 & 0
-  \end{bmatrix} \\
-  \mtx{D} &= 0
+  \begin{array}{cccc}
+    \mtx{A} =
+    \begin{bmatrix}
+      0 & 1 \\
+      0 & -\frac{G^2 K_t}{R^2rmK_v}
+    \end{bmatrix} &
+    \mtx{B} =
+    \begin{bmatrix}
+      0 \\
+      \frac{GK_t}{Rrm}
+    \end{bmatrix} &
+    \mtx{C} =
+    \begin{bmatrix}
+      1 & 0
+    \end{bmatrix} &
+    \mtx{D} = 0
+  \end{array}
 \end{align}
 
 \subsection{Model augmentation}

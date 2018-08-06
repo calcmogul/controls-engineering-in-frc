@@ -229,46 +229,50 @@ By equations (\ref{eq:drivetrain_model_left}) and
 \end{align*}
 
 \begin{align*}
-  \mtx{x} &=
-  \begin{bmatrix}
-    x_l \\
-    v_l \\
-    x_r \\
-    v_r
-  \end{bmatrix} \\
-  \mtx{y} &=
-  \begin{bmatrix}
-    x_l \\
-    x_r
-  \end{bmatrix} \\
-  \mtx{u} &=
-  \begin{bmatrix}
-    V_l \\
-    V_r
-  \end{bmatrix}
+  \begin{array}{ccc}
+    \mtx{x} =
+    \begin{bmatrix}
+      x_l \\
+      v_l \\
+      x_r \\
+      v_r
+    \end{bmatrix} &
+    \mtx{y} =
+    \begin{bmatrix}
+      x_l \\
+      x_r
+    \end{bmatrix} &
+    \mtx{u} =
+    \begin{bmatrix}
+      V_l \\
+      V_r
+    \end{bmatrix}
+  \end{array}
 \end{align*}
 
 \begin{align}
-  \mtx{A} &=
-  \begin{bmatrix}
-    0 & 1 & 0 & 0 \\
-    0 & \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_1 & 0 & \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_3 \\
-    0 & 0 & 0 & 1 \\
-    0 & \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_1 & 0 & \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_3
-  \end{bmatrix} \\
-  \mtx{B} &=
-  \begin{bmatrix}
-    0 & 0 \\
-    \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_2 & \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_4 \\
-    0 & 0 \\
-    \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_2 & \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_4
-  \end{bmatrix} \\
-  \mtx{C} &=
-  \begin{bmatrix}
-    1 & 0 & 0 & 0 \\
-    0 & 0 & 1 & 0 \\
-  \end{bmatrix} \\
-  \mtx{D} &= \mtx{0}_{2 \times 2}
+  \begin{array}{ll}
+    \mtx{A} =
+    \begin{bmatrix}
+      0 & 1 & 0 & 0 \\
+      0 & \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_1 & 0 & \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_3 \\
+      0 & 0 & 0 & 1 \\
+      0 & \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_1 & 0 & \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_3
+    \end{bmatrix} &
+    \mtx{B} =
+    \begin{bmatrix}
+      0 & 0 \\
+      \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_2 & \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_4 \\
+      0 & 0 \\
+      \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_2 & \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_4
+    \end{bmatrix} \\
+    \mtx{C} =
+    \begin{bmatrix}
+      1 & 0 & 0 & 0 \\
+      0 & 0 & 1 & 0 \\
+    \end{bmatrix} &
+    \mtx{D} = \mtx{0}_{2 \times 2}
+  \end{array}
 \end{align}
 
 where $C_1 = -\frac{G_l^2 K_t}{K_v R r^2}$, $C_2 = \frac{G_l K_t}{Rr}$,

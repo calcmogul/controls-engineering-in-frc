@@ -155,25 +155,20 @@ By equation (\ref{eq:dot_omega_f})
 \end{align*}
 
 \begin{align*}
-  \mtx{x} &=
-  \begin{bmatrix}
-    \omega_f
-  \end{bmatrix} \\
-  \mtx{y} &= \omega_f \\
-  \mtx{u} &= V
+  \begin{array}{ccc}
+    \mtx{x} = \omega_f &
+    \mtx{y} = \omega_f &
+    \mtx{u} = V
+  \end{array}
 \end{align*}
 
 \begin{align}
-  \mtx{A} &=
-  \begin{bmatrix}
-    -\frac{G^2 K_t}{K_v RJ}
-  \end{bmatrix} \\
-  \mtx{B} &=
-  \begin{bmatrix}
-    \frac{G K_t}{RJ}
-  \end{bmatrix} \\
-  \mtx{C} &= 1 \\
-  \mtx{D} &= 0
+  \begin{array}{cccc}
+    \mtx{A} = -\frac{G^2 K_t}{K_v RJ} &
+    \mtx{B} = \frac{G K_t}{RJ} &
+    \mtx{C} = 1 &
+    \mtx{D} = 0
+  \end{array}
 \end{align}
 
 \subsection{Model augmentation}

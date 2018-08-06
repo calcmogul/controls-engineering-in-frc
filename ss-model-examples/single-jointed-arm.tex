@@ -176,31 +176,35 @@ By equation (\ref{eq:dot_omega_arm})
 \end{align*}
 
 \begin{align*}
-  \mtx{x} &=
-  \begin{bmatrix}
-    \theta_{arm} \\
-    \omega_{arm}
-  \end{bmatrix} \\
-  \mtx{y} &= \theta_{arm} \\
-  \mtx{u} &= V
+  \begin{array}{ccc}
+    \mtx{x} =
+    \begin{bmatrix}
+      \theta_{arm} \\
+      \omega_{arm}
+    \end{bmatrix} &
+    \mtx{y} = \theta_{arm} &
+    \mtx{u} = V
+  \end{array}
 \end{align*}
 
 \begin{align}
-  \mtx{A} &=
-  \begin{bmatrix}
-    0 & 1 \\
-    0 & -\frac{G^2 K_t}{K_v RJ}
-  \end{bmatrix} \\
-  \mtx{B} &=
-  \begin{bmatrix}
-    0 \\
-    \frac{G K_t}{RJ}
-  \end{bmatrix} \\
-  \mtx{C} &=
-  \begin{bmatrix}
-    1 & 0
-  \end{bmatrix} \\
-  \mtx{D} &= 0
+  \begin{array}{cccc}
+    \mtx{A} =
+    \begin{bmatrix}
+      0 & 1 \\
+      0 & -\frac{G^2 K_t}{K_v RJ}
+    \end{bmatrix} &
+    \mtx{B} =
+    \begin{bmatrix}
+      0 \\
+      \frac{G K_t}{RJ}
+    \end{bmatrix} &
+    \mtx{C} =
+    \begin{bmatrix}
+      1 & 0
+    \end{bmatrix} &
+    \mtx{D} = 0
+  \end{array}
 \end{align}
 
 \subsection{Model augmentation}
