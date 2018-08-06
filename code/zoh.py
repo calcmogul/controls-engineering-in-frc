@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
 
-import matplotlib as mpl
-mpl.use("svg")
+# Avoid needing display if plots aren't being shown
+import sys
+if "--noninteractive" in sys.argv:
+    import matplotlib as mpl
+    mpl.use("svg")
+    import latexutils
+
 import frccontrol as frccnt
 import matplotlib.pyplot as plt
 import numpy as np
-
-import latexutils
 
 plt.rc("text", usetex=True)
 
@@ -101,7 +104,10 @@ def main():
     y = generate_zoh(pos, dt, sample_period)
     plt.plot(t, y, label="Zero-order hold (T={}s)".format(sample_period))
     plt.legend()
-    latexutils.savefig("zoh")
+    if "--noninteractive" in sys.argv:
+        latexutils.savefig("zoh")
+    else:
+        plt.show()
 
 
 if __name__ == "__main__":

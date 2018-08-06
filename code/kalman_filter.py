@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
 
-import matplotlib as mpl
-mpl.use("svg")
+# Avoid needing display if plots aren't being shown
+import sys
+if "--noninteractive" in sys.argv:
+    import matplotlib as mpl
+    mpl.use("svg")
+    import latexutils
+
 import matplotlib.pyplot as plt
 import numpy as np
-
-import latexutils
 
 plt.rc("text", usetex=True)
 
@@ -20,7 +23,7 @@ def main():
     # y_2: measurement of distance from robot to wall
     y = []
     import csv
-    with open("../../code/kalman_robot.csv", newline="") as data:
+    with open("kalman_robot.csv", newline="") as data:
         reader = csv.reader(data)
         for i, row in enumerate(reader):
             yrow = np.asmatrix([float(x) for x in row])
@@ -91,7 +94,8 @@ def main():
     plt.plot(t[1:], y[0, 1:].T, label="Robot to corner measurement (cm)")
     plt.plot(t[1:], y[1, 1:].T, label="Robot to wall measurement (cm)")
     plt.legend()
-    latexutils.savefig("kalman_filter_all")
+    if "--noninteractive" in sys.argv:
+        latexutils.savefig("kalman_filter_all")
 
     # Robot position estimate and variance
     plt.figure(2)
@@ -99,7 +103,8 @@ def main():
     plt.plot(t[1:], xhat_rec[0, 0, 1:], label="Robot position estimate (cm)")
     plt.plot(t[1:], P_rec[0, 0, 1:], label="Robot position variance ($cm^2$)")
     plt.legend()
-    latexutils.savefig("kalman_filter_robot_pos")
+    if "--noninteractive" in sys.argv:
+        latexutils.savefig("kalman_filter_robot_pos")
 
     # Wall position estimate and variance
     plt.figure(3)
@@ -107,7 +112,10 @@ def main():
     plt.plot(t[1:], xhat_rec[2, 0, 1:], label="Wall position estimate (cm)")
     plt.plot(t[1:], P_rec[2, 0, 1:], label="Wall position variance ($cm^2$)")
     plt.legend()
-    latexutils.savefig("kalman_filter_wall_pos")
+    if "--noninteractive" in sys.argv:
+        latexutils.savefig("kalman_filter_wall_pos")
+    else:
+        plt.show()
 
 
 if __name__ == "__main__":

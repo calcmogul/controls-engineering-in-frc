@@ -1,13 +1,16 @@
 #!/usr/bin/env python3
 
-import matplotlib as mpl
-mpl.use("svg")
+# Avoid needing display if plots aren't being shown
+import sys
+if "--noninteractive" in sys.argv:
+    import matplotlib as mpl
+    mpl.use("svg")
+    import latexutils
+
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
 from scipy.stats import multivariate_normal
-
-import latexutils
 
 plt.rc("text", usetex=True)
 
@@ -30,7 +33,10 @@ def main():
     ax.set_ylabel("$y$")
     ax.set_zlabel("$p(x, y)$")
 
-    latexutils.savefig("joint_pdf")
+    if "--noninteractive" in sys.argv:
+        latexutils.savefig("joint_pdf")
+    else:
+        plt.show()
 
 
 if __name__ == "__main__":

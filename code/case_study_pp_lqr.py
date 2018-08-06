@@ -1,14 +1,17 @@
 #!/usr/bin/env python3
 
-import matplotlib as mpl
-mpl.use("svg")
+# Avoid needing display if plots aren't being shown
+import sys
+if "--noninteractive" in sys.argv:
+    import matplotlib as mpl
+    mpl.use("svg")
+    import latexutils
+
 import control as cnt
 import frccontrol as frccnt
 import matplotlib.pyplot as plt
 import numpy as np
 from numpy import concatenate
-
-import latexutils
 
 plt.rc("text", usetex=True)
 
@@ -30,12 +33,12 @@ def main():
     D = np.matrix([[0]])
     # yapf: enable
 
-    sys = cnt.StateSpace(A, B, C, D)
+    sysc = cnt.StateSpace(A, B, C, D)
 
     dt = 0.0001
     tmax = 0.025
 
-    sysd = sys.sample(dt)
+    sysd = sysc.sample(dt)
 
     # yapf: disable
     Q = np.matrix([[1 / 20**2, 0],
@@ -137,7 +140,10 @@ def main():
     plt.ylabel("Control effort (V)")
     plt.xlabel("Time (s)")
 
-    latexutils.savefig("case_study_pp_lqr")
+    if "--noninteractive" in sys.argv:
+        latexutils.savefig("case_study_pp_lqr")
+    else:
+        plt.show()
 
 
 if __name__ == "__main__":

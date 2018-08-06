@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
 
-import matplotlib as mpl
-mpl.use("svg")
+# Avoid needing display if plots aren't being shown
+import sys
+if "--noninteractive" in sys.argv:
+    import matplotlib as mpl
+    mpl.use("svg")
+    import latexutils
+
 import matplotlib.patches as pts
 import matplotlib.pyplot as plt
-
-import latexutils
 
 plt.rc("text", usetex=True)
 GREEN = (0, 0.75, 0)
@@ -186,10 +189,15 @@ def draw_z_plane():
 def main():
     plt.figure(1)
     draw_s_plane()
-    latexutils.savefig("s_plane")
+    if "--noninteractive" in sys.argv:
+        latexutils.savefig("s_plane")
+
     plt.figure(2)
     draw_z_plane()
-    latexutils.savefig("z_plane")
+    if "--noninteractive" in sys.argv:
+        latexutils.savefig("z_plane")
+    else:
+        plt.show()
 
 
 if __name__ == "__main__":

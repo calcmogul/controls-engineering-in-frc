@@ -1,13 +1,16 @@
 #!/usr/bin/env python3
 
-import matplotlib as mpl
-mpl.use("svg")
+# Avoid needing display if plots aren't being shown
+import sys
+if "--noninteractive" in sys.argv:
+    import matplotlib as mpl
+    mpl.use("svg")
+    import latexutils
+
 import frccontrol as frccnt
 import matplotlib.pyplot as plt
 import math
 import numpy as np
-
-import latexutils
 
 plt.rc("text", usetex=True)
 
@@ -203,7 +206,8 @@ def main():
     y = generate_bilinear_transform_vel(vel, dt, sample_period)
     plt.plot(t, y, label="Bilinear transform (T={}s)".format(sample_period))
     plt.legend()
-    latexutils.savefig("discretization_methods_vel")
+    if "--noninteractive" in sys.argv:
+        latexutils.savefig("discretization_methods_vel")
 
     plt.figure(2)
     plt.xlabel("Time (s)")
@@ -216,7 +220,10 @@ def main():
     y = generate_bilinear_transform_pos(vel, dt, sample_period)
     plt.plot(t, y, label="Bilinear transform (T={}s)".format(sample_period))
     plt.legend()
-    latexutils.savefig("discretization_methods_pos")
+    if "--noninteractive" in sys.argv:
+        latexutils.savefig("discretization_methods_pos")
+    else:
+        plt.show()
 
 
 if __name__ == "__main__":

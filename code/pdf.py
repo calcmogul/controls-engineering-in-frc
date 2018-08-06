@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
 
-import matplotlib as mpl
-mpl.use("svg")
+# Avoid needing display if plots aren't being shown
+import sys
+if "--noninteractive" in sys.argv:
+    import matplotlib as mpl
+    mpl.use("svg")
+    import latexutils
+
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.stats import norm
-
-import latexutils
 
 plt.rc("text", usetex=True)
 
@@ -19,7 +22,10 @@ def main():
     plt.xlabel("$x$")
     plt.ylabel("$p(x)$")
     plt.legend()
-    latexutils.savefig("pdf")
+    if "--noninteractive" in sys.argv:
+        latexutils.savefig("pdf")
+    else:
+        plt.show()
 
 
 if __name__ == "__main__":

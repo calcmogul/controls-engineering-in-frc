@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
 
-import matplotlib as mpl
-mpl.use("svg")
+# Avoid needing display if plots aren't being shown
+import sys
+if "--noninteractive" in sys.argv:
+    import matplotlib as mpl
+    mpl.use("svg")
+    import latexutils
+
 import matplotlib.pyplot as plt
 import numpy as np
-
-import latexutils
 
 plt.rc("text", usetex=True)
 
@@ -20,7 +23,7 @@ def main():
     # y_2: measurement of distance from robot to wall
     y = []
     import csv
-    with open("../../code/kalman_robot.csv", newline="") as data:
+    with open("kalman_robot.csv", newline="") as data:
         reader = csv.reader(data)
         for i, row in enumerate(reader):
             yrow = np.asmatrix([float(x) for x in row])
@@ -113,7 +116,8 @@ def main():
     plt.plot(t[1:], xhat_post_rec[0, 0, 1:], label="Kalman filter")
     plt.plot(t[1:], xhat_smooth_rec[0, 0, 1:], label="Kalman smoother")
     plt.legend()
-    latexutils.savefig("kalman_smoother_robot_pos")
+    if "--noninteractive" in sys.argv:
+        latexutils.savefig("kalman_smoother_robot_pos")
 
     # Robot velocity
     plt.figure(2)
@@ -122,7 +126,8 @@ def main():
     plt.plot(t[1:], xhat_post_rec[1, 0, 1:], label="Kalman filter")
     plt.plot(t[1:], xhat_smooth_rec[1, 0, 1:], label="Kalman smoother")
     plt.legend()
-    latexutils.savefig("kalman_smoother_robot_vel")
+    if "--noninteractive" in sys.argv:
+        latexutils.savefig("kalman_smoother_robot_vel")
 
     # Wall position
     plt.figure(3)
@@ -131,7 +136,8 @@ def main():
     plt.plot(t[1:], xhat_post_rec[2, 0, 1:], label="Kalman filter")
     plt.plot(t[1:], xhat_smooth_rec[2, 0, 1:], label="Kalman smoother")
     plt.legend()
-    latexutils.savefig("kalman_smoother_wall_pos")
+    if "--noninteractive" in sys.argv:
+        latexutils.savefig("kalman_smoother_wall_pos")
 
     # Robot position variance
     plt.figure(4)
@@ -140,7 +146,10 @@ def main():
     plt.plot(t[1:], P_post_rec[1, 1, 1:], label="Kalman filter")
     plt.plot(t[1:], P_smooth_rec[1, 1, 1:], label="Kalman smoother")
     plt.legend()
-    latexutils.savefig("kalman_smoother_robot_pos_variance")
+    if "--noninteractive" in sys.argv:
+        latexutils.savefig("kalman_smoother_robot_pos_variance")
+    else:
+        plt.show()
 
 
 if __name__ == "__main__":

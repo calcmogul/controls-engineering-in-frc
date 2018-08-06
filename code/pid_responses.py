@@ -1,13 +1,16 @@
 #!/usr/bin/env python3
 
-import matplotlib as mpl
-mpl.use("svg")
+# Avoid needing display if plots aren't being shown
+import sys
+if "--noninteractive" in sys.argv:
+    import matplotlib as mpl
+    mpl.use("svg")
+    import latexutils
+
 import control as cnt
 from frccontrol import conv
 import matplotlib.pyplot as plt
 import numpy as np
-
-import latexutils
 
 plt.rc("text", usetex=True)
 
@@ -50,7 +53,10 @@ def main():
     Gcl = make_closed_loop_plant(G, 6.268)
     sim(Gcl, T, "Critically damped")
 
-    latexutils.savefig("pid_responses")
+    if "--noninteractive" in sys.argv:
+        latexutils.savefig("pid_responses")
+    else:
+        plt.show()
 
 
 if __name__ == "__main__":

@@ -53,6 +53,7 @@ $(NAME).gls: $(NAME).aux
 $(NAME).aux: init-stamp
 
 build/frccontrol:
+	mkdir -p build/code && cp code/kalman_robot.csv build/code
 	rm -rf build/frccontrol && git clone git://github.com/calcmogul/frccontrol build/frccontrol --depth=1
 	cd build && ./frccontrol/examples/drivetrain.py --save-plots --noninteractive
 	cd build && inkscape -D -z --file=drivetrain_pzmaps.svg --export-pdf=drivetrain_pzmaps.pdf
@@ -75,7 +76,7 @@ init-stamp: $(EXAMPLES) $(STAMP)
 
 $(STAMP): build/%.stamp: %.py
 	@mkdir -p $(@D)
-	cd $(@D) && PYTHONPATH=$(ROOT)/code $(ROOT)/$<
+	cd $(@D) && $(ROOT)/$< --noninteractive
 	touch $@
 
 .PHONY: clean

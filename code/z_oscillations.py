@@ -1,13 +1,16 @@
 #!/usr/bin/env python3
 
-import matplotlib as mpl
-mpl.use("svg")
+# Avoid needing display if plots aren't being shown
+import sys
+if "--noninteractive" in sys.argv:
+    import matplotlib as mpl
+    mpl.use("svg")
+    import latexutils
+
 import control as cnt
 from frccontrol import conv
 import matplotlib.pyplot as plt
 import numpy as np
-
-import latexutils
 
 plt.rc("text", usetex=True)
 
@@ -31,7 +34,8 @@ def main():
     sim(tf, T, "Single pole in RHP")
     tf = cnt.TransferFunction(1, [1, 0.6], dt)
     sim(tf, T, "Single pole in LHP")
-    latexutils.savefig("z_oscillations_1p")
+    if "--noninteractive" in sys.argv:
+        latexutils.savefig("z_oscillations_1p")
 
     plt.figure(2)
     plt.xlabel("Time (s)")
@@ -40,7 +44,10 @@ def main():
     sim(tf, T, "Complex conjugate poles in LHP")
     tf = cnt.TransferFunction(1, conv([1, -0.6 + 0.6j], [1, -0.6 - 0.6j]), dt)
     sim(tf, T, "Complex conjugate poles in RHP")
-    latexutils.savefig("z_oscillations_2p")
+    if "--noninteractive" in sys.argv:
+        latexutils.savefig("z_oscillations_2p")
+    else:
+        plt.show()
 
 
 if __name__ == "__main__":

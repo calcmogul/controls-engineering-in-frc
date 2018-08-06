@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
 
-import matplotlib as mpl
-mpl.use("svg")
+# Avoid needing display if plots aren't being shown
+import sys
+if "--noninteractive" in sys.argv:
+    import matplotlib as mpl
+    mpl.use("svg")
+    import latexutils
+
 import matplotlib.pyplot as plt
 import numpy as np
-
-import latexutils
 
 plt.rc("text", usetex=True)
 
@@ -22,7 +25,10 @@ def main():
     plt.xticks([])
     plt.yticks([])
     plt.legend()
-    latexutils.savefig("pareto_boundary")
+    if "--noninteractive" in sys.argv:
+        latexutils.savefig("pareto_boundary")
+    else:
+        plt.show()
 
 
 if __name__ == "__main__":

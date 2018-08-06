@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
 
-import math
-import matplotlib as mpl
-mpl.use("svg")
-import matplotlib.pyplot as plt
+# Avoid needing display if plots aren't being shown
+import sys
+if "--noninteractive" in sys.argv:
+    import matplotlib as mpl
+    mpl.use("svg")
+    import latexutils
 
-import latexutils
+import math
+import matplotlib.pyplot as plt
 
 plt.rc("text", usetex=True)
 
@@ -134,7 +137,8 @@ def main():
     plt.xlabel("Time (s)")
     plt.ylabel("Acceleration ($m/s^2$)")
     plt.plot(t, a, label="Acceleration")
-    latexutils.savefig("trapezoid_profile")
+    if "--noninteractive" in sys.argv:
+        latexutils.savefig("trapezoid_profile")
 
     t, x, v, a = generate_s_curve_profile(
         max_v=7.0, max_a=3.5, time_to_max_a=1.0, dt=0.05, goal=50.0)
@@ -149,7 +153,10 @@ def main():
     plt.xlabel("Time (s)")
     plt.ylabel("Acceleration ($m/s^2$)")
     plt.plot(t, a, label="Acceleration")
-    latexutils.savefig("s_curve_profile")
+    if "--noninteractive" in sys.argv:
+        latexutils.savefig("s_curve_profile")
+    else:
+        plt.show()
 
 
 if __name__ == "__main__":

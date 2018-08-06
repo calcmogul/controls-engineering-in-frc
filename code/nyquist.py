@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
 
+# Avoid needing display if plots aren't being shown
+import sys
+if "--noninteractive" in sys.argv:
+    import matplotlib as mpl
+    mpl.use("svg")
+    import latexutils
+
 import math
-import matplotlib as mpl
-mpl.use("svg")
 import matplotlib.pyplot as plt
 import numpy as np
-
-import latexutils
 
 plt.rc("text", usetex=True)
 
@@ -29,7 +32,11 @@ def main():
     plt.xlabel("$t$")
     plt.ylabel("$f(t)$")
     plt.legend()
-    latexutils.savefig("nyquist")
+
+    if "--noninteractive" in sys.argv:
+        latexutils.savefig("nyquist")
+    else:
+        plt.show()
 
 
 if __name__ == "__main__":

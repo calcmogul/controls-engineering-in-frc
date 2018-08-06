@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
 
-import matplotlib as mpl
-mpl.use("svg")
+# Avoid needing display if plots aren't being shown
+import sys
+if "--noninteractive" in sys.argv:
+    import matplotlib as mpl
+    mpl.use("svg")
+    import latexutils
+
 import matplotlib.pyplot as plt
 import numpy as np
 import os
-
-import latexutils
 
 plt.rc("text", usetex=True)
 
@@ -73,7 +76,10 @@ def main():
     ax_right.set_ylim([0, 0.8])
     plt.legend(loc=1)
 
-    latexutils.savefig("motor_data")
+    if "--noninteractive" in sys.argv:
+        latexutils.savefig("motor_data")
+    else:
+        plt.show()
 
 
 if __name__ == "__main__":
