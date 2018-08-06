@@ -2,8 +2,10 @@
 
 # Avoid needing display if plots aren't being shown
 import sys
+
 if "--noninteractive" in sys.argv:
     import matplotlib as mpl
+
     mpl.use("svg")
     import latexutils
 
@@ -23,7 +25,7 @@ def main():
 
     mu = np.array([0.0, 1.0])
     sigma = np.array([0.5, 0.5])
-    covariance = np.diag(sigma**2)
+    covariance = np.diag(sigma ** 2)
     z = multivariate_normal.pdf(xy, mean=mu, cov=covariance).reshape(x.shape)
 
     fig = plt.figure()

@@ -64,7 +64,7 @@ The following are optional because the book can compile without them.
 
 * Optional python packages
   * slycot (to generate pole-zero maps for certain state-space model examples)
-  * yapf (to format Python source code)
+  * black (to format Python source code)
 * ghostscript (to reduce size of final PDF for publishing)
 
 ## Compiling the book

@@ -2,8 +2,10 @@
 
 # Avoid needing display if plots aren't being shown
 import sys
+
 if "--noninteractive" in sys.argv:
     import matplotlib as mpl
+
     mpl.use("svg")
     import latexutils
 
@@ -38,12 +40,7 @@ def draw_s_plane():
     )
 
     # Green rectangle
-    rect = pts.Rectangle(
-        xy=(-0.005, 0),
-        width=0.01,
-        height=1.4,
-        color=GREEN,
-    )
+    rect = pts.Rectangle(xy=(-0.005, 0), width=0.01, height=1.4, color=GREEN)
     ax.add_artist(rect)
 
     # Green arrow
@@ -56,12 +53,7 @@ def draw_s_plane():
     )
 
     # Blue rectangle
-    rect = pts.Rectangle(
-        xy=(-0.005, 0),
-        width=0.01,
-        height=-1.4,
-        color=BLUE,
-    )
+    rect = pts.Rectangle(xy=(-0.005, 0), width=0.01, height=-1.4, color=BLUE)
     ax.add_artist(rect)
 
     # Blue arrow
@@ -74,12 +66,7 @@ def draw_s_plane():
     )
 
     # Yellow rectangle
-    rect = pts.Rectangle(
-        xy=(0, -0.005),
-        width=-1.4,
-        height=0.01,
-        color=YELLOW,
-    )
+    rect = pts.Rectangle(xy=(0, -0.005), width=-1.4, height=0.01, color=YELLOW)
     ax.add_artist(rect)
 
     # Yellow arrow
@@ -121,13 +108,7 @@ def draw_z_plane():
 
     # Green arc
     arc = pts.Arc(
-        xy=(0, 0),
-        width=2,
-        height=2,
-        theta1=0,
-        theta2=175,
-        color=GREEN,
-        linewidth=2,
+        xy=(0, 0), width=2, height=2, theta1=0, theta2=175, color=GREEN, linewidth=2
     )
     ax.add_artist(arc)
 
@@ -142,13 +123,7 @@ def draw_z_plane():
 
     # Blue arc
     arc = pts.Arc(
-        xy=(0, 0),
-        width=2,
-        height=2,
-        theta1=185,
-        theta2=360,
-        color=BLUE,
-        linewidth=2,
+        xy=(0, 0), width=2, height=2, theta1=185, theta2=360, color=BLUE, linewidth=2
     )
     ax.add_artist(arc)
 
@@ -162,12 +137,7 @@ def draw_z_plane():
     )
 
     # Yellow rectangle
-    rect = pts.Rectangle(
-        xy=(0.1, -0.01),
-        width=0.9,
-        height=0.02,
-        color=YELLOW,
-    )
+    rect = pts.Rectangle(xy=(0.1, -0.01), width=0.9, height=0.02, color=YELLOW)
     ax.add_artist(rect)
 
     # Yellow arrow

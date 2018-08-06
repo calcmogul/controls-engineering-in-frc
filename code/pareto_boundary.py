@@ -2,8 +2,10 @@
 
 # Avoid needing display if plots aren't being shown
 import sys
+
 if "--noninteractive" in sys.argv:
     import matplotlib as mpl
+
     mpl.use("svg")
     import latexutils
 
@@ -18,8 +20,7 @@ def main():
     y1 = [1 / val for val in x]
     y2 = [3 for val in x]
     plt.plot(x, y1, label="LQR")
-    plt.fill_between(
-        x, y1, y2, color=(1, 0.5, 0.05), alpha=0.5, label="Pole placement")
+    plt.fill_between(x, y1, y2, color=(1, 0.5, 0.05), alpha=0.5, label="Pole placement")
     plt.xlabel("$\Vert u^TRu \Vert_2$")
     plt.ylabel("$\Vert x^TQx \Vert_2$")
     plt.xticks([])

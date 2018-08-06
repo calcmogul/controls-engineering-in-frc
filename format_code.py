@@ -11,7 +11,6 @@ files = [
     if f.endswith(".py")
 ]
 
-subprocess.run(
-    [sys.executable, "-m", "yapf", "--style", "google", "-i", "format_code.py"])
+subprocess.run([sys.executable, "-m", "black", "-q", "format_code.py"])
 for f in files:
-    subprocess.run([sys.executable, "-m", "yapf", "--style", "google", "-i", f])
+    subprocess.run([sys.executable, "-m", "black", "-q", f])

@@ -2,8 +2,10 @@
 
 # Avoid needing display if plots aren't being shown
 import sys
+
 if "--noninteractive" in sys.argv:
     import matplotlib as mpl
+
     mpl.use("svg")
     import latexutils
 
@@ -52,7 +54,7 @@ def main():
     # s(JLs^2 + JRs + bLs + bR + K^2)
     # JLs^3 + JRs^2 + bLs^2 + bRs + K^2s
     # JLs^3 + (JR + bL)s^2 + (bR + K^2)s
-    G = cnt.TransferFunction(K, [J * L, J * R + b * L, b * R + K**2, 0])
+    G = cnt.TransferFunction(K, [J * L, J * R + b * L, b * R + K ** 2, 0])
     cnt.root_locus(G)
     plt.xlabel("Real Axis (seconds$^{-1}$)")
     plt.ylabel("Imaginary Axis (seconds$^{-1}$)")
@@ -73,7 +75,7 @@ def main():
     # s(JRs + bR + K^2)
     # JRs^2 + bRs + K^2s
     # JRs^2 + (bR + K^2)s
-    G = cnt.TransferFunction(K, [J * R, b * R + K**2, 0])
+    G = cnt.TransferFunction(K, [J * R, b * R + K ** 2, 0])
     cnt.root_locus(G)
     plt.xlabel("Real Axis (seconds$^{-1}$)")
     plt.ylabel("Imaginary Axis (seconds$^{-1}$)")

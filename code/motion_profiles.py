@@ -2,8 +2,10 @@
 
 # Avoid needing display if plots aren't being shown
 import sys
+
 if "--noninteractive" in sys.argv:
     import matplotlib as mpl
+
     mpl.use("svg")
     import latexutils
 
@@ -66,8 +68,9 @@ def generate_s_curve_profile(max_v, max_a, time_to_max_a, dt, goal):
     short_profile = max_v * (time_to_max_a + max_v / max_a) > goal
 
     if short_profile:
-        profile_max_v = max_a * (math.sqrt(
-            goal / max_a - 0.75 * time_to_max_a**2) - 0.5 * time_to_max_a)
+        profile_max_v = max_a * (
+            math.sqrt(goal / max_a - 0.75 * time_to_max_a ** 2) - 0.5 * time_to_max_a
+        )
     else:
         profile_max_v = max_v
 
@@ -89,7 +92,7 @@ def generate_s_curve_profile(max_v, max_a, time_to_max_a, dt, goal):
         if t < time_to_max_a:
             # Ramp up acceleration
             a_rec.append(j * t)
-            v_rec.append(0.5 * j * t**2)
+            v_rec.append(0.5 * j * t ** 2)
         elif t < t2:
             # Increase speed at max acceleration
             a_rec.append(max_a)
@@ -97,8 +100,7 @@ def generate_s_curve_profile(max_v, max_a, time_to_max_a, dt, goal):
         elif t < t3:
             # Ramp down acceleration
             a_rec.append(max_a - j * (t - t2))
-            v_rec.append(max_a * (t - 0.5 * time_to_max_a) -
-                         0.5 * j * (t - t2)**2)
+            v_rec.append(max_a * (t - 0.5 * time_to_max_a) - 0.5 * j * (t - t2) ** 2)
         elif t < t4:
             # Maintain max velocity
             a_rec.append(0.0)
@@ -106,7 +108,7 @@ def generate_s_curve_profile(max_v, max_a, time_to_max_a, dt, goal):
         elif t < t5:
             # Ramp down acceleration
             a_rec.append(-j * (t - t4))
-            v_rec.append(profile_max_v - 0.5 * j * (t - t4)**2)
+            v_rec.append(profile_max_v - 0.5 * j * (t - t4) ** 2)
         elif t < t6:
             # Decrease speed at max acceleration
             a_rec.append(-max_a)
@@ -114,8 +116,9 @@ def generate_s_curve_profile(max_v, max_a, time_to_max_a, dt, goal):
         elif t < t7:
             # Ramp up acceleration
             a_rec.append(-max_a + j * (t - t6))
-            v_rec.append(max_a * (t2 + t5 - t - 0.5 * time_to_max_a) +
-                         0.5 * j * (t - t6)**2)
+            v_rec.append(
+                max_a * (t2 + t5 - t - 0.5 * time_to_max_a) + 0.5 * j * (t - t6) ** 2
+            )
         else:
             a_rec.append(0.0)
             v_rec.append(0.0)
@@ -125,7 +128,8 @@ def generate_s_curve_profile(max_v, max_a, time_to_max_a, dt, goal):
 
 def main():
     t, x, v, a = generate_trapezoid_profile(
-        max_v=7.0, time_to_max_v=2.0, dt=0.05, goal=50.0)
+        max_v=7.0, time_to_max_v=2.0, dt=0.05, goal=50.0
+    )
     plt.figure(1)
     plt.subplot(311)
     plt.ylabel("Position (m)")
@@ -141,7 +145,8 @@ def main():
         latexutils.savefig("trapezoid_profile")
 
     t, x, v, a = generate_s_curve_profile(
-        max_v=7.0, max_a=3.5, time_to_max_a=1.0, dt=0.05, goal=50.0)
+        max_v=7.0, max_a=3.5, time_to_max_a=1.0, dt=0.05, goal=50.0
+    )
     plt.figure(2)
     plt.subplot(311)
     plt.ylabel("Position (m)")

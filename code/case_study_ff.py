@@ -2,8 +2,10 @@
 
 # Avoid needing display if plots aren't being shown
 import sys
+
 if "--noninteractive" in sys.argv:
     import matplotlib as mpl
+
     mpl.use("svg")
     import latexutils
 
@@ -24,14 +26,14 @@ def main():
     R = 0.0916
     L = 5.9000e-05
 
-    # yapf: disable
+    # fmt: off
     A = np.matrix([[-b / J, Kt / J],
                    [-Ke / L, -R / L]])
     B = np.matrix([[0],
                    [1 / L]])
     C = np.matrix([[1, 0]])
     D = np.matrix([[0]])
-    # yapf: enable
+    # fmt: on
 
     sysc = cnt.StateSpace(A, B, C, D)
 
@@ -40,23 +42,27 @@ def main():
 
     sysd = sysc.sample(dt)
 
-    # yapf: disable
+    # fmt: off
     Q = np.matrix([[1 / 20**2, 0],
                    [0, 1 / 40**2]])
     R = np.matrix([[1 / 12**2]])
-    # yapf: enable
+    # fmt: on
     K = frccnt.dlqr(sysd, Q, R)
 
     # Steady-state feedforward
     tmp1 = concatenate(
-        (concatenate((sysd.A - np.eye(sysd.A.shape[0]), sysd.B), axis=1),
-         concatenate((sysd.C, sysd.D), axis=1)),
-        axis=0)
+        (
+            concatenate((sysd.A - np.eye(sysd.A.shape[0]), sysd.B), axis=1),
+            concatenate((sysd.C, sysd.D), axis=1),
+        ),
+        axis=0,
+    )
     tmp2 = concatenate(
-        (np.zeros((sysd.A.shape[0], 1)), np.ones((sysd.C.shape[0], 1))), axis=0)
+        (np.zeros((sysd.A.shape[0], 1)), np.ones((sysd.C.shape[0], 1))), axis=0
+    )
     NxNu = np.linalg.pinv(tmp1) * tmp2
-    Nx = NxNu[0:sysd.A.shape[0], 0]
-    Nu = NxNu[sysd.C.shape[0] + 1:, 0]
+    Nx = NxNu[0 : sysd.A.shape[0], 0]
+    Nu = NxNu[sysd.C.shape[0] + 1 :, 0]
     Kff_ss = Nu * np.linalg.pinv(Nx)
 
     # Two-state feedforwards

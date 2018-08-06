@@ -2,8 +2,10 @@
 
 # Avoid needing display if plots aren't being shown
 import sys
+
 if "--noninteractive" in sys.argv:
     import matplotlib as mpl
+
     mpl.use("svg")
     import latexutils
 
@@ -23,6 +25,7 @@ def main():
     # y_2: measurement of distance from robot to wall
     y = []
     import csv
+
     with open("kalman_robot.csv", newline="") as data:
         reader = csv.reader(data)
         for i, row in enumerate(reader):
@@ -32,7 +35,7 @@ def main():
             else:
                 y = np.concatenate((y, yrow))
 
-    # yapf: disable
+    # fmt: off
     phi = np.matrix([[1, 1, 0],
                      [0, 0, 0],
                      [0, 0, 1]])
@@ -48,7 +51,7 @@ def main():
     K = np.zeros((3, 2));
     H = np.matrix([[1, 0, 0],
                    [-1, 0, 1]])
-    # yapf: enable
+    # fmt: on
 
     num_points = y.shape[1]
     xhat_rec = np.zeros((3, 1, num_points))
@@ -62,11 +65,11 @@ def main():
             xhat[0] = y[0, k]
             xhat[1] = (y[0, 1] - y[0, 0]) / dt
             xhat[2] = y[0, k] + y[1, k]
-            # yapf: disable
+            # fmt: off
             P = np.matrix([[10, 10 / dt, 10],
                            [10 / dt, 20 / dt**2, 10 / dt],
                            [10, 10 / dt, 20]])
-            # yapf: enable
+            # fmt: on
 
             xhat_rec[:, :, k] = xhat
             Ptemp = np.matrix([P[0, 0], P[1, 1], P[2, 2]]).T

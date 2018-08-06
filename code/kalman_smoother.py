@@ -2,8 +2,10 @@
 
 # Avoid needing display if plots aren't being shown
 import sys
+
 if "--noninteractive" in sys.argv:
     import matplotlib as mpl
+
     mpl.use("svg")
     import latexutils
 
@@ -23,6 +25,7 @@ def main():
     # y_2: measurement of distance from robot to wall
     y = []
     import csv
+
     with open("kalman_robot.csv", newline="") as data:
         reader = csv.reader(data)
         for i, row in enumerate(reader):
@@ -32,7 +35,7 @@ def main():
             else:
                 y = np.concatenate((y, yrow))
 
-    # yapf: disable
+    # fmt: off
     phi = np.matrix([[1, 1, 0],
                      [0, 1, 0],
                      [0, 0, 1]])
@@ -48,7 +51,7 @@ def main():
     K = np.zeros((3, 2));
     H = np.matrix([[1, 0, 0],
                    [-1, 0, 1]])
-    # yapf: enable
+    # fmt: on
 
     # Initialize matrix storage
     xhat_pre_rec = np.zeros((3, 1, y.shape[1]))
@@ -65,11 +68,11 @@ def main():
     xhat[0] = y[0, 0]
     xhat[1] = 0.2
     xhat[2] = y[0, 0] + y[1, 0]
-    # yapf: disable
+    # fmt: off
     P = np.matrix([[10, 0, 10],
                    [0, 1, 0],
                    [10, 0, 20]])
-    # yapf: enable
+    # fmt: on
 
     xhat_pre_rec[:, :, 1] = xhat
     P_pre_rec[:, :, 1] = P
@@ -103,7 +106,8 @@ def main():
     for k in range(y.shape[1] - 2, 0, -1):
         A = P_post_rec[:, :, k] * phi.T * np.linalg.inv(P_pre_rec[:, :, k + 1])
         xhat = xhat_post_rec[:, :, k] + A * (
-            xhat_smooth_rec[:, :, k + 1] - xhat_pre_rec[:, :, k + 1])
+            xhat_smooth_rec[:, :, k + 1] - xhat_pre_rec[:, :, k + 1]
+        )
         P = P_post_rec[:, :, k] + A * (P - P_pre_rec[:, :, k + 1]) * A.T
 
         xhat_smooth_rec[:, :, k] = xhat

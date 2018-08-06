@@ -2,8 +2,10 @@
 
 # Avoid needing display if plots aren't being shown
 import sys
+
 if "--noninteractive" in sys.argv:
     import matplotlib as mpl
+
     mpl.use("svg")
     import latexutils
 
@@ -24,14 +26,14 @@ def main():
     R = 0.0916
     L = 5.9000e-05
 
-    # yapf: disable
+    # fmt: off
     A = np.matrix([[-b / J, Kt / J],
                    [-Ke / L, -R / L]])
     B = np.matrix([[0],
                    [1 / L]])
     C = np.matrix([[1, 0]])
     D = np.matrix([[0]])
-    # yapf: enable
+    # fmt: on
 
     sysc = cnt.StateSpace(A, B, C, D)
 
@@ -40,11 +42,11 @@ def main():
 
     sysd = sysc.sample(dt)
 
-    # yapf: disable
+    # fmt: off
     Q = np.matrix([[1 / 20**2, 0],
                    [0, 1 / 40**2]])
     R = np.matrix([[1 / 12**2]])
-    # yapf: enable
+    # fmt: on
     K_pp1 = cnt.place(sysd.A, sysd.B, [0.1, 0.9])
     K_pp2 = cnt.place(sysd.A, sysd.B, [0.1, 0.8])
     K_lqr = frccnt.dlqr(sysd, Q, R)
@@ -101,40 +103,22 @@ def main():
     plt.subplot(3, 1, 1)
     plt.plot(t, r_rec[0, 0, :], label="Reference")
     plt.ylabel("$\omega$ (rad/s)")
-    plt.plot(
-        t,
-        x_pp1_rec[0, 0, :],
-        label="Pole placement at $(0.1, 0)$ and $(0.9, 0)$")
-    plt.plot(
-        t,
-        x_pp2_rec[0, 0, :],
-        label="Pole placement at $(0.1, 0)$ and $(0.8, 0)$")
+    plt.plot(t, x_pp1_rec[0, 0, :], label="Pole placement at $(0.1, 0)$ and $(0.9, 0)$")
+    plt.plot(t, x_pp2_rec[0, 0, :], label="Pole placement at $(0.1, 0)$ and $(0.8, 0)$")
     plt.plot(t, x_lqr_rec[0, 0, :], label="LQR")
     plt.legend()
 
     plt.subplot(3, 1, 2)
     plt.plot(t, r_rec[1, 0, :], label="Reference")
     plt.ylabel("Current (A)")
-    plt.plot(
-        t,
-        x_pp1_rec[1, 0, :],
-        label="Pole placement at $(0.1, 0)$ and $(0.9, 0)$")
-    plt.plot(
-        t,
-        x_pp2_rec[1, 0, :],
-        label="Pole placement at $(0.1, 0)$ and $(0.8, 0)$")
+    plt.plot(t, x_pp1_rec[1, 0, :], label="Pole placement at $(0.1, 0)$ and $(0.9, 0)$")
+    plt.plot(t, x_pp2_rec[1, 0, :], label="Pole placement at $(0.1, 0)$ and $(0.8, 0)$")
     plt.plot(t, x_lqr_rec[1, 0, :], label="LQR")
     plt.legend()
 
     plt.subplot(3, 1, 3)
-    plt.plot(
-        t,
-        u_pp1_rec[0, 0, :],
-        label="Pole placement at $(0.1, 0)$ and $(0.9, 0)$")
-    plt.plot(
-        t,
-        u_pp2_rec[0, 0, :],
-        label="Pole placement at $(0.1, 0)$ and $(0.8, 0)$")
+    plt.plot(t, u_pp1_rec[0, 0, :], label="Pole placement at $(0.1, 0)$ and $(0.9, 0)$")
+    plt.plot(t, u_pp2_rec[0, 0, :], label="Pole placement at $(0.1, 0)$ and $(0.8, 0)$")
     plt.plot(t, u_lqr_rec[0, 0, :], label="LQR")
     plt.legend()
     plt.ylabel("Control effort (V)")

@@ -2,8 +2,10 @@
 
 # Avoid needing display if plots aren't being shown
 import sys
+
 if "--noninteractive" in sys.argv:
     import matplotlib as mpl
+
     mpl.use("svg")
     import latexutils
 
@@ -30,7 +32,7 @@ def main():
     for i, pair in enumerate(xy):
         s = pair[0] + pair[1] * 1j
         h = (s - 9 + 9j) * (s - 9 - 9j) / (s * (s + 10))
-        z[i] = clamp(math.sqrt(h.real**2 + h.imag**2), -30, 30)
+        z[i] = clamp(math.sqrt(h.real ** 2 + h.imag ** 2), -30, 30)
     z = z.reshape(x.shape)
 
     fig = plt.figure()

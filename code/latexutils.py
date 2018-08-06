@@ -1,4 +1,5 @@
 import matplotlib as mpl
+
 mpl.use("svg")
 import matplotlib.pyplot as plt
 
@@ -14,7 +15,12 @@ def savefig(file_name):
     import subprocess
 
     plt.savefig(file_name + ".svg")
-    subprocess.run([
-        "inkscape", "-D", "-z", "--file=" + file_name + ".svg",
-        "--export-pdf=" + file_name + ".pdf"
-    ])
+    subprocess.run(
+        [
+            "inkscape",
+            "-D",
+            "-z",
+            "--file=" + file_name + ".svg",
+            "--export-pdf=" + file_name + ".pdf",
+        ]
+    )

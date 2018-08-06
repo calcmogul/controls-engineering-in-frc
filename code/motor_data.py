@@ -2,8 +2,10 @@
 
 # Avoid needing display if plots aren't being shown
 import sys
+
 if "--noninteractive" in sys.argv:
     import matplotlib as mpl
+
     mpl.use("svg")
     import latexutils
 
@@ -27,9 +29,8 @@ def main():
 
     rpm = np.arange(0, rpm_free, 50)
     line1 = ax_left.plot(
-        rpm, [i_stall - i_stall / rpm_free * x for x in rpm],
-        "b",
-        label="Current (A)")
+        rpm, [i_stall - i_stall / rpm_free * x for x in rpm], "b", label="Current (A)"
+    )
     ax_left.annotate(
         "Stall current: " + str(i_stall) + " A",
         xy=(0, i_stall),
@@ -37,15 +38,22 @@ def main():
         arrowprops=dict(arrowstyle="->"),
     )
     line2 = ax_left.plot(
-        rpm, [
-            -p_max / (rpm_free / 2.0)**2 * (x - rpm_free / 2.0)**2 + p_max
+        rpm,
+        [
+            -p_max / (rpm_free / 2.0) ** 2 * (x - rpm_free / 2.0) ** 2 + p_max
             for x in rpm
         ],
         "g",
-        label="Output power (W)")
+        label="Output power (W)",
+    )
     ax_left.annotate(
-        "Peak power: " + str(p_max) + " W" + os.linesep + "(at " + str(
-            rpm_free / 2.0) + " RPM)",
+        "Peak power: "
+        + str(p_max)
+        + " W"
+        + os.linesep
+        + "(at "
+        + str(rpm_free / 2.0)
+        + " RPM)",
         xy=(rpm_free / 2.0, p_max),
         xytext=(7000, 365),
         arrowprops=dict(arrowstyle="->"),
@@ -56,9 +64,8 @@ def main():
 
     ax_right = ax_left.twinx()
     line3 = ax_right.plot(
-        rpm, [t_stall - t_stall / rpm_free * x for x in rpm],
-        "y",
-        label="Torque (N-m)")
+        rpm, [t_stall - t_stall / rpm_free * x for x in rpm], "y", label="Torque (N-m)"
+    )
     ax_right.annotate(
         "Stall torque: " + str(t_stall) + " N-m",
         xy=(0, t_stall),
@@ -66,8 +73,13 @@ def main():
         arrowprops=dict(arrowstyle="->"),
     )
     ax_right.annotate(
-        "Free speed: " + str(rpm_free) + " RPM" + os.linesep + "Free current: "
-        + str(i_free) + " A",
+        "Free speed: "
+        + str(rpm_free)
+        + " RPM"
+        + os.linesep
+        + "Free current: "
+        + str(i_free)
+        + " A",
         xy=(rpm_free, 0),
         xytext=(11000, 0.3),
         arrowprops=dict(arrowstyle="->"),
