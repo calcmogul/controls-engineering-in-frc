@@ -25,8 +25,9 @@ https://file.tavsys.net/control/state-space-guide.pdf.
 
 ## Running the examples
 
-Examples can be obtained from frccontrol's Git repository at
-https://github.com/calcmogul/frccontrol/tree/master/examples. They require
+Example Python scripts can be obtained from frccontrol's Git repository at
+https://github.com/calcmogul/frccontrol/tree/master/examples. Furthermore, all
+scripts in the [code](code) directory are runnable by the user. They require
 Python 3.5+ and frccontrol. frccontrol can be installed with the following
 command.
 
@@ -34,10 +35,10 @@ command.
 pip3 install --user frccontrol
 ```
 
-Examples can be run like follows:
+The scripts can be run like follows:
 
 ```
-./examples/elevator.py
+./elevator.py
 ```
 
 Some Linux platforms use tk as a backend for matplotlib, so that may need to be
@@ -99,7 +100,7 @@ anticipate gaps in their understanding.
     generalization of this, but has a nonorthogonal basis.
 * Add code examples of each type of model augmentation
 * Introduce glossary terms more explicitly since the links aren't visible
-* Add curly braces to theorems to clarify matrix dimensions
+* Add curly braces around equations in theorems to clarify matrix dimensions
 
 ### Finish incomplete topics
 
