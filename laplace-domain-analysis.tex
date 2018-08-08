@@ -7,12 +7,47 @@ poles and zeroes affects system response and stability, and how controllers
 affect pole locations. The case studies cover various aspects of PID control
 using the algebraic approach of transfer functions.
 
-\section{What is a transfer function?}
+\section{The Fourier transform}
 
-The Laplace domain is a two-dimensional coordinate system whose coordinates are
-represented by a complex number $s = \sigma + j\omega$. The real part $\sigma$
+The Fourier transform decomposes a function of time into its component
+frequencies. Each of these frequencies is part of what's called a
+\textit{basis}. These waveforms can be added together in linear combinations to
+produce the original signal. That is, we create a sum of waveforms that are
+multiplied by their respective contribution amount.
+
+Think of an F major 4 chord which has the notes $F_4$ ($349.23\,Hz$), $A_4$
+($440\,Hz$), and $C_4$ ($261.63\,Hz$). The waveform over time looks like figure
+\ref{fig:fourier_chord}.
+
+\begin{svg}{build/code/fourier_chord}
+  \caption{Frequency decomposition of Fmajor4 chord}
+  \label{fig:fourier_chord}
+\end{svg}
+
+Notice how this complex waveform can be represented just by three frequencies.
+They show up as Dirac delta functions\footnote{The Dirac delta function is zero
+everywhere except near the origin. The nonzero region has an infinitesimal width
+and a height such that the area within that region is $1$.} in the frequency
+domain with the area underneath them equal to their contribution (see figure
+\ref{fig:fourier_chord_fft}).
+
+\begin{svg}{build/code/fourier_chord_fft}
+  \caption{Fourier transform of Fmajor4 chord}
+  \label{fig:fourier_chord_fft}
+\end{svg}
+
+In summary, the Fourier transform provides a way for us to determine, given some
+signal, what frequencies can we add together and in what amounts to produce the
+original signal.
+
+\section{The Laplace domain}
+
+The Laplace domain is a generalization of the frequency domain that has the
+frequency ($j\omega$) on the imaginary y-axis and a real number on the x-axis,
+yielding a two-dimensional coordinate system. We represent coordinates in this
+space as a complex number $s = \sigma + j\omega$. The real part $\sigma$
 cooresponds to the x-axis and the imaginary part $j\omega$ cooresponds to the
-y-axis. See figure \ref{fig:laplace_domain}.
+y-axis (see figure \ref{fig:laplace_domain}).
 
 \begin{bookfigure}
   \begin{tikzpicture}[auto, >=latex']
@@ -27,11 +62,24 @@ y-axis. See figure \ref{fig:laplace_domain}.
   \label{fig:laplace_domain}
 \end{bookfigure}
 
-A transfer function maps an input coordinate to an output coordinate in the
-Laplace domain. These can be obtained by applying the Laplace transform to a
-differential equation and rearranging the terms to obtain a ratio of the output
-variable to the input variable. The Laplace transform of a function $f(t)$ is
-defined as
+To extend our analogy of each coordinate being represented by some basis, we now
+have the y coordinate representing the oscillation frequency of the system
+response (the frequency domain) and also the x coordinate representing the speed
+at which that oscillation decays and the system converges to zero. Figure
+\ref{fig:impulse_response_poles} shows this for various points.
+
+Note that this explanation as a basis isn't exact because the Laplace basis
+isn't orthogonal (that is, the x and y coordinates affect each other and have
+cross-talk). In the frequency domain, we had a basis of sine waves that we
+represented as delta functions in the frequency domain. Each frequency
+contribution was independent of the others. In the Laplace domain, this is not
+the case; a pure exponential is $\frac{1}{s -a}$ (a rational function) instead
+of a delta function. This function is nonzero at points that aren't actually
+frequencies present in the time domain.
+
+\section{The Laplace transform}
+
+The Laplace transform of a function $f(t)$ is defined as
 
 \begin{equation*}
   \mathcal{L}\{f(t)\} = F(s) = \int_0^\infty f(t) e^{-st} \,dt
@@ -65,17 +113,24 @@ exponential shortly.
   \label{tab:common-laplace-transforms}
 \end{booktable}
 
-Equation (\ref{eq:transfer_func}) is an example of a transfer function.
+\section{Transfer functions, poles, and zeroes}
+
+A transfer function maps an input coordinate to an output coordinate in the
+Laplace domain. These can be obtained by applying the Laplace transform to a
+differential equation and rearranging the terms to obtain a ratio of the output
+variable to the input variable. Equation (\ref{eq:transfer_func}) is an example
+of a transfer function.
 
 \begin{equation} \label{eq:transfer_func}
   H(s) = \frac{(s-9+9i)(s-9-9i)}{s(s+10)}
 \end{equation}
 
-The roots of factors in the numerator of a transfer function are called zeroes
-because they make the transfer function approach zero. Likewise, the roots of
-factors in the denominator of a transfer function are called poles because they
-make the transfer function approach infinity; on a 3D graph, these look like the
-poles of a circus tent. See figure \ref{fig:tf_3d}.
+The roots of factors in the numerator of a transfer function are called
+\textit{zeroes} because they make the transfer function approach zero. Likewise,
+the roots of factors in the denominator of a transfer function are called
+\textit{poles} because they make the transfer function approach infinity; on a
+3D graph, these look like the poles of a circus tent. See figure
+\ref{fig:tf_3d}.
 
 When the factors of the denominator are broken apart using partial fraction
 expansion into something like $\frac{A}{s + a} + \frac{B}{s + b}$, the constants
@@ -165,11 +220,8 @@ stability of the \gls{system}. Each pole represents a frequency mode of the
 \gls{system}, and their location determines how much of each response is induced
 for a given input frequency. Figure \ref{fig:impulse_response_poles} shows the
 impulse responses\footnote{An impulse response is the response of a \gls{system}
-to the Dirac delta function. The Dirac delta function is zero everywhere except
-near the origin. The nonzero region has an infinitesimal width and a height such
-that the area within that region is $1$.} in the time domain for transfer
-functions with various pole locations. They all have an initial condition of
-one.
+to the Dirac delta function.} in the time domain for transfer functions with
+various pole locations. They all have an initial condition of one.
 
 \begin{bookfigure}
   \begin{tikzpicture}[auto, >=latex']

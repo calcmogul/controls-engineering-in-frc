@@ -94,10 +94,6 @@ More examples of concepts should help slow the pace down. I should read through
 this book as if I was explaining it to my veteran software students and
 anticipate gaps in their understanding.
 
-* Rewrite Laplace domain section to build up intuition via basis contributions
-  * Fourier as process of finding component frequencies in a signal and their
-    contributions. Each frequency is an orthogonal basis. Laplace is a
-    generalization of this, but has a nonorthogonal basis.
 * Add code examples of each type of model augmentation
 * Introduce glossary terms more explicitly since the links aren't visible
 * Add curly braces around equations in theorems to clarify matrix dimensions
