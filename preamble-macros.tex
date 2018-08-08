@@ -33,7 +33,8 @@
 % #1: file name without extension
 \newenvironment{svg}[1]
   {\begin{figure}%
-    \includegraphics[width=\linewidth]{#1.pdf}}%
+    \centering%
+    \includegraphics[width=\linewidth * 3 / 4]{#1.pdf}}%
   {\end{figure}}
 
 % #1: file name without extension
