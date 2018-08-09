@@ -1,3 +1,5 @@
+\chapterimage{nonlinear-control.jpg}{Trees by Interdisciplinary Sciences building at UCSC}
+
 \chapter{Nonlinear control} \label{ch:nonlinear-control}
 
 While many tools exist for designing controllers for linear systems, all systems
@@ -32,10 +34,12 @@ linear controls can be applied. This is done by taking the partial derivative of
 the functions.
 
 \begin{align*}
-  \mtx{A} = \frac{\partial f(\mtx{x}, \mtx{0}, \mtx{0})}{\partial \mtx{x}},
-  \mtx{B} = \frac{\partial f(\mtx{0}, \mtx{u}, \mtx{0})}{\partial \mtx{u}},
-  \mtx{C} = \frac{\partial h(\mtx{x}, \mtx{0}, \mtx{0})}{\partial \mtx{x}},
-  \mtx{D} = \frac{\partial h(\mtx{0}, \mtx{u}, \mtx{0})}{\partial \mtx{u}}
+  \begin{array}{cccc}
+    \mtx{A} = \frac{\partial f(\mtx{x}, \mtx{0}, \mtx{0})}{\partial \mtx{x}} &
+    \mtx{B} = \frac{\partial f(\mtx{0}, \mtx{u}, \mtx{0})}{\partial \mtx{u}} &
+    \mtx{C} = \frac{\partial h(\mtx{x}, \mtx{0}, \mtx{0})}{\partial \mtx{x}} &
+    \mtx{D} = \frac{\partial h(\mtx{0}, \mtx{u}, \mtx{0})}{\partial \mtx{u}}
+  \end{array}
 \end{align*}
 
 Higher order partial derivatives can be added to better approximate the

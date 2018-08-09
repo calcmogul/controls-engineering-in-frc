@@ -1,0 +1,101 @@
+\section{Closed-loop controller}
+
+With the \gls{control law} $\mtx{u} = \mtx{K}(\mtx{r} - \mtx{x})$, we can derive
+the closed-loop state-space equations. We'll discuss where this control law
+comes from in subsection \ref{sec:lqr}.
+
+First is the state update equation. Substitute the control law into equation
+(\ref{eq:ss_ctrl_x}).
+
+\begin{align}
+  \dot{\mtx{x}} &= \mtx{A}\mtx{x} + \mtx{B}\mtx{K}(\mtx{r} - \mtx{x}) \nonumber
+    \\
+  \dot{\mtx{x}} &= \mtx{A}\mtx{x} + \mtx{B}\mtx{K}\mtx{r} -
+    \mtx{B}\mtx{K}\mtx{x} \nonumber \\
+  \dot{\mtx{x}} &= (\mtx{A} - \mtx{B}\mtx{K})\mtx{x} + \mtx{B}\mtx{K}\mtx{r}
+\end{align}
+
+Now for the output equation. Substitute the control law into equation
+(\ref{eq:ss_ctrl_y}).
+
+\begin{align}
+  \mtx{y} &= \mtx{C}\mtx{x} + \mtx{D}(\mtx{K}(\mtx{r} - \mtx{x})) \nonumber \\
+  \mtx{y} &= \mtx{C}\mtx{x} + \mtx{D}\mtx{K}\mtx{r} - \mtx{D}\mtx{K}\mtx{x}
+    \nonumber \\
+  \mtx{y} &= (\mtx{C} - \mtx{D}\mtx{K})\mtx{x} + \mtx{D}\mtx{K}\mtx{r}
+\end{align}
+
+Now, we'll do the same for the discrete system. We'd like to know whether the
+\gls{system} defined by equation (\ref{eq:ssz_ctrl_x}) operating with the
+\gls{control law} $\mtx{u}_k = \mtx{K}(\mtx{r}_k - \mtx{x}_k)$ converges to the
+\gls{reference} $\mtx{r}_k$.
+
+\begin{align*}
+  \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}\mtx{u}_k \\
+  \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}(\mtx{K}(\mtx{r}_k - \mtx{x}_k)) \\
+  \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}\mtx{K}\mtx{r}_k -
+    \mtx{B}\mtx{K}\mtx{x}_k \\
+  \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k - \mtx{B}\mtx{K}\mtx{x}_k +
+    \mtx{B}\mtx{K}\mtx{r}_k \\
+  \mtx{x}_{k+1} &= (\mtx{A} - \mtx{B}\mtx{K})\mtx{x}_k + \mtx{B}\mtx{K}\mtx{r}_k
+\end{align*}
+
+\begin{theorem}[Closed-loop state-space controller]
+  \index{State-space controllers!closed-loop}
+
+  \begin{align}
+    \dot{\mtx{x}} &= (\mtx{A} - \mtx{B}\mtx{K})\mtx{x} + \mtx{B}\mtx{K}\mtx{r}
+      \label{eq:s_ref_ctrl_x} \\
+    \mtx{y} &= (\mtx{C} - \mtx{D}\mtx{K})\mtx{x} + \mtx{D}\mtx{K}\mtx{r}
+      \label{eq:s_ref_ctrl_y}
+  \end{align}
+
+  \begin{align}
+    \mtx{x}_{k+1} &= (\mtx{A} - \mtx{B}\mtx{K})\mtx{x}_k +
+      \mtx{B}\mtx{K}\mtx{r}_k \label{eq:z_ref_ctrl_x} \\
+    \mtx{y}_k &= (\mtx{C} - \mtx{D}\mtx{K})\mtx{x}_k + \mtx{D}\mtx{K}\mtx{r}_k
+      \label{eq:z_ref_ctrl_y}
+  \end{align}
+
+  \begin{figurekey}
+    \begin{tabulary}{\linewidth}{LLLL}
+      $\mtx{A}$ & system matrix      & $\mtx{K}$ & controller gain matrix \\
+      $\mtx{B}$ & input matrix       & $\mtx{x}$ & state vector \\
+      $\mtx{C}$ & output matrix      & $\mtx{r}$ & \gls{reference} vector \\
+      $\mtx{D}$ & feedthrough matrix & $\mtx{y}$ & output vector \\
+    \end{tabulary}
+  \end{figurekey}
+\end{theorem}
+
+\begin{booktable}
+  \begin{tabular}{|ll|ll|}
+    \hline
+    \rowcolor{headingbg}
+    \textbf{Matrix} & \textbf{Rows $\times$ Columns} &
+    \textbf{Matrix} & \textbf{Rows $\times$ Columns} \\
+    \hline
+    $\mtx{A}$ & states $\times$ states & $\mtx{x}$ & states $\times$ 1 \\
+    $\mtx{B}$ & states $\times$ inputs & $\mtx{u}$ & inputs $\times$ 1 \\
+    $\mtx{C}$ & outputs $\times$ states & $\mtx{y}$ & outputs $\times$ 1 \\
+    $\mtx{D}$ & outputs $\times$ inputs & $\mtx{r}$ & states $\times$ 1 \\
+    $\mtx{K}$ & inputs $\times$ states &  &  \\
+    \hline
+  \end{tabular}
+  \caption{Controller matrix dimensions}
+  \label{tab:ctrl_matrix_dims}
+\end{booktable}
+
+\index{Stability!eigenvalues}
+Instead of commanding the system to a state using the vector $\mtx{u}$ directly,
+we can now specify a vector of desired states through $\mtx{r}$ and the system
+will choose values of $\mtx{u}$ for us over time to make the system converge to
+the reference. For equation (\ref{eq:s_ref_ctrl_x}) to reach steady-state, the
+eigenvalues of $\mtx{A} - \mtx{B}\mtx{K}$ must be in the left-half plane. For
+equation (\ref{eq:z_ref_ctrl_x}) to have a bounded output, the eigenvalues of
+$\mtx{A} - \mtx{B}\mtx{K}$ must be within the unit circle.
+
+The eigenvalues of $\mtx{A} - \mtx{B}\mtx{K}$ are the poles of the closed-loop
+system. Therefore, the rate of convergence and stability of the closed-loop
+system can be changed by moving the poles via the eigenvalues of
+$\mtx{A} - \mtx{B}\mtx{K}$. $\mtx{A}$ and $\mtx{B}$ are inherent to the system,
+but $\mtx{K}$ can be chosen arbitrarily by the controller designer.

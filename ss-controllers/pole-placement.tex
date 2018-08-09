@@ -1,0 +1,12 @@
+\section{Pole placement}
+\index{Controller design!pole placement}
+
+This is the practice of placing the poles of a closed-loop system directly to
+produce a desired response. This can be done manually for state feedback
+controllers with controllable canonical form (see section \ref{sec:ctrl-canon}).
+This can also be done manually for state observers with observable canonical
+form (see section \ref{sec:obsv-canon}).
+
+In general, pole placement should only be used if you know what you're doing.
+It's much easier to let LQR place the poles for you, then use those as a
+starting point for pole placement.
