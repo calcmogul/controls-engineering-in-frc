@@ -180,10 +180,11 @@ The feedback \gls{control law} that minimizes $J$, which we'll call the
 ``optimal control law", is shown in theorem \ref{thm:optimal_control_law}.
 
 \begin{theorem}[Optimal control law]
+  \label{thm:optimal_control_law}
+
   \begin{equation}
     \mtx{u} = -\mtx{K}\mtx{x}
   \end{equation}
-  \label{thm:optimal_control_law}
 \end{theorem}
 \index{Controller design!LQR!optimal control law}
 \index{Optimal control!LQR!optimal control law}
@@ -208,6 +209,12 @@ See appendix \ref{sec:deriv-optimal-control-law} for how $\mtx{K}$ is calculated
 in Python. If the result is finite, the controller is guaranteed to be stable
 and \glslink{robustness}{robust} with a \gls{phase margin} of 60 degrees
 \cite{bib:lqr-phase-margin}.
+
+\begin{remark}
+  LQR design's $\mtx{Q}$ and $\mtx{R}$ matrices don't need discretization, but
+  the $\mtx{K}$ calculated for continuous time and discrete time systems
+  will be different.
+\end{remark}
 
 \subsection{Bryson's rule}
 \index{Controller design!LQR!Bryson's rule}
@@ -296,7 +303,7 @@ $(0.1, 0)$ and $(0.9, 0)$ and LQR with the following cost matrices.
 LQR selected poles at $(0.593, 0)$ and $(0.955, 0)$. Notice with pole placement
 that as the current pole moves left, the control effort becomes more aggressive.
 
-\section{Localization}
+\section{State-space observers and localization}
 
 State-space observers are used to estimate \glspl{state} which cannot be
 measured directly. This can be due to noisy measurements or the state not being
@@ -384,6 +391,8 @@ To run them separately, use the equations in theorem \ref{thm:luenberger}
 instead.
 
 \begin{theorem}[Luenberger observer with separate predict/update]
+  \label{thm:luenberger}
+
   \begin{align}
     \text{Predict step} \nonumber \\
     \hat{\mtx{x}}_{k+1}^- &= \mtx{A}\hat{\mtx{x}}_k^- + \mtx{B}\mtx{u}_k \\
@@ -392,7 +401,6 @@ instead.
       (\mtx{y}_k - \hat{\mtx{y}}_k) \\
     \hat{\mtx{y}}_k &= \mtx{C} \hat{\mtx{x}}_k^-
   \end{align}
-  \label{thm:luenberger}
 \end{theorem}
 
 See appendix \ref{subsec:deriv-luenberger-separate} for a derivation.

@@ -132,14 +132,16 @@ used in the trace are on the diagonal.
 Given theorems \ref{thm:partial_tr_aba} and \ref{thm:partial_tr_ac}
 
 \begin{theorem}
+  \label{thm:partial_tr_aba}
+
   $\frac{\partial}{\partial\mtx{A}}\tr(\mtx{A}\mtx{B}\mtx{A}^T) =
     2\mtx{A}\mtx{B}$ where $\mtx{B}$ is symmetric.
-  \label{thm:partial_tr_aba}
 \end{theorem}
 
 \begin{theorem}
-  $\frac{\partial}{\partial\mtx{A}}\tr(\mtx{A}\mtx{C}) = \mtx{C}^T$
   \label{thm:partial_tr_ac}
+
+  $\frac{\partial}{\partial\mtx{A}}\tr(\mtx{A}\mtx{C}) = \mtx{C}^T$
 \end{theorem}
 
 find the minimum of the trace of $\mtx{P}_{k+1}^+$ by taking the partial
@@ -196,6 +198,8 @@ and update steps for a Kalman filter at the $k^{th}$ timestep.
 
 \index{State-space observers!Kalman filter!equations}
 \begin{theorem}[Kalman filter]
+  \label{thm:kalman_filter}
+
   \begin{align}
     \text{Predict step} \nonumber \\
     \hat{\mtx{x}}_{k+1}^- &= \mtx{\Phi}\hat{\mtx{x}}_k + \mtx{B} \mtx{u}_k
@@ -227,12 +231,16 @@ and update steps for a Kalman filter at the $k^{th}$ timestep.
 
   where a superscript of minus denotes \textit{a priori} and plus denotes
   \textit{a posteriori} estimate (before and after update respectively).
-
-  \label{thm:kalman_filter}
 \end{theorem}
 
 $\mtx{H}$, $\mtx{Q}$, and $\mtx{R}$ from the equations derived earlier are made
 constants here. $\mtx{\Phi}$ is replaced with $\mtx{A}$ for continuous systems.
+
+\begin{remark}
+  To implement a discrete time Kalman filter from a continuous model, the model
+  and continuous time $\mtx{Q}$ and $\mtx{R}$ matrices can be discretized using
+  theorem \ref{thm:zoh-ss}.
+\end{remark}
 
 \begin{booktable}
   \begin{tabular}{|ll|ll|}

@@ -127,6 +127,8 @@ approximations like these in section \ref{sec:discretization_methods} and how
 they affect controller behavior.
 
 \begin{theorem}[Velocity PID controller]
+  \label{thm:vel_pid}
+
   \begin{equation}
     u(t) = K_p e_v(t) + K_i \int_0^t e_v(\tau) \,d\tau
   \end{equation}
@@ -134,8 +136,6 @@ they affect controller behavior.
   where $e_v(t)$ is the velocity error at the current time $t$, $\tau$ is the
   integration variable, $K_p$ is now the derivative gain, and $K_i$ is now the
   proportional gain.
-
-  \label{thm:vel_pid}
 \end{theorem}
 
 Integral control for the velocity is analogous to the throttle pedal on a car.

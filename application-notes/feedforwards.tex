@@ -206,6 +206,8 @@ So all together, we get theorem \ref{thm:steady-state_ff}.
 
 \index{Feedforward!steady-state feedforward}
 \begin{theorem}[Steady-state feedforward]
+  \label{thm:steady-state_ff}
+
   \begin{align}
     &\text{Continuous:} \nonumber \\
     &\begin{bmatrix}
@@ -248,8 +250,6 @@ So all together, we get theorem \ref{thm:steady-state_ff}.
   After computing the feedforward for each actuator-output pair, the respective
   collections of $\mtx{N}_x$ and $\mtx{N}_u$ matrices can summed to produce the
   combined feedforward.
-
-  \label{thm:steady-state_ff}
 \end{theorem}
 
 If the augmented matrix in theorem \ref{thm:steady-state_ff} is square (number
@@ -307,24 +307,27 @@ cost matrix with dimensionality $inputs \times inputs$.
 The following theorems will be needed to find the minimum of $\mtx{J}$.
 
 \begin{theorem}
+  \label{thm:partial_xax}
+
   $\frac{\partial \mtx{x}^T\mtx{A}\mtx{x}}{\partial\mtx{x}} =
     2\mtx{A}\mtx{x}$ where $\mtx{A}$ is symmetric.
-  \label{thm:partial_xax}
 \end{theorem}
 
 \begin{theorem}
+  \label{thm:partial_ax_b}
+
   $\frac{\partial (\mtx{A}\mtx{x} + \mtx{b})^T\mtx{C}
     (\mtx{D}\mtx{x} + \mtx{e})}{\partial\mtx{x}} =
     \mtx{A}^T\mtx{C}(\mtx{D}\mtx{x} + \mtx{e}) + \mtx{D}^T\mtx{C}^T
     (\mtx{A}\mtx{x} + \mtx{b})$
-  \label{thm:partial_ax_b}
 \end{theorem}
 
 \begin{corollary}
+  \label{cor:partial_ax_b}
+
   $\frac{\partial (\mtx{A}\mtx{x} + \mtx{b})^T\mtx{C}
     (\mtx{A}\mtx{x} + \mtx{b})}{\partial\mtx{x}} =
     2\mtx{A}^T\mtx{C}(\mtx{A}\mtx{x} + \mtx{b})$ where $\mtx{C}$ is symmetric.
-  \label{cor:partial_ax_b}
 
   Proof:
   \begin{align*}
@@ -374,12 +377,13 @@ $\mtx{u}_{ff}$ and setting the result to $\mtx{0}$.
 \end{align*}
 
 \begin{theorem}[Two-state feedforward]
+  \label{thm:two-state_ff}
+
   \begin{align}
     &\mtx{u}_{ff} = \mtx{K}_{ff} (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k) \\
     &\text{where } \mtx{K}_{ff} =
       (\mtx{B}^T\mtx{Q}\mtx{B} + \mtx{R})^{-1}\mtx{B}^T\mtx{Q}
   \end{align}
-  \label{thm:two-state_ff}
 \end{theorem}
 \index{Feedforward!two-state feedforward}
 \index{Optimal control!two-state feedforward}
@@ -388,12 +392,13 @@ If control effort is considered inexpensive, $\mtx{R} \ll \mtx{Q}$ and
 $\mtx{u}_{ff}$ approaches corollary \ref{cor:two-state_ff_no_r}.
 
 \begin{corollary}[Two-state feedforward with inexpensive control effort]
+  \label{cor:two-state_ff_no_r}
+
   \begin{align}
     &\mtx{u}_{ff} = \mtx{K}_{ff} (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k) \\
     &\text{where } \mtx{K}_{ff} =
       (\mtx{B}^T\mtx{Q}\mtx{B})^{-1}\mtx{B}^T\mtx{Q}
   \end{align}
-  \label{cor:two-state_ff_no_r}
 \end{corollary}
 
 \begin{remark}
