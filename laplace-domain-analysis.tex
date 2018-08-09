@@ -338,7 +338,7 @@ then split toward asymptotes (figure \ref{fig:rlocus_asymptotes}), or move
 toward zeroes (figure \ref{fig:rlocus_zeroes}). The \gls{system} in figure
 \ref{fig:rlocus_zeroes} becomes unstable as the gain is increased.
 
-\begin{figure}
+\begin{bookfigure}
   \begin{minisvg}{build/code/rlocus_infty}
     \caption{Root locus showing pole moving toward negative infinity}
     \label{fig:rlocus_infty}
@@ -348,12 +348,13 @@ toward zeroes (figure \ref{fig:rlocus_zeroes}). The \gls{system} in figure
     \caption{Root locus showing poles moving toward asymptotes}
     \label{fig:rlocus_asymptotes}
   \end{minisvg}
+  \hfill
   \begin{minisvg}{build/code/rlocus_zeroes}
     \caption{Root locus of equation (\ref{eq:transfer_func}) showing poles
       moving toward zeroes.}
     \label{fig:rlocus_zeroes}
   \end{minisvg}
-\end{figure}
+\end{bookfigure}
 
 We won't be using root locus plots for any of our control systems analysis
 later, but it does help provide an intuition for what controllers actually do to
@@ -388,33 +389,35 @@ fast system responses. In other words, the system responses of the second-order
 model and its first-order approximation are similar for low frequency operating
 regimes.
 
-\begin{figure}
+\begin{bookfigure}
   \begin{minisvg}{build/code/highfreq_unstable_rlocus}
     \caption{Root locus of second-order DC brushed motor plant}
     \label{fig:highfreq_unstable_rlocus}
   \end{minisvg}
+  \hfill
   \begin{minisvg}{build/code/highfreq_stable_rlocus}
     \caption{Root locus of first-order DC brushed motor plant}
     \label{fig:highfreq_stable_rlocus}
   \end{minisvg}
-\end{figure}
+\end{bookfigure}
 
-\begin{figure}
+\begin{bookfigure}
   \begin{minisvg}{build/code/highfreq_unstable_step}
     \caption{Step response of second-order DC brushed motor plant}
     \label{fig:highfreq_unstable_step}
   \end{minisvg}
+  \hfill
   \begin{minisvg}{build/code/highfreq_stable_step}
     \caption{Step response of first-order DC brushed motor plant}
     \label{fig:highfreq_stable_step}
   \end{minisvg}
-\end{figure}
+\end{bookfigure}
 
 Why can't unstable poles close to the origin be ignored in the same way? The
 response of high frequency stable poles decays rapidly. Unstable poles, on the
 other hand, represent unstable dynamics which cause the system output to grow to
 infinity. Regardless of how slow these unstable dynamics are, they will
-eventially dominate the response.
+eventually dominate the response.
 
 \section{Pole-zero cancellation}
 
