@@ -1,23 +1,24 @@
 \section{State-space observers and localization}
 
-State-space observers are used to estimate \glspl{state} which cannot be
-measured directly. This can be due to noisy measurements or the state not being
-measurable (a hidden state). This information can be used for
+State-space \glspl{observer} are used to estimate \glspl{state} which cannot be
+measured directly. This can be due to noisy measurements or the \gls{state} not
+being measurable (a hidden \gls{state}). This information can be used for
 \gls{localization}, which is the process of using external measurements to
 determine an \gls{agent}'s pose\footnote{An agent is a system-agnostic term for
 independent controlled actors like robots or aircraft.}, or orientation in the
 world.
 
-One type of state estimator is LQE. ``LQE" stands for ``Linear-Quadratic
+One type of \gls{state} estimator is LQE. ``LQE" stands for ``Linear-Quadratic
 Estimator". Similar to LQR, it places the estimator poles such that it minimizes
-the sum of squares of the error. The Luenberger observer and Kalman filter are
-examples of these.
+the sum of squares of the \gls{error}. The Luenberger \gls{observer} and Kalman
+filter are examples of these.
 
 Computer vision can also be used for \gls{localization}. By extracting features
 from an image taken by the \gls{agent}'s camera, like a retroreflective target
 in FRC, and comparing them to known dimensions, one can determine where the
 \gls{agent}'s camera would have to be to see that image. This can be used to
-correct your state estimate in the same way we do with an encoder or gyroscope.
+correct our \gls{state} estimate in the same way we do with an encoder or
+gyroscope.
 
 \subsection{Luenberger observer}
 \index{State-space observers!Luenberger observer}
@@ -66,13 +67,13 @@ correct your state estimate in the same way we do with an encoder or gyroscope.
 \end{booktable}
 
 Variables denoted with a hat are estimates of the corresponding variable. For
-example, $\hat{\mtx{x}}$ is the estimate of the true state $\mtx{x}$.
+example, $\hat{\mtx{x}}$ is the estimate of the true \gls{state} $\mtx{x}$.
 
-Notice that a Luenberger observer has an extra term in the state evolution
-equation. This term uses the difference between the estimated outputs and
-measured outputs to steer the estimated state toward the true state. Large
-values of $\mtx{L}$ trust the measurements more while small values trust the
-model more.
+Notice that a Luenberger \gls{observer} has an extra term in the \gls{state}
+evolution equation. This term uses the difference between the estimated
+\glspl{output} and measured \glspl{output} to steer the estimated \gls{state}
+toward the true \gls{state}. Large values of $\mtx{L}$ trust the measurements
+more while small values trust the \gls{model} more.
 
 \begin{remark}
   Using an estimator forfeits the performance guarantees from earlier, but the
@@ -81,9 +82,9 @@ model more.
   Regulators} for a proof.
 \end{remark}
 
-A Luenberger observer combines the prediction and update steps of an estimator.
-To run them separately, use the equations in theorem \ref{thm:luenberger}
-instead.
+A Luenberger \gls{observer} combines the prediction and update steps of an
+estimator. To run them separately, use the equations in theorem
+\ref{thm:luenberger} instead.
 
 \begin{theorem}[Luenberger observer with separate predict/update]
   \label{thm:luenberger}
@@ -104,7 +105,7 @@ See appendix \ref{subsec:deriv-luenberger-separate} for a derivation.
 \index{Stability!eigenvalues}
 
 The eigenvalues of the system matrix can be used to determine whether a
-\gls{state} observer's estimate will converge to the true \gls{state}.
+\gls{state} \gls{observer}'s estimate will converge to the true \gls{state}.
 
 Plugging equation (\ref{eq:z_obsv_y}) into equation (\ref{eq:z_obsv_x}) gives
 
@@ -132,7 +133,7 @@ Plugging in equation (\ref{eq:ssz_ctrl_y}) gives
     \mtx{L}\mtx{C}(\mtx{x}_k - \hat{\mtx{x}}_k)
 \end{align*}
 
-Let $E_k = \mtx{x}_k - \hat{\mtx{x}}_k$ be the error in the estimate
+Let $E_k = \mtx{x}_k - \hat{\mtx{x}}_k$ be the \gls{error} in the estimate
 $\hat{\mtx{x}}_k$.
 
 \begin{equation*}
@@ -162,9 +163,9 @@ Subtracting this from equation (\ref{eq:ssz_ctrl_x}) gives
 
 For equation (\ref{eq:obsv_eig_calc}) to have a bounded output, the eigenvalues
 of $\mtx{A} - \mtx{L}\mtx{C}$ must be within the unit circle. These eigenvalues
-represent how fast the estimator converges to the true state of the given
+represent how fast the estimator converges to the true \gls{state} of the given
 \gls{model}. A fast estimator converges quickly while a slow estimator avoids
-amplifying noise in the measurements used to produce a state estimate.
+amplifying noise in the measurements used to produce a \gls{state} estimate.
 
 As stated before, the controller and estimator are dual problems. Controller
 gains can be found assuming perfect estimator (i.e., perfect knowledge of all

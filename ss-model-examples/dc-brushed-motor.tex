@@ -1,19 +1,22 @@
 \section{DC brushed motor}
+\label{sec:dc-brushed-motor}
 
-We will be deriving a first-order model for a DC brushed motor. A second-order
-model would include the inductance of the motor windings as well, but we're
-assuming the time constant of the inductor is small enough that its affect on
-the model behavior is negligible for FRC use cases (see section
-\ref{sec:root_locus} for a demonstration of this for a real DC brushed motor).
+We will be deriving a first-order \gls{model} for a DC brushed motor. A
+second-order \gls{model} would include the inductance of the motor windings as
+well, but we're assuming the time constant of the inductor is small enough that
+its affect on the \gls{model} behavior is negligible for FRC use cases (see
+section \ref{sec:root_locus} for a demonstration of this for a real DC brushed
+motor).
 
-The first-order model will only require numbers from the motor's datasheet. The
-second-order model would require measuring the motor inductance as well, which
-generally isn't in the datasheet. It can be difficult to measure accurately
-without the right equipment.
+The first-order \gls{model} will only require numbers from the motor's
+datasheet. The second-order \gls{model} would require measuring the motor
+inductance as well, which generally isn't in the datasheet. It can be difficult
+to measure accurately without the right equipment.
 
 \subsection{Equations of motion}
 
-The circuit for a DC brushed motor is shown below.
+The circuit for a DC brushed motor is shown in figure
+\ref{fig:dc_motor_circuit}.
 
 \begin{bookfigure}
   \begin{tikzpicture}[auto, >=latex', circuit ee IEC,
@@ -36,11 +39,11 @@ The circuit for a DC brushed motor is shown below.
   \label{fig:dc_motor_circuit}
 \end{bookfigure}
 
-where $V$ is the voltage applied to the motor, $I$ is the current through the
-motor in Amps, $R$ is the resistance across the motor in Ohms, $\omega_m$ is the
-angular velocity of the motor in radians per second, and $K_v$ is the angular
-velocity constant in radians per second per Volt. This circuit reflects the
-following relation.
+$V$ is the voltage applied to the motor, $I$ is the current through the motor in
+Amps, $R$ is the resistance across the motor in Ohms, $\omega_m$ is the angular
+velocity of the motor in radians per second, and $K_v$ is the angular velocity
+constant in radians per second per Volt. This circuit reflects the following
+relation.
 
 \begin{equation}
   V = IR + \frac{\omega_m}{K_v} \label{eq:motor_V}

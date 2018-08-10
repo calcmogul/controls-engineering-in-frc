@@ -102,8 +102,8 @@ We will start with the equation derived earlier for a DC brushed motor, equation
 \end{equation*}
 
 Solve for the angular acceleration. First, we'll rearrange the terms because
-from inspection, $V$ is the model input, $\omega_m$ is the state, and $\tau_m$
-contains the angular acceleration.
+from inspection, $V$ is the \gls{model} \gls{input}, $\omega_m$ is the
+\gls{state}, and $\tau_m$ contains the angular acceleration.
 
 \begin{equation*}
   V = \frac{R}{K_t} \tau_m + \frac{1}{K_v} \omega_m
@@ -211,13 +211,14 @@ By equation (\ref{eq:dot_omega_arm})
 
 \subsection{Simulation}
 
-Python Control will be used to discretize the model and simulate it. One of the
-frccontrol examples\footnote{\url{https://github.com/calcmogul/frccontrol/blob/master/examples/single_jointed_arm.py}}
+Python Control will be used to \glslink{discretization}{discretize} the
+\gls{model} and simulate it. One of the frccontrol
+examples\footnote{\url{https://github.com/calcmogul/frccontrol/blob/master/examples/single_jointed_arm.py}}
 creates and tests a controller for it.
 
 Figure \ref{fig:single_jointed_arm_pzmaps} shows the pole-zero maps for the
-open-loop system, closed-loop system, and observer. Figure
-\ref{fig:single_jointed_arm_response} shows the system response with them.
+open-loop \gls{system}, closed-loop \gls{system}, and \gls{observer}. Figure
+\ref{fig:single_jointed_arm_response} shows the \gls{system} response with them.
 
 \begin{svg}{build/single_jointed_arm_pzmaps}
   \caption{Drivetrain pole-zero maps}

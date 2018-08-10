@@ -15,9 +15,10 @@ Negative feedback loops drive the difference between the \gls{reference} and
 if error decreases over time.
 
 These gains act more when farther away from the \gls{reference} and less as the
-error decreases. They are like ``software springs" in a sense that pull the
-system's \gls{output} toward the \gls{reference}. Figure \ref{fig:pid_ctrl_diag}
-shows a block diagram for a system controlled by a PID controller.
+\gls{error} decreases. They are like ``software springs" in a sense that pull
+the \gls{system}'s \gls{output} toward the \gls{reference}. Figure
+\ref{fig:pid_ctrl_diag} shows a block diagram for a \gls{system} controlled by a
+PID controller.
 
 \begin{bookfigure}
   \begin{tikzpicture}[auto, >=latex']
@@ -61,28 +62,29 @@ shows a block diagram for a system controlled by a PID controller.
   \end{figurekey}
 \end{bookfigure}
 
-A system driven by a PID controller generally has three types of responses:
-underdamped, overdamped, and critically damped. These are shown in figure
-\ref{fig:pid_responses}.
+A \gls{system} driven by a PID controller generally has three types of
+responses: underdamped, overdamped, and critically damped. These are shown in
+figure \ref{fig:pid_responses}.
 
 \begin{svg}{build/code/pid_responses}
   \caption{Types of PID controller responses}
   \label{fig:pid_responses}
 \end{svg}
 
-For the step responses in figure \ref{fig:pid_responses}, \textit{rise time} is
-the time the system takes to initially reach the \gls{reference} after applying
-the step input. \textit{Settling time} is the time the system takes to settle at
-the \gls{reference} after the step input is applied. An underdamped response
-oscillates around the \gls{reference} before settling. An overdamped response is
-slow to rise and does not overshoot the \gls{reference}. A critically damped
-response has the fastest rise time without overshooting the \gls{reference}.
+For the \glspl{step response} in figure \ref{fig:pid_responses}, \gls{rise time}
+is the time the \gls{system} takes to initially reach the \gls{reference} after
+applying the \gls{step input}. \Gls{settling time} is the time the \gls{system}
+takes to settle at the \gls{reference} after the \gls{step input} is applied. An
+underdamped response oscillates around the \gls{reference} before settling. An
+overdamped response is slow to rise and does not overshoot the \gls{reference}.
+A critically damped response has the fastest rise time without overshooting the
+\gls{reference}.
 
 \section{Types of PID controllers}
 
-PID controller inputs of different orders of derivatives, such as position and
-velocity, affect the \gls{system} response differently. Below is the standard
-form for a position PID controller.
+PID controller inputs that are different orders of derivatives, such as position
+and velocity, affect the \gls{system} response differently. Below is the
+standard form for a position PID controller.
 
 \begin{definition}[Position PID controller]
   \begin{equation}
@@ -147,14 +149,14 @@ PID control theory.
 
 \section{PID control in terms of general control theory}
 
-PID control defines \textit{setpoint} as the desired position and
-\textit{process value} as the measured position. Control theory has more general
+PID control defines \gls{setpoint} as the desired position and
+\gls{process value} as the measured position. Control theory has more general
 terms for these: \gls{reference} and \gls{output} respectively.
 
-The derivative term is commonly used to ``slow down" the system if it's already
-heading toward the \gls{reference}. We will explore what $K_p$ and $K_d$ are
-really doing for a two-state system (position and velocity) and why $K_d$ acts
-that way.
+The derivative term is commonly used to ``slow down" the \gls{system} if it's
+already heading toward the \gls{reference}. We will explore what $K_p$ and $K_d$
+are really doing for a two-state \gls{system} (position and velocity) and why
+$K_d$ acts that way.
 
 First, we will rearrange the equation for a PD controller.
 
@@ -162,9 +164,9 @@ First, we will rearrange the equation for a PD controller.
   u_k = K_p e_k + K_d \frac{e_k - e_{k-1}}{dt}
 \end{equation*}
 
-where $u_k$ is the control input at timestep $k$ and $e_k$ is the error at
-timestep $k$. $e_k$ is defined as $e_k = r_k - x_k$ where $r_k$ is the reference
-and $x_k$ is the current state at timestep $k$.
+where $u_k$ is the \gls{control input} at timestep $k$ and $e_k$ is the
+\gls{error} at timestep $k$. $e_k$ is defined as $e_k = r_k - x_k$ where $r_k$
+is the \gls{reference} and $x_k$ is the current \gls{state} at timestep $k$.
 
 \begin{align*}
   u_k &= K_p (r_k - x_k) + K_d \frac{(r_k - x_k) - (r_{k-1} - x_{k-1})}{dt} \\
@@ -175,21 +177,22 @@ and $x_k$ is the current state at timestep $k$.
     \frac{x_k - x_{k-1}}{dt}\right)
 \end{align*}
 
-Notice how $\frac{r_k - r_{k-1}}{dt}$ is the velocity of the reference. By the
-same reasoning, $\frac{x_k - x_{k-1}}{dt}$ is the system's velocity at a given
-timestep. That means the $K_d$ term of the PD controller is driving the
-estimated velocity to the reference velocity. If the reference is constant, that
-means the $K_d$ term is trying to drive the velocity of the system to zero.
+Notice how $\frac{r_k - r_{k-1}}{dt}$ is the velocity of the \gls{reference}. By
+the same reasoning, $\frac{x_k - x_{k-1}}{dt}$ is the \gls{system}'s velocity at
+a given timestep. That means the $K_d$ term of the PD controller is driving the
+estimated velocity to the \gls{reference} velocity. If the \gls{reference} is
+constant, that means the $K_d$ term is trying to drive the velocity of the
+\gls{system} to zero.
 
 However, $K_p$ and $K_d$ are controlling the same actuator, and their effects
-conflict with each other; $K_p$ is trying to make the system move while $K_d$ is
-trying to stop it. If $K_p$ is larger than $K_d$, one is in effect slowing down
-the response of the controller during transients with the hope of decreasing
-overshoot and settling time. If one makes $K_d$ much larger than $K_p$, $K_d$
-overpowers $K_p$ to bring the system to a stop. However, when the velocity is
-low enough, $K_p$ is stronger and starts accelerating the system again. This
-oscillatory behavior in the velocity repeats as the system moves toward the
-reference.
+conflict with each other; $K_p$ is trying to make the \gls{system} move while
+$K_d$ is trying to stop it. If $K_p$ is larger than $K_d$, one is in effect
+slowing down the response of the controller during transients with the hope of
+decreasing \gls{overshoot} and \gls{settling time}. If one makes $K_d$ much
+larger than $K_p$, $K_d$ overpowers $K_p$ to bring the \gls{system} to a stop.
+However, when the velocity is low enough, $K_p$ is stronger and starts
+accelerating the \gls{system} again. This oscillatory behavior in the velocity
+repeats as the \gls{system} moves toward the \gls{reference}.
 
 \section{Limitations of PID control}
 
@@ -197,6 +200,6 @@ PID's heuristic method of tuning is a reasonable choice when there is no a
 priori knowledge of the \gls{system} dynamics. However, controllers with much
 better response can be developed if a \glslink{model}{dynamical model} of the
 \gls{system} is known. Furthermore, PID only applies to single-input,
-single-output (SISO) systems and can drive up to two \glspl{state} to
+single-output (SISO) \glspl{system} and can drive up to two \glspl{state} to
 \glspl{reference} by using both the proportional and integral terms. We'll
 revisit this in subsection \ref{subsec:flywheel-pid-control}.

@@ -2,11 +2,12 @@
 \index{Controller design!LQR}
 \index{Optimal control!LQR}
 
-Instead of placing the poles of a system manually, LQR design places the poles
-for us based on acceptable error and control effort constraints. ``LQR" stands
-for ``Linear-Quadratic \glslink{regulator}{Regulator}". This method of
-controller design uses a quadratic function for the cost-to-go defined as the
-sum of the error and control effort over time for the linear system
+Instead of placing the poles of a closed-loop \gls{system} manually, LQR design
+places the poles for us based on acceptable \gls{error} and \gls{control effort}
+constraints. ``LQR" stands for ``Linear-Quadratic
+\glslink{regulator}{Regulator}". This method of controller design uses a
+quadratic function for the cost-to-go defined as the sum of the \gls{error} and
+\gls{control effort} over time for the linear \gls{system}
 $\dot{\mtx{x}} = \mtx{A}\mtx{x} + \mtx{B}\mtx{u}$.
 
 \begin{equation*}
@@ -14,16 +15,17 @@ $\dot{\mtx{x}} = \mtx{A}\mtx{x} + \mtx{B}\mtx{u}$.
     \mtx{u}^T\mtx{R}\mtx{u}\right) dt
 \end{equation*}
 
-where $J$ represents a tradeoff between \gls{state} excursion and control effort
-with the weighting factors $\mtx{Q}$ and $\mtx{R}$. LQR finds a control law
-$\mtx{u}$ that minimizes the cost function. $\mtx{Q}$ and $\mtx{R}$ slide the
-cost along a Pareto boundary between state tracking and control effort (see
-figure \ref{fig:pareto_boundary}). Pareto optimality for this problem means that
-an improvement in state tracking cannot be obtained without using more control
-effort to do so. Also, a reduction in control effort cannot be obtained without
-sacrificing state tracking performance. Pole placement, on the other hand, will
-have a cost anywhere on, above, or to the right of the Pareto boundary (no cost
-can be inside the boundary).
+where $J$ represents a tradeoff between \gls{state} excursion and
+\gls{control effort} with the weighting factors $\mtx{Q}$ and $\mtx{R}$. LQR
+finds a \gls{control law} $\mtx{u}$ that minimizes the cost function. $\mtx{Q}$
+and $\mtx{R}$ slide the cost along a Pareto boundary between state tracking and
+\gls{control effort} (see figure \ref{fig:pareto_boundary}). Pareto optimality
+for this problem means that an improvement in state \gls{tracking} cannot be
+obtained without using more \gls{control effort} to do so. Also, a reduction in
+\gls{control effort} cannot be obtained without sacrificing state \gls{tracking}
+performance. Pole placement, on the other hand, will have a cost anywhere on,
+above, or to the right of the Pareto boundary (no cost can be inside the
+boundary).
 
 \begin{svg}{build/code/pareto_boundary}
   \caption{Pareto boundary for LQR}
@@ -31,8 +33,8 @@ can be inside the boundary).
 \end{svg}
 
 The minimum of LQR's cost function is found by setting the derivative of the
-cost function to zero and solving for the control law $\mtx{u}$. However, matrix
-calculus is used instead of normal calculus to take the derivative.
+cost function to zero and solving for the \gls{control law} $\mtx{u}$. However,
+matrix calculus is used instead of normal calculus to take the derivative.
 
 The feedback \gls{control law} that minimizes $J$, which we'll call the
 ``optimal control law", is shown in theorem \ref{thm:optimal_control_law}.
@@ -48,10 +50,10 @@ The feedback \gls{control law} that minimizes $J$, which we'll call the
 \index{Optimal control!LQR!optimal control law}
 
 This means that optimal control can be achieved with simply a set of
-proportional gains on all the states. This \gls{control law} will make all
-states converge to zero assuming the system is controllable. To converge to
-nonzero states, a reference vector $\mtx{r}$ can be added to the state
-$\mtx{x}$.
+proportional gains on all the \glspl{state}. This \gls{control law} will make
+all \glspl{state} converge to zero assuming the \gls{system} is controllable. To
+converge to nonzero \glspl{state}, a \gls{reference} vector $\mtx{r}$ can be
+added to the \gls{state} $\mtx{x}$.
 
 \begin{theorem}[Optimal control law with nonzero reference]
   \begin{equation}
@@ -59,9 +61,9 @@ $\mtx{x}$.
   \end{equation}
 \end{theorem}
 
-To use the control law, we need knowledge of the full state of the system. That
-means we either have to measure all our states directly or estimate those we do
-not measure.
+To use the \gls{control law}, we need knowledge of the full \gls{state} of the
+\gls{system}. That means we either have to measure all our \glspl{state}
+directly or estimate those we do not measure.
 
 See appendix \ref{sec:deriv-optimal-control-law} for how $\mtx{K}$ is calculated
 in Python. If the result is finite, the controller is guaranteed to be stable
@@ -69,9 +71,9 @@ and \glslink{robustness}{robust} with a \gls{phase margin} of 60 degrees
 \cite{bib:lqr-phase-margin}.
 
 \begin{remark}
-  LQR design's $\mtx{Q}$ and $\mtx{R}$ matrices don't need discretization, but
-  the $\mtx{K}$ calculated for continuous time and discrete time systems
-  will be different.
+  LQR design's $\mtx{Q}$ and $\mtx{R}$ matrices don't need \gls{discretization},
+  but the $\mtx{K}$ calculated for continuous time and discrete time
+  \glspl{system} will be different.
 \end{remark}
 
 \subsection{Bryson's rule}
@@ -109,7 +111,7 @@ can be slid along the Pareto boundary using a weighting factor $\rho$.
   \end{array}
 \end{equation*}
 
-Small values of $\rho$ penalize control effort while large values of $\rho$
-penalize \gls{state} excursions. Large values would be chosen in applications
-like fighter jets where performance is necessary. Spacecrafts would use small
-values to conserve their limited fuel supply.
+Small values of $\rho$ penalize \gls{control effort} while large values of
+$\rho$ penalize \gls{state} excursions. Large values would be chosen in
+applications like fighter jets where performance is necessary. Spacecrafts would
+use small values to conserve their limited fuel supply.

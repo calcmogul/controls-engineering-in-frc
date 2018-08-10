@@ -2,21 +2,31 @@
   name={agent},
   description={An independent actor being controlled through autonomy or
     human-in-the-loop (e.g., a robot, aircraft, etc.).}}
+\newglossaryentry{control effort}{
+  name={control effort},
+  description={A term describing how much force, pressure, etc. an actuator is
+    exerting.}}
+\newglossaryentry{control input}{
+  name={control input},
+  description={The input of a plant used for the purpose of controlling it.}}
+\newglossaryentry{control law}{
+  name={control law},
+  description={Also known as control policy, is a mathematical formula used by
+    the controller to determine the input u that is sent to the plant. This
+    control law is designed to drive the system from its current state to some
+    other desired state.}}
+\newglossaryentry{control system}{
+  name={control system},
+  description={Monitors and controls the behavior of a system.}}
 \newglossaryentry{controller}{
   name={controller},
   description={Used in positive or negative feedback with a plant to bring about
     a desired system state by driving the difference between a reference signal
     and the output to zero.}}
-\newglossaryentry{control law}{
-  name={control law},
-  description={Also known as control policy, is a mathematical formula used by
-  the controller to determine the input u that is sent to the plant. This
-  control law is designed to drive the system from its current state to some
-  other desired state.}}
 \newglossaryentry{discretization}{
   name={discretization},
   description={The process by which a continuous (e.g., analog) system or
-  controller design is converted to discrete (e.g., digital).}}
+    controller design is converted to discrete (e.g., digital).}}
 \newglossaryentry{disturbance}{
   name={disturbance},
   description={An external force acting on a system that isn't included in the
@@ -32,6 +42,9 @@
   name={gain margin},
   description={See section \ref{sec:gain-phase-margin} on gain and phase
     margin.}}
+\newglossaryentry{impulse response}{
+  name={impulse response},
+  description={The response of a system to the Dirac delta function.}}
 \newglossaryentry{input}{
   name={input},
   description={An input to the plant (hence the name) that can be used to change
@@ -52,6 +65,11 @@
   name={noise immunity},
   description={The quality of a system to have its performance or stability
     unaffected by noise in the outputs (see also: \gls{robustness}).}}
+\newglossaryentry{observer}{
+  name={observer},
+  description={In control theory, a system that provides an estimate of the
+    internal state of a given real system from measurements of the input and
+    output of the real system.}}
 \newglossaryentry{open-loop gain}{
   name={open-loop gain},
   description={The gain directly from the input to the output, ignoring loops.}}
@@ -61,6 +79,10 @@
 \newglossaryentry{output-based control}{
   name={output-based control},
   description={Controls the system's state via the outputs.}}
+\newglossaryentry{overshoot}{
+  name={overshoot},
+  description={The amount by which a system's state surpasses the reference
+    after rising toward it.}}
 \newglossaryentry{phase margin}{
   name={phase margin},
   description={See section \ref{sec:gain-phase-margin} on gain and phase
@@ -72,10 +94,13 @@
   name={pose},
   description={The orientation of an agent in the world, which is represented by
     all or part of the agent's state.}}
+\newglossaryentry{process value}{
+  name={process value},
+  description={The term used to describe the output of a PID controller.}}
 \newglossaryentry{realization}{
   name={realization},
-  description={In systems theory, this is an implementation of a given
-  input-output behavior as a state-space model.}}
+  description={In control theory, this is an implementation of a given
+    input-output behavior as a state-space model.}}
 \newglossaryentry{reference}{
   name={reference},
   description={The desired state.}}
@@ -83,10 +108,21 @@
   name={regulator},
   description={A controller that attempts to minimize the error from a constant
     reference in the presence of disturbances.}}
+\newglossaryentry{rise time}{
+  name={rise time},
+  description={The time a system takes to initially reach the reference after
+    applying a step input.}}
 \newglossaryentry{robustness}{
   name={robustness},
   description={The quality of a feedback control system to remain stable in
     response to disturbances and uncertainty.}}
+\newglossaryentry{setpoint}{
+  name={setpoint},
+  description={The term used to describe the reference of a PID controller.}}
+\newglossaryentry{settling time}{
+  name={settling time},
+  description={The time a system takes to settle at the reference after a step
+    input is applied.}}
 \newglossaryentry{state}{
   name={state},
   description={A characteristic of a system (e.g., velocity) that can be used to
@@ -97,20 +133,29 @@
 \newglossaryentry{steady-state error}{
   name={steady-state error},
   description={Error after system reaches equilibrium.}}
+\newglossaryentry{step input}{
+  name={step input},
+  description={A system input that is $0$ for $t < 0$ and $1$ for $t \geq 0$.}}
+\newglossaryentry{step response}{
+  name={step response},
+  description={The response of a system to a step input.}}
 \newglossaryentry{stochastic process}{
   name={stochastic process},
   description={A process whose model is partially or completely defined by
     random variables.}}
 \newglossaryentry{system}{
   name={system},
-  description={Maps inputs to outputs through linear combination of states.}}
+  description={Maps inputs to outputs through a linear combination of states.}}
+\newglossaryentry{system response}{
+  name={system response},
+  description={The behavior of a system over time for a given input.}}
 \newglossaryentry{time-invariant}{
   name={time-invariant},
   description={The system's fundamental response does not change over time.}}
 \newglossaryentry{tracking}{
   name={tracking},
-  description={In the context of control theory, the process of making the
-    output of a control system follow the reference input.}}
+  description={In control theory, the process of making the output of a control
+    system follow the reference.}}
 \newglossaryentry{unity feedback}{
   name={unity feedback},
   description={A feedback network in a control system diagram with a feedback

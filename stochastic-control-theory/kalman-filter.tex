@@ -2,8 +2,8 @@
 
 So far, we've derived equations for updating the expected value and state
 covariance without measurements and how to incorporate measurements into an
-initial state optimally. Now, we'll combine these concepts to produce an
-estimator which minimizes the error covariance for linear systems.
+initial \gls{state} optimally. Now, we'll combine these concepts to produce an
+estimator which minimizes the error covariance for linear \glspl{system}.
 
 \subsection{Derivations}
 \index{State-space observers!Kalman filter!derivations}
@@ -48,7 +48,7 @@ error.
 
 \subsubsection{Kalman gain}
 
-The error in the \textit{a posteriori} state estimation is
+The error in the \textit{a posteriori} \gls{state} estimation is
 $\mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1}^-$. We want to minimize the expected value
 of the square of the magnitude of this vector. This is equivalent to minimizing
 the trace of the a posteriori estimate covariance matrix $\mtx{P}_{k+1}^-$.
@@ -238,8 +238,8 @@ constants here. $\mtx{\Phi}$ is replaced with $\mtx{A}$ for continuous systems.
 
 \begin{remark}
   To implement a discrete time Kalman filter from a continuous model, the model
-  and continuous time $\mtx{Q}$ and $\mtx{R}$ matrices can be discretized using
-  theorem \ref{thm:zoh-ss}.
+  and continuous time $\mtx{Q}$ and $\mtx{R}$ matrices can be
+  \glslink{discretization}{discretized} using theorem \ref{thm:zoh-ss}.
 \end{remark}
 
 \begin{booktable}
@@ -263,7 +263,7 @@ constants here. $\mtx{\Phi}$ is replaced with $\mtx{A}$ for continuous systems.
   \label{tab:kf_matrix_dims}
 \end{booktable}
 
-Unknown states in a Kalman filter are generally represented by a Wiener
+Unknown \glspl{state} in a Kalman filter are generally represented by a Wiener
 (pronounced VEE-ner) process\footnote{Explaining why we use the Wiener process
 would require going much more in depth into stochastic processes and It\^{o}
 calculus, which is outside the scope of this book.}. This process has the
@@ -272,14 +272,14 @@ property that its variance increases linearly with time $t$.
 \subsection{Equations to model}
 \index{State-space observers!Kalman filter!setup}
 
-The following example system will be used to describe how to define and
+The following example \gls{system} will be used to describe how to define and
 initialize the matrices for a Kalman filter.
 
 A robot is between two parallel walls. It starts driving from one wall to the
 other at a velocity of $0.8 cm/s$ and uses ultrasonic sensors to provide noisy
 measurements of the distances to the walls in front of and behind it. To
-estimate the distance between the walls, we will define three states: robot
-position, robot velocity, and distance between the walls.
+estimate the distance between the walls, we will define three \glspl{state}:
+robot position, robot velocity, and distance between the walls.
 
 \begin{align}
   x_{k+1} &= x_k + v_k \Delta T \\
@@ -317,8 +317,8 @@ This can be converted to the following state-space \gls{model}.
   \end{bmatrix} w_k
 \end{equation}
 
-where the Gaussian random variable $w_k$ has zero mean and variance 1. The
-observation \gls{model} is
+where the Gaussian random variable $w_k$ has a mean of $0$ and a variance of
+$1$. The observation \gls{model} is
 
 \begin{equation}
   \mtx{y}_k =
@@ -331,9 +331,9 @@ observation \gls{model} is
 where the covariance matrix of Gaussian measurement noise $\theta$ is a
 $2 \times 2$ matrix with both diagonals $10 cm^2$.
 
-The state vector is usually initialized using the first measurement or two. The
-covariance matrix entries are assigned by calculating the covariance of the
-expressions used when assigning the state vector. Let $k = 2$.
+The \gls{state} vector is usually initialized using the first measurement or
+two. The covariance matrix entries are assigned by calculating the covariance of
+the expressions used when assigning the state vector. Let $k = 2$.
 
 \begin{align}
   \mtx{Q} &= \begin{bmatrix}1\end{bmatrix} \\
@@ -359,11 +359,11 @@ expressions used when assigning the state vector. Let $k = 2$.
 \subsection{Initial conditions}
 
 To fill in the $\mtx{P}$ matrix, we calculate the covariance of each combination
-of state variables. The resulting value is a measure of how much those variables
-are correlated. Due to how the covariance calculation works out, the covariance
-between two variables is the sum of the variance of matching terms which aren't
-constants multiplied by any constants the two have. If no terms match, the
-variables are uncorrelated and the covariance is zero.
+of \gls{state} variables. The resulting value is a measure of how much those
+variables are correlated. Due to how the covariance calculation works out, the
+covariance between two variables is the sum of the variance of matching terms
+which aren't constants multiplied by any constants the two have. If no terms
+match, the variables are uncorrelated and the covariance is zero.
 
 In $\mtx{P}_{11}$, the terms in $\mtx{x}_1$ correlate with itself. Therefore,
 $\mtx{P}_{11}$ is $\mtx{x}_1$'s variance, or $\mtx{P}_{11} = 10$. For
@@ -378,17 +378,17 @@ the matrix is symmetric.
 
 Choosing good priors is important for a well performing filter, even if little
 information is known. This applies to both the measurement noise and the noise
-\gls{model}. The act of giving a state variable a large variance means you know
-something about the system. Namely, you aren't sure whether your initial guess
-is close to the true state. If you make a guess and specify a small variance,
-you are telling the filter that you are very confident in your guess. If that
-guess is incorrect, it will take the filter a long time to move away from your
-guess to the true value.
+\gls{model}. The act of giving a \gls{state} variable a large variance means you
+know something about the \gls{system}. Namely, you aren't sure whether your
+initial guess is close to the true \gls{state}. If you make a guess and specify
+a small variance, you are telling the filter that you are very confident in your
+guess. If that guess is incorrect, it will take the filter a long time to move
+away from your guess to the true value.
 
 \subsection{Covariance selection}
 
-While one could assume no correlation between the state variables and set the
-covariance matrix entries to zero, this may not reflect reality. The Kalman
+While one could assume no correlation between the \gls{state} variables and set
+the covariance matrix entries to zero, this may not reflect reality. The Kalman
 filter is still guarenteed to converge to the steady-state covariance after an
 infinite time, but it will take longer than otherwise.
 
@@ -404,12 +404,12 @@ not.
 
 \subsection{Simulation} \label{subsec:filter_simulation}
 
-Figure \ref{fig:filter_all} shows the state estimates and measurements of the
-Kalman filter over time. Figure \ref{fig:filter_robot_pos} shows the position
-estimate and variance over time. Figure \ref{fig:filter_wall_pos} shows the wall
-position estimate and variance over time. Notice how the variances decrease over
-time as the filter gathers more measurements. This means that the filter becomes
-more confident in its state estimates.
+Figure \ref{fig:filter_all} shows the \gls{state} estimates and measurements of
+the Kalman filter over time. Figure \ref{fig:filter_robot_pos} shows the
+position estimate and variance over time. Figure \ref{fig:filter_wall_pos} shows
+the wall position estimate and variance over time. Notice how the variances
+decrease over time as the filter gathers more measurements. This means that the
+filter becomes more confident in its \gls{state} estimates.
 
 The final precisions in estimating the position of the robot and the wall are
 the square roots of the corresponding elements in the covariance matrix. That
@@ -436,7 +436,7 @@ than any one measurement alone.
 \subsection{Steady-state error covariance matrix}
 
 One may have noticed that the error covariance matrix can be updated
-independently of the rest of the model. The error covariance matrix tends
+independently of the rest of the \gls{model}. The error covariance matrix tends
 toward a steady-state value, and this matrix can be obtained via the discrete
 algebraic Ricatti equation. This can then be used to compute a steady-state
 Kalman gain.
@@ -453,7 +453,7 @@ filter.
 \subsection{Kalman filter as Luenberger observer}
 \index{State-space observers!Kalman filter!as Luenberger observer}
 
-A Kalman filter can be represented as a Luenberger observer by letting
+A Kalman filter can be represented as a Luenberger \gls{observer} by letting
 $\mtx{C} = \mtx{H}$ and $\mtx{L} = \mtx{A} \mtx{K}_k$ (see appendix
 \ref{sec:deriv-kalman-luenberger}). The eigenvalues of the Kalman filter are
 
@@ -479,8 +479,8 @@ state estimates and figure \ref{fig:smoother_robot_pos_variance} shows the
 improved robot position covariance with a Kalman smoother.
 
 Notice how the wall position produced by the smoother is a constant. This is
-because that state has no dynamics, so the final estimate from the Kalman filter
-is already the best estimate.
+because that \gls{state} has no dynamics, so the final estimate from the Kalman
+filter is already the best estimate.
 
 \begin{svg}{build/code/kalman_smoother_robot_pos}
   \caption{Robot position with Kalman smoother}
@@ -506,12 +506,13 @@ is already the best estimate.
 \index{State-space observers!Kalman filter!MMAE}
 
 MMAE stands for Multiple Model Adaptive Estimation. MMAE runs multiple Kalman
-filters with different models on the same data. The Kalman filter with the
-lowest residual has the highest likelihood of accurately reflecting reality.
-This can be used to detect certain system states like an aircraft engine failing
-without needing to invest in costly sensors to determine this directly.
+filters with different \glspl{model} on the same data. The Kalman filter with
+the lowest residual has the highest likelihood of accurately reflecting reality.
+This can be used to detect certain \gls{system} \glspl{state} like an aircraft
+engine failing without needing to invest in costly sensors to determine this
+directly.
 
 For example, say you have three Kalman filters: one for turning left, one for
-turning right, and one for going straight. If the control input is attempting to
-fly the plane straight and the Kalman filter for going left has the lowest
-residual, the aircraft probably lost its left engine.
+turning right, and one for going straight. If the \gls{control input} is
+attempting to fly the plane straight and the Kalman filter for going left has
+the lowest residual, the aircraft's left engine probably failed.

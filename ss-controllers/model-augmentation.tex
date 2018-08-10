@@ -1,12 +1,13 @@
 \section{Model augmentation}
 
-This section will teach various tricks for manipulating state-space models with
-the goal of demystifying the matrix algebra at play. We will use the
-augmentation techniques discussed here in the section on integral control.
+This section will teach various tricks for manipulating state-space
+\glspl{model} with the goal of demystifying the matrix algebra at play. We will
+use the augmentation techniques discussed here in the section on integral
+control.
 
 Matrix augmentation is the process of appending rows or columns to a matrix. In
-state-space, there are several common types of augmentation used: plant
-augmentation, controller augmentation, and observer augmentation.
+state-space, there are several common types of augmentation used: \gls{plant}
+augmentation, controller augmentation, and \gls{observer} augmentation.
 
 \subsection{Plant augmentation}
 \index{Model augmentation!of plant}
@@ -18,41 +19,41 @@ and adding a corresponding row to the $\mtx{A}$ and $\mtx{B}$ matrices.
 \index{Model augmentation!of controller}
 
 Controller augmentation is the process of adding a column to a controller's
-$\mtx{K}$ matrix. This is often done in combination with plant augmentation to
-add controller dynamics relating to a newly added state.
+$\mtx{K}$ matrix. This is often done in combination with \gls{plant}
+augmentation to add controller dynamics relating to a newly added \gls{state}.
 
 \subsection{Observer augmentation}
 \index{Model augmentation!of observer}
 
-Observer augmentation is closely related to plant augmentation. In addition to
-adding entries to the observer matrix $\mtx{L}$, the observer is using this
-augmented plant for estimation purposes. This is better explained with an
-example.
+Observer augmentation is closely related to \gls{plant} augmentation. In
+addition to adding entries to the \gls{observer} matrix $\mtx{L}$, the
+\gls{observer} is using this augmented \gls{plant} for estimation purposes. This
+is better explained with an example.
 
-By augmenting the plant with a bias term with no dynamics (represented by zeroes
-in its rows in $\mtx{A}$ and $\mtx{B}$, the observer will attempt to estimate a
-value for this bias term that makes the model best reflect the measurements
-taken of the real system. Note that we're not collecting any data on this bias
-term directly; it's what's known as a hidden state. Rather than our inputs and
-other states affecting it directly, the observer determines a value for it based
-on what is most likely given the model and current measurements. We just tell
-the plant what kind of dynamics the term has and the observer will estimate it
-for us.
+By augmenting the \gls{plant} with a bias term with no dynamics (represented by
+zeroes in its rows in $\mtx{A}$ and $\mtx{B}$, the \gls{observer} will attempt
+to estimate a value for this bias term that makes the \gls{model} best reflect
+the measurements taken of the real \gls{system}. Note that we're not collecting
+any data on this bias term directly; it's what's known as a hidden \gls{state}.
+Rather than our \glspl{input} and other \glspl{state} affecting it directly, the
+\gls{observer} determines a value for it based on what is most likely given the
+\gls{model} and current measurements. We just tell the \gls{plant} what kind of
+dynamics the term has and the \gls{observer} will estimate it for us.
 
 \subsection{Output augmentation}
 \index{Model augmentation!of output}
 
 Output augmentation is the process of adding rows to the $\mtx{C}$ matrix. This
 is done to help the controls designer visualize the behavior of internal states
-or other aspects of the system in MATLAB or Python Control. $\mtx{C}$ matrix
-augmentation doesn't affect state feedback, so the designer has a lot of freedom
-here. Noting that the output is defined as
+or other aspects of the \gls{system} in MATLAB or Python Control. $\mtx{C}$
+matrix augmentation doesn't affect \gls{state} feedback, so the designer has a
+lot of freedom here. Noting that the \gls{output} is defined as
 $\mtx{y} = \mtx{C}\mtx{x} + \mtx{D}\mtx{u}$, The following row augmentations of
 $\mtx{C}$ may prove useful. Of course, $\mtx{D}$ needs to be augmented with
 zeroes as well in these cases to maintain the correct matrix dimensionality.
 
 Since $\mtx{u} = -\mtx{K}\mtx{x}$, augmenting $\mtx{C}$ with $-\mtx{K}$ makes
-the observer estimate the control input $\mtx{u}$ applied.
+the \gls{observer} estimate the \gls{control input} $\mtx{u}$ applied.
 
 \begin{align*}
   \mtx{y} &= \mtx{C}\mtx{x} + \mtx{D}\mtx{u} \\
@@ -72,7 +73,7 @@ the observer estimate the control input $\mtx{u}$ applied.
   \mtx{u}
 \end{align*}
 
-This works because $\mtx{K}$ has the same number of columns as states.
+This works because $\mtx{K}$ has the same number of columns as \glspl{state}.
 
-Various states can also be produced in the output with $\mtx{I}$ matrix
-augmentation.
+Various \glspl{state} can also be produced in the \gls{output} with $\mtx{I}$
+matrix augmentation.

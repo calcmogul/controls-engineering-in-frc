@@ -1,38 +1,41 @@
 \section{Feedforwards}
 
-Feedforwards are used to inject information about either the system's dynamics
-(like a model does) or the intended movement into a controller. Feedforward is
-generally used to handle the control actions we already know must be applied to
-make a system track a reference, then let the feedback controller correct for
-what we do not or cannot know about the system at runtime. We will present
-two ways of implementing feedforward for state feedback.
+Feedforwards are used to inject information about either the \gls{system}'s
+dynamics (like a \gls{model} does) or the intended movement into a controller.
+Feedforward is generally used to handle parts of the control actions we already
+know must be applied to make a \gls{system} track a \gls{reference}, then let
+the feedback controller correct for at runtime what we do not or cannot know
+about the \gls{system}. We will present two ways of implementing feedforward for
+\gls{state} feedback.
 
 \subsection{Steady-state feedforward}
 
-Steady-state feedforwards apply the control effort required to keep a system at
-the reference if it is no longer moving (i.e., the system is at steady-state).
-The first steady-state feedforward converts a desired output to a desired state.
+Steady-state feedforwards apply the \gls{control effort} required to keep a
+\gls{system} at the \gls{reference} if it is no longer moving (i.e., the
+\gls{system} is at steady-state). The first steady-state feedforward converts
+desired \glspl{output} to desired \glspl{state}.
 
 \begin{equation*}
   \mtx{x}_c = \mtx{N}_x\mtx{y}_c
 \end{equation*}
 
-$\mtx{N}_x$ converts a desired output $\mtx{y}_c$ to a desired state
+$\mtx{N}_x$ converts desired \glspl{output} $\mtx{y}_c$ to desired \glspl{state}
 $\mtx{x}_c$ (also known as $\mtx{r}$). For steady-state, that is
 
 \begin{equation}
   \mtx{x}_{ss} = \mtx{N}_x\mtx{y}_{ss} \label{eq:x_ss}
 \end{equation}
 
-The second steady-state feedforward converts the desired output $\mtx{y}$ to the
-control input required at steady-state.
+The second steady-state feedforward converts the desired \glspl{output}
+$\mtx{y}$ to the \gls{control input} required at steady-state.
 
 \begin{equation*}
   \mtx{u}_c = \mtx{N}_u\mtx{y}_c
 \end{equation*}
 
-$\mtx{N}_u$ converts the desired output $\mtx{y}$ to the control input $\mtx{u}$
-required at steady-state. For steady-state, that is
+$\mtx{N}_u$ converts the desired \glspl{output} $\mtx{y}$ to the
+\gls{control input} $\mtx{u}$ required at steady-state. For steady-state, that
+is
 
 \begin{equation}
   \mtx{u}_{ss} = \mtx{N}_u\mtx{y}_{ss} \label{eq:u_ss}
@@ -40,7 +43,7 @@ required at steady-state. For steady-state, that is
 
 \subsubsection{Continuous case}
 
-To find the control input required at steady-state, set equation
+To find the \gls{control input} required at steady-state, set equation
 (\ref{eq:ss_ctrl_x}) to zero.
 
 \begin{align*}
@@ -106,8 +109,9 @@ where $^\dagger$ is the Moore-Penrose pseudoinverse.
 
 \subsubsection{Discrete case}
 
-Now, we'll do the same thing for the discrete system. To find the control input
-required at steady-state, set equation (\ref{eq:ssz_ctrl_x}) to zero.
+Now, we'll do the same thing for the discrete \gls{system}. To find the
+\gls{control input} required at steady-state, set equation (\ref{eq:ssz_ctrl_x})
+to zero.
 
 \begin{align*}
   \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}\mtx{u}_k \\
@@ -179,8 +183,8 @@ where $^\dagger$ is the Moore-Penrose pseudoinverse.
 \subsubsection{Deriving steady-state input}
 
 Now, we'll find an expression that uses $\mtx{N}_x$ and $\mtx{N}_u$ to convert
-the reference $\mtx{r}$ to a control input feedforward $\mtx{u}_{ff}$. Let's
-start with equation (\ref{eq:x_ss}).
+the \gls{reference} $\mtx{r}$ to a \gls{control input} feedforward
+$\mtx{u}_{ff}$. Let's start with equation (\ref{eq:x_ss}).
 
 \begin{align*}
   \mtx{x}_{ss} &= \mtx{N}_x \mtx{y}_{ss} \\
@@ -242,10 +246,10 @@ So all together, we get theorem \ref{thm:steady-state_ff}.
   \end{equation}
 
   In the augmented matrix, $\mtx{B}$ should contain one column corresponding to
-  an actuator and $\mtx{C}$ should contain one row whose output will be driven
-  by that actuator. More than one actuator or output can be included in the
-  computation at once, but the result won't be the same as if they were computed
-  independently and summed afterward.
+  an actuator and $\mtx{C}$ should contain one row whose \gls{output} will be
+  driven by that actuator. More than one actuator or output can be included in
+  the computation at once, but the result won't be the same as if they were
+  computed independently and summed afterward.
 
   After computing the feedforward for each actuator-output pair, the respective
   collections of $\mtx{N}_x$ and $\mtx{N}_u$ matrices can summed to produce the
@@ -253,11 +257,12 @@ So all together, we get theorem \ref{thm:steady-state_ff}.
 \end{theorem}
 
 If the augmented matrix in theorem \ref{thm:steady-state_ff} is square (number
-of inputs = number of outputs), the normal inverse can be used instead.
+of \glspl{input} = number of \glspl{output}), the normal matrix inverse can be
+used instead.
 
 \subsection{Two-state feedforward}
 
-Let's start with the equation for the reference dynamics
+Let's start with the equation for the \gls{reference} dynamics
 
 \begin{equation*}
   \mtx{r}_{k+1} = \mtx{A}\mtx{r}_k + \mtx{B}\mtx{u}_{ff}
@@ -265,8 +270,8 @@ Let's start with the equation for the reference dynamics
 
 where $\mtx{u}_{ff}$ is the feedforward input. Note that this feedforward
 equation does not and should not take into account any feedback terms. We want
-to find the optimal $\mtx{u}_{ff}$ such that we minimize the tracking error
-between $\mtx{r}_{k+1}$ and $\mtx{r}_k$.
+to find the optimal $\mtx{u}_{ff}$ such that we minimize the \gls{tracking}
+error between $\mtx{r}_{k+1}$ and $\mtx{r}_k$.
 
 \begin{equation*}
   \mtx{r}_{k+1} - \mtx{A}\mtx{r}_k = \mtx{B}\mtx{u}_{ff}
@@ -274,20 +279,21 @@ between $\mtx{r}_{k+1}$ and $\mtx{r}_k$.
 
 To solve for $\mtx{u}_{ff}$, we need to take the inverse of the nonsquare matrix
 $\mtx{B}$. This isn't possible, but we can find the pseudoinverse given some
-constraints on the state tracking error and control effort. To find the optimal
-solution for these sorts of trade-offs, one can define a cost function and
-attempt to minimize it. To do this, we'll first solve the expression for
-$\mtx{0}$.
+constraints on the \gls{state} \gls{tracking} error and \gls{control effort}. To
+find the optimal solution for these sorts of trade-offs, one can define a cost
+function and attempt to minimize it. To do this, we'll first solve the
+expression for $\mtx{0}$.
 
 \begin{equation*}
   \mtx{0} = \mtx{B}\mtx{u}_{ff} - (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k)
 \end{equation*}
 
-This expression will be the state tracking cost we use in our cost function.
+This expression will be the \gls{state} \gls{tracking} cost we use in our cost
+function.
 
-Our cost function will use an $H_2$ norm with $\mtx{Q}$ as the state cost matrix
-with dimensionality $states \times states$ and $\mtx{R}$ as the control input
-cost matrix with dimensionality $inputs \times inputs$.
+Our cost function will use an $H_2$ norm with $\mtx{Q}$ as the \gls{state} cost
+matrix with dimensionality $states \times states$ and $\mtx{R}$ as the
+\gls{control input} cost matrix with dimensionality $inputs \times inputs$.
 
 \begin{equation*}
   \mtx{J} = (\mtx{B}\mtx{u}_{ff} - (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k))^T \mtx{Q}
@@ -297,11 +303,11 @@ cost matrix with dimensionality $inputs \times inputs$.
 
 \begin{remark}
   $\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k$ will only return a nonzero vector if the
-  reference isn't following the system dynamics. If it is, the feedback
-  controller already compensates for it. This feedforward compensates for any
-  unmodeled dynamics reflected in how the reference is changing (or not
-  changing). In the case of a constant reference, the feedforward opposes any
-  system dynamics that would change the state over time.
+  \gls{reference} isn't following the \gls{system} dynamics. If it is, the
+  feedback controller already compensates for it. This feedforward compensates
+  for any unmodeled dynamics reflected in how the \gls{reference} is changing
+  (or not changing). In the case of a constant \gls{reference}, the feedforward
+  opposes any \gls{system} dynamics that would change the \gls{state} over time.
 \end{remark}
 
 The following theorems will be needed to find the minimum of $\mtx{J}$.
@@ -388,7 +394,7 @@ $\mtx{u}_{ff}$ and setting the result to $\mtx{0}$.
 \index{Feedforward!two-state feedforward}
 \index{Optimal control!two-state feedforward}
 
-If control effort is considered inexpensive, $\mtx{R} \ll \mtx{Q}$ and
+If \gls{control effort} is considered inexpensive, $\mtx{R} \ll \mtx{Q}$ and
 $\mtx{u}_{ff}$ approaches corollary \ref{cor:two-state_ff_no_r}.
 
 \begin{corollary}[Two-state feedforward with inexpensive control effort]
@@ -413,11 +419,11 @@ $\mtx{u}_{ff}$ approaches corollary \ref{cor:two-state_ff_no_r}.
 \subsubsection{Second-order CIM motor model}
 
 Each feedforward implementation has advantages. The steady-state feedforward
-allows using specific actuators to maintain the reference at steady-state. The
-two-state feedforward doesn't support this, but can be used for reference
-tracking as well with the same tuning parameters as LQR design. Figure
-\ref{fig:case_study_ff1} shows both types of feedforwards applied to a
-second-order CIM motor model.
+allows using specific actuators to maintain the \gls{reference} at steady-state.
+The two-state feedforward doesn't support this, but can be used for
+\gls{reference} \gls{tracking} as well with the same tuning parameters as LQR
+design. Figure \ref{fig:case_study_ff1} shows both types of feedforwards applied
+to a second-order CIM motor model.
 
 \begin{svg}{build/code/case_study_ff1}
   \caption{Second-order CIM motor response with various feedforwards}
@@ -425,9 +431,10 @@ second-order CIM motor model.
 \end{svg}
 
 The two-state feedforward isn't as effective in figure \ref{fig:case_study_ff1}
-because the $\mtx{R}$ matrix penalized actuation effort. If the $\mtx{R}$ cost
-matrix is removed from the two-state feedforward calculation, the reference
-tracking is much better (see figure \ref{fig:case_study_ff2}).
+because the $\mtx{R}$ matrix penalized \gls{control effort}. If the $\mtx{R}$
+cost matrix is removed from the two-state feedforward calculation, the
+\gls{reference} \gls{tracking} is much better (see figure
+\ref{fig:case_study_ff2}).
 
 \begin{svg}{build/code/case_study_ff2}
   \caption{Second-order CIM motor response with two-state feedforwards}

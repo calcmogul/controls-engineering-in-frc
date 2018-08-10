@@ -95,7 +95,6 @@ this book as if I was explaining it to my veteran software students and
 anticipate gaps in their understanding.
 
 * Add code examples of each type of model augmentation
-* Introduce glossary terms more explicitly since the links aren't visible
 * Add curly braces around equations in theorems to clarify matrix dimensions
 
 ### Finish incomplete topics

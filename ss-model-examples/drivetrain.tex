@@ -77,7 +77,7 @@ massless.
   \label{fig:drivetrain}
 \end{bookfigure}
 
-From equation (\ref{eq:tau_f}) of the flywheel model derivations
+From equation (\ref{eq:tau_f}) of the flywheel \gls{model} derivations
 
 \begin{equation}
   \tau = \frac{GK_t}{R} V - \frac{G^2K_t}{K_v R} \omega
@@ -282,20 +282,22 @@ $C_3 = -\frac{G_r^2 K_t}{K_v R r^2}$, and $C_4 = \frac{G_r K_t}{Rr}$.
 
 \subsection{Simulation}
 
-Python Control will be used to discretize the model and simulate it. One of the
-frccontrol examples\footnote{\url{https://github.com/calcmogul/frccontrol/blob/master/examples/drivetrain.py}}
+Python Control will be used to \glslink{discretization}{discretize} the
+\gls{model} and simulate it. One of the frccontrol
+examples\footnote{\url{https://github.com/calcmogul/frccontrol/blob/master/examples/drivetrain.py}}
 creates and tests a controller for it.
 
 \begin{remark}
   Python Control currently doesn't support finding the transmission zeroes of
-  MIMO systems with a different number of inputs than outputs, so
-  \texttt{control.pzmap()} and \texttt{frccontrol.System.plot\_pzmaps()} fail
-  with an error if Slycot isn't installed.
+  MIMO \glspl{system} with a different number of \glspl{input} than
+  \glspl{output}, so \texttt{control.pzmap()} and
+  \texttt{frccontrol.System.plot\_pzmaps()} fail with an error if Slycot isn't
+  installed.
 \end{remark}
 
 Figure \ref{fig:drivetrain_pzmaps} shows the pole-zero maps for the open-loop
-system, closed-loop system, and observer. Figure \ref{fig:drivetrain_response}
-shows the system response with them.
+\gls{system}, closed-loop \gls{system}, and \gls{observer}. Figure
+\ref{fig:drivetrain_response} shows the \gls{system} response with them.
 
 \begin{svg}{build/drivetrain_pzmaps}
   \caption{Drivetrain pole-zero maps}
@@ -307,8 +309,8 @@ shows the system response with them.
   \label{fig:drivetrain_response}
 \end{svg}
 
-Given the high inertia in drivetrains, it's better to drive the reference with a
-motion profile instead of a step input for reproducibility.
+Given the high inertia in drivetrains, it's better to drive the \gls{reference}
+with a motion profile instead of a \gls{step input} for reproducibility.
 
 \subsection{Implementation}
 

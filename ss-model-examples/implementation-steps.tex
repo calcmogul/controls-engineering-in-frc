@@ -2,21 +2,21 @@
 
 \subsection{Derive physical model}
 
-A \gls{model} is a set of differential equations describing how the system
+A \gls{model} is a set of differential equations describing how the \gls{system}
 behaves over time. There are two common approaches for developing them.
 
 \begin{enumerate}
-  \item Collecting data on the physical system's behavior and performing system
-  identification with it.
-  \item Using physics to derive the system's model from first principles.
+  \item Collecting data on the physical system's behavior and performing
+    \gls{system} identification with it.
+  \item Using physics to derive the \gls{system}'s model from first principles.
 \end{enumerate}
 
 We'll use the second approach in this book.
 
 Kinematics and dynamics are a rather large topics, so for now, we'll just focus
-on the basics required for working with the models in this book. We'll derive
-the same model, a pendulum, using three approaches: sum of forces, sum of
-torques, and conservation of energy.
+on the basics required for working with the \glspl{model} in this book. We'll
+derive the same \gls{model}, a pendulum, using three approaches: sum of forces,
+sum of torques, and conservation of energy.
 
 \begin{bookfigure}
   \begin{subfigure}{0.5\textwidth}
@@ -314,15 +314,15 @@ where $\theta$ is the angle of the pendulum and $l$ is the length of the
 pendulum.
 
 Since state-space representation requires that only single derivatives be used,
-they should be broken up as separate states. We'll reassign $\dot{\theta}$ to be
-$\omega$ so the derivatives are easier to keep straight for state-space
-representation.
+they should be broken up as separate \glspl{state}. We'll reassign
+$\dot{\theta}$ to be $\omega$ so the derivatives are easier to keep straight for
+state-space representation.
 
 \begin{equation*}
   \dot{\omega} = -\frac{g}{l}\sin\theta
 \end{equation*}
 
-Now separate the states.
+Now separate the \glspl{state}.
 
 \begin{align*}
   \dot{\theta} &= \omega \\
@@ -339,7 +339,7 @@ values of $\theta$).
   \dot{\omega} &= -\frac{g}{l} \theta
 \end{align*}
 
-Now write the model in state-space representation.
+Now write the \gls{model} in state-space representation.
 
 \begin{align}
   \dot{
@@ -359,12 +359,13 @@ Now write the model in state-space representation.
 
 \subsection{Add estimator for unmeasured states}
 
-For full state feedback, knowledge of all states is required. If not all states
-are measured directly, an estimator can be used to supplement them.
+For full \gls{state} feedback, knowledge of all \glspl{state} is required. If
+not all \glspl{state} are measured directly, an estimator can be used to
+supplement them.
 
 For example, we may only be measuring $\theta$ in the pendulum example, not
 $\dot{\theta}$, so we'll need to estimate the latter. The $\mtx{C}$ matrix the
-observer would use in this case is
+\gls{observer} would use in this case is
 
 \begin{equation*}
   \mtx{C} = \begin{bmatrix}
@@ -374,12 +375,13 @@ observer would use in this case is
 
 \subsection{Implement controller}
 
-Use Bryson's rule when making the performance vs actuation effort trade-off.
-Optimizing for performance will get you to the reference as fast as possible
-while optimizing actuation effort will get you to the reference in the most
-``fuel-efficient" way possible. The latter, for example, would potentially avoid
-voltage drops from motor usage on robots with a limited power supply, but the
-result would be slower to reach the reference.
+Use Bryson's rule when making the performance vs \gls{control effort} trade-off.
+Optimizing for performance will get you to the \gls{reference} as fast as
+possible while optimizing \gls{control effort} will get you to the
+\gls{reference} in the most ``fuel-efficient" way possible. The latter, for
+example, would potentially avoid voltage drops from motor usage on robots with a
+limited power supply, but the result would be slower to reach the
+\gls{reference}.
 
 \subsection{Simulate model/controller}
 
@@ -394,10 +396,11 @@ to produce the desired response.
 
 Recall equation (\ref{eq:s_ref_ctrl_x}) where a closed-loop system is written as
 $\dot{\mtx{x}} = (\mtx{A} - \mtx{B}\mtx{K})\mtx{x} + \mtx{B}\mtx{K}\mtx{r}$. In
-the open-loop system, our control input $\mtx{u}$ was a vector of system inputs.
-In the closed-loop system, our control input $\mtx{u}$ is now a vector of
-reference states $\mtx{r}$. To use this form in simulation, the corresponding
-state-space matrices, which we'll denote with apostrophes, would be
+the open-loop \gls{system}, our \gls{control input} $\mtx{u}$ was a vector of
+\gls{system} \glspl{input}. In the closed-loop \gls{system}, our
+\gls{control input} $\mtx{u}$ is now a vector of \gls{reference} \glspl{state}
+$\mtx{r}$. To use this form in simulation, the corresponding state-space
+matrices, which we'll denote with apostrophes, would be
 
 \begin{align*}
   \mtx{A}' &= \mtx{A} - \mtx{B}\mtx{K} \\
@@ -413,12 +416,12 @@ for the chosen pole locations.
 
 \subsection{Unit test}
 
-Write unit tests to test the \gls{model} performance and \gls{robustness} under
-different initial conditions and command inputs. If you are using C++, we
-recommend Google Test.
+Write unit tests to test the \gls{model} performance and \gls{robustness} with
+different initial conditions and \glspl{reference}. For C++, we recommend Google
+Test.
 
 \subsection{Test on real system}
 
-Try the controller on a real \gls{system} with low maximum outputs for safety.
-The outputs can be increased after verifying the sensors function and mechanisms
-move the correct direction.
+Try the controller on a real \gls{system} with low maximum \glspl{control input}
+for safety. The \glspl{control input} can be increased after verifying the
+sensors function and mechanisms move the correct direction.

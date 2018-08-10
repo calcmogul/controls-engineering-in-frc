@@ -13,10 +13,10 @@ and uncertainty.
 
 But what sets control theory apart from, say, applied math? While control theory
 does have some beautiful math behind it, controls engineering is an engineering
-discipline like any other filled with trade-offs. The solutions control theory
-gives should always be sanity checked and informed by our performance
-specifications. We don't need to be perfect, just good enough to meet our
-specifications.
+discipline like any other that is filled with trade-offs. The solutions control
+theory gives should always be sanity checked and informed by our performance
+specifications. We don't need to be perfect; we just need to be good enough to
+meet our specifications.
 
 \section{Nomenclature}
 
@@ -24,12 +24,15 @@ Most resources for advanced engineering topics assume a level of knowledge well
 above that which is necessary. Part of the problem is the use of jargon. While
 it efficiently communicates ideas to those within the field, new people who
 aren't familiar with it are lost. See the glossary for a list of words and
-phrases commonly used in control theory, their origins, and their meaning. Table
-\ref{tab:plant_v_controller} describes how the terms \textit{input} and
-\textit{output} apply to \glspl{plant} versus \glspl{controller} and what
-letters are commonly associated with each when working with them. Namely, that
-the terms input and output are defined with respect to the \gls{plant}, not the
-\gls{controller}.
+phrases commonly used in control theory, their origins, and their meaning. Links
+to the glossary are provided for certain words throughout the book and will use
+\textcolor{glscolor}{this color}.
+
+Table \ref{tab:plant_v_controller} describes how the terms \gls{input} and
+\gls{output} apply to \glspl{plant} versus \glspl{controller} and what letters
+are commonly associated with each when working with them. Namely, that the terms
+\gls{input} and \gls{output} are defined with respect to the \gls{plant}, not
+the \gls{controller}.
 
 \begin{booktable}
   \begin{tabular}{|l|ll|}
@@ -52,5 +55,5 @@ in values and the infintessimal sum of values over time respectively. If you
 aren't already familiar with these concepts, 3Blue1Brown does a fantastic job of
 introducing them in his \textit{Essence of calculus} video series
 \cite{bib:essence_of_calculus}. We recommend watching videos 1 through 3 and 7
-through 11 from that playlist for a solid foundation. The Taylor series (video
-11) will be used in chapter \ref{ch:digital_control}.
+through 11 from that playlist for a solid foundation. The Taylor series
+(presented in video 11) will be used in chapter \ref{ch:digital_control}.

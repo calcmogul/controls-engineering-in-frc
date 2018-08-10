@@ -31,7 +31,8 @@ which we'll use later for deriving the Kalman filter.
 
 \subsection{State vector expectation evolution}
 
-First, we will compute how the expectation of the system state evolves.
+First, we will compute how the expectation of the \gls{system} \gls{state}
+evolves.
 
 \begin{align*}
   E[\mtx{x}_{k+1}] &= E[\mtx{\Phi}\mtx{x}_k + \mtx{B}\mtx{u}_k +
@@ -47,7 +48,7 @@ First, we will compute how the expectation of the system state evolves.
 
 \subsection{State covariance matrix evolution}
 
-Now, we will use this to compute how the state covariance matrix $\mtx{P}$
+Now, we will use this to compute how the \gls{state} covariance matrix $\mtx{P}$
 evolves.
 
 \begin{align*}
@@ -92,7 +93,7 @@ evolves.
 
 \subsection{Measurement vector expectation}
 
-Next, we will compute the expectation of the output $\mtx{y}$.
+Next, we will compute the expectation of the \gls{output} $\mtx{y}$.
 
 \begin{align*}
   E[\mtx{y}_k] &= E[\mtx{H}\mtx{x}_k + \mtx{D}\mtx{u}_k + \mtx{v}_k] \\
