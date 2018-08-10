@@ -122,7 +122,8 @@ variable to the input variable. Equation (\ref{eq:transfer_func}) is an example
 of a transfer function.
 
 \begin{equation} \label{eq:transfer_func}
-  H(s) = \frac{(s-9+9i)(s-9-9i)}{s(s+10)}
+  H(s) = \frac{\overbrace{(s-9+9i)(s-9-9i)}^{zeroes}}
+    {\underbrace{s(s+10)}_{poles}}
 \end{equation}
 
 The roots of factors in the numerator of a transfer function are called
@@ -475,6 +476,9 @@ controller, in the case studies.
 \begin{equation}
   K(s) = K_p + \frac{K_i}{s} + K_ds \label{eq:pid_tf}
 \end{equation}
+
+Remember, multiplication by $\frac{1}{s}$ corresponds to an integral in the
+Laplace domain and multiplication by $s$ corresponds to a derivative.
 
 \subsection{Flywheel PID control} \label{subsec:flywheel-pid-control}
 \index{PID control}
