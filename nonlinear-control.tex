@@ -113,11 +113,107 @@ stability in the presence of a controller. Typically, these functions include
 the energy of the system or the derivatives of the system state, which are then
 used to show the system decays to some ground state.
 
-Lyapunov functions are only sufficient to prove stability. If one function
-doesn't prove it, another candidate should be tried. For this reason, we refer
-to these functions as \textit{Lyapunov candidate functions}.
+Lyapunov functions are merely sufficient to prove stability (as opposed to a
+specific Lyapunov function being necessary). If one function doesn't prove it,
+another candidate should be tried. For this reason, we refer to these functions
+as \textit{Lyapunov candidate functions}.
+
+\section{Nonlinear control law for unicycle}
+
+The paper \textit{Control of Wheeled Mobile Robots: An Experimental Overview}
+describes a nonlinear controller for a wheeled vehicle with unicycle-like
+kinematics and a global pose consisting of $x$, $y$, and $\theta$
+\cite{bib:ctrl-wheeled-mobile-robots}. They use the following Lyapunov function.
+
+\begin{equation*}
+  V = \frac{\overline{k}_2}{2}(e_1^2 + e_2^2) + \frac{e_3^2}{2}
+\end{equation*}
+
+where $\overline{k}_2$ is a tuning constant, $e_1$ is the tracking error in $x$,
+$e_2$ is the tracking error in $y$, and $e_3$ is the tracking error in $\theta$.
+
+The time derivative along the solutions of the closed-loop system is
+nonincreasing since
+
+\begin{equation*}
+  \dot{V} = -k_1 \overline{k}_2 e_1^2 - k_3 e_3^2 \leq 0
+\end{equation*}
+
+Thus, $\lVert e(t) \rVert$ is bounded, $\dot{V}(t)$ is uniformly continuous,
+and $V(t)$ tends to some limit value. Using the Barbalat lemma, $\dot{V}(t)$
+tends to zero \cite{bib:ctrl-wheeled-mobile-robots}.
+
+The commanded velocity $v$ and turning rate $\omega$ are
+
+\begin{align}
+  v =~& v_d \cos(\theta_d - \theta) + k_1(v_d, \omega_d)(\cos\theta(x_d - x) +
+    \sin\theta(y_d - y)) \\
+  \omega =~& \omega_d +
+    \overline{k}_2 v_d\frac{\sin(\theta_d - \theta)}{\theta_d - \theta}
+    (\cos\theta(x_d - x) - \sin\theta(y_d - y)) + \nonumber \\
+    &k_3 (v_d, \omega_d)(\theta_d - \theta) \\
+  k_1(v_d(t), \omega_d(t)) =~& k_3(v_d(t), \omega_d(t)) =
+    2\zeta\sqrt{\omega_d^2(t) + bv_d^2(t)}
+\end{align}
+
+where $v_d$ is the desired velocity, $x_d$ is the desired $x$ position, $y_d$ is
+the desired $y$ position, and $\overline{k}_2 = b$ with $b > 0$ and
+$\zeta \in (0, 1)$.
+
+$v$ and $\omega$ should be the references for a reference tracker for the
+drivetrain. This can be a linear controller.
+
+$x$, $y$, and $\theta$ are obtained via a nonlinear pose estimator. The simplest
+way to do this is by integrating the velocity in each orthogonal direction over
+time using
+
+\begin{align*}
+  x_{k+1} = x_k + v_k\cos\theta_k\,T \\
+  y_{k+1} = y_k + v_k\sin\theta_k\,T
+\end{align*}
+
+where $T$ is the sample period. $x_d$, $y_d$, and $\theta_d$ are obtained from a
+desired time-based trajectory.
+
+\subsection{Two-wheeled vehicle}
+
+The mapping from $v$ and $\omega$ to the left and right wheel velocities $v_L$
+and $v_R$ are derived as follows.
+
+\begin{align}
+  v &= \frac{v_R + v_L}{2} \label{eq:ramsete_v} \\
+  \omega &= \frac{v_R - v_L}{d} \label{eq:ramsete_w}
+\end{align}
+
+where $d$ is the trackwidth.
+
+\begin{align*}
+  \omega d &= v_R - v_L \\
+  \omega d + v_L &= v_R
+\end{align*}
+
+Substitute this into equation (\ref{eq:ramsete_v}) and solve for $v_L$.
+
+\begin{align}
+  v &= \frac{(\omega d + v_L) + v_L}{2} \nonumber \\
+  v &= \frac{\omega d + 2v_L}{2} \nonumber \\
+  2v &= \omega d + 2v_L \nonumber \\
+  2v - \omega d &= 2v_L \nonumber \\
+  v_L &= v - \frac{\omega d}{2}
+\end{align}
+
+Substitute this back into equation (\ref{eq:ramsete_v}) and solve for $v_R$.
+
+\begin{align}
+  v &= \frac{v_R + (v - \frac{\omega d}{2})}{2} \nonumber \\
+  2v &= v_R + v - \frac{\omega d}{2} \nonumber \\
+  v &= v_R - \frac{\omega d}{2} \nonumber \\
+  v_R &= v + \frac{\omega d}{2}
+\end{align}
 
 \section{Further reading}
 
 For learning more about nonlinear control, we recommend reading the book
-\textit{Applied Nonlinear Control} by Jean-Jacques Slotine.
+\textit{Applied Nonlinear Control} by Jean-Jacques Slotine. For a more complex
+type of nonlinear control, read \textit{A guiding vector field algorithm for
+path following control of nonholonomic mobile robots} \cite{bib:gvf}.

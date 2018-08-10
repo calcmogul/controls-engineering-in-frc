@@ -140,11 +140,7 @@ included in an appendix.
 * Derive the two-sensor and three-sensor problems from first principles. The
   two-sensor problem uses p(x) and p(z_1|x). The three-sensor problem uses p(x),
   p(z_1|x), and p(z_2|x).
-* Add Ramsete and GVF papers to nonlinear control appendix.
-  * Control of Wheeled Mobile Robots: An Experimental Overview
-    (https://www.dis.uniroma1.it/~labrob/pub/papers/Ramsete01.pdf)
-  * A guiding vector field algorithm for path following control of nonholonomic
-    mobile robots (https://arxiv.org/pdf/1610.04391.pdf)
+* Add example application of Ramsete paper
 * Add a section on polytopes for convex optimization? So far, I've seen it used
   for handling saturated control inputs to prioritize tracking some states over
   others using the limited control input.
