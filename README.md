@@ -98,7 +98,8 @@ start with a capital letter and end with a period. The first sentence should be
 a fragment, but sentences after that, if applicable, should be complete.
 
 Bibliography entries in [state-space-guide.bib](state-space-guide.bib) should be
-sorted by first use.
+sorted lexographically by label. Links to online videos should use the `@misc`
+tag. Links to online static resources like PDFs should use the `@online` tag.
 
 ## Future improvements
 
