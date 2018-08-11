@@ -1,0 +1,81 @@
+\section{The definition}
+\index{PID control}
+
+Negative feedback loops drive the difference between the \gls{reference} and
+\gls{output} to zero. Figure \ref{fig:pid_ctrl_diag} shows a block diagram for a
+\gls{system} controlled by a PID controller.
+
+\begin{bookfigure}
+  \begin{tikzpicture}[auto, >=latex']
+    \fontsize{9pt}{10pt}
+
+    % Place the blocks
+    \node [name=input] {$r(t)$};
+    \node [sum, right=0.5cm of input] (errorsum) {};
+    \node [coordinate, right=0.75cm of errorsum] (branch) {};
+    \node [block, right=0.5cm of branch] (I) { $K_i \int_0^t e(\tau) \,d\tau$ };
+    \node [block, above=0.5cm of I] (P) { $K_p e(t)$ };
+    \node [block, below=0.5cm of I] (D) { $K_d \frac{de(t)}{dt}$ };
+    \node [sum, right=0.5cm of I] (ctrlsum) {};
+    \node [block, right=0.75cm of ctrlsum] (plant) {Plant};
+    \node [right=0.75cm of plant] (output) {};
+    \node [coordinate, below=0.5cm of D] (measurements) {};
+
+    % Connect the nodes
+    \draw [arrow] (input) -- node[pos=0.9] {$+$} (errorsum);
+    \draw [-] (errorsum) -- node {$e(t)$} (branch);
+    \draw [arrow] (branch) |- (P);
+    \draw [arrow] (branch) -- (I);
+    \draw [arrow] (branch) |- (D);
+    \draw [arrow] (P) -| node[pos=0.95, left] {$+$} (ctrlsum);
+    \draw [arrow] (I) -- node[pos=0.9, below] {$+$} (ctrlsum);
+    \draw [arrow] (D) -| node[pos=0.95, right] {$+$} (ctrlsum);
+    \draw [arrow] (ctrlsum) -- node {$u(t)$} (plant);
+    \draw [arrow] (plant) -- node [name=y] {$y(t)$} (output);
+    \draw [-] (y) |- (measurements);
+    \draw [arrow] (measurements) -| node[pos=0.99, right] {$-$} (errorsum);
+  \end{tikzpicture}
+
+  \caption{PID controller diagram}
+  \label{fig:pid_ctrl_diag}
+
+  \begin{figurekey}
+    \begin{tabulary}{\linewidth}{LLLL}
+      $r(t)$ & \gls{reference} & $u(t)$ & \gls{control input} \\
+      $e(t)$ & \gls{error} & $y(t)$ & \gls{output} \\
+    \end{tabulary}
+  \end{figurekey}
+\end{bookfigure}
+
+PID control has three gains acting on the \gls{error}.
+
+\subsection{Proportional gain}
+
+The \textit{Proportional} gain compensates for the current \gls{error}. This
+gain acts like a ``software-defined spring". Recall from physics that we model
+springs as $F = -kx$ where $F$ is the force applied, $k$ is a proportional
+constant, and $x$ is the displacement from the equilibrium point ($0$ in this
+case). For P control of a DC motor toward zero, $F$ is proportional to the
+voltage applied, $k$ is the proportional constant from the P term, and $x$ is
+the measured position. In other words, the ``force" with which the proportional
+gain pulls the \gls{system}'s \gls{output} toward the \gls{reference} is
+proportional to the \gls{error}.
+
+\subsection{Integral gain}
+
+The \textit{Integral} gain compensates for past \gls{error} (i.e.,
+\gls{steady-state error}). It integrates the \gls{error} over time and adds the
+current total times $K_i$ to the \gls{control input}. When the \gls{system} is
+close to the \gls{reference} in steady-state, the proportional term is too small
+to pull the \gls{output} to the \gls{reference} and the derivative term is zero.
+The integral gain is commonly used to address this problem.
+
+There are better approaches to fix \gls{steady-state error} like using
+feedforwards or constraining when the integral control acts using other
+knowledge of the \gls{system}. We will discuss these in more detail when we get
+to modern control theory.
+
+\subsection{Derivative gain}
+
+The \textit{Derivative} gain compensates for future \gls{error} by slowing the
+controller down if the \gls{error} is changing over time.

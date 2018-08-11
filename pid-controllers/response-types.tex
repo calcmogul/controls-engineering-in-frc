@@ -1,0 +1,19 @@
+\section{Response types}
+
+A \gls{system} driven by a PID controller generally has three types of
+responses: underdamped, overdamped, and critically damped. These are shown in
+figure \ref{fig:pid_responses}.
+
+\begin{svg}{build/code/pid_responses}
+  \caption{PID controller response types}
+  \label{fig:pid_responses}
+\end{svg}
+
+For the \glspl{step response} in figure \ref{fig:pid_responses}, \gls{rise time}
+is the time the \gls{system} takes to initially reach the \gls{reference} after
+applying the \gls{step input}. \Gls{settling time} is the time the \gls{system}
+takes to settle at the \gls{reference} after the \gls{step input} is applied. An
+underdamped response oscillates around the \gls{reference} before settling. An
+overdamped response is slow to rise and does not overshoot the \gls{reference}.
+A critically damped response has the fastest \gls{rise time} without
+overshooting the \gls{reference}.
