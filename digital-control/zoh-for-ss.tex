@@ -1,0 +1,85 @@
+\section{Zero-order hold for state-space}
+\index{Discretization!zero-order hold}
+
+Given the following continuous time state space model
+
+\begin{align*}
+  \dot{\mtx{x}} &= \mtx{A}_c\mtx{x} + \mtx{B}_c\mtx{u} + \mtx{w} \\
+  \mtx{y} &= \mtx{C}_c\mtx{x} + \mtx{D}_c\mtx{u} + \mtx{v}
+\end{align*}
+
+where $\mtx{w}$ is the process noise, $\mtx{v}$ is the measurement noise, and
+both are zero-mean white noise sources with covariances of $\mtx{Q}_c$ and
+$\mtx{R}_c$ respectively. $\mtx{w}$ and $\mtx{v}$ are defined as normally
+distributed random variables.
+
+\begin{align*}
+  \mtx{w} &\sim N(0, \mtx{Q}_c) \\
+  \mtx{v} &\sim N(0, \mtx{R}_c)
+\end{align*}
+
+The model can be \glslink{discretization}{discretized} as follows
+
+\begin{align*}
+  \mtx{x}_{k+1} &= \mtx{A}_d \mtx{x}_k + \mtx{B}_d \mtx{u}_k + \mtx{w}_k \\
+   \mtx{y}_k &= \mtx{C}_d \mtx{x}_k + \mtx{D}_d \mtx{u}_k + \mtx{v}_k
+\end{align*}
+
+with covariances
+
+\begin{align*}
+  \mtx{w}_k &\sim N(0, \mtx{Q}_d) \\
+  \mtx{v}_k &\sim N(0, \mtx{R}_d)
+\end{align*}
+
+\begin{theorem}[Zero-order hold for state-space]
+  \label{thm:zoh-ss}
+
+  \begin{align}
+    \mtx{A}_d &= e^{\mtx{A}_c T} \\
+    \mtx{B}_d &= \int_0^T e^{\mtx{A}_c \tau} d\tau \mtx{B}_c =
+      \mtx{A}_c^{-1} (\mtx{A}_d - \mtx{I}) \mtx{B}_c \\
+    \mtx{C}_d &= \mtx{C}_c \\
+    \mtx{D}_d &= \mtx{D}_c \\
+    \mtx{Q}_d &= \int_{\tau = 0}^{T} e^{\mtx{A}_c\tau} \mtx{Q}_c
+      e^{\mtx{A}_c^T\tau} d\tau \\
+    \mtx{R}_d &= \frac{1}{T} \mtx{R}_c
+  \end{align}
+
+  where a subscript of $d$ denotes discrete, a subscript of $c$ denotes the
+  continuous version of the corresponding matrix, $T$ is the sample period for
+  the discrete \gls{system}, and $e^{\mtx{A}_c T}$ is the matrix exponential of
+  $\mtx{A}_c$.
+\end{theorem}
+
+See appendix \ref{sec:deriv-zoh-ss} for derivations.
+
+$\mtx{Q}_d$ is computed as
+
+\begin{equation*}
+  e^{
+  \begin{bmatrix}
+    -\mtx{A}^T & \mtx{Q}_c \\
+    \mtx{0} & \mtx{A}
+  \end{bmatrix}T} =
+  \begin{bmatrix}
+    -\mtx{A}_d^T & \mtx{A}_d^{-1} \mtx{Q}_d \\
+    \mtx{0} & \mtx{A}_d
+  \end{bmatrix}
+\end{equation*}
+
+and $\mtx{Q}_d$ is the lower-right quadrant multiplied by the upper-right
+quadrant \cite{bib:integral_matrix_exp}. To compute $\mtx{A}_d$ and $\mtx{B}_d$
+in one step, one can utilize the following property.
+
+\begin{equation*}
+  e^{
+  \begin{bmatrix}
+    \mtx{A} & \mtx{B} \\
+    \mtx{0} & \mtx{0}
+  \end{bmatrix}T} =
+  \begin{bmatrix}
+    \mtx{A}_d & \mtx{B}_d \\
+    \mtx{0} & \mtx{I}
+  \end{bmatrix}
+\end{equation*}

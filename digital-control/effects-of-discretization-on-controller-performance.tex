@@ -1,0 +1,82 @@
+\section{Effects of discretization on controller performance}
+
+Running a feedback controller at a faster update rate doesn't always mean better
+control. In fact, you may be using more computational resources than you need.
+However, here are some reasons for running at a faster update rate.
+
+Firstly, if you have a discrete \gls{model} of the \gls{system}, that
+\gls{model} can more accurately approximate the underlying continuous
+\gls{system}. Not all controllers use a \gls{model} though.
+
+Secondly, the controller can better handle fast \gls{system} dynamics. If the
+\gls{system} can move from its initial state to the desired one in under 250ms,
+you obviously want to run the controller with a period less than 250ms. When you
+reduce the sample period, you're making the discrete controller more accurately
+reflect what the equivalent continuous controller would do (controllers built
+from analog circuit components like op-amps are continuous).
+
+Running at a lower sample rate only causes problems if you don't take into
+account the response time of your \gls{system}. Some \glspl{system} like heaters
+have \glspl{output} that change on the order of minutes. Running a control loop
+at 1kHz doesn't make sense for this because the \gls{plant} \gls{input} the
+controller computes won't change much, if at all, in 1ms.
+
+Figures \ref{fig:sampling_simulation_0.1}, \ref{fig:sampling_simulation_0.05},
+and \ref{fig:sampling_simulation_0.04} show simulations of the same controller
+for different sampling methods and sample rates, which have varying levels of
+fidelity to the real \gls{system}.
+
+\begin{svg}{build/code/sampling_simulation_010}
+  \caption{Sampling methods for system simulation with $T = 0.1s$}
+  \label{fig:sampling_simulation_0.1}
+\end{svg}
+
+\begin{svg}{build/code/sampling_simulation_005}
+  \caption{Sampling methods for system simulation with $T = 0.05s$}
+  \label{fig:sampling_simulation_0.05}
+\end{svg}
+
+\begin{svg}{build/code/sampling_simulation_004}
+  \caption{Sampling methods for system simulation with $T = 0.04s$}
+  \label{fig:sampling_simulation_0.04}
+\end{svg}
+
+Forward Euler is numerically unstable for low sample rates. The bilinear
+transform is a significant improvement due to it being a second-order
+approximation, but zero-order hold performs best due to the matrix exponential
+including much higher orders (we'll cover the matrix exponential in the next
+section).
+
+Table \ref{tab:disc_approx_scalar} compares the Taylor series expansions of the
+discretization methods presented so far (these are found using polynomial
+division). The bilinear transform does best with accuracy trailing off after the
+third-order term. Forward Euler has no second-order or higher terms, so it
+undershoots. Backward Euler has twice the second-order term and overshoots the
+remaining higher order terms as well.
+
+\begin{booktable}
+  \begin{tabular}{|cll|}
+    \hline
+    \rowcolor{headingbg}
+    \multicolumn{1}{|c}{\textbf{Method}} &
+      \multicolumn{1}{c}{\textbf{Conversion}} &
+      \multicolumn{1}{c|}{\textbf{Taylor series expansion}} \\
+    \hline
+    Zero-order hold &
+      $z = e^{Ts}$ &
+      $z = 1 + Ts + \frac{1}{2}T^2s^2 + \frac{1}{6}T^3s^3 + \ldots$ \\
+    Bilinear &
+      $z = \frac{1 + \frac{1}{2}Ts}{1 - \frac{1}{2}Ts}$ &
+      $z = 1 + Ts + \frac{1}{2}T^2s^2 + \frac{1}{4}T^3s^3 + \ldots$ \\
+    Forward Euler &
+      $z = 1 + Ts$ &
+      $z = 1 + Ts$ \\
+    Reverse Euler &
+      $z = \frac{1}{1 - Ts}$ &
+      $z = 1 + Ts + T^2s^2 + T^3s^3 + \ldots$ \\
+    \hline
+  \end{tabular}
+  \caption{Taylor series expansions of discretization methods (scalar case). The
+    zero-order hold discretization method is exact.}
+  \label{tab:disc_approx_scalar}
+\end{booktable}

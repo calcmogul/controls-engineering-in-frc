@@ -1,0 +1,72 @@
+\section{The Taylor series}
+\index{Discretization!Taylor series}
+The definition for the matrix exponential and the approximations below all use
+the \textit{Taylor series expansion}. The Taylor series is a method of
+approximating a function like $e^t$ via the summation of weighted polynomial
+terms like $t^k$. $e^t$ has the following Taylor series around $t = 0$.
+
+\begin{equation*}
+  e^t = \sum_{n = 0}^\infty \frac{t^n}{n!}
+\end{equation*}
+
+where a finite upper bound on the number of terms produces an approximation of
+$e^t$. As $n$ increases, the polynomial terms increase in power and the weights
+by which they are multiplied decrease. For $e^t$ and some other functions, the
+Taylor series expansion equals the original function for all values of $t$ as
+the number of terms approaches infinity\footnote{Functions for which their
+Taylor series expansion converges to and also equals it are called analytic
+functions.}. Figure \ref{fig:taylor_series} shows the Taylor series expansion of
+$e^t$ around $t = 0$ for a varying number of terms.
+
+\begin{svg}{build/code/taylor_series}
+  \caption{Taylor series expansions of $e^t$ around $t = 0$ for $n$ terms}
+  \label{fig:taylor_series}
+\end{svg}
+
+We'll expand the first few terms of the Taylor series expansion in equation
+(\ref{eq:mat_exp}) for $\mtx{X} = \mtx{A}T$ so we can compare it with other
+methods.
+
+\begin{equation*}
+  \sum_{k=0}^3 \frac{1}{k!} (\mtx{A}T)^k = \mtx{I} + \mtx{A}T +
+    \frac{1}{2}\mtx{A}^2T^2 + \frac{1}{6}\mtx{A}^3T^3
+\end{equation*}
+
+Table \ref{tab:disc_approx_matrix} compares the Taylor series expansions of the
+\gls{discretization} methods for the matrix case. These use a more complex
+formula which we won't present here.
+
+\begin{booktable}
+  \begin{tabular}{|cll|}
+    \hline
+    \rowcolor{headingbg}
+    \multicolumn{1}{|c}{\textbf{Method}} &
+      \multicolumn{1}{c}{\textbf{Conversion}} &
+      \multicolumn{1}{c|}{\textbf{Taylor series expansion}} \\
+    \hline
+    Zero-order hold &
+      $\mtx{\Phi} = e^{\mtx{A}T}$ &
+      $\mtx{\Phi} = \mtx{I} + \mtx{A}T + \frac{1}{2}\mtx{A}^2T^2 +
+        \frac{1}{6}\mtx{A}^3T^3 + \ldots$ \\
+    Bilinear &
+      $\mtx{\Phi} =
+        \left(\mtx{I} + \frac{1}{2}\mtx{A}T\right)
+        \left(\mtx{I} - \frac{1}{2}\mtx{A}T\right)^{-1}$ &
+      $\mtx{\Phi} = \mtx{I} + \mtx{A}T + \frac{1}{2}\mtx{A}^2T^2 +
+        \frac{1}{4}\mtx{A}^3T^3 + \ldots$ \\
+    Forward Euler &
+      $\mtx{\Phi} = \mtx{I} + \mtx{A}T$ &
+      $\mtx{\Phi} = \mtx{I} + \mtx{A}T$ \\
+    Reverse Euler &
+      $\mtx{\Phi} = \left(\mtx{I} - \mtx{A}T\right)^{-1}$ &
+      $\mtx{\Phi} =
+        \mtx{I} + \mtx{A}T + \mtx{A}^2T^2 + \mtx{A}^3T^3 + \ldots$ \\
+    \hline
+  \end{tabular}
+  \caption{Taylor series expansions of discretization methods (matrix case).
+    The zero-order hold discretization method is exact.}
+  \label{tab:disc_approx_matrix}
+\end{booktable}
+
+Each of them has different stability properties. The bilinear transform
+preserves the (in)stability of the continuous time \gls{system}.
