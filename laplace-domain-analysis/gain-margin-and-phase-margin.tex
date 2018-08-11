@@ -1,0 +1,20 @@
+\section{Gain margin and phase margin} \label{sec:gain-phase-margin}
+\index{Stability!gain margin}
+\index{Stability!phase margin}
+
+One generally needs to learn about Bode plots and Nyquist plots to truly
+understand gain and phase margin and their origins, but those plots are large
+topics unto themselves. Since we won't be using either of these plots for
+controller design, we'll just cover what gain and phase margin are in a general
+sense and how they are used. We'll be discussing how \gls{discretization}
+affects phase margin in section \ref{sec:phase_loss}.
+
+Gain margin and phase margin are two metrics for measuring a \gls{system}'s
+relative stability. Gain and phase margin are the amounts by which the
+closed-loop gain and phase can be varied respectively before the \gls{system}
+becomes unstable. In a sense, they are safety margins for when unmodeled
+dynamics affect the \gls{system response}.
+
+For a more thorough explanation of gain and phase margin, watch Brian Douglas's
+video on them \cite{bib:gain_phase_margin}. He has other videos too on classical
+control methods like Bode and Nyquist plots that we recommend.
