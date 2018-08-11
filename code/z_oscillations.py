@@ -42,9 +42,11 @@ def main():
     plt.figure(2)
     plt.xlabel("Time (s)")
     plt.ylabel("Step response")
-    tf = cnt.TransferFunction(1, conv([1, 0.6 + 0.6j], [1, 0.6 - 0.6j]), dt)
+    den = [np.real(x) for x in conv([1, 0.6 + 0.6j], [1, 0.6 - 0.6j])]
+    tf = cnt.TransferFunction(1, den, dt)
     sim(tf, T, "Complex conjugate poles in LHP")
-    tf = cnt.TransferFunction(1, conv([1, -0.6 + 0.6j], [1, -0.6 - 0.6j]), dt)
+    den = [np.real(x) for x in conv([1, -0.6 + 0.6j], [1, -0.6 - 0.6j])]
+    tf = cnt.TransferFunction(1, den, dt)
     sim(tf, T, "Complex conjugate poles in RHP")
     if "--noninteractive" in sys.argv:
         latexutils.savefig("z_oscillations_2p")

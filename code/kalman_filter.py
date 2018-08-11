@@ -30,7 +30,7 @@ def main():
         reader = csv.reader(data)
         for i, row in enumerate(reader):
             yrow = np.asmatrix([float(x) for x in row])
-            if y == []:
+            if len(y) == 0:
                 y = yrow
             else:
                 y = np.concatenate((y, yrow))

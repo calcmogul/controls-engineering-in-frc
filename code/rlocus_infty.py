@@ -20,7 +20,7 @@ def main():
     # G(s) = -----
     #        s - 1
     G = cnt.tf([1], [1, -1])
-    cnt.root_locus(G)
+    cnt.root_locus(G, grid=True)
 
     plt.title("Root Locus")
     plt.xlabel("Real Axis (seconds$^{-1}$)")

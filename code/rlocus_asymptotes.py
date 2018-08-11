@@ -21,7 +21,7 @@ def main():
     # G(s) = --------------
     #        (s + 2)(s + 3)
     G = cnt.tf(1, conv([1, 0], [1, 2], [1, 3]))
-    cnt.root_locus(G)
+    cnt.root_locus(G, grid=True)
 
     plt.title("Root Locus")
     plt.xlabel("Real Axis (seconds$^{-1}$)")

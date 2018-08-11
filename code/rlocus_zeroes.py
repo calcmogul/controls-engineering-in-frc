@@ -21,7 +21,7 @@ def main():
     # G(s) = ------------------------
     #               s(s + 10)
     G = cnt.tf(conv([1, -9 + 9j], [1, -9 - 9j]), conv([1, 0], [1, 10]))
-    cnt.root_locus(G)
+    cnt.root_locus(G, grid=True)
 
     # Show plot
     plt.title("Root Locus")

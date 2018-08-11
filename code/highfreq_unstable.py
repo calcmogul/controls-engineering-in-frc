@@ -55,7 +55,7 @@ def main():
     # JLs^3 + JRs^2 + bLs^2 + bRs + K^2s
     # JLs^3 + (JR + bL)s^2 + (bR + K^2)s
     G = cnt.TransferFunction(K, [J * L, J * R + b * L, b * R + K ** 2, 0])
-    cnt.root_locus(G)
+    cnt.root_locus(G, grid=True)
     plt.xlabel("Real Axis (seconds$^{-1}$)")
     plt.ylabel("Imaginary Axis (seconds$^{-1}$)")
     if "--noninteractive" in sys.argv:
@@ -69,27 +69,6 @@ def main():
     sim(Gcl, T, "Step response")
     if "--noninteractive" in sys.argv:
         latexutils.savefig("highfreq_unstable_step")
-
-    # Stable plant (L = 0)
-    # s((Js + b)R + K^2)
-    # s(JRs + bR + K^2)
-    # JRs^2 + bRs + K^2s
-    # JRs^2 + (bR + K^2)s
-    G = cnt.TransferFunction(K, [J * R, b * R + K ** 2, 0])
-    cnt.root_locus(G)
-    plt.xlabel("Real Axis (seconds$^{-1}$)")
-    plt.ylabel("Imaginary Axis (seconds$^{-1}$)")
-    if "--noninteractive" in sys.argv:
-        latexutils.savefig("highfreq_stable_rlocus")
-
-    plt.figure(4)
-    plt.xlabel("Time ($s$)")
-    plt.ylabel("Position ($m$)")
-    sim(cnt.TransferFunction(1, 1), T, "Reference")
-    Gcl = make_closed_loop_plant(G, 3)
-    sim(Gcl, T, "Step response")
-    if "--noninteractive" in sys.argv:
-        latexutils.savefig("highfreq_stable_step")
     else:
         plt.show()
 

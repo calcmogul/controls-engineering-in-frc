@@ -179,7 +179,7 @@ def main():
     l1 = l0 + 5.0
     l2 = l1 + 0.1
     l3 = l2 + 1.0
-    t = np.linspace(0, l3, l3 / dt)
+    t = np.arange(0, l3, dt)
 
     refs = []
 
