@@ -77,3 +77,23 @@ This works because $\mtx{K}$ has the same number of columns as \glspl{state}.
 
 Various \glspl{state} can also be produced in the \gls{output} with $\mtx{I}$
 matrix augmentation.
+
+\subsection{Examples}
+
+Snippet \ref{lst:augment} shows how one packs together the following augmented
+matrix in Python.
+
+\begin{equation*}
+  \begin{bmatrix}
+    \mtx{A} - \mtx{I} & \mtx{B} \\
+    \mtx{C} & \mtx{D}
+  \end{bmatrix}
+\end{equation*}
+
+\begin{code}{Python}{code/snippets/augment.py}
+  \caption{Matrix augmentation example}
+  \label{lst:augment}
+\end{code}
+
+Furthermore, section \ref{sec:integral_control} demonstrates \gls{model}
+augmentation for different types of integral control.
