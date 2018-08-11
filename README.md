@@ -111,7 +111,7 @@ this book as if I was explaining it to my veteran software students and
 anticipate gaps in their understanding.
 
 * Add code examples of each type of model augmentation
-* Add curly braces around equations in theorems to clarify matrix dimensions
+* Mention steady-state feedforward implementation example in case_study_ff.py
 
 ### Finish incomplete topics
 
