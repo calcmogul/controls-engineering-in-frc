@@ -72,8 +72,7 @@ def main():
             # fmt: on
 
             xhat_rec[:, :, k] = xhat
-            Ptemp = np.matrix([P[0, 0], P[1, 1], P[2, 2]]).T
-            P_rec[:, :, k] = Ptemp
+            P_rec[:, :, k] = np.matrix([P[0, 0], P[1, 1], P[2, 2]]).T
         elif k > 1:
             # Predict
             xhat = phi * xhat + np.matrix([0, 0.8, 0]).T
@@ -85,8 +84,7 @@ def main():
             P = (np.eye(3, 3) - K * H) * P
 
             xhat_rec[:, :, k] = xhat
-            Ptemp = np.matrix([P[0, 0], P[1, 1], P[2, 2]]).T
-            P_rec[:, :, k] = Ptemp
+            P_rec[:, :, k] = np.matrix([P[0, 0], P[1, 1], P[2, 2]]).T
 
     # State estimates and measurements
     plt.figure(1)

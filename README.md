@@ -113,6 +113,8 @@ anticipate gaps in their understanding.
 
 * Add code examples of each type of model augmentation
 * Mention steady-state feedforward implementation example in case_study_ff.py
+  for model augmentation
+* Mention u_error as example of model augmentation
 
 ### Finish incomplete topics
 
