@@ -43,7 +43,7 @@ book-stamp: $(NAME).gls $(TEX) $(STAMP) $(BIB) $(FIGS)
 	# failure
 	touch book-stamp
 
-$(NAME).gls: $(NAME).aux glossary.tex
+$(NAME).gls: $(NAME).aux glossary-entries.tex
 	makeglossaries $(NAME)
 	latexmk -xelatex $(NAME)
 	# makeglossaries ran twice because latexmk writes a new .aux file on the first

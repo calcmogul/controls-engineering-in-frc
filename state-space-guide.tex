@@ -70,14 +70,14 @@
 \input{preamble/layout}
 
 \renewcommand*{\glstextformat}[1]{\textcolor{glscolor}{#1}}
-\input{glossary}
+\input{glossary-entries}
 \makeglossaries
 
 \begin{document}
 % \usechapterimagefalse
 \frontmatter
-\input{front}
-\input{preface}
+\input{frontmatter/front}
+\input{frontmatter/preface}
 
 \mainmatter
 \setcounter{chapter}{-1}
@@ -98,19 +98,12 @@
 \part{Nonlinear control theory}
 \input{nonlinear-control}
 
-% Appendices
 \part{Appendices}
-\appendix
 
-% Appendix text font settings
 \renewcommand{\chaptermark}[1]{\markboth{\sffamily\normalsize\bfseries\appendixname\ \thechapter.\ #1}{}}
-\chapterimage{appendices.jpg}{Sunset in an airplane over New Mexico}
-\input{appendices/simplifying-block-diagrams}
-\input{appendices/installing-python-control}
-\input{appendices/ss-canonical-forms}
-\input{appendices/derivations}
+\input{appendices}
 
-% Back matter
 \renewcommand{\chaptermark}[1]{\markboth{\sffamily\normalsize\bfseries #1}{}}
-\input{back}
+\backmatter
+\input{backmatter}
 \end{document}
