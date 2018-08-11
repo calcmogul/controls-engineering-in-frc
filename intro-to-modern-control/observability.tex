@@ -1,0 +1,43 @@
+\section{Observability}
+\index{Controller design!observability}
+
+Observability is a measure for how well internal \glspl{state} of a \gls{system}
+can be inferred by knowledge of its external \glspl{output}. The observability
+and controllability of a \gls{system} are mathematical duals (i.e., as
+controllability proves that an \gls{input} is available that brings any initial
+\gls{state} to any desired final \gls{state}, observability proves that knowing
+enough \gls{output} values provides enough information to predict the initial
+\gls{state} of the \gls{system}).
+
+\begin{theorem}[Observability]
+  A continuous \gls{time-invariant} linear state-space \gls{model} is observable
+  if and only if
+
+  \begin{equation}
+    \rank\left(
+    \begin{bmatrix}
+      C \\
+      CA \\
+      \vdots \\
+      CA^{n-1}
+    \end{bmatrix}\right) = n \label{eq:obsv_rank}
+  \end{equation}
+
+  where rank is the number of linearly independent rows in a matrix and $n$ is
+  the number of \gls{state} variables.
+\end{theorem}
+
+The matrix in equation (\ref{eq:obsv_rank}) being rank-deficient means the
+\glspl{output} do not contain contributions from every \gls{state}. That is, not
+all \glspl{state} are mapped to a linear commbination in the \gls{output}.
+Therefore, the \glspl{output} alone are insufficient to estimate all the
+\glspl{state}.
+
+The condition number of the observability matrix $\mathbb{O}$ is defined as
+$\frac{\sigma_{max}(\mathbb{O})}{\sigma_{min}(\mathbb{O})}$ where $\sigma_{max}$
+is the maximum singular value\footref{footn:singular_val} and $\sigma_{min}$ is
+the minimum singular value. As this number approaches infinity, one or more of
+the \glspl{state} becomes unobservable. This number can also be used to tell us
+which sensors are better than others for the given \gls{system}; a lower
+condition number means the \glspl{output} produced by the sensors are better
+indicators of the \gls{system} \gls{state}.

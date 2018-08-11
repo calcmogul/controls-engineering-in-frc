@@ -1,0 +1,83 @@
+\section{State-space notation}
+
+\subsection{What is state-space?}
+
+Recall from last chapter that 2D space has two axes: $x$ and $y$. We represent
+locations within this space as a pair of numbers packaged in a vector, and each
+coordinate is a measure of how far to move along the corresponding axis.
+State-space is a Cartesian coordinate system with an axis for each \gls{state}
+variable, and we represent locations within it the same way we do for 2D space:
+with a list of numbers in a vector. Each element in the vector corresponds to a
+\gls{state} of the \gls{system}.
+
+In addition to the \gls{state}, \glspl{input} and \glspl{output} are represented
+as vectors. Since the mapping from the current \glspl{state} and \glspl{input}
+to the change in \gls{state} is a system of equations, it's natural to write it
+in matrix form.
+
+\subsection{Benefits over classical control}
+
+State-space notation provides a more convenient and compact way to model and
+analyze \glspl{system} with multiple \glspl{input} and \glspl{output}. For a
+\gls{system} with $p$ \glspl{input} and $q$ \glspl{output}, we would have to
+write $q \times p$ Laplace transforms to represent it. Not only is the resulting
+algebra unwieldy, but it only works for linear \glspl{system}. Including nonzero
+initial conditions complicates the algebra even more. State-space representation
+uses the time domain instead of the Laplace domain, so it can model nonlinear
+\glspl{system}\footnote{This book focuses on analysis and control of linear
+\glspl{system}. See chapter \ref{ch:nonlinear-control} for more on nonlinear
+control.} and trivially supports nonzero initial conditions.
+
+Students are still taught classical control first because it provides a
+framework within which to understand the results we get from the fancy
+mathematical machinery of modern control.
+
+\subsection{The equations}
+
+Below are the continuous and discrete versions of state-space notation.
+
+\begin{definition}[State-space notation]%
+  \index{State-space controllers!open-loop}
+
+  \begin{align}
+    \dot{\mtx{x}} &= \mtx{A}\mtx{x} + \mtx{B}\mtx{u} \label{eq:ss_ctrl_x} \\
+    \mtx{y} &= \mtx{C}\mtx{x} + \mtx{D}\mtx{u} \label{eq:ss_ctrl_y} \\
+    \nonumber \\
+    \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}\mtx{u}_k \label{eq:ssz_ctrl_x} \\
+    \mtx{y}_{k+1} &= \mtx{C}\mtx{x}_k + \mtx{D}\mtx{u}_k \label{eq:ssz_ctrl_y}
+  \end{align}
+
+  \begin{figurekey}
+    \begin{tabulary}{\linewidth}{LLLL}
+      $\mtx{A}$ & system matrix      & $\mtx{x}$ & state vector \\
+      $\mtx{B}$ & input matrix       & $\mtx{u}$ & input vector \\
+      $\mtx{C}$ & output matrix      & $\mtx{y}$ & output vector \\
+      $\mtx{D}$ & feedthrough matrix &  &  \\
+    \end{tabulary}
+  \end{figurekey}
+\end{definition}
+
+\begin{booktable}
+  \begin{tabular}{|ll|ll|}
+    \hline
+    \rowcolor{headingbg}
+    \textbf{Matrix} & \textbf{Rows $\times$ Columns} &
+    \textbf{Matrix} & \textbf{Rows $\times$ Columns} \\
+    \hline
+    $\mtx{A}$ & states $\times$ states & $\mtx{x}$ & states $\times$ 1 \\
+    $\mtx{B}$ & states $\times$ inputs & $\mtx{u}$ & inputs $\times$ 1 \\
+    $\mtx{C}$ & outputs $\times$ states & $\mtx{y}$ & outputs $\times$ 1 \\
+    $\mtx{D}$ & outputs $\times$ inputs &  &  \\
+    \hline
+  \end{tabular}
+  \caption{State-space matrix dimensions}
+  \label{tab:ss_matrix_dims}
+\end{booktable}
+
+In the continuous case, the change in \gls{state} and the \gls{output} are
+linear combinations of the \gls{state} vector and the \gls{input} vector. The
+$\mtx{A}$ and $\mtx{B}$ matrices are used to map the \gls{state} vector
+$\mtx{x}$ and the \gls{input} vector $\mtx{u}$ to a change in the \gls{state}
+vector $\dot{\mtx{x}}$. The $\mtx{C}$ and $\mtx{D}$ matrices are used to map the
+\gls{state} vector $\mtx{x}$ and the \gls{input} vector $\mtx{u}$ to an
+\gls{output} vector $\mtx{y}$.
