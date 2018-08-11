@@ -1,0 +1,65 @@
+\section{Block diagrams}
+\index{Block diagrams}
+
+When designing or analyzing a \gls{control system}, it is useful to model it
+graphically. Block diagrams are used for this purpose. They can be manipulated
+and simplified systematically (see appendix
+\ref{ch:app_simplifying_block_diagrams}). Figure \ref{fig:gain_nomenclature} is
+an example of one.
+
+\begin{bookfigure}
+  \begin{tikzpicture}[auto, >=latex']
+    % Place the blocks
+    \node [name=input] {input};
+    \node [sum, right=of input] (sum) {};
+    \node [block, right=of sum] (P1) {open loop};
+    \node [right=of P1] (output) {output};
+    \node [block, below=of P1] (P2) {feedback};
+
+    % Connect the nodes
+    \draw [arrow] (input) -- node[pos=0.85] {$+$} (sum);
+    \draw [arrow] (sum) -- node {} (P1);
+    \draw [arrow] (P1) -- node[name=y] {} (output);
+    \draw [arrow] (y) |- (P2);
+    \draw [arrow] (P2) -| node[pos=0.97, right] {$\mp$} (sum);
+  \end{tikzpicture}
+
+  \caption{Block diagram with nomenclature}
+  \label{fig:gain_nomenclature}
+\end{bookfigure}
+
+The \gls{open-loop gain} is the total gain from the sum node at the input to the
+output branch. The feedback gain is the total gain from the output back to the
+input sum node. The circle's output is the sum of its inputs.
+
+Figure \ref{fig:feedback_block_diagram} is a block diagram with more formal
+notation in a feedback configuration.
+
+\begin{bookfigure}
+  \begin{tikzpicture}[auto, >=latex']
+    % Place the blocks
+    \node [name=input] {$X(s)$};
+    \node [sum, right=of input] (sum) {};
+    \node [block, right=of sum] (P1) {$P_1$};
+    \node [right=of P1] (output) {$Y(s)$};
+    \node [block, below=of P1] (P2) {$P_2$};
+
+    % Connect the nodes
+    \draw [arrow] (input) -- node[pos=0.85] {$+$} (sum);
+    \draw [arrow] (sum) -- node {} (P1);
+    \draw [arrow] (P1) -- node[name=y] {} (output);
+    \draw [arrow] (y) |- (P2);
+    \draw [arrow] (P2) -| node[pos=0.97, right] {$\mp$} (sum);
+  \end{tikzpicture}
+
+  \caption{Feedback block diagram}
+  \label{fig:feedback_block_diagram}
+\end{bookfigure}
+
+\begin{theorem}[Closed-loop gain for a feedback loop]
+  \begin{equation}
+    \frac{Y(s)}{X(s)} = \frac{P_1}{1 \mp P_1 P_2}
+  \end{equation}
+\end{theorem}
+
+See appendix \ref{sec:deriv-tf-feedback} for a derivation.
