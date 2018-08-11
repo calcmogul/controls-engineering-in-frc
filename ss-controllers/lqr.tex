@@ -65,10 +65,10 @@ To use the \gls{control law}, we need knowledge of the full \gls{state} of the
 \gls{system}. That means we either have to measure all our \glspl{state}
 directly or estimate those we do not measure.
 
-See appendix \ref{sec:deriv-optimal-control-law} for how $\mtx{K}$ is calculated
+See appendix \ref{sec:deriv_optimal_control_law} for how $\mtx{K}$ is calculated
 in Python. If the result is finite, the controller is guaranteed to be stable
 and \glslink{robustness}{robust} with a \gls{phase margin} of 60 degrees
-\cite{bib:lqr-phase-margin}.
+\cite{bib:lqr_phase_margin}.
 
 \begin{remark}
   LQR design's $\mtx{Q}$ and $\mtx{R}$ matrices don't need \gls{discretization},

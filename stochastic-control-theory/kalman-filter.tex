@@ -239,7 +239,7 @@ constants here. $\mtx{\Phi}$ is replaced with $\mtx{A}$ for continuous systems.
 \begin{remark}
   To implement a discrete time Kalman filter from a continuous model, the model
   and continuous time $\mtx{Q}$ and $\mtx{R}$ matrices can be
-  \glslink{discretization}{discretized} using theorem \ref{thm:zoh-ss}.
+  \glslink{discretization}{discretized} using theorem \ref{thm:zoh_ss}.
 \end{remark}
 
 \begin{booktable}
@@ -455,7 +455,7 @@ filter.
 
 A Kalman filter can be represented as a Luenberger \gls{observer} by letting
 $\mtx{C} = \mtx{H}$ and $\mtx{L} = \mtx{A} \mtx{K}_k$ (see appendix
-\ref{sec:deriv-kalman-luenberger}). The eigenvalues of the Kalman filter are
+\ref{sec:deriv_kalman_luenberger}). The eigenvalues of the Kalman filter are
 
 \begin{equation}
   eig(\mtx{A}(\mtx{I} - \mtx{K}_k\mtx{H}))

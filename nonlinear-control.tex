@@ -1,6 +1,7 @@
 \chapterimage{nonlinear-control.jpg}{Trees by Interdisciplinary Sciences building at UCSC}
 
-\chapter{Nonlinear control} \label{ch:nonlinear-control}
+\chapter{Nonlinear control}
+\label{ch:nonlinear_control}
 
 While many tools exist for designing controllers for linear \glspl{system}, all
 \glspl{system} in reality are inherently nonlinear. We'll briefly mention some
@@ -46,7 +47,7 @@ Higher order partial derivatives can be added to better approximate the
 nonlinear dynamics. We typically only \glslink{linearization}{linearize} around
 equilibrium points because we are interested in how the \gls{system} behaves
 when perturbed from equilibrium. An FAQ on this goes into more detail
-\cite{bib:linearize-equilibrium-point}. To be clear though,
+\cite{bib:linearize_equilibrium_point}. To be clear though,
 \glslink{linearization}{linearizing} the \gls{system} around the current
 \gls{state} as the \gls{system} evolves does give a closer approximation over
 time.
@@ -89,10 +90,10 @@ accuracy.
 
 This method \glslink{linearization}{linearizes} around carefully chosen points
 to minimize the modeling error. There's a lot of detail to cover, so we
-recommend just reading a paper on it \cite{bib:unscented-kalman-filter}.
+recommend just reading a paper on it \cite{bib:unscented_kalman_filter}.
 
 Here's a paper on a quaternion-based Unscented Kalman filter for orientation
-tracking \cite{bib:ukf-state-tracking}.
+tracking \cite{bib:ukf_state_tracking}.
 
 \section{Lyapunov stability}
 \index{Nonlinear control!Lyapunov stability}
@@ -129,7 +130,7 @@ as \textit{Lyapunov candidate functions}.
 The paper \textit{Control of Wheeled Mobile Robots: An Experimental Overview}
 describes a nonlinear controller for a wheeled vehicle with unicycle-like
 kinematics and a global \gls{pose} consisting of $x$, $y$, and $\theta$
-\cite{bib:ctrl-wheeled-mobile-robots}. They use the following Lyapunov function.
+\cite{bib:ctrl_wheeled_mobile_robots}. They use the following Lyapunov function.
 
 \begin{equation*}
   V = \frac{\overline{k}_2}{2}(e_1^2 + e_2^2) + \frac{e_3^2}{2}
@@ -147,7 +148,7 @@ nonincreasing since
 
 Thus, $\lVert e(t) \rVert$ is bounded, $\dot{V}(t)$ is uniformly continuous,
 and $V(t)$ tends to some limit value. Using the Barbalat lemma, $\dot{V}(t)$
-tends to zero \cite{bib:ctrl-wheeled-mobile-robots}.
+tends to zero \cite{bib:ctrl_wheeled_mobile_robots}.
 
 The commanded velocity $v$ and turning rate $\omega$ are
 

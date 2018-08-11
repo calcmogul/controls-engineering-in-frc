@@ -1,7 +1,7 @@
 \chapter{Derivations}
 
 \section{Transfer function in feedback}
-\label{sec:deriv-tf-feedback}
+\label{sec:deriv_tf_feedback}
 
 Given the feedback network in figure \ref{fig:closed_loop_deriv}, find an
 expression for $Y(s)$.
@@ -46,7 +46,7 @@ where positive feedback uses the top sign and negative feedback uses the bottom
 sign.
 
 \section{Optimal control law}
-\label{sec:deriv-optimal-control-law}
+\label{sec:deriv_optimal_control_law}
 
 For a continuous time linear \gls{system} described by
 
@@ -107,13 +107,13 @@ LQR controller.
 \end{code}
 
 Other formulations of LQR for finite horizon and discrete time can be seen on
-Wikipedia \cite{bib:wiki-lqr}.
+Wikipedia \cite{bib:wiki_lqr}.
 
 MIT OpenCourseWare has a rigorous proof of the results shown above
-\cite{bib:lqr-derivs}.
+\cite{bib:lqr_derivs}.
 
 \section{Zero-order hold for state-space}
-\label{sec:deriv-zoh-ss}
+\label{sec:deriv_zoh_ss}
 
 Starting with the continuous \gls{model}
 
@@ -205,7 +205,7 @@ $v(\tau) = kT + T - \tau$. Note that $d\tau = -dv$.
 which is an exact solution to the \gls{discretization} problem.
 
 \section{Kalman filter as Luenberger observer}
-\label{sec:deriv-kalman-luenberger}
+\label{sec:deriv_kalman_luenberger}
 
 A Luenberger \gls{observer} is defined as
 
@@ -270,13 +270,13 @@ Kalman filter \gls{observer} can be obtained by
 \end{align}
 
 \subsection{Luenberger observer with separate prediction and update}
-\label{subsec:deriv-luenberger-separate}
+\label{subsec:deriv_luenberger_separate}
 
 To run a Luenberger \gls{observer} with separate prediction and update steps,
 substitute the relationship between the Luenberger \gls{observer} and Kalman
 filter matrices derived above into the Kalman filter equations.
 
-Appendix \ref{sec:deriv-kalman-luenberger} shows that $\mtx{C} = \mtx{H}$ and
+Appendix \ref{sec:deriv_kalman_luenberger} shows that $\mtx{C} = \mtx{H}$ and
 $\mtx{L} = \mtx{A}\mtx{K}_k$. Since $\mtx{L}$ and $\mtx{A}$ are constant, one
 must assume $\mtx{K}_k$ has reached steady-state. Then,
 $\mtx{K} = \mtx{A}^{-1}\mtx{L}$. Substitute this and $\mtx{C} = \mtx{H}$ into
@@ -309,7 +309,7 @@ The predict step is the same as the Kalman filter's. Therefore, a Luenberger
 \end{align}
 
 \section{Trapezoidal motion profile}
-\label{sec:deriv-trapezoid-profile}
+\label{sec:deriv_trapezoid_profile}
 
 \section{S-curve motion profile}
-\label{sec:deriv-s-curve-profile}
+\label{sec:deriv_s-curve_profile}

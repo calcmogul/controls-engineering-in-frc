@@ -84,6 +84,22 @@ levels of image compression.
 |`make printer`   |`state-space-guide-printer.pdf` |Standard color printing  |
 |`make prepress`  |`state-space-guide-prepress.pdf`|Book publishing          |
 
+### Style guide
+
+All LaTeX labels, including bibliography entries, should use underscores to
+represent spaces between words instead of hyphens. Hyphens should only be used
+where the character being written is already a hyphen. `.tex` file names should
+use hyphens and `.py` file names should use underscores.
+
+Glossary entries in [glossary-entries.tex](glossary-entries.tex) should be
+lexographically sorted by entry key. The entry key should be the same as the
+name. The words in the name should be lowercase, and the description should
+start with a capital letter and end with a period. The first sentence should be
+a fragment, but sentences after that, if applicable, should be complete.
+
+Bibliography entries in [state-space-guide.bib](state-space-guide.bib) should be
+sorted by first use.
+
 ## Future improvements
 
 ### Teach topics more thoroughly
