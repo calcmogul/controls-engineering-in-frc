@@ -111,6 +111,9 @@ More examples of concepts should help slow the pace down. I should read through
 this book as if I was explaining it to my veteran software students and
 anticipate gaps in their understanding.
 
+Add exercises at the end of each chapter for reader practice. This book is
+supposed to be "practical" after all.
+
 ### Finish incomplete topics
 
 The following state-space implementation examples are in progress:

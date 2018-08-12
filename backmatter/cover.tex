@@ -1,0 +1,9 @@
+\cleardoublepage
+\begingroup
+\thispagestyle{empty}
+\begin{tikzpicture}[remember picture,overlay]
+  \node[inner sep=0pt] (background) at (current page.center) {%
+    \reflectbox{%
+      \includegraphics[width=\paperwidth,height=\paperheight]{cover.jpg}}};
+\end{tikzpicture}
+\endgroup
