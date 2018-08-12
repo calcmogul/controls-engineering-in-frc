@@ -1,0 +1,72 @@
+\section{Kalman smoother}
+\index{State-space observers!Kalman filter!smoother}
+
+The Kalman filter uses the data up to the current time to produce an optimal
+estimate of the system \gls{state}. If data beyond the current time is
+available, it can be ran through a Kalman smoother to produce a better estimate.
+This is done by recording measurements, then applying the smoother to it
+offline.
+
+The Kalman smoother does a forward pass on the available data, then a backward
+pass through the system dynamics so it takes into account the data before and
+after the current time. This produces \gls{state} variances that are lower than
+that of a Kalman filter.
+
+We will modify the robot model so that instead of a velocity of $0.8 cm/s$ with
+random noise, the velocity is modeled as a random walk from the current
+velocity.
+
+\begin{equation}
+  \mtx{x}_k =
+  \begin{bmatrix}
+    x_k \\
+    v_k \\
+    x_k^w
+  \end{bmatrix}
+\end{equation}
+
+\begin{equation}
+  \mtx{x}_{k+1} =
+  \begin{bmatrix}
+    1 & 1 & 0 \\
+    0 & 1 & 0 \\
+    0 & 0 & 1
+  \end{bmatrix} \mtx{x}_k +
+  \begin{bmatrix}
+    0 \\
+    0.1 \\
+    0
+  \end{bmatrix} w_k
+\end{equation}
+
+We will use the same observation model as before.
+
+Using the same data from subsection \ref{subsec:filter_simulation}, figures
+\ref{fig:smoother_robot_pos}, \ref{fig:smoother_robot_vel}, and
+\ref{fig:smoother_wall_pos} show the improved \gls{state} estimates and figure
+\ref{fig:smoother_robot_pos_variance} shows the improved robot position
+covariance with a Kalman smoother.
+
+Notice how the wall position produced by the smoother is a constant. This is
+because that \gls{state} has no dynamics, so the final estimate from the Kalman
+filter is already the best estimate.
+
+\begin{svg}{build/code/kalman_smoother_robot_pos}
+  \caption{Robot position with Kalman smoother}
+  \label{fig:smoother_robot_pos}
+\end{svg}
+
+\begin{svg}{build/code/kalman_smoother_robot_vel}
+  \caption{Robot velocity with Kalman smoother}
+  \label{fig:smoother_robot_vel}
+\end{svg}
+
+\begin{svg}{build/code/kalman_smoother_wall_pos}
+  \caption{Wall position with Kalman smoother}
+  \label{fig:smoother_wall_pos}
+\end{svg}
+
+\begin{svg}{build/code/kalman_smoother_robot_pos_variance}
+  \caption{Robot position variance with Kalman smoother}
+  \label{fig:smoother_robot_pos_variance}
+\end{svg}

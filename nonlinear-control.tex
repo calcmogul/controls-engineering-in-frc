@@ -65,7 +65,7 @@ accurate.
 
 This method \glslink{linearization}{linearizes} the matrices used during the
 prediction step. In addition to the $\mtx{A}$, $\mtx{B}$, $\mtx{C}$, and
-$\mtx{D}$ matrices above, the process noise intensity vector $\Gamma$ is
+$\mtx{D}$ matrices above, the process noise intensity vector $\mtx{\Gamma}$ is
 \glslink{linearization}{linearized} as follows:
 
 \begin{equation*}
@@ -125,7 +125,9 @@ specific Lyapunov function being necessary). If one function doesn't prove it,
 another candidate should be tried. For this reason, we refer to these functions
 as \textit{Lyapunov candidate functions}.
 
-\section{Nonlinear control law for unicycle}
+\section{Nonlinear control law for wheeled vehicle}
+
+\subsection{Unicycle-like vehicle}
 
 The paper \textit{Control of Wheeled Mobile Robots: An Experimental Overview}
 describes a nonlinear controller for a wheeled vehicle with unicycle-like

@@ -1,0 +1,14 @@
+\section{MMAE}
+\index{State-space observers!Kalman filter!MMAE}
+
+MMAE stands for Multiple Model Adaptive Estimation. MMAE runs multiple Kalman
+filters with different \glspl{model} on the same data. The Kalman filter with
+the lowest residual has the highest likelihood of accurately reflecting reality.
+This can be used to detect certain \gls{system} \glspl{state} like an aircraft
+engine failing without needing to invest in costly sensors to determine this
+directly.
+
+For example, say you have three Kalman filters: one for turning left, one for
+turning right, and one for going straight. If the \gls{control input} is
+attempting to fly the plane straight and the Kalman filter for going left has
+the lowest residual, the aircraft's left engine probably failed.

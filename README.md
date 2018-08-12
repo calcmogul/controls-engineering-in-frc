@@ -149,7 +149,8 @@ included in an appendix.
     experimental aircraft (within the limits of the helicopter's actuators, of
     course).
 * Add an appendix on Ito calculus to explain where the Wiener process comes from?
-* Add equations for Kalman smoother and MMAE.
+* Add equations for Kalman smoother
+* Add equations for and implementation of MMAE
 * Derive the two-sensor and three-sensor problems from first principles. The
   two-sensor problem uses p(x) and p(z_1|x). The three-sensor problem uses p(x),
   p(z_1|x), and p(z_2|x).
