@@ -269,8 +269,10 @@ would require going much more in depth into stochastic processes and It\^{o}
 calculus, which is outside the scope of this book.}. This process has the
 property that its variance increases linearly with time $t$.
 
-\subsection{Equations to model}
+\subsection{Setup}
 \index{State-space observers!Kalman filter!setup}
+
+\subsubsection{Equations to model}
 
 The following example \gls{system} will be used to describe how to define and
 initialize the matrices for a Kalman filter.
@@ -356,7 +358,7 @@ the expressions used when assigning the state vector. Let $k = 2$.
   \end{bmatrix}
 \end{align}
 
-\subsection{Initial conditions}
+\subsubsection{Initial conditions}
 
 To fill in the $\mtx{P}$ matrix, we calculate the covariance of each combination
 of \gls{state} variables. The resulting value is a measure of how much those
@@ -374,7 +376,7 @@ add together. Therefore, $\mtx{P}_{22} = \frac{20}{dt^2}$. It continues in this
 fashion until the matrix is filled up. Order doesn't matter for correlation, so
 the matrix is symmetric.
 
-\subsection{Selection of priors}
+\subsubsection{Selection of priors}
 
 Choosing good priors is important for a well performing filter, even if little
 information is known. This applies to both the measurement noise and the noise
@@ -385,24 +387,52 @@ a small variance, you are telling the filter that you are very confident in your
 guess. If that guess is incorrect, it will take the filter a long time to move
 away from your guess to the true value.
 
-\subsection{Covariance selection}
+\subsubsection{Covariance selection}
 
 While one could assume no correlation between the \gls{state} variables and set
 the covariance matrix entries to zero, this may not reflect reality. The Kalman
 filter is still guarenteed to converge to the steady-state covariance after an
 infinite time, but it will take longer than otherwise.
 
-\subsection{Noise model selection}
+\subsubsection{Noise model selection}
 
 We typically use a Gaussian distribution for the noise \gls{model} because the
 sum of many independent random variables produces a normal distribution by the
-central limit theorem. Kalman filters only require that the noise has a zero
-mean. If the true value has an equal probability of being anywhere within a
-certain range, use a uniform distribution instead. Each of these communicates
+central limit theorem. Kalman filters only require that the noise is zero-mean.
+If the true value has an equal probability of being anywhere within a certain
+range, use a uniform distribution instead. Each of these communicates
 information regarding what you know about a system in addition to what you do
 not.
 
-\subsection{Simulation} \label{subsec:filter_simulation}
+\subsubsection{Process noise and measurement noise covariance selection}
+
+Recall that the process noise covariance is $\mtx{Q}$ and the measurement noise
+covariance is $\mtx{R}$. To tune the elements of these, it can be helpful to
+take a collection of measurements, then run the Kalman filter on them offline to
+evaluate its performance.
+
+The diagonal elements of $\mtx{R}$ are the variances of each measurement, which
+can be easily determined from the offline measurements. The diagonal elements of
+$\mtx{Q}$ are the variances of each \gls{state}. They represent how much each
+\gls{state} is expected to deviate from the \gls{model}.
+
+Selecting $\mtx{Q}$ is more difficult. If the data is trusted too much over the
+model, one risks overfitting the data. One should balance estimating any hidden
+\glspl{state} sufficiently with actually filtering out the noise.
+
+\subsubsection{Modeling other noise colors}
+
+The Kalman filter assumes a \gls{model} with zero-mean white noise. If the
+\gls{model} is incomplete in some way, whether it's missing dynamics or assumes
+an incorrect noise \gls{model}, the residual
+$\widetilde{\mtx{y}} = \mtx{y} - \mtx{H}\hat{\mtx{x}}$ over time will be
+something other than white noise.
+
+To handle other colors of noise in a Kalman filter, define that color of noise
+in terms of white noise and augment the \gls{model} with it.
+
+\subsection{Simulation}
+\label{subsec:filter_simulation}
 
 Figure \ref{fig:filter_all} shows the \gls{state} estimates and measurements of
 the Kalman filter over time. Figure \ref{fig:filter_robot_pos} shows the
@@ -433,7 +463,24 @@ than any one measurement alone.
   \label{fig:filter_wall_pos}
 \end{svg}
 
-\subsection{Steady-state error covariance matrix}
+\subsection{Kalman filter as Luenberger observer}
+\index{State-space observers!Kalman filter!as Luenberger observer}
+
+A Kalman filter can be represented as a Luenberger \gls{observer} by letting
+$\mtx{C} = \mtx{H}$ and $\mtx{L} = \mtx{A} \mtx{K}_k$ (see appendix
+\ref{sec:deriv_kalman_luenberger}). The Luenberger observer has a constant
+observer gain matrix $\mtx{L}$, so the steady-state Kalman gain is used to
+calculate it. We will demonstrate how to find this shortly.
+
+Kalman filter theory provides a way to place the poles of the Luenberger
+observer optimally in the same way we placed the poles of the controller
+optimally with LQR. The eigenvalues of the Kalman filter are
+
+\begin{equation}
+  \eig(\mtx{A}(\mtx{I} - \mtx{K}_k\mtx{H}))
+\end{equation}
+
+\subsubsection{Steady-state Kalman gain}
 
 One may have noticed that the error covariance matrix can be updated
 independently of the rest of the \gls{model}. The error covariance matrix tends
@@ -449,14 +496,3 @@ filter.
     Python}
   \label{lst:kalman}
 \end{code}
-
-\subsection{Kalman filter as Luenberger observer}
-\index{State-space observers!Kalman filter!as Luenberger observer}
-
-A Kalman filter can be represented as a Luenberger \gls{observer} by letting
-$\mtx{C} = \mtx{H}$ and $\mtx{L} = \mtx{A} \mtx{K}_k$ (see appendix
-\ref{sec:deriv_kalman_luenberger}). The eigenvalues of the Kalman filter are
-
-\begin{equation}
-  eig(\mtx{A}(\mtx{I} - \mtx{K}_k\mtx{H}))
-\end{equation}
