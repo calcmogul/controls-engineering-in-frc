@@ -3,15 +3,20 @@
 # Avoid needing display if plots aren't being shown
 import sys
 
-if "--noninteractive" in sys.argv:
-    import matplotlib as mpl
+import matplotlib as mpl
 
+if "--noninteractive" in sys.argv:
     mpl.use("svg")
     import latexutils
 
 import math
 import matplotlib.pyplot as plt
 import numpy as np
+
+# Set the default color cycle
+mpl.rcParams["axes.prop_cycle"] = mpl.cycler(
+    color=["k", "crimson", "darkorange", "g", "b", "blueviolet", "violet"]
+)
 
 plt.rc("text", usetex=True)
 
