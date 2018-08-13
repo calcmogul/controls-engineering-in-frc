@@ -8,7 +8,6 @@ build/
 *.glg
 *.glo
 *.gls
-*.glsdefs
 *.idx
 *.ilg
 *.ind
@@ -25,4 +24,3 @@ build/
 *.xdv
 *.xml
 book-stamp
-init-stamp
