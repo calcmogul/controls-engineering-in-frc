@@ -45,18 +45,7 @@ book-stamp: $(TEX) $(STAMP) $(BIB) $(FIGS)
 build/frccontrol:
 	mkdir -p build/code && cp code/kalman_robot.csv build/code
 	rm -rf build/frccontrol && git clone git://github.com/calcmogul/frccontrol build/frccontrol --depth=1
-	cd build && ./frccontrol/examples/drivetrain.py --save-plots --noninteractive
-	cd build && inkscape -D -z --file=drivetrain_pzmaps.svg --export-pdf=drivetrain_pzmaps.pdf
-	cd build && inkscape -D -z --file=drivetrain_response.svg --export-pdf=drivetrain_response.pdf
-	cd build && ./frccontrol/examples/elevator.py --save-plots --noninteractive
-	cd build && inkscape -D -z --file=elevator_pzmaps.svg --export-pdf=elevator_pzmaps.pdf
-	cd build && inkscape -D -z --file=elevator_response.svg --export-pdf=elevator_response.pdf
-	cd build && ./frccontrol/examples/flywheel.py --save-plots --noninteractive
-	cd build && inkscape -D -z --file=flywheel_pzmaps.svg --export-pdf=flywheel_pzmaps.pdf
-	cd build && inkscape -D -z --file=flywheel_response.svg --export-pdf=flywheel_response.pdf
-	cd build && ./frccontrol/examples/single_jointed_arm.py --save-plots --noninteractive
-	cd build && inkscape -D -z --file=single_jointed_arm_pzmaps.svg --export-pdf=single_jointed_arm_pzmaps.pdf
-	cd build && inkscape -D -z --file=single_jointed_arm_response.svg --export-pdf=single_jointed_arm_response.pdf
+	./generate_frccontrol_plots.py
 
 $(STAMP): build/%.stamp: %.py | build/frccontrol
 	@mkdir -p $(@D)
