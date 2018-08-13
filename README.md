@@ -111,8 +111,15 @@ More examples of concepts should help slow the pace down. I should read through
 this book as if I was explaining it to my veteran software students and
 anticipate gaps in their understanding.
 
-Add exercises at the end of each chapter for reader practice. This book is
-supposed to be "practical" after all.
+Add exercises at the end of each chapter (with solutions) for reader practice.
+This book is supposed to be "practical" after all.
+* This should help me see the points I want to teach in each chapter (since
+  the students should be able to complete the problems) so I can make sure the
+  chapter teaches it sufficiently.
+* Basically like implicit learning outcomes?
+
+Clarify what is meant by the controller and observer being mathematical duals of
+each other.
 
 ### Finish incomplete topics
 
