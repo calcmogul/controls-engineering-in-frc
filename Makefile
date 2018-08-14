@@ -15,7 +15,7 @@ FIGS := $(wildcard figs/*)
 ROOT := $(shell pwd)
 
 .PHONY: all
-all: $(NAME)-ebook.pdf
+all: $(NAME).pdf
 
 .PHONY: ebook
 ebook: $(NAME)-ebook.pdf
@@ -26,20 +26,17 @@ printer: $(NAME)-printer.pdf
 .PHONY: prepress
 prepress: $(NAME)-prepress.pdf
 
-$(NAME)-ebook.pdf: book-stamp
+$(NAME).pdf: $(TEX) $(STAMP) $(BIB) $(FIGS)
+	latexmk -xelatex $(NAME)
+
+$(NAME)-ebook.pdf: $(NAME).pdf
 	gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/ebook -dNOPAUSE -dQUIET -dBATCH -sOutputFile=$(NAME)-ebook.pdf $(NAME).pdf
 
-$(NAME)-printer.pdf: book-stamp
+$(NAME)-printer.pdf: $(NAME).pdf
 	gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/printer -dNOPAUSE -dQUIET -dBATCH -sOutputFile=$(NAME)-printer.pdf $(NAME).pdf
 
-$(NAME)-prepress.pdf: book-stamp
+$(NAME)-prepress.pdf: $(NAME).pdf
 	gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/prepress -dNOPAUSE -dQUIET -dBATCH -sOutputFile=$(NAME)-prepress.pdf $(NAME).pdf
-
-# book-stamp marks successful PDF generation because xelatex updates PDF
-# contents even on failure
-book-stamp: $(TEX) $(STAMP) $(BIB) $(FIGS)
-	latexmk -xelatex $(NAME)
-	touch book-stamp
 
 # Runs if frccontrol directory doesn't exist yet to perform compilation prep
 build/frccontrol:
@@ -54,7 +51,7 @@ $(STAMP): build/%.stamp: %.py | build/frccontrol
 
 .PHONY: clean
 clean:
-	rm -rf build *.aux *.bbl *.bcf *.blg *.cpp *.fdb_latexmk *.fls *.glg *.glo *.gls *.h *.idx *.ilg *.ind *.ist *.lof *.log *.los *.lot *.out *.toc *.pdf *.ptc *.svg *.xdv *.xml book-stamp
+	rm -rf build *.aux *.bbl *.bcf *.blg *.cpp *.fdb_latexmk *.fls *.glg *.glo *.gls *.h *.idx *.ilg *.ind *.ist *.lof *.log *.los *.lot *.out *.toc *.pdf *.ptc *.svg *.xdv *.xml
 
 .PHONY: upload
 upload: $(NAME)-ebook.pdf
