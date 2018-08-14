@@ -250,7 +250,7 @@ By equations (\ref{eq:drivetrain_model_left}) and
   \end{array}
 \end{align*}
 
-\begin{align}
+\begin{equation}
   \begin{array}{ll}
     \mtx{A} =
     \begin{bmatrix}
@@ -273,12 +273,131 @@ By equations (\ref{eq:drivetrain_model_left}) and
     \end{bmatrix} &
     \mtx{D} = \mtx{0}_{2 \times 2}
   \end{array}
-\end{align}
+\end{equation}
 
 where $C_1 = -\frac{G_l^2 K_t}{K_v R r^2}$, $C_2 = \frac{G_l K_t}{Rr}$,
 $C_3 = -\frac{G_r^2 K_t}{K_v R r^2}$, and $C_4 = \frac{G_r K_t}{Rr}$.
 
 \subsection{Model augmentation}
+
+As per subsection \ref{subsec:u_error_estimation}, we will now augment the
+\gls{model} so $u_{error}$ terms are added to the \glspl{control input}.
+
+The \gls{plant} and \gls{observer} augmentations should be performed before the
+\gls{model} is \glslink{discretization}{discretized}. After the \gls{controller}
+gain is computed with the unaugmented discrete \gls{model}, the controller may
+be augmented. Therefore, the \gls{plant} and \gls{observer} augmentations assume
+a continuous \gls{model} and the \gls{controller} augmentation assumes a
+discrete \gls{controller}.
+
+For this augmented \gls{model}, the left and right wheel positions are filtered
+encoder positions and are not adjusted for heading error. The turning velocity
+computed from the left and right velocities is adjusted by the gyroscope angular
+velocity. The angular velocity $u_{error}$ term is the angular velocity error
+between the wheel speeds and the gyroscope measurement.
+
+\begin{equation*}
+  \begin{array}{ccc}
+    \mtx{x}_{aug} =
+    \begin{bmatrix}
+      \mtx{x} \\
+      u_{error,l} \\
+      u_{error,r} \\
+      u_{error,angle}
+    \end{bmatrix} &
+    \mtx{y}_{aug} =
+    \begin{bmatrix}
+      \mtx{y} \\
+      \omega
+    \end{bmatrix} &
+    \mtx{u} =
+    \begin{bmatrix}
+      V_l \\
+      V_r
+    \end{bmatrix}
+  \end{array}
+\end{equation*}
+
+where $\omega$ is the angular rate of the robot's center of mass measured by a
+gyroscope.
+
+\begin{equation*}
+  \begin{array}{cc}
+    \mtx{B}_{\omega} =
+    \begin{bmatrix}
+      1 \\
+      0 \\
+      -1 \\
+      0
+    \end{bmatrix} &
+    \mtx{C}_{\omega} =
+    \begin{bmatrix}
+      0 & -\frac{1}{2r_b} & 0 & \frac{1}{2r_b}
+    \end{bmatrix}
+  \end{array}
+\end{equation*}
+
+\begin{equation}
+  \begin{array}{ll}
+    \mtx{A}_{aug} =
+    \begin{bmatrix}
+      \mtx{A} & \mtx{B} & \mtx{B}_{\omega} \\
+      \mtx{0}_{3 \times 4} & \mtx{0}_{3 \times 2} & \mtx{0}_{3 \times 1}
+    \end{bmatrix} &
+    \mtx{B}_{aug} =
+    \begin{bmatrix}
+      \mtx{B} \\
+      \mtx{0}_{3 \times 2}
+    \end{bmatrix} \\
+    \mtx{C}_{aug} =
+    \begin{bmatrix}
+      \mtx{C} & \mtx{0}_{2 \times 3} \\
+      \mtx{C}_{\omega} & \mtx{0}_{1 \times 3}
+    \end{bmatrix} &
+    \mtx{D}_{aug} =
+    \begin{bmatrix}
+      \mtx{D} \\
+      \mtx{0}_{1 \times 2}
+    \end{bmatrix}
+  \end{array}
+\end{equation}
+
+The augmentation of $\mtx{A}$ with $\mtx{B}$ maps the left and right wheel
+velocity $u_{error}$ terms to their respective states. The augmentation of
+$\mtx{A}$ with $\mtx{B}_{\omega}$ maps the angular velocity $u_{error}$ term to
+corresponding changes in the left and right wheel positions.
+
+$\mtx{C}_{\omega}$ maps the left and right wheel velocities to an angular
+velocity estimate that can be compared against the gyroscope measurement by the
+\gls{observer}.
+
+\begin{equation}
+  \begin{array}{ccc}
+    \mtx{K}_{error} =
+    \begin{bmatrix}
+      1 & 0 & 0 \\
+      0 & 1 & 0
+    \end{bmatrix} &
+    \mtx{K}_{aug} = \begin{bmatrix}
+      \mtx{K} & \mtx{K}_{error}
+    \end{bmatrix} &
+    \mtx{r}_{aug} = \begin{bmatrix}
+      \mtx{r} \\
+      0 \\
+      0 \\
+      0
+    \end{bmatrix}
+  \end{array}
+\end{equation}
+
+This will compensate for unmodeled dynamics such as understeer due to the wheel
+friction inherent in skid-steer robots.
+
+\begin{remark}
+  The process noise for the angular velocity $u_{error}$ term should be the
+  encoder \gls{model} uncertainty. The augmented measurement noise term is
+  obviously for the gyroscope measurement.
+\end{remark}
 
 \subsection{Simulation}
 

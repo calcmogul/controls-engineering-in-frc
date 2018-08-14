@@ -274,7 +274,7 @@ Substitute this into equation (\ref{eq:elevator_cont_ss_vel}).
   \end{array}
 \end{align*}
 
-\begin{align}
+\begin{equation}
   \begin{array}{cccc}
     \mtx{A} =
     \begin{bmatrix}
@@ -292,9 +292,66 @@ Substitute this into equation (\ref{eq:elevator_cont_ss_vel}).
     \end{bmatrix} &
     \mtx{D} = 0
   \end{array}
-\end{align}
+\end{equation}
 
 \subsection{Model augmentation}
+
+As per subsection \ref{subsec:u_error_estimation}, we will now augment the
+\gls{model} so a $u_{error}$ term is added to the \gls{control input}.
+
+The \gls{plant} and \gls{observer} augmentations should be performed before the
+\gls{model} is \glslink{discretization}{discretized}. After the \gls{controller}
+gain is computed with the unaugmented discrete \gls{model}, the controller may
+be augmented. Therefore, the \gls{plant} and \gls{observer} augmentations assume
+a continuous \gls{model} and the \gls{controller} augmentation assumes a
+discrete \gls{controller}.
+
+\begin{equation*}
+  \begin{array}{ccc}
+    \mtx{x}_{aug} =
+    \begin{bmatrix}
+      x \\
+      v_m \\
+      u_{error}
+    \end{bmatrix} &
+    \mtx{y} = x &
+    \mtx{u} = V
+  \end{array}
+\end{equation*}
+
+\begin{equation}
+  \begin{array}{cccc}
+    \mtx{A}_{aug} =
+    \begin{bmatrix}
+      \mtx{A} & \mtx{B} \\
+      \mtx{0}_{1 \times 2} & 0
+    \end{bmatrix} &
+    \mtx{B}_{aug} =
+    \begin{bmatrix}
+      \mtx{B} \\
+      0
+    \end{bmatrix} &
+    \mtx{C}_{aug} = \begin{bmatrix}
+      \mtx{C} & 0
+    \end{bmatrix} &
+    \mtx{D}_{aug} = \mtx{D}
+  \end{array}
+\end{equation}
+
+\begin{equation}
+  \begin{array}{cc}
+    \mtx{K}_{aug} = \begin{bmatrix}
+      \mtx{K} & 1
+    \end{bmatrix} &
+    \mtx{r}_{aug} = \begin{bmatrix}
+      \mtx{r} \\
+      0
+    \end{bmatrix}
+  \end{array}
+\end{equation}
+
+This will compensate for unmodeled dynamics such as gravity. However, using a
+constant feedforward to counteract gravity is preferred over this method.
 
 \subsection{Simulation}
 

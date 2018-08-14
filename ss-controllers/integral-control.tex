@@ -118,6 +118,7 @@ The controller is augmented as
 \end{align*}
 
 \subsection{U error estimation}
+\label{subsec:u_error_estimation}
 \index{Integral control!U error estimation}
 
 Let $u_{error}$ be the difference between the \gls{input} actually applied to a
@@ -149,7 +150,7 @@ The \gls{plant} is augmented as
   \end{bmatrix}} &=
   \begin{bmatrix}
     \mtx{A} & \mtx{B}_{error} \\
-    0 & 0
+    \mtx{0} & \mtx{0}
   \end{bmatrix}
   \begin{bmatrix}
     \mtx{x} \\
@@ -157,9 +158,15 @@ The \gls{plant} is augmented as
   \end{bmatrix} +
   \begin{bmatrix}
     \mtx{B} \\
-    0
+    \mtx{0}
   \end{bmatrix}
-  \mtx{u}
+  \mtx{u} \\
+  \mtx{y} &= \begin{bmatrix}
+    \mtx{C} & 0
+  \end{bmatrix} \begin{bmatrix}
+    \mtx{x} \\
+    u_{error}
+  \end{bmatrix} + \mtx{D}\mtx{u}
 \end{align*}
 
 With this \gls{model}, the \gls{observer} will estimate both the \gls{state} and

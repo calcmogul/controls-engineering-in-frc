@@ -175,7 +175,7 @@ By equation (\ref{eq:dot_omega_arm})
   \mtx{y} &= \mtx{C} \mtx{x} + \mtx{D} \mtx{u}
 \end{align*}
 
-\begin{align*}
+\begin{equation*}
   \begin{array}{ccc}
     \mtx{x} =
     \begin{bmatrix}
@@ -185,9 +185,9 @@ By equation (\ref{eq:dot_omega_arm})
     \mtx{y} = \theta_{arm} &
     \mtx{u} = V
   \end{array}
-\end{align*}
+\end{equation*}
 
-\begin{align}
+\begin{equation}
   \begin{array}{cccc}
     \mtx{A} =
     \begin{bmatrix}
@@ -205,9 +205,69 @@ By equation (\ref{eq:dot_omega_arm})
     \end{bmatrix} &
     \mtx{D} = 0
   \end{array}
-\end{align}
+\end{equation}
 
 \subsection{Model augmentation}
+
+As per subsection \ref{subsec:u_error_estimation}, we will now augment the
+\gls{model} so a $u_{error}$ term is added to the \gls{control input}.
+
+The \gls{plant} and \gls{observer} augmentations should be performed before the
+\gls{model} is \glslink{discretization}{discretized}. After the \gls{controller}
+gain is computed with the unaugmented discrete \gls{model}, the controller may
+be augmented. Therefore, the \gls{plant} and \gls{observer} augmentations assume
+a continuous \gls{model} and the \gls{controller} augmentation assumes a
+discrete \gls{controller}.
+
+\begin{equation*}
+  \begin{array}{ccc}
+    \mtx{x}_{aug} =
+    \begin{bmatrix}
+      \mtx{x} \\
+      u_{error}
+    \end{bmatrix} &
+    \mtx{y} = \theta_{arm} &
+    \mtx{u} = V
+  \end{array}
+\end{equation*}
+
+\begin{equation}
+  \begin{array}{cccc}
+    \mtx{A}_{aug} =
+    \begin{bmatrix}
+      \mtx{A} & \mtx{B} \\
+      \mtx{0}_{1 \times 2} & 0
+    \end{bmatrix} &
+    \mtx{B}_{aug} =
+    \begin{bmatrix}
+      \mtx{B} \\
+      0
+    \end{bmatrix} &
+    \mtx{C}_{aug} =
+    \begin{bmatrix}
+      \mtx{C} & 0
+    \end{bmatrix} &
+    \mtx{D}_{aug} = \mtx{D}
+  \end{array}
+\end{equation}
+
+\begin{equation}
+  \begin{array}{cc}
+    \mtx{K}_{aug} = \begin{bmatrix}
+      \mtx{K} & 1
+    \end{bmatrix} &
+    \mtx{r}_{aug} = \begin{bmatrix}
+      \mtx{r} \\
+      0
+    \end{bmatrix}
+  \end{array}
+\end{equation}
+
+This will compensate for unmodeled dynamics such as gravity or other external
+loading from lifted objects. However, if only gravity compensation is desired,
+a feedforward of the form $u_{ff} = V_{gravity} \cos\theta$ is preferred where
+$V_{gravity}$ is the voltage required to hold the arm level with the ground and
+$\theta$ is the angle of the arm with the ground.
 
 \subsection{Simulation}
 
@@ -221,7 +281,7 @@ open-loop \gls{system}, closed-loop \gls{system}, and \gls{observer}. Figure
 \ref{fig:single_jointed_arm_response} shows the \gls{system} response with them.
 
 \begin{svg}{build/single_jointed_arm_pzmaps}
-  \caption{Drivetrain pole-zero maps}
+  \caption{Single-jointed arm pole-zero maps}
   \label{fig:single_jointed_arm_pzmaps}
 \end{svg}
 

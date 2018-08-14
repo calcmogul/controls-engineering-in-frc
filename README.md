@@ -111,6 +111,9 @@ More examples of concepts should help slow the pace down. I should read through
 this book as if I was explaining it to my veteran software students and
 anticipate gaps in their understanding.
 
+Give matrix \mtx{0} and \mtx{I} in equations dimension subscripts
+* m states, n inputs, p outputs
+
 Add exercises at the end of each chapter (with solutions) for reader practice.
 This book is supposed to be "practical" after all.
 * This should help me see the points I want to teach in each chapter (since
@@ -123,19 +126,14 @@ each other.
 
 ### Finish incomplete topics
 
+Expand the implementation steps section on writing unit tests in Google Test.
+
 The following state-space implementation examples are in progress:
 
-* Elevator
-  * Add u_error state to model
-  * Include writing unit tests in Google Test
-* Flywheel
-  * See elevator items
 * Drivetrain
-  * See elevator items
   * 971/y2017/control_loops/python/polydrivetrain.py?
   * Implement motion profiles to improve state tracking
 * Single-jointed arm
-  * See elevator items
   * Implement motion profiles to improve state tracking
 
 The following state-space implementation examples are planned:
