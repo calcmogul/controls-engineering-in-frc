@@ -210,17 +210,17 @@ The position and velocity of each drivetrain side can be written as
   \dot{v}_r &= \dot{v}_r \label{eq:drivetrain_cont_ss_velr}
 \end{align}
 
-By equations (\ref{eq:drivetrain_model_left}) and
-(\ref{eq:drivetrain_model_right})
+By equations (\ref{eq:drivetrain_model_right}) and
+(\ref{eq:drivetrain_model_left})
 
 \begin{align*}
-  \dot{v}_r &= \left(\frac{1}{m} - \frac{r_b^2}{J}\right)
-    \left(C_1 v_l + C_2 V_l\right) +
-    \left(\frac{1}{m} + \frac{r_b^2}{J}\right) \left(C_3 v_r + C_4 V_r\right)
-    \\
   \dot{v}_l &= \left(\frac{1}{m} + \frac{r_b^2}{J}\right)
     \left(C_1 v_l + C_2 V_l\right) +
     \left(\frac{1}{m} - \frac{r_b^2}{J}\right) \left(C_3 v_r + C_4 V_r\right)
+  \\
+  \dot{v}_r &= \left(\frac{1}{m} - \frac{r_b^2}{J}\right)
+    \left(C_1 v_l + C_2 V_l\right) +
+    \left(\frac{1}{m} + \frac{r_b^2}{J}\right) \left(C_3 v_r + C_4 V_r\right)
 \end{align*}
 
 \begin{align*}
@@ -255,9 +255,9 @@ By equations (\ref{eq:drivetrain_model_left}) and
     \mtx{A} =
     \begin{bmatrix}
       0 & 1 & 0 & 0 \\
-      0 & \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_1 & 0 & \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_3 \\
+      0 & \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_1 & 0 & \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_3 \\
       0 & 0 & 0 & 1 \\
-      0 & \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_1 & 0 & \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_3
+      0 & \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_1 & 0 & \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_3
     \end{bmatrix} &
     \mtx{B} =
     \begin{bmatrix}
