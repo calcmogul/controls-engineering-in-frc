@@ -171,10 +171,10 @@ Never pole-zero cancel unstable or nonminimum phase dynamics. If the \gls{model}
 doesn't quite reflect reality, an attempted pole cancellation by placing a
 nonminimum phase zero results in the pole still moving to the zero placed next
 to it. You have the same dynamics as before, but the pole is also stuck where it
-is no matter how much feedback gain is applied. For an attempted nonminimum
-phase zero cancellation, you have effectively placed an unstable pole that's
-unobservable. This means the \gls{system} will be going unstable and blowing up,
-but you won't be able to detect this and react to it.
+is no matter how much \gls{feedback gain} is applied. For an attempted
+nonminimum phase zero cancellation, you have effectively placed an unstable pole
+that's unobservable. This means the \gls{system} will be going unstable and
+blowing up, but you won't be able to detect this and react to it.
 
 Keep in mind when making design decisions that the \gls{model} likely isn't
 perfect. The whole point of feedback control is to be robust to this kind of
