@@ -183,7 +183,7 @@ Now, plug the expressions for $F_l$ and $F_r$ into equation
   \dot{v}_r &= \left(\frac{1}{m} - \frac{r_b^2}{J}\right)
     \left(C_1 v_l + C_2 V_l\right) +
     \left(\frac{1}{m} + \frac{r_b^2}{J}\right) \left(C_3 v_r + C_4 V_r\right)
-    \label{eq:drivetrain_model_left}
+    \label{eq:drivetrain_model_right}
 \end{align}
 
 Now, plug the expressions for $F_l$ and $F_r$ into equation
@@ -195,7 +195,7 @@ Now, plug the expressions for $F_l$ and $F_r$ into equation
   \dot{v}_l &= \left(\frac{1}{m} + \frac{r_b^2}{J}\right)
     \left(C_1 v_l + C_2 V_l\right) +
     \left(\frac{1}{m} - \frac{r_b^2}{J}\right) \left(C_3 v_r + C_4 V_r\right)
-    \label{eq:drivetrain_model_right}
+    \label{eq:drivetrain_model_left}
 \end{align}
 
 \subsection{Continuous state-space model}
@@ -228,7 +228,7 @@ By equations (\ref{eq:drivetrain_model_right}) and
   \mtx{y} &= \mtx{C} \mtx{x} + \mtx{D} \mtx{u}
 \end{align*}
 
-\begin{align*}
+\begin{equation*}
   \begin{array}{ccc}
     \mtx{x} =
     \begin{bmatrix}
@@ -248,9 +248,10 @@ By equations (\ref{eq:drivetrain_model_right}) and
       V_r
     \end{bmatrix}
   \end{array}
-\end{align*}
+\end{equation*}
 
 \begin{equation}
+  \label{eq:drivetrain_ss_model}
   \begin{array}{ll}
     \mtx{A} =
     \begin{bmatrix}
