@@ -114,6 +114,9 @@ anticipate gaps in their understanding.
 Give matrix \mtx{0} and \mtx{I} in equations dimension subscripts
 * m states, n inputs, p outputs
 
+Derive unicycle-like to two-wheeled robot conversion with vector kinematics
+instead.
+
 Add exercises at the end of each chapter (with solutions) for reader practice.
 This book is supposed to be "practical" after all.
 * This should help me see the points I want to teach in each chapter (since
@@ -128,13 +131,8 @@ each other.
 
 Expand the implementation steps section on writing unit tests in Google Test.
 
-The following state-space implementation examples are in progress:
-
-* Drivetrain
-  * 971/y2017/control_loops/python/polydrivetrain.py?
-  * Implement motion profiles to improve state tracking
-* Single-jointed arm
-  * Implement motion profiles to improve state tracking
+Add examples of u_error state-space models to frccontrol and reference them in
+the book.
 
 The following state-space implementation examples are planned:
 
@@ -166,6 +164,7 @@ included in an appendix.
 * Add a section on polytopes for convex optimization? So far, I've seen it used
   for handling saturated control inputs to prioritize tracking some states over
   others using the limited control input.
+  * See 971/y2017/control_loops/python/polydrivetrain.py
 
 ### Miscellaneous fixes
 
