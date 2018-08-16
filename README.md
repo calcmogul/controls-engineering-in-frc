@@ -165,6 +165,8 @@ included in an appendix.
 
 ### Miscellaneous fixes
 
+* Makefile should pull frccontrol and rerun all Python scripts if new commits
+  were added. If pull fails due to lack of internet, ignore it.
 * Modify pareto_boundary.py to find and plot real Pareto boundary for LQR
   instead of using a hand-wavey approximation
 * Fix bugs in dependencies
