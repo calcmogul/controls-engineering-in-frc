@@ -47,8 +47,8 @@ def main():
     R = np.matrix([[10, 0],
                    [0, 10]])
 
-    P = np.zeros((3, 3));
-    K = np.zeros((3, 2));
+    P = np.zeros((3, 3))
+    K = np.zeros((3, 2))
     H = np.matrix([[1, 0, 0],
                    [-1, 0, 1]])
     # fmt: on
