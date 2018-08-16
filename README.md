@@ -114,9 +114,6 @@ anticipate gaps in their understanding.
 Give matrix \mtx{0} and \mtx{I} in equations dimension subscripts
 * m states, n inputs, p outputs
 
-Derive unicycle-like to two-wheeled robot conversion with vector kinematics
-instead.
-
 Add exercises at the end of each chapter (with solutions) for reader practice.
 This book is supposed to be "practical" after all.
 * This should help me see the points I want to teach in each chapter (since
