@@ -181,10 +181,13 @@ Multiplying the matrices out gives
 We will use the following control laws $u_1$ and $u_2$ for velocity and turning
 rate respectively.
 
-\begin{align*}
-  u_1 &= -k_1 e_1 \\
-  u_2 &= -k_2 v_d \frac{\sin{e_3}}{e_3} e_2 - k_3 e_3
-\end{align*}
+\begin{equation}
+  \begin{aligned}
+    u_1 &= -k_1 e_1 \\
+    u_2 &= -k_2 v_d \frac{\sin{e_3}}{e_3} e_2 - k_3 e_3
+  \end{aligned}
+  \label{eq:ramsete_u}
+\end{equation}
 
 where $k_1$, $k_2$, and $k_3$ are time-varying gains.
 
@@ -223,28 +226,36 @@ Substituting the control laws $u_1$ and $u_2$ into these equations gives
     ((y_d - y) \cos\theta - (x_d - x) \sin\theta) + k_3 (\theta_d - \theta)
 \end{align*}
 
-\subsubsection{Convergence proof}
+\begin{theorem}
+  Assuming that $v_d$ and $\omega_d$ are bounded with bounded derivatives, and
+  that $v_d(t) \rightarrow 0$ or $\omega_d(t) \rightarrow 0$ when
+  $t \rightarrow \infty$, the control laws in equation (\ref{eq:ramsete_u})
+  globally asymptotically stabilize the origin $\mtx{e} = 0$.
 
-To prove convergence, the paper previously mentioned uses the following Lyapunov
-function.
+  Proof:
 
-\begin{equation*}
-  V = \frac{\overline{k}_2}{2}(e_1^2 + e_2^2) + \frac{e_3^2}{2}
-\end{equation*}
+  To prove convergence, the paper previously mentioned uses the following
+  Lyapunov function.
 
-where $\overline{k}_2$ is a tuning constant, $e_1$ is the tracking error in $x$,
-$e_2$ is the tracking error in $y$, and $e_3$ is the tracking error in $\theta$.
+  \begin{equation*}
+    V = \frac{\overline{k}_2}{2}(e_1^2 + e_2^2) + \frac{e_3^2}{2}
+  \end{equation*}
 
-The time derivative along the solutions of the closed-loop \gls{system} is
-nonincreasing since
+  where $\overline{k}_2$ is a tuning constant, $e_1$ is the tracking error in
+  $x$, $e_2$ is the tracking error in $y$, and $e_3$ is the tracking error in
+  $\theta$.
 
-\begin{equation*}
-  \dot{V} = -k_1 \overline{k}_2 e_1^2 - k_3 e_3^2 \leq 0
-\end{equation*}
+  The time derivative along the solutions of the closed-loop \gls{system} is
+  nonincreasing since
 
-Thus, $\lVert e(t) \rVert$ is bounded, $\dot{V}(t)$ is uniformly continuous,
-and $V(t)$ tends to some limit value. Using the Barbalat lemma, $\dot{V}(t)$
-tends to zero \cite{bib:ctrl_wheeled_mobile_robots}.
+  \begin{equation*}
+    \dot{V} = -k_1 \overline{k}_2 e_1^2 - k_3 e_3^2 \leq 0
+  \end{equation*}
+
+  Thus, $\lVert e(t) \rVert$ is bounded, $\dot{V}(t)$ is uniformly continuous,
+  and $V(t)$ tends to some limit value. Using the Barbalat lemma, $\dot{V}(t)$
+  tends to zero \cite{bib:ctrl_wheeled_mobile_robots}.
+\end{theorem}
 
 \subsubsection{Nonlinear controller equations}
 

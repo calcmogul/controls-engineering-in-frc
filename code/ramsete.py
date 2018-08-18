@@ -56,25 +56,30 @@ def drivetrain(motor, num_motors, m, r, rb, J, Gl, Gr):
     return cnt.ss(A, B, C, D)
 
 
-def ramsete(
-    b, zeta, x_desired, y_desired, theta_desired, v_desired, omega_desired, x, y, theta
-):
-    e_x = x_desired - x
-    e_y = y_desired - y
-    e_theta = theta_desired - theta
-    k = 2 * zeta * math.sqrt(omega_desired ** 2 + b * v_desired ** 2)
-    if abs(e_theta) < 0.001:
-        sin_x_over_x = 1.0
-    else:
-        sin_x_over_x = math.sin(e_theta) / e_theta
+class Pose:
+    def __init__(self, x=0, y=0, theta=0):
+        self.x = x
+        self.y = y
+        self.theta = theta
 
-    v = v_desired * math.cos(e_theta) + k * (
-        math.cos(theta) * e_x + math.sin(theta) * e_y
+    def __sub__(self, other):
+        return Pose(self.x - other.x, self.y - other.y, self.theta - other.theta)
+
+
+def ramsete(pose_desired, v_desired, omega_desired, pose, b, zeta):
+    e = pose_desired - pose
+    k = 2 * zeta * math.sqrt(omega_desired ** 2 + b * v_desired ** 2)
+
+    v = v_desired * math.cos(e.theta) + k * (
+        math.cos(pose.theta) * e.x + math.sin(pose.theta) * e.y
     )
     omega = (
         omega_desired
-        + b * v_desired * sin_x_over_x * (e_y * math.cos(theta) - math.sin(theta) * e_x)
-        + k * e_theta
+        + b
+        * v_desired
+        * np.sinc(e.theta)
+        * (e.y * math.cos(pose.theta) - math.sin(pose.theta) * e.x)
+        + k * e.theta
     )
     return v, omega
 
@@ -171,11 +176,6 @@ def main():
         max_v=4.0, max_a=3.5, time_to_max_a=1.0, dt=dt, goal=10.0
     )
 
-    # Initial robot pose
-    x = 0
-    y = 0
-    theta = np.pi / 4.0
-
     # Generate references for LQR
     refs = []
     for i in range(len(t)):
@@ -190,9 +190,8 @@ def main():
         latexutils.savefig("ramsete_vel_lqr_profile")
 
     # Initial robot pose
-    x = 2
-    y = 0
-    theta = np.pi / 2.0
+    pose = Pose(2, 0, np.pi / 2.0)
+    desired_pose = Pose()
 
     # Ramsete tuning constants
     b = 2
@@ -214,11 +213,12 @@ def main():
     drivetrain.reset()
     i = 0
     while i != len(t) - 1 or vl != 0 or vr != 0:
-        # b, zeta, x_desired, y_desired, theta_desired, v_desired,
-        # omega_desired, x, y, theta
-        vref, omegaref = ramsete(
-            b, zeta, 0, xprof[i], np.pi / 2, vprof[i], 0, x, y, theta
-        )
+        desired_pose.x = 0
+        desired_pose.y = xprof[i]
+        desired_pose.theta = np.pi / 2.0
+
+        # pose_desired, v_desired, omega_desired, pose, b, zeta
+        vref, omegaref = ramsete(desired_pose, vprof[i], 0, pose, b, zeta)
         vl, vr = get_diff_vels(vref, omegaref, drivetrain.rb * 2.0)
         drivetrain.r = np.matrix([[vl], [vr]])
         drivetrain.update()
@@ -228,17 +228,17 @@ def main():
         # Log data for plots
         vref_rec.append(vref)
         omegaref_rec.append(omegaref)
-        x_rec.append(x)
-        y_rec.append(y)
+        x_rec.append(pose.x)
+        y_rec.append(pose.y)
         ul_rec.append(drivetrain.u[0, 0])
         ur_rec.append(drivetrain.u[1, 0])
         v_rec.append(vc)
         omega_rec.append(omega)
 
         # Update nonlinear observer
-        x += vc * math.cos(theta) * dt
-        y += vc * math.sin(theta) * dt
-        theta += omega * dt
+        pose.x += vc * math.cos(pose.theta) * dt
+        pose.y += vc * math.sin(pose.theta) * dt
+        pose.theta += omega * dt
 
         if i < len(t) - 1:
             i += 1
