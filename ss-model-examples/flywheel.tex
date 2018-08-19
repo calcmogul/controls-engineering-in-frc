@@ -149,27 +149,27 @@ By equation (\ref{eq:dot_omega_f})
   \dot{\omega}_f = -\frac{G^2 K_t}{K_v RJ} \omega_f + \frac{G K_t}{RJ} V
 \end{equation*}
 
-\begin{align*}
-  \dot{\mtx{x}} &= \mtx{A} \mtx{x} + \mtx{B} \mtx{u} \\
-  \mtx{y} &= \mtx{C} \mtx{x} + \mtx{D} \mtx{u}
-\end{align*}
-
-\begin{equation*}
-  \begin{array}{ccc}
-    \mtx{x} = \omega_f &
-    \mtx{y} = \omega_f &
-    \mtx{u} = V
-  \end{array}
-\end{equation*}
-
-\begin{equation}
-  \begin{array}{cccc}
-    \mtx{A} = -\frac{G^2 K_t}{K_v RJ} &
-    \mtx{B} = \frac{G K_t}{RJ} &
-    \mtx{C} = 1 &
-    \mtx{D} = 0
-  \end{array}
-\end{equation}
+\begin{theorem}[Flywheel state-space model]
+  \begin{align*}
+    \dot{\mtx{x}} &= \mtx{A} \mtx{x} + \mtx{B} \mtx{u} \\
+    \mtx{y} &= \mtx{C} \mtx{x} + \mtx{D} \mtx{u}
+  \end{align*}
+  \begin{equation*}
+    \begin{array}{ccc}
+      \mtx{x} = \omega_f &
+      \mtx{y} = \omega_f &
+      \mtx{u} = V
+    \end{array}
+  \end{equation*}
+  \begin{equation}
+    \begin{array}{cccc}
+      \mtx{A} = -\frac{G^2 K_t}{K_v RJ} &
+      \mtx{B} = \frac{G K_t}{RJ} &
+      \mtx{C} = 1 &
+      \mtx{D} = 0
+    \end{array}
+  \end{equation}
+\end{theorem}
 
 \subsection{Model augmentation}
 

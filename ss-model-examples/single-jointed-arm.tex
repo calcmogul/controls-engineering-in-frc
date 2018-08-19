@@ -170,42 +170,42 @@ By equation (\ref{eq:dot_omega_arm})
   \dot{\omega}_{arm} = -\frac{G^2 K_t}{K_v RJ} \omega_{arm} + \frac{G K_t}{RJ} V
 \end{equation*}
 
-\begin{align*}
-  \dot{\mtx{x}} &= \mtx{A} \mtx{x} + \mtx{B} \mtx{u} \\
-  \mtx{y} &= \mtx{C} \mtx{x} + \mtx{D} \mtx{u}
-\end{align*}
-
-\begin{equation*}
-  \begin{array}{ccc}
-    \mtx{x} =
-    \begin{bmatrix}
-      \theta_{arm} \\
-      \omega_{arm}
-    \end{bmatrix} &
-    \mtx{y} = \theta_{arm} &
-    \mtx{u} = V
-  \end{array}
-\end{equation*}
-
-\begin{equation}
-  \begin{array}{cccc}
-    \mtx{A} =
-    \begin{bmatrix}
-      0 & 1 \\
-      0 & -\frac{G^2 K_t}{K_v RJ}
-    \end{bmatrix} &
-    \mtx{B} =
-    \begin{bmatrix}
-      0 \\
-      \frac{G K_t}{RJ}
-    \end{bmatrix} &
-    \mtx{C} =
-    \begin{bmatrix}
-      1 & 0
-    \end{bmatrix} &
-    \mtx{D} = 0
-  \end{array}
-\end{equation}
+\begin{theorem}[Single-jointed arm state-space model]
+  \begin{align*}
+    \dot{\mtx{x}} &= \mtx{A} \mtx{x} + \mtx{B} \mtx{u} \\
+    \mtx{y} &= \mtx{C} \mtx{x} + \mtx{D} \mtx{u}
+  \end{align*}
+  \begin{equation*}
+    \begin{array}{ccc}
+      \mtx{x} =
+      \begin{bmatrix}
+        \theta_{arm} \\
+        \omega_{arm}
+      \end{bmatrix} &
+      \mtx{y} = \theta_{arm} &
+      \mtx{u} = V
+    \end{array}
+  \end{equation*}
+  \begin{equation}
+    \begin{array}{cccc}
+      \mtx{A} =
+      \begin{bmatrix}
+        0 & 1 \\
+        0 & -\frac{G^2 K_t}{K_v RJ}
+      \end{bmatrix} &
+      \mtx{B} =
+      \begin{bmatrix}
+        0 \\
+        \frac{G K_t}{RJ}
+      \end{bmatrix} &
+      \mtx{C} =
+      \begin{bmatrix}
+        1 & 0
+      \end{bmatrix} &
+      \mtx{D} = 0
+    \end{array}
+  \end{equation}
+\end{theorem}
 
 \subsection{Model augmentation}
 
