@@ -124,6 +124,14 @@ This book is supposed to be "practical" after all.
 Clarify what is meant by the controller and observer being mathematical duals of
 each other.
 
+Add test of P vs PD controller for flywheel
+* Simulate flywheel with stochastic force applied to slow it down (simulates
+  shots)
+* Try P controller, PD controller, P + FF, PD + FF, and P + FF + u_error
+
+Add diagram to Ramsete that shows global and vehicle coordinate frames to help
+explain what the pose represents.
+
 ### Finish incomplete topics
 
 Expand the implementation steps section on writing unit tests in Google Test.
@@ -144,6 +152,8 @@ included in an appendix.
 
 * Add derivations for trapezoidal and S-curve profiles to the derivations
   appendix.
+* Add section on spline generation to complement motion profiling
+  * Mention circular arc approximation
 * Import an LQR derivation based on Lagrange multipliers?
 * Explain N term for LQR
   * It's a cross term between error and control effort. One application for it
@@ -151,9 +161,11 @@ included in an appendix.
     the Blackhawk helicopter at NASA Ames when they want to make it fly like
     experimental aircraft (within the limits of the helicopter's actuators, of
     course).
+  * Describe implicit model following application
 * Add an appendix on Ito calculus to explain where the Wiener process comes from?
 * Add equations for Kalman smoother
 * Add equations for and implementation of MMAE
+* Add EKF for nonlinear pose estimation
 * Derive the two-sensor and three-sensor problems from first principles. The
   two-sensor problem uses p(x) and p(z_1|x). The three-sensor problem uses p(x),
   p(z_1|x), and p(z_2|x).
