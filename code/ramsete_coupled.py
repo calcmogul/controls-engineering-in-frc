@@ -154,6 +154,8 @@ class Drivetrain(frccnt.System):
         r_vel = 0.01
         self.design_kalman_filter([q_vel, q_angular], [r_vel, r_vel])
 
+        print("ctrb cond =", np.linalg.cond(cnt.ctrb(self.sysd.A, self.sysd.B)))
+
 
 def main():
     dt = 0.00505
