@@ -21,7 +21,7 @@ def drivetrain(motor, num_motors, m, r, rb, J, Gl, Gr):
 
     States: [[left velocity], [right velocity]]
     Inputs: [[left voltage], [right voltage]]
-    Outputs: [[left velocity], [right velocity], [angular velocity]]
+    Outputs: [[left velocity], [right velocity]]
 
     Keyword arguments:
     motor -- instance of DcBrushedMotor
@@ -103,11 +103,7 @@ class Drivetrain(frccnt.System):
         Keyword arguments:
         dt -- time between model/controller updates
         """
-        state_labels = [
-            ("Left velocity", "m/s"),
-            ("Right velocity", "m/s"),
-            ("Angular velocity", "rad/s"),
-        ]
+        state_labels = [("Left velocity", "m/s"), ("Right velocity", "m/s")]
         u_labels = [("Left voltage", "V"), ("Right voltage", "V")]
         self.set_plot_labels(state_labels, u_labels)
 
@@ -187,7 +183,7 @@ def main():
     plt.figure(1)
     drivetrain.plot_time_responses(t, state_rec, ref_rec, u_rec)
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("ramsete_vel_lqr_profile")
+        latexutils.savefig("ramsete_decoupled_vel_lqr_profile")
 
     # Initial robot pose
     pose = Pose(2, 0, np.pi / 2.0)
@@ -256,7 +252,7 @@ def main():
     plt.xlim([-width / 2, width / 2])
 
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("ramsete_response")
+        latexutils.savefig("ramsete_decoupled_response")
 
     plt.figure(3)
     num_plots = 4
@@ -282,7 +278,7 @@ def main():
     plt.xlabel("Time (s)")
 
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("ramsete_vel_lqr_response")
+        latexutils.savefig("ramsete_decoupled_vel_lqr_response")
     else:
         plt.show()
 

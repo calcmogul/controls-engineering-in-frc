@@ -316,32 +316,33 @@ vector at point A, $\omega_A$ is the angular velocity vector at point A, and
 $\vec{r}_{B|A}$ is the distance vector from point A to point B (also described
 as the ``distance to B relative to A").
 
-First, we'll derive $v_L$.
+First, we'll derive $v_l$.
 
 \begin{align}
-  \vec{v}_L &= v_C \hat{j} + \omega \hat{k} \times -r_b \hat{i} \nonumber
-    \\
-  \vec{v}_L &= v_C \hat{j} - \omega r_b \hat{j} \nonumber \\
-  \vec{v}_L &= (v_C - \omega r_b) \hat{j} \nonumber \\
-  \lvert\vec{v}_L\rvert &= v_C - \omega r_b \nonumber \\
-  v_L &= v_C - \omega r_b
+  \vec{v}_l &= v_c \hat{j} + \omega \hat{k} \times -r_b \hat{i} \nonumber \\
+  \vec{v}_l &= v_c \hat{j} - \omega r_b \hat{j} \nonumber \\
+  \vec{v}_l &= (v_c - \omega r_b) \hat{j} \nonumber \\
+  \lvert\vec{v}_l\rvert &= v_c - \omega r_b \nonumber \\
+  v_l &= v_c - \omega r_b \label{eq:diff_vl}
 \end{align}
 
-Next, we'll derive $v_R$.
+Next, we'll derive $v_r$.
 
 \begin{align}
-  \vec{v}_R &= v_C \hat{j} + \omega \hat{k} \times r_b \hat{i} \nonumber
+  \vec{v}_r &= v_c \hat{j} + \omega \hat{k} \times r_b \hat{i} \nonumber
     \\
-  \vec{v}_R &= v_C \hat{j} + \omega r_b \hat{j} \nonumber \\
-  \vec{v}_R &= (v_C + \omega r_b) \hat{j} \nonumber \\
-  \lvert\vec{v}_R\rvert &= v_C + \omega r_b \nonumber \\
-  v_R &= v_C + \omega r_b
+  \vec{v}_r &= v_c \hat{j} + \omega r_b \hat{j} \nonumber \\
+  \vec{v}_r &= (v_c + \omega r_b) \hat{j} \nonumber \\
+  \lvert\vec{v}_r\rvert &= v_c + \omega r_b \nonumber \\
+  v_r &= v_c + \omega r_b \label{eq:diff_vr}
 \end{align}
 
 \subsubsection{Linear reference tracker}
 
 We need a velocity \gls{reference} tracker for the nonlinear \gls{controller}'s
-commands. Given equation (\ref{eq:drivetrain_ss_model})
+commands. Starting from equation (\ref{eq:drivetrain_ss_model}), we'll derive
+two \glspl{model} for this purpose and compare their responses with a straight
+profile and as part of a nonlinear trajectory follower.
 
 \begin{equation*}
   \begin{array}{ccc}
@@ -391,76 +392,241 @@ commands. Given equation (\ref{eq:drivetrain_ss_model})
 \end{equation*}
 
 where $C_1 = -\frac{G_l^2 K_t}{K_v R r^2}$, $C_2 = \frac{G_l K_t}{Rr}$,
-$C_3 = -\frac{G_r^2 K_t}{K_v R r^2}$, and $C_4 = \frac{G_r K_t}{Rr}$, we can
-obtain one by just removing the position \glspl{state} from the \gls{model}.
+$C_3 = -\frac{G_r^2 K_t}{K_v R r^2}$, and $C_4 = \frac{G_r K_t}{Rr}$.
 
-\begin{equation*}
-  \begin{array}{ccc}
-    \mtx{x} =
-    \begin{bmatrix}
-      v_l \\
-      v_r
-    \end{bmatrix} &
-    \mtx{y} =
-    \begin{bmatrix}
-      v_l \\
-      v_r
-    \end{bmatrix} &
-    \mtx{u} =
-    \begin{bmatrix}
-      V_l \\
-      V_r
-    \end{bmatrix}
-  \end{array}
-\end{equation*}
+To obtain a left/right velocity \gls{reference} tracker, we can just remove the
+position \glspl{state} from the \gls{model}.
 
-\begin{equation}
-  \begin{array}{ll}
-    \mtx{A} =
-    \begin{bmatrix}
-      \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_1 & \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_3 \\
-      \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_1 & \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_3
-    \end{bmatrix} &
-    \mtx{B} =
-    \begin{bmatrix}
-      \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_2 & \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_4 \\
-      \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_2 & \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_4
-    \end{bmatrix} \\
-    \mtx{C} =
-    \begin{bmatrix}
-      1 & 0 \\
-      0 & 1 \\
-    \end{bmatrix} &
-    \mtx{D} = \mtx{0}_{2 \times 2}
-  \end{array}
-\end{equation}
+\begin{theorem}[Left/right velocity reference tracker]
+  \label{thm:ramsete_decoupled_ref_tracker}
+  \begin{equation*}
+    \begin{array}{ccc}
+      \mtx{x} =
+      \begin{bmatrix}
+        v_l \\
+        v_r
+      \end{bmatrix} &
+      \mtx{y} =
+      \begin{bmatrix}
+        v_l \\
+        v_r
+      \end{bmatrix} &
+      \mtx{u} =
+      \begin{bmatrix}
+        V_l \\
+        V_r
+      \end{bmatrix}
+    \end{array}
+  \end{equation*}
 
-Figure \ref{fig:ramsete_vel_lqr_profile} shows how well this \gls{reference}
-tracker performs.
+  \begin{equation}
+    \begin{array}{ll}
+      \mtx{A} =
+      \begin{bmatrix}
+        \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_1 &
+        \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_3 \\
+        \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_1 &
+        \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_3
+      \end{bmatrix} &
+      \mtx{B} =
+      \begin{bmatrix}
+        \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_2 &
+        \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_4 \\
+        \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_2 &
+        \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_4
+      \end{bmatrix} \\
+      \mtx{C} =
+      \begin{bmatrix}
+        1 & 0 \\
+        0 & 1 \\
+      \end{bmatrix} &
+      \mtx{D} = \mtx{0}_{2 \times 2}
+    \end{array}
+  \end{equation}
 
-\begin{svg}{build/code/ramsete_vel_lqr_profile}
-  \caption{Velocity reference tracker response to a motion profile}
-  \label{fig:ramsete_vel_lqr_profile}
+  where $C_1 = -\frac{G_l^2 K_t}{K_v R r^2}$, $C_2 = \frac{G_l K_t}{Rr}$,
+  $C_3 = -\frac{G_r^2 K_t}{K_v R r^2}$, and $C_4 = \frac{G_r K_t}{Rr}$.
+\end{theorem}
+
+Figure \ref{fig:ramsete_decoupled_vel_lqr_profile} shows how well this
+\gls{reference} tracker performs.
+
+\begin{svg}{build/code/ramsete_decoupled_vel_lqr_profile}
+  \caption{Left/right velocity reference tracker response to a motion profile}
+  \label{fig:ramsete_decoupled_vel_lqr_profile}
 \end{svg}
 
-\subsection{Simulation}
+Since the Ramsete controller produces velocity and turning rate commands, it
+would be more convenient if the \glspl{state} are velocity and turning rate
+instead of left and right wheel velocity. We'll create a second model that has
+velocity and angular velocity states and see how well it performs.
 
-Figure \ref{fig:ramsete_response} demonstrates the Ramsete controller and
-velocity \gls{reference} tracker for a typical FRC drivetrain with the
-\gls{reference} tracking behavior shown in figure
-\ref{fig:ramsete_vel_lqr_response}.
+\begin{align*}
+  \dot{v}_l &= \left(\frac{1}{m} + \frac{r_b^2}{J}\right)
+    \left(C_1 v_l + C_2 V_l\right) +
+    \left(\frac{1}{m} - \frac{r_b^2}{J}\right) \left(C_3 v_r + C_4 V_r\right) \\
+  \dot{v}_r &= \left(\frac{1}{m} - \frac{r_b^2}{J}\right)
+    \left(C_1 v_l + C_2 V_l\right) +
+    \left(\frac{1}{m} + \frac{r_b^2}{J}\right) \left(C_3 v_r + C_4 V_r\right)
+\end{align*}
+
+Substitute in equations (\ref{eq:diff_vl}) and (\ref{eq:diff_vr}).
+
+\begin{align}
+  \dot{v}_c + \dot{\omega} r_b &= \left(\frac{1}{m} + \frac{r_b^2}{J}\right)
+    \left(C_1(v_c - \omega r_b) + C_2 V_l\right) +
+    \left(\frac{1}{m} - \frac{r_b^2}{J}\right) \left(C_3(v_c + \omega r_b) +
+      C_4 V_r\right) \label{eq:diff_vc_l} \\
+  \dot{v}_c - \dot{\omega} r_b &= \left(\frac{1}{m} - \frac{r_b^2}{J}\right)
+    \left(C_1(v_c - \omega r_b) + C_2 V_l\right) +
+    \left(\frac{1}{m} + \frac{r_b^2}{J}\right) \left(C_3(v_c + \omega r_b) +
+      C_4 V_r\right) \label{eq:diff_vc_r}
+\end{align}
+
+Now, we need to solve for $\dot{v}_c$ and $\dot{\omega}$. First, we'll add
+equation (\ref{eq:diff_vc_l}) to equation (\ref{eq:diff_vc_r}).
+
+\begin{align*}
+  2\dot{v}_c &= \frac{2}{m} \left(C_1(v_c - \omega r_b) + C_2 V_l\right) +
+    \frac{2}{m} \left(C_3(v_c + \omega r_b) + C_4 V_r\right) \\
+  \dot{v}_c &= \frac{1}{m} \left(C_1(v_c - \omega r_b) + C_2 V_l\right) +
+    \frac{1}{m} \left(C_3(v_c + \omega r_b) + C_4 V_r\right) \\
+  \dot{v}_c &= \frac{1}{m} (C_1 + C_3) v_c +
+    \frac{1}{m} (-C_1 + C_3) \omega r_b + \frac{1}{m} C_2 V_l +
+    \frac{1}{m} C_4 V_r \\
+  \dot{v}_c &= \frac{1}{m} (C_1 + C_3) v_c + \frac{r_b}{m} (-C_1 + C_3) \omega +
+    \frac{1}{m} C_2 V_l + \frac{1}{m} C_4 V_r
+\end{align*}
+
+Next, we'll subtract equation (\ref{eq:diff_vc_r}) from equation
+(\ref{eq:diff_vc_l}).
+
+\begin{align*}
+  2\dot{\omega} r_b &= \frac{2r_b^2}{J}
+    \left(C_1(v_c - \omega r_b) + C_2 V_l\right) -
+    \frac{2r_b^2}{J} \left(C_3(v_c + \omega r_b) + C_4 V_r\right) \\
+  \dot{\omega} &= \frac{r_b}{J} \left(C_1(v_c - \omega r_b) + C_2 V_l\right) -
+    \frac{r_b}{J} \left(C_3(v_c + \omega r_b) + C_4 V_r\right) \\
+  \dot{\omega} &= \frac{r_b}{J} (C_1 - C_3) v_c +
+    \frac{r_b}{J} (-C_1 - C_3) \omega r_b + \frac{r_b}{J} C_2 V_l -
+    \frac{r_b}{J} C_4 V_r \\
+  \dot{\omega} &= \frac{r_b}{J} (C_1 - C_3) v_c +
+    \frac{r_b^2}{J} (-C_1 - C_3) \omega + \frac{r_b}{J} C_2 V_l -
+    \frac{r_b}{J} C_4 V_r
+\end{align*}
+
+Now, just convert the two equations to state-space notation.
+
+\begin{theorem}[Velocity / angular velocity reference tracker]
+  \label{thm:ramsete_coupled_ref_tracker}
+  \begin{equation*}
+    \begin{array}{ccc}
+      \mtx{x} =
+      \begin{bmatrix}
+        v \\
+        \omega
+      \end{bmatrix} &
+      \mtx{y} =
+      \begin{bmatrix}
+        v_l \\
+        v_r
+      \end{bmatrix} &
+      \mtx{u} =
+      \begin{bmatrix}
+        V_l \\
+        V_r
+      \end{bmatrix}
+    \end{array}
+  \end{equation*}
+
+  \begin{equation}
+    \begin{array}{ll}
+      \mtx{A} =
+      \begin{bmatrix}
+        \frac{1}{m}(C_1 + C_3) & \frac{r_b}{m}(-C_1 + C_3) \\
+        \frac{r_b}{J}(C_1 - C_3) & \frac{r_b^2}{J}(-C_1 - C_3)
+      \end{bmatrix} &
+      \mtx{B} =
+      \begin{bmatrix}
+        \frac{1}{m}C_2 & \frac{1}{m}C_4 \\
+        \frac{r_b}{J}C_2 & -\frac{r_b}{J}C_4
+      \end{bmatrix} \\
+      \mtx{C} =
+      \begin{bmatrix}
+        1 & -r_b \\
+        1 & r_b
+      \end{bmatrix} &
+      \mtx{D} = \mtx{0}_{2 \times 2}
+    \end{array}
+  \end{equation}
+
+  where $C_1 = -\frac{G_l^2 K_t}{K_v R r^2}$, $C_2 = \frac{G_l K_t}{Rr}$,
+  $C_3 = -\frac{G_r^2 K_t}{K_v R r^2}$, and $C_4 = \frac{G_r K_t}{Rr}$.
+\end{theorem}
+
+Figure \ref{fig:ramsete_coupled_vel_lqr_profile} shows how well this
+\gls{reference} tracker performs.
+
+\begin{svg}{build/code/ramsete_coupled_vel_lqr_profile}
+  \caption{Velocity / angular velocity reference tracker response to a motion
+    profile}
+  \label{fig:ramsete_coupled_vel_lqr_profile}
+\end{svg}
+
+So far, the plots in figure \ref{fig:ramsete_coupled_vel_lqr_profile} look
+similar to those of the other \gls{controller} in figure
+\ref{fig:ramsete_decoupled_vel_lqr_profile}.
+
+\subsection{Trajectory following simulation}
+
+Figure \ref{fig:ramsete_decoupled_response} demonstrates the Ramsete controller
+with the left/right velocity \gls{reference} tracker for a typical FRC
+drivetrain with the \gls{reference} tracking behavior shown in figure
+\ref{fig:ramsete_decoupled_vel_lqr_response}.
+
+Figure \ref{fig:ramsete_coupled_response} demonstrates the Ramsete controller
+with the velocity / angular velocity \gls{reference} tracker for a typical FRC
+drivetrain with the \gls{reference} tracking behavior shown in figure
+\ref{fig:ramsete_coupled_vel_lqr_response}.
 
 \begin{bookfigure}
-  \begin{minisvg}{build/code/ramsete_response}
-    \caption{Ramsete controller response ($b = 2$, $\zeta = 0.7$)}
-    \label{fig:ramsete_response}
+  \begin{minisvg}{build/code/ramsete_decoupled_response}
+    \caption{Ramsete controller response with left/right velocity reference
+      tracker ($b = 2$, $\zeta = 0.7$)}
+    \label{fig:ramsete_decoupled_response}
   \end{minisvg}
   \hfill
-  \begin{minisvg}{build/code/ramsete_vel_lqr_response}
-    \caption{Ramsete controller's velocity reference tracker response}
-    \label{fig:ramsete_vel_lqr_response}
+  \begin{minisvg}{build/code/ramsete_decoupled_vel_lqr_response}
+    \caption{Ramsete controller's left/right velocity reference tracker
+      response}
+    \label{fig:ramsete_decoupled_vel_lqr_response}
+  \end{minisvg} \\
+  \begin{minisvg}{build/code/ramsete_coupled_response}
+    \caption{Ramsete controller response with velocity / angular velocity
+      reference tracker ($b = 2$, $\zeta = 0.7$)}
+    \label{fig:ramsete_coupled_response}
   \end{minisvg}
+  \hfill
+  \begin{minisvg}{build/code/ramsete_coupled_vel_lqr_response}
+    \caption{Ramsete controller's velocity / angular velocity reference tracker
+      response}
+    \label{fig:ramsete_coupled_vel_lqr_response}
+  \end{minisvg} \\
 \end{bookfigure}
+
+The Ramsete \gls{controller} behaves relatively the same in each case, but the
+left/right velocity \gls{reference} tracker tracks the \glspl{reference}
+produced by the Ramsete \gls{controller} better and with smaller
+\glspl{control effort} overall. This is likely due to the second
+\gls{controller} having coupled dynamics. That is, the control inputs don't act
+independently on the system \glspl{state}. In the coupled \gls{controller}, $v$
+and $\omega$ require opposing control actions to reach their respective
+\glspl{reference}, which results in them fighting each other.
+
+Therefore, theorem \ref{thm:ramsete_decoupled_ref_tracker} is a superior
+\gls{reference} tracker to theorem \ref{thm:ramsete_coupled_ref_tracker} due to
+its decoupled dynamics, even though conversions are required between it and the
+Ramsete \gls{controller}'s commands.
 
 \section{Further reading}
 
