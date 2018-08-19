@@ -1,0 +1,29 @@
+\section{Lyapunov stability}
+\index{Nonlinear control!Lyapunov stability}
+
+Lyapunov stability is a fundamental concept in nonlinear control, so we're going
+to give a brief overview of what it is so students can research it further.
+
+Since the \gls{state} evolution in nonlinear \glspl{system} is defined by a
+function rather than a constant matrix, the \gls{system}'s poles as determined
+by \gls{linearization} move around. Nonlinear control uses Lyapunov stability to
+determine if nonlinear \glspl{system} are stable. From a linear control theory
+point of view, Lyapunov stability says the \gls{system} is stable if, for a
+given initial condition, all possible eigenvalues of $\mtx{A}$ from that point
+on remain in the left-half plane. However, nonlinear control uses a different
+definition.
+
+Essentially, Lyapunov stability means that the \gls{system} trajectory can be
+kept arbitrarily close to the origin by starting sufficiently close to it.
+Lyapunov's direct method is concerned with finding a function representing the
+energy in a \gls{system} to prove that the \gls{system} is stable around an
+equilibrium point. This can be used to prove a \gls{system}'s open-loop
+stability as well as its closed-loop stability in the presence of a controller.
+Typically, these functions include the energy of the \gls{system} or the
+derivatives of the \gls{system} \gls{state}, which are then used to show the
+\gls{system} decays to some ground state.
+
+Lyapunov functions are merely sufficient to prove stability (as opposed to a
+specific Lyapunov function being necessary). If one function doesn't prove it,
+another candidate should be tried. For this reason, we refer to these functions
+as \textit{Lyapunov candidate functions}.

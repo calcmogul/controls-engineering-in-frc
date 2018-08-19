@@ -1,0 +1,27 @@
+\section{Introduction}
+
+Recall from linear \gls{system} theory that we defined \glspl{system} as having
+the following form:
+
+\begin{align*}
+  \dot{\mtx{x}} &= \mtx{A}\mtx{x} + \mtx{B}\mtx{u} + \mtx{\Gamma}\mtx{w} \\
+  \mtx{y} &= \mtx{C}\mtx{x} + \mtx{D}\mtx{u} + \mtx{v}
+\end{align*}
+
+In this equation, $\mtx{A}$ and $\mtx{B}$ are constant matrices, which means
+they are both time-invariant and linear (all transformations on the \gls{system}
+\gls{state} are linear ones, and those transformations remain the same for all
+time). In nonlinear and time-variant \glspl{system}, the \gls{state} evolution
+and \gls{output} are defined by arbitrary functions of the current \glspl{state}
+and \glspl{input}.
+
+\begin{align*}
+  \dot{\mtx{x}} &= f(\mtx{x}, \mtx{u}, \mtx{w}) \\
+  \mtx{y} &= h(\mtx{x}, \mtx{u}, \mtx{v})
+\end{align*}
+
+Nonlinear functions come up regularly when attempting to control the \gls{pose}
+of a vehicle in the global coordinate frame instead of the vehicle's rotating
+local coordinate frame. Converting from one to the other requires applying a
+rotation matrix, which consists of sine and cosine operations. These functions
+are nonlinear.

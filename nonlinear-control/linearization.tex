@@ -1,0 +1,25 @@
+\section{Linearization}
+\index{Nonlinear control!linearization}
+
+One way to control nonlinear \glspl{system} is to
+\glslink{linearization}{linearize} the \gls{model} around a reference point.
+Then, all the powerful tools that exist for linear controls can be applied. This
+is done by taking the partial derivative of the functions.
+
+\begin{align*}
+  \begin{array}{cccc}
+    \mtx{A} = \frac{\partial f(\mtx{x}, \mtx{0}, \mtx{0})}{\partial \mtx{x}} &
+    \mtx{B} = \frac{\partial f(\mtx{0}, \mtx{u}, \mtx{0})}{\partial \mtx{u}} &
+    \mtx{C} = \frac{\partial h(\mtx{x}, \mtx{0}, \mtx{0})}{\partial \mtx{x}} &
+    \mtx{D} = \frac{\partial h(\mtx{0}, \mtx{u}, \mtx{0})}{\partial \mtx{u}}
+  \end{array}
+\end{align*}
+
+Higher order partial derivatives can be added to better approximate the
+nonlinear dynamics. We typically only \glslink{linearization}{linearize} around
+equilibrium points because we are interested in how the \gls{system} behaves
+when perturbed from equilibrium. An FAQ on this goes into more detail
+\cite{bib:linearize_equilibrium_point}. To be clear though,
+\glslink{linearization}{linearizing} the \gls{system} around the current
+\gls{state} as the \gls{system} evolves does give a closer approximation over
+time.

@@ -1,0 +1,42 @@
+\section{Nonlinear observers}
+
+In this book, we have covered the Kalman filter, which is the optimal unbiased
+estimator for linear \glspl{system}. It isn't optimal for nonlinear
+\glspl{system}, but several extensions to it have been developed to make it more
+accurate.
+
+\subsection{Extended Kalman filter}
+\index{Nonlinear control!extended Kalman filter}
+\index{State-space observers!Kalman filter!extended Kalman filter}
+
+This method \glslink{linearization}{linearizes} the matrices used during the
+prediction step. In addition to the $\mtx{A}$, $\mtx{B}$, $\mtx{C}$, and
+$\mtx{D}$ matrices above, the process noise intensity vector $\mtx{\Gamma}$ is
+\glslink{linearization}{linearized} as follows:
+
+\begin{equation*}
+  \mtx{\Gamma} = \frac{\partial f(\mtx{x}, \mtx{0}, \mtx{0})}{\partial \mtx{w}}
+\end{equation*}
+
+where $\mtx{w}$ is the process noise included in the stochastic model.
+
+From there, the continuous Kalman filter equations are used like normal to
+compute the error covariance matrix $\mtx{P}$ and Kalman gain matrix. The
+\gls{state} estimate update can still use the function $h(\mtx{x})$ for
+accuracy.
+
+\begin{equation*}
+  \hat{\mtx{x}}_{k+1}^+ = \hat{\mtx{x}}_{k+1}^- +
+    \mtx{K}_{k+1}(\mtx{y}_{k+1} - h(\hat{\mtx{x}}_{k+1}^-))
+\end{equation*}
+
+\subsection{Unscented Kalman filter}
+\index{Nonlinear control!unscented Kalman filter}
+\index{State-space observers!Kalman filter!unscented Kalman filter}
+
+This method \glslink{linearization}{linearizes} around carefully chosen points
+to minimize the modeling error. There's a lot of detail to cover, so we
+recommend just reading a paper on it \cite{bib:unscented_kalman_filter}.
+
+Here's a paper on a quaternion-based Unscented Kalman filter for orientation
+tracking \cite{bib:ukf_state_tracking}.
