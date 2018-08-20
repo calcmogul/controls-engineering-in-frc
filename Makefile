@@ -27,7 +27,7 @@ printer: $(NAME)-printer.pdf
 prepress: $(NAME)-prepress.pdf
 
 $(NAME).pdf: $(TEX) $(STAMP) $(BIB) $(FIGS)
-	latexmk -xelatex $(NAME)
+	latexmk -interaction=nonstopmode -xelatex $(NAME)
 
 $(NAME)-ebook.pdf: $(NAME).pdf
 	gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/ebook -dNOPAUSE -dQUIET -dBATCH -sOutputFile=$(NAME)-ebook.pdf $(NAME).pdf
