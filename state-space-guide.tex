@@ -79,29 +79,47 @@
 \frontmatter
 \input{frontmatter}
 
+% Define path commands for redefinition later
+\newcommand*{\partpath}{}
+\newcommand*{\chapterpath}{}
+
 \mainmatter
 \setcounter{chapter}{-1}
-\input{notes-to-the-reader}
-\input{introduction}
+
+\renewcommand*{\partpath}{introduction}
+\input{\partpath/notes-to-the-reader}
+\input{\partpath/introduction}
+
 \part{Classical control theory}
-\input{control-system-basics}
-\input{pid-controllers}
-\input{laplace-domain-analysis}
+\renewcommand*{\partpath}{classical-control-theory}
+\input{\partpath/control-system-basics}
+\input{\partpath/pid-controllers}
+\input{\partpath/laplace-domain-analysis}
+
 \part{Modern control theory notation}
-\input{linear-algebra}
-\input{intro-to-modern-control}
+\renewcommand*{\partpath}{modern-control-theory-notation}
+\input{\partpath/linear-algebra}
+\input{\partpath/intro-to-modern-control}
+
 \part{Linear control theory}
-\input{ss-controllers}
-\input{digital-control}
-\input{ss-model-examples}
-\input{stochastic-control-theory}
+\renewcommand*{\partpath}{linear-control-theory}
+\input{\partpath/ss-controllers}
+\input{\partpath/digital-control}
+\input{\partpath/ss-model-examples}
+\input{\partpath/stochastic-control-theory}
+
 \part{Nonlinear control theory}
-\input{nonlinear-control}
+\renewcommand*{\partpath}{nonlinear-control-theory}
+\input{\partpath/nonlinear-control}
 
 \part{Appendices}
-
 \renewcommand{\chaptermark}[1]{\markboth{\sffamily\normalsize\bfseries\appendixname\ \thechapter.\ #1}{}}
-\input{appendices}
+\appendix
+\renewcommand*{\partpath}{appendices}
+\input{\partpath/simplifying-block-diagrams}
+\input{\partpath/installing-python-control}
+\input{\partpath/ss-canonical-forms}
+\input{\partpath/derivations}
 
 \renewcommand{\chaptermark}[1]{\markboth{\sffamily\normalsize\bfseries #1}{}}
 \backmatter
