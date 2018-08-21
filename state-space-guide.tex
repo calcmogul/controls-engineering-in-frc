@@ -77,7 +77,10 @@
 \begin{document}
 % \usechapterimagefalse
 \frontmatter
-\input{frontmatter}
+\input{frontmatter/cover}
+\input{frontmatter/title}
+\input{frontmatter/copyright}
+\input{frontmatter/toc}
 
 % Define path commands for redefinition later
 \newcommand*{\partpath}{}
@@ -123,5 +126,9 @@
 
 \renewcommand{\chaptermark}[1]{\markboth{\sffamily\normalsize\bfseries #1}{}}
 \backmatter
-\input{backmatter}
+\chapterimage{backmatter.jpg}{Sunset near Porter Academic building at UCSC}
+\input{backmatter/glossary}
+\input{backmatter/bibliography}
+\input{backmatter/index}
+\input{backmatter/cover}
 \end{document}
