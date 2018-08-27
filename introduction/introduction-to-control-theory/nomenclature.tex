@@ -8,7 +8,14 @@ phrases commonly used in control theory, their origins, and their meaning. Links
 to the glossary are provided for certain words throughout the book and will use
 \textcolor{glscolor}{this color}.
 
-Table \ref{tab:plant_v_controller} describes how the terms \gls{input} and
+The \gls{system} or collection of actuators being controlled by a
+\gls{control system} is called the \gls{plant}. \Glspl{controller} which don't
+include information measured from the \gls{plant}'s \gls{output} are called
+open-loop \glspl{controller}. \Glspl{controller} which incorporate information
+fed back from the \gls{plant}'s \gls{output} are called closed-loop
+\glspl{controller} or feedback \glspl{controller}.
+
+Table \ref{tab:plant_vs_controller} describes how the terms \gls{input} and
 \gls{output} apply to \glspl{plant} versus \glspl{controller} and what letters
 are commonly associated with each when working with them. Namely, that the terms
 \gls{input} and \gls{output} are defined with respect to the \gls{plant}, not
@@ -25,5 +32,5 @@ the \gls{controller}.
     \hline
   \end{tabular}
   \caption{Plant versus controller nomenclature}
-  \label{tab:plant_v_controller}
+  \label{tab:plant_vs_controller}
 \end{booktable}
