@@ -440,3 +440,36 @@ cost matrix is removed from the two-state feedforward calculation, the
   \caption{Second-order CIM motor response with two-state feedforwards}
   \label{fig:case_study_ff2}
 \end{svg}
+
+\subsection{Feedforwards for unmodeled dynamics}
+
+While the feedforwards previously mentioned only handle modeled dynamics, one
+can also include feedforwards for unmodeled dynamics separately. Consider an
+elevator model which doesn't include gravity. A constant voltage offset can be
+used compensate for this. The feedforward takes the form of a voltage constant
+because voltage is proportional to force applied, and the force is acting in
+only one direction at all times.
+
+\begin{equation}
+  u_{ff} = V_{app}
+\end{equation}
+
+where $V_{app}$ is a constant. Another feedforward holds a single-jointed arm
+steady in the presence of gravity. It has the following form.
+
+\begin{equation}
+  u_{ff} = V_{app} \cos\theta
+\end{equation}
+
+where $V_{app}$ is the voltage required to keep the single-jointed arm level
+with the ground, and $\theta$ is the angle of the arm relative to the ground.
+Therefore, the force applied is greatest when the arm is parallel with the
+ground and zero when the arm is perpendicular to the ground (at that point, the
+joint supports all the weight).
+
+Note that the elevator model could be augmented easily enough to include gravity
+and still be linear, but this wouldn't work for the single-jointed arm since a
+trigonometric function is required to model the gravitational force in the arm's
+rotating reference frame\footnote{While the applied torque of the motor is
+constant throughout the arm's range of motion, the torque caused by gravity in
+the opposite direction varies according to the arm's angle.}.

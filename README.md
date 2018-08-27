@@ -101,6 +101,9 @@ Bibliography entries in [state-space-guide.bib](state-space-guide.bib) should be
 sorted lexographically by label. Links to online videos should use the `@misc`
 tag. Links to online static resources like PDFs should use the `@online` tag.
 
+Book content should answer the question _why_ something works the way it does
+and how and when to use it to solve problems.
+
 ## Future improvements
 
 ### Teach topics more thoroughly
