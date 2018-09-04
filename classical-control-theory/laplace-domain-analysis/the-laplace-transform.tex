@@ -27,14 +27,37 @@ representing the speed at which that oscillation decays and the \gls{system}
 converges to zero. Figure \ref{fig:impulse_response_poles} shows this for
 various points.
 
+If we move the component frequencies in the Fmajor4 chord example parallel to
+the real axis to $\sigma = -25$, the resulting time domain response attenuates
+according to the decaying exponential $e^{-25t}$ (see figure
+\ref{fig:laplace_chord_attenuating}).
+
+\begin{svg}{build/code/laplace_chord_attenuating}
+  \caption{Fmajor4 chord at $\sigma = 0$ and $\sigma = -25$}
+  \label{fig:laplace_chord_attenuating}
+\end{svg}
+
 Note that this explanation as a basis isn't exact because the Laplace basis
 isn't orthogonal (that is, the x and y coordinates affect each other and have
 cross-talk). In the frequency domain, we had a basis of sine waves that we
 represented as delta functions in the frequency domain. Each frequency
 contribution was independent of the others. In the Laplace domain, this is not
-the case; a pure exponential is $\frac{1}{s -a}$ (a rational function) instead
-of a delta function. This function is nonzero at points that aren't actually
-frequencies present in the time domain.
+the case; a pure exponential is $\frac{1}{s - a}$ (a rational function where $a$
+is a real number) instead of a delta function. This function is nonzero at
+points that aren't actually frequencies present in the time domain. Figure
+\ref{fig:laplace_chord_3d} demonstrates this, which shows the Laplace transform
+of the Fmajor4 chord plotted in 3D.
+
+\begin{svg}{build/code/laplace_chord}
+  \caption{Laplace transform of Fmajor4 chord plotted in 3D}
+  \label{fig:laplace_chord_3d}
+\end{svg}
+
+Notice how the values of the function around each component frequency decrease
+according to $\frac{1}{\sqrt{x^2 + y^2}}$ in the $x$ and $y$ directions (in just
+the $x$ direction, it would be $\frac{1}{x}$).
+
+\subsection{The definition}
 
 The Laplace transform of a function $f(t)$ is defined as
 
@@ -50,7 +73,7 @@ transforms for the derivative, unit step\footnote{The unit step $u(t)$ is
 defined as $0$ for $t < 0$ and $1$ for $t \ge 0$.}, and exponential decay. We
 can see that a derivative is equivalent to multiplying by $s$, and an integral
 is equivalent to multiplying by $\frac{1}{s}$. We'll discuss the decaying
-exponential shortly.
+exponential in subsection \ref{subsec:poles_and_zeroes}.
 
 \begin{booktable}
   \begin{tabular}{|ccc|}
