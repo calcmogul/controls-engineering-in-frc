@@ -26,7 +26,7 @@ printer: $(NAME)-printer.pdf
 .PHONY: prepress
 prepress: $(NAME)-prepress.pdf
 
-$(NAME).pdf: $(TEX) $(STAMP) $(BIB) $(FIGS)
+$(NAME).pdf: $(TEX) $(STAMP) $(BIB) $(FIGS) build/commit-hash.txt
 	latexmk -interaction=nonstopmode -xelatex $(NAME)
 
 $(NAME)-ebook.pdf: $(NAME).pdf
@@ -37,6 +37,9 @@ $(NAME)-printer.pdf: $(NAME).pdf
 
 $(NAME)-prepress.pdf: $(NAME).pdf
 	gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/prepress -dNOPAUSE -dQUIET -dBATCH -sOutputFile=$(NAME)-prepress.pdf $(NAME).pdf
+
+build/commit-hash.txt: .git/COMMIT_EDITMSG .git/HEAD
+	git rev-parse --short HEAD > build/commit-hash.txt
 
 # Runs if frccontrol directory doesn't exist yet to perform compilation prep
 build/frccontrol:
