@@ -165,6 +165,7 @@ included in an appendix.
     experimental aircraft (within the limits of the helicopter's actuators, of
     course).
   * Describe implicit model following application
+* Finite horizon, discrete time LQR
 * Add an appendix on Ito calculus to explain where the Wiener process comes from?
 * Add equations for Kalman smoother
 * Add equations for and implementation of MMAE
