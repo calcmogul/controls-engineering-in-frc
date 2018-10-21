@@ -155,7 +155,7 @@ Let $k_2 = b$.
         desired $x$ position \\
       $y$ & actual $y$ position in global coordinate frame & $y_d$ &
         desired $y$ position \\
-      $\theta$ & actual angle in the global coordinate frame & $\theta_d$ &
+      $\theta$ & actual angle in global coordinate frame & $\theta_d$ &
         desired angle
     \end{tabulary}
   \end{figurekey}
@@ -166,19 +166,24 @@ Let $k_2 = b$.
 \end{theorem}
 
 $v$ and $\omega$ should be the \glspl{reference} for a \gls{reference} tracker
-for the drivetrain. This can be a linear controller.
+for the drivetrain. This can be a linear controller. $x$, $y$, and $\theta$ are
+obtained via a nonlinear \gls{pose} estimator.
 
-$x$, $y$, and $\theta$ are obtained via a nonlinear \gls{pose} estimator. The
-simplest way to do this is by integrating the velocity in each orthogonal
-direction over time using
+\subsubsection{Nonlinear pose estimator}
+
+The simplest way to perform pose estimation is to integrate the velocity in each
+orthogonal direction over time using
 
 \begin{align*}
-  x_{k+1} = x_k + v_k\cos\theta_k\,T \\
-  y_{k+1} = y_k + v_k\sin\theta_k\,T
+  x_{k+1} &= x_k + v_k\cos\theta_k\,T \\
+  y_{k+1} &= y_k + v_k\sin\theta_k\,T
 \end{align*}
 
 where $T$ is the sample period. $x_d$, $y_d$, and $\theta_d$ are obtained from a
 desired time-based trajectory.
+
+This odometry approach assumes that the robot follows a straight path between
+samples (that is, $\omega = 0$).
 
 \subsection{Two-wheeled vehicle}
 

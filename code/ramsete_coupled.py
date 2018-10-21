@@ -56,14 +56,14 @@ def drivetrain(motor, num_motors, m, r, rb, J, Gl, Gr):
     return cnt.ss(A, B, C, D)
 
 
-class Pose:
+class Pose2d:
     def __init__(self, x=0, y=0, theta=0):
         self.x = x
         self.y = y
         self.theta = theta
 
     def __sub__(self, other):
-        return Pose(self.x - other.x, self.y - other.y, self.theta - other.theta)
+        return Pose2d(self.x - other.x, self.y - other.y, self.theta - other.theta)
 
 
 def ramsete(pose_desired, v_desired, omega_desired, pose, b, zeta):
@@ -196,8 +196,8 @@ def main():
         latexutils.savefig("ramsete_coupled_vel_lqr_profile")
 
     # Initial robot pose
-    pose = Pose(2, 0, np.pi / 2.0)
-    desired_pose = Pose()
+    pose = Pose2d(2, 0, np.pi / 2.0)
+    desired_pose = Pose2d()
 
     # Ramsete tuning constants
     b = 2
