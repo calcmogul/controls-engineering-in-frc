@@ -132,8 +132,12 @@ Add test of P vs PD controller for flywheel
   shots)
 * Try P controller, PD controller, P + FF, PD + FF, and P + FF + u_error
 
-Add diagram to Ramsete that shows global and vehicle coordinate frames to help
-explain what the pose represents.
+Ramsete improvements
+* Add diagram to Ramsete that shows global and vehicle coordinate frames to help
+  explain what the pose represents.
+* Rework robot odometry equations for use in EKF.
+
+Add "Partial derivative" to calculus methods appendix.
 
 ### Finish incomplete topics
 
