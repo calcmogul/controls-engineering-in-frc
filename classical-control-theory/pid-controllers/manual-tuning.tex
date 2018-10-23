@@ -1,6 +1,6 @@
 \section{Manual tuning}
 
-\subsection{Position PID controller tuning}
+These steps apply for both position and velocity PID controllers.
 
 \begin{enumerate}
   \item Set $K_p$, $K_i$, and $K_d$ to zero.
@@ -12,7 +12,9 @@
 
 If the \gls{controller} settles at an \gls{output} above or below the
 \gls{reference}, increase $K_i$ such that the \gls{controller} reaches the
-\gls{reference} in a reasonable amount of time.
+\gls{reference} in a reasonable amount of time. However, a steady-state
+feedforward is preferred to integral control (especially for velocity PID
+control).
 
 \begin{remark}
   \textit{Note:} Adding an integral gain to the \gls{controller} is an incorrect
@@ -26,19 +28,3 @@ Beware that if $K_i$ is too large, integral windup can occur. Following a large
 change in \gls{reference}, the integral term can accumulate an error larger than
 the maximal \gls{control input}. As a result, the system overshoots and
 continues to increase until this accumulated error is unwound.
-
-\subsection{Velocity PID controller tuning}
-
-\begin{enumerate}
-  \item Set $K_p$, $K_i$, and $K_d$ to zero.
-  \item Increase $K_i$ until the \gls{output} starts to oscillate around the
-    \gls{reference}.
-  \item Increase $K_p$ as much as possible without introducing jittering in the
-    \gls{system response}.
-\end{enumerate}
-
-There is no equivalent to position PID's integral term in velocity PID, but one
-isn't needed for systems that don't contain a ``derivative of velocity"
-\gls{state}. This controller will not have \gls{steady-state error} for step
-inputs because the $K_i$ term introduces a pole in the \gls{controller} (we'll
-discuss poles later).
