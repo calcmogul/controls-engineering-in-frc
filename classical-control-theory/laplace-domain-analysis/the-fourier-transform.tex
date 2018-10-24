@@ -2,9 +2,11 @@
 
 The Fourier transform decomposes a function of time into its component
 frequencies. Each of these frequencies is part of what's called a
-\textit{basis}. These waveforms can be added together in linear combinations to
-produce the original signal. That is, we create a sum of waveforms that are
-multiplied by their respective contribution amount.
+\textit{basis}. These basis waveforms can be multiplied by their respective
+contribution amount and summed to produce the original signal (this weighted sum
+is called a linear combination). In other words, the Fourier transform provides
+a way for us to determine, given some signal, what frequencies can we add
+together and in what amounts to produce the original signal.
 
 Think of an Fmajor4 chord which has the notes $F_4$ ($349.23\,Hz$), $A_4$
 ($440\,Hz$), and $C_4$ ($261.63\,Hz$). The waveform over time looks like figure
@@ -17,8 +19,8 @@ Think of an Fmajor4 chord which has the notes $F_4$ ($349.23\,Hz$), $A_4$
 
 Notice how this complex waveform can be represented just by three frequencies.
 They show up as Dirac delta functions\footnote{The Dirac delta function is zero
-everywhere except near the origin. The nonzero region has an infinitesimal width
-and a height such that the area within that region is $1$.} in the frequency
+everywhere except at the origin. The nonzero region has an infinitesimal width
+and has a height such that the area within that region is $1$.} in the frequency
 domain with the area underneath them equal to their contribution (see figure
 \ref{fig:fourier_chord_fft}).
 
@@ -27,6 +29,8 @@ domain with the area underneath them equal to their contribution (see figure
   \label{fig:fourier_chord_fft}
 \end{svg}
 
-In summary, the Fourier transform provides a way for us to determine, given some
-signal, what frequencies can we add together and in what amounts to produce the
-original signal.
+Since Euler's identity states that $e^{i\theta} = \cos\theta + i\sin\theta$, we
+can represent frequencies as complex numbers on a number line (we will use
+$e^{j\omega} = \cos\omega + j\sin\omega$ for notational consistency going
+forward). For example, $400\,Hz$ would be $e^{j400}$. The frequency domain just
+uses the complex exponent $400j$.
