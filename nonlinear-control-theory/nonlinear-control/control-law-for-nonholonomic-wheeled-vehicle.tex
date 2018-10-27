@@ -341,6 +341,10 @@ position \glspl{state} from the \gls{model}.
   $C_3 = -\frac{G_r^2 K_t}{K_v R r^2}$, and $C_4 = \frac{G_r K_t}{Rr}$.
 \end{theorem}
 
+See
+\url{https://github.com/calcmogul/state-space-guide/blob/master/code/ramsete_decoupled.py}
+for an implementation.
+
 \subsubsection{Linear/angular velocity reference tracker}
 
 Since the Ramsete controller produces velocity and turning rate commands, it
@@ -450,6 +454,10 @@ Now, just convert the two equations to state-space notation.
   where $C_1 = -\frac{G_l^2 K_t}{K_v R r^2}$, $C_2 = \frac{G_l K_t}{Rr}$,
   $C_3 = -\frac{G_r^2 K_t}{K_v R r^2}$, and $C_4 = \frac{G_r K_t}{Rr}$.
 \end{theorem}
+
+See
+\url{https://github.com/calcmogul/state-space-guide/blob/master/code/ramsete_coupled.py}
+for an implementation.
 
 \subsubsection{Reference tracker comparison}
 
