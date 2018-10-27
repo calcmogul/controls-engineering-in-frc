@@ -37,16 +37,16 @@ a column vector are called a "twist".
 In the robot frame
 
 \begin{align*}
-  \prescript{R}{}{dx} &= \prescript{R}{}{v_x} \,dt \\
-  \prescript{R}{}{dy} &= \prescript{R}{}{v_y} \,dt \\
-  \prescript{R}{}{d\theta} &= \prescript{R}{}{\omega} \,dt
+  \crdfrm{R}{dx} &= \crdfrm{R}{v_x} \,dt \\
+  \crdfrm{R}{dy} &= \crdfrm{R}{v_y} \,dt \\
+  \crdfrm{R}{d\theta} &= \crdfrm{R}{\omega} \,dt
 \end{align*}
 
 To transform this into the global frame, we apply a counterclockwise rotation
 matrix where $\theta$ changes over time.
 
 \begin{align*}
-  \prescript{G}{}{\begin{bmatrix}
+  \crdfrm{G}{\begin{bmatrix}
     dx \\
     dy \\
     d\theta
@@ -56,12 +56,12 @@ matrix where $\theta$ changes over time.
     \sin\theta(t) &  \cos\theta(t) & 0 \\
                 0 &              0 & 1
   \end{bmatrix}
-  \prescript{R}{}{\begin{bmatrix}
+  \crdfrm{R}{\begin{bmatrix}
     v_x \\
     v_y \\
     \omega
   \end{bmatrix}} dt \\
-  \prescript{G}{}{\begin{bmatrix}
+  \crdfrm{G}{\begin{bmatrix}
     dx \\
     dy \\
     d\theta
@@ -71,7 +71,7 @@ matrix where $\theta$ changes over time.
     \sin\omega t &  \cos\omega t & 0 \\
                0 &             0 & 1
   \end{bmatrix}
-  \prescript{R}{}{\begin{bmatrix}
+  \crdfrm{R}{\begin{bmatrix}
     v_x \\
     v_y \\
     \omega
@@ -83,7 +83,7 @@ derivation heavily utilizes the integration method described in section
 \ref{sec:calculus_change_of_vars}.
 
 \begin{align*}
-  \prescript{G}{}{\begin{bmatrix}
+  \crdfrm{G}{\begin{bmatrix}
     \Delta x \\
     \Delta y \\
     \Delta \theta
@@ -93,12 +93,12 @@ derivation heavily utilizes the integration method described in section
     -\frac{\cos\omega t}{\omega} & \frac{\sin\omega t}{\omega} & 0 \\
     0 & 0 & t
   \end{bmatrix}
-  \prescript{R}{}{\begin{bmatrix}
+  \crdfrm{R}{\begin{bmatrix}
     v_x \\
     v_y \\
     \omega
   \end{bmatrix}} \right|_0^t \\
-  \prescript{G}{}{\begin{bmatrix}
+  \crdfrm{G}{\begin{bmatrix}
     \Delta x \\
     \Delta y \\
     \Delta \theta
@@ -108,7 +108,7 @@ derivation heavily utilizes the integration method described in section
     \frac{1 - \cos\omega t}{\omega} & \frac{\sin\omega t}{\omega} & 0 \\
     0 & 0 & t
   \end{bmatrix}
-  \prescript{R}{}{\begin{bmatrix}
+  \crdfrm{R}{\begin{bmatrix}
     v_x \\
     v_y \\
     \omega
@@ -119,7 +119,7 @@ This equation assumes a starting orientation of $\theta = 0$. For nonzero
 starting orientations, we can apply a counterclockwise rotation by $\theta$.
 
 \begin{equation*}
-  \prescript{G}{}{\begin{bmatrix}
+  \crdfrm{G}{\begin{bmatrix}
     \Delta x \\
     \Delta y \\
     \Delta \theta
@@ -134,12 +134,107 @@ starting orientations, we can apply a counterclockwise rotation by $\theta$.
     \frac{1 - \cos\omega t}{\omega} & \frac{\sin\omega t}{\omega} & 0 \\
     0 & 0 & t
   \end{bmatrix}
-  \prescript{R}{}{\begin{bmatrix}
+  \crdfrm{R}{\begin{bmatrix}
     v_x \\
     v_y \\
     \omega
   \end{bmatrix}}
 \end{equation*}
+
+If we factor out a $t$, we can use change in pose between updates instead of
+velocities.
+
+\begin{align*}
+  \crdfrm{G}{\begin{bmatrix}
+    \Delta x \\
+    \Delta y \\
+    \Delta \theta
+  \end{bmatrix}} &=
+  \begin{bmatrix}
+    \cos\theta & -\sin\theta & 0 \\
+    \sin\theta &  \cos\theta & 0 \\
+             0 &           0 & 1
+  \end{bmatrix}
+  \begin{bmatrix}
+    \frac{\sin\omega t}{\omega} & \frac{\cos\omega t - 1}{\omega} & 0 \\
+    \frac{1 - \cos\omega t}{\omega} & \frac{\sin\omega t}{\omega} & 0 \\
+    0 & 0 & t
+  \end{bmatrix}
+  \crdfrm{R}{\begin{bmatrix}
+    v_x \\
+    v_y \\
+    \omega
+  \end{bmatrix}} \\
+  \crdfrm{G}{\begin{bmatrix}
+    \Delta x \\
+    \Delta y \\
+    \Delta \theta
+  \end{bmatrix}} &=
+  \begin{bmatrix}
+    \cos\theta & -\sin\theta & 0 \\
+    \sin\theta &  \cos\theta & 0 \\
+             0 &           0 & 1
+  \end{bmatrix}
+  \begin{bmatrix}
+    \frac{\sin\omega t}{\omega t} & \frac{\cos\omega t - 1}{\omega t} & 0 \\
+    \frac{1 - \cos\omega t}{\omega t} & \frac{\sin\omega t}{\omega t} & 0 \\
+    0 & 0 & 1
+  \end{bmatrix}
+  \crdfrm{R}{\begin{bmatrix}
+    v_x \\
+    v_y \\
+    \omega
+  \end{bmatrix}} t \\
+  \crdfrm{G}{\begin{bmatrix}
+    \Delta x \\
+    \Delta y \\
+    \Delta \theta
+  \end{bmatrix}} &=
+  \begin{bmatrix}
+    \cos\theta & -\sin\theta & 0 \\
+    \sin\theta &  \cos\theta & 0 \\
+             0 &           0 & 1
+  \end{bmatrix}
+  \begin{bmatrix}
+    \frac{\sin\omega t}{\omega t} & \frac{\cos\omega t - 1}{\omega t} & 0 \\
+    \frac{1 - \cos\omega t}{\omega t} & \frac{\sin\omega t}{\omega t} & 0 \\
+    0 & 0 & 1
+  \end{bmatrix}
+  \crdfrm{R}{\begin{bmatrix}
+    v_x t \\
+    v_y t \\
+    \omega t
+  \end{bmatrix}} \\
+  \crdfrm{G}{\begin{bmatrix}
+    \Delta x \\
+    \Delta y \\
+    \Delta \theta
+  \end{bmatrix}} &=
+  \begin{bmatrix}
+    \cos\theta & -\sin\theta & 0 \\
+    \sin\theta &  \cos\theta & 0 \\
+             0 &           0 & 1
+  \end{bmatrix}
+  \crdfrm{R}{\begin{bmatrix}
+    \frac{\sin\Delta\theta}{\Delta\theta} &
+      \frac{\cos\Delta\theta - 1}{\Delta\theta} & 0 \\
+    \frac{1 - \cos\Delta\theta}{\Delta\theta} &
+      \frac{\sin\Delta\theta}{\Delta\theta} & 0 \\
+    0 & 0 & 1
+  \end{bmatrix}}
+  \crdfrm{R}{\begin{bmatrix}
+    \Delta x \\
+    \Delta y \\
+    \Delta\theta
+  \end{bmatrix}}
+\end{align*}
+
+The previous version used the current velocity and projected the model forward
+to the next timestep (into the future). As such, the prediction must be done
+after any controller calculations are performed. With the second version, the
+locally measured pose deltas can only be measured using past samples, so the
+model update must be performed before any controller calculations to advance the
+model to the current timestep.
 
 When the robot is traveling on a straight trajectory ($\omega = 0$), some
 expressions within the equation above are indeterminate. We can approximate
@@ -154,56 +249,6 @@ these with Taylor series expansions.
   \frac{1 - \cos\omega t}{\omega} &\sim \frac{t^2 \omega}{2}
 \end{align*}
 
-\begin{theorem}[Nonlinear pose estimator with constant curvature]
-  \begin{equation}
-    \prescript{G}{}{\begin{bmatrix}
-      \Delta x \\
-      \Delta y \\
-      \Delta \theta
-    \end{bmatrix}} =
-    \begin{bmatrix}
-      \cos\theta & -\sin\theta & 0 \\
-      \sin\theta &  \cos\theta & 0 \\
-               0 &           0 & 1
-    \end{bmatrix}
-    \begin{bmatrix}
-      \frac{\sin\omega t}{\omega} & \frac{\cos\omega t - 1}{\omega} & 0 \\
-      \frac{1 - \cos\omega t}{\omega} & \frac{\sin\omega t}{\omega} & 0 \\
-      0 & 0 & t
-    \end{bmatrix}
-    \prescript{R}{}{\begin{bmatrix}
-      v_x \\
-      v_y \\
-      \omega
-    \end{bmatrix}}
-    \label{eq:nonlinear_pose_estimator}
-  \end{equation}
-
-  For sufficiently small $\omega$:
-
-  \begin{align}
-    \frac{\sin\omega t}{\omega} &= t - \frac{t^3 \omega^2}{6} &
-    \frac{\cos\omega t - 1}{\omega} &= -\frac{t^2 \omega}{2} &
-    \frac{1 - \cos\omega t}{\omega} &= \frac{t^2 \omega}{2}
-  \end{align}
-
-  \begin{figurekey}
-    \begin{tabulary}{\linewidth}{LLLL}
-      $\Delta x$ & change in global pose's $x$ & $v_x$ & velocity along $x$-axis
-        in robot's coordinate frame \\
-      $\Delta y$ & change in global pose's $y$ & $v_y$ & velocity along $y$-axis
-        in robot's coordinate frame \\
-      $\Delta \theta$ & change in global pose's $\theta$ & $\omega$ & angular
-        velocity in robot's coordinate frame \\
-      $t$ & Time since last pose update & $\theta$ & starting angle in global
-        coordinate frame
-    \end{tabulary}
-  \end{figurekey}
-
-  This change in pose can be added directly to the previous pose estimate to
-  update it.
-\end{theorem}
-
 If we let $\omega = 0$, we should get the standard kinematic equations like
 $x = vt$ with a rotation applied to them.
 
@@ -216,7 +261,7 @@ $x = vt$ with a rotation applied to them.
 Now substitute these into equation (\ref{eq:nonlinear_pose_estimator}).
 
 \begin{align*}
-  \prescript{G}{}{\begin{bmatrix}
+  \crdfrm{G}{\begin{bmatrix}
     \Delta x \\
     \Delta y \\
     \Delta \theta
@@ -231,12 +276,12 @@ Now substitute these into equation (\ref{eq:nonlinear_pose_estimator}).
     0 & t & 0 \\
     0 & 0 & t
   \end{bmatrix}
-  \prescript{R}{}{\begin{bmatrix}
+  \crdfrm{R}{\begin{bmatrix}
     v_x \\
     v_y \\
     \omega
   \end{bmatrix}} \\
-  \prescript{G}{}{\begin{bmatrix}
+  \crdfrm{G}{\begin{bmatrix}
     \Delta x \\
     \Delta y \\
     \Delta \theta
@@ -260,7 +305,7 @@ Differential drive robots have $v_y = 0$ since they only move in the direction
 of the current heading, which is along the x-axis. Therefore,
 
 \begin{align*}
-  \prescript{G}{}{\begin{bmatrix}
+  \crdfrm{G}{\begin{bmatrix}
     \Delta x \\
     \Delta y \\
     \Delta \theta
@@ -275,7 +320,7 @@ of the current heading, which is along the x-axis. Therefore,
     0 \\
     \omega t
   \end{bmatrix} \\
-  \prescript{G}{}{\begin{bmatrix}
+  \crdfrm{G}{\begin{bmatrix}
     \Delta x \\
     \Delta y \\
     \Delta \theta
@@ -287,8 +332,89 @@ of the current heading, which is along the x-axis. Therefore,
   \end{bmatrix}
 \end{align*}
 
+\begin{theorem}[Nonlinear pose estimator with constant curvature]
+  \begin{equation}
+    \crdfrm{G}{\begin{bmatrix}
+      \Delta x \\
+      \Delta y \\
+      \Delta \theta
+    \end{bmatrix}} =
+    \begin{bmatrix}
+      \cos\theta & -\sin\theta & 0 \\
+      \sin\theta &  \cos\theta & 0 \\
+               0 &           0 & 1
+    \end{bmatrix}
+    \begin{bmatrix}
+      \frac{\sin\omega t}{\omega} & \frac{\cos\omega t - 1}{\omega} & 0 \\
+      \frac{1 - \cos\omega t}{\omega} & \frac{\sin\omega t}{\omega} & 0 \\
+      0 & 0 & t
+    \end{bmatrix}
+    \crdfrm{R}{\begin{bmatrix}
+      v_x \\
+      v_y \\
+      \omega
+    \end{bmatrix}}
+    \label{eq:nonlinear_pose_estimator}
+  \end{equation}
+
+  or
+
+  \begin{equation}
+    \crdfrm{G}{\begin{bmatrix}
+      \Delta x \\
+      \Delta y \\
+      \Delta \theta
+    \end{bmatrix}} =
+    \begin{bmatrix}
+      \cos\theta & -\sin\theta & 0 \\
+      \sin\theta &  \cos\theta & 0 \\
+               0 &           0 & 1
+    \end{bmatrix}
+    \crdfrm{R}{\begin{bmatrix}
+      \frac{\sin\Delta\theta}{\Delta\theta} &
+        \frac{\cos\Delta\theta - 1}{\Delta\theta} & 0 \\
+      \frac{1 - \cos\Delta\theta}{\Delta\theta} &
+        \frac{\sin\Delta\theta}{\Delta\theta} & 0 \\
+      0 & 0 & 1
+    \end{bmatrix}}
+    \crdfrm{R}{\begin{bmatrix}
+      \Delta x \\
+      \Delta y \\
+      \Delta\theta
+    \end{bmatrix}}
+  \end{equation}
+
+  where $G$ denotes global coordinate frame and $R$ denotes robot's coordinate
+  frame.
+
+  For sufficiently small $\omega$:
+
+  \begin{align}
+    \frac{\sin\omega t}{\omega} &= t - \frac{t^3 \omega^2}{6} &
+    \frac{\cos\omega t - 1}{\omega} &= -\frac{t^2 \omega}{2} &
+    \frac{1 - \cos\omega t}{\omega} &= \frac{t^2 \omega}{2} \\
+    \frac{\sin\omega t}{\omega t} &= 1 - \frac{t^2 \omega^2}{6} &
+    \frac{\cos\omega t - 1}{\omega t} &= -\frac{t \omega}{2} &
+    \frac{1 - \cos\omega t}{\omega t} &= \frac{t \omega}{2}
+  \end{align}
+
+  \begin{figurekey}
+    \begin{tabulary}{\linewidth}{LLLL}
+      $\Delta x$ & change in pose's $x$ & $v_x$ & velocity along $x$-axis \\
+      $\Delta y$ & change in pose's $y$ & $v_y$ & velocity along $y$-axis \\
+      $\Delta \theta$ & change in pose's $\theta$ & $\omega$ & angular velocity
+        \\
+      $t$ & Time since last pose update & $\theta$ & starting angle in global
+        coordinate frame
+    \end{tabulary}
+  \end{figurekey}
+
+  This change in pose can be added directly to the previous pose estimate to
+  update it.
+\end{theorem}
+
 Figure \ref{fig:ramsete_twist_odometry_error} shows the error in the global pose
-coordinates over time for the previous odometry method compared to the method
+coordinates over time for the simpler odometry method compared to the method
 using twists (uses the Ramsete controller from subsection
 \ref{subsec:ramsete_controller}).
 

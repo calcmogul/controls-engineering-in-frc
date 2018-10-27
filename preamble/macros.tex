@@ -47,6 +47,10 @@
 \newcommand{\mtx}[1] {\mathbf{#1}}
 \newcommand{\meanmtx}[1] {\overline{\mathbf{#1}}}
 
+% #1: coordinate frame within which expression is represented (e.g., R)
+% #2: expression
+\newcommand{\crdfrm}[2] {\prescript{#1}{}{#2}}
+
 % Set up snippet environment
 \newcounter{snippet}[chapter]
 \renewcommand{\thesnippet}{\thechapter.\arabic{snippet}}
