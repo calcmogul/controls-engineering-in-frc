@@ -225,8 +225,8 @@ def main():
 
         # pose_desired, v_desired, omega_desired, pose, b, zeta
         vref, omegaref = ramsete(desired_pose, vprof[i], 0, pose, b, zeta)
-        drivetrain.r = np.matrix([[vref], [omegaref]])
-        drivetrain.update()
+        next_r = np.matrix([[vref], [omegaref]])
+        drivetrain.update(next_r)
 
         # Log data for plots
         vref_rec.append(vref)

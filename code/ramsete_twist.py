@@ -244,8 +244,8 @@ def main():
         # pose_desired, v_desired, omega_desired, pose, b, zeta
         vref, omegaref = ramsete(desired_pose, vprof[i], 0, pose, b, zeta)
         vl, vr = get_diff_vels(vref, omegaref, drivetrain.rb * 2.0)
-        drivetrain.r = np.matrix([[vl], [vr]])
-        drivetrain.update()
+        next_r = np.matrix([[vl], [vr]])
+        drivetrain.update(next_r)
         vc = (drivetrain.x[0, 0] + drivetrain.x[1, 0]) / 2.0
         omega = (drivetrain.x[1, 0] - drivetrain.x[0, 0]) / (2.0 * drivetrain.rb)
 
