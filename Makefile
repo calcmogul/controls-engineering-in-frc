@@ -12,6 +12,9 @@ TEX := $(call rwildcard,./,*.tex)
 BIB := $(wildcard *.bib)
 FIGS := $(wildcard figs/*)
 
+CSV := $(wildcard code/*.csv)
+CSV := $(addprefix build/,$(CSV))
+
 ROOT := $(shell pwd)
 
 .PHONY: all
@@ -43,18 +46,21 @@ build/commit-hash.txt: .git/COMMIT_EDITMSG .git/HEAD
 
 # Runs if frccontrol directory doesn't exist yet to perform compilation prep
 build/frccontrol:
-	mkdir -p build/code && cp code/kalman_robot.csv build/code
-	rm -rf build/frccontrol && git clone git://github.com/calcmogul/frccontrol build/frccontrol --depth=1
+	git clone git://github.com/calcmogul/frccontrol build/frccontrol
 	./generate_frccontrol_plots.py
 
-$(STAMP): build/%.stamp: %.py | build/frccontrol
+$(CSV): build/%.csv: %.csv
+	@mkdir -p $(@D)
+	cp $< $@
+
+$(STAMP): build/%.stamp: %.py $(CSV) | build/frccontrol
 	@mkdir -p $(@D)
 	cd $(@D) && $(ROOT)/$< --noninteractive
 	touch $@
 
 .PHONY: clean
 clean:
-	rm -rf build *.aux *.bbl *.bcf *.blg *.cpp *.fdb_latexmk *.fls *.glg *.glo *.gls *.h *.idx *.ilg *.ind *.ist *.lof *.log *.los *.lot *.out *.toc *.pdf *.ptc *.svg *.xdv *.xml
+	rm -rf build *.aux *.bbl *.bcf *.blg *.fdb_latexmk *.fls *.glg *.glo *.gls *.idx *.ilg *.ind *.ist *.lof *.log *.los *.lot *.out *.toc *.pdf *.ptc *.xdv *.xml
 
 .PHONY: upload
 upload: ebook

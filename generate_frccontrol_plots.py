@@ -20,11 +20,11 @@ def run(name):
             ]
         )
 
-os.chdir("build")
+os.chdir("build/frccontrol/examples")
 
 files = [
     os.path.join(dp, f)
-    for dp, dn, fn in os.walk("frccontrol/examples")
+    for dp, dn, fn in os.walk(".")
     for f in fn
     if f.endswith(".py")
 ]
