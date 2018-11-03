@@ -18,11 +18,9 @@ import numpy as np
 
 def drivetrain(motor, num_motors, m, r, rb, J, Gl, Gr):
     """Returns the state-space model for a drivetrain.
-
-    States: [[velocity], [angular velocity]]
+    States: [[left velocity], [right velocity]]
     Inputs: [[left voltage], [right voltage]]
     Outputs: [[left velocity], [right velocity]]
-
     Keyword arguments:
     motor -- instance of DcBrushedMotor
     num_motors -- number of motors driving the mechanism
@@ -32,7 +30,6 @@ def drivetrain(motor, num_motors, m, r, rb, J, Gl, Gr):
     J -- moment of inertia of the drivetrain in kg-m^2
     Gl -- gear ratio of left side of drivetrain
     Gr -- gear ratio of right side of drivetrain
-
     Returns:
     StateSpace instance containing continuous model
     """
@@ -43,17 +40,29 @@ def drivetrain(motor, num_motors, m, r, rb, J, Gl, Gr):
     C3 = -Gr ** 2 * motor.Kt / (motor.Kv * motor.R * r ** 2)
     C4 = Gr * motor.Kt / (motor.R * r)
     # fmt: off
-    A = np.matrix([[1 / m * (C1 + C3), rb / m * (-C1 + C3)],
-                   [rb / J * (C1 - C3), rb ** 2 / J * (-C1 - C3)]])
-    B = np.matrix([[1 / m * C2, 1 / m * C4],
-                   [rb / J * C2, -rb / J * C4]])
-    C = np.matrix([[1, -rb],
-                   [1, rb]])
+    A = np.matrix([[(1 / m + rb**2 / J) * C1, (1 / m - rb**2 / J) * C3],
+                   [(1 / m - rb**2 / J) * C1, (1 / m + rb**2 / J) * C3]])
+    B = np.matrix([[(1 / m + rb**2 / J) * C2, (1 / m - rb**2 / J) * C4],
+                   [(1 / m - rb**2 / J) * C2, (1 / m + rb**2 / J) * C4]])
+    C = np.matrix([[1, 0],
+                   [0, 1]])
     D = np.matrix([[0, 0],
                    [0, 0]])
     # fmt: on
 
     return cnt.ss(A, B, C, D)
+
+
+def get_continuous_error(error):
+    error = math.fmod(error, 2 * math.pi)
+
+    if abs(error) > math.pi:
+        if error > 0:
+            return error - 2 * math.pi
+        else:
+            return error + 2 * math.pi
+
+    return error
 
 
 class Pose2d:
@@ -63,7 +72,11 @@ class Pose2d:
         self.theta = theta
 
     def __sub__(self, other):
-        return Pose2d(self.x - other.x, self.y - other.y, self.theta - other.theta)
+        return Pose2d(
+            self.x - other.x,
+            self.y - other.y,
+            get_continuous_error(self.theta - other.theta),
+        )
 
     def rotate(self, theta):
         """Rotate the pose counterclockwise by the given angle.
@@ -88,21 +101,31 @@ def ramsete(pose_desired, v_desired, omega_desired, pose, b, zeta):
     return v, omega
 
 
+def get_diff_vels(v, omega, d):
+    """Returns left and right wheel velocities given a central velocity and
+    turning rate.
+    Keyword arguments:
+    v -- center velocity
+    omega -- center turning rate
+    d -- trackwidth
+    """
+    return v - omega * d / 2.0, v + omega * d / 2.0
+
+
 class Drivetrain(frccnt.System):
     def __init__(self, dt):
         """Drivetrain subsystem.
-
         Keyword arguments:
         dt -- time between model/controller updates
         """
-        state_labels = [("Velocity", "m/s"), ("Angular velocity", "rad/s")]
+        state_labels = [("Left velocity", "m/s"), ("Right velocity", "m/s")]
         u_labels = [("Left voltage", "V"), ("Right voltage", "V")]
         self.set_plot_labels(state_labels, u_labels)
 
         self.in_low_gear = False
 
         # Number of motors per side
-        self.num_motors = 2.0
+        self.num_motors = 3.0
 
         # High and low gear ratios of drivetrain
         Glow = 60.0 / 11.0
@@ -143,72 +166,69 @@ class Drivetrain(frccnt.System):
             q_vel = 1.0
         else:
             q_vel = 0.95
-        q_angular = 1.0
 
-        q = [q_vel, q_angular]
+        q = [q_vel, q_vel]
         r = [12.0, 12.0]
         self.design_dlqr_controller(q, r)
 
         qff_vel = 0.01
-        qff_angular = 0.01
         self.design_two_state_feedforward([qff_vel, qff_vel], [12, 12])
 
         q_vel = 1.0
-        q_angular = 1.0
         r_vel = 0.01
-        self.design_kalman_filter([q_vel, q_angular], [r_vel, r_vel])
+        self.design_kalman_filter([q_vel, q_vel], [r_vel, r_vel])
 
         print("ctrb cond =", np.linalg.cond(cnt.ctrb(self.sysd.A, self.sysd.B)))
 
 
 def main():
-    dt = 0.00505
+    dt = 0.02
     drivetrain = Drivetrain(dt)
 
-    t, xprof, vprof, aprof = frccnt.generate_s_curve_profile(
-        max_v=4.0, max_a=3.5, time_to_max_a=1.0, dt=dt, goal=10.0
-    )
+    import csv
 
-    # Generate references for LQR
-    refs = []
-    for i in range(len(t)):
-        r = np.matrix([[vprof[i]], [0]])
-        refs.append(r)
+    t = []
+    xprof = []
+    yprof = []
+    thetaprof = []
+    vprof = []
+    omegaprof = []
+    current_t = 0
 
-    # Run LQR
-    state_rec, ref_rec, u_rec = drivetrain.generate_time_responses(t, refs)
-    plt.figure(1)
-    subplot_max = drivetrain.sysd.states + drivetrain.sysd.inputs
-    for i in range(drivetrain.sysd.states):
-        plt.subplot(subplot_max, 1, i + 1)
-        plt.ylabel(drivetrain.state_labels[i])
-        if i == 0:
-            plt.title("Time-domain responses")
-        if i == 1:
-            plt.ylim([-3, 3])
-        plt.plot(t, drivetrain.extract_row(state_rec, i), label="Estimated state")
-        plt.plot(t, drivetrain.extract_row(ref_rec, i), label="Reference")
-        plt.legend()
+    with open("ramsete_traj.csv", "r") as trajectory_file:
+        reader = csv.reader(trajectory_file, delimiter=",")
+        trajectory_file.readline()
+        for row in reader:
+            current_t += float(row[0])
+            t.append(current_t)
+            xprof.append(float(row[1]))
+            yprof.append(float(row[2]))
+            thetaprof.append(float(row[7]))
+            vprof.append(float(row[4]))
 
-    for i in range(drivetrain.sysd.inputs):
-        plt.subplot(subplot_max, 1, drivetrain.sysd.states + i + 1)
-        plt.ylabel(drivetrain.u_labels[i])
-        plt.plot(t, drivetrain.extract_row(u_rec, i), label="Control effort")
-        plt.legend()
-    plt.xlabel("Time (s)")
-    if "--noninteractive" in sys.argv:
-        latexutils.savefig("ramsete_coupled_vel_lqr_profile")
+            if len(thetaprof) > 1:
+                if thetaprof[-1] > np.pi:
+                    heading2 = 2.0 * np.pi - thetaprof[-1]
+                else:
+                    heading2 = thetaprof[-1]
+                if thetaprof[-2] > np.pi:
+                    heading1 = 2.0 * np.pi - thetaprof[-2]
+                else:
+                    heading1 = thetaprof[-2]
+                omegaprof.append((heading2 - heading1) / float(row[0]))
+            else:
+                omegaprof.append(0)
 
     # Initial robot pose
-    pose = Pose2d(2, 0, np.pi / 2.0)
+    pose = Pose2d(xprof[0] + 2, yprof[0], 0)
     desired_pose = Pose2d()
 
     # Ramsete tuning constants
     b = 2
     zeta = 0.7
 
-    vref = float("inf")
-    omegaref = float("inf")
+    vl = float("inf")
+    vr = float("inf")
 
     x_rec = []
     y_rec = []
@@ -219,28 +239,21 @@ def main():
     ul_rec = []
     ur_rec = []
 
-    # Log initial data for plots
-    vref_rec.append(0)
-    omegaref_rec.append(0)
-    x_rec.append(pose.x)
-    y_rec.append(pose.y)
-    ul_rec.append(drivetrain.u[0, 0])
-    ur_rec.append(drivetrain.u[1, 0])
-    v_rec.append(0)
-    omega_rec.append(0)
-
     # Run Ramsete
     drivetrain.reset()
     i = 0
     while i < len(t) - 1:
-        desired_pose.x = 0
-        desired_pose.y = xprof[i]
-        desired_pose.theta = np.pi / 2.0
+        desired_pose.x = xprof[i]
+        desired_pose.y = yprof[i]
+        desired_pose.theta = thetaprof[i]
 
         # pose_desired, v_desired, omega_desired, pose, b, zeta
-        vref, omegaref = ramsete(desired_pose, vprof[i], 0, pose, b, zeta)
-        next_r = np.matrix([[vref], [omegaref]])
+        vref, omegaref = ramsete(desired_pose, vprof[i], omegaprof[i], pose, b, zeta)
+        vl, vr = get_diff_vels(vref, omegaref, drivetrain.rb * 2.0)
+        next_r = np.matrix([[vl], [vr]])
         drivetrain.update(next_r)
+        vc = (drivetrain.x[0, 0] + drivetrain.x[1, 0]) / 2.0
+        omega = (drivetrain.x[1, 0] - drivetrain.x[0, 0]) / (2.0 * drivetrain.rb)
 
         # Log data for plots
         vref_rec.append(vref)
@@ -249,19 +262,19 @@ def main():
         y_rec.append(pose.y)
         ul_rec.append(drivetrain.u[0, 0])
         ur_rec.append(drivetrain.u[1, 0])
-        v_rec.append(drivetrain.x[0, 0])
-        omega_rec.append(drivetrain.x[1, 0])
+        v_rec.append(vc)
+        omega_rec.append(omega)
 
         # Update nonlinear observer
-        pose.x += drivetrain.x[0, 0] * math.cos(pose.theta) * dt
-        pose.y += drivetrain.x[0, 0] * math.sin(pose.theta) * dt
-        pose.theta += drivetrain.x[1, 0] * dt
+        pose.x += vc * math.cos(pose.theta) * dt
+        pose.y += vc * math.sin(pose.theta) * dt
+        pose.theta += omega * dt
 
         if i < len(t) - 1:
             i += 1
 
     plt.figure(2)
-    plt.plot([0] * len(t), xprof, label="Reference trajectory")
+    plt.plot(xprof, yprof, label="Reference trajectory")
     plt.plot(x_rec, y_rec, label="Ramsete controller")
     plt.xlabel("x (m)")
     plt.ylabel("y (m)")
@@ -273,7 +286,9 @@ def main():
     plt.xlim([-width / 2, width / 2])
 
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("ramsete_coupled_response")
+        latexutils.savefig("ramsete_traj_response")
+
+    t = t[:-1]
 
     plt.figure(3)
     num_plots = 4
@@ -299,7 +314,7 @@ def main():
     plt.xlabel("Time (s)")
 
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("ramsete_coupled_vel_lqr_response")
+        latexutils.savefig("ramsete_traj_vel_lqr_response")
     else:
         plt.show()
 

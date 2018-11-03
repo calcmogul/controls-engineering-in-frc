@@ -68,6 +68,17 @@ class Pose2d:
     def __sub__(self, other):
         return Pose2d(self.x - other.x, self.y - other.y, self.theta - other.theta)
 
+    def rotate(self, theta):
+        """Rotate the pose counterclockwise by the given angle.
+
+        Keyword arguments:
+        theta -- Angle in radians
+        """
+        x = math.cos(theta) * self.x - math.sin(theta) * self.y
+        y = math.sin(theta) * self.x + math.cos(theta) * self.y
+        self.x = x
+        self.y = y
+
     def apply(self, twist, dt):
         """Apply the given twist to update the pose.
 
@@ -104,19 +115,12 @@ class Twist2d:
 
 def ramsete(pose_desired, v_desired, omega_desired, pose, b, zeta):
     e = pose_desired - pose
-    k = 2 * zeta * math.sqrt(omega_desired ** 2 + b * v_desired ** 2)
+    e.rotate(-pose.theta)
 
-    v = v_desired * math.cos(e.theta) + k * (
-        math.cos(pose.theta) * e.x + math.sin(pose.theta) * e.y
-    )
-    omega = (
-        omega_desired
-        + b
-        * v_desired
-        * np.sinc(e.theta)
-        * (e.y * math.cos(pose.theta) - math.sin(pose.theta) * e.x)
-        + k * e.theta
-    )
+    k = 2 * zeta * math.sqrt(omega_desired ** 2 + b * v_desired ** 2)
+    v = v_desired * math.cos(e.theta) + k * e.x
+    omega = omega_desired + k * e.theta + b * v_desired * np.sinc(e.theta) * e.y
+
     return v, omega
 
 
@@ -233,10 +237,22 @@ def main():
     ul_rec = []
     ur_rec = []
 
+    # Log initial data for plots
+    vref_rec.append(0)
+    omegaref_rec.append(0)
+    x_rec.append(pose.x)
+    y_rec.append(pose.y)
+    twist_x_rec.append(twist_pose.x)
+    twist_y_rec.append(twist_pose.y)
+    ul_rec.append(drivetrain.u[0, 0])
+    ur_rec.append(drivetrain.u[1, 0])
+    v_rec.append(0)
+    omega_rec.append(0)
+
     # Run Ramsete
     drivetrain.reset()
     i = 0
-    while i != len(t) - 1 or vl != 0 or vr != 0:
+    while i < len(t) - 1:
         desired_pose.x = 0
         desired_pose.y = xprof[i]
         desired_pose.theta = np.pi / 2.0
