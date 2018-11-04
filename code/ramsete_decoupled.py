@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+# Runs Ramsete simulation on decoupled model with right and left wheel
+# velocities as states
+
 # Avoid needing display if plots aren't being shown
 import sys
 

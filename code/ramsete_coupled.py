@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+# Runs Ramsete simulation on coupled model with v and omega as states
+
 # Avoid needing display if plots aren't being shown
 import sys
 

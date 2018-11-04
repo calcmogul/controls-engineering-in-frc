@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+# Runs Ramsete simulation on decoupled model with nonlinear trajectory
+
 # Avoid needing display if plots aren't being shown
 import sys
 
