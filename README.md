@@ -59,13 +59,13 @@ To compile the book, the following are required.
   * Python Control (to generate plots and state-space results)
     * Installed automatically as a dependency of frccontrol
 * Inkscape (to convert SVGs to PDF)
+* ImageMagick (to downsample figures)
 
 The following are optional because the book can compile without them.
 
 * Optional python packages
   * slycot (to generate pole-zero maps for certain state-space model examples)
   * black (to format Python source code)
-* ghostscript (to reduce size of final PDF for publishing)
 
 ## Compiling the book
 
