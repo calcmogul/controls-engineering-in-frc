@@ -41,7 +41,7 @@ $(NAME)-printer.pdf: $(NAME).pdf
 $(NAME)-prepress.pdf: $(NAME).pdf
 	gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/prepress -dNOPAUSE -dQUIET -dBATCH -sOutputFile=$(NAME)-prepress.pdf $(NAME).pdf
 
-build/commit-hash.txt: .git/COMMIT_EDITMSG .git/HEAD
+build/commit-hash.txt: .git/refs/heads/master .git/HEAD
 	git rev-parse --short HEAD > build/commit-hash.txt
 
 # Runs if frccontrol directory doesn't exist yet to perform compilation prep
