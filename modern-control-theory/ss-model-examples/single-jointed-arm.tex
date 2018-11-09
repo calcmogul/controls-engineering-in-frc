@@ -1,0 +1,145 @@
+\section{Single-jointed arm}
+
+\subsection{Continuous state-space model}
+\index{FRC models!single-jointed arm equations}
+
+The position and velocity of the elevator can be written as
+
+\begin{align}
+  \dot{\theta}_{arm} &= \omega_{arm} \label{eq:arm_cont_ss_pos} \\
+  \dot{\omega}_{arm} &= \dot{\omega}_{arm} \label{eq:arm_cont_ss_vel}
+\end{align}
+
+By equation (\ref{eq:dot_omega_arm})
+
+\begin{equation*}
+  \dot{\omega}_{arm} = -\frac{G^2 K_t}{K_v RJ} \omega_{arm} + \frac{G K_t}{RJ} V
+\end{equation*}
+
+\begin{theorem}[Single-jointed arm state-space model]
+  \begin{align*}
+    \dot{\mtx{x}} &= \mtx{A} \mtx{x} + \mtx{B} \mtx{u} \\
+    \mtx{y} &= \mtx{C} \mtx{x} + \mtx{D} \mtx{u}
+  \end{align*}
+  \begin{equation*}
+    \begin{array}{ccc}
+      \mtx{x} =
+      \begin{bmatrix}
+        \theta_{arm} \\
+        \omega_{arm}
+      \end{bmatrix} &
+      \mtx{y} = \theta_{arm} &
+      \mtx{u} = V
+    \end{array}
+  \end{equation*}
+  \begin{equation}
+    \begin{array}{cccc}
+      \mtx{A} =
+      \begin{bmatrix}
+        0 & 1 \\
+        0 & -\frac{G^2 K_t}{K_v RJ}
+      \end{bmatrix} &
+      \mtx{B} =
+      \begin{bmatrix}
+        0 \\
+        \frac{G K_t}{RJ}
+      \end{bmatrix} &
+      \mtx{C} =
+      \begin{bmatrix}
+        1 & 0
+      \end{bmatrix} &
+      \mtx{D} = 0
+    \end{array}
+  \end{equation}
+\end{theorem}
+
+\subsection{Model augmentation}
+
+As per subsection \ref{subsec:u_error_estimation}, we will now augment the
+\gls{model} so a $u_{error}$ term is added to the \gls{control input}.
+
+The \gls{plant} and \gls{observer} augmentations should be performed before the
+\gls{model} is \glslink{discretization}{discretized}. After the \gls{controller}
+gain is computed with the unaugmented discrete \gls{model}, the controller may
+be augmented. Therefore, the \gls{plant} and \gls{observer} augmentations assume
+a continuous \gls{model} and the \gls{controller} augmentation assumes a
+discrete \gls{controller}.
+
+\begin{equation*}
+  \begin{array}{ccc}
+    \mtx{x}_{aug} =
+    \begin{bmatrix}
+      \mtx{x} \\
+      u_{error}
+    \end{bmatrix} &
+    \mtx{y} = \theta_{arm} &
+    \mtx{u} = V
+  \end{array}
+\end{equation*}
+
+\begin{equation}
+  \begin{array}{cccc}
+    \mtx{A}_{aug} =
+    \begin{bmatrix}
+      \mtx{A} & \mtx{B} \\
+      \mtx{0}_{1 \times 2} & 0
+    \end{bmatrix} &
+    \mtx{B}_{aug} =
+    \begin{bmatrix}
+      \mtx{B} \\
+      0
+    \end{bmatrix} &
+    \mtx{C}_{aug} =
+    \begin{bmatrix}
+      \mtx{C} & 0
+    \end{bmatrix} &
+    \mtx{D}_{aug} = \mtx{D}
+  \end{array}
+\end{equation}
+
+\begin{equation}
+  \begin{array}{cc}
+    \mtx{K}_{aug} = \begin{bmatrix}
+      \mtx{K} & 1
+    \end{bmatrix} &
+    \mtx{r}_{aug} = \begin{bmatrix}
+      \mtx{r} \\
+      0
+    \end{bmatrix}
+  \end{array}
+\end{equation}
+
+This will compensate for unmodeled dynamics such as gravity or other external
+loading from lifted objects. However, if only gravity compensation is desired,
+a feedforward of the form $u_{ff} = V_{gravity} \cos\theta$ is preferred where
+$V_{gravity}$ is the voltage required to hold the arm level with the ground and
+$\theta$ is the angle of the arm with the ground.
+
+\subsection{Simulation}
+
+Python Control will be used to \glslink{discretization}{discretize} the
+\gls{model} and simulate it. One of the frccontrol
+examples\footnote{\url{https://github.com/calcmogul/frccontrol/blob/master/examples/single_jointed_arm.py}}
+creates and tests a controller for it.
+
+Figure \ref{fig:single_jointed_arm_pzmaps} shows the pole-zero maps for the
+open-loop \gls{system}, closed-loop \gls{system}, and \gls{observer}. Figure
+\ref{fig:single_jointed_arm_response} shows the \gls{system} response with them.
+
+\begin{svg}{build/frccontrol/examples/single_jointed_arm_pzmaps}
+  \caption{Single-jointed arm pole-zero maps}
+  \label{fig:single_jointed_arm_pzmaps}
+\end{svg}
+
+\begin{svg}{build/frccontrol/examples/single_jointed_arm_response}
+  \caption{Single-jointed arm response}
+  \label{fig:single_jointed_arm_response}
+\end{svg}
+
+\subsection{Implementation}
+
+The script linked above also generates two files: SingleJointedArmCoeffs.h and
+SingleJointedArmCoeffs.cpp. These can be used with the WPILib StateSpacePlant,
+StateSpaceController, and StateSpaceObserver classes in C++ and Java. A C++
+implementation of this single-jointed arm controller is available
+online\footnote{\url{https://github.com/calcmogul/allwpilib/tree/state-space/wpilibcExamples/src/main/cpp/examples/StateSpaceSingleJointedArm}}.

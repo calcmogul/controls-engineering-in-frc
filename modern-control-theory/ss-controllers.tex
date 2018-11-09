@@ -1,6 +1,6 @@
-\chapterimage{intro-to-modern-control.jpg}{OPERS field at UCSC}
+\chapterimage{ss-controllers.jpg}{Night sky above Dufour Street in Santa Cruz, CA}
 
-\chapter{Introduction to modern control}
+\chapter{State-space controllers}
 
 \begin{remark}
   Chapters from here on use the \texttt{frccontrol} Python package to
@@ -8,15 +8,28 @@
   appendix \ref{ch:installing_python_packages} for how to install it.
 \end{remark}
 
+When we want to command a \gls{system} to a set of \glspl{state}, we design a
+controller with certain \glspl{control law} to do it. PID controllers use the
+system \glspl{output} with proportional, integral, and derivative
+\glspl{control law}. In state-space, we also have knowledge of the system
+\glspl{state} so we can do better.
+
 Modern control theory uses state-space representation to model and control
 systems. State-space representation models \glspl{system} as a set of
 \gls{state}, \gls{input}, and \gls{output} variables related by first-order
 differential equations that describe how the \gls{system}'s \gls{state} changes
 over time given the current \glspl{state} and \glspl{input}.
 
-\renewcommand*{\chapterpath}{\partpath/intro-to-modern-control}
+\renewcommand*{\chapterpath}{\partpath/ss-controllers}
 \input{\chapterpath/from-pid-control-to-model-based-control}
 \input{\chapterpath/what-is-a-dynamical-system}
 \input{\chapterpath/ss-notation}
 \input{\chapterpath/controllability}
 \input{\chapterpath/observability}
+\input{\chapterpath/closed-loop-controller}
+\input{\chapterpath/pole-placement}
+\input{\chapterpath/lqr}
+\input{\chapterpath/case-studies-of-controller-design-methods}
+\input{\chapterpath/model-augmentation}
+\input{\chapterpath/feedforwards}
+\input{\chapterpath/integral-control}

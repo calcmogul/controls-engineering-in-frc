@@ -1,15 +1,6 @@
-\chapterimage{ss-model-examples.jpg}{Fake plant in hotel lobby in Ventura, CA}
+\chapterimage{kinematics-and-dynamics.jpg}{Hills by freeway between Santa Maria and Ventura}
 
-\chapter{State-space model examples}
-
-Up to now, we've just been teaching what tools are available. Now, we'll go into
-specifics on how to apply them and provide advice on certain applications.
-
-The \gls{model} examples are intended to walk the reader through the
-implementation steps described in section \ref{sec:implementation_steps}. The
-code shown in each example can be obtained from frccontrol's Git repository at
-\url{https://github.com/calcmogul/frccontrol/tree/master/examples}. See appendix
-\ref{ch:installing_python_packages} for setup instructions.
+\chapter{Model examples}
 
 The \glspl{model} derived here should cover most types of motion seen on an FRC
 robot. Furthermore, they can be easily tweaked to describe many types of
@@ -26,9 +17,9 @@ mode except where the applied voltage is zero. In brake mode, the motor leads
 are shorted together to prevent movement. In coast mode, the motor leads are an
 open circuit.
 
-\renewcommand*{\chapterpath}{\partpath/ss-model-examples}
-\input{\chapterpath/implementation-steps}
+\renewcommand*{\chapterpath}{\partpath/model-examples}
 \input{\chapterpath/dc-brushed-motor}
+\input{\chapterpath/pendulum}
 \input{\chapterpath/elevator}
 \input{\chapterpath/flywheel}
 \input{\chapterpath/drivetrain}

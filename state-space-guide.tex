@@ -96,27 +96,34 @@
 \input{\partpath/notes-to-the-reader}
 \input{\partpath/introduction-to-control-theory}
 
+\part{Kinematics and dynamics}
+\renewcommand*{\partpath}{kinematics-and-dynamics}
+\input{\partpath/calculus}
+\input{\partpath/dynamics}
+\input{\partpath/model-examples}
+
 \part{Classical control theory}
 \renewcommand*{\partpath}{classical-control-theory}
 \input{\partpath/control-system-basics}
 \input{\partpath/pid-controllers}
 \input{\partpath/laplace-domain-analysis}
 
-\part{Modern control theory notation}
-\renewcommand*{\partpath}{modern-control-theory-notation}
+\part{Modern control theory}
+\renewcommand*{\partpath}{modern-control-theory}
 \input{\partpath/linear-algebra}
-\input{\partpath/intro-to-modern-control}
-
-\part{Linear control theory}
-\renewcommand*{\partpath}{linear-control-theory}
 \input{\partpath/ss-controllers}
 \input{\partpath/digital-control}
 \input{\partpath/ss-model-examples}
+\input{\partpath/nonlinear-control}
+
+\part{Estimation and localization}
+\renewcommand*{\partpath}{estimation-and-localization}
+\input{\partpath/ss-observers}
 \input{\partpath/stochastic-control-theory}
 
-\part{Nonlinear control theory}
-\renewcommand*{\partpath}{nonlinear-control-theory}
-\input{\partpath/nonlinear-control}
+\part{Motion planning}
+\renewcommand*{\partpath}{motion-planning}
+\input{\partpath/motion-profiles}
 
 \part{Appendices}
 \renewcommand{\chaptermark}[1]{\markboth{\sffamily\normalsize\bfseries\appendixname\ \thechapter.\ #1}{}}
@@ -125,7 +132,6 @@
 \input{\partpath/simplifying-block-diagrams}
 \input{\partpath/installing-python-packages}
 \input{\partpath/ss-canonical-forms}
-\input{\partpath/calculus-methods}
 \input{\partpath/derivations}
 
 \renewcommand{\chaptermark}[1]{\markboth{\sffamily\normalsize\bfseries #1}{}}

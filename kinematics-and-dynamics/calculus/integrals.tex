@@ -1,0 +1,56 @@
+\section{Integrals}
+
+The integral is the inverse operation of the derivative and calculates the area
+under a curve. Here is an example of one based on table
+\ref{tab:common_derivatives_and_integrals}.
+
+\begin{align*}
+  \int e^{at} \,dt \\
+  \frac{1}{a}e^{at} + C
+\end{align*}
+
+The arbitrary constant $C$ is needed because when you take a derivative,
+constants are discarded because vertical offsets don't affect the slope. When
+performing the inverse operation, we don't have enough information to determine
+the constant.
+
+However, we can provide bounds for the integration.
+
+\begin{align*}
+  \int_0^t e^{at} \,dt \\
+  \left.\left(\frac{1}{a}e^{at} + C\right)\right\vert_0^t \\
+  \left(\frac{1}{a}e^{at} + C\right) -
+    \left(\frac{1}{a}e^{a \cdot 0} + C\right) \\
+  \left(\frac{1}{a}e^{at} + C\right) - \left(\frac{1}{a} + C\right) \\
+  \frac{1}{a}e^{at} + C - \frac{1}{a} - C \\
+  \frac{1}{a}e^{at} - \frac{1}{a}
+\end{align*}
+
+When we do this, the constant cancels out.
+
+\subsection{Change of variables}
+\label{subsec:calculus_change_of_vars}
+
+Change of variables substitutes an expression with a single variable to make the
+calculation more straightforward. Here's an example of integration which
+utilizes it.
+
+\begin{equation*}
+  \int \cos\omega t \,dt
+\end{equation*}
+
+Let $u = \omega t$.
+
+\begin{align*}
+  du &= \omega \,dt \\
+  dt &= \frac{1}{\omega} \,du
+\end{align*}
+
+Now substitute the expressions for $u$ and $dt$ in.
+
+\begin{align*}
+  \int \cos u \,\frac{1}{\omega} \,du \\
+  \frac{1}{\omega} \int \cos u \,du \\
+  \frac{1}{\omega} \sin u + C \\
+  \frac{1}{\omega} \sin\omega t + C
+\end{align*}

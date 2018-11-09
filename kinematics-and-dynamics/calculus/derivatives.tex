@@ -1,0 +1,58 @@
+\section{Derivatives}
+
+Derivatives are expressions for the slope of a curve at arbitrary points. Common
+notations for this operation on a function like $f(x)$ include
+
+\begin{booktable}
+  \begin{tabular}{|cc|}
+    \hline
+    \rowcolor{headingbg}
+    \multicolumn{1}{|c}{\textbf{Leibniz notation}} &
+      \multicolumn{1}{c|}{\textbf{Lagrange notation}} \\
+    \hline
+    $\frac{d}{dx} f(x)$ & $f'(x)$ \\
+    $\frac{d^2}{dx^2} f(x)$ & $f''(x)$ \\
+    $\frac{d^3}{dx^3} f(x)$ & $f'''(x)$ \\
+    $\frac{d^4}{dx^4} f(x)$ & $f^{(4)}(x)$ \\
+    $\frac{d^n}{dx^n} f(x)$ & $f^{(n)}(x)$ \\
+    \hline
+  \end{tabular}
+  \caption{Notation for derivatives of $f(x)$}
+  \label{tab:derivative_notation}
+\end{booktable}
+
+Lagrange notation is usually voiced as ``f prime of x", ``f double-prime of x",
+etc.
+
+\subsection{Power rule}
+
+\begin{align*}
+  f(x) &= x^n \\
+  f'(x) &= nx^{n - 1}
+\end{align*}
+
+\subsection{Product rule}
+
+This is for taking the derivative of the product of two expressions.
+
+\begin{align*}
+  h(x) &= f(x)g(x) \\
+  h'(x) &= f'(x)g(x) + f(x)g'(x)
+\end{align*}
+
+\subsection{Chain rule}
+
+This is for taking the derivative of nested expressions.
+
+\begin{align*}
+  h(x) &= f(g(x)) \\
+  h'(x) &= f'(g(x)) \cdot g'(x)
+\end{align*}
+
+For example
+
+\begin{align*}
+  h(x) &= \left(3x + 2\right)^5 \\
+  h'(x) &= 5\left(3x + 2\right)^4 \cdot \left(3\right) \\
+  h'(x) &= 15\left(3x + 2\right)^4
+\end{align*}

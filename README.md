@@ -114,19 +114,12 @@ More examples of concepts should help slow the pace down. I should read through
 this book as if I was explaining it to my veteran software students and
 anticipate gaps in their understanding.
 
-Reorganize content. Four aspects of robot control are:
-
-1) Derive a model (kinematics)
-2) Control the model (control theory)
-3) Determine where the model is (localization)
-  * Observers serve this role
-4) Plan where the model is going to go (path finding, motion profiles,
-   trajectory generation)
-
 There doesn't need to be a delineation between linear and nonlinear control
 since the concepts of nonlinear apply often and it isn't that much of a leap (if
 Lyapunov isn't pulled into it). Incorporate linearization etc. into the control
 and estimation chapters.
+
+Finish chapters on calculus and dynamics and part on motion planning.
 
 Give matrix \mtx{0} and \mtx{I} in equations dimension subscripts
 * m states, n inputs, p outputs

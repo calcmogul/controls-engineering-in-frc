@@ -1,4 +1,6 @@
-\section{Motion profiles}
+\chapterimage{motion-planning.jpg}{OPERS field at UCSC}
+
+\chapter{Motion profiles}
 \index{Motion profiles}
 
 If smooth, predictable motion of a \gls{system} over time is desired, it's best
@@ -54,7 +56,7 @@ nonacceleration; the trapezoidal profile has instantaneous transitions between
 these phases. This can be seen in the acceleration graphs of the corresponding
 velocity profiles for these two profile types.
 
-\subsection{Jerk}
+\section{Jerk}
 
 The motion characteristic that defines the change in acceleration, or
 transitional period, is known as "jerk". Jerk is defined as the rate of change
@@ -76,7 +78,7 @@ energy is absorbed in the system mechanics, it may cause an increase in
 \gls{settling time} or reduced accuracy if the vibration frequency matches
 resonances in the mechanical system.
 
-\subsection{Profile selection}
+\section{Profile selection}
 
 Since trapezoidal profiles spend their time at full acceleration or full
 deceleration, they are, from the standpoint of profile execution, faster than
@@ -109,7 +111,7 @@ Another consideration is whether that ``S" segment will actually lead to
 smoother control of the \gls{system}. If the high frequency dynamics at play are
 negligible, one can use the simpler trapezoidal profile.
 
-\subsection{Profile equations}
+\section{Profile equations}
 
 The trapezoidal profile uses the following equations.
 
@@ -136,7 +138,7 @@ profile phases. The derivations for a trapezoid profile are in appendix
 \ref{sec:deriv_trapezoid_profile} and the derivations for an S-curve profile are
 in appendix \ref{sec:deriv_s-curve_profile}.
 
-\subsection{Other profile types}
+\section{Other profile types}
 
 The ultimate goal of any profile is to match the profile's motion
 characteristics to the desired application. Trapezoidal and S-curve profiles
@@ -167,7 +169,7 @@ parabolic profiles may not work as well as an S-curve despite the fact that a
 standard S-curve profile is not optimized for a stepper motor from the
 standpoint of the torque/speed curve.
 
-\subsection{Further reading}
+\section{Further reading}
 
 FRC teams 254 and 971 gave a talk at FIRST World Championships in 2015 about
 motion profiles \cite{bib:motion_profiles}.

@@ -1,0 +1,43 @@
+\section{Curvilinear motion}
+
+\subsection{Two-wheeled vehicle kinematics}
+
+The mapping from $v$ and $\omega$ to the left and right wheel velocities $v_L$
+and $v_R$ are derived as follows. Let $\vec{v}_C$ be the velocity vector of the
+center of rotation, $\vec{v}_L$ be the velocity vector of the left wheel,
+$\vec{v}_R$ be the velocity vector of the right wheel, $r_b$ is the distance
+from the center of rotation to each wheel, and $\omega$ is the counterclockwise
+turning rate around the center of rotation. For this derivation, we'll assume
+the robot is facing in the $\hat{j}$ direction.
+
+The main equation we'll need is the following.
+
+\begin{equation*}
+  \vec{v}_B = \vec{v}_A + \omega_A \times \vec{r}_{B|A}
+\end{equation*}
+
+where $\vec{v}_B$ is the velocity vector at point B, $\vec{v}_A$ is the velocity
+vector at point A, $\omega_A$ is the angular velocity vector at point A, and
+$\vec{r}_{B|A}$ is the distance vector from point A to point B (also described
+as the ``distance to B relative to A").
+
+First, we'll derive $v_l$.
+
+\begin{align}
+  \vec{v}_l &= v_c \hat{j} + \omega \hat{k} \times -r_b \hat{i} \nonumber \\
+  \vec{v}_l &= v_c \hat{j} - \omega r_b \hat{j} \nonumber \\
+  \vec{v}_l &= (v_c - \omega r_b) \hat{j} \nonumber \\
+  \lvert\vec{v}_l\rvert &= v_c - \omega r_b \nonumber \\
+  v_l &= v_c - \omega r_b \label{eq:diff_vl}
+\end{align}
+
+Next, we'll derive $v_r$.
+
+\begin{align}
+  \vec{v}_r &= v_c \hat{j} + \omega \hat{k} \times r_b \hat{i} \nonumber
+    \\
+  \vec{v}_r &= v_c \hat{j} + \omega r_b \hat{j} \nonumber \\
+  \vec{v}_r &= (v_c + \omega r_b) \hat{j} \nonumber \\
+  \lvert\vec{v}_r\rvert &= v_c + \omega r_b \nonumber \\
+  v_r &= v_c + \omega r_b \label{eq:diff_vr}
+\end{align}

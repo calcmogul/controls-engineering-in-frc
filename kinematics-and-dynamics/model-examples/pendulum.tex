@@ -1,6 +1,4 @@
-\section{Implementation steps} \label{sec:implementation_steps}
-
-\subsection{Derive physical model}
+\section{Pendulum} \label{sec:implementation_steps}
 
 A \gls{model} is a set of differential equations describing how the \gls{system}
 behaves over time. There are two common approaches for developing them.
@@ -109,7 +107,7 @@ sum of torques, and conservation of energy.
   \caption{Pendulum force diagrams}
 \end{bookfigure}
 
-\subsubsection{Force derivation}
+\subsection{Force derivation}
 \index{Physics!sum of forces}
 
 Consider figure \ref{subfig:force_pendulum}, which shows the forces acting on a
@@ -162,7 +160,7 @@ Therefore
   \ddot{\theta} &= -\frac{g}{l}\sin\theta
 \end{align*}
 
-\subsubsection{Torque derivation}
+\subsection{Torque derivation}
 \index{Physics!sum of torques}
 
 The equation can be obtained using two definitions for torque.
@@ -216,7 +214,7 @@ According to $\tau = \frac{d\mtx{L}}{dt}$, we can just compare the magnitudes.
 
 which is the same result from force analysis.
 
-\subsubsection{Energy derivation}
+\subsection{Energy derivation}
 \index{Physics!conservation of energy}
 
 The equation can also be obtained via the conservation of mechanical energy
@@ -301,127 +299,3 @@ rule with respect to time. Doing so gives the acceleration.
 \end{align*}
 
 which is the same result from force analysis.
-
-\subsection{Write model in state-space representation}
-
-Below is the \gls{model} for a pendulum
-
-\begin{equation*}
-  \ddot{\theta} = -\frac{g}{l}\sin\theta
-\end{equation*}
-
-where $\theta$ is the angle of the pendulum and $l$ is the length of the
-pendulum.
-
-Since state-space representation requires that only single derivatives be used,
-they should be broken up as separate \glspl{state}. We'll reassign
-$\dot{\theta}$ to be $\omega$ so the derivatives are easier to keep straight for
-state-space representation.
-
-\begin{equation*}
-  \dot{\omega} = -\frac{g}{l}\sin\theta
-\end{equation*}
-
-Now separate the \glspl{state}.
-
-\begin{align*}
-  \dot{\theta} &= \omega \\
-  \dot{\omega} &= -\frac{g}{l} \sin\theta
-\end{align*}
-
-Since this \gls{model} is nonlinear, we should
-\glslink{linearization}{linearize} \index{Nonlinear control!linearization} it.
-We will use the small angle approximation ($\sin\theta = \theta$ for small
-values of $\theta$).
-
-\begin{align*}
-  \dot{\theta} &= \omega \\
-  \dot{\omega} &= -\frac{g}{l} \theta
-\end{align*}
-
-Now write the \gls{model} in state-space representation.
-
-\begin{align}
-  \dot{
-  \begin{bmatrix}
-    \theta \\
-    \omega
-  \end{bmatrix}} =
-  \begin{bmatrix}
-    0 & 1 \\
-    -\frac{g}{l} & 0
-  \end{bmatrix}
-  \begin{bmatrix}
-    \theta \\
-    \omega
-  \end{bmatrix}
-\end{align}
-
-\subsection{Add estimator for unmeasured states}
-
-For full \gls{state} feedback, knowledge of all \glspl{state} is required. If
-not all \glspl{state} are measured directly, an estimator can be used to
-supplement them.
-
-For example, we may only be measuring $\theta$ in the pendulum example, not
-$\dot{\theta}$, so we'll need to estimate the latter. The $\mtx{C}$ matrix the
-\gls{observer} would use in this case is
-
-\begin{equation*}
-  \mtx{C} = \begin{bmatrix}
-    1 & 0 \\
-  \end{bmatrix}
-\end{equation*}
-
-\subsection{Implement controller}
-
-Use Bryson's rule when making the performance vs \gls{control effort} trade-off.
-Optimizing for performance will get you to the \gls{reference} as fast as
-possible while optimizing \gls{control effort} will get you to the
-\gls{reference} in the most ``fuel-efficient" way possible. The latter, for
-example, would potentially avoid voltage drops from motor usage on robots with a
-limited power supply, but the result would be slower to reach the
-\gls{reference}.
-
-\subsection{Simulate model/controller}
-
-This can be done in any platform supporting numerical computation. Common
-choices are MATLAB, v-REP, or Python. Tweak the LQR gains as necessary.
-
-If you're comfortable enough with it, you can use the controller designed by LQR
-as a starting point and tweak the pole locations after that with pole placement
-to produce the desired response.
-
-\subsubsection{Simulating a closed-loop system}
-
-Recall equation (\ref{eq:s_ref_ctrl_x}) where a closed-loop system is written as
-$\dot{\mtx{x}} = (\mtx{A} - \mtx{B}\mtx{K})\mtx{x} + \mtx{B}\mtx{K}\mtx{r}$. In
-the open-loop \gls{system}, our \gls{control input} $\mtx{u}$ was a vector of
-\gls{system} \glspl{input}. In the closed-loop \gls{system}, our
-\gls{control input} $\mtx{u}$ is now a vector of \gls{reference} \glspl{state}
-$\mtx{r}$. To use this form in simulation, the corresponding state-space
-matrices, which we'll denote with apostrophes, would be
-
-\begin{align*}
-  \mtx{A}' &= \mtx{A} - \mtx{B}\mtx{K} \\
-  \mtx{B}' &= \mtx{B}\mtx{K} \\
-  \mtx{C}' &= \mtx{C} - \mtx{D}\mtx{K} \\
-  \mtx{D}' &= \mtx{D}\mtx{K}
-\end{align*}
-
-\subsection{Verify pole locations}
-
-Check the pole locations as a sanity check and to potentially gain an intuition
-for the chosen pole locations.
-
-\subsection{Unit test}
-
-Write unit tests to test the \gls{model} performance and \gls{robustness} with
-different initial conditions and \glspl{reference}. For C++, we recommend Google
-Test.
-
-\subsection{Test on real system}
-
-Try the controller on a real \gls{system} with low maximum \glspl{control input}
-for safety. The \glspl{control input} can be increased after verifying the
-sensors function and mechanisms move the correct direction.
