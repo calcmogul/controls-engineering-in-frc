@@ -22,7 +22,7 @@ at 1kHz doesn't make sense for this because the \gls{plant} \gls{input} the
 controller computes won't change much, if at all, in 1ms.
 
 Figures \ref{fig:sampling_simulation_0.1}, \ref{fig:sampling_simulation_0.05},
-and \ref{fig:sampling_simulation_0.04} show simulations of the same controller
+and \ref{fig:sampling_simulation_0.01} show simulations of the same controller
 for different sampling methods and sample rates, which have varying levels of
 fidelity to the real \gls{system}.
 
@@ -37,8 +37,8 @@ fidelity to the real \gls{system}.
 \end{svg}
 
 \begin{svg}{build/code/sampling_simulation_004}
-  \caption{Sampling methods for system simulation with $T = 0.04s$}
-  \label{fig:sampling_simulation_0.04}
+  \caption{Sampling methods for system simulation with $T = 0.01s$}
+  \label{fig:sampling_simulation_0.01}
 \end{svg}
 
 Forward Euler is numerically unstable for low sample rates. The bilinear
