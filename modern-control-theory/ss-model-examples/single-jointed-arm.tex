@@ -122,14 +122,24 @@ Python Control will be used to \glslink{discretization}{discretize} the
 examples\footnote{\url{https://github.com/calcmogul/frccontrol/blob/master/examples/single_jointed_arm.py}}
 creates and tests a controller for it.
 
-Figure \ref{fig:single_jointed_arm_pzmaps} shows the pole-zero maps for the
-open-loop \gls{system}, closed-loop \gls{system}, and \gls{observer}. Figure
-\ref{fig:single_jointed_arm_response} shows the \gls{system} response with them.
+\begin{remark}
+  Python Control currently doesn't support finding the transmission zeroes of
+  MIMO \glspl{system} with a different number of \glspl{input} than
+  \glspl{output}, so \texttt{control.pzmap()} and
+  \texttt{frccontrol.System.plot\_pzmaps()} fail with an error if Slycot isn't
+  installed.
+\end{remark}
 
-\begin{svg}{build/frccontrol/examples/single_jointed_arm_pzmaps}
-  \caption{Single-jointed arm pole-zero maps}
-  \label{fig:single_jointed_arm_pzmaps}
-\end{svg}
+%Figure \ref{fig:single_jointed_arm_pzmaps} shows the pole-zero maps for the
+%open-loop \gls{system}, closed-loop \gls{system}, and \gls{observer}. Figure
+%\ref{fig:single_jointed_arm_response} shows the \gls{system} response with them.
+
+%\begin{svg}{build/frccontrol/examples/single_jointed_arm_pzmaps}
+%  \caption{Single-jointed arm pole-zero maps}
+%  \label{fig:single_jointed_arm_pzmaps}
+%\end{svg}
+
+Figure \ref{fig:single_jointed_arm_response} shows the \gls{system} response.
 
 \begin{svg}{build/frccontrol/examples/single_jointed_arm_response}
   \caption{Single-jointed arm response}
