@@ -44,7 +44,12 @@ The scripts can be run like follows:
 Some Linux platforms use tk as a backend for matplotlib, so that may need to be
 installed to see the plots.
 
-## Dependencies
+## Compiling the book
+
+After installing the dependencies, just run `make`. It will produce a PDF named
+state-space-guide.pdf.
+
+### Dependencies
 
 To compile the book, the following are required.
 
@@ -66,23 +71,6 @@ The following are optional because the book can compile without them.
 * Optional python packages
   * slycot (to generate pole-zero maps for certain state-space model examples)
   * black (to format Python source code)
-
-## Compiling the book
-
-After installing the dependencies, just run `make`. By default, two files will
-be generated: state-space-guide.pdf, which has uncompressed images (way higher
-than 300dpi); and state-space-guide-ebook.pdf, which is suitable for online
-distribution.
-
-The following make targets are supported for compiling the book with various
-levels of image compression.
-
-|Command          |File                            |Purpose                  |
-|-----------------|--------------------------------|-------------------------|
-|`make book-stamp`|`state-space-guide.pdf`         |Quick content development|
-|`make ebook`     |`state-space-guide-ebook.pdf`   |Online distribution      |
-|`make printer`   |`state-space-guide-printer.pdf` |Standard color printing  |
-|`make prepress`  |`state-space-guide-prepress.pdf`|Book publishing          |
 
 ### Style guide
 
