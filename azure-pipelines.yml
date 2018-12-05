@@ -1,0 +1,10 @@
+resources:
+  containers:
+  - container: archlinux/base
+
+steps:
+- script: |
+    sudo pacman -S --noconfirm texlive-core texlive-latexextra texlive-bibtexextra biber python3 inkscape imagemagick
+    pip install -q --user frccontrol
+    make
+  displayName: 'PDF compilation'
