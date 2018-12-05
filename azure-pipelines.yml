@@ -1,10 +1,31 @@
-resources:
-  containers:
-  - container: archlinux/base
+jobs:
+- job: Compilation
+  pool:
+    vmImage: 'Ubuntu 16.04'
 
-steps:
-- script: |
-    sudo pacman -S --noconfirm texlive-core texlive-latexextra texlive-bibtexextra biber python3 inkscape imagemagick
-    pip install -q --user frccontrol
-    make
-  displayName: 'PDF compilation'
+  steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.6'
+      architecture: 'x64'
+  - script: |
+      sudo apt-get update -y
+      sudo apt-get install -y latexmk texlive-xetex texlive-latex-extra \
+          texlive-generic-extra texlive-bibtex-extra biber inkscape imagemagick
+    displayName: 'Install system dependencies'
+  - script: |
+      pip3 install --user frccontrol
+    displayName: 'Install Python packages'
+  - script: |
+      # Make sure .git/refs/heads/master exists
+      git checkout -b pr
+      git checkout master
+      git checkout pr
+
+      make -j$(nproc)
+      cp state-space-guide.pdf $(Build.ArtifactStagingDirectory)
+    displayName: 'Generate PDF'
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      artifactName: state-space-guide.pdf

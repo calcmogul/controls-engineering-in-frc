@@ -51,26 +51,46 @@ state-space-guide.pdf.
 
 ### Dependencies
 
-To compile the book, the following are required.
+To compile the book, the following packages are required.
 
-* make (to run the makefile)
-* texlive-core (for latexmk)
+#### Arch Linux
+
+* base-devel (for `make` to run the makefile)
+* texlive-core (for latexmk and xelatex)
 * texlive-latexextra (for bibtex and makeglossaries)
 * texlive-bibtexextra (for additional BibTeX styles and bibliography databases)
+* biber (for generating bibliography)
+* python (for generating plots)
+* python-pip (for installing required Python packages)
+* inkscape (to convert SVGs to PDF)
+* imagemagick (to downsample figures)
+
+#### Ubuntu
+
+* build-essential (for `make` to run the makefile)
+* latexmk
+* texlive-xetex (for xelatex)
+* texlive-latex-extra (for bibtex and makeglossaries)
+* texlive-generic-extra (for miscellaneous LaTeX .sty files)
+* texlive-bibtex-extra (for additional BibTeX styles and bibliography databases)
 * xelatex (for setting and using custom fonts)
 * biber (for generating bibliography)
-* Python 3.5+
-  * frccontrol (to provide FRC wrappers for Python Control)
-  * Python Control (to generate plots and state-space results)
-    * Installed automatically as a dependency of frccontrol
-* Inkscape (to convert SVGs to PDF)
-* ImageMagick (to downsample figures)
+* python3 (for generating plots)
+* python3-pip (for installing required Python packages)
+* inkscape (to convert SVGs to PDF)
+* imagemagick (to downsample figures)
+
+#### Python packages
+
+These are installed via pip3 (e.g., `pip3 install --user frccontrol`).
+
+* frccontrol (to provide FRC wrappers for Python Control and generate plots and
+  state-space results)
 
 The following are optional because the book can compile without them.
 
-* Optional python packages
-  * slycot (to generate pole-zero maps for certain state-space model examples)
-  * black (to format Python source code)
+* slycot (to generate pole-zero maps for certain state-space model examples)
+* black (to format Python source code)
 
 ### Style guide
 
