@@ -14,8 +14,14 @@ jobs:
           texlive-generic-extra texlive-bibtex-extra biber inkscape imagemagick
     displayName: 'Install system dependencies'
   - script: |
-      pip3 install --user frccontrol
+      pip3 install --user frccontrol black
     displayName: 'Install Python packages'
+  - script: |
+      ./format_code.py
+    displayName: 'Run Python formatter'
+  - script: |
+      git --no-pager diff --exit-code HEAD  # Ensure formatter made no changes
+    displayName: 'Check formatter output'
   - script: |
       # Make sure .git/refs/heads/master exists
       git checkout -b pr
