@@ -1,0 +1,29 @@
+\section{Actuator saturation}
+\index{Controller design!actuator saturation}
+
+Recall that a controller calculates its output based on the error between the
+\gls{reference} and the current \gls{state}. \Gls{plant} in the real world don't
+have unlimited control authority available for the controller to apply. When the
+actuator limits are reached, the controller acts as if the gain has been
+temporarily reduced.
+
+We'll try to explain this through a bit of math. Let's say we have a controller
+$u = k(r - x)$ where $u$ is the \gls{control effort}, $k$ is the gain, $r$ is
+the \gls{reference}, and $x$ is the current \gls{state}. Let $u_{max}$ be the
+limit of the actuator's output which is less than the uncapped value of $u$ and
+$k_{max}$ be the associated maximum gain. We will now compare the capped and
+uncapped controllers for the same \gls{reference} and current \gls{state}.
+
+\begin{align*}
+  u_{max} &< u \\
+  k_{max}(r - x) &< k(r - x) \\
+  k_{max} &< k
+\end{align*}
+
+For the inequality to hold, $k_{max}$ must be less than the original value for
+$k$. This reduced gain is evident in a \gls{system response} when there is a
+linear change in state instead of an exponential one as it approaches the
+\gls{reference}. This is due to the \gls{control effort} no longer following a
+decaying exponential plot. Once the \gls{system} is closer to the
+\gls{reference}, the controller will stop saturating and produce realistic
+controller values again.

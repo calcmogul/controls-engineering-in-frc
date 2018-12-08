@@ -10,6 +10,90 @@ controller, in the case studies.
 Remember, multiplication by $\frac{1}{s}$ corresponds to an integral in the
 Laplace domain and multiplication by $s$ corresponds to a derivative.
 
+\subsection{Steady-state error}
+\index{Steady-state error}
+
+To demonstrate the problem of \gls{steady-state error}, we will use a DC brushed
+motor controlled by a velocity PID controller. A DC brushed motor has a transfer
+function from voltage ($V$) to angular velocity ($\dot{\theta}$) of
+
+\begin{equation}
+  G(s) = \frac{\dot{\Theta}(s)}{V(s)} = \frac{K}{(Js+b)(Ls+R)+K^2}
+\end{equation}
+
+First, we'll try controlling it with a P controller defined as
+
+\begin{equation*}
+  K(s) = K_p
+\end{equation*}
+
+When these are in unity feedback, the transfer function from the input voltage
+to the error is
+
+\begin{align*}
+  \frac{E(s)}{V(s)} &= \frac{1}{1 + K(s)G(s)} \\
+  E(s) &= \frac{1}{1 + K(s)G(s)} V(s) \\
+  E(s) &= \frac{1}{1 + (K_p) \left(\frac{K}{(Js+b)(Ls+R)+K^2}\right)} V(s) \\
+  E(s) &= \frac{1}{1 + \frac{K_p K}{(Js+b)(Ls+R)+K^2}} V(s)
+\end{align*}
+
+The steady-state of a transfer function can be found via
+
+\begin{equation}
+  \lim_{s\to0} sH(s)
+\end{equation}
+
+since steady-state has an input freuency of zero.
+
+\begin{align}
+  e_{ss} &= \lim_{s\to0} sE(s) \nonumber \\
+  e_{ss} &= \lim_{s\to0} s \frac{1}{1 + \frac{K_p K}{(Js+b)(Ls+R)+K^2}} V(s)
+    \nonumber \\
+  e_{ss} &= \lim_{s\to0} s \frac{1}{1 + \frac{K_p K}{(Js+b)(Ls+R)+K^2}}
+    \frac{1}{s} \nonumber \\
+  e_{ss} &= \lim_{s\to0} \frac{1}{1 + \frac{K_p K}{(Js+b)(Ls+R)+K^2}}
+    \nonumber \\
+  e_{ss} &= \frac{1}{1 + \frac{K_p K}{(J(0)+b)(L(0)+R)+K^2}} \nonumber \\
+  e_{ss} &= \frac{1}{1 + \frac{K_p K}{bR+K^2}} \label{eq:ss_nonzero}
+\end{align}
+
+Notice that the \gls{steady-state error} is nonzero. To fix this, an integrator
+must be included in the controller.
+
+\begin{equation*}
+  K(s) = K_p + \frac{K_i}{s}
+\end{equation*}
+
+The same steady-state calculations are performed as before with the new
+controller.
+
+\begin{align*}
+  \frac{E(s)}{V(s)} &= \frac{1}{1 + K(s)G(s)} \\
+  E(s) &= \frac{1}{1 + K(s)G(s)} V(s) \\
+  E(s) &= \frac{1}{1 + \left(K_p + \frac{K_i}{s}\right)
+    \left(\frac{K}{(Js+b)(Ls+R)+K^2}\right)} \left(\frac{1}{s}\right) \\
+  e_{ss} &= \lim_{s\to0} s \frac{1}{1 + \left(K_p + \frac{K_i}{s}\right)
+    \left(\frac{K}{(Js+b)(Ls+R)+K^2}\right)} \left(\frac{1}{s}\right) \\
+  e_{ss} &= \lim_{s\to0} \frac{1}{1 + \left(K_p + \frac{K_i}{s}\right)
+    \left(\frac{K}{(Js+b)(Ls+R)+K^2}\right)} \\
+  e_{ss} &= \lim_{s\to0} \frac{1}{1 + \left(K_p + \frac{K_i}{s}\right)
+    \left(\frac{K}{(Js+b)(Ls+R)+K^2}\right)} \frac{s}{s} \\
+  e_{ss} &= \lim_{s\to0} \frac{s}{s + \left(K_p s + K_i\right)
+    \left(\frac{K}{(Js+b)(Ls+R)+K^2}\right)} \\
+  e_{ss} &= \frac{0}{0 + (K_p (0) + K_i)
+    \left(\frac{K}{(J(0)+b)(L(0)+R)+K^2}\right)} \\
+  e_{ss} &= \frac{0}{K_i \frac{K}{bR+K^2}}
+\end{align*}
+
+The denominator is nonzero, so $e_{ss} = 0$. Therefore, an integrator is
+required to eliminate \gls{steady-state error} in all cases for this
+\gls{model}.
+
+It should be noted that $e_{ss}$ in equation (\ref{eq:ss_nonzero}) approaches
+zero for $K_p = \infty$. This is known as a bang-bang controller. In practice,
+an infinite switching frequency cannot be achieved, but it may be close enough
+for some performance specifications.
+
 \subsection{Flywheel PID control}
 \label{subsec:flywheel_pid_control}
 \index{PID control}
@@ -177,115 +261,3 @@ At least this is a stable zero, but it's still undesirable.
 
 In summary, derivative doesn't help on a flywheel. $K_d$ may help if the real
 \gls{system} isn't ideal, but we don't suggest relying on that.
-
-\subsection{Steady-state error}
-\index{Steady-state error}
-
-To demonstrate the problem of \gls{steady-state error}, we will use a DC brushed
-motor controlled by a velocity PID controller. A DC brushed motor has a transfer
-function from voltage ($V$) to angular velocity ($\dot{\theta}$) of
-
-\begin{equation}
-  G(s) = \frac{\dot{\Theta}(s)}{V(s)} = \frac{K}{(Js+b)(Ls+R)+K^2}
-\end{equation}
-
-First, we'll try controlling it with a P controller defined as
-
-\begin{equation*}
-  K(s) = K_p
-\end{equation*}
-
-When these are in unity feedback, the transfer function from the input voltage
-to the error is
-
-\begin{align*}
-  \frac{E(s)}{V(s)} &= \frac{1}{1 + K(s)G(s)} \\
-  E(s) &= \frac{1}{1 + K(s)G(s)} V(s) \\
-  E(s) &= \frac{1}{1 + (K_p) \left(\frac{K}{(Js+b)(Ls+R)+K^2}\right)} V(s) \\
-  E(s) &= \frac{1}{1 + \frac{K_p K}{(Js+b)(Ls+R)+K^2}} V(s)
-\end{align*}
-
-The steady-state of a transfer function can be found via
-
-\begin{equation}
-  \lim_{s\to0} sH(s)
-\end{equation}
-
-\begin{align}
-  e_{ss} &= \lim_{s\to0} sE(s) \nonumber \\
-  e_{ss} &= \lim_{s\to0} s \frac{1}{1 + \frac{K_p K}{(Js+b)(Ls+R)+K^2}} V(s)
-    \nonumber \\
-  e_{ss} &= \lim_{s\to0} s \frac{1}{1 + \frac{K_p K}{(Js+b)(Ls+R)+K^2}}
-    \frac{1}{s} \nonumber \\
-  e_{ss} &= \lim_{s\to0} \frac{1}{1 + \frac{K_p K}{(Js+b)(Ls+R)+K^2}}
-    \nonumber \\
-  e_{ss} &= \frac{1}{1 + \frac{K_p K}{(J(0)+b)(L(0)+R)+K^2}} \nonumber \\
-  e_{ss} &= \frac{1}{1 + \frac{K_p K}{bR+K^2}} \label{eq:ss_nonzero}
-\end{align}
-
-Notice that the \gls{steady-state error} is nonzero. To fix this, an integrator
-must be included in the controller.
-
-\begin{equation*}
-  K(s) = K_p + \frac{K_i}{s}
-\end{equation*}
-
-The same steady-state calculations are performed as before with the new
-controller.
-
-\begin{align*}
-  \frac{E(s)}{V(s)} &= \frac{1}{1 + K(s)G(s)} \\
-  E(s) &= \frac{1}{1 + K(s)G(s)} V(s) \\
-  E(s) &= \frac{1}{1 + \left(K_p + \frac{K_i}{s}\right)
-    \left(\frac{K}{(Js+b)(Ls+R)+K^2}\right)} \left(\frac{1}{s}\right) \\
-  e_{ss} &= \lim_{s\to0} s \frac{1}{1 + \left(K_p + \frac{K_i}{s}\right)
-    \left(\frac{K}{(Js+b)(Ls+R)+K^2}\right)} \left(\frac{1}{s}\right) \\
-  e_{ss} &= \lim_{s\to0} \frac{1}{1 + \left(K_p + \frac{K_i}{s}\right)
-    \left(\frac{K}{(Js+b)(Ls+R)+K^2}\right)} \\
-  e_{ss} &= \lim_{s\to0} \frac{1}{1 + \left(K_p + \frac{K_i}{s}\right)
-    \left(\frac{K}{(Js+b)(Ls+R)+K^2}\right)} \frac{s}{s} \\
-  e_{ss} &= \lim_{s\to0} \frac{s}{s + \left(K_p s + K_i\right)
-    \left(\frac{K}{(Js+b)(Ls+R)+K^2}\right)} \\
-  e_{ss} &= \frac{0}{0 + (K_p (0) + K_i)
-    \left(\frac{K}{(J(0)+b)(L(0)+R)+K^2}\right)} \\
-  e_{ss} &= \frac{0}{K_i \frac{K}{bR+K^2}}
-\end{align*}
-
-The denominator is nonzero, so $e_{ss} = 0$. Therefore, an integrator is
-required to eliminate \gls{steady-state error} in all cases for this
-\gls{model}.
-
-It should be noted that $e_{ss}$ in equation (\ref{eq:ss_nonzero}) approaches
-zero for $K_p = \infty$. This is known as a bang-bang controller. In practice,
-an infinite switching frequency cannot be achieved, but it may be close enough
-for some performance specifications.
-
-\subsection{Actuator saturation}
-\index{Controller design!actuator saturation}
-
-Recall that a controller calculates its output based on the error between the
-\gls{reference} and the current \gls{state}. \Gls{plant} in the real world don't
-have unlimited control authority available for the controller to apply. When the
-actuator limits are reached, the controller acts as if the gain has been
-temporarily reduced.
-
-We'll try to explain this through a bit of math. Let's say we have a controller
-$u = k(r - x)$ where $u$ is the \gls{control effort}, $k$ is the gain, $r$ is
-the \gls{reference}, and $x$ is the current \gls{state}. Let $u_{max}$ be the
-limit of the actuator's output which is less than the uncapped value of $u$ and
-$k_{max}$ be the associated maximum gain. We will now compare the capped and
-uncapped controllers for the same \gls{reference} and current \gls{state}.
-
-\begin{align*}
-  u_{max} &< u \\
-  k_{max}(r - x) &< k(r - x) \\
-  k_{max} &< k
-\end{align*}
-
-For the inequality to hold, $k_{max}$ must be less than the original value for
-$k$. This reduced gain is evident in a \gls{system response} when there is a
-linear change in state instead of an exponential one as it approaches the
-\gls{reference}. This is due to the \gls{control effort} no longer following a
-decaying exponential plot. Once the \gls{system} is closer to the
-\gls{reference}, the controller will stop saturating and produce realistic
-controller values again.
