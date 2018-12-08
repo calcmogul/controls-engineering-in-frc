@@ -122,11 +122,6 @@ More examples of concepts should help slow the pace down. I should read through
 this book as if I was explaining it to my veteran software students and
 anticipate gaps in their understanding.
 
-There doesn't need to be a delineation between linear and nonlinear control
-since the concepts of nonlinear apply often and it isn't that much of a leap (if
-Lyapunov isn't pulled into it). Incorporate linearization etc. into the control
-and estimation chapters.
-
 Finish chapters on calculus and dynamics and part on motion planning.
 
 Give matrix \mtx{0} and \mtx{I} in equations dimension subscripts
