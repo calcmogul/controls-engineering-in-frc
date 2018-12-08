@@ -15,10 +15,17 @@ is done by taking the partial derivative of the functions.
   \end{array}
 \end{align*}
 
+Linearization of a nonlinear equation is a Taylor series expansion to only the
+first-order terms (that is, terms whose variables have exponents on the order of
+$x^1$). This is where the small angle approximations for $\sin\theta$ and
+$\cos\theta$ ($\theta$ and $1$ respectively) come from.
+
 Higher order partial derivatives can be added to better approximate the
 nonlinear dynamics. We typically only \glslink{linearization}{linearize} around
-equilibrium points because we are interested in how the \gls{system} behaves
-when perturbed from equilibrium. An FAQ on this goes into more detail
+equilibrium points\footnote{Equilibrium points are points where
+$\dot{\mtx{x}} = \mtx{0}$. At these points, the system is in steady-state.}
+because we are interested in how the \gls{system} behaves when perturbed from
+equilibrium. An FAQ on this goes into more detail
 \cite{bib:linearize_equilibrium_point}. To be clear though,
 \glslink{linearization}{linearizing} the \gls{system} around the current
 \gls{state} as the \gls{system} evolves does give a closer approximation over

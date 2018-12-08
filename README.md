@@ -134,9 +134,6 @@ This book is supposed to be "practical" after all.
   chapter teaches it sufficiently.
 * Basically like implicit learning outcomes?
 
-Clarify what is meant by the controller and observer being mathematical duals of
-each other.
-
 Add test of P vs PD controller for flywheel
 * Simulate flywheel with stochastic force applied to slow it down (simulates
   shots)
