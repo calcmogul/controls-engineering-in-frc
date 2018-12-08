@@ -8,13 +8,16 @@ the concepts presented themselves or know where to look for more information.
 Some parts are mathematically rigorous, but I believe in giving students a solid
 theoretical foundation with emphasis on intuition so they can apply it to new
 problems. To achieve deep understanding of the topics in this book, math is
-unavoidable.
+unavoidable. With that said, I try to provide practical and intuitive
+explanations whenever possible.
 
-The sections on classical control theory are intended to provide a geometric
-intuition into the mathematical machinery of modern control theory. Therefore,
-many of the tools exclusive to classical control theory (root locus, Bode plots,
-Nyquist plots, gain margin, phase margin, etc.) are neglected or completely
-ignored.
+\subsection{The role of classical control theory}
+
+The sections on classical control theory are only included to develop geometric
+intuition for the mathematical machinery of modern control theory. Many tools
+exclusive to classical control theory (root locus, Bode plots, Nyquist plots,
+etc.) aren't useful for or relevant to the examples presented, so they serve
+only to complicate the learning process.
 
 Classical control theory is interesting in that one can perform stability and
 robustness analyses and design reasonable controllers for systems on the back of
@@ -25,6 +28,15 @@ be used to create a transfer function or lead and lag compensators can be
 applied directly based on the Bode plot. However, computing power is much more
 plentiful nowadays; we should take advantage of this in the design phase and use
 the more modern tools that enables when it makes sense.
+
+This book uses LQR and modern control over, say, loop shaping with Bode and
+Nyquist plots because we have accurate dynamical models to leverage, and LQR
+allows directly expressing what the author is concerned with optimizing: state
+excursion relative to control effort. Applying lead and lag compensators, while
+effective for robust controller design, doesn't provide the same expressive
+power.
+
+\subsection{An integrated approach to nonlinear control theory}
 
 Most teaching resources separate linear and nonlinear control with the latter
 being reserved for a different course. Here, they are introduced together
