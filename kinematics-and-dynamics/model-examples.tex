@@ -2,6 +2,17 @@
 
 \chapter{Model examples}
 
+A \gls{model} is a set of differential equations describing how the \gls{system}
+behaves over time. There are two common approaches for developing them.
+
+\begin{enumerate}
+  \item Collecting data on the physical system's behavior and performing
+    \gls{system} identification with it.
+  \item Using physics to derive the \gls{system}'s model from first principles.
+\end{enumerate}
+
+We'll use the second approach in this book.
+
 The \glspl{model} derived here should cover most types of motion seen on an FRC
 robot. Furthermore, they can be easily tweaked to describe many types of
 mechanisms just by pattern-matching. There's only so many ways to hook up a mass
@@ -18,8 +29,8 @@ are shorted together to prevent movement. In coast mode, the motor leads are an
 open circuit.
 
 \renewcommand*{\chapterpath}{\partpath/model-examples}
-\input{\chapterpath/dc-brushed-motor}
 \input{\chapterpath/pendulum}
+\input{\chapterpath/dc-brushed-motor}
 \input{\chapterpath/elevator}
 \input{\chapterpath/flywheel}
 \input{\chapterpath/drivetrain}
