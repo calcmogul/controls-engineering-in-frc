@@ -12,12 +12,12 @@ def main():
     L = 5.9000e-05
 
     # fmt: off
-    A = np.matrix([[-b / J, Kt / J],
-                   [-Ke / L, -R / L]])
-    B = np.matrix([[0],
-                   [1 / L]])
-    C = np.matrix([[1, 0]])
-    D = np.matrix([[0]])
+    A = np.array([[-b / J, Kt / J],
+                  [-Ke / L, -R / L]])
+    B = np.array([[0],
+                  [1 / L]])
+    C = np.array([[1, 0]])
+    D = np.array([[0]])
     # fmt: on
 
     print("A =")

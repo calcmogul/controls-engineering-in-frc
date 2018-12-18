@@ -27,12 +27,12 @@ def main():
     L = 5.9000e-05
 
     # fmt: off
-    A = np.matrix([[-b / J, Kt / J],
-                   [-Ke / L, -R / L]])
-    B = np.matrix([[0],
-                   [1 / L]])
-    C = np.matrix([[1, 0]])
-    D = np.matrix([[0]])
+    A = np.array([[-b / J, Kt / J],
+                  [-Ke / L, -R / L]])
+    B = np.array([[0],
+                  [1 / L]])
+    C = np.array([[1, 0]])
+    D = np.array([[0]])
     # fmt: on
 
     sysc = cnt.StateSpace(A, B, C, D)
@@ -43,9 +43,9 @@ def main():
     sysd = sysc.sample(dt)
 
     # fmt: off
-    Q = np.matrix([[1 / 20**2, 0],
-                   [0, 1 / 40**2]])
-    R = np.matrix([[1 / 12**2]])
+    Q = np.array([[1 / 20**2, 0],
+                  [0, 1 / 40**2]])
+    R = np.array([[1 / 12**2]])
     # fmt: on
     K = frccnt.dlqr(sysd, Q, R)
 
@@ -70,60 +70,60 @@ def main():
     Kff_ts2 = np.linalg.inv(sysd.B.T * Q * sysd.B) * (sysd.B.T * Q)
 
     t = np.arange(0, tmax, dt)
-    r = np.matrix([[2000 * 0.1047], [0]])
+    r = np.array([[2000 * 0.1047], [0]])
     r_rec = np.zeros((2, 1, len(t)))
 
     # No feedforward
-    x = np.matrix([[0], [0]])
+    x = np.array([[0], [0]])
     x_rec = np.zeros((2, 1, len(t)))
     u_rec = np.zeros((1, 1, len(t)))
 
     # Steady-state feedforward
-    x_ss = np.matrix([[0], [0]])
+    x_ss = np.array([[0], [0]])
     x_ss_rec = np.zeros((2, 1, len(t)))
     u_ss_rec = np.zeros((1, 1, len(t)))
 
     # Two-state feedforward
-    x_ts1 = np.matrix([[0], [0]])
+    x_ts1 = np.array([[0], [0]])
     x_ts1_rec = np.zeros((2, 1, len(t)))
     u_ts1_rec = np.zeros((1, 1, len(t)))
 
     # Two-state feedforward (no R cost)
-    x_ts2 = np.matrix([[0], [0]])
+    x_ts2 = np.array([[0], [0]])
     x_ts2_rec = np.zeros((2, 1, len(t)))
     u_ts2_rec = np.zeros((1, 1, len(t)))
 
-    u_min = np.asmatrix(-12)
-    u_max = np.asmatrix(12)
+    u_min = np.asarray(-12)
+    u_max = np.asarray(12)
 
     for k in range(len(t)):
         r_rec[:, :, k] = r
 
         # Without feedforward
-        u = K * (r - x)
+        u = K @ (r - x)
         u = np.clip(u, u_min, u_max)
-        x = sysd.A * x + sysd.B * u
+        x = sysd.A @ x + sysd.B @ u
         x_rec[:, :, k] = x
         u_rec[:, :, k] = u
 
         # With steady-state feedforward
-        u_ss = K * (r - x_ss) + Kff_ss * r
+        u_ss = K @ (r - x_ss) + Kff_ss @ r
         u_ss = np.clip(u_ss, u_min, u_max)
-        x_ss = sysd.A * x_ss + sysd.B * u_ss
+        x_ss = sysd.A @ x_ss + sysd.B @ u_ss
         x_ss_rec[:, :, k] = x_ss
         u_ss_rec[:, :, k] = u_ss
 
         # With two-state feedforward
-        u_ts1 = K * (r - x_ts1) + Kff_ts1 * (r - sysd.A * r)
+        u_ts1 = K @ (r - x_ts1) + Kff_ts1 @ (r - sysd.A @ r)
         u_ts1 = np.clip(u_ts1, u_min, u_max)
-        x_ts1 = sysd.A * x_ts1 + sysd.B * u_ts1
+        x_ts1 = sysd.A @ x_ts1 + sysd.B @ u_ts1
         x_ts1_rec[:, :, k] = x_ts1
         u_ts1_rec[:, :, k] = u_ts1
 
         # With two-state feedforward (no R cost)
-        u_ts2 = K * (r - x_ts2) + Kff_ts2 * (r - sysd.A * r)
+        u_ts2 = K @ (r - x_ts2) + Kff_ts2 @ (r - sysd.A @ r)
         u_ts2 = np.clip(u_ts2, u_min, u_max)
-        x_ts2 = sysd.A * x_ts2 + sysd.B * u_ts2
+        x_ts2 = sysd.A @ x_ts2 + sysd.B @ u_ts2
         x_ts2_rec[:, :, k] = x_ts2
         u_ts2_rec[:, :, k] = u_ts2
 

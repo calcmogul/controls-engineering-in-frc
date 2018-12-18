@@ -27,12 +27,12 @@ def main():
     L = 5.9000e-05
 
     # fmt: off
-    A = np.matrix([[-b / J, Kt / J],
-                   [-Ke / L, -R / L]])
-    B = np.matrix([[0],
-                   [1 / L]])
-    C = np.matrix([[1, 0]])
-    D = np.matrix([[0]])
+    A = np.array([[-b / J, Kt / J],
+                  [-Ke / L, -R / L]])
+    B = np.array([[0],
+                  [1 / L]])
+    C = np.array([[1, 0]])
+    D = np.array([[0]])
     # fmt: on
 
     sysc = cnt.StateSpace(A, B, C, D)
@@ -43,52 +43,52 @@ def main():
     sysd = sysc.sample(dt)
 
     # fmt: off
-    Q = np.matrix([[1 / 20**2, 0],
-                   [0, 1 / 40**2]])
-    R = np.matrix([[1 / 12**2]])
+    Q = np.array([[1 / 20**2, 0],
+                  [0, 1 / 40**2]])
+    R = np.array([[1 / 12**2]])
     # fmt: on
     K_pp1 = cnt.place(sysd.A, sysd.B, [0.1, 0.9])
     K_pp2 = cnt.place(sysd.A, sysd.B, [0.1, 0.8])
     K_lqr = frccnt.dlqr(sysd, Q, R)
 
     t = np.arange(0, tmax, dt)
-    r = np.matrix([[2000 * 0.1047], [0]])
+    r = np.array([[2000 * 0.1047], [0]])
     r_rec = np.zeros((2, 1, len(t)))
 
     # Pole placement 1
-    x_pp1 = np.matrix([[0], [0]])
+    x_pp1 = np.array([[0], [0]])
     x_pp1_rec = np.zeros((2, 1, len(t)))
     u_pp1_rec = np.zeros((1, 1, len(t)))
 
     # Pole placement 2
-    x_pp2 = np.matrix([[0], [0]])
+    x_pp2 = np.array([[0], [0]])
     x_pp2_rec = np.zeros((2, 1, len(t)))
     u_pp2_rec = np.zeros((1, 1, len(t)))
 
     # LQR
-    x_lqr = np.matrix([[0], [0]])
+    x_lqr = np.array([[0], [0]])
     x_lqr_rec = np.zeros((2, 1, len(t)))
     u_lqr_rec = np.zeros((1, 1, len(t)))
 
-    u_min = np.asmatrix(-12)
-    u_max = np.asmatrix(12)
+    u_min = np.asarray(-12)
+    u_max = np.asarray(12)
 
     for k in range(len(t)):
         # Pole placement 1
-        u_pp1 = K_pp1 * (r - x_pp1)
+        u_pp1 = K_pp1 @ (r - x_pp1)
 
         # Pole placement 2
-        u_pp2 = K_pp2 * (r - x_pp2)
+        u_pp2 = K_pp2 @ (r - x_pp2)
 
         # LQR
-        u_lqr = K_lqr * (r - x_lqr)
+        u_lqr = K_lqr @ (r - x_lqr)
 
         u_pp1 = np.clip(u_pp1, u_min, u_max)
-        x_pp1 = sysd.A * x_pp1 + sysd.B * u_pp1
+        x_pp1 = sysd.A @ x_pp1 + sysd.B @ u_pp1
         u_pp2 = np.clip(u_pp2, u_min, u_max)
-        x_pp2 = sysd.A * x_pp2 + sysd.B * u_pp2
+        x_pp2 = sysd.A @ x_pp2 + sysd.B @ u_pp2
         u_lqr = np.clip(u_lqr, u_min, u_max)
-        x_lqr = sysd.A * x_lqr + sysd.B * u_lqr
+        x_lqr = sysd.A @ x_lqr + sysd.B @ u_lqr
 
         r_rec[:, :, k] = r
         x_pp1_rec[:, :, k] = x_pp1

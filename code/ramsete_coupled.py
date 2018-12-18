@@ -45,14 +45,14 @@ def drivetrain(motor, num_motors, m, r, rb, J, Gl, Gr):
     C3 = -Gr ** 2 * motor.Kt / (motor.Kv * motor.R * r ** 2)
     C4 = Gr * motor.Kt / (motor.R * r)
     # fmt: off
-    A = np.matrix([[1 / m * (C1 + C3), rb / m * (-C1 + C3)],
-                   [rb / J * (C1 - C3), rb ** 2 / J * (-C1 - C3)]])
-    B = np.matrix([[1 / m * C2, 1 / m * C4],
-                   [rb / J * C2, -rb / J * C4]])
-    C = np.matrix([[1, -rb],
-                   [1, rb]])
-    D = np.matrix([[0, 0],
-                   [0, 0]])
+    A = np.array([[1 / m * (C1 + C3), rb / m * (-C1 + C3)],
+                  [rb / J * (C1 - C3), rb ** 2 / J * (-C1 - C3)]])
+    B = np.array([[1 / m * C2, 1 / m * C4],
+                  [rb / J * C2, -rb / J * C4]])
+    C = np.array([[1, -rb],
+                  [1, rb]])
+    D = np.array([[0, 0],
+                  [0, 0]])
     # fmt: on
 
     return cnt.ss(A, B, C, D)
@@ -137,8 +137,8 @@ class Drivetrain(frccnt.System):
             self.Gl,
             self.Gr,
         )
-        u_min = np.matrix([[-12.0], [-12.0]])
-        u_max = np.matrix([[12.0], [12.0]])
+        u_min = np.array([[-12.0], [-12.0]])
+        u_max = np.array([[12.0], [12.0]])
         frccnt.System.__init__(self, self.model, u_min, u_max, dt)
 
         if self.in_low_gear:
@@ -174,7 +174,7 @@ def main():
     # Generate references for LQR
     refs = []
     for i in range(len(t)):
-        r = np.matrix([[vprof[i]], [0]])
+        r = np.array([[vprof[i]], [0]])
         refs.append(r)
 
     # Run LQR
@@ -241,7 +241,7 @@ def main():
 
         # pose_desired, v_desired, omega_desired, pose, b, zeta
         vref, omegaref = ramsete(desired_pose, vprof[i], 0, pose, b, zeta)
-        next_r = np.matrix([[vref], [omegaref]])
+        next_r = np.array([[vref], [omegaref]])
         drivetrain.update(next_r)
 
         # Log data for plots

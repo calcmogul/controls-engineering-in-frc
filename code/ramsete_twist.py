@@ -45,14 +45,14 @@ def drivetrain(motor, num_motors, m, r, rb, J, Gl, Gr):
     C3 = -Gr ** 2 * motor.Kt / (motor.Kv * motor.R * r ** 2)
     C4 = Gr * motor.Kt / (motor.R * r)
     # fmt: off
-    A = np.matrix([[(1 / m + rb**2 / J) * C1, (1 / m - rb**2 / J) * C3],
-                   [(1 / m - rb**2 / J) * C1, (1 / m + rb**2 / J) * C3]])
-    B = np.matrix([[(1 / m + rb**2 / J) * C2, (1 / m - rb**2 / J) * C4],
-                   [(1 / m - rb**2 / J) * C2, (1 / m + rb**2 / J) * C4]])
-    C = np.matrix([[1, 0],
-                   [0, 1]])
-    D = np.matrix([[0, 0],
-                   [0, 0]])
+    A = np.array([[(1 / m + rb**2 / J) * C1, (1 / m - rb**2 / J) * C3],
+                  [(1 / m - rb**2 / J) * C1, (1 / m + rb**2 / J) * C3]])
+    B = np.array([[(1 / m + rb**2 / J) * C2, (1 / m - rb**2 / J) * C4],
+                  [(1 / m - rb**2 / J) * C2, (1 / m + rb**2 / J) * C4]])
+    C = np.array([[1, 0],
+                  [0, 1]])
+    D = np.array([[0, 0],
+                  [0, 0]])
     # fmt: on
 
     return cnt.ss(A, B, C, D)
@@ -185,8 +185,8 @@ class Drivetrain(frccnt.System):
             self.Gl,
             self.Gr,
         )
-        u_min = np.matrix([[-12.0], [-12.0]])
-        u_max = np.matrix([[12.0], [12.0]])
+        u_min = np.array([[-12.0], [-12.0]])
+        u_max = np.array([[12.0], [12.0]])
         frccnt.System.__init__(self, self.model, u_min, u_max, dt)
 
         if self.in_low_gear:
@@ -262,7 +262,7 @@ def main():
         # pose_desired, v_desired, omega_desired, pose, b, zeta
         vref, omegaref = ramsete(desired_pose, vprof[i], 0, pose, b, zeta)
         vl, vr = get_diff_vels(vref, omegaref, drivetrain.rb * 2.0)
-        next_r = np.matrix([[vl], [vr]])
+        next_r = np.array([[vl], [vr]])
         drivetrain.update(next_r)
         vc = (drivetrain.x[0, 0] + drivetrain.x[1, 0]) / 2.0
         omega = (drivetrain.x[1, 0] - drivetrain.x[0, 0]) / (2.0 * drivetrain.rb)
