@@ -175,6 +175,7 @@ included in an appendix.
     the Blackhawk helicopter at NASA Ames when they want to make it fly like
     experimental aircraft (within the limits of the helicopter's actuators, of
     course).
+  * Write out matrix form of LQR cost function with cross term N
   * Describe implicit model following application
 * Finite horizon, discrete time LQR
 * Add an appendix on Ito calculus to explain where the Wiener process comes from?
