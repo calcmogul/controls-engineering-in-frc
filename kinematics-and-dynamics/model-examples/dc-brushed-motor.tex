@@ -81,7 +81,7 @@ motors in FRC can be found at \url{https://motors.vex.com}.
   \label{fig:motor_data}
 \end{svg}
 
-To find $K_t$
+\subsubsection{Torque constant $K_t$}
 
 \begin{align}
   \tau_m &= K_t I \nonumber \\
@@ -92,7 +92,9 @@ To find $K_t$
 where $\tau_{m,stall}$ is the stall torque and $I_{stall}$ is the stall current
 of the motor from its datasheet.
 
-To find $R$, recall equation (\ref{eq:motor_V}).
+\subsubsection{Resistance $R$}
+
+Recall equation (\ref{eq:motor_V}).
 
 \begin{equation*}
   V = IR + \frac{\omega_m}{K_v}
@@ -108,7 +110,9 @@ When the motor is stalled, $\omega_m = 0$.
 where $I_{stall}$ is the stall current of the motor and $V$ is the voltage
 applied to the motor at stall.
 
-To find $K_v$, again recall equation (\ref{eq:motor_V}).
+\subsubsection{Angular velocity constant $K_v$}
+
+Recall equation (\ref{eq:motor_V}).
 
 \begin{align*}
   V &= IR + \frac{\omega_m}{K_v} \\

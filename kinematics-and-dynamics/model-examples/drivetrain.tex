@@ -197,3 +197,52 @@ Now, plug the expressions for $F_l$ and $F_r$ into equation
     \left(\frac{1}{m} - \frac{r_b^2}{J}\right) \left(C_3 v_r + C_4 V_r\right)
     \label{eq:drivetrain_model_left}
 \end{align}
+
+\subsection{Calculating constants}
+
+\subsubsection{Moment of inertia J}
+
+We'll use empirical measurements of linear and angular acceleration to determine
+$J$. First, we'll derive the equation required to perform a linear regression
+using acceleration test data.
+
+\begin{align*}
+  \tau_1 &= \mtx{r} \times \mtx{F} \\
+  \tau_1 &= rma
+\end{align*}
+
+where $\tau_1$ is the torque applied by a drivetrain motor during only linear
+acceleration, $r$ is the wheel radius, $m$ is the robot mass, and $a$ is the
+linear acceleration.
+
+\begin{equation*}
+  \tau_2 = I \alpha
+\end{equation*}
+
+where $\tau_2$ is the torque applied by a drivetrain motor during only angular
+acceleration, $I$ is the moment of inertia (same as $J$), and $\alpha$ is the
+angular acceleration. If a constant voltage is applied during both the linear
+and angular acceleration tests, $\tau_1 = \tau_2$. Therefore,
+
+\begin{align}
+  rma &= I \alpha \nonumber \\
+  a &= \frac{I}{rm} \alpha \label{eq:drivetrain_J_regression}
+\end{align}
+
+The test procedure is as follows.
+
+\begin{enumerate}
+  \item Run the drivetrain forward at a constant voltage. Record the linear
+    velocity over time.
+  \item Compute the linear acceleration from the linear velocity data as the
+    difference between each sample divided by the time between them.
+  \item Rotate the drivetrain around its center by applying the same voltage as
+    the linear acceleration test with the motors driving in opposite directions.
+    Record the angular velocity over time.
+  \item Compute the angular acceleration from the angular velocity data as the
+    difference between each sample divided by the time between them.
+  \item Perform a linear regression of linear acceleration versus angular
+    acceleration. The slope of this line has the form $\frac{I}{rm}$ as per
+    equation (\ref{eq:drivetrain_J_regression}).
+  \item Multiply the slope by $rm$ to obtain a least squares estimate of $I$.
+\end{enumerate}

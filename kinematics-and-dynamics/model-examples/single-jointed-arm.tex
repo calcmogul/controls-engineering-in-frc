@@ -145,11 +145,54 @@ angular acceleration. Substitute equation (\ref{eq:tau_arm_def}) into equation
     \label{eq:dot_omega_arm}
 \end{align}
 
-$J$ can be approximated as the moment of inertia of a thin rod rotating around
-one end. Therefore
+\subsection{Calculating constants}
+
+\subsubsection{Moment of inertia J}
+
+Given the simplicity of this mechanism, it may be easier to compute this value
+theoretically using material properties in CAD. $J$ can also be approximated as
+the moment of inertia of a thin rod rotating around one end. Therefore
 
 \begin{equation}
   J = \frac{1}{3}ml^2
 \end{equation}
 
-where $m$ is the mass of the arm and $l$ is the length of the arm.
+where $m$ is the mass of the arm and $l$ is the length of the arm. Otherwise, a
+procedure for measuring it experimentally is presented below.
+
+First, rearrange equation (\ref{eq:dot_omega_arm}) into the form $y = mx + b$
+such that $J$ is in the numerator of $m$.
+
+\begin{align*}
+  \dot{\omega}_{arm} &= \frac{G K_t}{RJ} V - \frac{G^2 K_t}{K_v RJ} \omega_{arm}
+    \\
+  J\dot{\omega}_{arm} &= \frac{G K_t}{R} V - \frac{G^2 K_t}{K_v R} \omega_{arm}
+\end{align*}
+
+Multiply by $\frac{K_v R}{G^2 K_t}$ on both sides.
+
+\begin{align}
+  \frac{J K_v R}{G^2 K_t} \dot{\omega}_{arm} &= \frac{G K_t}{R} \cdot
+    \frac{K_v R}{G^2 K_t} V - \omega_{arm} \nonumber \\
+  \frac{J K_v R}{G^2 K_t} \dot{\omega}_{arm} &= \frac{K_v}{G} V - \omega_{arm}
+    \nonumber \\
+  \omega_{arm} &= \frac{K_v}{G} V - \frac{J K_v R}{G^2 K_t} \dot{\omega}_{arm}
+    \label{eq:arm_J_regression}
+\end{align}
+
+The test procedure is as follows.
+
+\begin{enumerate}
+  \item Orient the arm such that its axis of rotation is aligned with gravity
+    (i.e., the arm is on its side). This avoids gravity affecting the
+    measurements.
+  \item Run the arm forward at a constant voltage. Record the angular velocity
+    over time.
+  \item Compute the angular acceleration from the angular velocity data as the
+    difference between each sample divided by the time between them.
+  \item Perform a linear regression of angular velocity versus angular
+    acceleration. The slope of this line has the form $-\frac{J K_v R}{G^2 K_t}$
+    as per equation (\ref{eq:arm_J_regression}).
+  \item Multiply the slope by $-\frac{G^2 K_t}{K_v R}$ to obtain a least squares
+    estimate of $J$.
+\end{enumerate}

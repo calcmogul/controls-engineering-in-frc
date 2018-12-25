@@ -139,3 +139,44 @@ angular acceleration. Substitute equation (\ref{eq:tau_f_def}) into equation
   \dot{\omega}_f &= \frac{G K_t}{RJ} V - \frac{G^2 K_t}{K_v RJ} \omega_f
     \label{eq:dot_omega_f}
 \end{align}
+
+\subsection{Calculating constants}
+
+\subsubsection{Moment of inertia J}
+
+Given the simplicity of this mechanism, it may be easier to compute this value
+theoretically using material properties in CAD. A procedure for measuring it
+experimentally is presented below.
+
+First, rearrange equation (\ref{eq:dot_omega_f}) into the form $y = mx + b$
+such that $J$ is in the numerator of $m$.
+
+\begin{align*}
+  \dot{\omega}_f &= \frac{G K_t}{RJ} V - \frac{G^2 K_t}{K_v RJ} \omega_f \\
+  J\dot{\omega}_f &= \frac{G K_t}{R} V - \frac{G^2 K_t}{K_v R} \omega_f
+\end{align*}
+
+Multiply by $\frac{K_v R}{G^2 K_t}$ on both sides.
+
+\begin{align}
+  \frac{J K_v R}{G^2 K_t} \dot{\omega}_f &= \frac{G K_t}{R} \cdot
+    \frac{K_v R}{G^2 K_t} V - \omega_f \nonumber \\
+  \frac{J K_v R}{G^2 K_t} \dot{\omega}_f &= \frac{K_v}{G} V - \omega_f \nonumber
+    \\
+  \omega_f &= \frac{K_v}{G} V - \frac{J K_v R}{G^2 K_t} \dot{\omega}_f
+    \label{eq:flywheel_J_regression}
+\end{align}
+
+The test procedure is as follows.
+
+\begin{enumerate}
+  \item Run the flywheel forward at a constant voltage. Record the angular
+    velocity over time.
+  \item Compute the angular acceleration from the angular velocity data as the
+    difference between each sample divided by the time between them.
+  \item Perform a linear regression of angular velocity versus angular
+    acceleration. The slope of this line has the form $-\frac{J K_v R}{G^2 K_t}$
+    as per equation (\ref{eq:flywheel_J_regression}).
+  \item Multiply the slope by $-\frac{G^2 K_t}{K_v R}$ to obtain a least squares
+    estimate of $J$.
+\end{enumerate}
