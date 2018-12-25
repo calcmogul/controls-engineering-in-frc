@@ -49,7 +49,7 @@ sign.
 \section{Optimal control law}
 \label{sec:deriv_optimal_control_law}
 
-For a continuous time linear \gls{system} described by
+Let a continuous time linear \gls{system} be defined as
 
 \begin{equation}
   \dot{\mtx{x}} = \mtx{A}\mtx{x} + \mtx{B}\mtx{u}
@@ -58,13 +58,61 @@ For a continuous time linear \gls{system} described by
 with the cost function
 
 \begin{equation*}
-  J = \int\limits_0^\infty \left(\mtx{x}^T\mtx{Q}\mtx{x} +
-    \mtx{u}^T\mtx{R}\mtx{u}\right) dt
+  J = \int\limits_0^\infty
+    \begin{bmatrix}
+      \mtx{x}^T & \mtx{u}^T
+    \end{bmatrix}
+    \begin{bmatrix}
+      \mtx{Q} & \mtx{N} \\
+      \mtx{N}^T & \mtx{R}
+    \end{bmatrix}
+    \begin{bmatrix}
+      \mtx{x} \\
+      \mtx{u}
+    \end{bmatrix} dt
 \end{equation*}
 
 where $J$ represents a tradeoff between \gls{state} excursion and
-\gls{control effort} with the weighting factors $\mtx{Q}$ and $\mtx{R}$, the
-feedback \gls{control law} which minimizes $J$ is
+\gls{control effort} with the weighting factors $\mtx{Q}$, $\mtx{R}$, and
+$\mtx{N}$. $\mtx{Q}$ is the weighting factor for \gls{error}, $\mtx{R}$ is the
+weighting factor for \gls{control effort}, and $\mtx{N}$ is a cross term between
+\gls{error} and \gls{control effort}.
+
+\begin{align*}
+  J &= \int\limits_0^\infty
+    \begin{bmatrix}
+      \mtx{x}^T & \mtx{u}^T
+    \end{bmatrix}
+    \begin{bmatrix}
+      \mtx{Q}\mtx{x} + \mtx{N}\mtx{u} \\
+      \mtx{N}^T\mtx{x} + \mtx{R}\mtx{u}
+    \end{bmatrix} dt \\
+  J &= \int\limits_0^\infty
+    \left(\mtx{x}^T\left(\mtx{Q}\mtx{x} + \mtx{N}\mtx{u}\right) +
+      \mtx{u}^T\left(\mtx{N}^T\mtx{x} + \mtx{R}\mtx{u}\right)\right) dt \\
+  J &= \int\limits_0^\infty
+    \left(\mtx{x}^T\mtx{Q}\mtx{x} + \mtx{x}^T\mtx{N}\mtx{u} +
+      \mtx{u}^T\mtx{N}^T\mtx{x} + \mtx{u}^T\mtx{R}\mtx{u}\right) dt \\
+  J &= \int\limits_0^\infty
+    \left(\mtx{x}^T\mtx{Q}\mtx{x} + \mtx{x}^T\mtx{N}\mtx{u} +
+      \left(\mtx{x}^T\mtx{N}\mtx{u}\right)^T + \mtx{u}^T\mtx{R}\mtx{u}\right)
+    dt \\
+  J &= \int\limits_0^\infty
+    \left(\mtx{x}^T\mtx{Q}\mtx{x} + 2\mtx{x}^T\mtx{N}\mtx{u} +
+      \mtx{u}^T\mtx{R}\mtx{u}\right) dt \\
+  J &= \int\limits_0^\infty
+    \left(\mtx{x}^T\mtx{Q}\mtx{x} + \mtx{u}^T\mtx{R}\mtx{u} +
+      2\mtx{x}^T\mtx{N}\mtx{u}\right) dt
+\end{align*}
+
+One application for $\mtx{N}$ is \textit{implicit model following}. That is,
+making one system behave like some other desired system. This is used on the
+Blackhawk helicopter at NASA Ames research center when they want to make it fly
+like experimental aircraft (within the limits of the helicopter's actuators, of
+course).
+
+The feedback \gls{control law} which minimizes $J$ subject to the constraint
+$\dot{\mtx{x}} = \mtx{A}\mtx{x} + \mtx{B}\mtx{u}$ is
 
 \begin{equation*}
   \mtx{u} = -\mtx{K}\mtx{x}
@@ -99,8 +147,39 @@ with
   \mathscrbf{Q} &= \mtx{Q} - \mtx{N}\mtx{R}^{-1}\mtx{N}^T
 \end{align*}
 
-Snippet \ref{lst:dlqr} computes the optimal infinite horizon, discrete time
-LQR controller.
+If there is no cross-correlation between \gls{error} and \gls{control effort},
+$\mtx{N}$ is a zero matrix and the cost function simplifies to
+
+\begin{equation*}
+  J = \int\limits_0^\infty
+    \left(\mtx{x}^T\mtx{Q}\mtx{x} + \mtx{u}^T\mtx{R}\mtx{u}\right) dt
+\end{equation*}
+
+The feedback \gls{control law} which minimizes this $J$ subject to
+$\dot{\mtx{x}} = \mtx{A}\mtx{x} + \mtx{B}\mtx{u}$ is
+
+\begin{equation*}
+  \mtx{u} = -\mtx{K}\mtx{x}
+\end{equation*}
+
+where $\mtx{K}$ is given by
+
+\begin{equation*}
+  \mtx{K} = \mtx{R}^{-1}\mtx{B}^T\mtx{P}
+\end{equation*}
+
+and $\mtx{P}$ is found by solving the continuous time algebraic Riccati equation
+defined as
+
+\begin{equation*}
+  \mtx{A}^T\mtx{P} + \mtx{P}\mtx{A} -
+    \mtx{P}\mtx{B}\mtx{R}^{-1}\mtx{B}^T\mtx{P} + \mtx{Q} = 0
+\end{equation*}
+
+The discrete time LQR \gls{controller} is computed via a slightly different cost
+function, constraint, and resulting algebraic Ricatti equation. Snippet
+\ref{lst:dlqr} computes the optimal infinite horizon, discrete time LQR
+\gls{controller}.
 
 \begin{code}{Python}{build/frccontrol/frccontrol/dlqr.py}
   \caption{Infinite horizon, discrete time LQR computation in Python}

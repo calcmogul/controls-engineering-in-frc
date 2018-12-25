@@ -170,12 +170,6 @@ included in an appendix.
   * Mention circular arc approximation
 * Import an LQR derivation based on Lagrange multipliers?
 * Explain N term for LQR
-  * It's a cross term between error and control effort. One application for it
-    is making one system behave like some other desired system. This is used on
-    the Blackhawk helicopter at NASA Ames when they want to make it fly like
-    experimental aircraft (within the limits of the helicopter's actuators, of
-    course).
-  * Write out matrix form of LQR cost function with cross term N
   * Describe implicit model following application
 * Finite horizon, discrete time LQR
 * Add an appendix on Ito calculus to explain where the Wiener process comes from?
