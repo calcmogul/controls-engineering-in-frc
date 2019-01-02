@@ -32,10 +32,9 @@ There are three methods FRC team 971 has used over the years:
     integrator only acts if the \gls{system} isn't behaving like the
     \gls{model}, which was the original intent. The downside is working with it
     is very confusing.
-  \item Estimate an ``error" in the \gls{observer} and compensate for it. This
-    quantity is the difference between what was applied and what was observed to
-    happen. To use it, you simply add it to your \gls{control input} and it will
-    converge.
+  \item Estimate the ``error" in the \gls{control input} (the difference between
+    what was applied versus what was observed to happen) via the \gls{observer}
+    and compensate for it.
 \end{enumerate}
 
 We'll present the first and third methods since the third is strictly better
@@ -121,14 +120,28 @@ The controller is augmented as
 \label{subsec:u_error_estimation}
 \index{Integral control!U error estimation}
 
+Given the desired \gls{input} produced by a \gls{controller}, unmodeled
+\glspl{disturbance} may cause the observed behavior of a \gls{system} to deviate
+from its \gls{model}. U error estimation estimates the difference between the
+desired \gls{input} and a hypothetical \gls{input} that makes the \gls{model}
+match the observed behavior. This value can be added to the \gls{control input}
+to make the \gls{controller} compensate for unmodeled \glspl{disturbance} and
+make the \gls{model} better predict the \gls{system}'s future behavior.
+
 Let $u_{error}$ be the difference between the \gls{input} actually applied to a
 \gls{system} and the desired \gls{input}. The $u_{error}$ term is then added to
 the \gls{system} as follows.
 
-\begin{align*}
-  \dot{\mtx{x}} &= \mtx{A}\mtx{x} + \mtx{B}\left(\mtx{u} + u_{error}\right) \\
-  \dot{\mtx{x}} &= \mtx{A}\mtx{x} + \mtx{B}\mtx{u} + \mtx{B}u_{error}
-\end{align*}
+\begin{equation*}
+  \dot{\mtx{x}} = \mtx{A}\mtx{x} + \mtx{B}\left(\mtx{u} + u_{error}\right)
+\end{equation*}
+
+$\mtx{u} + u_{error}$ is the hypothetical \gls{input} actually applied to the
+\gls{system}.
+
+\begin{equation*}
+  \dot{\mtx{x}} = \mtx{A}\mtx{x} + \mtx{B}\mtx{u} + \mtx{B}u_{error}
+\end{equation*}
 
 For a multiple-output \gls{system}, this would be
 
