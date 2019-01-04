@@ -425,8 +425,9 @@ model, one risks overfitting the data. One should balance estimating any hidden
 The Kalman filter assumes a \gls{model} with zero-mean white noise. If the
 \gls{model} is incomplete in some way, whether it's missing dynamics or assumes
 an incorrect noise \gls{model}, the residual
-$\widetilde{\mtx{y}} = \mtx{y} - \mtx{H}\hat{\mtx{x}}$ over time will be
-something other than white noise.
+$\widetilde{\mtx{y}} = \mtx{y} - \mtx{H}\hat{\mtx{x}}$ over time will have
+probability characteristics not indicative of white noise (e.g., it isn't
+zero-mean).
 
 To handle other colors of noise in a Kalman filter, define that color of noise
 in terms of white noise and augment the \gls{model} with it.

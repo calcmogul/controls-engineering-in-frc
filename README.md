@@ -175,7 +175,8 @@ included in an appendix.
 * Add an appendix on Ito calculus to explain where the Wiener process comes from?
 * Add equations for Kalman smoother
 * Add equations for and implementation of MMAE
-* Add EKF for nonlinear pose estimation
+* Add KFs for nonlinear drivetrain pose estimation
+  * EKF, UKF, and comparison of the two
 * Derive the two-sensor and three-sensor problems from first principles. The
   two-sensor problem uses p(x) and p(z_1|x). The three-sensor problem uses p(x),
   p(z_1|x), and p(z_2|x).
