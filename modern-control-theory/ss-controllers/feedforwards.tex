@@ -304,10 +304,11 @@ matrix with dimensionality $states \times states$ and $\mtx{R}$ as the
 \begin{remark}
   $\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k$ will only return a nonzero vector if the
   \gls{reference} isn't following the \gls{system} dynamics. If it is, the
-  feedback controller already compensates for it. This feedforward compensates
-  for any unmodeled dynamics reflected in how the \gls{reference} is changing
-  (or not changing). In the case of a constant \gls{reference}, the feedforward
-  opposes any \gls{system} dynamics that would change the \gls{state} over time.
+  feedforward has nothing to do; the \gls{model} is already tracking the
+  \gls{reference} on its own. This feedforward compensates for any unmodeled
+  dynamics reflected in how the \gls{reference} is changing (or not changing).
+  In the case of a constant \gls{reference}, the feedforward opposes any
+  \gls{system} dynamics that would change the \gls{state} over time.
 \end{remark}
 
 The following theorems will be needed to find the minimum of $\mtx{J}$.
