@@ -30,11 +30,7 @@ def main():
     print(D)
 
     tmp = np.concatenate(
-        (
-            np.concatenate((A - np.eye(A.shape[0]), B), axis=1),
-            np.concatenate((C, D), axis=1),
-        ),
-        axis=0,
+        (np.concatenate((A, B), axis=1), np.concatenate((C, D), axis=1)), axis=0
     )
 
     print("[A, B; C, D] =")
