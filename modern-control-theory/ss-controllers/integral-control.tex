@@ -128,33 +128,34 @@ match the observed behavior. This value can be added to the \gls{control input}
 to make the \gls{controller} compensate for unmodeled \glspl{disturbance} and
 make the \gls{model} better predict the \gls{system}'s future behavior.
 
-Let $u_{error}$ be the difference between the \gls{input} actually applied to a
-\gls{system} and the desired \gls{input}. The $u_{error}$ term is then added to
-the \gls{system} as follows.
+First, we'll consider the one-dimensional case. Let $u_{error}$ be the
+difference between the \gls{input} actually applied to a \gls{system} and the
+desired \gls{input}. The $u_{error}$ term is then added to the \gls{system} as
+follows.
 
 \begin{equation*}
-  \dot{\mtx{x}} = \mtx{A}\mtx{x} + \mtx{B}\left(\mtx{u} + u_{error}\right)
+  \dot{x} = Ax + B\left(u + u_{error}\right)
 \end{equation*}
 
-$\mtx{u} + u_{error}$ is the hypothetical \gls{input} actually applied to the
+$u + u_{error}$ is the hypothetical \gls{input} actually applied to the
 \gls{system}.
 
 \begin{equation*}
-  \dot{\mtx{x}} = \mtx{A}\mtx{x} + \mtx{B}\mtx{u} + \mtx{B}u_{error}
+  \dot{x} = Ax + Bu + Bu_{error}
 \end{equation*}
 
-For a multiple-output \gls{system}, this would be
+The following equation generalizes this to a multiple-input \gls{system}.
 
 \begin{equation*}
   \dot{\mtx{x}} = \mtx{A}\mtx{x} + \mtx{B}\mtx{u} + \mtx{B}_{error}u_{error}
 \end{equation*}
 
-where $\mtx{B}_{error}$ is the column vector that maps $u_{error}$ to changes in
+where $\mtx{B}_{error}$ is a column vector that maps $u_{error}$ to changes in
 the rest of the \gls{state} the same way $\mtx{B}$ does for $\mtx{u}$.
 $\mtx{B}_{error}$ is only a column of $\mtx{B}$ if $u_{error}$ corresponds to an
 existing \gls{input} within $\mtx{u}$.
 
-The \gls{plant} is augmented as
+Given the above equation, we'll augment the \gls{plant} as
 
 \begin{align*}
   \dot{\begin{bmatrix}
@@ -182,9 +183,10 @@ The \gls{plant} is augmented as
   \end{bmatrix} + \mtx{D}\mtx{u}
 \end{align*}
 
-With this \gls{model}, the \gls{observer} will estimate both the \gls{state} and
-the $u_{error}$ term. The controller is augmented similarly. $\mtx{r}$ is
-augmented with a zero for the goal $u_{error}$ term.
+Notice how the \gls{state} is augmented with $u_{error}$. With this \gls{model},
+the \gls{observer} will estimate both the \gls{state} and the $u_{error}$ term.
+The controller is augmented similarly. $\mtx{r}$ is augmented with a zero for
+the goal $u_{error}$ term.
 
 \begin{align*}
   \mtx{u} &= \mtx{K} \left(\mtx{r} - \mtx{x}\right) - \mtx{k}_{error}u_{error}
