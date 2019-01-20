@@ -117,7 +117,31 @@ discrete \gls{controller}.
 \end{equation}
 
 This will compensate for unmodeled dynamics such as gravity. However, using a
-constant feedforward to counteract gravity is preferred over this method.
+constant voltage feedforward to counteract gravity is preferred over $u_{error}$
+estimation in this case because it results in a simpler controller with similar
+performance.
+
+\subsection{Gravity feedforward}
+
+Input voltage is proportional to force and gravity is a constant force, so a
+constant voltage feedforward can compensate for gravity. We'll model gravity as
+a disturbance described by $-mg$. To compensate for it, we want to find a
+voltage that is equal and opposite to it. The bottom row of the continuous
+elevator model contains the acceleration terms.
+
+\begin{equation*}
+  Bu_{ff} = -(\text{unmodeled dynamics})
+\end{equation*}
+
+where $B$ is the motor acceleration term from $\mtx{B}$ and $u_{ff}$ is the
+voltage feedforward.
+
+\begin{align*}
+  Bu_{ff} &= -(-mg) \\
+  Bu_{ff} &= mg \\
+  \frac{G K_t}{Rrm} u_{ff} &= mg \\
+  u_{ff} &= \frac{Rrm^2 g}{G K_t}
+\end{align*}
 
 \subsection{Simulation}
 
@@ -155,9 +179,3 @@ ElevatorCoeffs.cpp. These can be used with the WPILib StateSpacePlant,
 StateSpaceController, and StateSpaceObserver classes in C++ and Java. A C++
 implementation of this elevator controller is available online\footnote{
 \url{https://github.com/calcmogul/allwpilib/tree/state-space/wpilibcExamples/src/main/cpp/examples/StateSpaceElevator}}.
-
-\begin{remark}
-  Instead of implementing $u_{error}$ estimation to compensate for gravity, one
-  can apply a constant voltage feedforward since input voltage is proportional
-  to force and gravity is a constant force.
-\end{remark}
