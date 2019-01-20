@@ -255,9 +255,18 @@ Collect the common terms on separate sides and refactor.
 So, we added a zero at $-\frac{K_p}{K_d}$ and moved our pole to
 $-\frac{\frac{K_t}{JRK_v} + \frac{K_t K_p}{JR}}{1 + \frac{K_t K_d}{JR}}$. This
 isn't progress. We've added more complexity to our \gls{system} and, practically
-speaking, gotten nothing good out of it. Zeroes should be avoided if at all
-possible because they amplify unwanted high frequency modes of the \gls{system}.
-At least this is a stable zero, but it's still undesirable.
+speaking, gotten nothing good in return. Zeroes should be avoided if at all
+possible because they amplify unwanted high frequency modes of the \gls{system}
+and are noiser the faster the \gls{system} is sampled. At least this is a stable
+zero, but it's still undesirable.
 
-In summary, derivative doesn't help on a flywheel. $K_d$ may help if the real
-\gls{system} isn't ideal, but we don't suggest relying on that.
+In summary, derivative doesn't help on an ideal flywheel. $K_d$ may compensate
+for unmodeled dynamics such as accelerating projectiles slowing the flywheel
+down, but that effect may also increase recovery time; $K_d$ drives the
+acceleration to zero in the undesired case of negative acceleration as well as
+well as the actually desired case of positive acceleration.
+
+We'll cover a superior compensation method much later in subsection
+\ref{subsec:u_error_estimation} that avoids zeroes in the \gls{controller},
+doesn't act against the desired control action, and facilitates better
+\gls{tracking}.
