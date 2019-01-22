@@ -158,6 +158,8 @@ The following state-space implementation examples are planned:
 * Rotating claw with independent top/bottom
   * See 971/y2014/control_loops/python/claw.py
   * Use as example of coordinate transformations for states?
+  * Probably just single-jointed arm model for each side with separate LQR
+    controllers, then coordinate transformation to control separation.
 
 ### Supplementary background
 
