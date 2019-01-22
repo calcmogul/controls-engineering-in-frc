@@ -10,10 +10,10 @@ def main():
     D = np.array([[9]])
 
     tmp = np.zeros((3, 3))
-    tmp[0:2, 0:2] = A
-    tmp[0:2, 2:3] = B
-    tmp[2:3, 0:2] = C
-    tmp[2:3, 2:3] = D
+    tmp[:2, :2] = A  # tmp[0:2, 0:2] = A
+    tmp[:2, 2:] = B  # tmp[0:2, 2:3] = B
+    tmp[2:, :2] = C  # tmp[2:3, 0:2] = C
+    tmp[2:, 2:] = D  # tmp[2:3, 2:3] = D
 
     print("A =")
     print(A)
