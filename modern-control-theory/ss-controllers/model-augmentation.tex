@@ -80,8 +80,8 @@ matrix augmentation.
 
 \subsection{Examples}
 
-Snippet \ref{lst:augment} shows how one packs together the following augmented
-matrix in Python.
+Snippet \ref{lst:augment_concat} shows how one packs together the following
+augmented matrix in Python using concatenation.
 
 \begin{equation*}
   \begin{bmatrix}
@@ -90,9 +90,17 @@ matrix in Python.
   \end{bmatrix}
 \end{equation*}
 
-\begin{code}{Python}{code/snippets/augment.py}
-  \caption{Matrix augmentation example}
-  \label{lst:augment}
+\begin{code}{Python}{code/snippets/augment_concat.py}
+  \caption{Matrix augmentation example: concatenation}
+  \label{lst:augment_concat}
+\end{code}
+
+Snippet \ref{lst:augment_slices} shows how one packs together the same augmented
+matrix in Python using array slices.
+
+\begin{code}{Python}{code/snippets/augment_slices.py}
+  \caption{Matrix augmentation example: array slices}
+  \label{lst:augment_slices}
 \end{code}
 
 Section \ref{sec:integral_control} demonstrates \gls{model} augmentation for
