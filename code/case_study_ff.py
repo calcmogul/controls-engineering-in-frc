@@ -47,7 +47,7 @@ def main():
                   [0, 1 / 40**2]])
     R = np.array([[1 / 12**2]])
     # fmt: on
-    K = frccnt.dlqr(sysd, Q, R)
+    K = frccnt.lqr(sysd, Q, R)
 
     # Steady-state feedforward
     tmp1 = concatenate(

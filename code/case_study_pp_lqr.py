@@ -49,7 +49,7 @@ def main():
     # fmt: on
     K_pp1 = cnt.place(sysd.A, sysd.B, [0.1, 0.9])
     K_pp2 = cnt.place(sysd.A, sysd.B, [0.1, 0.8])
-    K_lqr = frccnt.dlqr(sysd, Q, R)
+    K_lqr = frccnt.lqr(sysd, Q, R)
 
     t = np.arange(0, tmax, dt)
     r = np.array([[2000 * 0.1047], [0]])
