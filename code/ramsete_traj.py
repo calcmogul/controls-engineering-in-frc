@@ -124,46 +124,40 @@ class Drivetrain(frccnt.System):
         u_labels = [("Left voltage", "V"), ("Right voltage", "V")]
         self.set_plot_labels(state_labels, u_labels)
 
+        u_min = np.array([[-12.0], [-12.0]])
+        u_max = np.array([[12.0], [12.0]])
+        frccnt.System.__init__(self, np.zeros((2, 1)), u_min, u_max, dt)
+
+    def create_model(self, states):
         self.in_low_gear = False
 
         # Number of motors per side
-        self.num_motors = 3.0
+        num_motors = 3.0
 
         # High and low gear ratios of drivetrain
         Glow = 60.0 / 11.0
         Ghigh = 60.0 / 11.0
 
         # Drivetrain mass in kg
-        self.m = 52
+        m = 52
         # Radius of wheels in meters
-        self.r = 0.08255 / 2.0
+        r = 0.08255 / 2.0
         # Radius of robot in meters
         self.rb = 0.59055 / 2.0
         # Moment of inertia of the drivetrain in kg-m^2
-        self.J = 6.0
+        J = 6.0
 
         # Gear ratios of left and right sides of drivetrain respectively
         if self.in_low_gear:
-            self.Gl = Glow
-            self.Gr = Glow
+            Gl = Glow
+            Gr = Glow
         else:
-            self.Gl = Ghigh
-            self.Gr = Ghigh
+            Gl = Ghigh
+            Gr = Ghigh
 
-        self.model = drivetrain(
-            frccnt.models.MOTOR_CIM,
-            self.num_motors,
-            self.m,
-            self.r,
-            self.rb,
-            self.J,
-            self.Gl,
-            self.Gr,
-        )
-        u_min = np.array([[-12.0], [-12.0]])
-        u_max = np.array([[12.0], [12.0]])
-        frccnt.System.__init__(self, self.model, u_min, u_max, dt)
+        return drivetrain(frccnt.models.MOTOR_CIM, num_motors, m, r, self.rb, J, Gl, Gr)
 
+    def design_controller_observer(self):
         if self.in_low_gear:
             q_vel = 1.0
         else:
@@ -171,7 +165,7 @@ class Drivetrain(frccnt.System):
 
         q = [q_vel, q_vel]
         r = [12.0, 12.0]
-        self.design_dlqr_controller(q, r)
+        self.design_lqr(q, r)
 
         qff_vel = 0.01
         self.design_two_state_feedforward([qff_vel, qff_vel], [12, 12])
@@ -205,7 +199,11 @@ def main():
             t.append(current_t)
             xprof.append(float(row[1]))
             yprof.append(float(row[2]))
-            thetaprof.append(float(row[7]))
+            theta = float(row[7])
+            if theta > np.pi:
+                thetaprof.append(2.0 * np.pi - theta)
+            else:
+                thetaprof.append(theta)
             vprof.append(float(row[4]))
 
             if len(thetaprof) > 1:
@@ -242,7 +240,6 @@ def main():
     ur_rec = []
 
     # Run Ramsete
-    drivetrain.reset()
     i = 0
     while i < len(t) - 1:
         desired_pose.x = xprof[i]
