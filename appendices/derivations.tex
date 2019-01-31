@@ -201,20 +201,22 @@ Starting with the continuous \gls{model}
   \dot{\mtx{x}}(t) = \mtx{A}\mtx{x}(t) + \mtx{B}\mtx{u}(t)
 \end{equation*}
 
-we know that the matrix exponential is
+by premultiplying the \gls{model} by $e^{-\mtx{A}t}$, we get
+
+\begin{align*}
+  e^{-\mtx{A}t}\dot{\mtx{x}}(t) &= e^{-\mtx{A}t}\mtx{A}\mtx{x}(t) +
+    e^{-\mtx{A}t}\mtx{B}\mtx{u}(t) \\
+  e^{-\mtx{A}t}\dot{\mtx{x}}(t) - e^{-\mtx{A}t}\mtx{A}\mtx{x}(t) &=
+    e^{-\mtx{A}t}\mtx{B}\mtx{u}(t)
+\end{align*}
+
+The derivative of the matrix exponential is
 
 \begin{equation*}
   \frac{d}{dt}e^{\mtx{A}t} = \mtx{A}e^{\mtx{A}t} = e^{\mtx{A}t}\mtx{A}
 \end{equation*}
 
-and by premultiplying the \gls{model} we get
-
-\begin{equation*}
-  e^{-\mtx{A}t}\dot{\mtx{x}}(t) = e^{-\mtx{A}t}\mtx{A}\mtx{x}(t) +
-    e^{-\mtx{A}t}\mtx{B}\mtx{u}(t)
-\end{equation*}
-
-which we recognize as
+so we recognize the previous equation as
 
 \begin{equation*}
   \frac{d}{dt}\left(e^{-\mtx{A}t}\mtx{x}(t)\right) =
