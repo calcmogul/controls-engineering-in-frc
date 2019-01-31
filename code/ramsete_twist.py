@@ -203,7 +203,7 @@ class Drivetrain(frccnt.System):
 
 
 def main():
-    dt = 0.00505
+    dt = 0.05
     drivetrain = Drivetrain(dt)
 
     t, xprof, vprof, aprof = frccnt.generate_s_curve_profile(
