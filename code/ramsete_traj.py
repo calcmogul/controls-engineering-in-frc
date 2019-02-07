@@ -292,7 +292,7 @@ def main():
     plt.figure(3)
     num_plots = 4
     plt.subplot(num_plots, 1, 1)
-    plt.title("Time-domain responses")
+    plt.title("Time domain responses")
     plt.ylabel("Velocity (m/s)")
     plt.plot(t, vref_rec, label="Reference")
     plt.plot(t, v_rec, label="Estimated state")
