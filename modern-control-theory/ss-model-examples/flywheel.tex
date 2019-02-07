@@ -121,3 +121,88 @@ FlywheelCoeffs.cpp. These can be used with the WPILib StateSpacePlant,
 StateSpaceController, and StateSpaceObserver classes in C++ and Java. A C++
 implementation of this flywheel controller is available online\footnote{
 \url{https://github.com/calcmogul/allwpilib/tree/state-space/wpilibcExamples/src/main/cpp/examples/StateSpaceFlywheel}}.
+
+\subsection{Flywheel model without encoder}
+\label{subsec:flywheel_model_without_encoder}
+
+In the FIRST Robotics Competition, we can get the current drawn for specific
+channels on the power distribution panel. We can theoretically use this to
+estimate the angular velocity of a DC motor without an encoder. We'll start with
+the flywheel model derived earlier as equation (\ref{eq:dot_omega_f}).
+
+\begin{align*}
+  \dot{\omega}_f &= \frac{G K_t}{RJ} V - \frac{G^2 K_t}{K_v RJ} \omega_f \\
+  \dot{\omega}_f &= -\frac{G^2 K_t}{K_v RJ} \omega_f + \frac{G K_t}{RJ} V
+\end{align*}
+
+Next, we'll derive the current $I$ as an output.
+
+\begin{align*}
+  V &= IR + \frac{\omega_f}{K_v} \\
+  IR &= V - \frac{\omega_f}{K_v} \\
+  I &= -\frac{1}{K_v R} \omega_f + \frac{1}{R} V
+\end{align*}
+
+Therefore,
+
+\begin{theorem}[Flywheel state-space model without encoder]
+  \begin{align*}
+    \dot{\mtx{x}} &= \mtx{A} \mtx{x} + \mtx{B} \mtx{u} \\
+    \mtx{y} &= \mtx{C} \mtx{x} + \mtx{D} \mtx{u}
+  \end{align*}
+  \begin{equation*}
+    \begin{array}{ccc}
+      \mtx{x} = \omega_f &
+      \mtx{y} = I &
+      \mtx{u} = V
+    \end{array}
+  \end{equation*}
+  \begin{equation}
+    \begin{array}{cccc}
+      \mtx{A} = -\frac{G^2 K_t}{K_v RJ} &
+      \mtx{B} = \frac{G K_t}{RJ} &
+      \mtx{C} = -\frac{1}{K_v R} &
+      \mtx{D} = \frac{1}{R}
+    \end{array}
+  \end{equation}
+\end{theorem}
+
+Notice that in this \gls{model}, the \gls{output} isn't a \gls{state}. To
+estimate the full \gls{state}, the only requirement our \gls{observer} places on
+our \glspl{output} is that they can be computed via a linear combination of the
+\glspl{state}\footnote{While the flywheel model's outputs are a linear
+combination of both the states and inputs, \glspl{input} don't provide new
+information about the \glspl{state}. Therefore, they don't affect whether the
+system is observable.}. We'll revisit this in chapter
+\ref{ch:stochastic_control_theory} with an example that uses range measurements
+to estimate an object's orientation.
+
+The effectiveness of this \gls{model}'s \gls{observer} is heavily dependent on
+the quality of the current sensor used. If the sensor's noise isn't zero-mean,
+the \gls{observer} won't converge to the true \gls{state}.
+
+\subsection{Voltage compensation}
+
+To improve controller \gls{tracking}, one may want to use the voltage
+renormalized to the power rail voltage to compensate for voltage drop when
+current spikes occur. This can be done as follows.
+
+\begin{equation}
+  V = V_{cmd} \frac{V_{nominal}}{V_{rail}}
+\end{equation}
+
+where $V$ is the \gls{controller}'s new input voltage, $V_{cmd}$ is the old
+input voltage, $V_{nominal}$ is the rail voltage when effects like voltage drop
+due to current draw are ignored, and $V_{rail}$ is the real rail voltage.
+
+To drive the \gls{model} with a more accurate voltage that includes voltage
+drop, the reciprocal can be used.
+
+\begin{equation}
+  V = V_{cmd} \frac{V_{rail}}{V_{nominal}}
+\end{equation}
+
+where $V$ is the \gls{model}'s new input voltage. Note that if both the
+\gls{controller} compensation and \gls{model} compensation equations are
+applied, the original voltage is obtained. The \gls{model} input only drops from
+ideal if the compensated \gls{controller} voltage saturates.
