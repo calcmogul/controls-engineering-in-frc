@@ -186,6 +186,9 @@ included in an appendix.
   for handling saturated control inputs to prioritize tracking some states over
   others using the limited control input.
   * See 971/y2017/control_loops/python/polydrivetrain.py
+  * Start with how to turn a set of constraints into a matrix equation of the
+    proper form for a polytope, then how to leverage the polytope libs for
+    enforcing those constraints.
 
 ### Miscellaneous fixes
 
