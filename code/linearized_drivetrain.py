@@ -16,7 +16,6 @@ import frccontrol as frccnt
 import math
 import matplotlib.pyplot as plt
 import numpy as np
-import scipy as sp
 
 
 def drivetrain(motor, num_motors, m, r, rb, J, Gl, Gr, states):
