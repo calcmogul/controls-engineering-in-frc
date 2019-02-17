@@ -202,9 +202,9 @@ Now, plug the expressions for $F_l$ and $F_r$ into equation
 
 \subsubsection{Moment of inertia J}
 
-We'll use empirical measurements of linear and angular acceleration to determine
+We'll use empirical measurements of linear and angular velocity to determine
 $J$. First, we'll derive the equation required to perform a linear regression
-using acceleration test data.
+using velocity test data.
 
 \begin{align*}
   \tau_1 &= \mtx{r} \times \mtx{F} \\
@@ -224,25 +224,30 @@ acceleration, $I$ is the moment of inertia (same as $J$), and $\alpha$ is the
 angular acceleration. If a constant voltage is applied during both the linear
 and angular acceleration tests, $\tau_1 = \tau_2$. Therefore,
 
+\begin{equation*}
+  rma = I \alpha
+\end{equation*}
+
+Integrate with respect to time.
+
 \begin{align}
-  rma &= I \alpha \nonumber \\
-  a &= \frac{I}{rm} \alpha \label{eq:drivetrain_J_regression}
+  rmv + C_1 &= I \omega + C_2 \nonumber \\
+  rmv &= I \omega + C_3 \nonumber \\
+  v &= \frac{I}{rm} \omega + C_3 \label{eq:drivetrain_J_regression}
 \end{align}
 
-The test procedure is as follows.
+where $v$ is linear velocity and $\omega$ is angular velocity. $C_1$, $C_2$, and
+$C_3$ are arbitrary constants of integration that won't be needed. The test
+procedure is as follows.
 
 \begin{enumerate}
   \item Run the drivetrain forward at a constant voltage. Record the linear
-    velocity over time.
-  \item Compute the linear acceleration from the linear velocity data as the
-    difference between each sample divided by the time between them.
+    velocity over time using encoders.
   \item Rotate the drivetrain around its center by applying the same voltage as
     the linear acceleration test with the motors driving in opposite directions.
-    Record the angular velocity over time.
-  \item Compute the angular acceleration from the angular velocity data as the
-    difference between each sample divided by the time between them.
-  \item Perform a linear regression of linear acceleration versus angular
-    acceleration. The slope of this line has the form $\frac{I}{rm}$ as per
-    equation (\ref{eq:drivetrain_J_regression}).
+    Record the angular velocity over time using a gyroscope.
+  \item Perform a linear regression of linear velocity versus angular velocity.
+    The slope of this line has the form $\frac{I}{rm}$ as per equation
+    (\ref{eq:drivetrain_J_regression}).
   \item Multiply the slope by $rm$ to obtain a least squares estimate of $I$.
 \end{enumerate}
