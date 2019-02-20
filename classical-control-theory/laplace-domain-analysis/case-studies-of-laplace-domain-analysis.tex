@@ -156,7 +156,11 @@ Solve for $\frac{d\omega}{dt}$.
   \frac{d\omega}{dt} &= -\frac{K_t}{JRK_v} \omega + \frac{K_t}{JR} V
 \end{align*}
 
-Now take the Laplace transform.
+Now take the Laplace transform. Because the Laplace transform is a linear
+operator, we can take the Laplace transform of each term individually. Based on
+table \ref{tab:common_laplace_transforms}, $\frac{d\omega}{dt}$ becomes
+$s\omega$ and $\omega(t)$ and $V(t)$ become $\omega(s)$ and $V(s)$ respectively
+(the parenthetical notation has been dropped for clarity).
 
 \begin{equation}
   s \omega = -\frac{K_t}{JRK_v} \omega + \frac{K_t}{JR} V
