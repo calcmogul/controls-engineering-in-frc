@@ -415,6 +415,25 @@ $\mtx{u}_{ff}$ approaches corollary \ref{cor:two-state_ff_no_r}.
   $\mtx{B}^\dagger = (\mtx{B}^T\mtx{B})^{-1}\mtx{B}^T$.
 \end{remark}
 
+\subsection{Plant inversion}
+
+\Gls{plant} inversion solves the \gls{plant} for the input that will make the
+\gls{plant} track a desired output. This is called inversion because in a block
+diagram, the inverted \gls{plant} feedforward and \gls{plant} cancel out to
+produce a unity system from input to output.
+
+The two-state feedforward is an example of \gls{plant} inversion. While it can
+be an effective tool, the following should be kept in mind.
+
+\subsubsection{Don't invert an unstable plant}
+
+Stabilize the plant first with feedback, then inject an inversion.
+
+\subsubsection{Don't invert a nonminimum phase system}
+
+The advice for pole-zero cancellation in subsection
+\ref{subsec:pole-zero_cancellation} applies here.
+
 \subsection{Case studies of feedforwards}
 
 \subsubsection{Second-order CIM motor model}
