@@ -35,7 +35,7 @@ command.
 pip3 install --user frccontrol
 ```
 
-The scripts can be run like follows:
+The scripts can be run as follows:
 
 ```
 ./elevator.py
@@ -151,7 +151,7 @@ Add "Partial derivative" to calculus methods appendix.
 Expand the implementation steps section on writing unit tests in Google Test.
 
 Add examples of u_error state-space models to frccontrol and reference them in
-the book.
+the book. Also do C++ examples.
 
 The following state-space implementation examples are planned:
 
@@ -194,6 +194,7 @@ included in an appendix.
 
 * Makefile should pull frccontrol and rerun all Python scripts if new commits
   were added. If pull fails due to lack of internet, ignore it.
+* Add make flag for compiling without chapter heading images
 * Modify pareto_boundary.py to find and plot real Pareto boundary for LQR
   instead of using a hand-wavey approximation
 * Fix bugs in dependencies
