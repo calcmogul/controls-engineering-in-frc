@@ -22,8 +22,59 @@ ROOT := $(shell pwd)
 .PHONY: all
 all: $(NAME).pdf
 
+.PHONY: ebook
+ebook: $(NAME)-ebook.pdf
+
+.PHONY: printer
+printer: $(NAME)-printer.pdf
+
+.PHONY: prepress
+prepress: $(NAME)-prepress.pdf
+
 $(NAME).pdf: $(TEX) $(STAMP) $(BIB) $(FIGS) build/commit-hash.txt
 	latexmk -interaction=nonstopmode -xelatex $(NAME)
+
+$(NAME)-ebook.pdf: $(NAME).pdf
+	gs -sDEVICE=pdfwrite \
+		-dCompatibilityLevel=1.4 \
+		-dPDFSETTINGS=/ebook \
+		-dEmbedAllFonts=true \
+		-dSubsetFonts=true \
+		-dFastWebView=true \
+		-dPrinted=false \
+		-dNOPAUSE \
+		-dQUIET \
+		-dBATCH \
+		-sOutputFile=$(NAME)-ebook.pdf \
+		$(NAME).pdf
+
+$(NAME)-printer.pdf: $(NAME).pdf
+	gs -sDEVICE=pdfwrite \
+		-dCompatibilityLevel=1.4 \
+		-dPDFSETTINGS=/printer \
+		-dEmbedAllFonts=true \
+		-dSubsetFonts=true \
+		-dFastWebView=true \
+		-dPrinted=false \
+		-dNOPAUSE \
+		-dQUIET \
+		-dBATCH \
+		-sOutputFile=$(NAME)-printer.pdf \
+		$(NAME).pdf
+
+$(NAME)-prepress.pdf: $(NAME).pdf
+	gs -sDEVICE=pdfwrite \
+		-dCompatibilityLevel=1.4 \
+		-dPDFSETTINGS=/prepress \
+		-dEmbedAllFonts=true \
+		-dSubsetFonts=true \
+		-dFastWebView=true \
+		-dPrinted=false \
+		-dNOPAUSE \
+		-dQUIET \
+		-dBATCH \
+		-sOutputFile=$(NAME)-prepress.pdf \
+		$(NAME).pdf
 
 build/commit-hash.txt: .git/refs/heads/master .git/HEAD
 	git rev-parse --short HEAD > build/commit-hash.txt
@@ -35,7 +86,7 @@ build/frccontrol:
 
 $(FIGS): build/%.jpg: %.jpg
 	@mkdir -p $(@D)
-	convert -density 300 $< -resample 150 -units PixelsPerInch $@
+	cp $< $@
 
 $(CSV): build/%.csv: %.csv
 	@mkdir -p $(@D)
@@ -51,5 +102,5 @@ clean:
 	rm -rf build *.aux *.bbl *.bcf *.blg *.fdb_latexmk *.fls *.glg *.glo *.gls *.idx *.ilg *.ind *.ist *.lof *.log *.los *.lot *.out *.toc *.pdf *.ptc *.xdv *.xml
 
 .PHONY: upload
-upload: $(NAME).pdf
-	rsync --progress $(NAME).pdf file.tavsys.net:/srv/file/control/$(NAME).pdf
+upload: ebook
+	rsync --progress $(NAME)-ebook.pdf file.tavsys.net:/srv/file/control/$(NAME).pdf

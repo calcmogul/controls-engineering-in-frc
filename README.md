@@ -63,7 +63,7 @@ To compile the book, the following packages are required.
 * python (for generating plots)
 * python-pip (for installing required Python packages)
 * inkscape (to convert SVGs to PDF)
-* imagemagick (to downsample figures)
+* ghostscript (to reduce size of final PDF for publishing)
 
 #### Ubuntu
 
@@ -78,7 +78,7 @@ To compile the book, the following packages are required.
 * python3 (for generating plots)
 * python3-pip (for installing required Python packages)
 * inkscape (to convert SVGs to PDF)
-* imagemagick (to downsample figures)
+* ghostscript (to reduce size of final PDF for publishing)
 
 #### Python packages
 

@@ -11,7 +11,7 @@ jobs:
   - script: |
       sudo apt-get update -y
       sudo apt-get install -y latexmk texlive-xetex texlive-latex-extra \
-          texlive-generic-extra texlive-bibtex-extra biber inkscape imagemagick
+          texlive-generic-extra texlive-bibtex-extra biber inkscape ghostscript
     displayName: 'Install system dependencies'
   - script: |
       pip3 install --user frccontrol black
@@ -28,8 +28,8 @@ jobs:
       git checkout master
       git checkout pr
 
-      make -j$(nproc)
-      cp state-space-guide.pdf $(Build.ArtifactStagingDirectory)
+      make -j$(nproc) ebook
+      cp state-space-guide-ebook.pdf $(Build.ArtifactStagingDirectory)/state-space-guide.pdf
     displayName: 'Generate PDF'
   - task: PublishBuildArtifacts@1
     inputs:
