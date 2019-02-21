@@ -60,8 +60,9 @@ with the cost function
 \begin{equation*}
   J = \int\limits_0^\infty
     \begin{bmatrix}
-      \mtx{x}^T & \mtx{u}^T
-    \end{bmatrix}
+      \mtx{x} \\
+      \mtx{u}
+    \end{bmatrix}^T
     \begin{bmatrix}
       \mtx{Q} & \mtx{N} \\
       \mtx{N}^T & \mtx{R}
@@ -79,6 +80,15 @@ weighting factor for \gls{control effort}, and $\mtx{N}$ is a cross term between
 \gls{error} and \gls{control effort}.
 
 \begin{align*}
+  J &= \int\limits_0^\infty
+    \begin{bmatrix}
+      \mtx{x} \\
+      \mtx{u}
+    \end{bmatrix}^T
+    \begin{bmatrix}
+      \mtx{Q}\mtx{x} + \mtx{N}\mtx{u} \\
+      \mtx{N}^T\mtx{x} + \mtx{R}\mtx{u}
+    \end{bmatrix} dt \\
   J &= \int\limits_0^\infty
     \begin{bmatrix}
       \mtx{x}^T & \mtx{u}^T
