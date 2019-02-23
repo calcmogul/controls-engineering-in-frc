@@ -124,9 +124,6 @@ anticipate gaps in their understanding.
 
 Finish chapters on calculus and dynamics and part on motion planning.
 
-Give matrix \mtx{0} and \mtx{I} in equations dimension subscripts
-* m states, n inputs, p outputs
-
 Add exercises at the end of each chapter (with solutions) for reader practice.
 This book is supposed to be "practical" after all.
 * This should help me see the points I want to teach in each chapter (since
