@@ -15,14 +15,20 @@ import numpy as np
 
 # Set the default color cycle
 mpl.rcParams["axes.prop_cycle"] = mpl.cycler(
-    color=["k", "crimson", "darkorange", "g", "b", "blueviolet", "violet"]
+    color=["k", "violet", "blueviolet", "b", "g", "darkorange", "crimson"]
 )
 
 plt.rc("text", usetex=True)
 
 
 def taylor_exp(x, n):
-    """Returns value at x for Taylor series expansion of order n."""
+    """Evaluates the nth-order Taylor series expansion of e^x around x = 0 at
+    the given x.
+
+    Keyword arguments:
+    x -- The value at which to evaluate the Taylor series expansion.
+    n -- The order of the Taylor series expansion.
+    """
     val = 0
     for i in range(n + 1):
         val += x ** i / math.factorial(i)
@@ -35,7 +41,7 @@ def main():
     plt.xlim(xlim)
     plt.ylim([-2, 20])
     plt.plot(xs, [math.exp(x) for x in xs], label="$e^t$")
-    for i in range(6):
+    for i in range(5, -1, -1):
         plt.plot(
             xs,
             [taylor_exp(x, i) for x in xs],
