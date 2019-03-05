@@ -167,8 +167,7 @@ class Drivetrain(frccnt.System):
         r = [12.0, 12.0]
         self.design_lqr(q, r)
 
-        qff_vel = 0.01
-        self.design_two_state_feedforward([qff_vel, qff_vel], [12, 12])
+        self.design_two_state_feedforward()
 
         q_vel = 1.0
         r_vel = 0.01
@@ -181,43 +180,13 @@ def main():
     dt = 0.02
     drivetrain = Drivetrain(dt)
 
-    import csv
-
-    t = []
-    xprof = []
-    yprof = []
-    thetaprof = []
-    vprof = []
-    omegaprof = []
-    current_t = 0
-
-    with open("ramsete_traj.csv", "r") as trajectory_file:
-        reader = csv.reader(trajectory_file, delimiter=",")
-        trajectory_file.readline()
-        for row in reader:
-            current_t += float(row[0])
-            t.append(current_t)
-            xprof.append(float(row[1]))
-            yprof.append(float(row[2]))
-            theta = float(row[7])
-            if theta > np.pi:
-                thetaprof.append(2.0 * np.pi - theta)
-            else:
-                thetaprof.append(theta)
-            vprof.append(float(row[4]))
-
-            if len(thetaprof) > 1:
-                if thetaprof[-1] > np.pi:
-                    heading2 = 2.0 * np.pi - thetaprof[-1]
-                else:
-                    heading2 = thetaprof[-1]
-                if thetaprof[-2] > np.pi:
-                    heading1 = 2.0 * np.pi - thetaprof[-2]
-                else:
-                    heading1 = thetaprof[-2]
-                omegaprof.append((heading2 - heading1) / float(row[0]))
-            else:
-                omegaprof.append(0)
+    data = np.genfromtxt("ramsete_traj.csv", delimiter=",")
+    t = data[1:, 0].T
+    xprof = data[1:, 1].T
+    yprof = data[1:, 2].T
+    thetaprof = data[1:, 3].T
+    vprof = data[1:, 4].T
+    omegaprof = data[1:, 5].T
 
     # Initial robot pose
     pose = Pose2d(xprof[0] + 2, yprof[0], 0)
