@@ -13,17 +13,13 @@ given initial condition, all possible eigenvalues of $\mtx{A}$ from that point
 on remain in the left-half plane. However, nonlinear control uses a different
 definition.
 
-Essentially, Lyapunov stability means that the \gls{system} trajectory can be
-kept arbitrarily close to the origin by starting sufficiently close to it.
-Lyapunov's direct method is concerned with finding a function representing the
-energy in a \gls{system} to prove that the \gls{system} is stable around an
-equilibrium point. This can be used to prove a \gls{system}'s open-loop
-stability as well as its closed-loop stability in the presence of a controller.
-Typically, these functions include the energy of the \gls{system} or the
-derivatives of the \gls{system} \gls{state}, which are then used to show the
-\gls{system} decays to some ground state.
+Lyapunov stability means that the \gls{system} trajectory can be kept
+arbitrarily close to the origin by starting sufficiently close to it. Lyapunov's
+direct method uses a function consisting of the energy in a \gls{system} or
+derivatives of the \gls{system}'s \gls{state} to prove stability around an
+equilibrium point. This is done by showing that the function, and thus its
+inputs, decay to some ground state.
 
-Lyapunov functions are merely sufficient to prove stability (as opposed to a
-specific Lyapunov function being necessary). If one function doesn't prove it,
-another candidate should be tried. For this reason, we refer to these functions
-as \textit{Lyapunov candidate functions}.
+More than one Lyapunov function can prove stability, and if one function doesn't
+prove it, another candidate should be tried. For this reason, we refer to these
+functions as \textit{Lyapunov candidate functions}.
