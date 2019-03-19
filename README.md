@@ -124,6 +124,9 @@ anticipate gaps in their understanding.
 
 Finish chapters on calculus and dynamics and part on motion planning.
 
+Decompress walls of math. The Kalman filter derivation is a particularly big
+offender.
+
 Add exercises at the end of each chapter (with solutions) for reader practice.
 This book is supposed to be "practical" after all.
 * This should help me see the points I want to teach in each chapter (since
@@ -186,6 +189,11 @@ included in an appendix.
   * Start with how to turn a set of constraints into a matrix equation of the
     proper form for a polytope, then how to leverage the polytope libs for
     enforcing those constraints.
+* Add intro to configuration spaces and jacobians
+  * See [this post](https://studywolf.wordpress.com/2013/09/07/robot-control-3-accounting-for-mass-and-gravity/)
+    and previous post on jacobians
+  * See [this post](https://www.chiefdelphi.com/t/multi-segement-arm-or-hilo-arm-interferences/340751/11)
+    on using configuration spaces for mechanism collision avoidance
 
 ### Miscellaneous fixes
 
