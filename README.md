@@ -189,6 +189,8 @@ included in an appendix.
 
 ### Miscellaneous fixes
 
+* Double check drivetrain J calculation. It doesn't include robot radius, which
+  seems suspicious.
 * Makefile should pull frccontrol and rerun all Python scripts if new commits
   were added. If pull fails due to lack of internet, ignore it.
 * Add make flag for compiling without chapter heading images
@@ -197,6 +199,7 @@ included in an appendix.
 * Fix bugs in dependencies
   * Fix nonsquare system pzmaps in Python Control, then enable non-Slycot pzmaps
     for remaining examples
+* Make ramsete_traj.py use frccontrol's update_plant() and update_controller()
 * Eventually convert the book to ConTeXt
 
 ## Licensing
