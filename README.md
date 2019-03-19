@@ -82,12 +82,17 @@ To compile the book, the following packages are required.
 
 #### Python packages
 
-These are installed via pip3 (e.g., `pip3 install --user frccontrol`).
+These packages are installed via pip3 (e.g., `pip3 install --user frccontrol`).
 
 * frccontrol (to provide FRC wrappers for Python Control and generate plots and
   state-space results)
 
-The following are optional because the book can compile without them.
+For the linearized drivetrain example, a custom version of Python Control is
+required that doesn't remove uncontrollable or unobservable states from new
+StateSpace objects. This can be accomplished by removing the call
+`self._remove_useless_states()` from control/statesp.py.
+
+The following packages are optional because the book can compile without them.
 
 * slycot (to generate pole-zero maps for certain state-space model examples)
 * black (to format Python source code)
