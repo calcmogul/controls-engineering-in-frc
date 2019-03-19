@@ -115,6 +115,49 @@ a feedforward of the form $u_{ff} = V_{gravity} \cos\theta$ is preferred where
 $V_{gravity}$ is the voltage required to hold the arm level with the ground and
 $\theta$ is the angle of the arm with the ground.
 
+\subsection{Gravity feedforward}
+
+Input voltage is proportional to torque and gravity is a constant force, but the
+torque applied against the motor varies according to the arm's angle. We'll use
+sum of torques to find a compensating torque.
+
+We'll model gravity as a disturbance described by $-mg$ where $m$ is the arm's
+mass. To compensate for it, we want to find a torque that is equal and opposite
+to the torque applied to the arm by gravity. The bottom row of the continuous
+elevator model contains the angular acceleration terms, so $Bu_{ff}$ is angular
+acceleration caused by the motor; $JBu_{ff}$ is the torque.
+
+\begin{align*}
+  J Bu_{ff} &= -(\mtx{r}\times\mtx{F}) \\
+  J Bu_{ff} &= -(rF\cos\theta)
+\end{align*}
+
+Torque is usually written as $rF\sin\theta$ where $\theta$ is the angle between
+the $\mtx{r}$ and $\mtx{F}$ vectors, but $\theta$ in this case is being measured
+from the horizontal axis rather than the vertical one, so the force vector is
+$\frac{\pi}{4}$ radians out of phase. Thus, an angle of $0$ results in the
+maximum torque from gravity being applied rather than the minimum.
+
+The force of gravity $mg$ is applied at the center of the arm's mass. For a
+uniform beam, this is halfway down its length, or $\frac{L}{2}$ where $L$ is the
+length of the arm.
+
+\begin{align*}
+  J Bu_{ff} &= -\left(\left(\frac{L}{2}\right)(-mg)\cos\theta\right) \\
+  J Bu_{ff} &= mg \frac{L}{2}\cos\theta
+\end{align*}
+
+$B = \frac{GK_t}{RJ}$, so
+
+\begin{align*}
+  J \frac{GK_t}{RJ} u_{ff} &= mg \frac{L}{2}\cos\theta \\
+  u_{ff} &= \frac{RJ}{JGK_t} mg \frac{L}{2}\cos\theta \\
+  u_{ff} &= \frac{L}{2} \frac{Rmg}{GK_t}\cos\theta
+\end{align*}
+
+$\frac{L}{2}$ can be adjusted according to the location of the arm's center of
+mass.
+
 \subsection{Simulation}
 
 Python Control will be used to \glslink{discretization}{discretize} the
