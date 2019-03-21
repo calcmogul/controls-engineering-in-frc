@@ -301,16 +301,6 @@ matrix with dimensionality $states \times states$ and $\mtx{R}$ as the
     \mtx{u}_{ff}^T\mtx{R}\mtx{u}_{ff}
 \end{equation*}
 
-\begin{remark}
-  $\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k$ will only return a nonzero vector if the
-  \gls{reference} isn't following the \gls{system} dynamics. If it is, the
-  feedforward has nothing to do; the \gls{model} is already tracking the
-  \gls{reference} on its own. This feedforward compensates for any unmodeled
-  dynamics reflected in how the \gls{reference} is changing (or not changing).
-  In the case of a constant \gls{reference}, the feedforward opposes any
-  \gls{system} dynamics that would change the \gls{state} over time.
-\end{remark}
-
 The following theorems will be needed to find the minimum of $\mtx{J}$.
 
 \begin{theorem}
@@ -394,6 +384,32 @@ $\mtx{u}_{ff}$ and setting the result to $\mtx{0}$.
 \end{theorem}
 \index{Feedforward!two-state feedforward}
 \index{Optimal control!two-state feedforward}
+
+The two-state feedforward in theorem \ref{thm:two-state_ff} compensates for
+\gls{reference} dynamics that don't follow how the \gls{model} inherently
+behaves. If they do follow the \gls{model}, the feedforward has nothing to do as
+the \gls{model} already behaves in the desired manner. When this occurs,
+$\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k$ will return a zero vector.
+
+For example, a constant \gls{reference} requires a feedforward that opposes
+\gls{system} dynamics that would change the \gls{state} over time. If the
+\gls{system} has no dynamics, then $\mtx{A} = \mtx{I}$ and thus
+
+\begin{align*}
+  \mtx{u}_{ff} &= \mtx{K}_{ff} (\mtx{r}_{k+1} - \mtx{I}\mtx{r}_k) \\
+  \mtx{u}_{ff} &= \mtx{K}_{ff} (\mtx{r}_{k+1} - \mtx{r}_k)
+\end{align*}
+
+For a constant \gls{reference}, $\mtx{r}_{k+1} = \mtx{r}_k$.
+
+\begin{align*}
+  \mtx{u}_{ff} &= \mtx{K}_{ff} (\mtx{r}_k - \mtx{r}_k) \\
+  \mtx{u}_{ff} &= \mtx{K}_{ff} (\mtx{0}) \\
+  \mtx{u}_{ff} &= \mtx{0}
+\end{align*}
+
+so no feedforward is required to hold a \gls{system} with no dynamics at a
+constant \gls{reference}, as expected.
 
 If \gls{control effort} is considered inexpensive, $\mtx{R} \ll \mtx{Q}$ and
 $\mtx{u}_{ff}$ approaches corollary \ref{cor:two-state_ff_no_r}.
