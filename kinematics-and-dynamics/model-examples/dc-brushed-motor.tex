@@ -69,18 +69,6 @@ Substitute this into equation (\ref{eq:motor_V}).
   V = \frac{\tau_m}{K_t} R + \frac{\omega_m}{K_v} \label{eq:motor_tau_V}
 \end{equation}
 
-\begin{remark}
-  If current limiting is desired, one can use the following pseudocode given
-  accurate current and angular velocity measurements. We'll show how the latter
-  measurement can be omitted when using a \gls{model} and \gls{observer} in
-  subsection \ref{subsec:flywheel_model_without_encoder}.
-
-  \begin{code}{Python}{code/snippets/current_limit.py}
-    \caption{Limits current of DC motor to $I_{max}$}
-    \label{lst:dc_motor_current_limit}
-  \end{code}
-\end{remark}
-
 \subsection{Calculating constants}
 
 A typical motor's datasheet should include graphs of the motor's measured torque
@@ -145,3 +133,18 @@ under no load.
 
 If several identical motors are being used in one gearbox for a mechanism,
 multiply the stall torque by the number of motors.
+
+\subsection{Current limiting}
+
+Current limiting of a DC brushed motor reduces the maximum input voltage to
+avoid exceeding a current threshold. Predictive current limiting uses a
+projected estimate of the current, so the voltage is reduced before the current
+threshold is exceeded. Reactive current limiting uses an actual current
+measurement, so the voltage is reduced after the current threshold is exceeded.
+
+The following pseudocode demonstrates each type of current limiting.
+
+\begin{code}{Python}{code/snippets/current_limit.py}
+  \caption{Limits current of DC motor to $I_{max}$}
+  \label{lst:dc_motor_current_limit}
+\end{code}
