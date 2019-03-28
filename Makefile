@@ -77,7 +77,7 @@ $(NAME)-prepress.pdf: $(NAME).pdf
 		$(NAME).pdf
 
 build/commit-hash.txt: .git/refs/heads/master .git/HEAD
-	git rev-parse --short HEAD > build/commit-hash.txt
+	echo "\href{https://github.com/calcmogul/state-space-guide/commit/`git rev-parse --short HEAD`}{commit `git rev-parse --short HEAD`}" > build/commit-hash.txt
 
 # Runs if frccontrol directory doesn't exist yet to perform compilation prep
 build/frccontrol:
