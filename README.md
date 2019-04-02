@@ -127,6 +127,9 @@ More examples of concepts should help slow the pace down. I should read through
 this book as if I was explaining it to my veteran software students and
 anticipate gaps in their understanding.
 
+Add executive summaries of each chapter to facilitate tl;drs similar to what has
+been said in 1-on-1 discussions online when students don't understand.
+
 Finish chapters on calculus and dynamics and part on motion planning.
 
 Decompress walls of math. The Kalman filter derivation is a particularly big
@@ -150,6 +153,11 @@ Ramsete improvements
 * Rework robot odometry equations for use in EKF.
 
 Add "Partial derivative" to calculus methods appendix.
+
+Add mecanum and swerve kinematics derivations
+* See ~/frc/state-space-guide/mecanum-kinematics
+* Inverse kinematics derivations?
+* Show going from one to the other with pseudoinverse?
 
 ### Finish incomplete topics
 
@@ -204,6 +212,9 @@ included in an appendix.
 
 * Double check drivetrain J calculation. It doesn't include robot radius, which
   seems suspicious.
+* Add note about k subscript representing the kth timestep of a variable
+  * Subscripts in general denote iterations of a variable (e.g., x_1, x_2, x_n)
+* Explain how equation 10.1 results in equation 10.2
 * Makefile should pull frccontrol and rerun all Python scripts if new commits
   were added. If pull fails due to lack of internet, ignore it.
 * Add make flag for compiling without chapter heading images
