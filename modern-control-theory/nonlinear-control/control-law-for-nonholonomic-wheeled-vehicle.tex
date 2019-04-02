@@ -661,8 +661,9 @@ model is linear.
 
 \subsection{Simulation}
 
-Figure \ref{fig:linearized_drivetrain_response} demonstrates the tracking
-behavior of the linearized drivetrain controller.
+Figures \ref{fig:linearized_drivetrain_xy} through
+\ref{fig:ramsete_traj_response} demonstrate the tracking behaviors of the
+linearized drivetrain controller and Ramsete controller for the same trajectory.
 
 \begin{bookfigure}
   \begin{minisvg}{build/code/linearized_drivetrain_xy}
@@ -670,17 +671,37 @@ behavior of the linearized drivetrain controller.
     \label{fig:linearized_drivetrain_xy}
   \end{minisvg}
   \hfill
+  \begin{minisvg}{build/code/ramsete_traj_xy}
+    \caption{Ramsete nonlinear controller x-y plot}
+    \label{fig:ramsete_traj_xy}
+  \end{minisvg}
+\end{bookfigure}
+
+\begin{bookfigure}
   \begin{minisvg}{build/code/linearized_drivetrain_response}
     \caption{Linearized drivetrain controller response}
     \label{fig:linearized_drivetrain_response}
   \end{minisvg}
+  \hfill
+  \begin{minisvg}{build/code/ramsete_traj_response}
+    \caption{Ramsete nonlinear controller response}
+    \label{fig:ramsete_traj_response}
+  \end{minisvg}
 \end{bookfigure}
 
-Theta doesn't track perfectly due to the control efforts intended to reduce the
-errors in $y$ and $\theta$ conflicting. Furthermore, the first order
-linearization of $\mtx{A}$ doesn't capture the full dynamics of theta. This
-linearization inaccuracy is evident by the Hessian matrix (second partial
-derivative with respect to the state vector) being nonzero.
+The tracking performance of these two controllers is similar, but the linearized
+drivetrain controller uses less control effort than Ramsete. The
+performance-effort tradeoff in the linearized drivetrain controller is more
+intuitively tunable via the Q and R gains, but the user must generate controller
+gains for every state they visit in the state-space whereas Ramsete has two
+closed-form functions for its control laws. A possible solution to this would be
+fitting a vector function of the states to the linearized drivetrain controller
+gains.
+
+Note that the first order linearization of $\mtx{A}$ doesn't capture the full
+dynamics of theta. This linearization inaccuracy is evident by the Hessian
+matrix (second partial derivative with respect to the state vector) being
+nonzero.
 
 \begin{equation*}
   \frac{\partial^2 f(\mtx{x}, \mtx{0})}{\partial\mtx{x}^2} =
@@ -721,5 +742,11 @@ The second order Taylor series expansion would be
     \mtx{x}
 \end{align*}
 
-but our tools for linear control theory aren't applicable to this nonlinear
-model.
+to include higher order dynamics in the linearized drivetrain model integration,
+we recommend using the fourth order Runge-Kutta integration method. See snippet
+\ref{lst:runge-kutta}.
+
+\begin{code}{Python}{build/frccontrol/frccontrol/runge_kutta.py}
+  \caption{Fourth order Runge-Kutta integration in Python}
+  \label{lst:runge-kutta}
+\end{code}

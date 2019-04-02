@@ -201,10 +201,11 @@ def main():
 
     x_rec = []
     y_rec = []
-    vref_rec = []
-    omegaref_rec = []
-    v_rec = []
-    omega_rec = []
+    theta_rec = []
+    vl_rec = []
+    vlref_rec = []
+    vr_rec = []
+    vrref_rec = []
     ul_rec = []
     ur_rec = []
 
@@ -217,21 +218,23 @@ def main():
 
         # pose_desired, v_desired, omega_desired, pose, b, zeta
         vref, omegaref = ramsete(desired_pose, vprof[i], omegaprof[i], pose, b, zeta)
-        vl, vr = get_diff_vels(vref, omegaref, drivetrain.rb * 2.0)
-        next_r = np.array([[vl], [vr]])
+        vlref, vrref = get_diff_vels(vref, omegaref, drivetrain.rb * 2.0)
+        next_r = np.array([[vlref], [vrref]])
         drivetrain.update(next_r)
         vc = (drivetrain.x[0, 0] + drivetrain.x[1, 0]) / 2.0
         omega = (drivetrain.x[1, 0] - drivetrain.x[0, 0]) / (2.0 * drivetrain.rb)
+        vl, vr = get_diff_vels(vc, omega, drivetrain.rb * 2.0)
 
         # Log data for plots
-        vref_rec.append(vref)
-        omegaref_rec.append(omegaref)
+        vlref_rec.append(vlref)
+        vrref_rec.append(vrref)
         x_rec.append(pose.x)
         y_rec.append(pose.y)
+        theta_rec.append(pose.theta)
+        vl_rec.append(vl)
+        vr_rec.append(vr)
         ul_rec.append(drivetrain.u[0, 0])
         ur_rec.append(drivetrain.u[1, 0])
-        v_rec.append(vc)
-        omega_rec.append(omega)
 
         # Update nonlinear observer
         pose.x += vc * math.cos(pose.theta) * dt
@@ -241,9 +244,9 @@ def main():
         if i < len(t) - 1:
             i += 1
 
-    plt.figure(2)
-    plt.plot(xprof, yprof, label="Reference trajectory")
+    plt.figure(1)
     plt.plot(x_rec, y_rec, label="Ramsete controller")
+    plt.plot(xprof, yprof, label="Reference trajectory")
     plt.xlabel("x (m)")
     plt.ylabel("y (m)")
     plt.legend()
@@ -259,35 +262,50 @@ def main():
         plt.xlim([-height / 2, height / 2])
 
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("ramsete_traj_response")
+        latexutils.savefig("ramsete_traj_xy")
 
-    t = t[:-1]
-
-    plt.figure(3)
-    num_plots = 4
+    plt.figure(2)
+    num_plots = 7
     plt.subplot(num_plots, 1, 1)
     plt.title("Time domain responses")
-    plt.ylabel("Velocity (m/s)")
-    plt.plot(t, vref_rec, label="Reference")
-    plt.plot(t, v_rec, label="Estimated state")
+    plt.ylabel("x position (m)")
+    plt.plot(t[:-1], x_rec, label="Estimated state")
+    plt.plot(t, xprof, label="Reference")
     plt.legend()
     plt.subplot(num_plots, 1, 2)
-    plt.ylabel("Angular rate (rad/s)")
-    plt.plot(t, omegaref_rec, label="Reference")
-    plt.plot(t, omega_rec, label="Estimated state")
+    plt.ylabel("y position (m)")
+    plt.plot(t[:-1], y_rec, label="Estimated state")
+    plt.plot(t, yprof, label="Reference")
     plt.legend()
     plt.subplot(num_plots, 1, 3)
+    plt.ylabel("Theta (rad)")
+    plt.plot(t[:-1], theta_rec, label="Estimated state")
+    plt.plot(t, thetaprof, label="Reference")
+    plt.legend()
+
+    t = t[:-1]
+    plt.subplot(num_plots, 1, 4)
+    plt.ylabel("Left velocity (m/s)")
+    plt.plot(t, vl_rec, label="Estimated state")
+    plt.plot(t, vlref_rec, label="Reference")
+    plt.legend()
+    plt.subplot(num_plots, 1, 5)
+    plt.ylabel("Right velocity (m/s)")
+    plt.plot(t, vr_rec, label="Estimated state")
+    plt.plot(t, vrref_rec, label="Reference")
+    plt.legend()
+    plt.subplot(num_plots, 1, 6)
     plt.ylabel("Left voltage (V)")
     plt.plot(t, ul_rec, label="Control effort")
     plt.legend()
-    plt.subplot(num_plots, 1, 4)
+    plt.subplot(num_plots, 1, 7)
     plt.ylabel("Right voltage (V)")
     plt.plot(t, ur_rec, label="Control effort")
     plt.legend()
     plt.xlabel("Time (s)")
 
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("ramsete_traj_vel_lqr_response")
+        latexutils.savefig("ramsete_traj_response")
     else:
         plt.show()
 

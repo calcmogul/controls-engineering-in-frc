@@ -109,7 +109,19 @@ class Drivetrain(frccnt.System):
         u_min = np.array([[-12.0], [-12.0]])
         u_max = np.array([[12.0], [12.0]])
 
-        frccnt.System.__init__(self, states, u_min, u_max, dt, nonlinear=True)
+        f = (
+            lambda x, u: np.array(
+                [
+                    [(x[3, 0] + x[4, 0]) / 2.0 * math.cos(x[2, 0])],
+                    [(x[3, 0] + x[4, 0]) / 2.0 * math.sin(x[2, 0])],
+                    [(x[4, 0] - x[3, 0]) / (2.0 * self.rb)],
+                    [self.sysc.A[3, 3] * x[3, 0] + self.sysc.A[3, 4] * x[4, 0]],
+                    [self.sysc.A[4, 3] * x[3, 0] + self.sysc.A[4, 4] * x[4, 0]],
+                ]
+            )
+            + self.sysc.B @ u
+        )
+        frccnt.System.__init__(self, states, u_min, u_max, dt, nonlinear_func=f)
 
     def create_model(self, states):
         """Relinearize model around given state.
@@ -165,19 +177,13 @@ class Drivetrain(frccnt.System):
             q_vel = 0.95
 
         q_pos = 0.5
-        q_heading = 10
+        q_heading = 10.0
 
         q = [q_pos, q_pos, q_heading, q_vel, q_vel]
         r = [12.0, 12.0]
         self.design_lqr(q, r)
 
-        qff_pos = 1.0
-        qff_heading = 1.0
-        qff_vel = 1.0
-        self.design_two_state_feedforward(
-            [qff_pos, qff_pos, qff_heading, qff_vel, qff_vel],
-            [float("inf"), float("inf")],
-        )
+        self.design_two_state_feedforward()
 
         q_vel = 1.0
         r_gyro = 0.0001
@@ -194,7 +200,7 @@ def main():
     # Radius of robot in meters
     rb = 0.59055 / 2.0
 
-    with open("linearized_drivetrain.csv", "r") as trajectory_file:
+    with open("ramsete_traj.csv", "r") as trajectory_file:
         import csv
 
         current_t = 0
@@ -210,17 +216,17 @@ def main():
             )
             refs.append(ref)
 
-    dt = 0.00505
-    x = np.array([[refs[0][0, 0]], [refs[0][1, 0]], [0], [0], [0]])
+    dt = 0.02
+    x = np.array([[refs[0][0, 0] + 2], [refs[0][1, 0]], [0], [0], [0]])
     drivetrain = Drivetrain(dt, x)
 
     state_rec, ref_rec, u_rec = drivetrain.generate_time_responses(t, refs)
 
     plt.figure(1)
-    plt.plot(ref_rec[0, :], ref_rec[1, :], label="Reference trajectory")
     x_rec = np.squeeze(np.asarray(state_rec[0, :]))
     y_rec = np.squeeze(np.asarray(state_rec[1, :]))
     plt.plot(x_rec, y_rec, label="Linearized controller")
+    plt.plot(ref_rec[0, :], ref_rec[1, :], label="Reference trajectory")
     plt.xlabel("x (m)")
     plt.ylabel("y (m)")
     plt.legend()
