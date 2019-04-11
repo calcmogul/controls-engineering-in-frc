@@ -1,4 +1,5 @@
-\section{Control law for nonholonomic wheeled vehicle}
+\section{Ramsete nonlinear controller}
+\label{sec:ramsete_nonlinear_controller}
 
 Why would we need a nonlinear control law in addition to the linear ones we have
 used so far? If we use the original approach with an LQR \gls{controller} for
@@ -14,9 +15,6 @@ global pose. The \gls{controller} uses this extra information to guide a linear
 \glslink{tracking}{reference tracker} like an LQR \gls{controller} back in by
 adjusting the \glspl{reference} of the LQR \gls{controller}.
 
-\subsection{Ramsete controller}
-\label{subsec:ramsete_controller}
-
 The paper \textit{Control of Wheeled Mobile Robots: An Experimental Overview}
 describes a nonlinear controller for a wheeled vehicle with unicycle-like
 kinematics; a global \gls{pose} consisting of $x$, $y$, and $\theta$; and a
@@ -25,7 +23,7 @@ desired \gls{pose} consisting of $x_d$, $y_d$, and $\theta_d$
 control law because that's the acronym for the title of the book it came from in
 Italian (``Robotica Articolata e Mobile per i SErvizi e le TEcnologie").
 
-\subsubsection{Velocity and turning rate command derivation}
+\subsection{Velocity and turning rate command derivation}
 
 The \gls{state} tracking \gls{error} $\mtx{e}$ in the vehicle's coordinate frame
 is defined as
@@ -147,7 +145,7 @@ Substituting the control laws $u_1$ and $u_2$ into these equations gives
   tends to zero \cite{bib:ctrl_wheeled_mobile_robots}.
 \end{theorem}
 
-\subsubsection{Nonlinear controller equations}
+\subsection{Nonlinear controller equations}
 
 Let $k_2 = b$.
 
@@ -491,262 +489,3 @@ Therefore, theorem \ref{thm:ramsete_decoupled_ref_tracker} is a superior
 \gls{reference} tracker to theorem \ref{thm:ramsete_coupled_ref_tracker} due to
 its decoupled dynamics, even though conversions are required between it and the
 Ramsete \gls{controller}'s commands.
-
-\subsection{Linearized drivetrain model}
-
-First, we'll start with theorem \ref{thm:ramsete_decoupled_ref_tracker}.
-
-\begin{equation*}
-  \begin{array}{ccc}
-    \mtx{x} =
-    \begin{bmatrix}
-      v_l \\
-      v_r
-    \end{bmatrix} &
-    \mtx{y} =
-    \begin{bmatrix}
-      v_l \\
-      v_r
-    \end{bmatrix} &
-    \mtx{u} =
-    \begin{bmatrix}
-      V_l \\
-      V_r
-    \end{bmatrix}
-  \end{array}
-\end{equation*}
-
-\begin{equation}
-  \begin{array}{ll}
-    \mtx{A} =
-    \begin{bmatrix}
-      \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_1 &
-        \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_3 \\
-      \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_1 &
-        \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_3
-    \end{bmatrix} &
-    \mtx{B} =
-    \begin{bmatrix}
-      \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_2 &
-        \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_4 \\
-      \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_2 &
-        \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_4
-    \end{bmatrix} \\
-    \mtx{C} =
-    \begin{bmatrix}
-      1 & 0 \\
-      0 & 1 \\
-    \end{bmatrix} &
-    \mtx{D} = \mtx{0}_{2 \times 2}
-  \end{array}
-\end{equation}
-
-where $C_1 = -\frac{G_l^2 K_t}{K_v R r^2}$, $C_2 = \frac{G_l K_t}{Rr}$,
-$C_3 = -\frac{G_r^2 K_t}{K_v R r^2}$, and $C_4 = \frac{G_r K_t}{Rr}$.
-
-The change in global pose is defined by these three equations.
-
-\begin{align*}
-  \dot{x} &= \frac{v_r + v_l}{2}\cos\theta = \frac{v_r}{2}\cos\theta +
-    \frac{v_l}{2}\cos\theta \\
-  \dot{y} &= \frac{v_r + v_l}{2}\sin\theta = \frac{v_r}{2}\sin\theta +
-    \frac{v_l}{2}\sin\theta \\
-  \dot{\theta} &= \frac{v_r - v_l}{2r_b} = \frac{v_r}{2r_b} - \frac{v_l}{2r_b}
-\end{align*}
-
-Next, we'll augment the reference tracker's state with the global pose $x$, $y$,
-and $\theta$.
-
-\begin{equation*}
-  f(\mtx{x}, \mtx{0}) =
-  \begin{bmatrix}
-    \frac{v_r}{2}\cos\theta + \frac{v_l}{2}\cos\theta \\
-    \frac{v_r}{2}\sin\theta + \frac{v_l}{2}\sin\theta \\
-    \frac{v_r}{2r_b} - \frac{v_l}{2r_b} \\
-    \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_1 v_l +
-      \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_3 v_r \\
-    \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_1 v_l +
-      \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_3 v_r
-  \end{bmatrix}
-\end{equation*}
-
-To create an LQR, we need to linearize this.
-
-\begin{equation*}
-  \frac{\partial f(\mtx{x}, \mtx{0})}{\partial\mtx{x}} =
-  \begin{bmatrix}
-    0 & 0 & -\frac{v_r + v_l}{2}\sin\theta & \frac{1}{2}\cos\theta &
-      \frac{1}{2}\cos\theta \\
-    0 & 0 & \frac{v_r + v_l}{2}\cos\theta & \frac{1}{2}\sin\theta &
-      \frac{1}{2}\sin\theta \\
-    0 & 0 & 0 & -\frac{1}{2r_b} & \frac{1}{2r_b} \\
-    0 & 0 & 0 & \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_1 &
-      \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_3 \\
-    0 & 0 & 0 & \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_1 &
-      \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_3
-  \end{bmatrix}
-\end{equation*}
-
-Therefore,
-
-\begin{theorem}[Linearized drivetrain model]
-  \label{thm:linearized_drivetrain_model}
-  \begin{equation*}
-    \begin{array}{ccc}
-      \mtx{x} =
-      \begin{bmatrix}
-        x \\
-        y \\
-        \theta \\
-        v_l \\
-        v_r
-      \end{bmatrix} &
-      \mtx{y} =
-      \begin{bmatrix}
-        \theta \\
-        v_l \\
-        v_r
-      \end{bmatrix} &
-      \mtx{u} =
-      \begin{bmatrix}
-        V_l \\
-        V_r
-      \end{bmatrix}
-    \end{array}
-  \end{equation*}
-
-  \begin{equation}
-    \begin{array}{ll}
-      \mtx{A} =
-      \begin{bmatrix}
-        0 & 0 & -\frac{v_r + v_l}{2}\sin\theta & \frac{1}{2}\cos\theta &
-          \frac{1}{2}\cos\theta \\
-        0 & 0 & \frac{v_r + v_l}{2}\cos\theta & \frac{1}{2}\sin\theta &
-          \frac{1}{2}\sin\theta \\
-        0 & 0 & 0 & -\frac{1}{2r_b} & \frac{1}{2r_b} \\
-        0 & 0 & 0 & \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_1 &
-          \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_3 \\
-        0 & 0 & 0 & \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_1 &
-          \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_3
-      \end{bmatrix} \\
-      \mtx{B} =
-      \begin{bmatrix}
-        0 & 0 \\
-        0 & 0 \\
-        0 & 0 \\
-        \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_2 &
-        \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_4 \\
-        \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_2 &
-        \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_4
-      \end{bmatrix} \\
-      \mtx{C} =
-      \begin{bmatrix}
-        0 & 0 & 1 & 0 & 0 \\
-        0 & 0 & 0 & 1 & 0 \\
-        0 & 0 & 0 & 0 & 1
-      \end{bmatrix} &
-      \mtx{D} = \mtx{0}_{3 \times 2}
-    \end{array}
-  \end{equation}
-
-  where $C_1 = -\frac{G_l^2 K_t}{K_v R r^2}$, $C_2 = \frac{G_l K_t}{Rr}$,
-  $C_3 = -\frac{G_r^2 K_t}{K_v R r^2}$, and $C_4 = \frac{G_r K_t}{Rr}$.
-
-  The LQR gain should be recomputed around the current operating point regularly
-  due to the high nonlinearity of this system.
-\end{theorem}
-
-We can also use this in an extended Kalman filter as is since the measurement
-model is linear.
-
-\subsection{Simulation}
-
-Figures \ref{fig:linearized_drivetrain_xy} through
-\ref{fig:ramsete_traj_response} demonstrate the tracking behaviors of the
-linearized drivetrain controller and Ramsete controller for the same trajectory.
-
-\begin{bookfigure}
-  \begin{minisvg}{build/code/linearized_drivetrain_xy}
-    \caption{Linearized drivetrain controller x-y plot}
-    \label{fig:linearized_drivetrain_xy}
-  \end{minisvg}
-  \hfill
-  \begin{minisvg}{build/code/ramsete_traj_xy}
-    \caption{Ramsete nonlinear controller x-y plot}
-    \label{fig:ramsete_traj_xy}
-  \end{minisvg}
-\end{bookfigure}
-
-\begin{bookfigure}
-  \begin{minisvg}{build/code/linearized_drivetrain_response}
-    \caption{Linearized drivetrain controller response}
-    \label{fig:linearized_drivetrain_response}
-  \end{minisvg}
-  \hfill
-  \begin{minisvg}{build/code/ramsete_traj_response}
-    \caption{Ramsete nonlinear controller response}
-    \label{fig:ramsete_traj_response}
-  \end{minisvg}
-\end{bookfigure}
-
-The tracking performance of these two controllers is similar, but the linearized
-drivetrain controller uses less control effort than Ramsete. The
-performance-effort tradeoff in the linearized drivetrain controller is more
-intuitively tunable via the Q and R gains, but the user must generate controller
-gains for every state they visit in the state-space whereas Ramsete has two
-closed-form functions for its control laws. A possible solution to this would be
-fitting a vector function of the states to the linearized drivetrain controller
-gains.
-
-Note that the first order linearization of $\mtx{A}$ doesn't capture the full
-dynamics of theta. This linearization inaccuracy is evident by the Hessian
-matrix (second partial derivative with respect to the state vector) being
-nonzero.
-
-\begin{equation*}
-  \frac{\partial^2 f(\mtx{x}, \mtx{0})}{\partial\mtx{x}^2} =
-  \begin{bmatrix}
-    0 & 0 & -\frac{v_r + v_l}{2}\cos\theta & 0 & 0 \\
-    0 & 0 & -\frac{v_r + v_l}{2}\sin\theta & 0 & 0 \\
-    0 & 0 & 0 & 0 & 0 \\
-    0 & 0 & 0 & 0 & 0 \\
-    0 & 0 & 0 & 0 & 0
-  \end{bmatrix}
-\end{equation*}
-
-The second order Taylor series expansion would be
-
-\begin{align*}
-  f(\mtx{x}, \mtx{0}) &\approx \frac{\partial f(\mtx{x}, \mtx{0})}{\partial\mtx{x}}\mtx{x} +
-    \frac{1}{2}\frac{\partial^2 f(\mtx{x}, \mtx{0})}{\partial\mtx{x}^2}
-    \mtx{x}^2 \\
-  \mtx{A} &=
-    \begin{bmatrix}
-      0 & 0 & -\frac{v_r + v_l}{2}\sin\theta & \frac{1}{2}\cos\theta &
-        \frac{1}{2}\cos\theta \\
-      0 & 0 & \frac{v_r + v_l}{2}\cos\theta & \frac{1}{2}\sin\theta &
-        \frac{1}{2}\sin\theta \\
-      0 & 0 & 0 & -\frac{1}{2r_b} & \frac{1}{2r_b} \\
-      0 & 0 & 0 & \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_1 &
-        \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_3 \\
-      0 & 0 & 0 & \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_1 &
-        \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_3
-    \end{bmatrix} + \frac{1}{2}
-    \begin{bmatrix}
-      0 & 0 & -\frac{v_r + v_l}{2}\cos\theta & 0 & 0 \\
-      0 & 0 & -\frac{v_r + v_l}{2}\sin\theta & 0 & 0 \\
-      0 & 0 & 0 & 0 & 0 \\
-      0 & 0 & 0 & 0 & 0 \\
-      0 & 0 & 0 & 0 & 0
-    \end{bmatrix}
-    \mtx{x}
-\end{align*}
-
-to include higher order dynamics in the linearized drivetrain model integration,
-we recommend using the fourth order Runge-Kutta integration method. See snippet
-\ref{lst:runge-kutta}.
-
-\begin{code}{Python}{build/frccontrol/frccontrol/runge_kutta.py}
-  \caption{Fourth order Runge-Kutta integration in Python}
-  \label{lst:runge-kutta}
-\end{code}

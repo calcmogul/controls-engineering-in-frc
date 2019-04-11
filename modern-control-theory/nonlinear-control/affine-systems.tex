@@ -1,0 +1,64 @@
+\section{Affine systems}
+
+Let $\mtx{x} = \mtx{x}_e + \delta\mtx{x}$ and
+$\mtx{u} = \mtx{u}_e + \delta\mtx{u}$ where $\delta\mtx{x}$ and $\delta\mtx{u}$
+are perturbations from $(\mtx{x}_e, \mtx{u}_e)$. A first-order linearization of
+$\dot{\mtx{x}} = f(\mtx{x}, \mtx{u})$ around $(\mtx{x}_e, \mtx{u}_e)$ gives
+
+\begin{align*}
+  \dot{\mtx{x}} &\approx f(\mtx{x}_e, \mtx{u}_e) +
+    \left.\frac{\partial f(\mtx{x}, \mtx{u})}{\partial \mtx{x}}
+    \right|_{\mtx{x}_e, \mtx{u}_e}\delta\mtx{x} +
+    \left.\frac{\partial f(\mtx{x}, \mtx{u})}{\partial \mtx{u}}
+    \right|_{\mtx{x}_e, \mtx{u}_e}\delta\mtx{u} \\
+  \dot{\mtx{x}} &= f(\mtx{x}_e, \mtx{u}_e) +
+    \left.\frac{\partial f(\mtx{x}, \mtx{u})}{\partial \mtx{x}}
+    \right|_{\mtx{x}_e, \mtx{u}_e}\delta\mtx{x} +
+    \left.\frac{\partial f(\mtx{x}, \mtx{u})}{\partial \mtx{u}}
+    \right|_{\mtx{x}_e, \mtx{u}_e}\delta\mtx{u} \\
+\end{align*}
+
+An affine system is a linear system with a constant offset in the dynamics. If
+$(\mtx{x}_e, \mtx{u}_e)$ is an equilibrium point,
+$f(\mtx{x}_e, \mtx{u}_e) = \mtx{0}$, the resulting \gls{model} is linear, and
+LQR works as usual. If $(\mtx{x}_e, \mtx{u}_e)$ is, say, the current operating
+point rather than an equilibrium point, the easiest way to correctly apply LQR
+is
+
+\begin{enumerate}
+  \item Find a control input $\mtx{u}_e$ that makes $(\mtx{x}_e, \mtx{u}_e)$ an
+    equilibrium point.
+  \item Obtain an LQR for the linearized system.
+  \item Add $\mtx{u}_e$ to the LQR's control input.
+\end{enumerate}
+
+For a system with linear control inputs
+$\dot{\mtx{x}} = f(\mtx{x}) + \mtx{B}\mtx{u}$, $\mtx{u}_e$ can be derived via
+plant inversion as follows.
+
+\begin{align}
+  \dot{\mtx{x}} &= f(\mtx{x}_e) + \mtx{B}\mtx{u}_e \nonumber \\
+  \mtx{0} &= f(\mtx{x}_e) + \mtx{B}\mtx{u}_e \nonumber \\
+  \mtx{B}\mtx{u}_e &= -f(\mtx{x}_e) \nonumber \\
+  \mtx{u}_e &= -\mtx{B}^\dagger f(\mtx{x}_e)
+\end{align}
+
+\subsection{Nonlinear plant inversion for reference tracking}
+
+To determine a suitable feedforward for \gls{reference} tracking, we will
+perform a similar procedure as in subsection \ref{subsec:two-state_feedforward}
+and solve for $\mtx{u}_{ff}$ given the \gls{reference} dynamics.
+
+\begin{align}
+  \dot{\mtx{r}} &= f(\mtx{r}) + \mtx{B}\mtx{u}_{ff} \nonumber \\
+  \mtx{B}\mtx{u}_{ff} &= \dot{\mtx{r}} - f(\mtx{r}) \nonumber \\
+  \mtx{u}_{ff} &= \mtx{B}^\dagger (\dot{\mtx{r}} - f(\mtx{r}))
+    \label{eq:nonlinear_affine_plant_invert}
+\end{align}
+
+\begin{remark}
+  To use equation (\ref{eq:nonlinear_affine_plant_invert}) in a discrete
+  controller, one can approximate $\dot{\mtx{r}}$ with
+  $\frac{\mtx{r}_{k + 1} - \mtx{r}_k}{T}$ where $T$ is the time period between
+  the two \glspl{reference}.
+\end{remark}

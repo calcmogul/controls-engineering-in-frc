@@ -170,27 +170,53 @@ class Drivetrain(frccnt.System):
             np.asarray(states),
         )
 
+    def relinearize(self, Q_elems, R_elems, states):
+        from frccontrol import lqr
+
+        sysc = self.create_model(states)
+        sysd = sysc.sample(self.dt)
+
+        Q = np.diag(1.0 / np.square(Q_elems))
+        R = np.diag(1.0 / np.square(R_elems))
+        return lqr(sysd, Q, R)
+
     def design_controller_observer(self):
         if self.in_low_gear:
             q_vel = 1.0
         else:
             q_vel = 0.95
 
-        q_pos = 0.5
+        q_x = 0.05
+        q_y = 0.125
         q_heading = 10.0
 
-        q = [q_pos, q_pos, q_heading, q_vel, q_vel]
+        q = [q_x, q_y, q_heading, q_vel, q_vel]
         r = [12.0, 12.0]
-        self.design_lqr(q, r)
+
+        self.K = self.relinearize(q, r, self.x_hat)
 
         self.design_two_state_feedforward()
 
+        q_pos = 0.5
         q_vel = 1.0
         r_gyro = 0.0001
         r_vel = 0.01
         self.design_kalman_filter(
             [q_pos, q_pos, q_heading, q_vel, q_vel], [r_gyro, r_vel, r_vel]
         )
+
+    def update_controller(self, next_r):
+        self.design_controller_observer()
+
+        u = self.K @ (self.r - self.x_hat)
+        rdot = (next_r - self.r) / self.dt
+        uff = self.Kff @ (rdot - self.f(self.r, np.zeros(self.u.shape)))
+        self.r = next_r
+        self.u = u + uff
+
+        u_cap = np.max(np.abs(self.u))
+        if u_cap > 12.0:
+            self.u = self.u / u_cap * 12.0
 
 
 def main():
@@ -209,15 +235,15 @@ def main():
         trajectory_file.readline()
         for row in reader:
             t.append(float(row[0]))
+            x = float(row[1])
+            y = float(row[2])
+            theta = float(row[3])
             vl, vr = get_diff_vels(float(row[4]), float(row[5]), rb * 2.0)
-
-            ref = np.array(
-                [[float(row[1])], [float(row[2])], [float(row[3])], [vl], [vr]]
-            )
+            ref = np.array([[x], [y], [theta], [vl], [vr]])
             refs.append(ref)
 
     dt = 0.02
-    x = np.array([[refs[0][0, 0] + 2], [refs[0][1, 0]], [0], [0], [0]])
+    x = np.array([[refs[0][0, 0] + 0.5], [refs[0][1, 0] + 0.5], [np.pi / 2], [0], [0]])
     drivetrain = Drivetrain(dt, x)
 
     state_rec, ref_rec, u_rec = drivetrain.generate_time_responses(t, refs)
@@ -242,13 +268,13 @@ def main():
         plt.xlim([-height / 2, height / 2])
 
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("linearized_drivetrain_xy")
+        latexutils.savefig("linearized_drivetrain_nonrotated_xy")
 
     plt.figure(2)
     drivetrain.plot_time_responses(t, state_rec, ref_rec, u_rec)
 
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("linearized_drivetrain_response")
+        latexutils.savefig("linearized_drivetrain_nonrotated_response")
     else:
         plt.show()
 

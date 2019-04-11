@@ -275,21 +275,41 @@ def main():
     num_plots = 4
     plt.subplot(num_plots, 1, 1)
     plt.title("Time domain responses")
-    plt.ylabel("Velocity (m/s)")
+    plt.ylabel(
+        "Velocity (m/s)",
+        horizontalalignment="right",
+        verticalalignment="center",
+        rotation=45,
+    )
     plt.plot(t, vref_rec, label="Reference")
     plt.plot(t, v_rec, label="Estimated state")
     plt.legend()
     plt.subplot(num_plots, 1, 2)
-    plt.ylabel("Angular rate (rad/s)")
+    plt.ylabel(
+        "Angular rate (rad/s)",
+        horizontalalignment="right",
+        verticalalignment="center",
+        rotation=45,
+    )
     plt.plot(t, omegaref_rec, label="Reference")
     plt.plot(t, omega_rec, label="Estimated state")
     plt.legend()
     plt.subplot(num_plots, 1, 3)
-    plt.ylabel("Left voltage (V)")
+    plt.ylabel(
+        "Left voltage (V)",
+        horizontalalignment="right",
+        verticalalignment="center",
+        rotation=45,
+    )
     plt.plot(t, ul_rec, label="Control effort")
     plt.legend()
     plt.subplot(num_plots, 1, 4)
-    plt.ylabel("Right voltage (V)")
+    plt.ylabel(
+        "Right voltage (V)",
+        horizontalalignment="right",
+        verticalalignment="center",
+        rotation=45,
+    )
     plt.plot(t, ur_rec, label="Control effort")
     plt.legend()
     plt.xlabel("Time (s)")

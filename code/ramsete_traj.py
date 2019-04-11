@@ -189,7 +189,7 @@ def main():
     omegaprof = data[1:, 5].T
 
     # Initial robot pose
-    pose = Pose2d(xprof[0] + 2, yprof[0], 0)
+    pose = Pose2d(xprof[0] + 0.5, yprof[0] + 0.5, np.pi / 2)
     desired_pose = Pose2d()
 
     # Ramsete tuning constants
@@ -268,38 +268,73 @@ def main():
     num_plots = 7
     plt.subplot(num_plots, 1, 1)
     plt.title("Time domain responses")
-    plt.ylabel("x position (m)")
+    plt.ylabel(
+        "x position (m)",
+        horizontalalignment="right",
+        verticalalignment="center",
+        rotation=45,
+    )
     plt.plot(t[:-1], x_rec, label="Estimated state")
     plt.plot(t, xprof, label="Reference")
     plt.legend()
     plt.subplot(num_plots, 1, 2)
-    plt.ylabel("y position (m)")
+    plt.ylabel(
+        "y position (m)",
+        horizontalalignment="right",
+        verticalalignment="center",
+        rotation=45,
+    )
     plt.plot(t[:-1], y_rec, label="Estimated state")
     plt.plot(t, yprof, label="Reference")
     plt.legend()
     plt.subplot(num_plots, 1, 3)
-    plt.ylabel("Theta (rad)")
+    plt.ylabel(
+        "Theta (rad)",
+        horizontalalignment="right",
+        verticalalignment="center",
+        rotation=45,
+    )
     plt.plot(t[:-1], theta_rec, label="Estimated state")
     plt.plot(t, thetaprof, label="Reference")
     plt.legend()
 
     t = t[:-1]
     plt.subplot(num_plots, 1, 4)
-    plt.ylabel("Left velocity (m/s)")
+    plt.ylabel(
+        "Left velocity (m/s)",
+        horizontalalignment="right",
+        verticalalignment="center",
+        rotation=45,
+    )
     plt.plot(t, vl_rec, label="Estimated state")
     plt.plot(t, vlref_rec, label="Reference")
     plt.legend()
     plt.subplot(num_plots, 1, 5)
-    plt.ylabel("Right velocity (m/s)")
+    plt.ylabel(
+        "Right velocity (m/s)",
+        horizontalalignment="right",
+        verticalalignment="center",
+        rotation=45,
+    )
     plt.plot(t, vr_rec, label="Estimated state")
     plt.plot(t, vrref_rec, label="Reference")
     plt.legend()
     plt.subplot(num_plots, 1, 6)
-    plt.ylabel("Left voltage (V)")
+    plt.ylabel(
+        "Left voltage (V)",
+        horizontalalignment="right",
+        verticalalignment="center",
+        rotation=45,
+    )
     plt.plot(t, ul_rec, label="Control effort")
     plt.legend()
     plt.subplot(num_plots, 1, 7)
-    plt.ylabel("Right voltage (V)")
+    plt.ylabel(
+        "Right voltage (V)",
+        horizontalalignment="right",
+        verticalalignment="center",
+        rotation=45,
+    )
     plt.plot(t, ur_rec, label="Control effort")
     plt.legend()
     plt.xlabel("Time (s)")

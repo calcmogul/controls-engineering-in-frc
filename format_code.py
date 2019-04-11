@@ -14,7 +14,7 @@ files = [
     os.path.join(dp, f)
     for dp, dn, fn in os.walk("code")
     for f in fn
-    if f.endswith(".py")
+    if f.endswith(".py") and "current_limit.py" not in f
 ] + ["format_code.py"]
 
 with mp.Pool(mp.cpu_count()) as pool:

@@ -14,7 +14,7 @@ def savefig(file_name):
     """
     import subprocess
 
-    plt.savefig(file_name + ".svg")
+    plt.savefig(file_name + ".svg", bbox_inches="tight")
     subprocess.run(
         [
             "inkscape",

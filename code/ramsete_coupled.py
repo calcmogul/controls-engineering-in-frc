@@ -177,7 +177,12 @@ def main():
     subplot_max = drivetrain.sysd.states + drivetrain.sysd.inputs
     for i in range(drivetrain.sysd.states):
         plt.subplot(subplot_max, 1, i + 1)
-        plt.ylabel(drivetrain.state_labels[i])
+        plt.ylabel(
+            drivetrain.state_labels[i],
+            horizontalalignment="right",
+            verticalalignment="center",
+            rotation=45,
+        )
         if i == 0:
             plt.title("Time domain responses")
         if i == 1:
@@ -188,7 +193,12 @@ def main():
 
     for i in range(drivetrain.sysd.inputs):
         plt.subplot(subplot_max, 1, drivetrain.sysd.states + i + 1)
-        plt.ylabel(drivetrain.u_labels[i])
+        plt.ylabel(
+            drivetrain.u_labels[i],
+            horizontalalignment="right",
+            verticalalignment="center",
+            rotation=45,
+        )
         plt.plot(t, drivetrain.extract_row(u_rec, i), label="Control effort")
         plt.legend()
     plt.xlabel("Time (s)")
@@ -279,21 +289,41 @@ def main():
     num_plots = 4
     plt.subplot(num_plots, 1, 1)
     plt.title("Time domain responses")
-    plt.ylabel("Velocity (m/s)")
+    plt.ylabel(
+        "Velocity (m/s)",
+        horizontalalignment="right",
+        verticalalignment="center",
+        rotation=45,
+    )
     plt.plot(t, vref_rec, label="Reference")
     plt.plot(t, v_rec, label="Estimated state")
     plt.legend()
     plt.subplot(num_plots, 1, 2)
-    plt.ylabel("Angular rate (rad/s)")
+    plt.ylabel(
+        "Angular rate (rad/s)",
+        horizontalalignment="right",
+        verticalalignment="center",
+        rotation=45,
+    )
     plt.plot(t, omegaref_rec, label="Reference")
     plt.plot(t, omega_rec, label="Estimated state")
     plt.legend()
     plt.subplot(num_plots, 1, 3)
-    plt.ylabel("Left voltage (V)")
+    plt.ylabel(
+        "Left voltage (V)",
+        horizontalalignment="right",
+        verticalalignment="center",
+        rotation=45,
+    )
     plt.plot(t, ul_rec, label="Control effort")
     plt.legend()
     plt.subplot(num_plots, 1, 4)
-    plt.ylabel("Right voltage (V)")
+    plt.ylabel(
+        "Right voltage (V)",
+        horizontalalignment="right",
+        verticalalignment="center",
+        rotation=45,
+    )
     plt.plot(t, ur_rec, label="Control effort")
     plt.legend()
     plt.xlabel("Time (s)")
