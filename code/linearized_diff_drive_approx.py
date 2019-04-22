@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Runs linearized drivetrain simulation
+# Runs linearized differential drive simulation
 
 # Avoid needing display if plots aren't being shown
 import sys
@@ -18,8 +18,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def drivetrain(motor, num_motors, m, r, rb, J, Gl, Gr, states):
-    """Returns the state-space model for a drivetrain.
+def diff_drive(motor, num_motors, m, r, rb, J, Gl, Gr, states):
+    """Returns the state-space model for a differential drive.
 
     States: [[x], [y], [theta], [left velocity], [right velocity]]
     Inputs: [[left voltage], [right voltage]]
@@ -31,9 +31,9 @@ def drivetrain(motor, num_motors, m, r, rb, J, Gl, Gr, states):
     m -- mass of robot in kg
     r -- radius of wheels in meters
     rb -- radius of robot in meters
-    J -- moment of inertia of the drivetrain in kg-m^2
-    Gl -- gear ratio of left side of drivetrain
-    Gr -- gear ratio of right side of drivetrain
+    J -- moment of inertia of the differential drive in kg-m^2
+    Gl -- gear ratio of left side of differential drive
+    Gr -- gear ratio of right side of differential drive
     states -- state vector around which to linearize model
 
     Returns:
@@ -56,8 +56,8 @@ def drivetrain(motor, num_motors, m, r, rb, J, Gl, Gr, states):
         vr = 1e-9
         v = 1e-9
     # fmt: off
-    A = np.array([[0, 0, -v * math.sin(theta), 0.5 * math.cos(theta), 0.5 * math.cos(theta)],
-                  [0, 0, v * math.cos(theta), 0.5 * math.sin(theta), 0.5 * math.sin(theta)],
+    A = np.array([[0, 0, 0, 0.5, 0.5],
+                  [0, 0, v, 0, 0],
                   [0, 0, 0, -0.5 / rb, 0.5 / rb],
                   [0, 0, 0, (1 / m + rb**2 / J) * C1, (1 / m - rb**2 / J) * C3],
                   [0, 0, 0, (1 / m - rb**2 / J) * C1, (1 / m + rb**2 / J) * C3]])
@@ -88,7 +88,7 @@ def get_diff_vels(v, omega, d):
     return v - omega * d / 2.0, v + omega * d / 2.0
 
 
-class Drivetrain(frccnt.System):
+class DiffDrive(frccnt.System):
     def __init__(self, dt, states):
         """Drivetrain subsystem.
 
@@ -137,7 +137,7 @@ class Drivetrain(frccnt.System):
         # Number of motors per side
         num_motors = 3.0
 
-        # High and low gear ratios of drivetrain
+        # High and low gear ratios of differential drive
         Glow = 60.0 / 11.0
         Ghigh = 60.0 / 11.0
 
@@ -147,10 +147,10 @@ class Drivetrain(frccnt.System):
         r = 0.08255 / 2.0
         # Radius of robot in meters
         self.rb = 0.59055 / 2.0
-        # Moment of inertia of the drivetrain in kg-m^2
+        # Moment of inertia of the differential drive in kg-m^2
         J = 6.0
 
-        # Gear ratios of left and right sides of drivetrain respectively
+        # Gear ratios of left and right sides of differential drive respectively
         if self.in_low_gear:
             Gl = Glow
             Gr = Glow
@@ -158,7 +158,7 @@ class Drivetrain(frccnt.System):
             Gl = Ghigh
             Gr = Ghigh
 
-        return drivetrain(
+        return diff_drive(
             frccnt.models.MOTOR_CIM,
             num_motors,
             m,
@@ -186,14 +186,26 @@ class Drivetrain(frccnt.System):
         else:
             q_vel = 0.95
 
-        q_x = 0.05
+        q_x = 0.0625
         q_y = 0.125
         q_heading = 10.0
 
         q = [q_x, q_y, q_heading, q_vel, q_vel]
         r = [12.0, 12.0]
 
-        self.K = self.relinearize(q, r, self.x_hat)
+        states = np.array([[0], [0], [0], [0], [0]])
+        K = self.relinearize(q, r, states)
+        self.k_x = K[0, 0]
+        self.k_y0 = K[0, 1]
+        self.k_theta0 = K[0, 2]
+        self.k_vpos0 = K[0, 3]
+        self.k_vneg0 = K[1, 3]
+
+        states = np.array([[0], [0], [0], [1], [1]])
+        K = self.relinearize(q, r, states)
+        self.k_y1 = K[0, 1]
+        self.k_theta1 = K[0, 2]
+        self.k_vpos1 = K[0, 3]
 
         self.design_two_state_feedforward()
 
@@ -206,9 +218,33 @@ class Drivetrain(frccnt.System):
         )
 
     def update_controller(self, next_r):
-        self.design_controller_observer()
+        v = (self.x_hat[3, 0] + self.x_hat[4, 0]) / 2.0
+        sign = 1 if np.sign(v) >= 0 else -1
+        v = abs(self.x_hat[3, 0] + self.x_hat[4, 0]) / 2.0
 
-        u = self.K @ (self.r - self.x_hat)
+        self.K[0, 0] = self.k_x
+        self.K[1, 0] = self.k_x
+        self.K[0, 1] = (self.k_y0 + (self.k_y1 - self.k_y0) * math.sqrt(v)) * sign
+        self.K[1, 1] = -self.K[0, 1]
+        self.K[0, 2] = self.k_theta1 * math.sqrt(v)
+        self.K[1, 2] = -self.K[0, 2]
+        self.K[0, 3] = self.k_vpos0 + (self.k_vpos1 - self.k_vpos0) * math.sqrt(v)
+        self.K[1, 3] = self.k_vneg0 - (self.k_vpos1 - self.k_vpos0) * math.sqrt(v)
+        self.K[0, 4] = self.K[1, 3]
+        self.K[1, 4] = self.K[0, 3]
+
+        rot = self.x_hat[2, 0]
+        in_robot_frame = np.array(
+            [
+                [math.cos(rot), math.sin(rot), 0, 0, 0],
+                [-math.sin(rot), math.cos(rot), 0, 0, 0],
+                [0, 0, 1, 0, 0],
+                [0, 0, 0, 1, 0],
+                [0, 0, 0, 0, 1],
+            ]
+        )
+        e = self.r - self.x_hat
+        u = self.K @ in_robot_frame @ e
         rdot = (next_r - self.r) / self.dt
         uff = self.Kff @ (rdot - self.f(self.r, np.zeros(self.u.shape)))
         self.r = next_r
@@ -244,9 +280,9 @@ def main():
 
     dt = 0.02
     x = np.array([[refs[0][0, 0] + 0.5], [refs[0][1, 0] + 0.5], [np.pi / 2], [0], [0]])
-    drivetrain = Drivetrain(dt, x)
+    diff_drive = DiffDrive(dt, x)
 
-    state_rec, ref_rec, u_rec = drivetrain.generate_time_responses(t, refs)
+    state_rec, ref_rec, u_rec = diff_drive.generate_time_responses(t, refs)
 
     plt.figure(1)
     x_rec = np.squeeze(np.asarray(state_rec[0, :]))
@@ -268,13 +304,13 @@ def main():
         plt.xlim([-height / 2, height / 2])
 
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("linearized_drivetrain_nonrotated_xy")
+        latexutils.savefig("linearized_diff_drive_approx_xy")
 
     plt.figure(2)
-    drivetrain.plot_time_responses(t, state_rec, ref_rec, u_rec)
+    diff_drive.plot_time_responses(t, state_rec, ref_rec, u_rec)
 
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("linearized_drivetrain_nonrotated_response")
+        latexutils.savefig("linearized_diff_drive_approx_response")
     else:
         plt.show()
 

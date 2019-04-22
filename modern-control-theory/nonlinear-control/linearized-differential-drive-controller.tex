@@ -1,4 +1,4 @@
-\section{Linearized drivetrain model}
+\section{Linearized differential drive controller}
 
 First, we'll start with theorem \ref{thm:ramsete_decoupled_ref_tracker}.
 
@@ -74,7 +74,7 @@ and $\theta$.
     \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_1 v_l +
       \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_3 v_r
   \end{bmatrix}
-  \label{eq:linearized_drivetrain_f}
+  \label{eq:linearized_diff_drive_f}
 \end{equation}
 
 To create an LQR, we need to linearize this.
@@ -96,8 +96,8 @@ To create an LQR, we need to linearize this.
 
 Therefore,
 
-\begin{theorem}[Linearized drivetrain model]
-  \label{thm:linearized_drivetrain_model}
+\begin{theorem}[Linearized differential drive model]
+  \label{thm:linearized_diff_drive_model}
   \begin{equation*}
     \begin{array}{ccc}
       \mtx{x} =
@@ -166,39 +166,38 @@ Therefore,
 We can also use this in an extended Kalman filter as is since the measurement
 model ($\mtx{y} = \mtx{C}\mtx{x} + \mtx{D}\mtx{u}$) is linear.
 
-\begin{remark}
-Note that $\theta$ becomes uncontrollable at $v = 0$ due to the $x$ and $y$
-dynamics being equivalent to a unicycle. A unicycle model is like a bicycle in
-that it can't change its heading when it isn't moving. A differential drive can
-turn in place though, so to address this controller's limitation at $v = 0$, one
-can either switch to an LQR of just $\theta$, $v_l$, and $v_r$; linearize the
-controller around a slightly nonzero state; or stop running the controller
-altogether.
-\end{remark}
+With this \gls{controller}, $\theta$ becomes uncontrollable at $v = 0$ due to
+the $x$ and $y$ dynamics being equivalent to a unicycle; it can't change its
+heading unless it's rolling (just like a bicycle). However, a differential
+drive \textit{can} rotate in place. To address this controller's limitation at
+$v = 0$, one can temporarily switch to an LQR of just $\theta$, $v_l$, and
+$v_r$; linearize the controller around a slightly nonzero state; or plan a new
+trajectory after the previous one completes that provides nonzero wheel
+velocities to rotate the robot.
 
 \subsection{Improving model accuracy}
 
-Figures \ref{fig:linearized_drivetrain_nonrotated_firstorder_xy} and
-\ref{fig:linearized_drivetrain_nonrotated_firstorder_response} demonstrate the
-tracking behavior of the linearized drivetrain controller.
+Figures \ref{fig:linearized_diff_drive_nonrotated_firstorder_xy} and
+\ref{fig:linearized_diff_drive_nonrotated_firstorder_response} demonstrate the
+tracking behavior of the linearized differential drive controller.
 
 \begin{bookfigure}
-  \begin{minisvg}{build/code/linearized_drivetrain_nonrotated_firstorder_xy}
-    \caption{Linearized drivetrain controller x-y plot (first order)}
-    \label{fig:linearized_drivetrain_nonrotated_firstorder_xy}
+  \begin{minisvg}{build/code/linearized_diff_drive_nonrotated_firstorder_xy}
+    \caption{Linearized differential drive controller x-y plot (first order)}
+    \label{fig:linearized_diff_drive_nonrotated_firstorder_xy}
   \end{minisvg}
   \hfill
-  \begin{minisvg}{build/code/linearized_drivetrain_nonrotated_firstorder_response}
-    \caption{Linearized drivetrain controller response (first order)}
-    \label{fig:linearized_drivetrain_nonrotated_firstorder_response}
+  \begin{minisvg}{build/code/linearized_diff_drive_nonrotated_firstorder_response}
+    \caption{Linearized differential drive controller response (first order)}
+    \label{fig:linearized_diff_drive_nonrotated_firstorder_response}
   \end{minisvg}
 \end{bookfigure}
 
-The linearized drivetrain model doesn't track well because the first-order
-linearization of $\mtx{A}$ doesn't capture the full heading dynamics, making the
-\gls{model} update inaccurate. This linearization inaccuracy is evident in the
-Hessian matrix (second partial derivative with respect to the state vector)
-being nonzero.
+The linearized differential drive model doesn't track well because the
+first-order linearization of $\mtx{A}$ doesn't capture the full heading
+dynamics, making the \gls{model} update inaccurate. This linearization
+inaccuracy is evident in the Hessian matrix (second partial derivative with
+respect to the state vector) being nonzero.
 
 \begin{equation*}
   \frac{\partial^2 f(\mtx{x}, \mtx{0})}{\partial\mtx{x}^2} =
@@ -221,31 +220,31 @@ would be
     (\mtx{x} - \mtx{x}_e)^2
 \end{equation*}
 
-To include higher-order dynamics in the linearized drivetrain model integration,
-we recommend using the fourth-order Runge-Kutta (RK4) integration method on
-equation (\ref{eq:linearized_drivetrain_f}). See snippet \ref{lst:runge-kutta}
-for an implementation of RK4.
+To include higher-order dynamics in the linearized differential drive model
+integration, we recommend using the fourth-order Runge-Kutta (RK4) integration
+method on equation (\ref{eq:linearized_diff_drive_f}). See snippet
+\ref{lst:runge-kutta} for an implementation of RK4.
 
 \begin{code}{Python}{build/frccontrol/frccontrol/runge_kutta.py}
   \caption{Fourth-order Runge-Kutta integration in Python}
   \label{lst:runge-kutta}
 \end{code}
 
-Figures \ref{fig:linearized_drivetrain_nonrotated_xy} and
-\ref{fig:linearized_drivetrain_nonrotated_response} show a simulation using RK4
+Figures \ref{fig:linearized_diff_drive_nonrotated_xy} and
+\ref{fig:linearized_diff_drive_nonrotated_response} show a simulation using RK4
 instead of the first-order \gls{model}.
 
 \begin{bookfigure}
-  \begin{minisvg}{build/code/linearized_drivetrain_nonrotated_xy}
-    \caption{Linearized drivetrain controller (global reference frame
+  \begin{minisvg}{build/code/linearized_diff_drive_nonrotated_xy}
+    \caption{Linearized differential drive controller (global reference frame
       formulation) x-y plot}
-    \label{fig:linearized_drivetrain_nonrotated_xy}
+    \label{fig:linearized_diff_drive_nonrotated_xy}
   \end{minisvg}
   \hfill
-  \begin{minisvg}{build/code/linearized_drivetrain_nonrotated_response}
-    \caption{Linearized drivetrain controller (global reference frame
+  \begin{minisvg}{build/code/linearized_diff_drive_nonrotated_response}
+    \caption{Linearized differential drive controller (global reference frame
       formulation) response}
-    \label{fig:linearized_drivetrain_nonrotated_response}
+    \label{fig:linearized_diff_drive_nonrotated_response}
   \end{minisvg}
 \end{bookfigure}
 
@@ -263,9 +262,9 @@ instead of the first-order \gls{model}.
   \end{minisvg}
 \end{bookfigure}
 
-The tracking performance of the linearized drivetrain controller (figures
-\ref{fig:linearized_drivetrain_nonrotated_xy} and
-\ref{fig:linearized_drivetrain_nonrotated_response}) and Ramsete (figures
+The tracking performance of the linearized differential drive controller
+(figures \ref{fig:linearized_diff_drive_nonrotated_xy} and
+\ref{fig:linearized_diff_drive_nonrotated_response}) and Ramsete (figures
 \ref{fig:ramsete_traj_xy2} and \ref{fig:ramsete_traj_response2}) for a given
 trajectory are similar, but the former's performance-effort tradeoff can be
 tuned more intuitively via the Q and R gains. However, if the $x$ and $y$ error
@@ -326,19 +325,19 @@ around $\theta = 0$ at all times.
   \end{bmatrix}
 \end{align*}
 
-This \gls{model} results in figures \ref{fig:linearized_drivetrain_exact_xy} and
-\ref{fig:linearized_drivetrain_exact_response}, which show slightly better
+This \gls{model} results in figures \ref{fig:linearized_diff_drive_exact_xy} and
+\ref{fig:linearized_diff_drive_exact_response}, which show slightly better
 tracking performance than the previous formulation.
 
 \begin{bookfigure}
-  \begin{minisvg}{build/code/linearized_drivetrain_exact_xy}
-    \caption{Linearized drivetrain controller x-y plot}
-    \label{fig:linearized_drivetrain_exact_xy}
+  \begin{minisvg}{build/code/linearized_diff_drive_exact_xy}
+    \caption{Linearized differential drive controller x-y plot}
+    \label{fig:linearized_diff_drive_exact_xy}
   \end{minisvg}
   \hfill
-  \begin{minisvg}{build/code/linearized_drivetrain_exact_response}
-    \caption{Linearized drivetrain controller response}
-    \label{fig:linearized_drivetrain_exact_response}
+  \begin{minisvg}{build/code/linearized_diff_drive_exact_response}
+    \caption{Linearized differential drive controller response}
+    \label{fig:linearized_diff_drive_exact_response}
   \end{minisvg}
 \end{bookfigure}
 
@@ -350,38 +349,43 @@ control law) whereas Ramsete has two closed-form functions for its explicit
 control law.
 
 A possible solution to this is fitting a vector function of the states to the
-linearized drivetrain controller gains. Fortunately, the formulation of the
-controller dealing with cross-track error only requires linearization around
+linearized differential drive controller gains. Fortunately, the formulation of
+the controller dealing with cross-track error only requires linearization around
 different values of $v$ rather than $v$ and $\theta$; only a two-dimensional
 function is needed rather than a three-dimensional one. See figures
-\ref{fig:linearized_drivetrain_lqr_fit_0} through
-\ref{fig:linearized_drivetrain_lqr_fit_4} for plots of each controller gain for
+\ref{fig:linearized_diff_drive_lqr_fit_0} through
+\ref{fig:linearized_diff_drive_lqr_fit_4} for plots of each controller gain for
 a range of velocities.
 
 \begin{bookfigure}
-  \begin{minisvg}{build/code/linearized_drivetrain_lqr_fit_0}
-    \caption{Linearized drivetrain controller LQR gain regression fit ($x$)}
-    \label{fig:linearized_drivetrain_lqr_fit_0}
+  \begin{minisvg}{build/code/linearized_diff_drive_lqr_fit_0}
+    \caption{Linearized differential drive controller LQR gain regression fit
+      ($x$)}
+    \label{fig:linearized_diff_drive_lqr_fit_0}
   \end{minisvg}
   \hfill
-  \begin{minisvg}{build/code/linearized_drivetrain_lqr_fit_1}
-    \caption{Linearized drivetrain controller LQR gain fit regression fit ($y$)}
-    \label{fig:linearized_drivetrain_lqr_fit_1}
+  \begin{minisvg}{build/code/linearized_diff_drive_lqr_fit_1}
+    \caption{Linearized differential drive controller LQR gain fit regression
+      fit ($y$)}
+    \label{fig:linearized_diff_drive_lqr_fit_1}
   \end{minisvg}
   \hfill
-  \begin{minisvg}{build/code/linearized_drivetrain_lqr_fit_2}
-    \caption{Linearized drivetrain controller LQR gain regression fit ($\theta$)}
-    \label{fig:linearized_drivetrain_lqr_fit_2}
+  \begin{minisvg}{build/code/linearized_diff_drive_lqr_fit_2}
+    \caption{Linearized differential drive controller LQR gain regression fit
+      ($\theta$)}
+    \label{fig:linearized_diff_drive_lqr_fit_2}
   \end{minisvg}
   \hfill
-  \begin{minisvg}{build/code/linearized_drivetrain_lqr_fit_3}
-    \caption{Linearized drivetrain controller LQR gain regression fit ($v_l$)}
-    \label{fig:linearized_drivetrain_lqr_fit_3}
+  \begin{minisvg}{build/code/linearized_diff_drive_lqr_fit_3}
+    \caption{Linearized differential drive controller LQR gain regression fit
+      ($v_l$)}
+    \label{fig:linearized_diff_drive_lqr_fit_3}
   \end{minisvg}
   \hfill
-  \begin{minisvg}{build/code/linearized_drivetrain_lqr_fit_4}
-    \caption{Linearized drivetrain controller LQR gain regression fit ($v_r$)}
-    \label{fig:linearized_drivetrain_lqr_fit_4}
+  \begin{minisvg}{build/code/linearized_diff_drive_lqr_fit_4}
+    \caption{Linearized differential drive controller LQR gain regression fit
+      ($v_r$)}
+    \label{fig:linearized_diff_drive_lqr_fit_4}
   \end{minisvg}
 \end{bookfigure}
 
@@ -389,7 +393,7 @@ With the exception of the $x$ gain plot, all functions are a variation of a
 square root. $v = 0$ and $v = 1$ were used to scale each function to produce a
 close approximation.
 
-\begin{theorem}[Linearized drivetrain control law]
+\begin{theorem}[Linearized differential drive controller]
   \begin{equation*}
     \mtx{u} = \mtx{K}(v) (\mtx{r} - \mtx{x})
   \end{equation*}
@@ -427,28 +431,28 @@ close approximation.
   \end{figurekey}
 \end{theorem}
 
-Figures \ref{fig:linearized_drivetrain_approx_xy} through
-\ref{fig:linearized_drivetrain_exact_response2} show the responses of the exact
+Figures \ref{fig:linearized_diff_drive_approx_xy} through
+\ref{fig:linearized_diff_drive_exact_response2} show the responses of the exact
 and approximate solutions are the same.
 
 \begin{bookfigure}
-  \begin{minisvg}{build/code/linearized_drivetrain_approx_xy}
-    \caption{Linearized drivetrain controller x-y plot (approximate)}
-    \label{fig:linearized_drivetrain_approx_xy}
+  \begin{minisvg}{build/code/linearized_diff_drive_approx_xy}
+    \caption{Linearized differential dirve controller x-y plot (approximate)}
+    \label{fig:linearized_diff_drive_approx_xy}
   \end{minisvg}
   \hfill
-  \begin{minisvg}{build/code/linearized_drivetrain_exact_xy}
-    \caption{Linearized drivetrain controller x-y plot (exact)}
-    \label{fig:linearized_drivetrain_exact_xy2}
+  \begin{minisvg}{build/code/linearized_diff_drive_exact_xy}
+    \caption{Linearized differential drive controller x-y plot (exact)}
+    \label{fig:linearized_diff_drive_exact_xy2}
   \end{minisvg}
   \hfill
-  \begin{minisvg}{build/code/linearized_drivetrain_approx_response}
-    \caption{Linearized drivetrain controller response (approximate)}
-    \label{fig:linearized_drivetrain_approx_response}
+  \begin{minisvg}{build/code/linearized_diff_drive_approx_response}
+    \caption{Linearized differential drive controller response (approximate)}
+    \label{fig:linearized_diff_drive_approx_response}
   \end{minisvg}
   \hfill
-  \begin{minisvg}{build/code/linearized_drivetrain_exact_response}
-    \caption{Linearized drivetrain controller response (exact)}
-    \label{fig:linearized_drivetrain_exact_response2}
+  \begin{minisvg}{build/code/linearized_diff_drive_exact_response}
+    \caption{Linearized differential drive controller response (exact)}
+    \label{fig:linearized_diff_drive_exact_response2}
   \end{minisvg}
 \end{bookfigure}

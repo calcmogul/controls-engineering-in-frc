@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Runs linearized drivetrain simulation
+# Runs linearized differential drive simulation
 
 # Avoid needing display if plots aren't being shown
 import sys
@@ -18,8 +18,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def drivetrain(motor, num_motors, m, r, rb, J, Gl, Gr, states):
-    """Returns the state-space model for a drivetrain.
+def diff_drive(motor, num_motors, m, r, rb, J, Gl, Gr, states):
+    """Returns the state-space model for a differential drive.
 
     States: [[x], [y], [theta], [left velocity], [right velocity]]
     Inputs: [[left voltage], [right voltage]]
@@ -31,9 +31,9 @@ def drivetrain(motor, num_motors, m, r, rb, J, Gl, Gr, states):
     m -- mass of robot in kg
     r -- radius of wheels in meters
     rb -- radius of robot in meters
-    J -- moment of inertia of the drivetrain in kg-m^2
-    Gl -- gear ratio of left side of drivetrain
-    Gr -- gear ratio of right side of drivetrain
+    J -- moment of inertia of the differential drive in kg-m^2
+    Gl -- gear ratio of left side of differential drive
+    Gr -- gear ratio of right side of differential drive
     states -- state vector around which to linearize model
 
     Returns:
@@ -126,7 +126,7 @@ class Drivetrain(frccnt.System):
         # Number of motors per side
         num_motors = 3.0
 
-        # High and low gear ratios of drivetrain
+        # High and low gear ratios of differential drive
         Glow = 60.0 / 11.0
         Ghigh = 60.0 / 11.0
 
@@ -136,10 +136,10 @@ class Drivetrain(frccnt.System):
         r = 0.08255 / 2.0
         # Radius of robot in meters
         self.rb = 0.59055 / 2.0
-        # Moment of inertia of the drivetrain in kg-m^2
+        # Moment of inertia of the differential drive in kg-m^2
         J = 6.0
 
-        # Gear ratios of left and right sides of drivetrain respectively
+        # Gear ratios of left and right sides of differential drive respectively
         if self.in_low_gear:
             Gl = Glow
             Gr = Glow
@@ -147,7 +147,7 @@ class Drivetrain(frccnt.System):
             Gl = Ghigh
             Gr = Ghigh
 
-        return drivetrain(
+        return diff_drive(
             frccnt.models.MOTOR_CIM,
             num_motors,
             m,
@@ -209,7 +209,7 @@ class ApproxDrivetrain:
         # Number of motors per side
         num_motors = 3.0
 
-        # High and low gear ratios of drivetrain
+        # High and low gear ratios of differential drive
         Glow = 60.0 / 11.0
         Ghigh = 60.0 / 11.0
 
@@ -219,14 +219,14 @@ class ApproxDrivetrain:
         r = 0.08255 / 2.0
         # Radius of robot in meters
         self.rb = 0.59055 / 2.0
-        # Moment of inertia of the drivetrain in kg-m^2
+        # Moment of inertia of the differential drive in kg-m^2
         J = 6.0
 
-        # Gear ratios of left and right sides of drivetrain respectively
+        # Gear ratios of left and right sides of differential drive respectively
         Gl = Ghigh
         Gr = Ghigh
 
-        return drivetrain(
+        return diff_drive(
             frccnt.models.MOTOR_CIM,
             num_motors,
             m,
@@ -315,7 +315,7 @@ def main():
         plt.legend()
 
         if "--noninteractive" in sys.argv:
-            latexutils.savefig(f"linearized_drivetrain_lqr_fit_{i}")
+            latexutils.savefig(f"linearized_diff_drive_lqr_fit_{i}")
     if "--noninteractive" not in sys.argv:
         plt.show()
 

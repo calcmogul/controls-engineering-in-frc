@@ -1,5 +1,5 @@
-\section{Ramsete nonlinear controller}
-\label{sec:ramsete_nonlinear_controller}
+\section{Ramsete unicycle controller}
+\label{sec:ramsete_unicycle_controller}
 
 Why would we need a nonlinear control law in addition to the linear ones we have
 used so far? If we use the original approach with an LQR \gls{controller} for
@@ -19,9 +19,9 @@ The paper \textit{Control of Wheeled Mobile Robots: An Experimental Overview}
 describes a nonlinear controller for a wheeled vehicle with unicycle-like
 kinematics; a global \gls{pose} consisting of $x$, $y$, and $\theta$; and a
 desired \gls{pose} consisting of $x_d$, $y_d$, and $\theta_d$
-\cite{bib:ctrl_wheeled_mobile_robots}. We'll call it the Ramsete nonlinear
-control law because that's the acronym for the title of the book it came from in
-Italian (``Robotica Articolata e Mobile per i SErvizi e le TEcnologie").
+\cite{bib:ctrl_wheeled_mobile_robots}. We'll call it Ramsete because that's the
+acronym for the title of the book it came from in Italian (``Robotica Articolata
+e Mobile per i SErvizi e le TEcnologie").
 
 \subsection{Velocity and turning rate command derivation}
 
@@ -149,7 +149,7 @@ Substituting the control laws $u_1$ and $u_2$ into these equations gives
 
 Let $k_2 = b$.
 
-\begin{theorem}[Ramsete nonlinear control law]
+\begin{theorem}[Ramsete unicycle controller]
   \begin{align}
     &v = v_d \cos(\theta_d - \theta) + k_1(v_d, \omega_d)((x_d - x)\cos\theta +
       (y_d - y)\sin\theta) \\
@@ -186,6 +186,14 @@ obtained via a nonlinear \gls{pose} estimator (see section
 \ref{sec:nonlinear_pose_estimation} for how to implement one). The desired
 velocity, turning rate, and \gls{pose} can be varied over time according to a
 desired trajectory.
+
+With this \gls{controller}, $\theta$ becomes uncontrollable at $v = 0$. This is
+fine for controlling unicycles because that's already an inherent structural
+limitation; unicycles can't change their heading unless they are rolling (just
+like bicycles). However, differential drives \textit{can} rotate in place. To
+address this controller's limitation at $v = 0$, one can temporarily switch to
+an LQR of just $\theta$, $v_l$, and $v_r$; or plan a new trajectory that
+provides nonzero desired turning rates to rotate the robot.
 
 \subsection{Linear reference tracker}
 
