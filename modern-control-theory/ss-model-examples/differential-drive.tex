@@ -1,19 +1,20 @@
-\section{Drivetrain}
+\section{Differential drive}
 
 \subsection{Continuous state-space model}
-\index{FRC models!drivetrain equations}
+\index{FRC models!differential drive equations}
 
-The position and velocity derivatives of each drivetrain side can be written as
+The position and velocity derivatives of each differential drive side can be
+written as
 
 \begin{align}
-  \dot{x}_l &= v_l \label{eq:drivetrain_cont_ss_posl} \\
-  \dot{v}_l &= \dot{v}_l \label{eq:drivetrain_cont_ss_vell} \\
-  \dot{x}_r &= v_r \label{eq:drivetrain_cont_ss_posr} \\
-  \dot{v}_r &= \dot{v}_r \label{eq:drivetrain_cont_ss_velr}
+  \dot{x}_l &= v_l \label{eq:diff_drive_cont_ss_posl} \\
+  \dot{v}_l &= \dot{v}_l \label{eq:diff_drive_cont_ss_vell} \\
+  \dot{x}_r &= v_r \label{eq:diff_drive_cont_ss_posr} \\
+  \dot{v}_r &= \dot{v}_r \label{eq:diff_drive_cont_ss_velr}
 \end{align}
 
-By equations (\ref{eq:drivetrain_model_right}) and
-(\ref{eq:drivetrain_model_left})
+By equations (\ref{eq:diff_drive_model_right}) and
+(\ref{eq:diff_drive_model_left})
 
 \begin{align*}
   \dot{v}_l &= \left(\frac{1}{m} + \frac{r_b^2}{J}\right)
@@ -24,7 +25,7 @@ By equations (\ref{eq:drivetrain_model_right}) and
     \left(\frac{1}{m} + \frac{r_b^2}{J}\right) \left(C_3 v_r + C_4 V_r\right)
 \end{align*}
 
-\begin{theorem}[Drivetrain state-space model]
+\begin{theorem}[Differential drive state-space model]
   \begin{align*}
     \dot{\mtx{x}} &= \mtx{A} \mtx{x} + \mtx{B} \mtx{u} \\
     \mtx{y} &= \mtx{C} \mtx{x} + \mtx{D} \mtx{u}
@@ -51,7 +52,7 @@ By equations (\ref{eq:drivetrain_model_right}) and
     \end{array}
   \end{equation*}
   \begin{equation}
-    \label{eq:drivetrain_ss_model}
+    \label{eq:diff_drive_ss_model}
     \begin{array}{ll}
       \mtx{A} =
       \begin{bmatrix}
@@ -205,7 +206,7 @@ friction inherent in skid-steer robots.
 
 Python Control will be used to \glslink{discretization}{discretize} the
 \gls{model} and simulate it. One of the frccontrol
-examples\footnote{\url{https://github.com/calcmogul/frccontrol/blob/master/examples/drivetrain.py}}
+examples\footnote{\url{https://github.com/calcmogul/frccontrol/blob/master/examples/diff_drive.py}}
 creates and tests a controller for it.
 
 \begin{remark}
@@ -216,18 +217,18 @@ creates and tests a controller for it.
   installed.
 \end{remark}
 
-Figure \ref{fig:drivetrain_pzmaps} shows the pole-zero maps for the open-loop
+Figure \ref{fig:diff_drive_pzmaps} shows the pole-zero maps for the open-loop
 \gls{system}, closed-loop \gls{system}, and \gls{observer}. Figure
-\ref{fig:drivetrain_response} shows the \gls{system} response with them.
+\ref{fig:diff_drive_response} shows the \gls{system} response with them.
 
-\begin{svg}{build/frccontrol/examples/drivetrain_pzmaps}
+\begin{svg}{build/frccontrol/examples/differential_drive_pzmaps}
   \caption{Drivetrain pole-zero maps}
-  \label{fig:drivetrain_pzmaps}
+  \label{fig:diff_drive_pzmaps}
 \end{svg}
 
-\begin{svg}{build/frccontrol/examples/drivetrain_response}
+\begin{svg}{build/frccontrol/examples/differential_drive_response}
   \caption{Drivetrain response}
-  \label{fig:drivetrain_response}
+  \label{fig:diff_drive_response}
 \end{svg}
 
 Given the high inertia in drivetrains, it's better to drive the \gls{reference}
@@ -238,5 +239,6 @@ with a motion profile instead of a \gls{step input} for reproducibility.
 The script linked above also generates two files: DrivetrainCoeffs.h and
 DrivetrainCoeffs.cpp. These can be used with the WPILib StateSpacePlant,
 StateSpaceController, and StateSpaceObserver classes in C++ and Java. A C++
-implementation of this drivetrain controller is available online\footnote{
+implementation of this differential drive controller is available
+online\footnote{
 \url{https://github.com/calcmogul/allwpilib/tree/state-space/wpilibcExamples/src/main/cpp/examples/StateSpaceDrivetrain}}.

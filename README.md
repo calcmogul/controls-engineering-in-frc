@@ -159,6 +159,11 @@ Add mecanum and swerve kinematics derivations
 * Inverse kinematics derivations?
 * Show going from one to the other with pseudoinverse?
 
+Consider removing linear drivetrain model/controller in favor of nonlinear one
+* The velocity part of the derivation could be folded into the nonlinear section
+  because the position states were just an augmentation at the end anyway, and
+  the nonlinear controller removes them in favor of global coordinates.
+
 ### Finish incomplete topics
 
 Expand the implementation steps section on writing unit tests in Google Test.
