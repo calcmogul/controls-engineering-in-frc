@@ -14,7 +14,9 @@ if "--noninteractive" in sys.argv:
 import control as cnt
 import frccontrol as frccnt
 import math
+import matplotlib as mpl
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
 
 
@@ -51,10 +53,10 @@ def differential_drive(motor, num_motors, m, r, rb, J, Gl, Gr, states):
     vl = states[3, 0]
     vr = states[4, 0]
     v = (vr + vl) / 2.0
-    if abs(v) < 1e-9:
-        vl = 1e-9
-        vr = 1e-9
-        v = 1e-9
+    if abs(v) < 5e-8:
+        vl = 5e-8
+        vr = 5e-8
+        v = 5e-8
     # fmt: off
     A = np.array([[0, 0, -v * math.sin(theta), 0.5 * math.cos(theta), 0.5 * math.cos(theta)],
                   [0, 0, v * math.cos(theta), 0.5 * math.sin(theta), 0.5 * math.sin(theta)],
@@ -75,17 +77,6 @@ def differential_drive(motor, num_motors, m, r, rb, J, Gl, Gr, states):
     # fmt: on
 
     return cnt.ss(A, B, C, D)
-
-
-def get_diff_vels(v, omega, d):
-    """Returns left and right wheel velocities given a central velocity and
-    turning rate.
-    Keyword arguments:
-    v -- center velocity
-    omega -- center turning rate
-    d -- trackwidth
-    """
-    return v - omega * d / 2.0, v + omega * d / 2.0
 
 
 class DifferentialDrive(frccnt.System):
@@ -170,30 +161,19 @@ class DifferentialDrive(frccnt.System):
             np.asarray(states),
         )
 
-    def relinearize(self, Q_elems, R_elems, states):
-        from frccontrol import lqr
-
-        sysc = self.create_model(states)
-        sysd = sysc.sample(self.dt)
-
-        Q = np.diag(1.0 / np.square(Q_elems))
-        R = np.diag(1.0 / np.square(R_elems))
-        return lqr(sysd, Q, R)
-
     def design_controller_observer(self):
         if self.in_low_gear:
             q_vel = 1.0
         else:
             q_vel = 0.95
 
-        q_x = 0.05
+        q_x = 0.0625
         q_y = 0.125
         q_heading = 10.0
 
         q = [q_x, q_y, q_heading, q_vel, q_vel]
         r = [12.0, 12.0]
-
-        self.K = self.relinearize(q, r, self.x_hat)
+        self.design_lqr(q, r)
 
         self.design_two_state_feedforward()
 
@@ -205,85 +185,63 @@ class DifferentialDrive(frccnt.System):
             [q_pos, q_pos, q_heading, q_vel, q_vel], [r_gyro, r_vel, r_vel]
         )
 
-    def update_plant(self):
-        self.sysc = self.create_model(self.x)
-        self.sysd = self.sysc.sample(self.dt)
-
-        self.x = self.sysd.A @ self.x + self.sysd.B @ self.u
-        self.y = self.sysd.C @ self.x + self.sysd.D @ self.u
-
-    def update_controller(self, next_r):
-        self.design_controller_observer()
-
-        u = self.K @ (self.r - self.x_hat)
-        rdot = (next_r - self.r) / self.dt
-        uff = self.Kff @ (rdot - self.f(self.r, np.zeros(self.u.shape)))
-        self.r = next_r
-        self.u = u + uff
-
-        u_cap = np.max(np.abs(self.u))
-        if u_cap > 12.0:
-            self.u = self.u / u_cap * 12.0
-
 
 def main():
     t = []
     refs = []
 
+    dt = 0.00505
+
     # Radius of robot in meters
     rb = 0.59055 / 2.0
 
-    with open("ramsete_traj.csv", "r") as trajectory_file:
-        import csv
+    state_labels = ["$x$", "$y$", "$\\theta$", "$v_l$", "$v_r$"]
+    input_labels = ["Left voltage", "Right voltage"]
 
-        current_t = 0
+    v_range = [-1.1, 1.1]
+    theta_range = [-np.pi, np.pi]
+    v_dstate = 0.1
+    theta_dstate = 0.1
 
-        reader = csv.reader(trajectory_file, delimiter=",")
-        trajectory_file.readline()
-        for row in reader:
-            t.append(float(row[0]))
-            x = float(row[1])
-            y = float(row[2])
-            theta = float(row[3])
-            vl, vr = get_diff_vels(float(row[4]), float(row[5]), rb * 2.0)
-            ref = np.array([[x], [y], [theta], [vl], [vr]])
-            refs.append(ref)
+    x, y = np.mgrid[
+        v_range[0] : v_range[1] : v_dstate,
+        theta_range[0] : theta_range[1] : theta_dstate,
+    ]
 
-    dt = 0.02
-    x = np.array([[refs[0][0, 0] + 0.5], [refs[0][1, 0] + 0.5], [np.pi / 2], [0], [0]])
-    diff_drive = DifferentialDrive(dt, x)
+    K_rec = np.zeros((2, 5, x.shape[0], y.shape[1]))
+    for i in range(x.shape[0]):
+        v = x[i, 0]
+        for j in range(y.shape[1]):
+            theta = y[0, j]
+            x_linear = np.array([[0], [0], [theta], [v], [v]])
+            diff_drive = DifferentialDrive(dt, x_linear)
+            K_rec[:, :, i, j] = diff_drive.K
 
-    state_rec, ref_rec, u_rec = diff_drive.generate_time_responses(t, refs)
+    x_label = "v (m/s)"
+    y_label = "$\\theta$ (rad)"
 
-    plt.figure(1)
-    x_rec = np.squeeze(np.asarray(state_rec[0, :]))
-    y_rec = np.squeeze(np.asarray(state_rec[1, :]))
-    plt.plot(x_rec, y_rec, label="Linearized controller")
-    plt.plot(ref_rec[0, :], ref_rec[1, :], label="Reference trajectory")
-    plt.xlabel("x (m)")
-    plt.ylabel("y (m)")
-    plt.legend()
+    for i in range(len(state_labels)):
+        fig = plt.figure(i + 1)
+        ax = fig.add_subplot(111, projection="3d")
+        z = K_rec[0, i, :, :].reshape(x.shape)
+        label1 = f"{input_labels[0]}"
+        ax.plot_surface(x, y, z, label=label1)
+        z = K_rec[1, i, :, :].reshape(x.shape)
+        label2 = f"{input_labels[1]}"
+        ax.plot_surface(x, y, z, label=label2)
+        ax.set_xlabel(x_label)
+        ax.set_ylabel(y_label)
+        ax.set_zlabel(f"Gain from {state_labels[i]} error to input")
 
-    # Equalize aspect ratio
-    xlim = plt.xlim()
-    width = abs(xlim[0]) + abs(xlim[1])
-    ylim = plt.ylim()
-    height = abs(ylim[0]) + abs(ylim[1])
-    if width > height:
-        plt.ylim([-width / 2, width / 2])
-    else:
-        plt.xlim([-height / 2, height / 2])
-
-    if "--noninteractive" in sys.argv:
-        latexutils.savefig("linearized_diff_drive_nonrotated_firstorder_xy")
-
-    plt.figure(2)
-    diff_drive.plot_time_responses(t, state_rec, ref_rec, u_rec)
-
-    if "--noninteractive" in sys.argv:
-        latexutils.savefig("linearized_diff_drive_nonrotated_firstorder_response")
-    else:
-        plt.show()
+        colors = ["blue", "orange"]
+        scatter1_proxy = mpl.lines.Line2D(
+            [0], [0], linestyle="none", c=colors[0], marker="o"
+        )
+        scatter2_proxy = mpl.lines.Line2D(
+            [0], [0], linestyle="none", c=colors[1], marker="o"
+        )
+        ax.legend([scatter1_proxy, scatter2_proxy], [label1, label2], numpoints=1)
+    plt.show()
 
 
 if __name__ == "__main__":

@@ -18,7 +18,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def diff_drive(motor, num_motors, m, r, rb, J, Gl, Gr, states):
+def differential_drive(motor, num_motors, m, r, rb, J, Gl, Gr, states):
     """Returns the state-space model for a differential drive.
 
     States: [[x], [y], [theta], [left velocity], [right velocity]]
@@ -88,9 +88,9 @@ def get_diff_vels(v, omega, d):
     return v - omega * d / 2.0, v + omega * d / 2.0
 
 
-class DiffDrive(frccnt.System):
+class DifferentialDrive(frccnt.System):
     def __init__(self, dt, states):
-        """Drivetrain subsystem.
+        """Differential drive subsystem.
 
         Keyword arguments:
         dt -- time between model/controller updates
@@ -141,7 +141,7 @@ class DiffDrive(frccnt.System):
         Glow = 60.0 / 11.0
         Ghigh = 60.0 / 11.0
 
-        # Drivetrain mass in kg
+        # Differential drive mass in kg
         m = 52
         # Radius of wheels in meters
         r = 0.08255 / 2.0
@@ -158,7 +158,7 @@ class DiffDrive(frccnt.System):
             Gl = Ghigh
             Gr = Ghigh
 
-        return diff_drive(
+        return differential_drive(
             frccnt.models.MOTOR_CIM,
             num_motors,
             m,
@@ -244,7 +244,7 @@ def main():
 
     dt = 0.02
     x = np.array([[refs[0][0, 0] + 0.5], [refs[0][1, 0] + 0.5], [np.pi / 2], [0], [0]])
-    diff_drive = DiffDrive(dt, x)
+    diff_drive = DifferentialDrive(dt, x)
 
     state_rec, ref_rec, u_rec = diff_drive.generate_time_responses(t, refs)
 

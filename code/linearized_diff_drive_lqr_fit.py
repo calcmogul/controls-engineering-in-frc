@@ -18,7 +18,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def diff_drive(motor, num_motors, m, r, rb, J, Gl, Gr, states):
+def differential_drive(motor, num_motors, m, r, rb, J, Gl, Gr, states):
     """Returns the state-space model for a differential drive.
 
     States: [[x], [y], [theta], [left velocity], [right velocity]]
@@ -77,9 +77,9 @@ def diff_drive(motor, num_motors, m, r, rb, J, Gl, Gr, states):
     return cnt.ss(A, B, C, D)
 
 
-class Drivetrain(frccnt.System):
+class DifferentialDrive(frccnt.System):
     def __init__(self, dt, states):
-        """Drivetrain subsystem.
+        """Differential drive subsystem.
 
         Keyword arguments:
         dt -- time between model/controller updates
@@ -130,7 +130,7 @@ class Drivetrain(frccnt.System):
         Glow = 60.0 / 11.0
         Ghigh = 60.0 / 11.0
 
-        # Drivetrain mass in kg
+        # Differential drive mass in kg
         m = 52
         # Radius of wheels in meters
         r = 0.08255 / 2.0
@@ -147,7 +147,7 @@ class Drivetrain(frccnt.System):
             Gl = Ghigh
             Gr = Ghigh
 
-        return diff_drive(
+        return differential_drive(
             frccnt.models.MOTOR_CIM,
             num_motors,
             m,
@@ -184,9 +184,9 @@ class Drivetrain(frccnt.System):
         )
 
 
-class ApproxDrivetrain:
+class ApproxDifferentialDrive:
     def __init__(self, dt, states):
-        """Drivetrain subsystem.
+        """Differential drive subsystem.
 
         Keyword arguments:
         dt -- time between model/controller updates
@@ -213,7 +213,7 @@ class ApproxDrivetrain:
         Glow = 60.0 / 11.0
         Ghigh = 60.0 / 11.0
 
-        # Drivetrain mass in kg
+        # Differential drive mass in kg
         m = 52
         # Radius of wheels in meters
         r = 0.08255 / 2.0
@@ -226,7 +226,7 @@ class ApproxDrivetrain:
         Gl = Ghigh
         Gr = Ghigh
 
-        return diff_drive(
+        return differential_drive(
             frccnt.models.MOTOR_CIM,
             num_motors,
             m,
@@ -298,8 +298,8 @@ def main():
     Kapprox_rec = np.zeros((2, 5, len(vs)))
     for i, v in enumerate(vs):
         x_linear = np.array([[0], [0], [0], [v], [v]])
-        K_rec[:, :, i] = Drivetrain(dt, x_linear).K
-        Kapprox_rec[:, :, i] = ApproxDrivetrain(dt, x_linear).K
+        K_rec[:, :, i] = DifferentialDrive(dt, x_linear).K
+        Kapprox_rec[:, :, i] = ApproxDifferentialDrive(dt, x_linear).K
 
     state_labels = ["$x$", "$y$", "$\\theta$", "$v_l$", "$v_r$"]
     input_labels = ["Left voltage", "Right voltage"]
