@@ -217,7 +217,7 @@ class DifferentialDrive(frccnt.System):
 
         u = self.K @ (self.r - self.x_hat)
         rdot = (next_r - self.r) / self.dt
-        uff = self.Kff @ (rdot - self.f(self.r, np.zeros(self.u.shape)))
+        uff = self.Kff @ (rdot - self.f(self.x_hat, np.zeros(self.u.shape)))
         self.r = next_r
         self.u = u + uff
 

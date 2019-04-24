@@ -221,7 +221,7 @@ class DifferentialDrive(frccnt.System):
         e = self.r - self.x_hat
         u = self.K @ in_robot_frame @ e
         rdot = (next_r - self.r) / self.dt
-        uff = self.Kff @ (rdot - self.f(self.r, np.zeros(self.u.shape)))
+        uff = self.Kff @ (rdot - self.f(self.x_hat, np.zeros(self.u.shape)))
         self.r = next_r
         self.u = u + uff
 
