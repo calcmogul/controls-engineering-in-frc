@@ -1,5 +1,9 @@
 NAME := state-space-guide
 
+DEPS := $(wildcard deps/*.py)
+DEPS_STAMP := $(DEPS:.py=.stamp)
+DEPS_STAMP := $(addprefix build/,$(DEPS_STAMP))
+
 # Make does not offer a recursive wildcard function, so here's one:
 rwildcard=$(wildcard $1$2) $(foreach dir,$(wildcard $1*),$(call rwildcard,$(dir)/,$2))
 
@@ -79,10 +83,10 @@ $(NAME)-prepress.pdf: $(NAME).pdf
 build/commit-hash.txt: .git/refs/heads/master .git/HEAD
 	echo "\href{https://github.com/calcmogul/state-space-guide/commit/`git rev-parse --short HEAD`}{commit `git rev-parse --short HEAD`}" > build/commit-hash.txt
 
-# Runs if frccontrol directory doesn't exist yet to perform compilation prep
-build/frccontrol:
-	git clone git://github.com/calcmogul/frccontrol build/frccontrol
-	./generate_frccontrol_plots.py
+$(DEPS_STAMP): build/%.stamp: %.py
+	@mkdir -p $(@D)
+	$(ROOT)/$<
+	touch $@
 
 $(FIGS): build/%.jpg: %.jpg
 	@mkdir -p $(@D)
@@ -92,7 +96,7 @@ $(CSV): build/%.csv: %.csv
 	@mkdir -p $(@D)
 	cp $< $@
 
-$(STAMP): build/%.stamp: %.py $(CSV) | build/frccontrol
+$(STAMP): build/%.stamp: %.py $(CSV) $(DEPS_STAMP)
 	@mkdir -p $(@D)
 	cd $(@D) && $(ROOT)/$< --noninteractive
 	touch $@
