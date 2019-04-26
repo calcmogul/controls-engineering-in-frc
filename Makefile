@@ -14,9 +14,7 @@ STAMP := $(addprefix build/,$(STAMP))
 
 TEX := $(call rwildcard,./,*.tex)
 BIB := $(wildcard *.bib)
-
 FIGS := $(wildcard figs/*)
-FIGS := $(addprefix build/,$(FIGS))
 
 CSV := $(wildcard code/*.csv)
 CSV := $(addprefix build/,$(CSV))
@@ -88,10 +86,8 @@ $(DEPS_STAMP): build/%.stamp: %.py
 	$(ROOT)/$<
 	touch $@
 
-$(FIGS): build/%.jpg: %.jpg
-	@mkdir -p $(@D)
-	cp $< $@
-
+# This rule places CSVs into the build folder so scripts executed from the build
+# folder can use them.
 $(CSV): build/%.csv: %.csv
 	@mkdir -p $(@D)
 	cp $< $@
