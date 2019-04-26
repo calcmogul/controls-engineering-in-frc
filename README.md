@@ -173,7 +173,9 @@ the book. Also do C++ examples.
 
 The following state-space implementation examples are planned:
 
-* Rotating claw with independent top/bottom
+* "Rotating claw" model with independent top/bottom
+  * "This claw consists of independent upper and lower jaw pieces each driven by
+    its own DC brushed motor."
   * See 971/y2014/control_loops/python/claw.py
   * Use as example of coordinate transformations for states?
   * Probably just single-jointed arm model for each side with separate LQR
