@@ -15,22 +15,38 @@ open-loop \glspl{controller}. \Glspl{controller} which incorporate information
 fed back from the \gls{plant}'s \gls{output} are called closed-loop
 \glspl{controller} or feedback \glspl{controller}.
 
-Table \ref{tab:plant_vs_controller} describes how the terms \gls{input} and
-\gls{output} apply to \glspl{plant} versus \glspl{controller} and what letters
-are commonly associated with each when working with them. Namely, that the terms
-\gls{input} and \gls{output} are defined with respect to the \gls{plant}, not
-the \gls{controller}.
+The \gls{input} and \gls{output} of a \gls{system} are defined from the
+\gls{plant}'s point of view, as shown in figure \ref{fig:system_nomenclature}.
 
-\begin{booktable}
-  \begin{tabular}{|l|ll|}
-    \hline
-    \rowcolor{headingbg}
-    & \textbf{Plant} & \textbf{Controller} \\
-    \hline
-    Inputs & $u(t)$ & $r(t)$, $y(t)$ \\
-    Outputs & $y(t)$ & $u(t)$ \\
-    \hline
-  \end{tabular}
-  \caption{Plant versus controller nomenclature}
-  \label{tab:plant_vs_controller}
-\end{booktable}
+\begin{bookfigure}
+  \begin{tikzpicture}[auto, >=latex']
+    \fontsize{9pt}{10pt}
+
+    % Place the blocks
+    \node [name=input] {$r(t)$};
+    \node [sum, right=0.5cm of input] (errorsum) {};
+    \node [block, right=1.0cm of errorsum] (controller) {Controller};
+    \node [block, right=1.0cm of controller] (plant) {Plant};
+    \node [right=1.0cm of plant] (output) {};
+    \node [coordinate, below=1.0cm of controller] (measurements) {};
+
+    % Connect the nodes
+    \draw [arrow] (input) -- node[pos=0.9] {$+$} (errorsum);
+    \draw [-] (errorsum) -- node {$e(t)$} (controller);
+    \draw [arrow] (errorsum) -- (controller);
+    \draw [arrow] (controller) -- node {$u(t)$} (plant);
+    \draw [arrow] (plant) -- node [name=y] {$y(t)$} (output);
+    \draw [-] (y) |- (measurements);
+    \draw [arrow] (measurements) -| node[pos=0.99, right] {$-$} (errorsum);
+  \end{tikzpicture}
+
+  \caption{Control system nomenclature for a closed-loop system}
+  \label{fig:system_nomenclature}
+
+  \begin{figurekey}
+    \begin{tabulary}{\linewidth}{LLLL}
+      $r(t)$ & \gls{reference} & $u(t)$ & \gls{control input} \\
+      $e(t)$ & \gls{error} & $y(t)$ & \gls{output} \\
+    \end{tabulary}
+  \end{figurekey}
+\end{bookfigure}
