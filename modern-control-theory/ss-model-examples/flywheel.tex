@@ -1,4 +1,5 @@
 \section{Flywheel}
+\label{sec:ss_model_flywheel}
 
 \subsection{Continuous state-space model}
 \index{FRC models!flywheel equations}
@@ -8,6 +9,26 @@ By equation (\ref{eq:dot_omega_f})
 \begin{equation*}
   \dot{\omega}_f = -\frac{G^2 K_t}{K_v RJ} \omega_f + \frac{G K_t}{RJ} V
 \end{equation*}
+
+Factor out $\omega_f$ and $V$ into column vectors.
+
+\begin{align*}
+  \dot{\begin{bmatrix}
+    \omega_f
+  \end{bmatrix}} &=
+  \begin{bmatrix}
+    -\frac{G^2 K_t}{K_v RJ}
+  \end{bmatrix}
+  \begin{bmatrix}
+    \omega_f
+  \end{bmatrix} +
+  \begin{bmatrix}
+    \frac{GK_t}{RJ}
+  \end{bmatrix}
+  \begin{bmatrix}
+    V
+  \end{bmatrix}
+\end{align*}
 
 \begin{theorem}[Flywheel state-space model]
   \begin{align*}

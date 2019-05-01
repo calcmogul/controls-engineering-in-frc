@@ -88,7 +88,11 @@ non-negligible moment of inertia.
 \end{bookfigure}
 
 Gear ratios are written as output over input, so $G$ is greater than one in
-figure \ref{fig:flywheel}. \\
+figure \ref{fig:flywheel}.
+
+We want to derive an equation for the flywheel angular acceleration
+$\dot{\omega}_f$ given an input voltage $V$, which we can integrate to get
+flywheel angular velocity.
 
 We will start with the equation derived earlier for a DC brushed motor, equation
 (\ref{eq:motor_tau_V}).
@@ -139,6 +143,9 @@ angular acceleration. Substitute equation (\ref{eq:tau_f_def}) into equation
   \dot{\omega}_f &= \frac{G K_t}{RJ} V - \frac{G^2 K_t}{K_v RJ} \omega_f
     \label{eq:dot_omega_f}
 \end{align}
+
+This model will be converted to state-space notation in section
+\ref{sec:ss_model_flywheel}.
 
 \subsection{Calculating constants}
 

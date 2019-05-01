@@ -1,4 +1,5 @@
 \section{Elevator}
+\label{sec:ss_model_elevator}
 
 \subsection{Continuous state-space model}
 \index{FRC models!elevator equations}
@@ -22,6 +23,54 @@ Substitute this into equation (\ref{eq:elevator_cont_ss_vel}).
   \dot{v}_m &= \frac{GK_t}{Rrm} V - \frac{G^2 K_t}{Rr^2 m K_v} v_m \nonumber \\
   \dot{v}_m &= -\frac{G^2 K_t}{Rr^2 m K_v} v_m + \frac{GK_t}{Rrm} V
 \end{align}
+
+Factor out $v_m$ and $V$ into column vectors.
+
+\begin{align*}
+  \dot{\begin{bmatrix}
+    v_m
+  \end{bmatrix}} &=
+  \begin{bmatrix}
+    -\frac{G^2 K_t}{Rr^2 m K_v}
+  \end{bmatrix}
+  \begin{bmatrix}
+    v_m
+  \end{bmatrix} +
+  \begin{bmatrix}
+    \frac{GK_t}{Rrm}
+  \end{bmatrix}
+  \begin{bmatrix}
+    V
+  \end{bmatrix}
+\end{align*}
+
+Augment the matrix equation with the position state $x$, which has the model
+equation $\dot{x} = v_m$. The matrix elements corresponding to $v_m$ will be
+$1$, and the others will be $0$ since they don't appear, so
+$\dot{x} = 0x + 1v_m + 0V$. The existing rows will have zeroes inserted where
+$x$ is multiplied in.
+
+\begin{align*}
+  \dot{\begin{bmatrix}
+    x \\
+    v_m
+  \end{bmatrix}} &=
+  \begin{bmatrix}
+    0 & 1 \\
+    0 & -\frac{G^2 K_t}{Rr^2 m K_v}
+  \end{bmatrix}
+  \begin{bmatrix}
+    x \\
+    v_m
+  \end{bmatrix} +
+  \begin{bmatrix}
+    0 \\
+    \frac{GK_t}{Rrm}
+  \end{bmatrix}
+  \begin{bmatrix}
+    V
+  \end{bmatrix}
+\end{align*}
 
 \begin{theorem}[Elevator state-space model]
   \begin{align*}

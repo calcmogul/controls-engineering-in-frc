@@ -143,7 +143,12 @@ mass up or down.
 Gear ratios are written as output over input, so $G$ is greater than one in
 figure \ref{fig:elevator}.
 
-Based on figure \ref{fig:elevator}
+We want to derive an equation for the carriage acceleration $a_m$ (derivative of
+$v_m$) given an input voltage $V$, which we can integrate to get carriage
+velocity and position.
+
+First, we'll find a torque to substitute into the equation for a DC brushed
+motor. Based on figure \ref{fig:elevator}
 
 \begin{equation}
   \tau_m G = \tau_p \label{eq:elevator_tau_m_ratio}
@@ -157,14 +162,15 @@ torque produced by the pulley.
 \end{equation}
 
 where $r$ is the radius of the pulley. Substitute equation
-(\ref{eq:elevator_tau_m_ratio}) into equation (\ref{eq:motor_tau_V}).
+(\ref{eq:elevator_tau_m_ratio}) into $\tau_m$ in the DC brushed motor equation
+(\ref{eq:motor_tau_V}).
 
 \begin{align*}
   V &= \frac{\frac{\tau_p}{G}}{K_t} R + \frac{\omega_m}{K_v} \\
   V &= \frac{\tau_p}{GK_t} R + \frac{\omega_m}{K_v}
 \end{align*}
 
-Substitute in equation (\ref{eq:elevator_torque_pulley}).
+Substitute in equation (\ref{eq:elevator_torque_pulley}) for $\tau_p$.
 
 \begin{equation}
   V = \frac{rF_m}{GK_t} R + \frac{\omega_m}{K_v} \label{eq:elevator_Vinter1}
@@ -195,7 +201,7 @@ Substitute equation (\ref{eq:elevator_omega_p}) into equation
 \end{equation}
 
 Substitute equation (\ref{eq:elevator_omega_m}) into equation
-(\ref{eq:elevator_Vinter1}).
+(\ref{eq:elevator_Vinter1}) for $\omega_m$.
 
 \begin{align*}
   V &= \frac{rF_m}{GK_t} R + \frac{G \frac{v_m}{r}}{K_v} \\
@@ -233,3 +239,6 @@ elevator carriage.
   a_m &= \frac{GK_t}{Rrm} V - \frac{G^2K_t}{Rr^2 mK_v} v_m
     \label{eq:elevator_accel}
 \end{align}
+
+This model will be converted to state-space notation in section
+\ref{sec:ss_model_elevator}.

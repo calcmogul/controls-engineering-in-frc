@@ -77,6 +77,10 @@ massless.
   \label{fig:diff_drive}
 \end{bookfigure}
 
+We want to derive equations for the accelerations of the left and right sides of
+the robot $\dot{v}_l$ and $\dot{v}_r$ given left and right input voltages $V_l$
+and $V_r$.
+
 From equation (\ref{eq:tau_f}) of the flywheel \gls{model} derivations
 
 \begin{equation}
@@ -142,8 +146,8 @@ where $r_b$ is the radius of the differential drive.
   \dot{v}_r &= \dot{v}_l + \frac{2 r_b^2}{J} (-F_l + F_r)
 \end{align*}
 
-Substitute in equation (\ref{eq:diff_drive_dotv_l}) to obtain an expression for
-$\dot{v}_r$.
+Substitute in equation (\ref{eq:diff_drive_dotv_l}) for $\dot{v}_l$ to obtain an
+expression for $\dot{v}_r$.
 
 \begin{align}
   \dot{v}_r &= \left(\frac{2}{m} (F_l + F_r) - \dot{v}_r\right) +
@@ -197,6 +201,9 @@ Now, plug the expressions for $F_l$ and $F_r$ into equation
     \left(\frac{1}{m} - \frac{r_b^2}{J}\right) \left(C_3 v_r + C_4 V_r\right)
     \label{eq:diff_drive_model_left}
 \end{align}
+
+This model will be converted to state-space notation in section
+\ref{sec:ss_model_differential_drive}.
 
 \subsection{Calculating constants}
 

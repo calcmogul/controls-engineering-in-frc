@@ -127,6 +127,9 @@ More examples of concepts should help slow the pace down. I should read through
 this book as if I was explaining it to my veteran software students and
 anticipate gaps in their understanding.
 
+Try deriving all models using Lagrangian mechanics instead. Introduce
+manipulator equations?
+
 Add executive summaries of each chapter to facilitate tl;drs similar to what has
 been said in 1-on-1 discussions online when students don't understand.
 

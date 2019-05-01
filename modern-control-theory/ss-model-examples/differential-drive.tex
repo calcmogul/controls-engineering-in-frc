@@ -1,4 +1,5 @@
 \section{Differential drive}
+\label{sec:ss_model_differential_drive}
 
 \subsection{Continuous state-space model}
 \index{FRC models!differential drive equations}
@@ -23,6 +24,103 @@ By equations (\ref{eq:diff_drive_model_right}) and
   \dot{v}_r &= \left(\frac{1}{m} - \frac{r_b^2}{J}\right)
     \left(C_1 v_l + C_2 V_l\right) +
     \left(\frac{1}{m} + \frac{r_b^2}{J}\right) \left(C_3 v_r + C_4 V_r\right)
+\end{align*}
+
+Regroup the terms into states $v_l$ and $v_r$ and inputs $V_l$ and $V_r$.
+
+\begin{align*}
+  \dot{v}_l &= \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_1 v_l +
+    \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_2 V_l +
+    \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_3 v_r +
+    \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_4 V_r \\
+  \dot{v}_r &= \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_1 v_l +
+    \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_2 V_l +
+    \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_3 v_r +
+    \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_4 V_r
+\end{align*}
+
+\begin{align*}
+  \dot{v}_l &= \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_1 v_l +
+    \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_3 v_r +
+    \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_2 V_l +
+    \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_4 V_r \\
+  \dot{v}_r &= \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_1 v_l +
+    \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_3 v_r +
+    \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_2 V_l +
+    \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_4 V_r
+\end{align*}
+
+Factor out $v_l$ and $v_r$ into a column vector and $V_l$ and $V_r$ into a
+column vector.
+
+\begin{align*}
+  \dot{\begin{bmatrix}
+    v_l \\
+    v_r
+  \end{bmatrix}} &=
+  \begin{bmatrix}
+    \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_1 &
+    \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_3 \\
+    \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_1 &
+    \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_3
+  \end{bmatrix}
+  \begin{bmatrix}
+    v_l \\
+    v_r
+  \end{bmatrix} +
+  \begin{bmatrix}
+    \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_2 &
+    \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_4 \\
+    \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_2 &
+    \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_4
+  \end{bmatrix}
+  \begin{bmatrix}
+    V_l \\
+    V_r
+  \end{bmatrix}
+\end{align*}
+
+Augment the matrix equation with position states $x_l$ and $x_r$, which have the
+model equations $\dot{x}_l = v_l$ and $\dot{x}_r = v_r$. The matrix elements
+corresponding to $v_l$ in the first equation and $v_r$ in the second equation
+will be $1$, and the others will be $0$ since they don't appear, so
+$\dot{x}_l = 0x_l + 1v_l + 0x_r + 0v_r + 0V_l + 0V_r$ and
+$\dot{x}_r = 0x_l + 0v_l + 0x_r + 1v_r + 0V_l + 0V_r$. The existing rows will
+have zeroes inserted where $x_l$ and $x_r$ are multiplied in.
+
+\begin{align*}
+  \dot{\begin{bmatrix}
+    x_l \\
+    v_l \\
+    x_r \\
+    v_r
+  \end{bmatrix}} &=
+  \begin{bmatrix}
+    0 & 1 & 0 & 0 \\
+    0 & \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_1 &
+    0 & \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_3 \\
+    0 & 0 & 0 & 1 \\
+    0 & \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_1 &
+    0 & \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_3
+  \end{bmatrix}
+  \begin{bmatrix}
+    x_l \\
+    v_l \\
+    x_r \\
+    v_r
+  \end{bmatrix} +
+  \begin{bmatrix}
+    0 & 0 \\
+    \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_2 &
+    \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_4 \\
+    0 & 0 \\
+    \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_2 &
+    \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_4
+  \end{bmatrix}
+  \begin{bmatrix}
+    V_l \\
+    V_r
+  \end{bmatrix}
 \end{align*}
 
 \begin{theorem}[Differential drive state-space model]

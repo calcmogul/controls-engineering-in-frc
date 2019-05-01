@@ -94,6 +94,10 @@ spins a straight bar in pitch.
 Gear ratios are written as output over input, so $G$ is greater than one in
 figure \ref{fig:single_jointed_arm}.
 
+We want to derive an equation for the arm angular acceleration $\dot{\omega}_m$
+given an input voltage $V$, which we can integrate to get arm angular velocity
+and angle.
+
 We will start with the equation derived earlier for a DC brushed motor, equation
 (\ref{eq:motor_tau_V}).
 
@@ -144,6 +148,9 @@ angular acceleration. Substitute equation (\ref{eq:tau_arm_def}) into equation
   \dot{\omega}_{arm} &= \frac{G K_t}{RJ} V - \frac{G^2 K_t}{K_v RJ} \omega_{arm}
     \label{eq:dot_omega_arm}
 \end{align}
+
+This model will be converted to state-space notation in section
+\ref{sec:ss_model_single-jointed_arm}.
 
 \subsection{Calculating constants}
 
