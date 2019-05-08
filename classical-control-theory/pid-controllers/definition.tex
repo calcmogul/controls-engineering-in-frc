@@ -2,8 +2,27 @@
 \index{PID control}
 
 Negative feedback loops drive the difference between the \gls{reference} and
-\gls{output} to zero. Figure \ref{fig:pid_ctrl_diag} shows a block diagram for a
-\gls{system} controlled by a PID controller.
+\gls{output} (usually defined as the \gls{error}) to zero. PID controllers are
+commonly used for this.
+
+\begin{definition}[PID controller]
+  \begin{equation}
+    u(t) = K_p e(t) + K_i \int_0^t e(\tau) \,d\tau + K_d \frac{de}{dt}
+    \label{eq:pos_pid}
+  \end{equation}
+
+  where $e(t)$ is the error at the current time $t$, $\tau$ is the integration
+  variable, $K_p$ is the proportional gain, $K_i$ is the integral gain, and
+  $K_d$ is the derivative gain.
+\end{definition}
+
+The integral integrates from time $0$ to the current time $t$. We use $\tau$ for
+the integration because we need a variable to take on multiple values throughout
+the integral, but we can't use $t$ because we already defined that as the
+current time.
+
+Figure \ref{fig:pid_ctrl_diag} shows a block diagram for a \gls{system}
+controlled by a PID controller.
 
 \begin{bookfigure}
   \begin{tikzpicture}[auto, >=latex']
@@ -47,9 +66,7 @@ Negative feedback loops drive the difference between the \gls{reference} and
   \end{figurekey}
 \end{bookfigure}
 
-PID control has three gains acting on the \gls{error}.
-
-\subsection{Proportional gain}
+\subsection{Proportional gain $K_p$}
 
 The \textit{Proportional} gain compensates for the current \gls{error}. This
 gain acts like a ``software-defined spring". Recall from physics that we model
@@ -61,7 +78,7 @@ the measured position. In other words, the ``force" with which the proportional
 gain pulls the \gls{system}'s \gls{output} toward the \gls{reference} is
 proportional to the \gls{error}.
 
-\subsection{Integral gain}
+\subsection{Integral gain $K_i$}
 
 The \textit{Integral} gain compensates for past \gls{error} (i.e.,
 \gls{steady-state error}). It integrates the \gls{error} over time and adds the
@@ -75,7 +92,7 @@ feedforwards or constraining when the integral control acts using other
 knowledge of the \gls{system}. We will discuss these in more detail when we get
 to modern control theory.
 
-\subsection{Derivative gain}
+\subsection{Derivative gain $K_d$}
 
 The \textit{Derivative} gain compensates for future \gls{error} by slowing the
 controller down if the \gls{error} is changing over time. This gain acts like a
