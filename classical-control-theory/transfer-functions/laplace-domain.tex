@@ -1,0 +1,33 @@
+\section{Laplace domain}
+
+The Laplace domain has the frequency ($j\omega$) on the imaginary y-axis and a
+real number on the x-axis, yielding a two-dimensional coordinate system. We
+represent coordinates in this space as a complex number $s = \sigma + j\omega$.
+The real part $\sigma$ corresponds to the x-axis and the imaginary part
+$j\omega$ corresponds to the y-axis\footnote{See appendix
+\ref{ch:laplace_transform} for why the Laplace domain is defined this way.} (see
+figure \ref{fig:laplace_domain}).
+
+\begin{bookfigure}
+  \begin{tikzpicture}[auto, >=latex']
+    %\draw [help lines] (-4,-2) grid (4,4);
+
+    % Draw main axes
+    \draw[<->] (-4.2,1) -- (4.2,1) node[below] {\small Re($\sigma$)};
+    \draw[<->] (0,-2) -- (0,4.2) node[right] {\small Im($j\omega$)};
+  \end{tikzpicture}
+
+  \caption{Laplace domain}
+  \label{fig:laplace_domain}
+\end{bookfigure}
+
+A transfer function maps an input coordinate to an output coordinate in the
+Laplace domain. These can be obtained by applying the Laplace transform to a
+differential equation and rearranging the terms to obtain a ratio of the output
+variable to the input variable. Equation (\ref{eq:transfer_func}) is an example
+of a transfer function.
+
+\begin{equation} \label{eq:transfer_func}
+  H(s) = \frac{\overbrace{(s-9+9i)(s-9-9i)}^{zeroes}}
+    {\underbrace{s(s+10)}_{poles}}
+\end{equation}
