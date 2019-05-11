@@ -33,7 +33,8 @@ printer: $(NAME)-printer.pdf
 .PHONY: prepress
 prepress: $(NAME)-prepress.pdf
 
-$(NAME).pdf: $(TEX) $(STAMP) $(BIB) $(FIGS) build/commit-year.txt build/commit-hash.txt
+$(NAME).pdf: $(TEX) $(STAMP) $(BIB) $(FIGS) \
+		build/commit-date.txt build/commit-year.txt build/commit-hash.txt
 	latexmk -interaction=nonstopmode -xelatex $(NAME)
 
 $(NAME)-ebook.pdf: $(NAME).pdf
@@ -77,6 +78,9 @@ $(NAME)-prepress.pdf: $(NAME).pdf
 		-dBATCH \
 		-sOutputFile=$(NAME)-prepress.pdf \
 		$(NAME).pdf
+
+build/commit-date.txt: .git/refs/heads/master .git/HEAD
+	date -d @`git log -1 --format=%at` "+%B %-d, %Y" > build/commit-date.txt
 
 build/commit-year.txt: .git/refs/heads/master .git/HEAD
 	date -d @`git log -1 --format=%at` +%Y > build/commit-year.txt
