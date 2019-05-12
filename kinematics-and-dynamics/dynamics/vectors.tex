@@ -1,0 +1,93 @@
+\section{Vectors}
+
+Vectors are quantities with a magnitude and a direction. Vectors in
+three-dimensional space have a coordinate for each spatial direction $x$, $y$,
+and $z$. Let's take the vector $\vec{a} = \langle 1, 2, 3 \rangle$. $\vec{a}$ is
+a three-dimensional vector that describes a movement 1 unit in the $x$
+direction, 2 units in the $y$ direction, and 3 units in the $z$ direction.
+
+We define $\hat{i}$, $\hat{j}$, and $\hat{k}$ as vectors that represent the
+fundamental movements one can make the three-dimensional space: 1 unit of
+movement in the $x$ direction, 1 unit of movement $y$ direction, and 1 unit of
+movement in the $z$ direction respectively. These three vectors form a
+\textit{basis} of three-dimensional space because copies of them can be added
+together to reach any point in three-dimensional space.
+
+\begin{align*}
+  \hat{i} = \langle 1, 0, 0 \rangle \\
+  \hat{j} = \langle 0, 1, 0 \rangle \\
+  \hat{k} = \langle 0, 0, 1 \rangle
+\end{align*}
+
+We can also write the vector $\vec{a}$ in terms of these basis vectors.
+
+\begin{equation*}
+  \vec{a} = 1\hat{i} + 2\hat{j} + 3\hat{k}
+\end{equation*}
+
+\subsection{Basic vector operations}
+
+We will now show this is equivalent to the original notation through some vector
+mathematics. First, we'll substitute in the values for the basis vectors.
+
+\begin{equation*}
+  \vec{a} = 1\langle 1, 0, 0 \rangle + 2\langle 0, 1, 0 \rangle +
+    3\langle 0, 0, 1 \rangle
+\end{equation*}
+
+Scalars are multiplied component-wise with vectors.
+
+\begin{equation*}
+  \vec{a} = \langle 1, 0, 0 \rangle + \langle 0, 2, 0 \rangle +
+    \langle 0, 0, 3 \rangle \\
+\end{equation*}
+
+Vectors are added by summing each of their components.
+
+\begin{equation*}
+  \vec{a} = \langle 1, 2, 3 \rangle
+\end{equation*}
+
+\subsection{Cross product}
+
+The cross product is denoted by $\times$. The cross product of the basis vectors
+are computed as follows.
+
+\begin{align*}
+  \hat{i} \times \hat{j} &= \hat{k} \\
+  \hat{j} \times \hat{k} &= \hat{i} \\
+  \hat{k} \times \hat{i} &= \hat{j}
+\end{align*}
+
+They proceed in a cyclic fashion through i, j, and k. If a vector is crossed
+with itself, it produces the zero vector (a scalar zero for each coordinate).
+The cross product of the basis vectors in the opposite order progress backwards
+and include a negative sign.
+
+\begin{align*}
+  \hat{i} \times \hat{k} &= -\hat{j} \\
+  \hat{k} \times \hat{j} &= -\hat{i} \\
+  \hat{j} \times \hat{i} &= -\hat{k}
+\end{align*}
+
+Given vectors
+$\vec{u} = a\hat{i} + b\hat{j} + c\hat{k}$ and
+$\vec{v} = d\hat{i} + e\hat{j} + f\hat{k}$, $\vec{u} \times \vec{v}$ is computed
+using the distributive property.
+
+\begin{align*}
+  \vec{u} \times \vec{v} =&~(a\hat{i} + b\hat{j} + c\hat{k}) \times
+    (d\hat{i} + e\hat{j} + f\hat{k}) \\
+  \vec{u} \times \vec{v} =&~ad(\hat{i} \times \hat{i}) + ae(\hat{i} \times
+    \hat{j}) + af(\hat{i} \times \hat{k}) + \\
+    &~bd(\hat{j} \times \hat{i}) + be(\hat{j} \times \hat{j}) +
+    bf(\hat{j} \times \hat{k}) + \\
+    &~cd(\hat{k} \times \hat{i}) + ce(\hat{k} \times \hat{j}) +
+    cf(\hat{k} \times \hat{k}) \\
+  \vec{u} \times \vec{v} =&~ae\hat{k} + af(-\hat{j}) + bd(-\hat{k}) +
+    bf\hat{i} + cd\hat{j} + ce(-\hat{i}) \\
+  \vec{u} \times \vec{v} =&~ae\hat{k} - af\hat{j} - bd\hat{k} + bf\hat{i} +
+    cd\hat{j} - ce\hat{i} \\
+  \vec{u} \times \vec{v} =&~(bf - ce)\hat{i} + (cd - af)\hat{j} +
+    (ae - bd)\hat{k}
+\end{align*}
