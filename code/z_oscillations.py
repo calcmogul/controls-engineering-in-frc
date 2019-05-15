@@ -20,7 +20,7 @@ plt.rc("text", usetex=True)
 def sim(tf, T, label):
     T, yout = cnt.step_response(tf, T=T)
 
-    plt.plot(T, np.squeeze(yout, 0), label=label)
+    plt.plot(T, np.squeeze(yout), label=label)
     plt.legend()
 
 
