@@ -138,6 +138,9 @@ Finish chapters on calculus and dynamics and part on motion planning.
 Decompress walls of math. The Kalman filter derivation is a particularly big
 offender.
 
+Reintroduce variables in later chapters that came from earlier chapters to avoid
+confusion and needing to trace a tree of references.
+
 Add exercises at the end of each chapter (with solutions) for reader practice.
 This book is supposed to be "practical" after all.
 * This should help me see the points I want to teach in each chapter (since
