@@ -43,11 +43,11 @@ def main():
     # Make plant
     J = 3.2284e-6  # kg-m^2
     b = 3.5077e-6  # N-m-s
-    Ke = 0.0274  # V/rad/s
-    Kt = 0.0274  # N-m/Amp
+    Ke = 0.0181  # V/rad/s
+    Kt = 0.0181  # N-m/Amp
     K = Ke  # Ke = Kt
-    R = 4  # Ohms
-    L = 2.75e-6  # H
+    R = 0.0902  # Ohms
+    L = 230e-6  # H
 
     # Unstable plant
     # s((Js + b)(Ls + R) + K^2)
@@ -65,7 +65,7 @@ def main():
     plt.xlabel("Time ($s$)")
     plt.ylabel("Position ($m$)")
     sim(cnt.TransferFunction(1, 1), T, "Reference")
-    Gcl = make_closed_loop_plant(G, 3)
+    Gcl = make_closed_loop_plant(G, 1)
     sim(Gcl, T, "Step response")
     if "--noninteractive" in sys.argv:
         latexutils.savefig("highfreq_unstable_step")
