@@ -34,7 +34,7 @@ printer: $(NAME)-printer.pdf
 prepress: $(NAME)-prepress.pdf
 
 $(NAME).pdf: $(TEX) $(STAMP) $(BIB) $(FIGS) \
-		build/commit-date.txt build/commit-year.txt build/commit-hash.txt
+		build/commit-date.tex build/commit-year.tex build/commit-hash.tex
 	latexmk -interaction=nonstopmode -xelatex $(NAME)
 
 $(NAME)-ebook.pdf: $(NAME).pdf
@@ -79,14 +79,14 @@ $(NAME)-prepress.pdf: $(NAME).pdf
 		-sOutputFile=$(NAME)-prepress.pdf \
 		$(NAME).pdf
 
-build/commit-date.txt: .git/refs/heads/master .git/HEAD
-	date -d @`git log -1 --format=%at` "+%B %-d, %Y" > build/commit-date.txt
+build/commit-date.tex: .git/refs/heads/master .git/HEAD
+	date -d @`git log -1 --format=%at` "+%B %-d, %Y" > build/commit-date.tex
 
-build/commit-year.txt: .git/refs/heads/master .git/HEAD
-	date -d @`git log -1 --format=%at` +%Y > build/commit-year.txt
+build/commit-year.tex: .git/refs/heads/master .git/HEAD
+	date -d @`git log -1 --format=%at` +%Y > build/commit-year.tex
 
-build/commit-hash.txt: .git/refs/heads/master .git/HEAD
-	echo "\href{https://github.com/calcmogul/state-space-guide/commit/`git rev-parse --short HEAD`}{commit `git rev-parse --short HEAD`}" > build/commit-hash.txt
+build/commit-hash.tex: .git/refs/heads/master .git/HEAD
+	echo "\href{https://github.com/calcmogul/state-space-guide/commit/`git rev-parse --short HEAD`}{commit `git rev-parse --short HEAD`}" > build/commit-hash.tex
 
 $(DEPS_STAMP): build/%.stamp: %.py
 	@mkdir -p $(@D)
