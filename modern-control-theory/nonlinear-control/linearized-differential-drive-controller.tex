@@ -266,7 +266,7 @@ The tracking performance of the linearized differential drive controller
 (figures \ref{fig:linearized_diff_drive_nonrotated_xy} and
 \ref{fig:linearized_diff_drive_nonrotated_response}) and Ramsete (figures
 \ref{fig:ramsete_traj_xy2} and \ref{fig:ramsete_traj_response2}) for a given
-trajectory are similar, but the former's performance-effort tradeoff can be
+trajectory are similar, but the former's performance-effort trade-off can be
 tuned more intuitively via the Q and R gains. However, if the $x$ and $y$ error
 cost are too high, the $x$ and $y$ components of the controller will fight each
 other, and it will take longer to converge to the path. This can be fixed by
@@ -291,7 +291,7 @@ transform it into the robot's coordinate frame.
   \end{bmatrix}}
 \end{equation*}
 
-where the the superscript $R$ respresents the robot's coordinate frame and the
+where the the superscript $R$ represents the robot's coordinate frame and the
 superscript $G$ represents the global coordinate frame.
 
 With this transformation, the $x$ and $y$ error cost in LQR penalize the error
@@ -437,7 +437,7 @@ and approximate solutions are the same.
 
 \begin{bookfigure}
   \begin{minisvg}{build/code/linearized_diff_drive_approx_xy}
-    \caption{Linearized differential dirve controller x-y plot (approximate)}
+    \caption{Linearized differential drive controller x-y plot (approximate)}
     \label{fig:linearized_diff_drive_approx_xy}
   \end{minisvg}
   \hfill
