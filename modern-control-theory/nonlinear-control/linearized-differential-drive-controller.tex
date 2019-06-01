@@ -160,7 +160,8 @@ Therefore,
   $C_3 = -\frac{G_r^2 K_t}{K_v R r^2}$, and $C_4 = \frac{G_r K_t}{Rr}$.
 
   The LQR gain should be recomputed around the current operating point regularly
-  due to the high nonlinearity of this system.
+  due to the high nonlinearity of this system. A less computationally expensive
+  controller will be developed in later sections.
 \end{theorem}
 
 We can also use this in an extended Kalman filter as is since the measurement
@@ -210,14 +211,14 @@ respect to the state vector) being nonzero.
   \end{bmatrix}
 \end{equation*}
 
-The second-order Taylor series expansion of the \gls{model} around $\mtx{x}_e$
+The second-order Taylor series expansion of the \gls{model} around $\mtx{x}_0$
 would be
 
 \begin{equation*}
-  f(\mtx{x}, \mtx{0}) \approx f(\mtx{x}_e) +
-    \frac{\partial f(\mtx{x}, \mtx{0})}{\partial\mtx{x}}(\mtx{x} - \mtx{x}_e) +
+  f(\mtx{x}, \mtx{0}) \approx f(\mtx{x}_0) +
+    \frac{\partial f(\mtx{x}, \mtx{0})}{\partial\mtx{x}}(\mtx{x} - \mtx{x}_0) +
     \frac{1}{2}\frac{\partial^2 f(\mtx{x}, \mtx{0})}{\partial\mtx{x}^2}
-    (\mtx{x} - \mtx{x}_e)^2
+    (\mtx{x} - \mtx{x}_0)^2
 \end{equation*}
 
 To include higher-order dynamics in the linearized differential drive model
@@ -394,9 +395,52 @@ square root. $v = 0$ and $v = 1$ were used to scale each function to produce a
 close approximation.
 
 \begin{theorem}[Linearized differential drive controller]
-  \begin{equation*}
-    \mtx{u} = \mtx{K}(v) (\mtx{r} - \mtx{x})
-  \end{equation*}
+  The following $\mtx{A}$ and $\mtx{B}$ matrices are used to compute the LQR.
+
+  \begin{equation}
+    \begin{array}{ll}
+      \mtx{A} =
+      \begin{bmatrix}
+        0 & 0 & 0 & \frac{1}{2} & \frac{1}{2} \\
+        0 & 0 & v & 0 & 0 \\
+        0 & 0 & 0 & -\frac{1}{2r_b} & \frac{1}{2r_b} \\
+        0 & 0 & 0 & \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_1 &
+          \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_3 \\
+        0 & 0 & 0 & \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_1 &
+          \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_3
+      \end{bmatrix} &
+      \mtx{x} =
+      \begin{bmatrix}
+        x \\
+        y \\
+        \theta \\
+        v_l \\
+        v_r
+      \end{bmatrix} \\
+      \mtx{B} =
+      \begin{bmatrix}
+        0 & 0 \\
+        0 & 0 \\
+        0 & 0 \\
+        \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_2 &
+        \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_4 \\
+        \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_2 &
+        \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_4
+      \end{bmatrix} &
+      \mtx{u} =
+      \begin{bmatrix}
+        V_l \\
+        V_r
+      \end{bmatrix}
+    \end{array}
+  \end{equation}
+
+  where $v = \frac{v_l + v_r}{2}$, $C_1 = -\frac{G_l^2 K_t}{K_v R r^2}$,
+  $C_2 = \frac{G_l K_t}{Rr}$, $C_3 = -\frac{G_r^2 K_t}{K_v R r^2}$, and
+  $C_4 = \frac{G_r K_t}{Rr}$.
+
+  The Pareto optimal controller for this model is
+  $\mtx{u} = \mtx{K}(v) (\mtx{r} - \mtx{x})$ where
 
   \begin{align}
     \mtx{K}(v) &= \begin{bmatrix}
@@ -407,7 +451,12 @@ close approximation.
     \end{bmatrix} \\
     k_{1, 2}(v) &= k_{y, 0} + (k_{y, 1} - k_{y, 0}) \sqrt{|v|} \\
     k_{1, 4}(v) &= k_{v^+, 0} + (k_{v^+, 1} - k_{v^+, 0}) \sqrt{|v|} \\
-    k_{2, 4}(v) &= k_{v^-, 0} - (k_{v^+, 1} - k_{v^+, 0}) \sqrt{|v|}
+    k_{2, 4}(v) &= k_{v^-, 0} - (k_{v^+, 1} - k_{v^+, 0}) \sqrt{|v|} \\
+    \sign(v) &= \begin{cases}
+      -1 & v < 0 \\
+      0 & v = 0 \\
+      1 & v > 0
+    \end{cases}
   \end{align}
 
   Using $\mtx{K}$ computed via LQR at $v = 0$ \\
