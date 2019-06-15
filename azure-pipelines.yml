@@ -14,11 +14,6 @@ jobs:
           texlive-generic-extra texlive-bibtex-extra biber inkscape ghostscript
     displayName: 'Install system dependencies'
   - script: |
-      git clone --depth=1 git://github.com/python-control/python-control \
-        $(Agent.BuildDirectory)/python-control
-      cd $(Agent.BuildDirectory)/python-control && git apply $(Build.Repository.LocalPath)/patches/0001-Don-t-remove-unobservable-or-uncontrollable-states-f.patch
-      pip install --user -e $(Agent.BuildDirectory)/python-control
-
       pip3 install --user frccontrol black
     displayName: 'Install Python packages'
   - script: |

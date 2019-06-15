@@ -44,6 +44,11 @@ The scripts can be run as follows:
 Some Linux platforms use tk as a backend for matplotlib, so that may need to be
 installed to see the plots.
 
+To run the linearized differential drive code, a custom version of Python
+Control is required that doesn't remove uncontrollable or unobservable states
+from new StateSpace objects. This can be accomplished by removing the call
+`self._remove_useless_states()` from control/statesp.py.
+
 ## Compiling the book
 
 After installing the dependencies, just run `make`. It will produce a PDF named
@@ -87,10 +92,10 @@ These packages are installed via pip3 (e.g., `pip3 install --user frccontrol`).
 * frccontrol (to provide FRC wrappers for Python Control and generate plots and
   state-space results)
 
-For the linearized drivetrain example, a custom version of Python Control is
-required that doesn't remove uncontrollable or unobservable states from new
-StateSpace objects. This can be accomplished by removing the call
-`self._remove_useless_states()` from control/statesp.py.
+The book's build process automatically sets up frccontrol and control in a venv,
+so they don't have to be installed manually. Modifications to the contents of
+`build/frccontrol` and `build/python-control` will be reflected in any scripts
+which use the venv.
 
 The following packages are optional because the book can compile without them.
 

@@ -101,7 +101,7 @@ $(CSV): build/%.csv: %.csv
 
 $(STAMP): build/%.stamp: %.py $(CSV) $(DEPS_STAMP)
 	@mkdir -p $(@D)
-	cd $(@D) && $(ROOT)/$< --noninteractive
+	cd $(@D) && $(ROOT)/build/venv/bin/python3 $(ROOT)/$< --noninteractive
 	touch $@
 
 .PHONY: clean

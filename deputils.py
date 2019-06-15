@@ -24,3 +24,4 @@ def fetch_git_dependency(repo, commit):
     subprocess.run(["git", "remote", "add", "origin", repo])
     subprocess.run(["git", "fetch", "--quiet", "origin", commit])
     subprocess.run(["git", "reset", "--quiet", "--hard", "FETCH_HEAD"])
+    os.chdir("../..")
