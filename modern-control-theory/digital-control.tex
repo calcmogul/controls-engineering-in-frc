@@ -6,18 +6,20 @@ The complex plane discussed so far deals with continuous \glspl{system}. In
 decades past, \glspl{plant} and controllers were implemented using analog
 electronics, which are continuous in nature. Nowadays, microprocessors can be
 used to achieve cheaper, less complex controller designs. \Gls{discretization}
-converts the continuous \gls{model} we've worked with so far from a set of
-differential equations like
+converts the continuous \gls{model} we've worked with so far from a differential
+equation like
 
 \begin{equation}
   \dot{x} = x - 3 \label{eq:differential_equ_example}
 \end{equation}
 
-to a set of difference equations like
+to a difference equation like
 
-\begin{equation}
+\begin{align}
+  \frac{x_{k+1} - x_k}{\Delta T} = x_k - 3 \nonumber \\
+  x_{k+1} - x_k = (x_k - 3) \Delta T \nonumber \\
   x_{k+1} = x_k + (x_k - 3) \Delta T \label{eq:difference_equ_example}
-\end{equation}
+\end{align}
 
 where the difference equation is run with some update period denoted by $T$, by
 $\Delta T$, or sometimes sloppily by $dt$\footnote{The discretization of
