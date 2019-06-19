@@ -105,8 +105,12 @@ $(STAMP): build/%.stamp: %.py $(CSV) $(DEPS_STAMP)
 	touch $@
 
 .PHONY: clean
-clean:
-	rm -rf build *.aux *.bbl *.bcf *.blg *.fdb_latexmk *.fls *.glg *.glo *.gls *.idx *.ilg *.ind *.ist *.lof *.log *.los *.lot *.out *.toc *.pdf *.ptc *.xdv *.xml
+clean: clean_tex
+	rm -rf build
+
+.PHONY: clean_tex
+clean_tex:
+	rm -f *.aux *.bbl *.bcf *.blg *.fdb_latexmk *.fls *.glg *.glo *.gls *.idx *.ilg *.ind *.ist *.lof *.log *.los *.lot *.out *.toc *.pdf *.ptc *.xdv *.xml
 
 .PHONY: upload
 upload: ebook
