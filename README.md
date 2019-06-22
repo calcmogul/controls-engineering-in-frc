@@ -1,4 +1,4 @@
-# Practical Guide to State-space Control
+# Controls Engineering in the FIRST Robotics Competition
 ## Graduate-level control theory for high schoolers
 
 I originally wrote this as a final project for an undergraduate technical
