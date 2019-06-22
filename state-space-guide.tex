@@ -1,5 +1,9 @@
 \documentclass[11pt]{book}
 
+% Used by cover/title pages and PDF attributes
+\newcommand{\booktitle}{Practical Guide to State-space Control}
+\newcommand{\bookauthor}{Tyler Veness}
+
 \usepackage{amsmath,amssymb,amsthm}
 \DeclareMathOperator{\eig}{eig}
 \DeclareMathOperator{\rank}{rank}
@@ -61,7 +65,7 @@
 
 \usepackage{hyperref}
 \hypersetup{hidelinks,colorlinks=false,breaklinks=true,bookmarksopen=false,
-  pdftitle={Practical Guide to State-space Control},pdfauthor={Tyler Veness}}
+  pdftitle=\booktitle,pdfauthor=\bookauthor}
 
 % Load after hyperref
 \usepackage[nopostdot,style=index,nonumberlist]{glossaries}
@@ -94,6 +98,7 @@
 \input{\partpath/notes-to-the-reader}
 
 \part{Classical control theory}
+\label{part:classical_control_theory}
 \renewcommand*{\partpath}{classical-control-theory}
 \input{\partpath/control-system-basics}
 \input{\partpath/pid-controllers}
@@ -114,6 +119,7 @@
 \input{\partpath/pose-estimation}
 
 \part{Kinematics and dynamics}
+\label{part:kinematics_and_dynamics}
 \renewcommand*{\partpath}{kinematics-and-dynamics}
 \input{\partpath/calculus}
 \input{\partpath/dynamics}
