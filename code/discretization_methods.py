@@ -7,7 +7,7 @@ if "--noninteractive" in sys.argv:
     import matplotlib as mpl
 
     mpl.use("svg")
-    import latexutils
+    import utils.latex as latex
 
 import frccontrol as frccnt
 import matplotlib.pyplot as plt
@@ -212,7 +212,7 @@ def main():
     plt.plot(t, y, label="Bilinear transform (T={}s)".format(sample_period))
     plt.legend()
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("discretization_methods_vel")
+        latex.savefig("discretization_methods_vel")
 
     plt.figure(2)
     plt.xlabel("Time (s)")
@@ -226,7 +226,7 @@ def main():
     plt.plot(t, y, label="Bilinear transform (T={}s)".format(sample_period))
     plt.legend()
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("discretization_methods_pos")
+        latex.savefig("discretization_methods_pos")
     else:
         plt.show()
 

@@ -7,7 +7,7 @@ if "--noninteractive" in sys.argv:
     import matplotlib as mpl
 
     mpl.use("svg")
-    import latexutils
+    import utils.latex as latex
 
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
@@ -36,7 +36,7 @@ def main():
     ax.set_zlabel("$p(x, y)$")
 
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("joint_pdf")
+        latex.savefig("joint_pdf")
     else:
         plt.show()
 

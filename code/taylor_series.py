@@ -7,7 +7,7 @@ import matplotlib as mpl
 
 if "--noninteractive" in sys.argv:
     mpl.use("svg")
-    import latexutils
+    import utils.latex as latex
 
 import math
 import matplotlib.pyplot as plt
@@ -51,7 +51,7 @@ def main():
     plt.ylabel("$f(t)$")
     plt.legend()
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("taylor_series")
+        latex.savefig("taylor_series")
     else:
         plt.show()
 

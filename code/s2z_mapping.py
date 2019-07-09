@@ -7,7 +7,7 @@ if "--noninteractive" in sys.argv:
     import matplotlib as mpl
 
     mpl.use("svg")
-    import latexutils
+    import utils.latex as latex
 
 import matplotlib.patches as pts
 import matplotlib.pyplot as plt
@@ -160,12 +160,12 @@ def main():
     plt.figure(1)
     draw_s_plane()
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("s_plane")
+        latex.savefig("s_plane")
 
     plt.figure(2)
     draw_z_plane()
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("z_plane")
+        latex.savefig("z_plane")
     else:
         plt.show()
 

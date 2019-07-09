@@ -9,7 +9,7 @@ if "--noninteractive" in sys.argv:
     import matplotlib as mpl
 
     mpl.use("svg")
-    import latexutils
+    import utils.latex as latex
 
 import control as cnt
 import frccontrol as frccnt
@@ -315,7 +315,7 @@ def main():
         plt.legend()
 
         if "--noninteractive" in sys.argv:
-            latexutils.savefig(f"linearized_diff_drive_lqr_fit_{i}")
+            latex.savefig(f"linearized_diff_drive_lqr_fit_{i}")
     if "--noninteractive" not in sys.argv:
         plt.show()
 

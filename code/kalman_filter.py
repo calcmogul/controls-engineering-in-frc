@@ -7,7 +7,7 @@ if "--noninteractive" in sys.argv:
     import matplotlib as mpl
 
     mpl.use("svg")
-    import latexutils
+    import utils.latex as latex
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -86,7 +86,7 @@ def main():
     plt.plot(t[1:], y[1, 1:].T, label="Robot to wall measurement (cm)")
     plt.legend()
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("kalman_filter_all")
+        latex.savefig("kalman_filter_all")
 
     # Robot position estimate and variance
     plt.figure(2)
@@ -95,7 +95,7 @@ def main():
     plt.plot(t[1:], P_rec[0, 0, 1:], label="Robot position variance ($cm^2$)")
     plt.legend()
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("kalman_filter_robot_pos")
+        latex.savefig("kalman_filter_robot_pos")
 
     # Wall position estimate and variance
     plt.figure(3)
@@ -104,7 +104,7 @@ def main():
     plt.plot(t[1:], P_rec[2, 0, 1:], label="Wall position variance ($cm^2$)")
     plt.legend()
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("kalman_filter_wall_pos")
+        latex.savefig("kalman_filter_wall_pos")
     else:
         plt.show()
 

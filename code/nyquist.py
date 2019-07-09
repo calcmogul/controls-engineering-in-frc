@@ -7,7 +7,7 @@ if "--noninteractive" in sys.argv:
     import matplotlib as mpl
 
     mpl.use("svg")
-    import latexutils
+    import utils.latex as latex
 
 import math
 import matplotlib.pyplot as plt
@@ -36,7 +36,7 @@ def main():
     plt.legend()
 
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("nyquist")
+        latex.savefig("nyquist")
     else:
         plt.show()
 

@@ -7,7 +7,7 @@ if "--noninteractive" in sys.argv:
     import matplotlib as mpl
 
     mpl.use("svg")
-    import latexutils
+    import utils.latex as latex
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -25,7 +25,7 @@ def main():
     plt.ylabel("$p(x)$")
     plt.legend()
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("pdf")
+        latex.savefig("pdf")
     else:
         plt.show()
 

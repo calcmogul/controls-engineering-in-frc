@@ -9,7 +9,7 @@ if "--noninteractive" in sys.argv:
     import matplotlib as mpl
 
     mpl.use("svg")
-    import latexutils
+    import utils.latex as latex
 
 import control as cnt
 import frccontrol as frccnt
@@ -268,13 +268,13 @@ def main():
         plt.xlim([-height / 2, height / 2])
 
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("linearized_diff_drive_nonrotated_xy")
+        latex.savefig("linearized_diff_drive_nonrotated_xy")
 
     plt.figure(2)
     diff_drive.plot_time_responses(t, state_rec, ref_rec, u_rec)
 
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("linearized_diff_drive_nonrotated_response")
+        latex.savefig("linearized_diff_drive_nonrotated_response")
     else:
         plt.show()
 

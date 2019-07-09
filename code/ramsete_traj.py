@@ -9,13 +9,15 @@ if "--noninteractive" in sys.argv:
     import matplotlib as mpl
 
     mpl.use("svg")
-    import latexutils
+    import utils.latex as latex
 
 import control as cnt
 import frccontrol as frccnt
 import math
 import matplotlib.pyplot as plt
 import numpy as np
+
+from utils.pose2d import Pose2d
 
 
 def drivetrain(motor, num_motors, m, r, rb, J, Gl, Gr):
@@ -55,46 +57,8 @@ def drivetrain(motor, num_motors, m, r, rb, J, Gl, Gr):
     return cnt.ss(A, B, C, D)
 
 
-def get_continuous_error(error):
-    error = math.fmod(error, 2 * math.pi)
-
-    if abs(error) > math.pi:
-        if error > 0:
-            return error - 2 * math.pi
-        else:
-            return error + 2 * math.pi
-
-    return error
-
-
-class Pose2d:
-    def __init__(self, x=0, y=0, theta=0):
-        self.x = x
-        self.y = y
-        self.theta = theta
-
-    def __sub__(self, other):
-        return Pose2d(
-            self.x - other.x,
-            self.y - other.y,
-            get_continuous_error(self.theta - other.theta),
-        )
-
-    def rotate(self, theta):
-        """Rotate the pose counterclockwise by the given angle.
-
-        Keyword arguments:
-        theta -- Angle in radians
-        """
-        x = math.cos(theta) * self.x - math.sin(theta) * self.y
-        y = math.sin(theta) * self.x + math.cos(theta) * self.y
-        self.x = x
-        self.y = y
-
-
 def ramsete(pose_desired, v_desired, omega_desired, pose, b, zeta):
-    e = pose_desired - pose
-    e.rotate(-pose.theta)
+    e = pose_desired.relative_to(pose)
 
     k = 2 * zeta * math.sqrt(omega_desired ** 2 + b * v_desired ** 2)
     v = v_desired * math.cos(e.theta) + k * e.x
@@ -189,7 +153,7 @@ def main():
     omegaprof = data[1:, 5].T
 
     # Initial robot pose
-    pose = Pose2d(xprof[0] + 0.5, yprof[0] + 0.5, np.pi / 2)
+    pose = Pose2d(xprof[0] + 0.5, yprof[0] + 0.5, np.pi)
     desired_pose = Pose2d()
 
     # Ramsete tuning constants
@@ -262,7 +226,7 @@ def main():
         plt.xlim([-height / 2, height / 2])
 
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("ramsete_traj_xy")
+        latex.savefig("ramsete_traj_xy")
 
     plt.figure(2)
     num_plots = 7
@@ -340,7 +304,7 @@ def main():
     plt.xlabel("Time (s)")
 
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("ramsete_traj_response")
+        latex.savefig("ramsete_traj_response")
     else:
         plt.show()
 

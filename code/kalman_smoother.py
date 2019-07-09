@@ -7,7 +7,7 @@ if "--noninteractive" in sys.argv:
     import matplotlib as mpl
 
     mpl.use("svg")
-    import latexutils
+    import utils.latex as latex
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -111,7 +111,7 @@ def main():
     plt.plot(t[1:], xhat_smooth_rec[0, 0, 1:], label="Kalman smoother")
     plt.legend()
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("kalman_smoother_robot_pos")
+        latex.savefig("kalman_smoother_robot_pos")
 
     # Robot velocity
     plt.figure(2)
@@ -121,7 +121,7 @@ def main():
     plt.plot(t[1:], xhat_smooth_rec[1, 0, 1:], label="Kalman smoother")
     plt.legend()
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("kalman_smoother_robot_vel")
+        latex.savefig("kalman_smoother_robot_vel")
 
     # Wall position
     plt.figure(3)
@@ -131,7 +131,7 @@ def main():
     plt.plot(t[1:], xhat_smooth_rec[2, 0, 1:], label="Kalman smoother")
     plt.legend()
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("kalman_smoother_wall_pos")
+        latex.savefig("kalman_smoother_wall_pos")
 
     # Robot position variance
     plt.figure(4)
@@ -141,7 +141,7 @@ def main():
     plt.plot(t[1:], P_smooth_rec[1, 1, 1:], label="Kalman smoother")
     plt.legend()
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("kalman_smoother_robot_pos_variance")
+        latex.savefig("kalman_smoother_robot_pos_variance")
     else:
         plt.show()
 

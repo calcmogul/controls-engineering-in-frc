@@ -7,7 +7,7 @@ if "--noninteractive" in sys.argv:
     import matplotlib as mpl
 
     mpl.use("svg")
-    import latexutils
+    import utils.latex as latex
 
 import control as cnt
 from frccontrol import conv
@@ -37,7 +37,7 @@ def main():
     tf = cnt.TransferFunction(1, [1, 0.6], dt)
     sim(tf, T, "Single pole in LHP")
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("z_oscillations_1p")
+        latex.savefig("z_oscillations_1p")
 
     plt.figure(2)
     plt.xlabel("Time (s)")
@@ -49,7 +49,7 @@ def main():
     tf = cnt.TransferFunction(1, den, dt)
     sim(tf, T, "Complex conjugate poles in RHP")
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("z_oscillations_2p")
+        latex.savefig("z_oscillations_2p")
     else:
         plt.show()
 

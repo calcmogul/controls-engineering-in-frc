@@ -7,7 +7,7 @@ if "--noninteractive" in sys.argv:
     import matplotlib as mpl
 
     mpl.use("svg")
-    import latexutils
+    import utils.latex as latex
 
 import control as cnt
 from frccontrol import conv
@@ -56,7 +56,7 @@ def main():
     sim(Gcl, T, "Critically damped")
 
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("pid_responses")
+        latex.savefig("pid_responses")
     else:
         plt.show()
 

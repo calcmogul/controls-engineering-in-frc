@@ -7,7 +7,7 @@ if "--noninteractive" in sys.argv:
     import matplotlib as mpl
 
     mpl.use("svg")
-    import latexutils
+    import utils.latex as latex
 
 import frccontrol as frccnt
 import matplotlib.pyplot as plt
@@ -110,7 +110,7 @@ def main():
     plt.plot(t, y, label="Zero-order hold (T={}s)".format(sample_period))
     plt.legend()
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("zoh")
+        latex.savefig("zoh")
     else:
         plt.show()
 

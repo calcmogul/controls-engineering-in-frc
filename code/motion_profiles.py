@@ -7,7 +7,7 @@ if "--noninteractive" in sys.argv:
     import matplotlib as mpl
 
     mpl.use("svg")
-    import latexutils
+    import utils.latex as latex
 
 import frccontrol as frccnt
 import matplotlib.pyplot as plt
@@ -31,7 +31,7 @@ def main():
     plt.ylabel("Acceleration ($m/s^2$)")
     plt.plot(t, a, label="Acceleration")
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("trapezoid_profile")
+        latex.savefig("trapezoid_profile")
 
     t, x, v, a = frccnt.generate_s_curve_profile(
         max_v=7.0, max_a=3.5, time_to_max_a=1.0, dt=0.05, goal=50.0
@@ -48,7 +48,7 @@ def main():
     plt.ylabel("Acceleration ($m/s^2$)")
     plt.plot(t, a, label="Acceleration")
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("s_curve_profile")
+        latex.savefig("s_curve_profile")
     else:
         plt.show()
 

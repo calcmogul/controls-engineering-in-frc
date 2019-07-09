@@ -7,7 +7,7 @@ if "--noninteractive" in sys.argv:
     import matplotlib as mpl
 
     mpl.use("svg")
-    import latexutils
+    import utils.latex as latex
 
 import matplotlib.pyplot as plt
 from matplotlib import cm
@@ -61,7 +61,7 @@ def main():
     plt.xlabel("$t$")
 
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("laplace_chord_attenuating")
+        latex.savefig("laplace_chord_attenuating")
 
     x, y = np.mgrid[-150.0:150.0:500j, 200.0:500.0:500j]
 
@@ -84,7 +84,7 @@ def main():
     ax.set_zticks([])
 
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("laplace_chord_3d")
+        latex.savefig("laplace_chord_3d")
     else:
         plt.show()
 

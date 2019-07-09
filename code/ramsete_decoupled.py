@@ -10,13 +10,15 @@ if "--noninteractive" in sys.argv:
     import matplotlib as mpl
 
     mpl.use("svg")
-    import latexutils
+    import utils.latex as latex
 
 import control as cnt
 import frccontrol as frccnt
 import math
 import matplotlib.pyplot as plt
 import numpy as np
+
+from utils.pose2d import Pose2d
 
 
 def drivetrain(motor, num_motors, m, r, rb, J, Gl, Gr):
@@ -59,30 +61,8 @@ def drivetrain(motor, num_motors, m, r, rb, J, Gl, Gr):
     return cnt.ss(A, B, C, D)
 
 
-class Pose2d:
-    def __init__(self, x=0, y=0, theta=0):
-        self.x = x
-        self.y = y
-        self.theta = theta
-
-    def __sub__(self, other):
-        return Pose2d(self.x - other.x, self.y - other.y, self.theta - other.theta)
-
-    def rotate(self, theta):
-        """Rotate the pose counterclockwise by the given angle.
-
-        Keyword arguments:
-        theta -- Angle in radians
-        """
-        x = math.cos(theta) * self.x - math.sin(theta) * self.y
-        y = math.sin(theta) * self.x + math.cos(theta) * self.y
-        self.x = x
-        self.y = y
-
-
 def ramsete(pose_desired, v_desired, omega_desired, pose, b, zeta):
-    e = pose_desired - pose
-    e.rotate(-pose.theta)
+    e = pose_desired.relative_to(pose)
 
     k = 2 * zeta * math.sqrt(omega_desired ** 2 + b * v_desired ** 2)
     v = v_desired * math.cos(e.theta) + k * e.x
@@ -186,7 +166,7 @@ def main():
     plt.figure(1)
     drivetrain.plot_time_responses(t, state_rec, ref_rec, u_rec)
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("ramsete_decoupled_vel_lqr_profile")
+        latex.savefig("ramsete_decoupled_vel_lqr_profile")
 
     # Initial robot pose
     pose = Pose2d(2, 0, np.pi / 2.0)
@@ -269,7 +249,7 @@ def main():
         plt.xlim([-height / 2, height / 2])
 
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("ramsete_decoupled_response")
+        latex.savefig("ramsete_decoupled_response")
 
     plt.figure(3)
     num_plots = 4
@@ -315,7 +295,7 @@ def main():
     plt.xlabel("Time (s)")
 
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("ramsete_decoupled_vel_lqr_response")
+        latex.savefig("ramsete_decoupled_vel_lqr_response")
     else:
         plt.show()
 

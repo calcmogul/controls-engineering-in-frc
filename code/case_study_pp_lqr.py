@@ -7,7 +7,7 @@ if "--noninteractive" in sys.argv:
     import matplotlib as mpl
 
     mpl.use("svg")
-    import latexutils
+    import utils.latex as latex
 
 import control as cnt
 import frccontrol as frccnt
@@ -125,7 +125,7 @@ def main():
     plt.xlabel("Time (s)")
 
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("case_study_pp_lqr")
+        latex.savefig("case_study_pp_lqr")
     else:
         plt.show()
 

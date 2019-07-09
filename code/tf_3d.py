@@ -7,7 +7,7 @@ if "--noninteractive" in sys.argv:
     import matplotlib as mpl
 
     mpl.use("svg")
-    import latexutils
+    import utils.latex as latex
 
 import matplotlib.pyplot as plt
 from matplotlib import cm
@@ -44,7 +44,7 @@ def main():
     ax.set_zticks([])
 
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("tf_3d")
+        latex.savefig("tf_3d")
     else:
         plt.show()
 

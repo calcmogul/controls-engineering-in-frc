@@ -7,7 +7,7 @@ if "--noninteractive" in sys.argv:
     import matplotlib as mpl
 
     mpl.use("svg")
-    import latexutils
+    import utils.latex as latex
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -89,7 +89,7 @@ def main():
     plt.legend(loc=1)
 
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("motor_data")
+        latex.savefig("motor_data")
     else:
         plt.show()
 

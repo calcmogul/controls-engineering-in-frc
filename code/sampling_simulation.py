@@ -7,7 +7,7 @@ if "--noninteractive" in sys.argv:
     import matplotlib as mpl
 
     mpl.use("svg")
-    import latexutils
+    import utils.latex as latex
 
 import frccontrol as frccnt
 import matplotlib.pyplot as plt
@@ -111,7 +111,7 @@ def main():
     plt.ylim([-2, 3])
     plt.legend()
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("sampling_simulation_010")
+        latex.savefig("sampling_simulation_010")
 
     plt.figure(2)
     plt.xlabel("Time (s)")
@@ -123,7 +123,7 @@ def main():
     plt.ylim([-2, 3])
     plt.legend()
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("sampling_simulation_005")
+        latex.savefig("sampling_simulation_005")
 
     plt.figure(3)
     plt.xlabel("Time (s)")
@@ -135,7 +135,7 @@ def main():
     plt.ylim([-0.25, 2])
     plt.legend()
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("sampling_simulation_004")
+        latex.savefig("sampling_simulation_004")
     else:
         plt.show()
 

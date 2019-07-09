@@ -7,7 +7,7 @@ if "--noninteractive" in sys.argv:
     import matplotlib as mpl
 
     mpl.use("svg")
-    import latexutils
+    import utils.latex as latex
 
 import control as cnt
 from frccontrol import conv
@@ -27,7 +27,7 @@ def main():
     plt.xlabel("Real Axis (seconds$^{-1}$)")
     plt.ylabel("Imaginary Axis (seconds$^{-1}$)")
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("rlocus_asymptotes")
+        latex.savefig("rlocus_asymptotes")
     else:
         plt.show()
 

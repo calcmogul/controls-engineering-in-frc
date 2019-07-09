@@ -7,7 +7,7 @@ if "--noninteractive" in sys.argv:
     import matplotlib as mpl
 
     mpl.use("svg")
-    import latexutils
+    import utils.latex as latex
 
 import control as cnt
 import matplotlib.pyplot as plt
@@ -26,7 +26,7 @@ def main():
     plt.xlabel("Real Axis (seconds$^{-1}$)")
     plt.ylabel("Imaginary Axis (seconds$^{-1}$)")
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("rlocus_infty")
+        latex.savefig("rlocus_infty")
     else:
         plt.show()
 

@@ -9,13 +9,16 @@ if "--noninteractive" in sys.argv:
     import matplotlib as mpl
 
     mpl.use("svg")
-    import latexutils
+    import utils.latex as latex
 
 import control as cnt
 import frccontrol as frccnt
 import math
 import matplotlib.pyplot as plt
 import numpy as np
+
+from utils.pose2d import Pose2d
+from utils.twist2d import Twist2d
 
 
 def drivetrain(motor, num_motors, m, r, rb, J, Gl, Gr):
@@ -58,66 +61,8 @@ def drivetrain(motor, num_motors, m, r, rb, J, Gl, Gr):
     return cnt.ss(A, B, C, D)
 
 
-class Pose2d:
-    def __init__(self, x=0, y=0, theta=0):
-        self.x = x
-        self.y = y
-        self.theta = theta
-
-    def __add__(self, other):
-        return Pose2d(self.x + other.x, self.y + other.y, self.theta + other.theta)
-
-    def __sub__(self, other):
-        return Pose2d(self.x - other.x, self.y - other.y, self.theta - other.theta)
-
-    def rotate(self, theta):
-        """Rotate the pose counterclockwise by the given angle.
-
-        Keyword arguments:
-        theta -- Angle in radians
-        """
-        x = math.cos(theta) * self.x - math.sin(theta) * self.y
-        y = math.sin(theta) * self.x + math.cos(theta) * self.y
-        self.x = x
-        self.y = y
-
-    def apply(self, twist, dt):
-        """Apply the given twist to update the pose.
-
-        Keyword arguments:
-        twist -- a Twist2d object containing the linear and angular velocities
-                 between updates
-        dt -- the time in seconds between updates
-        """
-        # Compute change in pose in local coordinate frame
-        if twist.omega > 1e-9:
-            s = math.sin(twist.omega * dt) / twist.omega
-            c = (math.cos(twist.omega * dt) - 1.0) / twist.omega
-        else:
-            s = dt - dt ** 3 * twist.omega ** 2 / 6.0
-            c = -dt ** 2 * twist.omega / 2.0
-        dpose_r = Pose2d(
-            twist.v_x * s + twist.v_y * c,
-            twist.v_x * -c + twist.v_y * s,
-            twist.omega * dt,
-        )
-
-        # Transform to global coordinate frame, then apply transformation
-        self.x += dpose_r.x * math.cos(self.theta) - dpose_r.y * math.sin(self.theta)
-        self.y += dpose_r.x * math.sin(self.theta) + dpose_r.y * math.cos(self.theta)
-        self.theta += dpose_r.theta
-
-
-class Twist2d:
-    def __init__(self, v_x=0, v_y=0, omega=0):
-        self.v_x = v_x
-        self.v_y = v_y
-        self.omega = omega
-
-
 def ramsete(pose_desired, v_desired, omega_desired, pose, b, zeta):
-    e = pose_desired - pose
-    e.rotate(-pose.theta)
+    e = pose_desired.relative_to(pose)
 
     k = 2 * zeta * math.sqrt(omega_desired ** 2 + b * v_desired ** 2)
     v = v_desired * math.cos(e.theta) + k * e.x
@@ -276,7 +221,7 @@ def main():
         pose.x += vc * math.cos(pose.theta) * dt
         pose.y += vc * math.sin(pose.theta) * dt
         pose.theta += omega * dt
-        twist_pose.apply(Twist2d(vc, 0, omega), dt)
+        twist_pose.exp(Twist2d(vc, 0, omega), dt)
 
         if i < len(t) - 1:
             i += 1
@@ -289,7 +234,7 @@ def main():
     plt.xlabel("Time (s)")
 
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("ramsete_twist_odometry_error")
+        latex.savefig("ramsete_twist_odometry_error")
     else:
         plt.show()
 

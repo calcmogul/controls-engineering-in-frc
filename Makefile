@@ -8,7 +8,7 @@ DEPS_STAMP := $(addprefix build/,$(DEPS_STAMP))
 rwildcard=$(wildcard $1$2) $(foreach dir,$(wildcard $1*),$(call rwildcard,$(dir)/,$2))
 
 # Python files that generate SVG files
-PY := $(filter-out code/latexutils.py,$(wildcard code/*.py))
+PY := $(filter-out code/utils,$(wildcard code/*.py))
 STAMP := $(PY:.py=.stamp)
 STAMP := $(addprefix build/,$(STAMP))
 

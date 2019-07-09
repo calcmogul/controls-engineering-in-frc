@@ -7,7 +7,7 @@ if "--noninteractive" in sys.argv:
     import matplotlib as mpl
 
     mpl.use("svg")
-    import latexutils
+    import utils.latex as latex
 
 import control as cnt
 import matplotlib.pyplot as plt
@@ -59,7 +59,7 @@ def main():
     plt.xlabel("Real Axis (seconds$^{-1}$)")
     plt.ylabel("Imaginary Axis (seconds$^{-1}$)")
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("highfreq_stable_rlocus")
+        latex.savefig("highfreq_stable_rlocus")
 
     plt.figure(2)
     plt.xlabel("Time ($s$)")
@@ -68,7 +68,7 @@ def main():
     Gcl = make_closed_loop_plant(G, 1)
     sim(Gcl, T, "Step response")
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("highfreq_stable_step")
+        latex.savefig("highfreq_stable_step")
     else:
         plt.show()
 

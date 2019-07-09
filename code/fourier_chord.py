@@ -7,7 +7,7 @@ if "--noninteractive" in sys.argv:
     import matplotlib as mpl
 
     mpl.use("svg")
-    import latexutils
+    import utils.latex as latex
 
 import math
 import matplotlib.pyplot as plt
@@ -62,7 +62,7 @@ def main():
     plt.xlabel("$t$")
 
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("fourier_chord")
+        latex.savefig("fourier_chord")
 
     plt.figure(2)
     N = 1000000  # Number of samples
@@ -80,7 +80,7 @@ def main():
     plt.xlim([0, 700])
 
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("fourier_chord_fft")
+        latex.savefig("fourier_chord_fft")
     else:
         plt.show()
 

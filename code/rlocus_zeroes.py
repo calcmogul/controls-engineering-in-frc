@@ -7,7 +7,7 @@ if "--noninteractive" in sys.argv:
     import matplotlib as mpl
 
     mpl.use("svg")
-    import latexutils
+    import utils.latex as latex
 
 import control as cnt
 from frccontrol import conv
@@ -29,7 +29,7 @@ def main():
     plt.ylabel("Imaginary Axis (seconds$^{-1}$)")
     plt.gca().set_aspect("equal")
     if "--noninteractive" in sys.argv:
-        latexutils.savefig("rlocus_zeroes")
+        latex.savefig("rlocus_zeroes")
     else:
         plt.show()
 
