@@ -1,0 +1,94 @@
+\section{Integral gain}
+
+The \textit{Integral} term accumulates the area between the \gls{setpoint}
+and \gls{output} plots over time and adds the current total to the
+\gls{control input}. Accumulating the area between two curves is called
+integration.
+
+\begin{definition}[PI controller]
+  \begin{equation}
+    u(t) = K_p e(t) + K_i \int_0^t e(\tau) \,d\tau
+  \end{equation}
+
+  where $K_p$ is the proportional gain, $K_i$ is the integral gain, $e(t)$ is
+  the error at the current time $t$, and $\tau$ is the integration variable.
+
+  The integral integrates from time $0$ to the current time $t$. We use $\tau$
+  for the integration because we need a variable to take on multiple values
+  throughout the integral, but we can't use $t$ because we already defined that
+  as the current time.
+\end{definition}
+
+Figure \ref{fig:pi_ctrl_diag} shows a block diagram for a \gls{system}
+controlled by a PI controller.
+
+\begin{bookfigure}
+  \begin{tikzpicture}[auto, >=latex']
+    \fontsize{9pt}{10pt}
+
+    % Place the blocks
+    \node [name=input] {$r(t)$};
+    \node [sum, right=0.5cm of input] (errorsum) {};
+    \node [coordinate, right=0.75cm of errorsum] (branch) {};
+    \node [coordinate, right=1.25cm of branch] (I) {};
+    \node [block, above=0.25cm of I] (P) { $K_p e(t)$ };
+    \node [block, below=0.25cm of I] (D) { $K_i \int_0^t e(\tau) \,d\tau$ };
+    \node [sum, right=1.25cm of I] (ctrlsum) {};
+    \node [block, right=0.75cm of ctrlsum] (plant) {Plant};
+    \node [right=0.75cm of plant] (output) {};
+    \node [coordinate, below=0.5cm of D] (measurements) {};
+
+    % Connect the nodes
+    \draw [arrow] (input) -- node[pos=0.9] {$+$} (errorsum);
+    \draw [-] (errorsum) -- node {$e(t)$} (branch);
+    \draw [arrow] (branch) |- (P);
+    \draw [arrow] (branch) |- (D);
+    \draw [arrow] (P) -| node[pos=0.95, left] {$+$} (ctrlsum);
+    \draw [arrow] (D) -| node[pos=0.95, right] {$+$} (ctrlsum);
+    \draw [arrow] (ctrlsum) -- node {$u(t)$} (plant);
+    \draw [arrow] (plant) -- node [name=y] {$y(t)$} (output);
+    \draw [-] (y) |- (measurements);
+    \draw [arrow] (measurements) -| node[pos=0.99, right] {$-$} (errorsum);
+  \end{tikzpicture}
+
+  \caption{PI controller block diagram}
+  \label{fig:pi_ctrl_diag}
+\end{bookfigure}
+
+When the \gls{system} is close to the \gls{setpoint} in steady-state, the
+proportional term may be too small to pull the \gls{output} all the way to the
+\gls{setpoint}, and the derivative term is zero. This can result in
+\gls{steady-state error}, as shown in figure
+\ref{fig:p_controller_steady-state_error}. A common way of eliminating
+\gls{steady-state error} is to integrate the error and add it to the
+\gls{control input}. This increases the \gls{control effort} until the
+\gls{system} converges.
+
+Figure \ref{fig:p_controller_steady-state_error} shows an example of
+\gls{steady-state error} for a flywheel, and figure
+\ref{fig:pi_controller_steady-state_error} shows how an integrator added to the
+flywheel controller eliminates it. However, too high of an integral gain can
+lead to overshoot, as shown in figure
+\ref{fig:pi_controller_steady-state_error_overshoot}.
+
+\begin{bookfigure}
+  \begin{minisvg}{build/code/p_controller_ss_error}
+    \caption{P controller with steady-state error}
+    \label{fig:p_controller_steady-state_error}
+  \end{minisvg}
+  \hfill
+  \begin{minisvg}{build/code/pi_controller_ss_error}
+    \caption{PI controller that eliminates steady-state error}
+    \label{fig:pi_controller_steady-state_error}
+  \end{minisvg}
+  \hfill
+  \begin{minisvg}{build/code/pi_controller_ss_error_overshoot}
+    \caption{PI controller with overshoot from a large $K_i$ value}
+    \label{fig:pi_controller_steady-state_error_overshoot}
+  \end{minisvg}
+\end{bookfigure}
+
+There are better approaches to fix \gls{steady-state error} like using
+feedforwards or constraining when the integral control acts using other
+knowledge of the \gls{system}. We will discuss these in more detail when we get
+to modern control theory.

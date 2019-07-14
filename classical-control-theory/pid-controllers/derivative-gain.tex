@@ -1,0 +1,80 @@
+\section{Derivative gain}
+
+The \textit{Derivative} gain $K_d$ drives the velocity error to zero.
+
+\begin{definition}[PD controller]
+  \begin{equation}
+    u(t) = K_p e(t) + K_d \frac{de}{dt}
+  \end{equation}
+
+  where $K_p$ is the proportional gain, $K_d$ is the derivative gain, and $e(t)$
+  is the error at the current time $t$.
+\end{definition}
+
+Figure \ref{fig:pd_ctrl_diag} shows a block diagram for a \gls{system}
+controlled by a PD controller.
+
+\begin{bookfigure}
+  \begin{tikzpicture}[auto, >=latex']
+    \fontsize{9pt}{10pt}
+
+    % Place the blocks
+    \node [name=input] {$r(t)$};
+    \node [sum, right=0.5cm of input] (errorsum) {};
+    \node [coordinate, right=0.75cm of errorsum] (branch) {};
+    \node [coordinate, right=1.0cm of branch] (I) {};
+    \node [block, above=0.25cm of I] (P) { $K_p e(t)$ };
+    \node [block, below=0.25cm of I] (D) { $K_d \frac{de(t)}{dt}$ };
+    \node [sum, right=1.0cm of I] (ctrlsum) {};
+    \node [block, right=0.75cm of ctrlsum] (plant) {Plant};
+    \node [right=0.75cm of plant] (output) {};
+    \node [coordinate, below=0.5cm of D] (measurements) {};
+
+    % Connect the nodes
+    \draw [arrow] (input) -- node[pos=0.9] {$+$} (errorsum);
+    \draw [-] (errorsum) -- node {$e(t)$} (branch);
+    \draw [arrow] (branch) |- (P);
+    \draw [arrow] (branch) |- (D);
+    \draw [arrow] (P) -| node[pos=0.95, left] {$+$} (ctrlsum);
+    \draw [arrow] (D) -| node[pos=0.95, right] {$+$} (ctrlsum);
+    \draw [arrow] (ctrlsum) -- node {$u(t)$} (plant);
+    \draw [arrow] (plant) -- node [name=y] {$y(t)$} (output);
+    \draw [-] (y) |- (measurements);
+    \draw [arrow] (measurements) -| node[pos=0.99, right] {$-$} (errorsum);
+  \end{tikzpicture}
+
+  \caption{PD controller block diagram}
+  \label{fig:pd_ctrl_diag}
+\end{bookfigure}
+
+A PD controller has a proportional controller for position ($K_p$) and a
+proportional controller for velocity ($K_d$). The velocity \gls{setpoint} is
+implicitly provided by how the position \gls{setpoint} changes over time. To
+prove this, we will rearrange the equation for a PD controller.
+
+\begin{equation*}
+  u_k = K_p e_k + K_d \frac{e_k - e_{k-1}}{dt}
+\end{equation*}
+
+where $u_k$ is the \gls{control input} at timestep $k$ and $e_k$ is the
+\gls{error} at timestep $k$. $e_k$ is defined as $e_k = r_k - x_k$ where $r_k$
+is the \gls{setpoint} and $x_k$ is the current \gls{state} at timestep $k$.
+
+\begin{align*}
+  u_k &= K_p (r_k - x_k) + K_d \frac{(r_k - x_k) - (r_{k-1} - x_{k-1})}{dt} \\
+  u_k &= K_p (r_k - x_k) + K_d \frac{r_k - x_k - r_{k-1} + x_{k-1}}{dt} \\
+  u_k &= K_p (r_k - x_k) + K_d \frac{r_k - r_{k-1} - x_k + x_{k-1}}{dt} \\
+  u_k &= K_p (r_k - x_k) + K_d \frac{(r_k - r_{k-1}) - (x_k - x_{k-1})}{dt} \\
+  u_k &= K_p (r_k - x_k) + K_d \left(\frac{r_k - r_{k-1}}{dt} -
+    \frac{x_k - x_{k-1}}{dt}\right)
+\end{align*}
+
+Notice how $\frac{r_k - r_{k-1}}{dt}$ is the velocity of the \gls{setpoint}. By
+the same reasoning, $\frac{x_k - x_{k-1}}{dt}$ is the \gls{system}'s velocity at
+a given timestep. That means the $K_d$ term of the PD controller is driving the
+estimated velocity to the \gls{setpoint} velocity.
+
+If the \gls{setpoint} is constant, the implicit velocity \gls{setpoint} is zero,
+so the $K_d$ term slows the \gls{system} down if it's moving. This acts like a
+``software-defined damper". These are commonly seen on door closers, and their
+damping force increases linearly with velocity.

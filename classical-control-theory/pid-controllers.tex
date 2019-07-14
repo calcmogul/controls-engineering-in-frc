@@ -1,11 +1,41 @@
 \chapterimage{pid-controllers.jpg}{On trail between McHenry Library and Media Theater at UCSC}
 
 \chapter{PID controllers}
+\index{PID control}
+
+The PID controller is a commonly used feedback controller consisting of
+proportional, integral, and derivative terms, hence the name. This chapter will
+build up the definition of a PID controller term by term while trying to provide
+intuition for how each of them behaves.
+
+For those already familiar with PID control, this book's interpretation won't be
+consistent with the classical intuition of "past", "present", and "future"
+error. We will be approaching it from the viewpoint of modern control theory
+with proportional controllers applied to different physical quantities we care
+about. This will provide a more complete explanation of the derivative term's
+behavior for constant and moving \glspl{setpoint}, and this intuition will carry
+over to the modern control methods covered later in this book.
+
+For PID controllers, the \gls{reference} is called the \gls{setpoint} (the
+desired position) and the \gls{output} is called the \gls{process variable} (the
+measured position). Below are some common variable naming conventions for
+relevant quantities.
+
+\begin{figurekey}
+  \begin{tabular}{llll}
+    $r(t)$ & \gls{setpoint} & $u(t)$ & \gls{control input} \\
+    $e(t)$ & \gls{error} & $y(t)$ & \gls{output}
+  \end{tabular}
+\end{figurekey}
+
+The \gls{error} $e(t)$ is $r(t) - y(t)$.
 
 \renewcommand*{\chapterpath}{\partpath/pid-controllers}
-\input{\chapterpath/definition}
+\input{\chapterpath/proportional-gain}
+\input{\chapterpath/derivative-gain}
+\input{\chapterpath/integral-gain}
+\input{\chapterpath/pid-controller-definition}
 \input{\chapterpath/response-types}
-\input{\chapterpath/general-control-theory-perspective}
-\input{\chapterpath/actuator-saturation}
 \input{\chapterpath/manual-tuning}
+\input{\chapterpath/actuator-saturation}
 \input{\chapterpath/limitations}

@@ -17,18 +17,6 @@ import numpy as np
 plt.rc("text", usetex=True)
 
 
-def make_closed_loop_plant(G, Kp):
-    """Returns a TransferFunction representing a plant in negative feedback with
-    a P controller that uses the given gain.
-
-    Keyword arguments:
-    G -- open-loop plant
-    Kp -- proportional gain
-    """
-    K = cnt.TransferFunction(Kp, 1)
-    return cnt.feedback(G, K)
-
-
 def sim(tf, T, label):
     T, yout = cnt.step_response(tf, T=T)
 
@@ -48,11 +36,17 @@ def main():
     G = cnt.TransferFunction(1, conv([1, 5], [1, 0]))
 
     sim(cnt.TransferFunction(1, 1), T, "Reference")
-    Gcl = make_closed_loop_plant(G, 120)
+
+    K = cnt.TransferFunction(120, 1)
+    Gcl = cnt.feedback(G, K)
     sim(Gcl, T, "Underdamped")
-    Gcl = make_closed_loop_plant(G, 3)
+
+    K = cnt.TransferFunction(3, 1)
+    Gcl = cnt.feedback(G, K)
     sim(Gcl, T, "Overdamped")
-    Gcl = make_closed_loop_plant(G, 6.268)
+
+    K = cnt.TransferFunction(6.268, 1)
+    Gcl = cnt.feedback(G, K)
     sim(Gcl, T, "Critically damped")
 
     if "--noninteractive" in sys.argv:

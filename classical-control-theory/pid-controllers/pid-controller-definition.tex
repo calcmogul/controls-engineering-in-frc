@@ -1,0 +1,52 @@
+\section{PID controller definition}
+
+When these three terms are combined, one gets the typical definition for a PID
+controller.
+
+\begin{definition}[PID controller]
+  \begin{equation}
+    u(t) = K_p e(t) + K_i \int_0^t e(\tau) \,d\tau + K_d \frac{de}{dt}
+  \end{equation}
+
+  where $K_p$ is the proportional gain, $K_i$ is the integral gain, $K_d$ is the
+  derivative gain, $e(t)$ is the error at the current time $t$, and $\tau$ is
+  the integration variable.
+\end{definition}
+
+Figure \ref{fig:pid_ctrl_diag} shows a block diagram for a \gls{system}
+controlled by a PID controller.
+
+\begin{bookfigure}
+  \begin{tikzpicture}[auto, >=latex']
+    \fontsize{9pt}{10pt}
+
+    % Place the blocks
+    \node [name=input] {$r(t)$};
+    \node [sum, right=0.5cm of input] (errorsum) {};
+    \node [coordinate, right=0.75cm of errorsum] (branch) {};
+    \node [block, right=0.5cm of branch] (I) { $K_i \int_0^t e(\tau) \,d\tau$ };
+    \node [block, above=0.5cm of I] (P) { $K_p e(t)$ };
+    \node [block, below=0.5cm of I] (D) { $K_d \frac{de(t)}{dt}$ };
+    \node [sum, right=0.5cm of I] (ctrlsum) {};
+    \node [block, right=0.75cm of ctrlsum] (plant) {Plant};
+    \node [right=0.75cm of plant] (output) {};
+    \node [coordinate, below=0.5cm of D] (measurements) {};
+
+    % Connect the nodes
+    \draw [arrow] (input) -- node[pos=0.9] {$+$} (errorsum);
+    \draw [-] (errorsum) -- node {$e(t)$} (branch);
+    \draw [arrow] (branch) |- (P);
+    \draw [arrow] (branch) -- (I);
+    \draw [arrow] (branch) |- (D);
+    \draw [arrow] (P) -| node[pos=0.95, left] {$+$} (ctrlsum);
+    \draw [arrow] (I) -- node[pos=0.9, below] {$+$} (ctrlsum);
+    \draw [arrow] (D) -| node[pos=0.95, right] {$+$} (ctrlsum);
+    \draw [arrow] (ctrlsum) -- node {$u(t)$} (plant);
+    \draw [arrow] (plant) -- node [name=y] {$y(t)$} (output);
+    \draw [-] (y) |- (measurements);
+    \draw [arrow] (measurements) -| node[pos=0.99, right] {$-$} (errorsum);
+  \end{tikzpicture}
+
+  \caption{PID controller block diagram}
+  \label{fig:pid_ctrl_diag}
+\end{bookfigure}

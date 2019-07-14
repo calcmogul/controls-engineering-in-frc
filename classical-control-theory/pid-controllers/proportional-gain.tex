@@ -1,0 +1,60 @@
+\section{Proportional gain}
+
+The \textit{Proportional} term drives the position error to zero.
+
+\begin{definition}[Proportional controller]
+  \begin{equation}
+    u(t) = K_p e(t)
+  \end{equation}
+
+  where $K_p$ is the proportional gain and $e(t)$ is the error at the current
+  time $t$.
+\end{definition}
+
+Figure \ref{fig:p_ctrl_diag} shows a block diagram for a \gls{system}
+controlled by a P controller.
+
+\begin{bookfigure}
+  \begin{tikzpicture}[auto, >=latex']
+    \fontsize{9pt}{10pt}
+
+    % Place the blocks
+    \node [name=input] {$r(t)$};
+    \node [sum, right=0.5cm of input] (errorsum) {};
+    \node [coordinate, right=0.75cm of errorsum] (branch) {};
+    \node [block, right=0.5cm of branch] (I) { $K_p e(t)$ };
+    \node [coordinate, right=0.5cm of I] (ctrlsum) {};
+    \node [block, right=0.75cm of ctrlsum] (plant) {Plant};
+    \node [right=0.75cm of plant] (output) {};
+    \node [coordinate, below=0.5cm of I] (measurements) {};
+
+    % Connect the nodes
+    \draw [arrow] (input) -- node[pos=0.9] {$+$} (errorsum);
+    \draw [-] (errorsum) -- node {$e(t)$} (branch);
+    \draw [arrow] (branch) -- (I);
+    \draw [arrow] (I) -- node {$u(t)$} (plant);
+    \draw [arrow] (plant) -- node [name=y] {$y(t)$} (output);
+    \draw [-] (y) |- (measurements);
+    \draw [arrow] (measurements) -| node[pos=0.99, right] {$-$} (errorsum);
+  \end{tikzpicture}
+
+  \caption{P controller block diagram}
+  \label{fig:p_ctrl_diag}
+\end{bookfigure}
+
+Proportional gains act like ``software-defined springs" that pull the
+\gls{system} toward the desired position. Recall from physics that we model
+springs as $F = -kx$ where $F$ is the force applied, $k$ is a proportional
+constant, and $x$ is the displacement from the equilibrium point. This can be
+written another way as $F = k(0 - x)$ where $0$ is the equilibrium point.
+If we let the equilibrium point be our feedback controller's \gls{setpoint}, the
+equations have a one-to-one correspondence.
+
+\begin{align*}
+  F &= k(r - x) \\
+  u(t) &= K_p e(t) = K_p(r(t) - y(t))
+\end{align*}
+
+so the ``force" with which the proportional controller pulls the \gls{system}'s
+\gls{output} toward the \gls{setpoint} is proportional to the \gls{error}, just
+like a spring.

@@ -9,14 +9,14 @@ to the glossary are provided for certain words throughout the book and will use
 \textcolor{glscolor}{this color}.
 
 The \gls{system} or collection of actuators being controlled by a
-\gls{control system} is called the \gls{plant}. \Glspl{controller} which don't
-include information measured from the \gls{plant}'s \gls{output} are called
-open-loop \glspl{controller}. \Glspl{controller} which incorporate information
-fed back from the \gls{plant}'s \gls{output} are called closed-loop
-\glspl{controller} or feedback \glspl{controller}.
-
-The \gls{input} and \gls{output} of a \gls{system} are defined from the
-\gls{plant}'s point of view, as shown in figure \ref{fig:system_nomenclature}.
+\gls{control system} is called the \gls{plant}. A \gls{controller} is used to
+drive the \gls{plant} from its current state to some desired state (the
+\gls{reference}). \Glspl{controller} which don't include information measured
+from the \gls{plant}'s \gls{output} are called open-loop \glspl{controller}.
+\Glspl{controller} which incorporate information fed back from the \gls{plant}'s
+\gls{output} are called closed-loop \glspl{controller} or feedback
+\glspl{controller}. Figure \ref{fig:system_nomenclature} shows a \gls{plant} in
+feedback with a \gls{controller}.
 
 \begin{bookfigure}
   \begin{tikzpicture}[auto, >=latex']
@@ -50,3 +50,8 @@ The \gls{input} and \gls{output} of a \gls{system} are defined from the
     \end{tabular}
   \end{figurekey}
 \end{bookfigure}
+
+Note that the \gls{input} and \gls{output} of a \gls{system} are defined from
+the \gls{plant}'s point of view. The negative feedback \gls{controller} shown is
+driving the difference between the \gls{reference} and \gls{output}, also known
+as the \gls{error}, to zero.
