@@ -1,0 +1,70 @@
+\section{Projections}
+
+Imagine a two-dimensional Euclidean space $\mathbb{R}^2$ (i.e., the standard x-y
+plane). Ordinarily, we notate points in this plane by their components in the
+set of basis vectors $\{\hat{i}, \hat{j}\}$, where $\hat{i}$ (pronounced i-hat)
+is the unit vector in the $+x$ direction and $\hat{j}$ is the unit vector in the
+$+y$ direction.
+
+How do we find the coordinates of a given vector $v$ in this basis? So long as
+the basis is \textit{orthogonal} (i.e., the basis vectors are at right angles to
+each other), we simply take the \textit{orthogonal projection} of $v$ onto
+$\hat{i}$ and $\hat{j}$. Intuitively, this means finding ``the amount of $v$
+that points in the direction of $\hat{i}$ or $\hat{j}$". More formally, we can
+calculate it with the dot product - the projection of $v$ onto any other vector
+$w$ is equal to $\frac{v \cdot w}{|w|}$. (Since $\hat{i}$ and $\hat{j}$ are
+\textit{unit vectors}, we can see simply that the coordinates of $v$ are
+$v \cdot \hat{i}$ and $v \cdot \hat{j}$. We can also see that ``orthogonal" can
+be defined as "has zero dot product".)
+
+But we can use this same process to find the coordinates of $v$ in \textit{any}
+orthogonal basis. For example, imagine the basis
+$\{\hat{i} + \hat{j}, \hat{i} - \hat{j}\}$ - the coordinates in this basis are
+given by $\frac{v \cdot (\hat{i} + \hat{j})}{\sqrt{2}}$ and
+$\frac{v \cdot (\hat{i} - \hat{j})}{\sqrt{2}}$. Let us now "unwrap" the formula
+for dot product and look a bit more closely.
+
+\begin{equation*}
+  \frac{v \cdot (\hat{i} + \hat{j})}{\sqrt{2}} = \frac{1}{\sqrt{2}} \sum_n v_n
+    (\hat{i} + \hat{j})_n
+\end{equation*}
+
+So, what have we really done to change coordinates? We expanded both $v$ and
+$\hat{i} + \hat{j}$ in a basis, multiplied their components, and added them up.
+
+Now the previous example was only a change of coordinates in a
+finite-dimensional vector space. However, as we will see, the core idea does not
+change much when we move to more complicated structures. Observe the formula for
+the Fourier transform.
+
+\begin{equation*}
+  \hat{f}(\xi) = \int_{-\infty}^\infty f(x) e^{-2\pi ix \xi} \,dx
+    \text{ where } \xi \in \mathbb{R}
+\end{equation*}
+
+This is fundamentally the same formula we had before. $f(x)$ has taken the place
+of $v_n$, $e^{-2\pi ix \xi}$ has taken the place of $(\hat{i} + \hat{j})_n$, and
+the sum over $n$ has turned into an integral over $dx$, but the underlying
+concept is the same. To change coordinates in a \textit{function space}, we
+simply take the orthogonal projection onto our new basis \textit{functions}. In
+the case of the Fourier transform, the function basis is the family of functions
+of the form $f(x) = e^{-2\pi ix \xi} \text{ for } \xi \in \mathbb{R}$. Since
+these functions are oscillatory at a frequency determined by $\xi$, we can think
+of this as a ``frequency basis".
+
+Now, the Laplace transform is somewhat more complicated - as it turns out, the
+Fourier basis is orthogonal, so the analogy to the simpler vector space holds
+almost-precisely. The Laplace transform is \textit{not} orthogonal, so we can't
+interpret it \textit{strictly} as a change of coordinates in the traditional
+sense. However, the intuition is the same: we are taking the orthogonal
+projection of our original function onto the functions of our new basis set.
+
+\begin{equation*}
+  F(s) = \int_0^\infty f(t) e^{-st} \,dt, \text{ where } s \in \mathbb{C}
+\end{equation*}
+
+Here, it becomes obvious that the Laplace transform is a \textit{generalization}
+of the Fourier transform in that the basis family is strictly larger (we have
+allowed the ``frequency" parameter to take \textit{complex} values, as opposed
+to merely \textit{real} values). The upshot of this is that the Laplace basis
+contains functions that grow and decay, while the Fourier basis does not.

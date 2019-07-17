@@ -1,4 +1,9 @@
-\section{Case studies of Laplace domain analysis}
+\chapterimage{appendices.jpg}{Sunset in an airplane over New Mexico}
+
+\chapter{Case studies of Laplace domain analysis}
+
+This appendix uses Laplace transforms and transfer functions to analyze
+properties of control systems like \gls{steady-state error}.
 
 These case studies cover various aspects of PID control using the algebraic
 approach of transfer functions. For this, we'll be using equation
@@ -11,7 +16,7 @@ approach of transfer functions. For this, we'll be using equation
 Remember, multiplication by $\frac{1}{s}$ corresponds to an integral in the
 Laplace domain and multiplication by $s$ corresponds to a derivative.
 
-\subsection{Steady-state error}
+\section{Steady-state error}
 \index{Steady-state error}
 
 To demonstrate the problem of \gls{steady-state error}, we will use a DC brushed
@@ -95,7 +100,7 @@ zero for $K_p = \infty$. This is known as a bang-bang controller. In practice,
 an infinite switching frequency cannot be achieved, but it may be close enough
 for some performance specifications.
 
-\subsection{Flywheel PID control}
+\section{Flywheel PID control}
 \label{subsec:flywheel_pid_control}
 \index{PID control}
 
