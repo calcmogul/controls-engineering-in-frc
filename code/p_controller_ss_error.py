@@ -77,7 +77,29 @@ def main():
 
     plt.figure(1)
     x_rec, ref_rec, u_rec = flywheel.generate_time_responses(t, refs)
-    flywheel.plot_time_responses(t, x_rec, ref_rec, u_rec)
+
+    plt.subplot(2, 1, 1)
+    plt.ylabel(flywheel.state_labels[0])
+    plt.title("Time-domain responses")
+    plt.plot(t, flywheel.extract_row(x_rec, 0), label="Estimated state")
+    plt.plot(t, flywheel.extract_row(ref_rec, 0), label="Reference")
+
+    fill_end = int(3.0 / dt)
+    plt.fill_between(
+        t[:fill_end],
+        np.ravel(x_rec)[:fill_end],
+        np.ravel(ref_rec)[:fill_end],
+        color=(0.5, 0.5, 0.5, 0.5),
+        label="Error area for integral term",
+    )
+    plt.legend()
+
+    plt.subplot(2, 1, 2)
+    plt.ylabel(flywheel.u_labels[0])
+    plt.plot(t, flywheel.extract_row(u_rec, 0), label="Control effort")
+    plt.legend()
+    plt.xlabel("Time (s)")
+
     if "--noninteractive" in sys.argv:
         latex.savefig("p_controller_ss_error")
     else:

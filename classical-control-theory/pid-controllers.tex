@@ -8,18 +8,10 @@ proportional, integral, and derivative terms, hence the name. This chapter will
 build up the definition of a PID controller term by term while trying to provide
 intuition for how each of them behaves.
 
-For those already familiar with PID control, this book's interpretation won't be
-consistent with the classical intuition of "past", "present", and "future"
-error. We will be approaching it from the viewpoint of modern control theory
-with proportional controllers applied to different physical quantities we care
-about. This will provide a more complete explanation of the derivative term's
-behavior for constant and moving \glspl{setpoint}, and this intuition will carry
-over to the modern control methods covered later in this book.
-
-For PID controllers, the \gls{reference} is called the \gls{setpoint} (the
-desired position) and the \gls{output} is called the \gls{process variable} (the
-measured position). Below are some common variable naming conventions for
-relevant quantities.
+First, we'll get some nomenclature for PID controllers out of the way. The
+\gls{reference} is called the \gls{setpoint} (the desired position) and the
+\gls{output} is called the \gls{process variable} (the measured position). Below
+are some common variable naming conventions for relevant quantities.
 
 \begin{figurekey}
   \begin{tabular}{llll}
@@ -30,10 +22,24 @@ relevant quantities.
 
 The \gls{error} $e(t)$ is $r(t) - y(t)$.
 
+For those already familiar with PID control, this book's interpretation won't be
+consistent with the classical intuition of "past", "present", and "future"
+error. We will be approaching it from the viewpoint of modern control theory
+with proportional controllers applied to different physical quantities we care
+about. This will provide a more complete explanation of the derivative term's
+behavior for constant and moving \glspl{setpoint}, and this intuition will carry
+over to the modern control methods covered later in this book.
+
+The proportional term drives the position error to zero, the derivative term
+drives the velocity error to zero, and the integral term accumulates the area
+between the \gls{setpoint} and \gls{output} plots over time (the integral of
+position \gls{error}) and adds the current total to the \gls{control input}.
+We'll go into more detail on each of these.
+
 \renewcommand*{\chapterpath}{\partpath/pid-controllers}
-\input{\chapterpath/proportional-gain}
-\input{\chapterpath/derivative-gain}
-\input{\chapterpath/integral-gain}
+\input{\chapterpath/proportional-term}
+\input{\chapterpath/derivative-term}
+\input{\chapterpath/integral-term}
 \input{\chapterpath/pid-controller-definition}
 \input{\chapterpath/response-types}
 \input{\chapterpath/manual-tuning}

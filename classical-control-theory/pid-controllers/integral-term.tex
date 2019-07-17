@@ -1,9 +1,9 @@
-\section{Integral gain}
+\section{Integral term}
 
 The \textit{Integral} term accumulates the area between the \gls{setpoint}
-and \gls{output} plots over time and adds the current total to the
-\gls{control input}. Accumulating the area between two curves is called
-integration.
+and \gls{output} plots over time (i.e., the integral of position \gls{error})
+and adds the current total to the \gls{control input}. Accumulating the area
+between two curves is called integration.
 
 \begin{definition}[PI controller]
   \begin{equation}
@@ -59,12 +59,17 @@ When the \gls{system} is close to the \gls{setpoint} in steady-state, the
 proportional term may be too small to pull the \gls{output} all the way to the
 \gls{setpoint}, and the derivative term is zero. This can result in
 \gls{steady-state error}, as shown in figure
-\ref{fig:p_controller_steady-state_error}. A common way of eliminating
-\gls{steady-state error} is to integrate the error and add it to the
-\gls{control input}. This increases the \gls{control effort} until the
-\gls{system} converges.
+\ref{fig:p_controller_steady-state_error}.
 
-Figure \ref{fig:p_controller_steady-state_error} shows an example of
+\begin{svg}{build/code/p_controller_ss_error}
+  \caption{P controller with steady-state error}
+  \label{fig:p_controller_steady-state_error}
+\end{svg}
+
+A common way of eliminating \gls{steady-state error} is to integrate the
+\gls{error} and add it to the \gls{control input}. This increases the
+\gls{control effort} until the \gls{system} converges. Figure
+\ref{fig:p_controller_steady-state_error} shows an example of
 \gls{steady-state error} for a flywheel, and figure
 \ref{fig:pi_controller_steady-state_error} shows how an integrator added to the
 flywheel controller eliminates it. However, too high of an integral gain can
@@ -72,11 +77,6 @@ lead to overshoot, as shown in figure
 \ref{fig:pi_controller_steady-state_error_overshoot}.
 
 \begin{bookfigure}
-  \begin{minisvg}{build/code/p_controller_ss_error}
-    \caption{P controller with steady-state error}
-    \label{fig:p_controller_steady-state_error}
-  \end{minisvg}
-  \hfill
   \begin{minisvg}{build/code/pi_controller_ss_error}
     \caption{PI controller that eliminates steady-state error}
     \label{fig:pi_controller_steady-state_error}
