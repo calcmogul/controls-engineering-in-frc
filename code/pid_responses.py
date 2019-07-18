@@ -35,7 +35,7 @@ def main():
     # Make plant
     G = cnt.TransferFunction(1, conv([1, 5], [1, 0]))
 
-    sim(cnt.TransferFunction(1, 1), T, "Reference")
+    sim(cnt.TransferFunction(1, 1), T, "Setpoint")
 
     K = cnt.TransferFunction(120, 1)
     Gcl = cnt.feedback(G, K)

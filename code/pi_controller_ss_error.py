@@ -71,7 +71,6 @@ class Flywheel(frccnt.System):
 def main():
     dt = 0.00505
     flywheel = Flywheel(dt)
-    flywheel.export_cpp_coeffs("Flywheel", "subsystems/")
 
     # Set up graphing
     l0 = 0.1
@@ -93,7 +92,13 @@ def main():
 
     plt.figure(1)
     x_rec, ref_rec, u_rec = flywheel.generate_time_responses(t, refs)
-    flywheel.plot_time_responses(t, x_rec, ref_rec, u_rec)
+
+    plt.ylabel(flywheel.state_labels[0])
+    plt.plot(t, flywheel.extract_row(x_rec, 0), label="Output")
+    plt.plot(t, flywheel.extract_row(ref_rec, 0), label="Setpoint")
+    plt.legend()
+    plt.xlabel("Time (s)")
+
     if "--noninteractive" in sys.argv:
         latex.savefig("pi_controller_ss_error")
     else:

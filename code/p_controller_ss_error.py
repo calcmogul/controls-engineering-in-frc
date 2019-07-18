@@ -78,8 +78,8 @@ def main():
     x_rec, ref_rec, u_rec = flywheel.generate_time_responses(t, refs)
 
     plt.ylabel(flywheel.state_labels[0])
-    plt.plot(t, flywheel.extract_row(x_rec, 0), label="Estimated state")
-    plt.plot(t, flywheel.extract_row(ref_rec, 0), label="Reference")
+    plt.plot(t, flywheel.extract_row(x_rec, 0), label="Output")
+    plt.plot(t, flywheel.extract_row(ref_rec, 0), label="Setpoint")
 
     fill_end = int(3.0 / dt)
     plt.fill_between(
