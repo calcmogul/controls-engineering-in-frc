@@ -55,7 +55,6 @@ class Flywheel(frccnt.System):
 def main():
     dt = 0.00505
     flywheel = Flywheel(dt)
-    flywheel.export_cpp_coeffs("Flywheel", "subsystems/")
 
     # Set up graphing
     l0 = 0.1
@@ -78,9 +77,7 @@ def main():
     plt.figure(1)
     x_rec, ref_rec, u_rec = flywheel.generate_time_responses(t, refs)
 
-    plt.subplot(2, 1, 1)
     plt.ylabel(flywheel.state_labels[0])
-    plt.title("Time-domain responses")
     plt.plot(t, flywheel.extract_row(x_rec, 0), label="Estimated state")
     plt.plot(t, flywheel.extract_row(ref_rec, 0), label="Reference")
 
@@ -93,12 +90,29 @@ def main():
         label="Error area for integral term",
     )
     plt.legend()
-
-    plt.subplot(2, 1, 2)
-    plt.ylabel(flywheel.u_labels[0])
-    plt.plot(t, flywheel.extract_row(u_rec, 0), label="Control effort")
-    plt.legend()
     plt.xlabel("Time (s)")
+
+    annotate_t = 3.25
+    time = int(annotate_t / dt)
+    bottom = np.ravel(x_rec[0, time])
+    top = np.ravel(ref_rec[0, time])
+    plt.annotate(
+        "",
+        xy=(annotate_t, bottom - 5),  # Start coord of arrow
+        xycoords="data",
+        xytext=(annotate_t, top + 5),  # End coord of arrow
+        textcoords="data",
+        arrowprops=dict(arrowstyle="<->", connectionstyle="arc3,rad=0"),
+        ha="center",
+        va="center",
+    )
+    plt.annotate(
+        "steady-state error",
+        xy=(annotate_t + 0.125, (top + bottom) / 2.0),  # Start coord of arrow
+        xycoords="data",
+        ha="left",
+        va="center",
+    )
 
     if "--noninteractive" in sys.argv:
         latex.savefig("p_controller_ss_error")
