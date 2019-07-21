@@ -181,8 +181,9 @@ Let $k_2 = b$.
 \end{theorem}
 
 $v$ and $\omega$ should be the \glspl{reference} for a \gls{reference} tracker
-for the drivetrain. This can be a linear controller. $x$, $y$, and $\theta$ are
-obtained via a nonlinear \gls{pose} estimator (see section
+for the drivetrain. This can be a linear controller (see subsection
+\ref{subsec:linear_reference_tracker}). $x$, $y$, and $\theta$ are obtained via
+a nonlinear \gls{pose} estimator (see section
 \ref{sec:nonlinear_pose_estimation} for how to implement one). The desired
 velocity, turning rate, and \gls{pose} can be varied over time according to a
 desired trajectory.
@@ -196,6 +197,7 @@ an LQR of just $\theta$, $v_l$, and $v_r$; or plan a new trajectory that
 provides nonzero desired turning rates to rotate the robot.
 
 \subsection{Linear reference tracker}
+\label{subsec:linear_reference_tracker}
 
 We need a velocity \gls{reference} tracker for the nonlinear \gls{controller}'s
 commands. Starting from equation (\ref{eq:diff_drive_ss_model}), we'll derive
