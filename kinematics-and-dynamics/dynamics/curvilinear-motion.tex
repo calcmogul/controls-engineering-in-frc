@@ -9,10 +9,10 @@ For this derivation, we'll assume positive $\hat{i}$ is forward, positive
 $\hat{j}$ is to the right, and positive $\hat{k}$ is up and that the robot is
 facing in the $\hat{i}$ direction.
 
-The mapping from $v$ and $\omega$ to the left and right wheel velocities $v_L$
-and $v_R$ are derived as follows. Let $\vec{v}_C$ be the velocity vector of the
-center of rotation, $\vec{v}_L$ be the velocity vector of the left wheel,
-$\vec{v}_R$ be the velocity vector of the right wheel, $r_b$ is the distance
+The mapping from $v$ and $\omega$ to the left and right wheel velocities $v_l$
+and $v_r$ are derived as follows. Let $\vec{v}_c$ be the velocity vector of the
+center of rotation, $\vec{v}_l$ be the velocity vector of the left wheel,
+$\vec{v}_r$ be the velocity vector of the right wheel, $r_b$ is the distance
 from the center of rotation to each wheel, and $\omega$ is the counterclockwise
 turning rate around the center of rotation.
 
@@ -27,23 +27,49 @@ vector at point A, $\omega_A$ is the angular velocity vector at point A, and
 $\vec{r}_{B|A}$ is the distance vector from point A to point B (also described
 as the ``distance to B relative to A").
 
+Once we have the vector equation representing the wheel's velocity, we'll
+project it onto the wheel direction vector using the dot product.
+
 First, we'll derive $v_l$.
 
+\begin{align*}
+  \vec{v}_l &= v_c \hat{i} + \omega \hat{k} \times r_b \hat{j} \\
+  \vec{v}_l &= v_c \hat{i} - \omega r_b \hat{i} \\
+  \vec{v}_l &= (v_c - \omega r_b) \hat{i}
+\end{align*}
+
+Now, project this vector onto the left wheel, which is pointed in the $\hat{i}$
+direction.
+
+\begin{equation*}
+  v_l = (v_c - \omega r_b) \hat{i} \cdot \frac{\hat{i}}{\norm{\hat{i}}}
+\end{equation*}
+
+The magnitude of $\hat{i}$ is $1$, so the denominator cancels.
+
 \begin{align}
-  \vec{v}_l &= v_c \hat{i} + \omega \hat{k} \times r_b \hat{j} \nonumber \\
-  \vec{v}_l &= v_c \hat{i} - \omega r_b \hat{i} \nonumber \\
-  \vec{v}_l &= (v_c - \omega r_b) \hat{i} \nonumber \\
-  \lvert\vec{v}_l\rvert &= v_c - \omega r_b \nonumber \\
+  v_l &= (v_c - \omega r_b) \hat{i} \cdot \hat{i} \nonumber \\
   v_l &= v_c - \omega r_b \label{eq:diff_vl}
 \end{align}
 
 Next, we'll derive $v_r$.
 
+\begin{align*}
+  \vec{v}_r &= v_c \hat{i} + \omega \hat{k} \times r_b \hat{j} \\
+  \vec{v}_r &= v_c \hat{i} + \omega r_b \hat{i} \\
+  \vec{v}_r &= (v_c + \omega r_b) \hat{i}
+\end{align*}
+
+Now, project this vector onto the right wheel, which is pointed in the $\hat{i}$
+direction.
+
+\begin{equation*}
+  v_r = (v_c + \omega r_b) \hat{i} \cdot \frac{\hat{i}}{\norm{\hat{i}}}
+\end{equation*}
+
+The magnitude of $\hat{i}$ is $1$, so the denominator cancels.
+
 \begin{align}
-  \vec{v}_r &= v_c \hat{i} + \omega \hat{k} \times r_b \hat{j} \nonumber
-    \\
-  \vec{v}_r &= v_c \hat{i} + \omega r_b \hat{i} \nonumber \\
-  \vec{v}_r &= (v_c + \omega r_b) \hat{i} \nonumber \\
-  \lvert\vec{v}_r\rvert &= v_c + \omega r_b \nonumber \\
+  v_r &= (v_c + \omega r_b) \hat{i} \cdot \hat{i} \nonumber \\
   v_r &= v_c + \omega r_b \label{eq:diff_vr}
 \end{align}
