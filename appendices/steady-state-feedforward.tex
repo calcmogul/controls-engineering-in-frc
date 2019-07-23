@@ -1,0 +1,278 @@
+\chapterimage{appendices.jpg}{Sunset in an airplane over New Mexico}
+
+\chapter{Steady-state feedforward}
+
+Steady-state feedforwards apply the \gls{control effort} required to keep a
+\gls{system} at the \gls{reference} if it is no longer moving (i.e., the
+\gls{system} is at steady-state). The first steady-state feedforward converts
+desired \glspl{output} to desired \glspl{state}.
+
+\begin{equation*}
+  \mtx{x}_c = \mtx{N}_x\mtx{y}_c
+\end{equation*}
+
+$\mtx{N}_x$ converts desired \glspl{output} $\mtx{y}_c$ to desired \glspl{state}
+$\mtx{x}_c$ (also known as $\mtx{r}$). For steady-state, that is
+
+\begin{equation}
+  \mtx{x}_{ss} = \mtx{N}_x\mtx{y}_{ss} \label{eq:x_ss}
+\end{equation}
+
+The second steady-state feedforward converts the desired \glspl{output}
+$\mtx{y}$ to the \gls{control input} required at steady-state.
+
+\begin{equation*}
+  \mtx{u}_c = \mtx{N}_u\mtx{y}_c
+\end{equation*}
+
+$\mtx{N}_u$ converts the desired \glspl{output} $\mtx{y}$ to the
+\gls{control input} $\mtx{u}$ required at steady-state. For steady-state, that
+is
+
+\begin{equation}
+  \mtx{u}_{ss} = \mtx{N}_u\mtx{y}_{ss} \label{eq:u_ss}
+\end{equation}
+
+\section{Continuous case}
+
+To find the \gls{control input} required at steady-state, set equation
+(\ref{eq:ss_ctrl_x}) to zero.
+
+\begin{align*}
+  \dot{\mtx{x}} &= \mtx{A}\mtx{x} + \mtx{B}\mtx{u} \\
+  \mtx{y} &= \mtx{C}\mtx{x} + \mtx{D}\mtx{u}
+\end{align*}
+
+\begin{align*}
+  \mtx{0} &= \mtx{A}\mtx{x}_{ss} + \mtx{B}\mtx{u}_{ss} \\
+  \mtx{y}_{ss} &= \mtx{C}\mtx{x}_{ss} + \mtx{D}\mtx{u}_{ss}
+\end{align*}
+
+\begin{align*}
+  \mtx{0} &= \mtx{A}\mtx{N}_x\mtx{y}_{ss} + \mtx{B}\mtx{N}_u\mtx{y}_{ss} \\
+  \mtx{y}_{ss} &= \mtx{C}\mtx{N}_x\mtx{y}_{ss} + \mtx{D}\mtx{N}_u\mtx{y}_{ss}
+\end{align*}
+
+\begin{align*}
+  \begin{bmatrix}
+    \mtx{0} \\
+    \mtx{y}_{ss}
+  \end{bmatrix} &=
+  \begin{bmatrix}
+    \mtx{A}\mtx{N}_x + \mtx{B}\mtx{N}_u \\
+    \mtx{C}\mtx{N}_x + \mtx{D}\mtx{N}_u
+  \end{bmatrix}
+  \mtx{y}_{ss} \\
+  \begin{bmatrix}
+    \mtx{0} \\
+    \mtx{1}
+  \end{bmatrix} &=
+  \begin{bmatrix}
+    \mtx{A}\mtx{N}_x + \mtx{B}\mtx{N}_u \\
+    \mtx{C}\mtx{N}_x + \mtx{D}\mtx{N}_u
+  \end{bmatrix} \\
+  \begin{bmatrix}
+    \mtx{0} \\
+    \mtx{1}
+  \end{bmatrix} &=
+  \begin{bmatrix}
+    \mtx{A} & \mtx{B} \\
+    \mtx{C} & \mtx{D}
+  \end{bmatrix}
+  \begin{bmatrix}
+    \mtx{N}_x \\
+    \mtx{N}_u
+  \end{bmatrix} \\
+  \begin{bmatrix}
+    \mtx{N}_x \\
+    \mtx{N}_u
+  \end{bmatrix} &=
+  \begin{bmatrix}
+    \mtx{A} & \mtx{B} \\
+    \mtx{C} & \mtx{D}
+  \end{bmatrix}^{\dagger}
+  \begin{bmatrix}
+    \mtx{0} \\
+    \mtx{1}
+  \end{bmatrix}
+\end{align*}
+
+where $^\dagger$ is the Moore-Penrose pseudoinverse.
+
+\section{Discrete case}
+
+Now, we'll do the same thing for the discrete \gls{system}. To find the
+\gls{control input} required at steady-state, set equation (\ref{eq:ssz_ctrl_x})
+to zero.
+
+\begin{align*}
+  \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}\mtx{u}_k \\
+  \mtx{y}_k &= \mtx{C}\mtx{x}_k + \mtx{D}\mtx{u}_k
+\end{align*}
+
+\begin{align*}
+  \mtx{x}_{ss} &= \mtx{A}\mtx{x}_{ss} + \mtx{B}\mtx{u}_{ss} \\
+  \mtx{y}_{ss} &= \mtx{C}\mtx{x}_{ss} + \mtx{D}\mtx{u}_{ss}
+\end{align*}
+
+\begin{align*}
+  \mtx{0} &= (\mtx{A} - \mtx{I})\mtx{x}_{ss} + \mtx{B}\mtx{u}_{ss} \\
+  \mtx{y}_{ss} &= \mtx{C}\mtx{x}_{ss} + \mtx{D}\mtx{u}_{ss}
+\end{align*}
+
+\begin{align*}
+  \mtx{0} &= (\mtx{A} - \mtx{I})\mtx{N}_x\mtx{y}_{ss} +
+    \mtx{B}\mtx{N}_u\mtx{y}_{ss} \\
+  \mtx{y}_{ss} &= \mtx{C}\mtx{N}_x\mtx{y}_{ss} + \mtx{D}\mtx{N}_u\mtx{y}_{ss}
+\end{align*}
+
+\begin{align*}
+  \begin{bmatrix}
+    \mtx{0} \\
+    \mtx{y}_{ss}
+  \end{bmatrix} &=
+  \begin{bmatrix}
+    (\mtx{A} - \mtx{I})\mtx{N}_x + \mtx{B}\mtx{N}_u \\
+    \mtx{C}\mtx{N}_x + \mtx{D}\mtx{N}_u
+  \end{bmatrix}
+  \mtx{y}_{ss} \\
+  \begin{bmatrix}
+    \mtx{0} \\
+    \mtx{1}
+  \end{bmatrix} &=
+  \begin{bmatrix}
+    (\mtx{A} - \mtx{I})\mtx{N}_x + \mtx{B}\mtx{N}_u \\
+    \mtx{C}\mtx{N}_x + \mtx{D}\mtx{N}_u
+  \end{bmatrix} \\
+  \begin{bmatrix}
+    \mtx{0} \\
+    \mtx{1}
+  \end{bmatrix} &=
+  \begin{bmatrix}
+    \mtx{A} - \mtx{I} & \mtx{B} \\
+    \mtx{C} & \mtx{D}
+  \end{bmatrix}
+  \begin{bmatrix}
+    \mtx{N}_x \\
+    \mtx{N}_u
+  \end{bmatrix} \\
+  \begin{bmatrix}
+    \mtx{N}_x \\
+    \mtx{N}_u
+  \end{bmatrix} &=
+  \begin{bmatrix}
+    \mtx{A} - \mtx{I} & \mtx{B} \\
+    \mtx{C} & \mtx{D}
+  \end{bmatrix}^{\dagger}
+  \begin{bmatrix}
+    \mtx{0} \\
+    \mtx{1}
+  \end{bmatrix}
+\end{align*}
+
+where $^\dagger$ is the Moore-Penrose pseudoinverse.
+
+\section{Deriving steady-state input}
+
+Now, we'll find an expression that uses $\mtx{N}_x$ and $\mtx{N}_u$ to convert
+the \gls{reference} $\mtx{r}$ to a \gls{control input} feedforward
+$\mtx{u}_{ff}$. Let's start with equation (\ref{eq:x_ss}).
+
+\begin{align*}
+  \mtx{x}_{ss} &= \mtx{N}_x \mtx{y}_{ss} \\
+  \mtx{N}_x^\dagger \mtx{x}_{ss} &= \mtx{y}_{ss}
+\end{align*}
+
+Now substitute this into equation (\ref{eq:u_ss}).
+
+\begin{align*}
+  \mtx{u}_{ss} &= \mtx{N}_u \mtx{y}_{ss} \\
+  \mtx{u}_{ss} &= \mtx{N}_u (\mtx{N}_x^\dagger \mtx{x}_{ss}) \\
+  \mtx{u}_{ss} &= \mtx{N}_u \mtx{N}_x^\dagger \mtx{x}_{ss}
+\end{align*}
+
+$\mtx{u}_{ss}$ and $\mtx{x}_{ss}$ are also known as $\mtx{u}_{ff}$ and $\mtx{r}$
+respectively.
+
+\begin{align*}
+  \mtx{u}_{ff} = \mtx{N}_u \mtx{N}_x^\dagger \mtx{r}
+\end{align*}
+
+So all together, we get theorem \ref{thm:steady-state_ff}.
+
+\index{Feedforward!steady-state feedforward}
+\begin{theorem}[Steady-state feedforward]
+  \label{thm:steady-state_ff}
+
+  \begin{align}
+    &\text{Continuous:} \nonumber \\
+    &\begin{bmatrix}
+      \mtx{N}_x \\
+      \mtx{N}_u
+    \end{bmatrix} =
+    \begin{bmatrix}
+      \mtx{A} & \mtx{B} \\
+      \mtx{C} & \mtx{D}
+    \end{bmatrix}^{\dagger}
+    \begin{bmatrix}
+      \mtx{0} \\
+      \mtx{1}
+    \end{bmatrix} \\
+    &\text{Discrete:} \nonumber \\
+    &\begin{bmatrix}
+      \mtx{N}_x \\
+      \mtx{N}_u
+    \end{bmatrix} =
+    \begin{bmatrix}
+      \mtx{A} - \mtx{I} & \mtx{B} \\
+      \mtx{C} & \mtx{D}
+    \end{bmatrix}^{\dagger}
+    \begin{bmatrix}
+      \mtx{0} \\
+      \mtx{1}
+    \end{bmatrix}
+  \end{align}
+
+  \begin{equation}
+    \mtx{u}_{ff} = \mtx{N}_u \mtx{N}_x^\dagger \mtx{r}
+  \end{equation}
+
+  In the augmented matrix, $\mtx{B}$ should contain one column corresponding to
+  an actuator and $\mtx{C}$ should contain one row whose \gls{output} will be
+  driven by that actuator. More than one actuator or output can be included in
+  the computation at once, but the result won't be the same as if they were
+  computed independently and summed afterward.
+
+  After computing the feedforward for each actuator-output pair, the respective
+  collections of $\mtx{N}_x$ and $\mtx{N}_u$ matrices can summed to produce the
+  combined feedforward.
+\end{theorem}
+
+If the augmented matrix in theorem \ref{thm:steady-state_ff} is square (number
+of \glspl{input} = number of \glspl{output}), the normal matrix inverse can be
+used instead.
+
+\subsection{Case study: second-order CIM motor model}
+
+Each feedforward implementation has advantages. The steady-state feedforward
+allows using specific actuators to maintain the \gls{reference} at steady-state.
+\Gls{plant} inversion doesn't support this, but can be used for \gls{reference}
+\gls{tracking} as well with the same tuning parameters as LQR design. Figure
+\ref{fig:case_study_ss_ff1} shows both types of feedforwards applied to a
+second-order CIM motor model.
+
+\begin{svg}{build/code/case_study_ss_ff1}
+  \caption{Second-order CIM motor response with various feedforwards}
+  \label{fig:case_study_ss_ff1}
+\end{svg}
+
+\Gls{plant} inversion isn't as effective in figure \ref{fig:case_study_ss_ff1}
+because the $\mtx{R}$ matrix penalized \gls{control effort}. If the $\mtx{R}$
+cost matrix is removed from the \gls{plant} inversion calculation, the
+\gls{reference} \gls{tracking} is much better (see figure
+\ref{fig:case_study_ss_ff2}).
+
+\begin{svg}{build/code/case_study_ss_ff2}
+  \caption{Second-order CIM motor response with plant inversions}
+  \label{fig:case_study_ss_ff2}
+\end{svg}

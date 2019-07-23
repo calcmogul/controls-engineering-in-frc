@@ -49,9 +49,25 @@ def main():
     # fmt: on
     K = frccnt.lqr(sysd, Q, R)
 
+    # Steady-state feedforward
+    tmp1 = concatenate(
+        (
+            concatenate((sysd.A - np.eye(sysd.A.shape[0]), sysd.B), axis=1),
+            concatenate((sysd.C, sysd.D), axis=1),
+        ),
+        axis=0,
+    )
+    tmp2 = concatenate(
+        (np.zeros((sysd.A.shape[0], 1)), np.ones((sysd.C.shape[0], 1))), axis=0
+    )
+    NxNu = np.linalg.pinv(tmp1) * tmp2
+    Nx = NxNu[0 : sysd.A.shape[0], 0]
+    Nu = NxNu[sysd.C.shape[0] + 1 :, 0]
+    Kff_ss = Nu * np.linalg.pinv(Nx)
+
     # Plant inversions
-    Kff_ts1 = np.linalg.pinv(sysd.B)
-    Kff_ts2 = np.linalg.inv(sysd.B.T * Q * sysd.B + R) * (sysd.B.T * Q)
+    Kff_ts1 = np.linalg.inv(sysd.B.T * Q * sysd.B + R) * (sysd.B.T * Q)
+    Kff_ts2 = np.linalg.pinv(sysd.B)
 
     t = np.arange(0, tmax, dt)
     r = np.array([[2000 * 0.1047], [0]])
@@ -62,12 +78,17 @@ def main():
     x_rec = np.zeros((2, 1, len(t)))
     u_rec = np.zeros((1, 1, len(t)))
 
-    # Plant inversion (Q cost only)
+    # Steady-state feedforward
+    x_ss = np.array([[0], [0]])
+    x_ss_rec = np.zeros((2, 1, len(t)))
+    u_ss_rec = np.zeros((1, 1, len(t)))
+
+    # Plant inversion (Q and R cost)
     x_ts1 = np.array([[0], [0]])
     x_ts1_rec = np.zeros((2, 1, len(t)))
     u_ts1_rec = np.zeros((1, 1, len(t)))
 
-    # Plant inversion (Q and R cost)
+    # Plant inversion (Q cost only)
     x_ts2 = np.array([[0], [0]])
     x_ts2_rec = np.zeros((2, 1, len(t)))
     u_ts2_rec = np.zeros((1, 1, len(t)))
@@ -84,6 +105,13 @@ def main():
         x = sysd.A @ x + sysd.B @ u
         x_rec[:, :, k] = x
         u_rec[:, :, k] = u
+
+        # With steady-state feedforward
+        u_ss = K @ (r - x_ss) + Kff_ss @ r
+        u_ss = np.clip(u_ss, u_min, u_max)
+        x_ss = sysd.A @ x_ss + sysd.B @ u_ss
+        x_ss_rec[:, :, k] = x_ss
+        u_ss_rec[:, :, k] = u_ss
 
         # Plant inversion (Q and R cost)
         u_ts1 = K @ (r - x_ts1) + Kff_ts1 @ (r - sysd.A @ r)
@@ -104,29 +132,55 @@ def main():
     plt.subplot(3, 1, 1)
     plt.plot(t, r_rec[0, 0, :], label="Reference")
     plt.ylabel("$\omega$ (rad/s)")
-    plt.plot(t, x_rec[0, 0, :], label="No feedforward")
-    plt.plot(t, x_ts2_rec[0, 0, :], label="Plant inversion")
+    plt.plot(t, x_rec[0, 0, :], label="No FF")
+    plt.plot(t, x_ss_rec[0, 0, :], label="Steady-state FF")
     plt.plot(t, x_ts1_rec[0, 0, :], label="Plant inversion (Q and R cost)")
     plt.legend()
 
     plt.subplot(3, 1, 2)
     plt.plot(t, r_rec[1, 0, :], label="Reference")
     plt.ylabel("Current (A)")
-    plt.plot(t, x_rec[1, 0, :], label="No feedforward")
-    plt.plot(t, x_ts2_rec[1, 0, :], label="Plant inversion")
+    plt.plot(t, x_rec[1, 0, :], label="No FF")
+    plt.plot(t, x_ss_rec[1, 0, :], label="Steady-state FF")
     plt.plot(t, x_ts1_rec[1, 0, :], label="Plant inversion (Q and R cost)")
     plt.legend()
 
     plt.subplot(3, 1, 3)
-    plt.plot(t, u_rec[0, 0, :], label="No feedforward")
-    plt.plot(t, u_ts2_rec[0, 0, :], label="Plant inversion")
+    plt.plot(t, u_rec[0, 0, :], label="No FF")
+    plt.plot(t, u_ss_rec[0, 0, :], label="Steady-state FF")
     plt.plot(t, u_ts1_rec[0, 0, :], label="Plant inversion (Q and R cost)")
     plt.legend()
     plt.ylabel("Control effort (V)")
     plt.xlabel("Time (s)")
 
     if "--noninteractive" in sys.argv:
-        latex.savefig("case_study_ff")
+        latex.savefig("case_study_ss_ff1")
+
+    plt.figure(2)
+
+    plt.subplot(3, 1, 1)
+    plt.plot(t, r_rec[0, 0, :], label="Reference")
+    plt.ylabel("$\omega$ (rad/s)")
+    plt.plot(t, x_ts1_rec[0, 0, :], label="Plant inversion (Q and R cost)")
+    plt.plot(t, x_ts2_rec[0, 0, :], label="Plant inversion (Q cost only)")
+    plt.legend()
+
+    plt.subplot(3, 1, 2)
+    plt.plot(t, r_rec[1, 0, :], label="Reference")
+    plt.ylabel("Current (A)")
+    plt.plot(t, x_ts1_rec[1, 0, :], label="Plant inversion (Q and R cost)")
+    plt.plot(t, x_ts2_rec[1, 0, :], label="Plant inversion (Q cost only)")
+    plt.legend()
+
+    plt.subplot(3, 1, 3)
+    plt.plot(t, u_ts1_rec[0, 0, :], label="Plant inversion (Q and R cost)")
+    plt.plot(t, u_ts2_rec[0, 0, :], label="Plant inversion (Q cost only)")
+    plt.legend()
+    plt.ylabel("Control effort (V)")
+    plt.xlabel("Time (s)")
+
+    if "--noninteractive" in sys.argv:
+        latex.savefig("case_study_ss_ff2")
     else:
         plt.show()
 
