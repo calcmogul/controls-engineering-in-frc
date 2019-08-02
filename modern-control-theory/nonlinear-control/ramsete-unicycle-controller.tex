@@ -1,13 +1,16 @@
 \section{Ramsete unicycle controller}
 \label{sec:ramsete_unicycle_controller}
 
-Why would we need a nonlinear control law in addition to the linear ones we have
-used so far? If we use the original approach with an LQR \gls{controller} for
-left and right position and velocity \glspl{state}, the \gls{controller} only
-deals with the local \gls{pose}. If the robot deviates from the path, there is
-no way for the \gls{controller} to correct and the robot may not reach the
-desired global \gls{pose}. This is due to multiple endpoints existing for the
-robot which have the same encoder path arc lengths.
+Ramsete is a nonlinear time-varying feedback controller for unicycle
+\glspl{model} that drives the \gls{model} to a desired \gls{pose} along a
+two-dimensional trajectory. Why would we need a nonlinear control law in
+addition to the linear ones we have used so far? If we use the original approach
+with an LQR \gls{controller} for left and right position and velocity
+\glspl{state}, the \gls{controller} only deals with the local \gls{pose}. If the
+robot deviates from the path, there is no way for the \gls{controller} to
+correct and the robot may not reach the desired global \gls{pose}. This is due
+to multiple endpoints existing for the robot which have the same encoder path
+arc lengths.
 
 Instead of using wheel path arc lengths (which are in the robot's local
 coordinate frame), nonlinear controllers like pure pursuit and Ramsete use
