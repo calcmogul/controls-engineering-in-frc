@@ -132,6 +132,20 @@ More examples of concepts should help slow the pace down. I should read through
 this book as if I was explaining it to my veteran software students and
 anticipate gaps in their understanding.
 
+Reorganize feedforward chapter
+* Move plant inversion proof to derivations appendix.
+* Add proof of pseudoinverse based on plant inversion proof to derivations
+  appendix.
+
+Redefine variables used at start of each chapter, or when saying "using this
+thing from a previous section".
+
+Add summary page to each chapter with relevant equations.
+
+Add troubleshooting advice for models/impls.
+
+Do version of linearized diff drive model that has v and omega as inputs.
+
 Try deriving all models using Lagrangian mechanics instead. Introduce
 manipulator equations?
 
