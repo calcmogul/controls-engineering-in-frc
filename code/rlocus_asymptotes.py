@@ -9,7 +9,7 @@ if "--noninteractive" in sys.argv:
     mpl.use("svg")
     import utils.latex as latex
 
-import control as cnt
+import control as ct
 from frccontrol import conv
 import matplotlib.pyplot as plt
 
@@ -20,8 +20,8 @@ def main():
     #              1
     # G(s) = --------------
     #        (s + 2)(s + 3)
-    G = cnt.tf(1, conv([1, 0], [1, 2], [1, 3]))
-    cnt.root_locus(G, grid=True)
+    G = ct.tf(1, conv([1, 0], [1, 2], [1, 3]))
+    ct.root_locus(G, grid=True)
 
     plt.title("Root Locus")
     plt.xlabel("Real Axis (seconds$^{-1}$)")

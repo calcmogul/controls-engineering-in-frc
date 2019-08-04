@@ -9,7 +9,7 @@ if "--noninteractive" in sys.argv:
     mpl.use("svg")
     import utils.latex as latex
 
-import frccontrol as frccnt
+import frccontrol as fct
 import math
 import matplotlib.pyplot as plt
 import numpy as np
@@ -17,7 +17,7 @@ import numpy as np
 plt.rc("text", usetex=True)
 
 
-class Flywheel(frccnt.System):
+class Flywheel(fct.System):
     def __init__(self, dt):
         """Flywheel subsystem.
 
@@ -30,7 +30,7 @@ class Flywheel(frccnt.System):
         self.integrator = 0.0
         self.Ki = 0.2
 
-        frccnt.System.__init__(
+        fct.System.__init__(
             self, np.array([[0.0]]), np.array([[-12.0]]), np.array([[12.0]]), dt
         )
 
@@ -42,7 +42,7 @@ class Flywheel(frccnt.System):
         # Gear ratio
         G = 12.0 / 18.0
 
-        return frccnt.models.flywheel(frccnt.models.MOTOR_775PRO, num_motors, J, G)
+        return fct.models.flywheel(fct.models.MOTOR_775PRO, num_motors, J, G)
 
     def design_controller_observer(self):
         q = [200.0]

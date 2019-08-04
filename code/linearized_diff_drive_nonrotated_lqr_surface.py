@@ -11,8 +11,8 @@ if "--noninteractive" in sys.argv:
     mpl.use("svg")
     import utils.latex as latex
 
-import control as cnt
-import frccontrol as frccnt
+import control as ct
+import frccontrol as fct
 import math
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -41,7 +41,7 @@ def differential_drive(motor, num_motors, m, r, rb, J, Gl, Gr, states):
     Returns:
     StateSpace instance containing continuous model
     """
-    motor = frccnt.models.gearbox(motor, num_motors)
+    motor = fct.models.gearbox(motor, num_motors)
 
     C1 = -Gl ** 2 * motor.Kt / (motor.Kv * motor.R * r ** 2)
     C2 = Gl * motor.Kt / (motor.R * r)
@@ -76,10 +76,10 @@ def differential_drive(motor, num_motors, m, r, rb, J, Gl, Gr, states):
                   [0, 0]])
     # fmt: on
 
-    return cnt.StateSpace(A, B, C, D, remove_useless=False)
+    return ct.StateSpace(A, B, C, D, remove_useless=False)
 
 
-class DifferentialDrive(frccnt.System):
+class DifferentialDrive(fct.System):
     def __init__(self, dt, states):
         """Differential drive subsystem.
 
@@ -112,7 +112,7 @@ class DifferentialDrive(frccnt.System):
             )
             + self.sysc.B @ u
         )
-        frccnt.System.__init__(self, states, u_min, u_max, dt, nonlinear_func=f)
+        fct.System.__init__(self, states, u_min, u_max, dt, nonlinear_func=f)
 
     def create_model(self, states):
         """Relinearize model around given state.
@@ -150,7 +150,7 @@ class DifferentialDrive(frccnt.System):
             Gr = Ghigh
 
         return differential_drive(
-            frccnt.models.MOTOR_CIM,
+            fct.models.MOTOR_CIM,
             num_motors,
             m,
             r,

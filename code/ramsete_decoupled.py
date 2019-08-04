@@ -12,8 +12,8 @@ if "--noninteractive" in sys.argv:
     mpl.use("svg")
     import utils.latex as latex
 
-import control as cnt
-import frccontrol as frccnt
+import control as ct
+import frccontrol as fct
 import math
 import matplotlib.pyplot as plt
 import numpy as np
@@ -41,7 +41,7 @@ def drivetrain(motor, num_motors, m, r, rb, J, Gl, Gr):
     Returns:
     StateSpace instance containing continuous model
     """
-    motor = frccnt.models.gearbox(motor, num_motors)
+    motor = fct.models.gearbox(motor, num_motors)
 
     C1 = -Gl ** 2 * motor.Kt / (motor.Kv * motor.R * r ** 2)
     C2 = Gl * motor.Kt / (motor.R * r)
@@ -58,7 +58,7 @@ def drivetrain(motor, num_motors, m, r, rb, J, Gl, Gr):
                   [0, 0]])
     # fmt: on
 
-    return cnt.ss(A, B, C, D)
+    return ct.ss(A, B, C, D)
 
 
 def ramsete(pose_desired, v_desired, omega_desired, pose, b, zeta):
@@ -83,7 +83,7 @@ def get_diff_vels(v, omega, d):
     return v - omega * d / 2.0, v + omega * d / 2.0
 
 
-class Drivetrain(frccnt.System):
+class Drivetrain(fct.System):
     def __init__(self, dt):
         """Drivetrain subsystem.
 
@@ -96,7 +96,7 @@ class Drivetrain(frccnt.System):
 
         u_min = np.array([[-12.0], [-12.0]])
         u_max = np.array([[12.0], [12.0]])
-        frccnt.System.__init__(self, np.zeros((2, 1)), u_min, u_max, dt)
+        fct.System.__init__(self, np.zeros((2, 1)), u_min, u_max, dt)
 
     def create_model(self, states):
         self.in_low_gear = False
@@ -125,7 +125,7 @@ class Drivetrain(frccnt.System):
             Gl = Ghigh
             Gr = Ghigh
 
-        return drivetrain(frccnt.models.MOTOR_CIM, num_motors, m, r, self.rb, J, Gl, Gr)
+        return drivetrain(fct.models.MOTOR_CIM, num_motors, m, r, self.rb, J, Gl, Gr)
 
     def design_controller_observer(self):
         if self.in_low_gear:
@@ -144,14 +144,14 @@ class Drivetrain(frccnt.System):
         r_vel = 0.01
         self.design_kalman_filter([q_vel, q_vel], [r_vel, r_vel])
 
-        print("ctrb cond =", np.linalg.cond(cnt.ctrb(self.sysd.A, self.sysd.B)))
+        print("ctrb cond =", np.linalg.cond(ct.ctrb(self.sysd.A, self.sysd.B)))
 
 
 def main():
     dt = 0.00505
     drivetrain = Drivetrain(dt)
 
-    t, xprof, vprof, aprof = frccnt.generate_s_curve_profile(
+    t, xprof, vprof, aprof = fct.generate_s_curve_profile(
         max_v=4.0, max_a=3.5, time_to_max_a=1.0, dt=dt, goal=10.0
     )
 

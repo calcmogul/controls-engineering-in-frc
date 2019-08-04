@@ -9,7 +9,7 @@ if "--noninteractive" in sys.argv:
     mpl.use("svg")
     import utils.latex as latex
 
-import control as cnt
+import control as ct
 from frccontrol import conv
 import matplotlib.pyplot as plt
 
@@ -20,8 +20,8 @@ def main():
     #        (s - 9 + 9i)(s - 9 - 9i)
     # G(s) = ------------------------
     #               s(s + 10)
-    G = cnt.tf(conv([1, -9 + 9j], [1, -9 - 9j]), conv([1, 0], [1, 10]))
-    cnt.root_locus(G, grid=True)
+    G = ct.tf(conv([1, -9 + 9j], [1, -9 - 9j]), conv([1, 0], [1, 10]))
+    ct.root_locus(G, grid=True)
 
     # Show plot
     plt.title("Root Locus")

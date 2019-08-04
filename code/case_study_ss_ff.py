@@ -9,8 +9,8 @@ if "--noninteractive" in sys.argv:
     mpl.use("svg")
     import utils.latex as latex
 
-import control as cnt
-import frccontrol as frccnt
+import control as ct
+import frccontrol as fct
 import matplotlib.pyplot as plt
 import numpy as np
 from numpy import concatenate
@@ -35,7 +35,7 @@ def main():
     D = np.array([[0]])
     # fmt: on
 
-    sysc = cnt.StateSpace(A, B, C, D)
+    sysc = ct.StateSpace(A, B, C, D)
 
     dt = 0.0001
     tmax = 0.025
@@ -47,7 +47,7 @@ def main():
                   [0, 1 / 40**2]])
     R = np.array([[1 / 12**2]])
     # fmt: on
-    K = frccnt.lqr(sysd, Q, R)
+    K = fct.lqr(sysd, Q, R)
 
     # Steady-state feedforward
     tmp1 = concatenate(

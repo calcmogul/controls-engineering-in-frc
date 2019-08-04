@@ -9,14 +9,14 @@ if "--noninteractive" in sys.argv:
     mpl.use("svg")
     import utils.latex as latex
 
-import frccontrol as frccnt
+import frccontrol as fct
 import matplotlib.pyplot as plt
 
 plt.rc("text", usetex=True)
 
 
 def main():
-    t, x, v, a = frccnt.generate_trapezoid_profile(
+    t, x, v, a = fct.generate_trapezoid_profile(
         max_v=7.0, time_to_max_v=2.0, dt=0.05, goal=50.0
     )
     plt.figure(1)
@@ -33,7 +33,7 @@ def main():
     if "--noninteractive" in sys.argv:
         latex.savefig("trapezoid_profile")
 
-    t, x, v, a = frccnt.generate_s_curve_profile(
+    t, x, v, a = fct.generate_s_curve_profile(
         max_v=7.0, max_a=3.5, time_to_max_a=1.0, dt=0.05, goal=50.0
     )
     plt.figure(2)

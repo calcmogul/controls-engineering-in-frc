@@ -9,7 +9,7 @@ if "--noninteractive" in sys.argv:
     mpl.use("svg")
     import utils.latex as latex
 
-import control as cnt
+import control as ct
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -24,12 +24,12 @@ def make_closed_loop_plant(G, Kp):
     G -- open-loop plant
     Kp -- proportional gain
     """
-    K = cnt.TransferFunction(Kp, 1)
-    return cnt.feedback(G, K)
+    K = ct.TransferFunction(Kp, 1)
+    return ct.feedback(G, K)
 
 
 def sim(tf, T, label):
-    T, yout = cnt.step_response(tf, T=T)
+    T, yout = ct.step_response(tf, T=T)
 
     # 1 / yout[-1] normalizes to DC gain
     plt.plot(T, yout * 1 / yout[-1], label=label)
@@ -54,8 +54,8 @@ def main():
     # s(JLs^2 + JRs + bLs + bR + K^2)
     # JLs^3 + JRs^2 + bLs^2 + bRs + K^2s
     # JLs^3 + (JR + bL)s^2 + (bR + K^2)s
-    G = cnt.TransferFunction(K, [J * L, J * R + b * L, b * R + K ** 2, 0])
-    cnt.root_locus(G, grid=True)
+    G = ct.TransferFunction(K, [J * L, J * R + b * L, b * R + K ** 2, 0])
+    ct.root_locus(G, grid=True)
     plt.xlabel("Real Axis (seconds$^{-1}$)")
     plt.ylabel("Imaginary Axis (seconds$^{-1}$)")
     if "--noninteractive" in sys.argv:
@@ -64,7 +64,7 @@ def main():
     plt.figure(2)
     plt.xlabel("Time ($s$)")
     plt.ylabel("Position ($m$)")
-    sim(cnt.TransferFunction(1, 1), T, "Reference")
+    sim(ct.TransferFunction(1, 1), T, "Reference")
     Gcl = make_closed_loop_plant(G, 1)
     sim(Gcl, T, "Step response")
     if "--noninteractive" in sys.argv:
