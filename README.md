@@ -44,11 +44,6 @@ The scripts can be run as follows:
 Some Linux platforms use tk as a backend for matplotlib, so that may need to be
 installed to see the plots.
 
-To run the linearized differential drive code, a custom version of Python
-Control is required that doesn't remove uncontrollable or unobservable states
-from new StateSpace objects. This can be accomplished by removing the call
-`self._remove_useless_states()` from control/statesp.py.
-
 ## Compiling the book
 
 After installing the dependencies, just run `make`. It will produce a PDF named

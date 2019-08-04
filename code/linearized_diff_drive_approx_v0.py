@@ -74,7 +74,7 @@ def differential_drive(motor, num_motors, m, r, rb, J, Gl, Gr, states):
                   [0, 0]])
     # fmt: on
 
-    return cnt.ss(A, B, C, D)
+    return cnt.StateSpace(A, B, C, D, remove_useless=False)
 
 
 def get_diff_vels(v, omega, d):

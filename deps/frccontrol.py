@@ -37,19 +37,10 @@ def run(name):
 # Set up control (dep of frccontrol)
 os.chdir(root)
 fetch_git_dependency(
-    repo="git://github.com/python-control/python-control", commit="0.8.2"
+    repo="git://github.com/python-control/python-control",
+    commit="129a05364aa94e35b9ea02f81292d555f27e2b69"
 )
 os.chdir("build/python-control")
-subprocess.run(
-    [
-        "git",
-        "apply",
-        os.path.join(
-            root,
-            "patches/0001-Don-t-remove-unobservable-or-uncontrollable-states-f.patch",
-        ),
-    ]
-)
 subprocess.run([ENV_PIP, "install", "-e", "."])
 os.chdir(root)
 
