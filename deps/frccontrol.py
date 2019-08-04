@@ -47,7 +47,7 @@ os.chdir(root)
 # Set up frccontrol
 fetch_git_dependency(
     repo="git://github.com/calcmogul/frccontrol",
-    commit="0f2fd82ca165770b6b855e21cc1078ade335c9cf",
+    commit="9694c67bc0ed89745a914e93a529c5b65ae5192f",
 )
 os.chdir("build/frccontrol")
 subprocess.run([ENV_PIP, "install", "-e", "."])
