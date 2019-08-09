@@ -121,13 +121,16 @@ class DifferentialDrive(fct.System):
             )
             + self.sysc.B @ u
         )
-        fct.System.__init__(self, states, u_min, u_max, dt, nonlinear_func=f)
+        fct.System.__init__(
+            self, u_min, u_max, dt, states, np.zeros((2, 1)), nonlinear_func=f
+        )
 
-    def create_model(self, states):
+    def create_model(self, states, inputs):
         """Relinearize model around given state.
 
         Keyword arguments:
         states -- state vector around which to linearize model
+        inputs -- input vector around which to linearize model
 
         Returns:
         StateSpace instance containing continuous state-space model
@@ -170,10 +173,10 @@ class DifferentialDrive(fct.System):
             np.asarray(states),
         )
 
-    def relinearize(self, Q_elems, R_elems, states):
+    def relinearize(self, Q_elems, R_elems, states, inputs):
         from frccontrol import lqr
 
-        sysc = self.create_model(states)
+        sysc = self.create_model(states, inputs)
         sysd = sysc.sample(self.dt)
 
         Q = np.diag(1.0 / np.square(Q_elems))
@@ -193,7 +196,7 @@ class DifferentialDrive(fct.System):
         q = [q_x, q_y, q_heading, q_vel, q_vel]
         r = [12.0, 12.0]
 
-        self.K = self.relinearize(q, r, self.x_hat)
+        self.K = self.relinearize(q, r, self.x_hat, self.u)
 
         self.design_two_state_feedforward()
 

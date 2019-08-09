@@ -90,9 +90,9 @@ class Drivetrain(fct.System):
 
         u_min = np.array([[-12.0], [-12.0]])
         u_max = np.array([[12.0], [12.0]])
-        fct.System.__init__(self, np.zeros((2, 1)), u_min, u_max, dt)
+        fct.System.__init__(self, u_min, u_max, dt, np.zeros((2, 1)), np.zeros((2, 1)))
 
-    def create_model(self, states):
+    def create_model(self, states, inputs):
         self.in_low_gear = False
 
         # Number of motors per side

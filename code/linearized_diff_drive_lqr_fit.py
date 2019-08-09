@@ -110,13 +110,16 @@ class DifferentialDrive(fct.System):
             )
             + self.sysc.B @ u
         )
-        fct.System.__init__(self, states, u_min, u_max, dt, nonlinear_func=f)
+        fct.System.__init__(
+            self, u_min, u_max, dt, states, np.zeros((2, 1)), nonlinear_func=f
+        )
 
-    def create_model(self, states):
+    def create_model(self, states, inputs):
         """Relinearize model around given state.
 
         Keyword arguments:
         states -- state vector around which to linearize model
+        inputs -- input vector around which to linearize model
 
         Returns:
         StateSpace instance containing continuous state-space model

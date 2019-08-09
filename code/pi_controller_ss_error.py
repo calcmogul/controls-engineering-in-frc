@@ -31,10 +31,15 @@ class Flywheel(fct.System):
         self.Ki = 1e-2
 
         fct.System.__init__(
-            self, np.array([[0.0]]), np.array([[-12.0]]), np.array([[12.0]]), dt
+            self,
+            np.array([[-12.0]]),
+            np.array([[12.0]]),
+            dt,
+            np.zeros((1, 1)),
+            np.zeros((1, 1)),
         )
 
-    def create_model(self, states):
+    def create_model(self, states, inputs):
         # Number of motors
         num_motors = 1.0
         # Flywheel moment of inertia in kg-m^2
