@@ -1,0 +1,185 @@
+\section{Linearized unicycle controller (cascaded)}
+
+The change in global pose is defined by these three equations.
+
+\begin{align*}
+  \dot{x} &= v\cos\theta \\
+  \dot{y} &= v\sin\theta \\
+  \dot{\theta} &= \omega
+\end{align*}
+
+Here's the model as a vector function where
+$\mtx{x} = \begin{bmatrix} x & y & \theta \end{bmatrix}^T$ and
+$\mtx{u} = \begin{bmatrix} v & \omega \end{bmatrix}^T$.
+
+\begin{equation}
+  f(\mtx{x}, \mtx{u}) =
+  \begin{bmatrix}
+    v\cos\theta \\
+    v\sin\theta \\
+    \omega
+  \end{bmatrix}
+\end{equation}
+
+To create an LQR, we need to linearize this.
+
+\begin{align*}
+  \frac{\partial f(\mtx{x}, \mtx{u})}{\partial\mtx{x}} &=
+  \begin{bmatrix}
+    0 & 0 & -v\sin\theta \\
+    0 & 0 & v\cos\theta \\
+    0 & 0 & 0
+  \end{bmatrix} \\
+  \frac{\partial f(\mtx{x}, \mtx{u})}{\partial\mtx{u}} &=
+  \begin{bmatrix}
+    \cos\theta & 0 \\
+    \sin\theta & 0 \\
+    0 & 1
+  \end{bmatrix}
+\end{align*}
+
+Therefore,
+
+\begin{theorem}[Linearized unicycle state-space model]
+  \label{thm:linearized_unicycle_model}
+  \begin{equation*}
+    \begin{array}{ccc}
+      \mtx{x} =
+      \begin{bmatrix}
+        x \\
+        y \\
+        \theta \\
+      \end{bmatrix} &
+      \mtx{y} =
+      \begin{bmatrix}
+        \theta
+      \end{bmatrix} &
+      \mtx{u} =
+      \begin{bmatrix}
+        v \\
+        \omega
+      \end{bmatrix}
+    \end{array}
+  \end{equation*}
+
+  \begin{equation}
+    \begin{array}{ll}
+      \mtx{A} =
+      \begin{bmatrix}
+        0 & 0 & -v\sin\theta \\
+        0 & 0 & v\cos\theta \\
+        0 & 0 & 0
+      \end{bmatrix} &
+      \mtx{B} =
+      \begin{bmatrix}
+        \cos\theta & 0 \\
+        \sin\theta & 0 \\
+        0 & 1
+      \end{bmatrix} \\
+      \mtx{C} =
+      \begin{bmatrix}
+        0 & 0 & 1
+      \end{bmatrix} &
+      \mtx{D} = \mtx{0}_{1 \times 2}
+    \end{array}
+  \end{equation}
+
+  The LQR gain should be recomputed around the current operating point regularly
+  due to the high nonlinearity of this system. A less computationally expensive
+  controller will be developed next.
+\end{theorem}
+
+\subsection{Explicit time-varying control law}
+
+As with the linearized differential drive, we will fit a vector function of the
+states to the linearized unicycle controller gains. Fortunately, the formulation
+of the controller dealing with cross-track error only requires linearization
+around different values of $v$ rather than $v$ and $\theta$; only a
+two-dimensional function is needed rather than a three-dimensional one. See
+figures \ref{fig:linearized_unicycle_cascaded_lqr_0} through
+\ref{fig:linearized_unicycle_cascaded_lqr_2} for plots of each controller gain
+for a range of velocities.
+
+\begin{bookfigure}
+  \begin{minisvg}{build/code/linearized_unicycle_cascaded_lqr_0}
+    \caption{Linearized unicycle controller cascaded LQR gain regression ($x$)}
+    \label{fig:linearized_unicycle_cascaded_lqr_0}
+  \end{minisvg}
+  \hfill
+  \begin{minisvg}{build/code/linearized_unicycle_cascaded_lqr_1}
+    \caption{Linearized unicycle controller cascaded LQR gain regression ($y$)}
+    \label{fig:linearized_unicycle_cascaded_lqr_1}
+  \end{minisvg}
+  \hfill
+  \begin{minisvg}{build/code/linearized_unicycle_cascaded_lqr_2}
+    \caption{Linearized unicycle controller cascaded LQR gain regression
+      ($\theta$)}
+    \label{fig:linearized_unicycle_cascaded_lqr_2}
+  \end{minisvg}
+\end{bookfigure}
+
+With the exception of the $x$ gain plot, all functions are a variation of a
+square root. $v = 0$ and $v = 1$ were used to scale each function to produce a
+close approximation.
+
+\begin{theorem}[Linearized unicycle controller]
+  The following $\mtx{A}$ and $\mtx{B}$ matrices are used to compute the LQR.
+
+  \begin{equation}
+    \begin{array}{ll}
+      \mtx{A} =
+      \begin{bmatrix}
+        0 & 0 & 0 \\
+        0 & 0 & v \\
+        0 & 0 & 0
+      \end{bmatrix} &
+      \mtx{x} =
+      \begin{bmatrix}
+        x \\
+        y \\
+        \theta
+      \end{bmatrix} \\
+      \mtx{B} =
+      \begin{bmatrix}
+        1 & 0 \\
+        0 & 0 \\
+        0 & 1
+      \end{bmatrix} &
+      \mtx{u} =
+      \begin{bmatrix}
+        v \\
+        \omega
+      \end{bmatrix}
+    \end{array}
+  \end{equation}
+
+  The Pareto optimal controller for this model is
+  $\mtx{u} = \mtx{K}(v) (\mtx{r} - \mtx{x})$ where
+
+  \begin{align}
+    \mtx{K}(v) &= \begin{bmatrix}
+      k_x & 0 & 0 \\
+      0 & k_y(v) \sign(v) & k_{\theta} \sqrt{|v|}
+    \end{bmatrix} \\
+    k_y(v) &= k_{y, 0} + (k_{y, 1} - k_{y, 0}) \sqrt{|v|} \\
+    \sign(v) &= \begin{cases}
+      -1 & v < 0 \\
+      0 & v = 0 \\
+      1 & v > 0
+    \end{cases}
+  \end{align}
+
+  Using $\mtx{K}$ computed via LQR at $v = 0$
+  \begin{figurekey}
+    \begin{tabular}{lllll}
+      $k_x = \mtx{K}_{1, 1}$ & $k_{y, 0} = \mtx{K}_{2, 2}$
+    \end{tabular}
+  \end{figurekey}
+
+  Using $\mtx{K}$ computed via LQR at $v = 1$
+  \begin{figurekey}
+    \begin{tabular}{lll}
+        $k_{y, 1} = \mtx{K}_{2, 2}$ & $k_{\theta} = \mtx{K}_{2, 3}$
+    \end{tabular}
+  \end{figurekey}
+\end{theorem}
