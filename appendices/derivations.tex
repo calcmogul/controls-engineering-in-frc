@@ -76,9 +76,9 @@ with the cost function
 
 where $J$ represents a trade-off between \gls{state} excursion and
 \gls{control effort} with the weighting factors $\mtx{Q}$, $\mtx{R}$, and
-$\mtx{N}$. $\mtx{Q}$ is the weighting factor for \gls{error}, $\mtx{R}$ is the
-weighting factor for \gls{control effort}, and $\mtx{N}$ is a cross term between
-\gls{error} and \gls{control effort}.
+$\mtx{N}$. $\mtx{Q}$ is the weight matrix for \gls{error}, $\mtx{R}$ is the
+weight matrix for \gls{control effort}, and $\mtx{N}$ is a cross weight matrix
+between \gls{error} and \gls{control effort}.
 
 \begin{align*}
   J &= \int\limits_0^\infty
