@@ -208,6 +208,9 @@ included in an appendix.
 
 * Add derivations for trapezoidal and S-curve profiles to the derivations
   appendix.
+* Add section on controllability/observability Grammian for determining which
+  states are uncontrollable/unobservable or which states are more/less
+  controllable/observable.
 * Add section on spline generation to complement motion profiling
   * Mention circular arc approximation
 * Import an LQR derivation based on Lagrange multipliers?
