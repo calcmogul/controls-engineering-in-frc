@@ -80,7 +80,7 @@ def main():
         refs.append(r)
 
     plt.figure(1)
-    x_rec, ref_rec, u_rec = flywheel.generate_time_responses(t, refs)
+    x_rec, ref_rec, u_rec, y_rec = flywheel.generate_time_responses(t, refs)
 
     plt.ylabel(flywheel.state_labels[0])
     plt.plot(t, flywheel.extract_row(x_rec, 0), label="Output")

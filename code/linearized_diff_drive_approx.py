@@ -285,7 +285,7 @@ def main():
     x = np.array([[refs[0][0, 0] + 0.5], [refs[0][1, 0] + 0.5], [np.pi / 2], [0], [0]])
     diff_drive = DifferentialDrive(dt, x)
 
-    state_rec, ref_rec, u_rec = diff_drive.generate_time_responses(t, refs)
+    state_rec, ref_rec, u_rec, y_rec = diff_drive.generate_time_responses(t, refs)
 
     plt.figure(1)
     x_rec = np.squeeze(np.asarray(state_rec[0, :]))

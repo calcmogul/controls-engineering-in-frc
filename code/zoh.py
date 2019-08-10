@@ -104,7 +104,7 @@ def main():
             r = np.array([[0.0], [0.0]])
         refs.append(r)
 
-    state_rec, ref_rec, u_rec = elevator.generate_time_responses(t, refs)
+    state_rec, ref_rec, u_rec, y_rec = elevator.generate_time_responses(t, refs)
     pos = elevator.extract_row(state_rec, 0)
 
     plt.figure(1)

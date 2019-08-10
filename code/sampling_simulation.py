@@ -88,7 +88,7 @@ def simulate(elevator, dt, method):
     elevator.sysd = elevator.sysc.sample(dt, method)
     elevator.x = np.zeros((elevator.x.shape[0], 1))
     elevator.x_hat = np.zeros((elevator.x_hat.shape[0], 1))
-    state_rec, ref_rec, u_rec = elevator.generate_time_responses(t, refs)
+    state_rec, ref_rec, u_rec, y_rec = elevator.generate_time_responses(t, refs)
 
     pos = elevator.extract_row(state_rec, 0)
     if method == "zoh":

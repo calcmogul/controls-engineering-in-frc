@@ -244,7 +244,9 @@ def main():
             [0], [0], linestyle="none", c=colors[1], marker="o"
         )
         ax.legend([scatter1_proxy, scatter2_proxy], [label1, label2], numpoints=1)
-    plt.show()
+
+    if "--noninteractive" not in sys.argv:
+        plt.show()
 
 
 if __name__ == "__main__":
