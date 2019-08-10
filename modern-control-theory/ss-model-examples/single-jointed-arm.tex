@@ -218,19 +218,32 @@ creates and tests a controller for it.
 \begin{remark}
   Python Control currently doesn't support finding the transmission zeroes of
   MIMO \glspl{system} with a different number of \glspl{input} than
-  \glspl{output}, so \texttt{control.pzmap()} and
+  \glspl{output}, so \texttt{control.zero()} and
   \texttt{frccontrol.System.plot\_pzmaps()} fail with an error if Slycot isn't
   installed.
 \end{remark}
 
-Figure \ref{fig:single_jointed_arm_pzmaps} shows the pole-zero maps for the
+Figures \ref{fig:single_jointed_arm_pzmap_open-loop} through
+\ref{fig:single_jointed_arm_pzmap_observer} show the pole-zero maps for the
 open-loop \gls{system}, closed-loop \gls{system}, and \gls{observer}. Figure
 \ref{fig:single_jointed_arm_response} shows the \gls{system} response with them.
 
-\begin{svg}{build/frccontrol/examples/single_jointed_arm_pzmaps}
-  \caption{Single-jointed arm pole-zero maps}
-  \label{fig:single_jointed_arm_pzmaps}
-\end{svg}
+\begin{bookfigure}
+  \begin{minisvg}{3}{build/frccontrol/examples/single_jointed_arm_pzmap_open-loop}
+    \caption{Single-jointed arm open-loop pole-zero map}
+    \label{fig:single_jointed_arm_pzmap_open-loop}
+  \end{minisvg}
+  \hfill
+  \begin{minisvg}{3}{build/frccontrol/examples/single_jointed_arm_pzmap_closed-loop}
+    \caption{Single-jointed arm closed-loop pole-zero map}
+    \label{fig:single_jointed_arm_pzmap_closed-loop}
+  \end{minisvg}
+  \hfill
+  \begin{minisvg}{3}{build/frccontrol/examples/single_jointed_arm_pzmap_observer}
+    \caption{Single-jointed arm observer pole-zero map}
+    \label{fig:single_jointed_arm_pzmap_observer}
+  \end{minisvg}
+\end{bookfigure}
 
 \begin{svg}{build/frccontrol/examples/single_jointed_arm_response}
   \caption{Single-jointed arm response}

@@ -22,7 +22,12 @@ ENV_PIP = os.path.join(root, "build/venv/bin/pip3")
 def run(name):
     subprocess.run([ENV_PYTHON, name, "--save-plots", "--noninteractive"])
     base = os.path.splitext(os.path.basename(name))[0]
-    for suffix in ["pzmaps", "response"]:
+    for suffix in [
+        "pzmap_open-loop",
+        "pzmap_closed-loop",
+        "pzmap_observer",
+        "response",
+    ]:
         subprocess.run(
             [
                 "inkscape",
@@ -44,10 +49,19 @@ os.chdir("build/python-control")
 subprocess.run([ENV_PIP, "install", "-e", "."])
 os.chdir(root)
 
+# Set up slycot (for control.StateSpace.zero())
+fetch_git_dependency(
+    repo="git://github.com/python-control/slycot",
+    commit="b89132c0abb4e7a1a77b10178fa2bd9783b40d41",
+)
+os.chdir("build/slycot")
+subprocess.run([ENV_PIP, "install", "-e", "."])
+os.chdir(root)
+
 # Set up frccontrol
 fetch_git_dependency(
     repo="git://github.com/calcmogul/frccontrol",
-    commit="2762add026e1f7018e9731edef97ee3d7ac3fa9d",
+    commit="e0af6d68fe3df393ea07b6e039e66203723bea1b",
 )
 os.chdir("build/frccontrol")
 subprocess.run([ENV_PIP, "install", "-e", "."])

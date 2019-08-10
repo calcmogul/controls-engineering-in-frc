@@ -62,6 +62,7 @@ To compile the book, the following packages are required.
 * biber (for generating bibliography)
 * python (for generating plots)
 * python-pip (for installing required Python packages)
+* gcc-fortran (to build slycot Python package)
 * inkscape (to convert SVGs to PDF)
 * ghostscript (to reduce size of final PDF for publishing)
 
@@ -77,6 +78,7 @@ To compile the book, the following packages are required.
 * biber (for generating bibliography)
 * python3 (for generating plots)
 * python3-pip (for installing required Python packages)
+* gfortran (to build slycot Python package)
 * inkscape (to convert SVGs to PDF)
 * ghostscript (to reduce size of final PDF for publishing)
 
@@ -86,15 +88,14 @@ These packages are installed via pip3 (e.g., `pip3 install --user frccontrol`).
 
 * frccontrol (to provide FRC wrappers for Python Control and generate plots and
   state-space results)
+* slycot (to generate pole-zero maps for certain state-space model examples)
 
-The book's build process automatically sets up frccontrol and control in a venv,
-so they don't have to be installed manually. Modifications to the contents of
-`build/frccontrol` and `build/python-control` will be reflected in any scripts
-which use the venv.
+The book's build process automatically sets these up in a venv so they don't
+have to be installed manually. Modifications to the Python package folders in
+`build` will be reflected in any scripts which use the venv.
 
 The following packages are optional because the book can compile without them.
 
-* slycot (to generate pole-zero maps for certain state-space model examples)
 * black (to format Python source code)
 
 ### Style guide
