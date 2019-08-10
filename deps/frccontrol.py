@@ -52,7 +52,7 @@ os.chdir(root)
 # Set up slycot (for control.StateSpace.zero())
 fetch_git_dependency(
     repo="git://github.com/python-control/slycot",
-    commit="b89132c0abb4e7a1a77b10178fa2bd9783b40d41",
+    commit="613f0800c77c1f766058e3af86d11820dadff7f2",
 )
 os.chdir("build/slycot")
 subprocess.run([ENV_PIP, "install", "-e", "."])
