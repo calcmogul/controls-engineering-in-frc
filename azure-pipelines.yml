@@ -11,10 +11,11 @@ jobs:
   - script: |
       sudo apt-get update -y
       sudo apt-get install -y latexmk texlive-xetex texlive-latex-extra \
-          texlive-generic-extra texlive-bibtex-extra biber inkscape ghostscript
+          texlive-generic-extra texlive-bibtex-extra biber gfortran \
+          libblas-dev liblapack-dev cmake inkscape ghostscript
     displayName: 'Install system dependencies'
   - script: |
-      pip3 install --user frccontrol black
+      pip3 install --user frccontrol black slycot
     displayName: 'Install Python packages'
   - script: |
       ./format_code.py

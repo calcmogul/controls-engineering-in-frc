@@ -18,10 +18,14 @@ def fetch_git_dependency(repo, commit):
         shutil.rmtree(f"build/{name}", ignore_errors=True)
     os.makedirs(f"build/{name}")
 
-    # Create new Git repository and fetch specified commit
+    # Create new Git repository
     os.chdir(f"build/{name}")
     subprocess.run(["git", "init", "--quiet"])
     subprocess.run(["git", "remote", "add", "origin", repo])
-    subprocess.run(["git", "fetch", "--quiet", "origin", commit])
-    subprocess.run(["git", "reset", "--quiet", "--hard", "FETCH_HEAD"])
+
+    # Fetch master first since desired commit is on master and GitHub doesn't
+    # allow fetches of specific commits that aren't pointed to by a ref
+    subprocess.run(["git", "fetch", "--quiet", "origin", "master"])
+
+    subprocess.run(["git", "checkout", "--quiet", commit])
     os.chdir("../..")

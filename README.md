@@ -62,7 +62,7 @@ To compile the book, the following packages are required.
 * biber (for generating bibliography)
 * python (for generating plots)
 * python-pip (for installing required Python packages)
-* gcc-fortran, cmake (to build slycot Python package)
+* gcc-fortran, blas, lapack, cmake (to build slycot Python package)
 * inkscape (to convert SVGs to PDF)
 * ghostscript (to reduce size of final PDF for publishing)
 
@@ -78,7 +78,7 @@ To compile the book, the following packages are required.
 * biber (for generating bibliography)
 * python3 (for generating plots)
 * python3-pip (for installing required Python packages)
-* gfortran, cmake (to build slycot Python package)
+* gfortran, libblas-dev, liblapack-dev, cmake (to build slycot Python package)
 * inkscape (to convert SVGs to PDF)
 * ghostscript (to reduce size of final PDF for publishing)
 
