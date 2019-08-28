@@ -124,16 +124,18 @@
 \input{\partpath/stochastic-control-theory}
 \input{\partpath/pose-estimation}
 
-\part{Kinematics and dynamics}
-\label{part:kinematics_and_dynamics}
-\renewcommand*{\partpath}{kinematics-and-dynamics}
+\part{System modeling}
+\label{part:system_modeling}
+\renewcommand*{\partpath}{system-modeling}
 \input{\partpath/calculus}
 \input{\partpath/dynamics}
 \input{\partpath/model-examples}
+\input{\partpath/system-identification}
 
 \part{Motion planning}
 \renewcommand*{\partpath}{motion-planning}
-\input{\partpath/motion-profiles}
+\input{\partpath/1-dof-motion-profiles}
+\input{\partpath/trajectory-optimization}
 
 \part{Appendices}
 \renewcommand{\chaptermark}[1]{\markboth{\sffamily\normalsize\bfseries\appendixname\ \thechapter.\ #1}{}}

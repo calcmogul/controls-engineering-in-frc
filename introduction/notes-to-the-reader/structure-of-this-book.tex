@@ -21,7 +21,7 @@ linear algebra are used to model and control linear multiple-input,
 multiple-output (MIMO) systems and covers discretization, LQR controller design,
 LQE observer design, and feedforwards. Then, these concepts are applied to
 design and implement controllers for real systems. The examples from part
-\ref{part:kinematics_and_dynamics} are converted to state-space representation,
+\ref{part:system_modeling} are converted to state-space representation,
 implemented, and tested with a discrete controller.
 
 Part II also introduces the basics of nonlinear control system analysis with
@@ -35,13 +35,16 @@ control theory. The Luenberger observer and the probability theory behind the
 Kalman filter is taught with several examples of creative applications of Kalman
 filter theory.
 
-Part IV, ``Kinematics and dynamics," introduces the basic calculus and physics
-concepts required to derive the models used in the previous chapters. It walks
-through the derivations for several common FRC subsystems.
+Part IV, ``System modeling," introduces the basic calculus and physics concepts
+required to derive the models used in the previous chapters. It walks through
+the derivations for several common FRC subsystems. Then, methods for system
+identification are discussed for empirically measuring model parameters.
 
 Part V, ``Motion planning," covers planning how the robot will get from its
 current state to some desired state in a manner achievable by its dynamics.
-Motion profiles are introduced.
+It introduces motion profiles with one degree of freedom for simple maneuvers.
+Trajectory optimization methods are presented for generating profiles with
+higher degrees of freedom.
 
 The appendices provide further enrichment that isn't required for a passing
 understanding of the material. This includes derivations for many of the results
