@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 
-"""Ensure every .tex file is transitively included by state-space-guide.tex"""
+"""Ensure every .tex file is transitively included by
+controls-engineering-in-frc.tex
+"""
 
 import os
 import re
 import sys
 
-ROOT = "state-space-guide.tex"
+ROOT = "controls-engineering-in-frc.tex"
 files = [
     os.path.join(dp, f)[2:]
     for dp, dn, fn in os.walk(".")
@@ -73,7 +75,8 @@ def visit(filename):
                 error_occurred = True
 
 
-# Start at state-space-guide.tex and perform depth-first search of file includes
+# Start at controls-engineering-in-frc.tex and perform depth-first search of
+# file includes
 visit(ROOT)
 
 if not all(node.visited for node in nodes.values()):

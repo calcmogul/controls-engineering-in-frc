@@ -21,7 +21,7 @@ systems.
 ## Download
 
 A PDF version is available at
-https://file.tavsys.net/control/state-space-guide.pdf.
+https://file.tavsys.net/control/controls-engineering-in-frc.pdf.
 
 ## Running the examples
 
@@ -47,7 +47,7 @@ installed to see the plots.
 ## Compiling the book
 
 After installing the dependencies, just run `make`. It will produce a PDF named
-state-space-guide.pdf.
+controls-engineering-in-frc.pdf.
 
 ### Dependencies
 
@@ -111,7 +111,8 @@ name. The words in the name should be lowercase, and the description should
 start with a capital letter and end with a period. The first sentence should be
 a fragment, but sentences after that, if applicable, should be complete.
 
-Bibliography entries in [state-space-guide.bib](state-space-guide.bib) should be
+Bibliography entries in
+[controls-engineering-in-frc.bib](controls-engineering-in-frc.bib) should be
 sorted lexographically by label. Links to online videos should use the `@misc`
 tag. Links to online static resources like PDFs should use the `@online` tag.
 
@@ -176,7 +177,7 @@ Ramsete improvements
 Add "Partial derivative" to calculus methods appendix.
 
 Add mecanum and swerve kinematics derivations
-* See ~/frc/state-space-guide/mecanum-kinematics
+* See ~/frc/controls-engineering-in-frc/mecanum-kinematics
 * Inverse kinematics derivations?
 * Show going from one to the other with pseudoinverse?
 

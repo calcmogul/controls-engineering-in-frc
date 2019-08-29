@@ -35,9 +35,9 @@ jobs:
       git checkout pr
 
       make -j$(nproc) ebook
-      cp state-space-guide-ebook.pdf $(Build.ArtifactStagingDirectory)/state-space-guide.pdf
+      cp controls-engineering-in-frc-ebook.pdf $(Build.ArtifactStagingDirectory)/controls-engineering-in-frc.pdf
     displayName: 'Generate PDF'
   - task: PublishBuildArtifacts@1
     inputs:
       pathtoPublish: '$(Build.ArtifactStagingDirectory)'
-      artifactName: state-space-guide.pdf
+      artifactName: controls-engineering-in-frc.pdf

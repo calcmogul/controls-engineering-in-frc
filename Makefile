@@ -1,4 +1,4 @@
-NAME := state-space-guide
+NAME := controls-engineering-in-frc
 
 DEPS := $(wildcard deps/*.py)
 DEPS_STAMP := $(DEPS:.py=.stamp)
@@ -86,7 +86,7 @@ build/commit-year.tex: .git/refs/heads/master .git/HEAD
 	date -d @`git log -1 --format=%at` +%Y > build/commit-year.tex
 
 build/commit-hash.tex: .git/refs/heads/master .git/HEAD
-	echo "\href{https://github.com/calcmogul/state-space-guide/commit/`git rev-parse --short HEAD`}{commit `git rev-parse --short HEAD`}" > build/commit-hash.tex
+	echo "\href{https://github.com/calcmogul/$(NAME)/commit/`git rev-parse --short HEAD`}{commit `git rev-parse --short HEAD`}" > build/commit-hash.tex
 
 $(DEPS_STAMP): build/%.stamp: %.py
 	@mkdir -p $(@D)
