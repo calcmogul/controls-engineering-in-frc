@@ -9,10 +9,7 @@ jobs:
       versionSpec: '3.6'
       architecture: 'x64'
   - script: |
-      sudo apt-get update -y
-      sudo apt-get install -y latexmk texlive-xetex texlive-latex-extra \
-          texlive-generic-extra texlive-bibtex-extra biber gfortran \
-          libblas-dev liblapack-dev cmake inkscape ghostscript
+      make setup_ubuntu
     displayName: 'Install system dependencies'
   - script: |
       pip3 install --user frccontrol black slycot

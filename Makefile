@@ -115,3 +115,35 @@ clean_tex:
 .PHONY: upload
 upload: ebook
 	rsync --progress $(NAME)-ebook.pdf file.tavsys.net:/srv/file/control/$(NAME).pdf
+
+.PHONY: setup_arch
+setup_arch:
+	sudo pacman -Sy --needed \
+		base-devel \
+		texlive-core \
+		texlive-latexextra \
+		texlive-bibtexextra \
+		biber \
+		python \
+		python-pip \
+		gcc-fortran blas lapack cmake \
+		inkscape \
+		ghostscript
+
+.PHONY: setup_ubuntu
+setup_ubuntu:
+	sudo apt-get update -y
+	sudo apt-get install -y \
+		build-essential \
+		latexmk \
+		texlive-xetex \
+		texlive-latex-extra \
+		texlive-generic-extra \
+		texlive-bibtex-extra \
+		xelatex \
+		biber \
+		python3 \
+		python3-pip \
+		gfortran libblas-dev liblapack-dev cmake \
+		inkscape \
+		ghostscript

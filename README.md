@@ -55,6 +55,8 @@ To compile the book, the following packages are required.
 
 #### Arch Linux
 
+These can be installed via `make setup_arch`.
+
 * base-devel (for `make` to run the makefile)
 * texlive-core (for latexmk and xelatex)
 * texlive-latexextra (for bibtex and makeglossaries)
@@ -63,10 +65,12 @@ To compile the book, the following packages are required.
 * python (for generating plots)
 * python-pip (for installing required Python packages)
 * gcc-fortran, blas, lapack, cmake (to build slycot Python package)
-* inkscape (to convert SVGs to PDF)
+* inkscape (to convert SVGs to PDFs)
 * ghostscript (to reduce size of final PDF for publishing)
 
 #### Ubuntu
+
+These can be installed via `make setup_ubuntu`.
 
 * build-essential (for `make` to run the makefile)
 * latexmk
@@ -79,7 +83,7 @@ To compile the book, the following packages are required.
 * python3 (for generating plots)
 * python3-pip (for installing required Python packages)
 * gfortran, libblas-dev, liblapack-dev, cmake (to build slycot Python package)
-* inkscape (to convert SVGs to PDF)
+* inkscape (to convert SVGs to PDFs)
 * ghostscript (to reduce size of final PDF for publishing)
 
 #### Python packages
