@@ -201,13 +201,13 @@ Therefore,
   \end{equation}
 \end{theorem}
 
-Notice that in this \gls{model}, the \gls{output} isn't a \gls{state}. To
-estimate the full \gls{state}, the only requirement our \gls{observer} places on
-our \glspl{output} is that they can be computed via a linear combination of the
-\glspl{state}\footnote{While the flywheel model's outputs are a linear
-combination of both the states and inputs, \glspl{input} don't provide new
-information about the \glspl{state}. Therefore, they don't affect whether the
-system is observable.}. We'll revisit this in chapter
+Notice that in this \gls{model}, the \gls{output} doesn't provide any direct
+measurements of the \gls{state}. To estimate the full \gls{state} (alsa known as
+full observability), we only need the \glspl{output} to collectively include
+linear combinations of every \gls{state}\footnote{While the flywheel model's
+outputs are a linear combination of both the states and inputs, \glspl{input}
+don't provide new information about the \glspl{state}. Therefore, they don't
+affect whether the system is observable.}. We'll revisit this in chapter
 \ref{ch:stochastic_control_theory} with an example that uses range measurements
 to estimate an object's orientation.
 

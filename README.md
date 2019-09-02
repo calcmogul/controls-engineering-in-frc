@@ -5,11 +5,11 @@ I originally wrote this as a final project for an undergraduate technical
 writing class I took at University of California, Santa Cruz in Spring 2017
 ([CMPE 185](https://cmpe185-spring17-01.courses.soe.ucsc.edu/)). It is intended
 as a digest of graduate-level control theory aimed at veteran FIRST Robotics
-Competition (FRC) students who know algebra and a bit of physics and are
-comfortable with the concept of a PID controller. As I learned the subject of
-control theory, I found that it wasn't particularly difficult, but very few
-resources exist outside of academia for learning it. This book is intended to
-rectify that situation by providing a lower the barrier to entry to the field.
+Competition (FRC) students who know algebra and a bit of physics. As I learned
+the subject of control theory, I found that it wasn't particularly difficult,
+but very few resources exist outside of academia for learning it. This book is
+intended to rectify that situation by providing a lower the barrier to entry to
+the field.
 
 This book reads a lot like a reference manual on control theory and related
 tools. It teaches the reader how to start designing and implementing control
@@ -165,7 +165,7 @@ Add stubs for missing chapters, missing sections, and todo items.
   * Simulate flywheel with stochastic force applied to slow it down (simulates
     shots)
   * Try P controller, PD controller, P + FF, PD + FF, and P + FF + u_error
-* Expand the implementation steps section on writing unit tests in Google Test.
+* Add links to implementations
 
 #### State-space model examples
 
