@@ -153,7 +153,6 @@ def main():
 
     # Run LQR
     state_rec, ref_rec, u_rec, y_rec = drivetrain.generate_time_responses(t, refs)
-    plt.figure(1)
     subplot_max = drivetrain.sysd.states + drivetrain.sysd.inputs
     for i in range(drivetrain.sysd.states):
         plt.subplot(subplot_max, 1, i + 1)

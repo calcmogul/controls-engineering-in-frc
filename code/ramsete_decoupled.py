@@ -163,7 +163,6 @@ def main():
 
     # Run LQR
     state_rec, ref_rec, u_rec, y_rec = drivetrain.generate_time_responses(t, refs)
-    plt.figure(1)
     drivetrain.plot_time_responses(t, state_rec, ref_rec, u_rec)
     if "--noninteractive" in sys.argv:
         latex.savefig("ramsete_decoupled_vel_lqr_profile")
