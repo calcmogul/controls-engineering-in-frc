@@ -1,0 +1,29 @@
+[
+    {
+        "commit": "7fa04016bf0d7d587cc9b8c81058c9aafc71c4fa",
+        "depends": [
+            "control",
+            "slycot"
+        ],
+        "name": "frccontrol",
+        "posthooks": [
+            "deps/frccontrol_examples.py"
+        ],
+        "repo": "git://github.com/calcmogul/frccontrol"
+    },
+    {
+        "commit": "129a05364aa94e35b9ea02f81292d555f27e2b69",
+        "depends": [],
+        "name": "control",
+        "posthooks": [],
+        "repo": "git://github.com/python-control/python-control"
+    },
+    {
+        "comment": "for control.StateSpace.zero()",
+        "commit": "2f31897759d2f7fa9909fecdefc73abfa5a5917e",
+        "depends": [],
+        "name": "slycot",
+        "posthooks": [],
+        "repo": "git://github.com/python-control/slycot"
+    }
+]

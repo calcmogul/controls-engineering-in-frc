@@ -1,7 +1,7 @@
 NAME := controls-engineering-in-frc
 
-DEPS := $(wildcard deps/*.py)
-DEPS_STAMP := $(DEPS:.py=.stamp)
+DEPS_JSON := $(wildcard deps/*.json)
+DEPS_STAMP := $(DEPS_JSON:.json=.stamp)
 DEPS_STAMP := $(addprefix build/,$(DEPS_STAMP))
 
 # Make does not offer a recursive wildcard function, so here's one:
@@ -88,9 +88,9 @@ build/commit-year.tex: .git/refs/heads/master .git/HEAD
 build/commit-hash.tex: .git/refs/heads/master .git/HEAD
 	echo "\href{https://github.com/calcmogul/$(NAME)/commit/`git rev-parse --short HEAD`}{commit `git rev-parse --short HEAD`}" > build/commit-hash.tex
 
-$(DEPS_STAMP): build/%.stamp: %.py
+$(DEPS_STAMP): build/%.stamp: %.json
 	@mkdir -p $(@D)
-	$(ROOT)/$<
+	$(ROOT)/deps/pkg.py
 	touch $@
 
 # This rule places CSVs into the build folder so scripts executed from the build

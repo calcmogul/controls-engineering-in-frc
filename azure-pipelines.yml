@@ -23,7 +23,7 @@ jobs:
       make setup_ubuntu
     displayName: 'Install system dependencies'
   - script: |
-      pip3 install --user frccontrol black slycot
+      pip3 install --user black
     displayName: 'Install Python packages'
   - script: |
       # Make sure .git/refs/heads/master exists
