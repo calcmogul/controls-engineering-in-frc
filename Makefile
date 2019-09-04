@@ -140,7 +140,6 @@ setup_ubuntu:
 		texlive-latex-extra \
 		texlive-generic-extra \
 		texlive-bibtex-extra \
-		xelatex \
 		biber \
 		python3 \
 		python3-pip \

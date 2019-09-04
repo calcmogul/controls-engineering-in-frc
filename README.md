@@ -78,7 +78,6 @@ These can be installed via `make setup_ubuntu`.
 * texlive-latex-extra (for bibtex and makeglossaries)
 * texlive-generic-extra (for miscellaneous LaTeX .sty files)
 * texlive-bibtex-extra (for additional BibTeX styles and bibliography databases)
-* xelatex (for setting and using custom fonts)
 * biber (for generating bibliography)
 * python3 (for generating plots)
 * python3-pip (for installing required Python packages)
