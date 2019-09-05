@@ -189,7 +189,7 @@ Add stubs for missing chapters, missing sections, and todo items.
   * Try deriving all models using Lagrangian mechanics instead and introduce
     manipulator equations
     * See [this post](https://studywolf.wordpress.com/2013/09/07/robot-control-3-accounting-for-mass-and-gravity/)
-      and previous post on jacobians
+      and previous post on Jacobians
 * Add troubleshooting advice for models/impls.
 * Add "Partial derivative" to calculus methods appendix.
 * Finish chapters on calculus and dynamics.
@@ -253,10 +253,6 @@ included in an appendix.
 #### Nonlinear control
 
 * Make ramsete_traj.py use frccontrol's update_plant() and update_controller()
-
-#### Stochastic control theory
-
-* Explain how equation 10.1 results in equation 10.2
 
 #### System modeling
 

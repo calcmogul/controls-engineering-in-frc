@@ -17,33 +17,43 @@ error.
 \subsubsection{\textit{a posteriori} estimate covariance matrix}
 
 \begin{align*}
-  \mtx{P}_{k+1}^+ &= cov(\mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1}^+) \\
-  \mtx{P}_{k+1}^+ &= cov(\mtx{x}_{k+1} - (\hat{\mtx{x}}_{k+1}^- +
-    \mtx{K}_{k+1}(\mtx{y}_{k+1} - \mtx{H} \hat{\mtx{x}}_{k+1}^-))) \\
-  \mtx{P}_{k+1}^+ &= cov(\mtx{x}_{k+1} - (\hat{\mtx{x}}_{k+1}^- +
+  \mtx{P}_{k+1}^+ &= \cov(\mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1}^+) \\
+  \mtx{P}_{k+1}^+ &= \cov(\mtx{x}_{k+1} - (\hat{\mtx{x}}_{k+1}^- +
+    \mtx{K}_{k+1}(\mtx{y}_{k+1} - \mtx{H}_{k+1} \hat{\mtx{x}}_{k+1}^-))) \\
+  \mtx{P}_{k+1}^+ &= \cov(\mtx{x}_{k+1} - (\hat{\mtx{x}}_{k+1}^- +
     \mtx{K}_{k+1}(\mtx{H}_{k+1}\mtx{x}_{k+1} + \mtx{v}_{k+1} -
-    \mtx{H} \hat{\mtx{x}}_{k+1}^-))) \\
-  \mtx{P}_{k+1}^+ &= cov(\mtx{x}_{k+1} - (\hat{\mtx{x}}_{k+1}^- +
+    \mtx{H}_{k+1} \hat{\mtx{x}}_{k+1}^-))) \\
+  \mtx{P}_{k+1}^+ &= \cov(\mtx{x}_{k+1} - (\hat{\mtx{x}}_{k+1}^- +
     \mtx{K}_{k+1}\mtx{H}_{k+1}\mtx{x}_{k+1} + \mtx{K}_{k+1}\mtx{v}_{k+1} -
-    \mtx{K}_{k+1}\mtx{H} \hat{\mtx{x}}_{k+1}^-)) \\
-  \mtx{P}_{k+1}^+ &= cov(\mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1}^- -
+    \mtx{K}_{k+1}\mtx{H}_{k+1} \hat{\mtx{x}}_{k+1}^-)) \\
+  \mtx{P}_{k+1}^+ &= \cov(\mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1}^- -
     \mtx{K}_{k+1}\mtx{H}_{k+1}\mtx{x}_{k+1} - \mtx{K}_{k+1}\mtx{v}_{k+1} +
-    \mtx{K}_{k+1}\mtx{H} \hat{\mtx{x}}_{k+1}^-) \\
-  \mtx{P}_{k+1}^+ &= cov(\mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1}^- -
+    \mtx{K}_{k+1}\mtx{H}_{k+1} \hat{\mtx{x}}_{k+1}^-)
+\end{align*}
+
+Factor out $\mtx{K}_{k+1} \mtx{H}_{k+1}$.
+
+\begin{equation*}
+  \mtx{P}_{k+1}^+ = \cov(\mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1}^- -
     \mtx{K}_{k+1}\mtx{H}_{k+1}(\mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1}^-) -
-    \mtx{K}_{k+1}\mtx{v}_{k+1}) \\
-  \mtx{P}_{k+1}^+ &= cov((\mtx{I} - \mtx{K}_{k+1}\mtx{H}_{k+1})
+    \mtx{K}_{k+1}\mtx{v}_{k+1})
+\end{equation*}
+
+Factor out $\mtx{I} - \mtx{K}_{k+1} \mtx{H}_{k+1}$.
+
+\begin{align*}
+  \mtx{P}_{k+1}^+ &= \cov((\mtx{I} - \mtx{K}_{k+1}\mtx{H}_{k+1})
     (\mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1}^-) - \mtx{K}_{k+1}\mtx{v}_{k+1}) \\
-  \mtx{P}_{k+1}^+ &= cov((\mtx{I} - \mtx{K}_{k+1}\mtx{H}_{k+1})
-    (\mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1}^-)) + cov(\mtx{K}_{k+1}\mtx{v}_{k+1})
+  \mtx{P}_{k+1}^+ &= \cov((\mtx{I} - \mtx{K}_{k+1}\mtx{H}_{k+1})
+    (\mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1}^-)) + \cov(\mtx{K}_{k+1}\mtx{v}_{k+1})
     \\
   \mtx{P}_{k+1}^+ &= (\mtx{I} - \mtx{K}_{k+1}\mtx{H}_{k+1})
-    cov(\mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1}^-)
+    \cov(\mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1}^-)
     (\mtx{I} - \mtx{K}_{k+1}\mtx{H}_{k+1})^T + \mtx{K}_{k+1}cov(\mtx{v}_{k+1})
     \mtx{K}_{k+1}^T \\
   \mtx{P}_{k+1}^+ &= (\mtx{I} - \mtx{K}_{k+1}\mtx{H}_{k+1})\mtx{P}_{k+1}^-
     (\mtx{I} - \mtx{K}_{k+1}\mtx{H}_{k+1})^T + \mtx{K}_{k+1}\mtx{R}_{k+1}
-    \mtx{K}_{k+1}^T \\
+    \mtx{K}_{k+1}^T
 \end{align*}
 
 \subsubsection{Kalman gain}

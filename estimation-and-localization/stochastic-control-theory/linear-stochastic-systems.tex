@@ -84,7 +84,12 @@ evolves.
   \mtx{P}_{k+1} =~& \mtx{\Phi}\mtx{P}_k\mtx{\Phi}^T +
     \mtx{\Phi}E[(\mtx{x}_k - \meanmtx{x}_k)\mtx{w}_k^T]\mtx{\Gamma}^T + \\
     &\mtx{\Gamma} E[\mtx{w}_k(\mtx{x}_k - \meanmtx{x}_k)^T]\mtx{\Phi}^T +
-    \mtx{\Gamma}\mtx{Q}_k\mtx{\Gamma}_k^T \\
+    \mtx{\Gamma}\mtx{Q}_k\mtx{\Gamma}_k^T
+\end{align*}
+
+Since the state and noise are independent, the cross terms are zero.
+
+\begin{align*}
   \mtx{P}_{k+1} =~& \mtx{\Phi}\mtx{P}_k\mtx{\Phi}^T + 0 + 0 +
     \mtx{\Gamma}\mtx{Q}_k\mtx{\Gamma}^T \\
   \mtx{P}_{k+1} =~& \mtx{\Phi}\mtx{P}_k\mtx{\Phi}^T +

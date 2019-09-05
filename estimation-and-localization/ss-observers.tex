@@ -12,8 +12,9 @@ world.
 
 One type of \gls{state} estimator is LQE. ``LQE" stands for ``Linear-Quadratic
 Estimator". Similar to LQR, it places the estimator poles such that it minimizes
-the sum of squares of the \gls{error}. The Luenberger \gls{observer} and Kalman
-filter are examples of these.
+the sum of squares of the estimation \gls{error}. The Luenberger \gls{observer}
+and Kalman filter are examples of these, where the latter chooses the pole
+locations optimally based on the \gls{model} and measurement uncertainties.
 
 Computer vision can also be used for \gls{localization}. By extracting features
 from an image taken by the \gls{agent}'s camera, like a retroreflective target

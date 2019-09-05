@@ -5,19 +5,21 @@
 \index{Probability!random variables}
 
 A random variable is a variable whose values are the outcomes of a random
-phenomenon. As such, a random variable is defined as a function that maps the
-outcomes of an unpredictable process to numerical quantities. A particular
-output of this function is called a sample. The sample space is the set of
-possible values taken by the random variable.
+phenomenon, like dice rolls or noisy process measurements. As such, a random
+variable is defined as a function that maps the outcomes of an unpredictable
+process to numerical quantities. A particular output of this function is called
+a sample. The sample space is the set of possible values taken by the random
+variable.
 
 \index{Probability!probability density function}
-A probability density function (PDF) is a function whose value at any given
-sample in the sample space is the probability of the value of the random
-variable equaling that sample. The area under the function over a range gives
-the probability that the sample falls within that range. Let $x$ be a random
-variable, and let $p(x)$ denote the probability density function of $x$. The
-probability that the value of $x$ will be in the interval
-$x \in [x_1, x_1 + dx]$ is $p(x_1) \,dx_1$ (see figure \ref{fig:pdf}).
+A probability density function (PDF) is a function of the random variable whose
+value at a given sample (measured value) in the sample space (the range of
+possible measured values) is the probability of that sample occurrring. The area
+under the function over a range gives the probability that the sample falls
+within that range. Let $x$ be a random variable, and let $p(x)$ denote the
+probability density function of $x$. The probability that the value of $x$ will
+be in the interval $x \in [x_1, x_1 + dx]$ is $p(x_1) \,dx_1$ (see figure
+\ref{fig:pdf}).
 
 \begin{svg}{build/code/pdf}
   \caption{Probability density function}
@@ -28,17 +30,20 @@ A probability of zero means that the sample will not occur and a probability of
 one means that the sample will always occur. Probability density functions
 require that no probabilities are negative and that the sum of all probabilities
 is $1$. If the probabilities sum to $1$, that means one of those outcomes
-\textit{must} happen.
+\textit{must} happen. In other words,
 
 \begin{equation*}
   p(x) \geq 0, \int_{-\infty}^\infty p(x) \,dx = 1
 \end{equation*}
 
+or given that the probability of a given sample is greater than or equal to
+zero, the sum of probabilities for all possible input values is equal to one.
+
 \subsection{Expected value}
 \index{Probability!expected value}
 
 Expected value or expectation is a weighted average of the values the PDF can
-produce where the weight for each is the corresponding probability of that value
+produce where the weight for each value is the probability of that value
 occurring. This can be written mathematically as
 
 \begin{equation*}
@@ -51,10 +56,10 @@ The expectation can be applied to random functions as well as random variables.
   E[f(x)] = \int_{-\infty}^\infty f(x) \,p(x) \,dx
 \end{equation*}
 
-The mean of a random variable is denoted by an overbar (e.g., $\overline{x}$).
-The expectation of the difference between a random variable and its mean
-converges to zero. In other words, the expectation of a random variable is its
-mean.
+The mean of a random variable is denoted by an overbar (e.g., $\overline{x}$)
+pronounced x-bar. The expectation of the difference between a random variable
+and its mean $x - \overline{x}$ converges to zero. In other words, the
+expectation of a random variable is its mean. Here's a proof.
 
 \begin{align*}
   E[x - \overline{x}] &= \int_{-\infty}^\infty (x - \overline{x}) \,p(x) \,dx \\
@@ -71,14 +76,19 @@ mean.
 
 Informally, variance is a measure of how far the outcome of a random variable
 deviates from its mean. Later, we will use variance to quantify how confident we
-are in the estimate of a random variable. The standard deviation is the square
-root of the variance.
+are in the estimate of a random variable; we can't know the true value of that
+variable without randomness, but we can give a bound on its randomness.
 
-\begin{align*}
-  var(x) &= \sigma^2 = E[(x - \overline{x})^2] =
-    \int_{-\infty}^{\infty} (x - \overline{x})^2 \,p(x) \,dx \\
-  std[x] &= \sigma = \sqrt{var(x)}
-\end{align*}
+\begin{equation*}
+  \var(x) = \sigma^2 = E[(x - \overline{x})^2] =
+    \int_{-\infty}^{\infty} (x - \overline{x})^2 \,p(x) \,dx
+\end{equation*}
+
+The standard deviation is the square root of the variance.
+
+\begin{equation*}
+  \std[x] = \sigma = \sqrt{\var(x)}
+\end{equation*}
 
 \subsection{Joint probability density functions}
 \index{Probability!probability density functions}
@@ -110,13 +120,14 @@ The expected values for joint PDFs are as follows.
   E[f(x, y)] &= \int_{-\infty}^\infty \int_{-\infty}^{\infty} f(x, y) \,dx \,dy
 \end{align*}
 
-The variance of a joint PDF measures how a variable correlates with itself.
+The variance of a joint PDF measures how a variable correlates with itself
+(we'll cover variances with respect to other variables shortly).
 
 \begin{align*}
-  var(x) &= \Sigma_{xx} = E[(x - \overline{x})^2] =
+  \var(x) &= \Sigma_{xx} = E[(x - \overline{x})^2] =
     \int_-\infty^{\infty} \int_{-\infty}^\infty (x - \overline{y})^2 \,p(x, y)
     \,dx \,dy \\
-  var(y) &= \Sigma_{yy} = E[(y - \overline{y})^2] =
+  \var(y) &= \Sigma_{yy} = E[(y - \overline{y})^2] =
     \int_{-\infty}^\infty \int_{-\infty}^\infty (y - \overline{y})^2 \,p(x, y)
     \,dx \,dy \\
 \end{align*}
@@ -129,19 +140,23 @@ vary in the same direction, the covariance increases. If they vary in opposite
 directions, the covariance decreases.
 
 \begin{equation*}
-  cov(x, y) = \Sigma_{xy} = E[(x - \overline{x})(y - \overline{y})] =
+  \cov(x, y) = \Sigma_{xy} = E[(x - \overline{x})(y - \overline{y})] =
     \int_{-\infty}^\infty \int_{-\infty}^\infty (x - \overline{y})
     (y - \overline{y}) \,p(x, y) \,dx \,dy \\
 \end{equation*}
 
 \subsection{Correlation}
 
-Correlation is defined as
+Two random variables are correlated if the result of one random variable affects
+the result of another. Correlation is defined as
 
 \begin{equation*}
   \rho(x, y) = \frac{\Sigma_{xy}}{\sqrt{\Sigma_{xx}\Sigma_{yy}}}, |\rho(x, y)|
     \leq 1
 \end{equation*}
+
+So two variable's correlation is defined as their covariance over the geometric
+mean of their variances. Uncorrelated sources have a covariance of zero.
 
 \subsection{Independence}
 
@@ -166,12 +181,13 @@ assume independence,
 \end{align*}
 
 \begin{align*}
-  cov(x, y) &= E[(x - \overline{x})(y - \overline{y})] \\
-  cov(x, y) &= E[(x - \overline{x})]E[(y - \overline{y})] \\
-  cov(x, y) &= 0 \cdot 0 \\
+  \cov(x, y) &= E[(x - \overline{x})(y - \overline{y})] \\
+  \cov(x, y) &= E[(x - \overline{x})]E[(y - \overline{y})] \\
+  \cov(x, y) &= 0 \cdot 0 \\
 \end{align*}
 
-Therefore, the covariance $\Sigma_{xy}$ is zero. Furthermore, $\rho(x, y) = 0$.
+Therefore, the covariance $\Sigma_{xy}$ is zero, as expected. Furthermore,
+$\rho(x, y) = 0$, which means they are uncorrelated.
 
 \subsection{Marginal probability density functions}
 \index{Probability!marginal probability density functions}
@@ -232,8 +248,8 @@ variables.
 \index{Probability!conditional variances}
 
 \begin{align*}
-  var(x|y) &= E[(x - E[x|y])^2|y] \\
-  var(x|y) &= \int_{-\infty}^\infty (x - E[x|y])^2 \,p(x|y) \,dx
+  \var(x|y) &= E[(x - E[x|y])^2|y] \\
+  \var(x|y) &= \int_{-\infty}^\infty (x - E[x|y])^2 \,p(x|y) \,dx
 \end{align*}
 
 \subsection{Random vectors}
@@ -273,13 +289,13 @@ density $p(x_1, x_2, \ldots, x_n)$. The expectation is
 The covariance matrix for a random vector $\mtx{x} \in \mathbb{R}^n$ is
 
 \begin{align*}
-  \mtx{\Sigma} &= cov(\mtx{x}, \mtx{x}) = E[(\mtx{x} - \meanmtx{x})
+  \mtx{\Sigma} &= \cov(\mtx{x}, \mtx{x}) = E[(\mtx{x} - \meanmtx{x})
     (\mtx{x} - \meanmtx{x})^T] \\
   \mtx{\Sigma} &= \begin{bmatrix}
-    cov(x_1, x_1) & cov(x_1, x_2) & \ldots & cov(x_1, x_n) \\
-    cov(x_2, x_1) & cov(x_1, x_2) & \ldots & cov(x_1, x_n) \\
+    \cov(x_1, x_1) & \cov(x_1, x_2) & \ldots & \cov(x_1, x_n) \\
+    \cov(x_2, x_1) & \cov(x_1, x_2) & \ldots & \cov(x_1, x_n) \\
     \vdots        & \vdots        & \vdots & \vdots \\
-    cov(x_n, x_1) & cov(x_n, x_2) & \ldots & cov(x_n, x_n) \\
+    \cov(x_n, x_1) & \cov(x_n, x_2) & \ldots & \cov(x_n, x_n) \\
   \end{bmatrix}
 \end{align*}
 
@@ -302,7 +318,7 @@ $p(\mtx{x}, \mtx{y}) = p(\mtx{x}) \,p(\mtx{y})$.
 Second, independent vectors being uncorrelated means their covariance is zero.
 
 \begin{align}
-  \mtx{\Sigma}_{\mtx{x}\mtx{y}} &= cov(\mtx{x}, \mtx{y}) \nonumber \\
+  \mtx{\Sigma}_{\mtx{x}\mtx{y}} &= \cov(\mtx{x}, \mtx{y}) \nonumber \\
   \mtx{\Sigma}_{\mtx{x}\mtx{y}} &= E[(\mtx{x} - \meanmtx{x})
     (\mtx{y} - \meanmtx{y})^T] \nonumber \\
   \mtx{\Sigma}_{\mtx{x}\mtx{y}} &= E[\mtx{x}\mtx{y}^T] -
@@ -320,11 +336,23 @@ Second, independent vectors being uncorrelated means their covariance is zero.
 
 Now, compute $E[\mtx{x}\mtx{y}^T]$.
 
+\begin{equation*}
+  E[\mtx{x}\mtx{y}^T] = \int_X \int_Y \mtx{x}\mtx{y}^T \,p(\mtx{x})
+    \,p(\mtx{y}) \,d\mtx{x} \,d\mtx{y}^T
+\end{equation*}
+
+Factor out constants from the inner integral. This includes variables which are
+held constant for each inner integral evaluation.
+
+\begin{equation*}
+  E[\mtx{x}\mtx{y}^T] = \int_X p(\mtx{x}) \,\mtx{x} \,d\mtx{x}
+    \int_Y p(\mtx{y}) \,\mtx{y}^T \,d\mtx{y}^T
+\end{equation*}
+
+Each of these integrals is just the expected value of their respective
+integration variable.
+
 \begin{align}
-  E[\mtx{x}\mtx{y}^T] &= \int_X \int_Y \mtx{x}\mtx{y}^T \,p(\mtx{x})
-    \,p(\mtx{y}) \,d\mtx{x} \,d\mtx{y}^T \nonumber \\
-  E[\mtx{x}\mtx{y}^T] &= \int_X p(\mtx{x}) \,\mtx{x} \,d\mtx{x}
-    \int_Y p(\mtx{y}) \,\mtx{y}^T \,d\mtx{y}^T \nonumber \\
   E[\mtx{x}\mtx{y}^T] &= \meanmtx{x}\meanmtx{y}^T \label{eq:prb_exyt}
 \end{align}
 
@@ -337,11 +365,10 @@ Substitute equation (\ref{eq:prb_exyt}) into equation (\ref{eq:prb_sigma}).
 \end{align*}
 
 Using these results, we can compute the covariance of
-$\mtx{z} = \mtx{A}\mtx{x} + \mtx{B}\mtx{y}$ where $\Sigma_{xy} = 0$,
-$\Sigma_x = cov(\mtx{x}, \mtx{x})$, and $\Sigma_y = cov(\mtx{y}, \mtx{y})$.
+$\mtx{z} = \mtx{A}\mtx{x} + \mtx{B}\mtx{y}$.
 
 \begin{align*}
-  \Sigma_z =~& cov(\mtx{z}, \mtx{z}) \\
+  \Sigma_z =~& \cov(\mtx{z}, \mtx{z}) \\
   \Sigma_z =~& E[(\mtx{z} - \meanmtx{z})(\mtx{z} - \meanmtx{z})^T] \\
   \Sigma_z =~& E[(\mtx{A}\mtx{x} + \mtx{B}\mtx{y} - \mtx{A}\meanmtx{x} -
     \mtx{B}\meanmtx{y})(\mtx{A}\mtx{x} + \mtx{B}\mtx{y} -
@@ -361,7 +388,8 @@ $\Sigma_x = cov(\mtx{x}, \mtx{x})$, and $\Sigma_y = cov(\mtx{y}, \mtx{y})$.
     \mtx{B}(\mtx{y} - \meanmtx{y})(\mtx{y} - \meanmtx{y})^T\mtx{B}^T]
 \end{align*}
 
-Since $\mtx{x}$ and $\mtx{y}$ are independent,
+Since $\mtx{x}$ and $\mtx{y}$ are independent, $\Sigma_{xy} = 0$ and the cross
+terms cancel out.
 
 \begin{align*}
   \Sigma_z &= E[
@@ -372,9 +400,15 @@ Since $\mtx{x}$ and $\mtx{y}$ are independent,
     E[\mtx{B}(\mtx{y} - \meanmtx{y})(\mtx{y} - \meanmtx{y})^T\mtx{B}^T] \\
   \Sigma_z &=
     \mtx{A}E[(\mtx{x} - \meanmtx{x})(\mtx{x} - \meanmtx{x})^T]\mtx{A}^T +
-    \mtx{B}E[(\mtx{y} - \meanmtx{y})(\mtx{y} - \meanmtx{y})^T]\mtx{B}^T \\
-  \Sigma_z &=\mtx{A}\Sigma_x\mtx{A}^T + \mtx{B}\Sigma_y\mtx{B}^T
+    \mtx{B}E[(\mtx{y} - \meanmtx{y})(\mtx{y} - \meanmtx{y})^T]\mtx{B}^T
 \end{align*}
+
+Recall that $\Sigma_x = \cov(\mtx{x}, \mtx{x})$ and
+$\Sigma_y = \cov(\mtx{y}, \mtx{y})$.
+
+\begin{equation*}
+  \Sigma_z = \mtx{A}\Sigma_x\mtx{A}^T + \mtx{B}\Sigma_y\mtx{B}^T
+\end{equation*}
 
 \subsection{Gaussian random variables}
 
@@ -382,7 +416,7 @@ A Gaussian random variable has the following properties:
 
 \begin{align*}
   E[x] &= \overline{x} \\
-  var(x) &= \sigma^2 \\
+  \var(x) &= \sigma^2 \\
   p(x) &= \frac{1}{\sqrt{2\pi\sigma^2}}
     e^{-\frac{(x - \overline{x})^2}{2\sigma^2}}
 \end{align*}
