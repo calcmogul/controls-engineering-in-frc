@@ -323,11 +323,11 @@ update step.
 
 \begin{align}
   \text{Update step} \nonumber \\
-  \mtx{K}_k &= \mtx{P}_k^- \mtx{H}^T (\mtx{H}\mtx{P}_k^- \mtx{H}^T +
+  \mtx{K}_k &= \mtx{P}_k^- \mtx{C}^T (\mtx{C}\mtx{P}_k^- \mtx{C}^T +
     \mtx{R})^{-1} \\
   \hat{\mtx{x}}_k^+ &= \hat{\mtx{x}}_k^- + \mtx{K}_k(\mtx{y}_k -
-    \mtx{H}\hat{\mtx{x}}_k^-) \label{eq:post2_x} \\
-  \mtx{P}_k^+ &= (\mtx{I} - \mtx{K}_k\mtx{H})\mtx{P}_k^- \\
+    \mtx{C}\hat{\mtx{x}}_k^-) \label{eq:post2_x} \\
+  \mtx{P}_k^+ &= (\mtx{I} - \mtx{K}_k\mtx{C})\mtx{P}_k^- \\
   \text{Predict step} \nonumber \\
   \hat{\mtx{x}}_{k+1}^+ &= \mtx{A}\hat{\mtx{x}}_k^+ + \mtx{B}\mtx{u}_k
     \label{eq:pre2_x} \\
@@ -339,14 +339,14 @@ Substitute equation (\ref{eq:post2_x}) into equation (\ref{eq:pre2_x}).
 
 \begin{align*}
   \hat{\mtx{x}}_{k+1}^+ &= \mtx{A}(\hat{\mtx{x}}_k^- + \mtx{K}_k(\mtx{y}_k -
-    \mtx{H}\hat{\mtx{x}}_k^-)) + \mtx{B}\mtx{u}_k \\
+    \mtx{C}\hat{\mtx{x}}_k^-)) + \mtx{B}\mtx{u}_k \\
   \hat{\mtx{x}}_{k+1}^+ &= \mtx{A}\mtx{x}_k^- + \mtx{A}\mtx{K}_k(\mtx{y}_k -
-    \mtx{H}\hat{\mtx{x}}_k^-) + \mtx{B}\mtx{u}_k \\
+    \mtx{C}\hat{\mtx{x}}_k^-) + \mtx{B}\mtx{u}_k \\
   \hat{\mtx{x}}_{k+1}^+ &= \mtx{A}\hat{\mtx{x}}_k^- + \mtx{B}\mtx{u}_k +
-    \mtx{A}\mtx{K}_k(\mtx{y}_k - \mtx{H}\hat{\mtx{x}}_k^-)
+    \mtx{A}\mtx{K}_k(\mtx{y}_k - \mtx{C}\hat{\mtx{x}}_k^-)
 \end{align*}
 
-Let $\mtx{C} = \mtx{H}$ and $\mtx{L} = \mtx{A} \mtx{K}_k$.
+Let $\mtx{L} = \mtx{A} \mtx{K}_k$.
 
 \begin{equation} \label{eq:app_kalman_leunberger}
   \hat{\mtx{x}}_{k+1}^+ = \mtx{A}\hat{\mtx{x}}_k^- + \mtx{B}\mtx{u}_k + \mtx{L}
@@ -358,8 +358,8 @@ Kalman filter \gls{observer} can be obtained by
 
 \begin{align}
   &\eig(\mtx{A} - \mtx{L}\mtx{C}) \nonumber \\
-  &\eig(\mtx{A} - (\mtx{A}\mtx{K}_k)(\mtx{H})) \nonumber \\
-  &\eig(\mtx{A}(\mtx{I} - \mtx{K}_k\mtx{H}))
+  &\eig(\mtx{A} - (\mtx{A}\mtx{K}_k)(\mtx{C})) \nonumber \\
+  &\eig(\mtx{A}(\mtx{I} - \mtx{K}_k\mtx{C}))
 \end{align}
 
 \subsection{Luenberger observer with separate prediction and update}
@@ -369,15 +369,15 @@ To run a Luenberger \gls{observer} with separate prediction and update steps,
 substitute the relationship between the Luenberger \gls{observer} and Kalman
 filter matrices derived above into the Kalman filter equations.
 
-Appendix \ref{sec:deriv_kalman_luenberger} shows that $\mtx{C} = \mtx{H}$ and
+Appendix \ref{sec:deriv_kalman_luenberger} shows that
 $\mtx{L} = \mtx{A}\mtx{K}_k$. Since $\mtx{L}$ and $\mtx{A}$ are constant, one
 must assume $\mtx{K}_k$ has reached steady-state. Then,
-$\mtx{K} = \mtx{A}^{-1}\mtx{L}$. Substitute this and $\mtx{C} = \mtx{H}$ into
-the Kalman filter update equation.
+$\mtx{K} = \mtx{A}^{-1}\mtx{L}$. Substitute this into the Kalman filter update
+equation.
 
 \begin{align*}
   \hat{\mtx{x}}_{k+1}^+ &= \hat{\mtx{x}}_{k+1}^- + \mtx{K}(\mtx{y}_{k+1} -
-    \mtx{H}\hat{\mtx{x}}_{k+1}^-) \\
+    \mtx{C}\hat{\mtx{x}}_{k+1}^-) \\
   \hat{\mtx{x}}_{k+1}^+ &= \hat{\mtx{x}}_{k+1}^- + \mtx{A}^{-1}\mtx{L}
     (\mtx{y}_{k+1} - \mtx{C}\hat{\mtx{x}}_{k+1}^-)
 \end{align*}

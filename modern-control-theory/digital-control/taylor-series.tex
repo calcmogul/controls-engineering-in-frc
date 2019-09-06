@@ -45,22 +45,22 @@ formula which we won't present here.
       \multicolumn{1}{c|}{\textbf{Taylor series expansion}} \\
     \hline
     Zero-order hold &
-      $\mtx{\Phi} = e^{\mtx{A}T}$ &
-      $\mtx{\Phi} = \mtx{I} + \mtx{A}T + \frac{1}{2}\mtx{A}^2T^2 +
-        \frac{1}{6}\mtx{A}^3T^3 + \ldots$ \\
+      $\mtx{A}_d = e^{\mtx{A}_c T}$ &
+      $\mtx{A}_d = \mtx{I} + \mtx{A}_c T + \frac{1}{2}\mtx{A}_c^2T^2 +
+        \frac{1}{6}\mtx{A}_c^3T^3 + \ldots$ \\
     Bilinear &
-      $\mtx{\Phi} =
-        \left(\mtx{I} + \frac{1}{2}\mtx{A}T\right)
-        \left(\mtx{I} - \frac{1}{2}\mtx{A}T\right)^{-1}$ &
-      $\mtx{\Phi} = \mtx{I} + \mtx{A}T + \frac{1}{2}\mtx{A}^2T^2 +
-        \frac{1}{4}\mtx{A}^3T^3 + \ldots$ \\
+      $\mtx{A}_d =
+        \left(\mtx{I} + \frac{1}{2}\mtx{A}_c T\right)
+        \left(\mtx{I} - \frac{1}{2}\mtx{A}_c T\right)^{-1}$ &
+      $\mtx{A}_d = \mtx{I} + \mtx{A}_c T + \frac{1}{2}\mtx{A}_c^2T^2 +
+        \frac{1}{4}\mtx{A}_c^3T^3 + \ldots$ \\
     Forward Euler &
-      $\mtx{\Phi} = \mtx{I} + \mtx{A}T$ &
-      $\mtx{\Phi} = \mtx{I} + \mtx{A}T$ \\
+      $\mtx{A}_d = \mtx{I} + \mtx{A}_c T$ &
+      $\mtx{A}_d = \mtx{I} + \mtx{A}_c T$ \\
     Reverse Euler &
-      $\mtx{\Phi} = \left(\mtx{I} - \mtx{A}T\right)^{-1}$ &
-      $\mtx{\Phi} =
-        \mtx{I} + \mtx{A}T + \mtx{A}^2T^2 + \mtx{A}^3T^3 + \ldots$ \\
+      $\mtx{A}_d = \left(\mtx{I} - \mtx{A}_c T\right)^{-1}$ &
+      $\mtx{A}_d =
+        \mtx{I} + \mtx{A}_c T + \mtx{A}_c^2T^2 + \mtx{A}_c^3T^3 + \ldots$ \\
     \hline
   \end{tabular}
   \caption{Taylor series expansions of discretization methods (matrix case).

@@ -10,7 +10,7 @@ estimator which minimizes the error covariance for linear \glspl{system}.
 
 Given the posteriori update equation $\hat{\mtx{x}}_{k+1}^+ =
 \hat{\mtx{x}}_{k+1}^- + \mtx{K}_{k+1}(\mtx{y}_{k+1} -
-\mtx{H}_{k+1} \hat{\mtx{x}}_{k+1}^-)$, we want to find the value of $\mtx{K}$
+\mtx{C}_{k+1} \hat{\mtx{x}}_{k+1}^-)$, we want to find the value of $\mtx{K}$
 that minimizes the error covariance, because doing this minimizes the estimation
 error.
 
@@ -19,40 +19,40 @@ error.
 \begin{align*}
   \mtx{P}_{k+1}^+ &= \cov(\mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1}^+) \\
   \mtx{P}_{k+1}^+ &= \cov(\mtx{x}_{k+1} - (\hat{\mtx{x}}_{k+1}^- +
-    \mtx{K}_{k+1}(\mtx{y}_{k+1} - \mtx{H}_{k+1} \hat{\mtx{x}}_{k+1}^-))) \\
+    \mtx{K}_{k+1}(\mtx{y}_{k+1} - \mtx{C}_{k+1} \hat{\mtx{x}}_{k+1}^-))) \\
   \mtx{P}_{k+1}^+ &= \cov(\mtx{x}_{k+1} - (\hat{\mtx{x}}_{k+1}^- +
-    \mtx{K}_{k+1}(\mtx{H}_{k+1}\mtx{x}_{k+1} + \mtx{v}_{k+1} -
-    \mtx{H}_{k+1} \hat{\mtx{x}}_{k+1}^-))) \\
+    \mtx{K}_{k+1}(\mtx{C}_{k+1}\mtx{x}_{k+1} + \mtx{v}_{k+1} -
+    \mtx{C}_{k+1} \hat{\mtx{x}}_{k+1}^-))) \\
   \mtx{P}_{k+1}^+ &= \cov(\mtx{x}_{k+1} - (\hat{\mtx{x}}_{k+1}^- +
-    \mtx{K}_{k+1}\mtx{H}_{k+1}\mtx{x}_{k+1} + \mtx{K}_{k+1}\mtx{v}_{k+1} -
-    \mtx{K}_{k+1}\mtx{H}_{k+1} \hat{\mtx{x}}_{k+1}^-)) \\
+    \mtx{K}_{k+1}\mtx{C}_{k+1}\mtx{x}_{k+1} + \mtx{K}_{k+1}\mtx{v}_{k+1} -
+    \mtx{K}_{k+1}\mtx{C}_{k+1} \hat{\mtx{x}}_{k+1}^-)) \\
   \mtx{P}_{k+1}^+ &= \cov(\mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1}^- -
-    \mtx{K}_{k+1}\mtx{H}_{k+1}\mtx{x}_{k+1} - \mtx{K}_{k+1}\mtx{v}_{k+1} +
-    \mtx{K}_{k+1}\mtx{H}_{k+1} \hat{\mtx{x}}_{k+1}^-)
+    \mtx{K}_{k+1}\mtx{C}_{k+1}\mtx{x}_{k+1} - \mtx{K}_{k+1}\mtx{v}_{k+1} +
+    \mtx{K}_{k+1}\mtx{C}_{k+1} \hat{\mtx{x}}_{k+1}^-)
 \end{align*}
 
-Factor out $\mtx{K}_{k+1} \mtx{H}_{k+1}$.
+Factor out $\mtx{K}_{k+1} \mtx{C}_{k+1}$.
 
 \begin{equation*}
   \mtx{P}_{k+1}^+ = \cov(\mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1}^- -
-    \mtx{K}_{k+1}\mtx{H}_{k+1}(\mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1}^-) -
+    \mtx{K}_{k+1}\mtx{C}_{k+1}(\mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1}^-) -
     \mtx{K}_{k+1}\mtx{v}_{k+1})
 \end{equation*}
 
-Factor out $\mtx{I} - \mtx{K}_{k+1} \mtx{H}_{k+1}$.
+Factor out $\mtx{I} - \mtx{K}_{k+1} \mtx{C}_{k+1}$.
 
 \begin{align*}
-  \mtx{P}_{k+1}^+ &= \cov((\mtx{I} - \mtx{K}_{k+1}\mtx{H}_{k+1})
+  \mtx{P}_{k+1}^+ &= \cov((\mtx{I} - \mtx{K}_{k+1}\mtx{C}_{k+1})
     (\mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1}^-) - \mtx{K}_{k+1}\mtx{v}_{k+1}) \\
-  \mtx{P}_{k+1}^+ &= \cov((\mtx{I} - \mtx{K}_{k+1}\mtx{H}_{k+1})
+  \mtx{P}_{k+1}^+ &= \cov((\mtx{I} - \mtx{K}_{k+1}\mtx{C}_{k+1})
     (\mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1}^-)) + \cov(\mtx{K}_{k+1}\mtx{v}_{k+1})
     \\
-  \mtx{P}_{k+1}^+ &= (\mtx{I} - \mtx{K}_{k+1}\mtx{H}_{k+1})
+  \mtx{P}_{k+1}^+ &= (\mtx{I} - \mtx{K}_{k+1}\mtx{C}_{k+1})
     \cov(\mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1}^-)
-    (\mtx{I} - \mtx{K}_{k+1}\mtx{H}_{k+1})^T + \mtx{K}_{k+1}cov(\mtx{v}_{k+1})
+    (\mtx{I} - \mtx{K}_{k+1}\mtx{C}_{k+1})^T + \mtx{K}_{k+1}cov(\mtx{v}_{k+1})
     \mtx{K}_{k+1}^T \\
-  \mtx{P}_{k+1}^+ &= (\mtx{I} - \mtx{K}_{k+1}\mtx{H}_{k+1})\mtx{P}_{k+1}^-
-    (\mtx{I} - \mtx{K}_{k+1}\mtx{H}_{k+1})^T + \mtx{K}_{k+1}\mtx{R}_{k+1}
+  \mtx{P}_{k+1}^+ &= (\mtx{I} - \mtx{K}_{k+1}\mtx{C}_{k+1})\mtx{P}_{k+1}^-
+    (\mtx{I} - \mtx{K}_{k+1}\mtx{C}_{k+1})^T + \mtx{K}_{k+1}\mtx{R}_{k+1}
     \mtx{K}_{k+1}^T
 \end{align*}
 
@@ -66,36 +66,36 @@ the trace of the a posteriori estimate covariance matrix $\mtx{P}_{k+1}^-$.
 First, we'll expand the equation for $\mtx{P}_{k+1}^-$ and collect terms.
 
 \begin{align}
-  \mtx{P}_{k+1}^+ =~& (\mtx{I} - \mtx{K}_{k+1}\mtx{H}_{k+1})\mtx{P}_{k+1}^-
-    (\mtx{I} - \mtx{K}_{k+1}\mtx{H}_{k+1})^T + \mtx{K}_{k+1}\mtx{R}_{k+1}
+  \mtx{P}_{k+1}^+ =~& (\mtx{I} - \mtx{K}_{k+1}\mtx{C}_{k+1})\mtx{P}_{k+1}^-
+    (\mtx{I} - \mtx{K}_{k+1}\mtx{C}_{k+1})^T + \mtx{K}_{k+1}\mtx{R}_{k+1}
     \mtx{K}_{k+1}^T \nonumber \\
   \mtx{P}_{k+1}^+ =~&
-    (\mtx{P}_{k+1}^- - \mtx{K}_{k+1}\mtx{H}_{k+1}\mtx{P}_{k+1}^-)
-    (\mtx{I} - \mtx{K}_{k+1}\mtx{H}_{k+1})^T + \mtx{K}_{k+1}\mtx{R}_{k+1}
+    (\mtx{P}_{k+1}^- - \mtx{K}_{k+1}\mtx{C}_{k+1}\mtx{P}_{k+1}^-)
+    (\mtx{I} - \mtx{K}_{k+1}\mtx{C}_{k+1})^T + \mtx{K}_{k+1}\mtx{R}_{k+1}
     \mtx{K}_{k+1}^T \nonumber \\
   \mtx{P}_{k+1}^+ =~&
-    (\mtx{P}_{k+1}^- - \mtx{K}_{k+1}\mtx{H}_{k+1}\mtx{P}_{k+1}^-)
-    (\mtx{I}^T - \mtx{H}_{k+1}^T\mtx{K}_{k+1}^T) +
+    (\mtx{P}_{k+1}^- - \mtx{K}_{k+1}\mtx{C}_{k+1}\mtx{P}_{k+1}^-)
+    (\mtx{I}^T - \mtx{C}_{k+1}^T\mtx{K}_{k+1}^T) +
     \mtx{K}_{k+1}\mtx{R}_{k+1} \mtx{K}_{k+1}^T \nonumber \\
   \mtx{P}_{k+1}^+ =~&
-    \mtx{P}_{k+1}^-(\mtx{I}^T - \mtx{H}_{k+1}^T\mtx{K}_{k+1}^T) -
-    \mtx{K}_{k+1}\mtx{H}_{k+1}\mtx{P}_{k+1}^-
-    (\mtx{I}^T - \mtx{H}_{k+1}^T\mtx{K}_{k+1}^T) +
+    \mtx{P}_{k+1}^-(\mtx{I}^T - \mtx{C}_{k+1}^T\mtx{K}_{k+1}^T) -
+    \mtx{K}_{k+1}\mtx{C}_{k+1}\mtx{P}_{k+1}^-
+    (\mtx{I}^T - \mtx{C}_{k+1}^T\mtx{K}_{k+1}^T) +
     \mtx{K}_{k+1}\mtx{R}_{k+1} \mtx{K}_{k+1}^T \nonumber \\
   \mtx{P}_{k+1}^+ =~&
-    \mtx{P}_{k+1}^- - \mtx{P}_{k+1}^-\mtx{H}_{k+1}^T\mtx{K}_{k+1}^T -
-    \mtx{K}_{k+1}\mtx{H}_{k+1}\mtx{P}_{k+1}^- +
-    \mtx{K}_{k+1}\mtx{H}_{k+1}\mtx{P}_{k+1}^-\mtx{H}_{k+1}^T\mtx{K}_{k+1}^T +
+    \mtx{P}_{k+1}^- - \mtx{P}_{k+1}^-\mtx{C}_{k+1}^T\mtx{K}_{k+1}^T -
+    \mtx{K}_{k+1}\mtx{C}_{k+1}\mtx{P}_{k+1}^- +
+    \mtx{K}_{k+1}\mtx{C}_{k+1}\mtx{P}_{k+1}^-\mtx{C}_{k+1}^T\mtx{K}_{k+1}^T +
       \nonumber \\
     &\mtx{K}_{k+1}\mtx{R}_{k+1} \mtx{K}_{k+1}^T \nonumber \\
   \mtx{P}_{k+1}^+ =~&
-    \mtx{P}_{k+1}^- - \mtx{P}_{k+1}^-\mtx{H}_{k+1}^T\mtx{K}_{k+1}^T -
-    \mtx{K}_{k+1}\mtx{H}_{k+1}\mtx{P}_{k+1}^- + \nonumber \\
-    &\mtx{K}_{k+1}(\mtx{H}_{k+1}\mtx{P}_{k+1}^-\mtx{H}_{k+1}^T +
+    \mtx{P}_{k+1}^- - \mtx{P}_{k+1}^-\mtx{C}_{k+1}^T\mtx{K}_{k+1}^T -
+    \mtx{K}_{k+1}\mtx{C}_{k+1}\mtx{P}_{k+1}^- + \nonumber \\
+    &\mtx{K}_{k+1}(\mtx{C}_{k+1}\mtx{P}_{k+1}^-\mtx{C}_{k+1}^T +
     \mtx{R}_{k+1})\mtx{K}_{k+1}^T \nonumber \\
   \mtx{P}_{k+1}^+ =~&
-    \mtx{P}_{k+1}^- - \mtx{P}_{k+1}^-\mtx{H}_{k+1}^T\mtx{K}_{k+1}^T -
-    \mtx{K}_{k+1}\mtx{H}_{k+1}\mtx{P}_{k+1}^- +
+    \mtx{P}_{k+1}^- - \mtx{P}_{k+1}^-\mtx{C}_{k+1}^T\mtx{K}_{k+1}^T -
+    \mtx{K}_{k+1}\mtx{C}_{k+1}\mtx{P}_{k+1}^- +
     \mtx{K}_{k+1}\mtx{S}_{k+1}\mtx{K}_{k+1}^T \label{eq:post_p_update}
 \end{align}
 
@@ -103,8 +103,8 @@ Now we'll take the trace.
 
 \begin{equation*}
   \tr(\mtx{P}_{k+1}^+) =
-    \tr(\mtx{P}_{k+1}^-) - \tr(\mtx{P}_{k+1}^-\mtx{H}_{k+1}^T\mtx{K}_{k+1}^T) -
-    \tr(\mtx{K}_{k+1}\mtx{H}_{k+1}\mtx{P}_{k+1}^-) +
+    \tr(\mtx{P}_{k+1}^-) - \tr(\mtx{P}_{k+1}^-\mtx{C}_{k+1}^T\mtx{K}_{k+1}^T) -
+    \tr(\mtx{K}_{k+1}\mtx{C}_{k+1}\mtx{P}_{k+1}^-) +
     \tr(\mtx{K}_{k+1}\mtx{S}_{k+1}\mtx{K}_{k+1}^T)
 \end{equation*}
 
@@ -112,8 +112,8 @@ Transpose one of the terms twice.
 
 \begin{equation*}
   \tr(\mtx{P}_{k+1}^+) = \tr(\mtx{P}_{k+1}^-) -
-    \tr((\mtx{K}_{k+1}\mtx{H}_{k+1}\mtx{P}_{k+1}^{-T})^T) -
-    \tr(\mtx{K}_{k+1}\mtx{H}_{k+1}\mtx{P}_{k+1}^-) +
+    \tr((\mtx{K}_{k+1}\mtx{C}_{k+1}\mtx{P}_{k+1}^{-T})^T) -
+    \tr(\mtx{K}_{k+1}\mtx{C}_{k+1}\mtx{P}_{k+1}^-) +
     \tr(\mtx{K}_{k+1}\mtx{S}_{k+1}\mtx{K}_{k+1}^T)
 \end{equation*}
 
@@ -121,8 +121,8 @@ $\mtx{P}_{k+1}^-$ is symmetric, so we can drop the transpose.
 
 \begin{equation*}
   \tr(\mtx{P}_{k+1}^+) = \tr(\mtx{P}_{k+1}^-) -
-    \tr((\mtx{K}_{k+1}\mtx{H}_{k+1}\mtx{P}_{k+1}^-)^T) -
-    \tr(\mtx{K}_{k+1}\mtx{H}_{k+1}\mtx{P}_{k+1}^-) +
+    \tr((\mtx{K}_{k+1}\mtx{C}_{k+1}\mtx{P}_{k+1}^-)^T) -
+    \tr(\mtx{K}_{k+1}\mtx{C}_{k+1}\mtx{P}_{k+1}^-) +
     \tr(\mtx{K}_{k+1}\mtx{S}_{k+1}\mtx{K}_{k+1}^T)
 \end{equation*}
 
@@ -131,11 +131,11 @@ used in the trace are on the diagonal.
 
 \begin{align*}
   \tr(\mtx{P}_{k+1}^+) &= \tr(\mtx{P}_{k+1}^-) -
-    \tr(\mtx{K}_{k+1}\mtx{H}_{k+1}\mtx{P}_{k+1}^-) -
-    \tr(\mtx{K}_{k+1}\mtx{H}_{k+1}\mtx{P}_{k+1}^-) +
+    \tr(\mtx{K}_{k+1}\mtx{C}_{k+1}\mtx{P}_{k+1}^-) -
+    \tr(\mtx{K}_{k+1}\mtx{C}_{k+1}\mtx{P}_{k+1}^-) +
     \tr(\mtx{K}_{k+1}\mtx{S}_{k+1}\mtx{K}_{k+1}^T) \\
   \tr(\mtx{P}_{k+1}^+) &= \tr(\mtx{P}_{k+1}^-) -
-    2\tr(\mtx{K}_{k+1}\mtx{H}_{k+1}\mtx{P}_{k+1}^-) +
+    2\tr(\mtx{K}_{k+1}\mtx{C}_{k+1}\mtx{P}_{k+1}^-) +
     \tr(\mtx{K}_{k+1}\mtx{S}_{k+1}\mtx{K}_{k+1}^T)
 \end{align*}
 
@@ -159,15 +159,15 @@ derivative with respect to $\mtx{K}$ and setting the result to $\mtx{0}$.
 
 \begin{align*}
   \frac{\partial\tr(\mtx{P}_{k+1}^+)}{\partial\mtx{K}} &=
-    \mtx{0} - 2(\mtx{H}_{k+1}\mtx{P}_{k+1}^-)^T + 2\mtx{K}_{k+1}\mtx{S}_{k+1} \\
+    \mtx{0} - 2(\mtx{C}_{k+1}\mtx{P}_{k+1}^-)^T + 2\mtx{K}_{k+1}\mtx{S}_{k+1} \\
   \frac{\partial\tr(\mtx{P}_{k+1}^+)}{\partial\mtx{K}} &=
-    -2\mtx{P}_{k+1}^{-T}\mtx{H}_{k+1}^T + 2\mtx{K}_{k+1}\mtx{S}_{k+1} \\
+    -2\mtx{P}_{k+1}^{-T}\mtx{C}_{k+1}^T + 2\mtx{K}_{k+1}\mtx{S}_{k+1} \\
   \frac{\partial\tr(\mtx{P}_{k+1}^+)}{\partial\mtx{K}} &=
-    -2\mtx{P}_{k+1}^-\mtx{H}_{k+1}^T + 2\mtx{K}_{k+1}\mtx{S}_{k+1} \\
-  \mtx{0} &= -2\mtx{P}_{k+1}^-\mtx{H}_{k+1}^T + 2\mtx{K}_{k+1}\mtx{S}_{k+1} \\
-  2\mtx{K}_{k+1}\mtx{S}_{k+1} &= 2\mtx{P}_{k+1}^-\mtx{H}_{k+1}^T \\
-  \mtx{K}_{k+1}\mtx{S}_{k+1} &= \mtx{P}_{k+1}^-\mtx{H}_{k+1}^T \\
-  \mtx{K}_{k+1} &= \mtx{P}_{k+1}^-\mtx{H}_{k+1}^T\mtx{S}_{k+1}^{-1}
+    -2\mtx{P}_{k+1}^-\mtx{C}_{k+1}^T + 2\mtx{K}_{k+1}\mtx{S}_{k+1} \\
+  \mtx{0} &= -2\mtx{P}_{k+1}^-\mtx{C}_{k+1}^T + 2\mtx{K}_{k+1}\mtx{S}_{k+1} \\
+  2\mtx{K}_{k+1}\mtx{S}_{k+1} &= 2\mtx{P}_{k+1}^-\mtx{C}_{k+1}^T \\
+  \mtx{K}_{k+1}\mtx{S}_{k+1} &= \mtx{P}_{k+1}^-\mtx{C}_{k+1}^T \\
+  \mtx{K}_{k+1} &= \mtx{P}_{k+1}^-\mtx{C}_{k+1}^T\mtx{S}_{k+1}^{-1}
 \end{align*}
 
 This is the optimal Kalman gain.
@@ -179,25 +179,25 @@ update equation can be simplified. First, we'll manipulate the equation for the
 optimal Kalman gain.
 
 \begin{align*}
-  \mtx{K}_{k+1} &= \mtx{P}_{k+1}^-\mtx{H}_{k+1}^T\mtx{S}_{k+1}^{-1} \\
+  \mtx{K}_{k+1} &= \mtx{P}_{k+1}^-\mtx{C}_{k+1}^T\mtx{S}_{k+1}^{-1} \\
   \mtx{K}_{k+1}\mtx{S}_{k+1}\mtx{K}_{k+1}^T &=
-    \mtx{P}_{k+1}^-\mtx{H}_{k+1}^T\mtx{K}_{k+1}^T
+    \mtx{P}_{k+1}^-\mtx{C}_{k+1}^T\mtx{K}_{k+1}^T
 \end{align*}
 
 Now we'll substitute it into equation (\ref{eq:post_p_update}).
 
 \begin{align*}
   \mtx{P}_{k+1}^+ =~&
-    \mtx{P}_{k+1}^- - \mtx{P}_{k+1}^-\mtx{H}_{k+1}^T\mtx{K}_{k+1}^T -
-    \mtx{K}_{k+1}\mtx{H}_{k+1}\mtx{P}_{k+1}^- +
+    \mtx{P}_{k+1}^- - \mtx{P}_{k+1}^-\mtx{C}_{k+1}^T\mtx{K}_{k+1}^T -
+    \mtx{K}_{k+1}\mtx{C}_{k+1}\mtx{P}_{k+1}^- +
     \mtx{K}_{k+1}\mtx{S}_{k+1}\mtx{K}_{k+1}^T \\
   \mtx{P}_{k+1}^+ &=
-    \mtx{P}_{k+1}^- - \mtx{P}_{k+1}^-\mtx{H}_{k+1}^T\mtx{K}_{k+1}^T -
-    \mtx{K}_{k+1}\mtx{H}_{k+1}\mtx{P}_{k+1}^- +
-    \mtx{P}_{k+1}^-\mtx{H}_{k+1}^T\mtx{K}_{k+1}^T \\
+    \mtx{P}_{k+1}^- - \mtx{P}_{k+1}^-\mtx{C}_{k+1}^T\mtx{K}_{k+1}^T -
+    \mtx{K}_{k+1}\mtx{C}_{k+1}\mtx{P}_{k+1}^- +
+    \mtx{P}_{k+1}^-\mtx{C}_{k+1}^T\mtx{K}_{k+1}^T \\
   \mtx{P}_{k+1}^+ &= \mtx{P}_{k+1}^- -
-    \mtx{K}_{k+1}\mtx{H}_{k+1}\mtx{P}_{k+1}^- \\
-  \mtx{P}_{k+1}^+ &= (\mtx{I} - \mtx{K}_{k+1}\mtx{H}_{k+1})\mtx{P}_{k+1}^-
+    \mtx{K}_{k+1}\mtx{C}_{k+1}\mtx{P}_{k+1}^- \\
+  \mtx{P}_{k+1}^+ &= (\mtx{I} - \mtx{K}_{k+1}\mtx{C}_{k+1})\mtx{P}_{k+1}^-
 \end{align*}
 
 \subsection{Predict and update equations}
@@ -212,25 +212,25 @@ and update steps for a Kalman filter at the $k^{th}$ timestep.
 
   \begin{align}
     \text{Predict step} \nonumber \\
-    \hat{\mtx{x}}_{k+1}^- &= \mtx{\Phi}\hat{\mtx{x}}_k + \mtx{B} \mtx{u}_k
+    \hat{\mtx{x}}_{k+1}^- &= \mtx{A}\hat{\mtx{x}}_k + \mtx{B} \mtx{u}_k
       \label{eq:pre1_x} \\
-    \mtx{P}_{k+1}^- &= \mtx{\Phi} \mtx{P}_k^- \mtx{\Phi}^T +
+    \mtx{P}_{k+1}^- &= \mtx{A} \mtx{P}_k^- \mtx{A}^T +
       \mtx{\Gamma}\mtx{Q}\mtx{\Gamma}^T \\
     \text{Update step} \nonumber \\
     \mtx{K}_{k+1} &=
-      \mtx{P}_{k+1}^- \mtx{H}^T (\mtx{H}\mtx{P}_{k+1}^- \mtx{H}^T +
+      \mtx{P}_{k+1}^- \mtx{C}^T (\mtx{C}\mtx{P}_{k+1}^- \mtx{C}^T +
       \mtx{R})^{-1} \\
     \hat{\mtx{x}}_{k+1}^+ &=
       \hat{\mtx{x}}_{k+1}^- + \mtx{K}_{k+1}(\mtx{y}_{k+1} -
-      \mtx{H} \hat{\mtx{x}}_{k+1}^-) \label{eq:post1_x} \\
-    \mtx{P}_{k+1}^+ &= (\mtx{I} - \mtx{K}_{k+1}\mtx{H})\mtx{P}_{k+1}^-
+      \mtx{C} \hat{\mtx{x}}_{k+1}^-) \label{eq:post1_x} \\
+    \mtx{P}_{k+1}^+ &= (\mtx{I} - \mtx{K}_{k+1}\mtx{C})\mtx{P}_{k+1}^-
   \end{align}
 
   \begin{figurekey}
     \begin{tabular}{llll}
-      $\mtx{\Phi}$ & system matrix & $\hat{\mtx{x}}$ & state estimate vector \\
+      $\mtx{A}$ & system matrix & $\hat{\mtx{x}}$ & state estimate vector \\
       $\mtx{B}$ & input matrix            & $\mtx{u}$ & input vector \\
-      $\mtx{H}$ & measurement matrix      & $\mtx{y}$ & output vector \\
+      $\mtx{C}$ & measurement matrix      & $\mtx{y}$ & output vector \\
       $\mtx{P}$ & error covariance matrix & $\mtx{Q}$ & process noise covariance
         matrix \\
       $\mtx{K}$ & Kalman gain matrix & $\mtx{R}$ & measurement noise covariance
@@ -243,8 +243,8 @@ and update steps for a Kalman filter at the $k^{th}$ timestep.
   \textit{a posteriori} estimate (before and after update respectively).
 \end{theorem}
 
-$\mtx{H}$, $\mtx{Q}$, and $\mtx{R}$ from the equations derived earlier are made
-constants here. $\mtx{\Phi}$ is replaced with $\mtx{A}$ for continuous systems.
+$\mtx{C}$, $\mtx{Q}$, and $\mtx{R}$ from the equations derived earlier are made
+constants here.
 
 \begin{remark}
   To implement a discrete time Kalman filter from a continuous model, the model
@@ -259,10 +259,10 @@ constants here. $\mtx{\Phi}$ is replaced with $\mtx{A}$ for continuous systems.
     \textbf{Matrix} & \textbf{Rows $\times$ Columns} &
     \textbf{Matrix} & \textbf{Rows $\times$ Columns} \\
     \hline
-    $\mtx{\Phi}$ & states $\times$ states & $\hat{\mtx{x}}$ & states $\times$ 1
+    $\mtx{A}$ & states $\times$ states & $\hat{\mtx{x}}$ & states $\times$ 1
       \\
     $\mtx{B}$ & states $\times$ inputs & $\mtx{u}$ & inputs $\times$ 1 \\
-    $\mtx{H}$ & outputs $\times$ states & $\mtx{y}$ & outputs $\times$ 1 \\
+    $\mtx{C}$ & outputs $\times$ states & $\mtx{y}$ & outputs $\times$ 1 \\
     $\mtx{P}$ & states $\times$ states & $\mtx{Q}$ & states $\times$ states \\
     $\mtx{K}$ & states $\times$ outputs & $\mtx{R}$ & outputs $\times$ outputs
       \\
@@ -435,7 +435,7 @@ model, one risks overfitting the data. One should balance estimating any hidden
 The Kalman filter assumes a \gls{model} with zero-mean white noise. If the
 \gls{model} is incomplete in some way, whether it's missing dynamics or assumes
 an incorrect noise \gls{model}, the residual
-$\widetilde{\mtx{y}} = \mtx{y} - \mtx{H}\hat{\mtx{x}}$ over time will have
+$\widetilde{\mtx{y}} = \mtx{y} - \mtx{C}\hat{\mtx{x}}$ over time will have
 probability characteristics not indicative of white noise (e.g., it isn't
 zero-mean).
 
@@ -478,17 +478,17 @@ than any one measurement alone.
 \index{State-space observers!Kalman filter!as Luenberger observer}
 
 A Kalman filter can be represented as a Luenberger \gls{observer} by letting
-$\mtx{C} = \mtx{H}$ and $\mtx{L} = \mtx{A} \mtx{K}_k$ (see appendix
-\ref{sec:deriv_kalman_luenberger}). The Luenberger observer has a constant
-observer gain matrix $\mtx{L}$, so the steady-state Kalman gain is used to
-calculate it. We will demonstrate how to find this shortly.
+$\mtx{L} = \mtx{A} \mtx{K}_k$ (see appendix \ref{sec:deriv_kalman_luenberger}).
+The Luenberger observer has a constant observer gain matrix $\mtx{L}$, so the
+steady-state Kalman gain is used to calculate it. We will demonstrate how to
+find this shortly.
 
 Kalman filter theory provides a way to place the poles of the Luenberger
 observer optimally in the same way we placed the poles of the controller
 optimally with LQR. The eigenvalues of the Kalman filter are
 
 \begin{equation}
-  \eig(\mtx{A}(\mtx{I} - \mtx{K}_k\mtx{H}))
+  \eig(\mtx{A}(\mtx{I} - \mtx{K}_k\mtx{C}))
 \end{equation}
 
 \subsubsection{Steady-state Kalman gain}

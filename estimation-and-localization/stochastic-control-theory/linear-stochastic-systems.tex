@@ -5,9 +5,9 @@
 Given the following stochastic system
 
 \begin{align*}
-  \mtx{x}_{k+1} &= \mtx{\Phi}\mtx{x}_k + \mtx{B}\mtx{u}_k +
+  \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}\mtx{u}_k +
     \mtx{\Gamma}\mtx{w}_k \\
-  \mtx{y}_k &= \mtx{H}\mtx{x}_k + \mtx{D}\mtx{u}_k + \mtx{v}_k
+  \mtx{y}_k &= \mtx{C}\mtx{x}_k + \mtx{D}\mtx{u}_k + \mtx{v}_k
 \end{align*}
 
 where $\mtx{w}_k$ is the process noise and $\mtx{v}_k$ is the measurement noise,
@@ -35,15 +35,14 @@ First, we will compute how the expectation of the \gls{system} \gls{state}
 evolves.
 
 \begin{align*}
-  E[\mtx{x}_{k+1}] &= E[\mtx{\Phi}\mtx{x}_k + \mtx{B}\mtx{u}_k +
+  E[\mtx{x}_{k+1}] &= E[\mtx{A}\mtx{x}_k + \mtx{B}\mtx{u}_k +
     \mtx{\Gamma}\mtx{w}_k] \\
-  E[\mtx{x}_{k+1}] &= E[\mtx{\Phi}\mtx{x}_k] + E[\mtx{B}\mtx{u}_k] +
+  E[\mtx{x}_{k+1}] &= E[\mtx{A}\mtx{x}_k] + E[\mtx{B}\mtx{u}_k] +
     E[\mtx{\Gamma}\mtx{w}_k] \\
-  E[\mtx{x}_{k+1}] &= \mtx{\Phi}E[\mtx{x}_k] + \mtx{B}E[\mtx{u}_k] +
+  E[\mtx{x}_{k+1}] &= \mtx{A}E[\mtx{x}_k] + \mtx{B}E[\mtx{u}_k] +
     \mtx{\Gamma}E[\mtx{w}_k] \\
-  E[\mtx{x}_{k+1}] &= \mtx{\Phi}E[\mtx{x}_k] + \mtx{B}\mtx{u}_k + 0 \\
-  \meanmtx{x}_{k+1} &= \mtx{\Phi}\meanmtx{x}_k +
-    \mtx{B}\mtx{u}_k \\
+  E[\mtx{x}_{k+1}] &= \mtx{A}E[\mtx{x}_k] + \mtx{B}\mtx{u}_k + 0 \\
+  \meanmtx{x}_{k+1} &= \mtx{A}\meanmtx{x}_k + \mtx{B}\mtx{u}_k \\
 \end{align*}
 
 \subsection{State covariance matrix evolution}
@@ -52,47 +51,47 @@ Now, we will use this to compute how the \gls{state} covariance matrix $\mtx{P}$
 evolves.
 
 \begin{align*}
-  \mtx{x}_{k+1} - \meanmtx{x}_{k+1} &= \mtx{\Phi}\mtx{x}_k +
-    \mtx{B}\mtx{u}_k + \mtx{\Gamma}\mtx{w}_k - (\mtx{\Phi}\meanmtx{x}_k -
+  \mtx{x}_{k+1} - \meanmtx{x}_{k+1} &= \mtx{A}\mtx{x}_k +
+    \mtx{B}\mtx{u}_k + \mtx{\Gamma}\mtx{w}_k - (\mtx{A}\meanmtx{x}_k -
     \mtx{B}\mtx{u}_k) \\
   \mtx{x}_{k+1} - \meanmtx{x}_{k+1} &=
-    \mtx{\Phi}(\mtx{x}_k - \meanmtx{x}_k) + \mtx{\Gamma}\mtx{w}_k
+    \mtx{A}(\mtx{x}_k - \meanmtx{x}_k) + \mtx{\Gamma}\mtx{w}_k
 \end{align*}
 
 \begin{equation*}
   E[(\mtx{x}_{k+1} - \meanmtx{x}_{k+1})(\mtx{x}_{k+1} - \meanmtx{x}_{k+1})^T] =
-    E[(\mtx{\Phi}(\mtx{x}_k - \meanmtx{x}_k) + \mtx{\Gamma}\mtx{w}_k)
-      (\mtx{\Phi}(\mtx{x}_k - \meanmtx{x}_k) + \mtx{\Gamma}\mtx{w}_k)^T]
+    E[(\mtx{A}(\mtx{x}_k - \meanmtx{x}_k) + \mtx{\Gamma}\mtx{w}_k)
+      (\mtx{A}(\mtx{x}_k - \meanmtx{x}_k) + \mtx{\Gamma}\mtx{w}_k)^T]
 \end{equation*}
 
 \begin{align*}
   \mtx{P}_{k+1} =~&
-    E[(\mtx{\Phi}(\mtx{x}_k - \meanmtx{x}_k) + \mtx{\Gamma}\mtx{w}_k)
-      (\mtx{\Phi}(\mtx{x}_k - \meanmtx{x}_k) + \mtx{\Gamma}\mtx{w}_k)^T] \\
+    E[(\mtx{A}(\mtx{x}_k - \meanmtx{x}_k) + \mtx{\Gamma}\mtx{w}_k)
+      (\mtx{A}(\mtx{x}_k - \meanmtx{x}_k) + \mtx{\Gamma}\mtx{w}_k)^T] \\
   \mtx{P}_{k+1} =~&
-    E[(\mtx{\Phi}(\mtx{x}_k - \meanmtx{x}_k)(\mtx{x}_k - \meanmtx{x}_k)^T
-      \mtx{\Phi}^T] +
-    E[\mtx{\Phi}(\mtx{x}_k - \meanmtx{x}_k)\mtx{w}_k^T\mtx{\Gamma}^T] + \\
-    &E[\mtx{\Gamma}\mtx{w}_k(\mtx{x}_k - \meanmtx{x}_k)^T\mtx{\Phi}^T] +
+    E[(\mtx{A}(\mtx{x}_k - \meanmtx{x}_k)(\mtx{x}_k - \meanmtx{x}_k)^T
+      \mtx{A}^T] +
+    E[\mtx{A}(\mtx{x}_k - \meanmtx{x}_k)\mtx{w}_k^T\mtx{\Gamma}^T] + \\
+    &E[\mtx{\Gamma}\mtx{w}_k(\mtx{x}_k - \meanmtx{x}_k)^T\mtx{A}^T] +
     E[\mtx{\Gamma}\mtx{w}_k\mtx{w}_k^T\mtx{\Gamma}^T] \\
   \mtx{P}_{k+1} =~&
-    \mtx{\Phi}E[(\mtx{x}_k - \meanmtx{x}_k)(\mtx{x}_k - \meanmtx{x}_k)^T]
-    \mtx{\Phi}^T +
-    \mtx{\Phi}E[(\mtx{x}_k - \meanmtx{x}_k)\mtx{w}_k^T]\mtx{\Gamma}^T + \\
-    &\mtx{\Gamma} E[\mtx{w}_k(\mtx{x}_k - \meanmtx{x}_k)^T]\mtx{\Phi}^T +
+    \mtx{A}E[(\mtx{x}_k - \meanmtx{x}_k)(\mtx{x}_k - \meanmtx{x}_k)^T]
+    \mtx{A}^T +
+    \mtx{A}E[(\mtx{x}_k - \meanmtx{x}_k)\mtx{w}_k^T]\mtx{\Gamma}^T + \\
+    &\mtx{\Gamma} E[\mtx{w}_k(\mtx{x}_k - \meanmtx{x}_k)^T]\mtx{A}^T +
     \mtx{\Gamma} E[\mtx{w}_k\mtx{w}_k^T]\mtx{\Gamma}^T \\
-  \mtx{P}_{k+1} =~& \mtx{\Phi}\mtx{P}_k\mtx{\Phi}^T +
-    \mtx{\Phi}E[(\mtx{x}_k - \meanmtx{x}_k)\mtx{w}_k^T]\mtx{\Gamma}^T + \\
-    &\mtx{\Gamma} E[\mtx{w}_k(\mtx{x}_k - \meanmtx{x}_k)^T]\mtx{\Phi}^T +
+  \mtx{P}_{k+1} =~& \mtx{A}\mtx{P}_k\mtx{A}^T +
+    \mtx{A}E[(\mtx{x}_k - \meanmtx{x}_k)\mtx{w}_k^T]\mtx{\Gamma}^T + \\
+    &\mtx{\Gamma} E[\mtx{w}_k(\mtx{x}_k - \meanmtx{x}_k)^T]\mtx{A}^T +
     \mtx{\Gamma}\mtx{Q}_k\mtx{\Gamma}_k^T
 \end{align*}
 
 Since the state and noise are independent, the cross terms are zero.
 
 \begin{align*}
-  \mtx{P}_{k+1} =~& \mtx{\Phi}\mtx{P}_k\mtx{\Phi}^T + 0 + 0 +
+  \mtx{P}_{k+1} =~& \mtx{A}\mtx{P}_k\mtx{A}^T + 0 + 0 +
     \mtx{\Gamma}\mtx{Q}_k\mtx{\Gamma}^T \\
-  \mtx{P}_{k+1} =~& \mtx{\Phi}\mtx{P}_k\mtx{\Phi}^T +
+  \mtx{P}_{k+1} =~& \mtx{A}\mtx{P}_k\mtx{A}^T +
     \mtx{\Gamma}\mtx{Q}_k\mtx{\Gamma}^T
 \end{align*}
 
@@ -101,9 +100,9 @@ Since the state and noise are independent, the cross terms are zero.
 Next, we will compute the expectation of the \gls{output} $\mtx{y}$.
 
 \begin{align*}
-  E[\mtx{y}_k] &= E[\mtx{H}\mtx{x}_k + \mtx{D}\mtx{u}_k + \mtx{v}_k] \\
-  E[\mtx{y}_k] &= \mtx{H}E[\mtx{x}_k] + \mtx{D}\mtx{u}_k + 0 \\
-  \meanmtx{y}_k &= \mtx{H}\meanmtx{x}_k + \mtx{D}\mtx{u}_k
+  E[\mtx{y}_k] &= E[\mtx{C}\mtx{x}_k + \mtx{D}\mtx{u}_k + \mtx{v}_k] \\
+  E[\mtx{y}_k] &= \mtx{C}E[\mtx{x}_k] + \mtx{D}\mtx{u}_k + 0 \\
+  \meanmtx{y}_k &= \mtx{C}\meanmtx{x}_k + \mtx{D}\mtx{u}_k
 \end{align*}
 
 \subsection{Measurement covariance matrix}
@@ -112,22 +111,22 @@ Now, we will use this to compute how the measurement covariance matrix
 $\mtx{S}$ evolves.
 
 \begin{align*}
-  \mtx{y}_k - \meanmtx{y}_k &= \mtx{H}\mtx{x}_k + \mtx{D}\mtx{u}_k + \mtx{v}_k -
-    (\mtx{H}\meanmtx{x}_k + \mtx{D}\mtx{u}_k) \\
-  \mtx{y}_k - \meanmtx{y}_k &= \mtx{H}(\mtx{x}_k - \meanmtx{x}_k) + \mtx{v}_k
+  \mtx{y}_k - \meanmtx{y}_k &= \mtx{C}\mtx{x}_k + \mtx{D}\mtx{u}_k + \mtx{v}_k -
+    (\mtx{C}\meanmtx{x}_k + \mtx{D}\mtx{u}_k) \\
+  \mtx{y}_k - \meanmtx{y}_k &= \mtx{C}(\mtx{x}_k - \meanmtx{x}_k) + \mtx{v}_k
 \end{align*}
 
 \begin{align*}
   E[(\mtx{y}_k - \meanmtx{y}_k)(\mtx{y}_k - \meanmtx{y}_k)^T] &=
-    E[(\mtx{H}(\mtx{x}_k - \meanmtx{x}_k) + \mtx{v}_k)
-      (\mtx{H}(\mtx{x}_k - \meanmtx{x}_k) + \mtx{v}_k)^T] \\
-  \mtx{S}_k &= E[(\mtx{H}(\mtx{x}_k - \meanmtx{x}_k) + \mtx{v}_k)
-                 (\mtx{H}(\mtx{x}_k - \meanmtx{x}_k) + \mtx{v}_k)^T] \\
-  \mtx{S}_k &= E[(\mtx{H}(\mtx{x}_k - \meanmtx{x}_k)
-                 (\mtx{x}_k - \meanmtx{x}_k)^T\mtx{H}^T] +
+    E[(\mtx{C}(\mtx{x}_k - \meanmtx{x}_k) + \mtx{v}_k)
+      (\mtx{C}(\mtx{x}_k - \meanmtx{x}_k) + \mtx{v}_k)^T] \\
+  \mtx{S}_k &= E[(\mtx{C}(\mtx{x}_k - \meanmtx{x}_k) + \mtx{v}_k)
+                 (\mtx{C}(\mtx{x}_k - \meanmtx{x}_k) + \mtx{v}_k)^T] \\
+  \mtx{S}_k &= E[(\mtx{C}(\mtx{x}_k - \meanmtx{x}_k)
+                 (\mtx{x}_k - \meanmtx{x}_k)^T\mtx{C}^T] +
                E[\mtx{v}_k\mtx{v}_k^T] \\
   \mtx{S}_k &=
-    \mtx{H}E[((\mtx{x}_k - \meanmtx{x}_k)(\mtx{x}_k - \meanmtx{x}_k)^T]
-    \mtx{H}^T + \mtx{R}_k \\
-  \mtx{S}_k &= \mtx{H}\mtx{P}_k\mtx{H}^T + \mtx{R}_k
+    \mtx{C}E[((\mtx{x}_k - \meanmtx{x}_k)(\mtx{x}_k - \meanmtx{x}_k)^T]
+    \mtx{C}^T + \mtx{R}_k \\
+  \mtx{S}_k &= \mtx{C}\mtx{P}_k\mtx{C}^T + \mtx{R}_k
 \end{align*}
