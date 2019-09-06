@@ -217,7 +217,7 @@ inaccuracy is evident in the Hessian matrix (second partial derivative with
 respect to the state vector) being nonzero.
 
 \begin{equation*}
-  \frac{\partial^2 f(\mtx{x}, \mtx{0})}{\partial\mtx{x}^2} =
+  \frac{\partial^2 f(\mtx{x}, \mtx{u})}{\partial\mtx{x}^2} =
   \begin{bmatrix}
     0 & 0 & -\frac{v_r + v_l}{2}\cos\theta & 0 & 0 \\
     0 & 0 & -\frac{v_r + v_l}{2}\sin\theta & 0 & 0 \\
@@ -231,9 +231,9 @@ The second-order Taylor series expansion of the \gls{model} around $\mtx{x}_0$
 would be
 
 \begin{equation*}
-  f(\mtx{x}, \mtx{0}) \approx f(\mtx{x}_0) +
-    \frac{\partial f(\mtx{x}, \mtx{0})}{\partial\mtx{x}}(\mtx{x} - \mtx{x}_0) +
-    \frac{1}{2}\frac{\partial^2 f(\mtx{x}, \mtx{0})}{\partial\mtx{x}^2}
+  f(\mtx{x}, \mtx{u}_0) \approx f(\mtx{x}_0, \mtx{u}_0) +
+    \frac{\partial f(\mtx{x}, \mtx{u})}{\partial\mtx{x}}(\mtx{x} - \mtx{x}_0) +
+    \frac{1}{2}\frac{\partial^2 f(\mtx{x}, \mtx{u})}{\partial\mtx{x}^2}
     (\mtx{x} - \mtx{x}_0)^2
 \end{equation*}
 
