@@ -1,0 +1,18 @@
+\section{Unscented Kalman filter}
+\index{Nonlinear control!unscented Kalman filter}
+\index{State-space observers!Kalman filter!unscented Kalman filter}
+
+In this book, we have covered the Kalman filter, which is the optimal unbiased
+estimator for linear \glspl{system}. It isn't optimal for nonlinear
+\glspl{system}, but several extensions to it have been developed to make it more
+accurate.
+
+The unscented Kalman filter propagates carefully chosen points called sigma
+points through the nonlinear model to obtain an estimate of the true covariance
+(as opposed to a linearized version of it). We recommend reading Roger Labbe's
+book \textit{Kalman and Bayesian Filters in Python} for more on unscented Kalman
+filters\footnote{\url{https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python/blob/master/10-Unscented-Kalman-Filter.ipynb}}.
+
+The original paper on the unscented Kalman filter is also an option
+\cite{bib:unscented_kalman_filter}. Here's a paper on a quaternion-based
+Unscented Kalman filter for orientation tracking \cite{bib:ukf_state_tracking}.
