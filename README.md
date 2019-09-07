@@ -211,7 +211,6 @@ Add stubs for missing chapters, missing sections, and todo items.
 #### Stochastic control theory
 
 * Add an appendix on Ito calculus to explain where the Wiener process comes from?
-* Add equations for Kalman smoother
 * Add equations for and implementation of MMAE
 * Add KFs for nonlinear drivetrain pose estimation
   * EKF, UKF, and comparison of the two

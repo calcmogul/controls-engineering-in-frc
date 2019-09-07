@@ -1,5 +1,5 @@
 \section{Kalman smoother}
-\index{State-space observers!Kalman filter!smoother}
+\index{State-space observers!Kalman smoother}
 
 The Kalman filter uses the data up to the current time to produce an optimal
 estimate of the system \gls{state}. If data beyond the current time is
@@ -11,6 +11,300 @@ The Kalman smoother does a forward pass on the available data, then a backward
 pass through the system dynamics so it takes into account the data before and
 after the current time. This produces \gls{state} variances that are lower than
 that of a Kalman filter.
+
+\subsection{Derivations}
+\index{State-space observers!Kalman smoother!derivations}
+
+\subsection{State update equation}
+
+Let $\hat{\mtx{x}}(t)$ be the state estimate from the forward pass based on
+samples $0$ to $t$ and $\hat{\mtx{x}}_b(t)$ be the state estimate from the
+backward pass based on samples $T$ to $t$.
+
+\begin{equation}
+  \hat{\mtx{x}}(t|T) = \mtx{A}\hat{\mtx{x}}(t) + \mtx{A}'\hat{\mtx{x}}_b(t)
+    \label{eq:ks_xhat}
+\end{equation}
+
+where $\mtx{A}$ and $\mtx{A}'$ are weighting factors.
+
+\begin{equation*}
+  \hat{\mtx{x}}(t|T) = \mtx{A}\mtx{x}(t) + \mtx{A}\widetilde{\mtx{x}}(t) +
+    \mtx{A}'\mtx{x}(t) + \mtx{A}'\widetilde{\mtx{x}}_b(t)
+\end{equation*}
+
+where $\widetilde{\mtx{x}}(t)$ represents the error in the forward state
+estimate and $\widetilde{\mtx{x}}_b(t)$ represents the error in the backward
+state estimate.
+
+\begin{align*}
+  \mtx{x}(t) + \widetilde{\mtx{x}}(t|T) &= \mtx{A}\mtx{x}(t) +
+    \mtx{A}\widetilde{\mtx{x}}(t) + \mtx{A}'\mtx{x}(t) +
+    \mtx{A}'\widetilde{\mtx{x}}_b(t) \\
+  \widetilde{\mtx{x}}(t|T) &= \mtx{A}\mtx{x}(t) - \mtx{x}(t) +
+    \mtx{A}\widetilde{\mtx{x}}(t) + \mtx{A}'\mtx{x}(t) +
+    \mtx{A}'\widetilde{\mtx{x}}_b(t)
+\end{align*}
+
+Factor out $\mtx{x}(t)$.
+
+\begin{equation*}
+  \widetilde{\mtx{x}}(t|T) = (\mtx{A} + \mtx{A}' - \mtx{I})\mtx{x}(t) +
+    \mtx{A}\widetilde{\mtx{x}}(t) + \mtx{A}'\widetilde{\mtx{x}}_b(t)
+\end{equation*}
+
+For unbiased filtering errors such as $\widetilde{\mtx{x}}(t)$ and
+$\widetilde{\mtx{x}}_b(t)$, we want to have an unbiased smoothing error.
+Therefore, we set $\mtx{A} + \mtx{A}' - \mtx{I}$ to zero. This yields
+$\mtx{A}' = \mtx{I} - \mtx{A}$, so
+
+\begin{equation*}
+  \widetilde{\mtx{x}}(t|T) = \mtx{A}\widetilde{\mtx{x}}(t) +
+    (\mtx{I} - \mtx{A})\widetilde{\mtx{x}}_b(t)
+\end{equation*}
+
+\subsection{Error covariance equation}
+
+Next, find the error covariance.
+
+\begin{equation}
+  \mtx{P}(t|T) = \mtx{A}\mtx{P}(t)\mtx{A}^T +
+    (\mtx{I} - \mtx{A})\mtx{P}_b(t)(\mtx{I} - \mtx{A})^T
+    \label{eq:ks_error_cov_a}
+\end{equation}
+
+Find the minimum of the trace of $\mtx{P}(t|T)$ by taking the partial derivaitve
+with respect to $\mtx{A}$ and setting the result to $\mtx{0}$ ($(t)$ has been
+dropped from covariance matrices for clarity).
+
+\begin{align}
+  \mtx{0} &= 2\mtx{A}\mtx{P} + 2(\mtx{I} - \mtx{A})\mtx{P}_b(-\mtx{I}) \nonumber
+    \\
+  \mtx{0} &= 2\mtx{A}\mtx{P} - 2(\mtx{I} - \mtx{A})\mtx{P}_b \nonumber \\
+  \mtx{0} &= \mtx{A}\mtx{P} - (\mtx{I} - \mtx{A})\mtx{P}_b \nonumber \\
+  \mtx{0} &= \mtx{A}\mtx{P} - (\mtx{P}_b - \mtx{A}\mtx{P}_b) \nonumber \\
+  \mtx{0} &= \mtx{A}\mtx{P} - \mtx{P}_b + \mtx{A}\mtx{P}_b \nonumber \\
+  \mtx{0} &= \mtx{A}(\mtx{P} + \mtx{P}_b) - \mtx{P}_b \nonumber \\
+  \mtx{A}(\mtx{P} + \mtx{P}_b) &= \mtx{P}_b \nonumber \\
+  \mtx{A} &= \mtx{P}_b(\mtx{P} + \mtx{P}_b)^{-1} \label{eq:ks_a1}
+\end{align}
+
+\begin{align}
+  \mtx{I} - \mtx{A} &= \mtx{I} - \mtx{P}_b(\mtx{P} + \mtx{P}_b)^{-1} \nonumber
+    \\
+  \mtx{I} - \mtx{A} &= (\mtx{P} + \mtx{P}_b)(\mtx{P} + \mtx{P}_b)^{-1} -
+    \mtx{P}_b(\mtx{P} + \mtx{P}_b)^{-1} \nonumber \\
+  \mtx{I} - \mtx{A} &= (\mtx{P} + \mtx{P}_b - \mtx{P}_b)
+    (\mtx{P} + \mtx{P}_b)^{-1} \nonumber \\
+  \mtx{I} - \mtx{A} &= \mtx{P}(\mtx{P} + \mtx{P}_b)^{-1} \label{eq:ks_a2}
+\end{align}
+
+\begin{align*}
+  \mtx{A}^T &= (\mtx{P}_b(\mtx{P} + \mtx{P}_b)^{-1})^T \\
+  \mtx{A}^T &= ((\mtx{P} + \mtx{P}_b)^{-1})^T\mtx{P}_b^T \\
+  \mtx{A}^T &= ((\mtx{P} + \mtx{P}_b)^T)^{-1}\mtx{P}_b^T \\
+  \mtx{A}^T &= (\mtx{P}^T + \mtx{P}_b^T)^{-1}\mtx{P}_b^T
+\end{align*}
+
+Covariance matrices are symmetric, so
+
+\begin{equation}
+  \mtx{A}^T = (\mtx{P} + \mtx{P}_b)^{-1}\mtx{P}_b \label{eq:ks_a3}
+\end{equation}
+
+\begin{align*}
+  (\mtx{I} - \mtx{A})^T &= (\mtx{P}(\mtx{P} + \mtx{P}_b)^{-1})^T \\
+  (\mtx{I} - \mtx{A})^T &= ((\mtx{P} + \mtx{P}_b)^{-1})^T\mtx{P}^T \\
+  (\mtx{I} - \mtx{A})^T &= ((\mtx{P} + \mtx{P}_b)^T)^{-1}\mtx{P}^T \\
+  (\mtx{I} - \mtx{A})^T &= (\mtx{P}^T + \mtx{P}_b^T)^{-1}\mtx{P}^T
+\end{align*}
+
+Covariance matrices are symmetric, so
+
+\begin{equation}
+  (\mtx{I} - \mtx{A})^T = (\mtx{P} + \mtx{P}_b)^{-1}\mtx{P} \label{eq:ks_a4}
+\end{equation}
+
+Now starting from equation (\ref{eq:ks_error_cov_a}), substitute in equations
+(\ref{eq:ks_a1}) through (\ref{eq:ks_a4}).
+
+\begin{align*}
+  \mtx{P}(t|T) &=
+    \mtx{A}\mtx{P}\mtx{A}^T + (\mtx{I} - \mtx{A})\mtx{P}_b(\mtx{I} - \mtx{A})^T
+    \\
+  \mtx{P}(t|T) &=
+    (\mtx{P}_b(\mtx{P} + \mtx{P}_b)^{-1})\mtx{P}
+      ((\mtx{P} + \mtx{P}_b)^{-1}\mtx{P}_b) +
+    (\mtx{P}(\mtx{P} + \mtx{P}_b)^{-1})\mtx{P}_b
+      ((\mtx{P} + \mtx{P}_b)^{-1}\mtx{P}) \\
+  \mtx{P}(t|T) &=
+    \mtx{P}_b(\mtx{P} + \mtx{P}_b)^{-1}\mtx{P}
+    (\mtx{P} + \mtx{P}_b)^{-1}\mtx{P}_b + \mtx{P}
+      (\mtx{P} + \mtx{P}_b)^{-1}\mtx{P}_b
+      (\mtx{P} + \mtx{P}_b)^{-1}\mtx{P}
+\end{align*}
+
+Apply theorem \ref{thm:2mat_inv} to the right sides of each term to combine
+them.
+
+\begin{theorem}
+  \label{thm:2mat_inv}
+
+  $\mtx{A}\mtx{B} = (\mtx{B}^{-1}\mtx{A}^{-1})^{-1}$
+\end{theorem}
+
+\begin{align*}
+  \mtx{P}(t|T) &=
+    \mtx{P}_b(\mtx{P} + \mtx{P}_b)^{-1}\mtx{P}
+      (\mtx{P}_b^{-1}(\mtx{P} + \mtx{P}_b))^{-1} +
+    \mtx{P}(\mtx{P} + \mtx{P}_b)^{-1}\mtx{P}_b
+      (\mtx{P}^{-1}(\mtx{P} + \mtx{P}_b))^{-1} \\
+  \mtx{P}(t|T) &= \mtx{P}_b(\mtx{P} + \mtx{P}_b)^{-1}\mtx{P}
+      (\mtx{P}_b^{-1}\mtx{P} + \mtx{I})^{-1} +
+    \mtx{P}(\mtx{P} + \mtx{P}_b)^{-1}\mtx{P}_b
+      (\mtx{I} + \mtx{P}^{-1}\mtx{P}_b)^{-1}
+\end{align*}
+
+Apply theorem \ref{thm:2mat_inv} to the right sides of each term again.
+
+\begin{align*}
+  \mtx{P}(t|T) &=
+    \mtx{P}_b(\mtx{P} + \mtx{P}_b)^{-1}
+      ((\mtx{P}_b^{-1}\mtx{P} + \mtx{I})\mtx{P}^{-1})^{-1} +
+    \mtx{P}(\mtx{P} + \mtx{P}_b)^{-1}
+      ((\mtx{I} + \mtx{P}^{-1}\mtx{P}_b)\mtx{P}_b^{-1})^{-1} \\
+  \mtx{P}(t|T) &=
+    \mtx{P}_b(\mtx{P} + \mtx{P}_b)^{-1}(\mtx{P}_b^{-1} + \mtx{P}^{-1})^{-1} +
+    \mtx{P}(\mtx{P} + \mtx{P}_b)^{-1}(\mtx{P}_b^{-1} + \mtx{P}^{-1})^{-1} \\
+  \mtx{P}(t|T) &= \mtx{P}_b(\mtx{P} + \mtx{P}_b)^{-1}
+    (\mtx{P}^{-1} + \mtx{P}_b^{-1})^{-1} +
+    \mtx{P}(\mtx{P} + \mtx{P}_b)^{-1}(\mtx{P}^{-1} + \mtx{P}_b^{-1})^{-1}
+\end{align*}
+
+Factor out $(\mtx{P}^{-1} + \mtx{P}_b^{-1})^{-1}$ to the right.
+
+\begin{equation*}
+  \mtx{P}(t|T) =
+    (\mtx{P}_b(\mtx{P} + \mtx{P}_b)^{-1} + \mtx{P}(\mtx{P} + \mtx{P}_b)^{-1})
+    (\mtx{P}^{-1} + \mtx{P}_b^{-1})^{-1}
+\end{equation*}
+
+Factor out $(\mtx{P} + \mtx{P}_b)^{-1}$ to the right.
+
+\begin{align}
+  \mtx{P}(t|T) &=
+    (\mtx{P}_b + \mtx{P})(\mtx{P} + \mtx{P}_b)^{-1}
+    (\mtx{P}^{-1} + \mtx{P}_b^{-1})^{-1} \nonumber \\
+  \mtx{P}(t|T) &=
+    (\mtx{P} + \mtx{P}_b)(\mtx{P} + \mtx{P}_b)^{-1}
+    (\mtx{P}^{-1} + \mtx{P}_b^{-1})^{-1} \nonumber \\
+  \mtx{P}(t|T) &= I(\mtx{P}^{-1} + \mtx{P}_b^{-1})^{-1} \nonumber \\
+  \mtx{P}(t|T) &= (\mtx{P}(t)^{-1} + \mtx{P}_b(t)^{-1})^{-1}
+    \label{eq:ks_error_cov}
+\end{align}
+
+\subsection{Optimal estimate}
+
+Now find the optimal estimate $\hat{\mtx{x}}(t|T)$ starting from equation
+(\ref{eq:ks_xhat}).
+
+\begin{align*}
+  \hat{\mtx{x}}(t|T) &= \mtx{A}\hat{\mtx{x}}(t) + \mtx{A}'\hat{\mtx{x}}_b(t) \\
+  \hat{\mtx{x}}(t|T) &= \mtx{A}\hat{\mtx{x}}(t) +
+    (\mtx{I} - \mtx{A})\hat{\mtx{x}}_b(t) \\
+  \hat{\mtx{x}}(t|T) &=
+    \mtx{P}_b(\mtx{P} + \mtx{P}_b)^{-1}\hat{\mtx{x}}(t) +
+    \mtx{P}(\mtx{P} + \mtx{P}_b)^{-1}\hat{\mtx{x}}_b(t) \\
+  \hat{\mtx{x}}(t|T) &=
+    \mtx{P}_b(\mtx{P} + \mtx{P}_b)^{-1}\mtx{P}\mtx{P}^{-1}\hat{\mtx{x}}(t) +
+    \mtx{P}(\mtx{P} + \mtx{P}_b)^{-1}\mtx{P}_b\mtx{P}_b^{-1}\hat{\mtx{x}}_b(t)
+\end{align*}
+
+Apply theorem \ref{thm:2mat_inv}.
+
+\begin{align*}
+  \hat{\mtx{x}}(t|T) &=
+    \mtx{P}_b(\mtx{P}^{-1}(\mtx{P} + \mtx{P}_b))^{-1}
+      \mtx{P}^{-1}\hat{\mtx{x}}(t) +
+    \mtx{P}(\mtx{P}_b^{-1}(\mtx{P} + \mtx{P}_b))^{-1}
+      \mtx{P}_b^{-1}\hat{\mtx{x}}_b(t) \\
+  \hat{\mtx{x}}(t|T) &=
+    \mtx{P}_b(\mtx{I} + \mtx{P}^{-1}\mtx{P}_b)^{-1}
+      \mtx{P}^{-1}\hat{\mtx{x}}(t) +
+    \mtx{P}(\mtx{P}_b^{-1}\mtx{P} + \mtx{I})^{-1}
+      \mtx{P}_b^{-1}\hat{\mtx{x}}_b(t)
+\end{align*}
+
+Apply theorem \ref{thm:2mat_inv} again.
+
+\begin{align*}
+  \hat{\mtx{x}}(t|T) &=
+    ((\mtx{I} + \mtx{P}^{-1}\mtx{P}_b)\mtx{P}_b^{-1})^{-1}
+      \mtx{P}^{-1}\hat{\mtx{x}}(t) +
+    ((\mtx{P}_b^{-1}\mtx{P} + \mtx{I})\mtx{P}^{-1})^{-1}
+      \mtx{P}_b^{-1}\hat{\mtx{x}}_b(t) \\
+  \hat{\mtx{x}}(t|T) &=
+    (\mtx{P}_b^{-1} + \mtx{P}^{-1})^{-1}\mtx{P}^{-1}\hat{\mtx{x}}(t) +
+    (\mtx{P}_b^{-1} + \mtx{P}^{-1})^{-1}\mtx{P}_b^{-1}\hat{\mtx{x}}_b(t)
+\end{align*}
+
+Factor out $(\mtx{P}_b^{-1} + \mtx{P}^{-1})^{-1}$ to the left.
+
+\begin{equation*}
+  \hat{\mtx{x}}(t|T) =
+    (\mtx{P}_b^{-1} + \mtx{P}^{-1})^{-1}
+    (\mtx{P}^{-1}\hat{\mtx{x}}(t) + \mtx{P}_b^{-1}\hat{\mtx{x}}_b(t))
+\end{equation*}
+
+Substitute in equation (\ref{eq:ks_error_cov}).
+
+\begin{align}
+  \hat{\mtx{x}}(t|T) &= \mtx{P}(t|T)
+    (\mtx{P}^{-1}\hat{\mtx{x}}(t) + \mtx{P}_b^{-1}\hat{\mtx{x}}_b(t)) \nonumber
+    \\
+  \hat{\mtx{x}}(t|T) &= \mtx{P}(t|T)
+    (\mtx{P}^{-1}(t)\hat{\mtx{x}}(t) + \mtx{P}_b^{-1}(t)\hat{\mtx{x}}_b(t))
+\end{align}
+
+\subsection{Predict and update equations}
+
+One first does a forward pass with the typical Kalman filter equations and
+stores the results. Then one can use the Rauch-Tung-Striebel (RTS) algorithm to
+do the backward pass (see theorem \ref{thm:kalman_smoother}).
+
+Theorem \ref{thm:kalman_smoother} shows the predict and and update steps for the
+forward and backward passes for a Kalman smoother at the $k^{th}$ timestep.
+
+\index{State-space observers!Kalman smoother!equations}
+\begin{theorem}[Kalman smoother]
+  \label{thm:kalman_smoother}
+
+  \begin{align}
+    \text{Forward predict step} \nonumber \\
+    \hat{\mtx{x}}_{k+1}^- &= \mtx{A}\hat{\mtx{x}}_k + \mtx{B} \mtx{u}_k \\
+    \mtx{P}_{k+1}^- &= \mtx{A} \mtx{P}_k^- \mtx{A}^T +
+      \mtx{\Gamma}\mtx{Q}\mtx{\Gamma}^T \\
+    \text{Forward update step} \nonumber \\
+    \mtx{K}_{k+1} &=
+      \mtx{P}_{k+1}^- \mtx{C}^T (\mtx{C}\mtx{P}_{k+1}^- \mtx{C}^T +
+      \mtx{R})^{-1} \\
+    \hat{\mtx{x}}_{k+1}^+ &=
+      \hat{\mtx{x}}_{k+1}^- + \mtx{K}_{k+1}(\mtx{y}_{k+1} -
+      \mtx{C} \hat{\mtx{x}}_{k+1}^- - \mtx{D}\mtx{u}_{k+1}) \\
+    \mtx{P}_{k+1}^+ &= (\mtx{I} - \mtx{K}_{k+1}\mtx{C})\mtx{P}_{k+1}^- \\
+    \text{Backward update step} \nonumber \\
+    \mtx{K}_k &= \mtx{P}_k^+ \mtx{A}_k^T (\mtx{P}_{k+1}^-)^{-1} \\
+    \hat{\mtx{x}}_{k|N} &= \hat{\mtx{x}}_k^+ +
+      \mtx{K}_k(\hat{\mtx{x}}_{k+1|N} - \hat{\mtx{x}}_{k+1}^-) \\
+    \mtx{P}_{k|N} &=
+      \mtx{P}_k^+ + \mtx{K}_k(\mtx{P}_{k+1|N} - \mtx{P}_{k+1}^-)\mtx{K}_k^T \\
+    \text{Backward initial conditions} \nonumber \\
+    \hat{\mtx{x}}_{N|N} &= \hat{\mtx{x}}_N^+ \\
+    \mtx{P}_{N|N} &= \mtx{P}_N^+
+  \end{align}
+\end{theorem}
+
+\subsection{Example}
 
 We will modify the robot model so that instead of a velocity of $0.8 cm/s$ with
 random noise, the velocity is modeled as a random walk from the current

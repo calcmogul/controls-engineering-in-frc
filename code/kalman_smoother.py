@@ -26,9 +26,9 @@ def main():
     y = np.genfromtxt("kalman_robot.csv", delimiter=",")
 
     # fmt: off
-    phi = np.array([[1, 1, 0],
-                    [0, 1, 0],
-                    [0, 0, 1]])
+    A = np.array([[1, 1, 0],
+                  [0, 1, 0],
+                  [0, 0, 1]])
     gamma = np.array([[0],
                       [0.1],
                       [0]])
@@ -72,8 +72,8 @@ def main():
 
     for k in range(2, 100):
         # Predict
-        xhat = phi @ xhat
-        P = phi @ P @ phi.T + gamma @ Q @ gamma.T
+        xhat = A @ xhat
+        P = A @ P @ A.T + gamma @ Q @ gamma.T
 
         xhat_pre_rec[:, :, k] = xhat
         P_pre_rec[:, :, k] = P
@@ -94,11 +94,11 @@ def main():
     P_smooth_rec[:, :, -1] = P_post_rec[:, :, -1]
 
     for k in range(y.shape[1] - 2, 0, -1):
-        A = P_post_rec[:, :, k] @ phi.T @ np.linalg.inv(P_pre_rec[:, :, k + 1])
-        xhat = xhat_post_rec[:, :, k] + A @ (
+        K = P_post_rec[:, :, k] @ A.T @ np.linalg.inv(P_pre_rec[:, :, k + 1])
+        xhat = xhat_post_rec[:, :, k] + K @ (
             xhat_smooth_rec[:, :, k + 1] - xhat_pre_rec[:, :, k + 1]
         )
-        P = P_post_rec[:, :, k] + A @ (P - P_pre_rec[:, :, k + 1]) @ A.T
+        P = P_post_rec[:, :, k] + K @ (P - P_pre_rec[:, :, k + 1]) @ K.T
 
         xhat_smooth_rec[:, :, k] = xhat
         P_smooth_rec[:, :, k] = P
@@ -116,7 +116,7 @@ def main():
     # Robot velocity
     plt.figure(2)
     plt.xlabel("Time (s)")
-    plt.ylabel("Velocity (cm)")
+    plt.ylabel("Velocity (cm/s)")
     plt.plot(t[1:], xhat_post_rec[1, 0, 1:], label="Kalman filter")
     plt.plot(t[1:], xhat_smooth_rec[1, 0, 1:], label="Kalman smoother")
     plt.legend()
