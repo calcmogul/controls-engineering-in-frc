@@ -207,6 +207,13 @@ Add stubs for missing chapters, missing sections, and todo items.
   * Mention N is nonzero when cost includes y in some form
   * https://www.reddit.com/r/ControlTheory/comments/9wi42x/can_someone_please_explain_the_meaning_of_the_lqr/e9kwfmp
 * Finite horizon, discrete time LQR
+* Add a section on polytopes for convex optimization? So far, I've seen it used
+  for handling saturated control inputs to prioritize tracking some states over
+  others using the limited control input.
+  * See 971/y2017/control_loops/python/polydrivetrain.py
+  * Start with how to turn a set of constraints into a matrix equation of the
+    proper form for a polytope, then how to leverage the polytope libs for
+    enforcing those constraints.
 
 #### Stochastic control theory
 
@@ -215,13 +222,6 @@ Add stubs for missing chapters, missing sections, and todo items.
   * EKF, UKF, and comparison of the two
 * Derive the two-sensor problem from first principles. The two-sensor problem
   uses p(x) and p(z_1|x).
-* Add a section on polytopes for convex optimization? So far, I've seen it used
-  for handling saturated control inputs to prioritize tracking some states over
-  others using the limited control input.
-  * See 971/y2017/control_loops/python/polydrivetrain.py
-  * Start with how to turn a set of constraints into a matrix equation of the
-    proper form for a polytope, then how to leverage the polytope libs for
-    enforcing those constraints.
 
 #### Motion planning
 
