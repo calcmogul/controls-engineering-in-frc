@@ -7,16 +7,20 @@ estimator for linear \glspl{system}. It isn't optimal for nonlinear
 \glspl{system}, but several extensions to it have been developed to make it more
 accurate.
 
-The extended Kalman filte \glslink{linearization}{linearizes} the matrices used
-during the prediction step. In addition to the $\mtx{A}$, $\mtx{B}$, $\mtx{C}$,
-and $\mtx{D}$ matrices above, the process noise intensity vector $\mtx{\Gamma}$
-is \glslink{linearization}{linearized} as follows:
+The extended Kalman filter \glslink{linearization}{linearizes} the matrices used
+during the prediction step. $\mtx{A}$, $\mtx{B}$, $\mtx{C}$, and $\mtx{D}$ are
+\glslink{linearization}{linearized} as follows:
 
-\begin{equation*}
-  \mtx{\Gamma} = \frac{\partial f(\mtx{x}, \mtx{u}, \mtx{w})}{\partial \mtx{w}}
-\end{equation*}
-
-where $\mtx{w}$ is the process noise included in the stochastic model.
+\begin{align*}
+  \mtx{A} &\approx
+    \frac{\partial f(\mtx{x}, \mtx{u})}{\partial \mtx{x}} &
+  \mtx{B} &\approx
+    \frac{\partial f(\mtx{x}, \mtx{u})}{\partial \mtx{u}} &
+  \mtx{C} &\approx
+    \frac{\partial h(\mtx{x}, \mtx{u})}{\partial \mtx{x}} &
+  \mtx{D} &\approx
+    \frac{\partial h(\mtx{x}, \mtx{u})}{\partial \mtx{u}}
+\end{align*}
 
 From there, the continuous Kalman filter equations are used like normal to
 compute the error covariance matrix $\mtx{P}$ and Kalman gain matrix. The
