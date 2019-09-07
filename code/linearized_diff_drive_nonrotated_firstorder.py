@@ -280,7 +280,6 @@ def main():
     if "--noninteractive" in sys.argv:
         latex.savefig("linearized_diff_drive_nonrotated_firstorder_xy")
 
-    plt.figure(2)
     diff_drive.plot_time_responses(t, state_rec, ref_rec, u_rec)
 
     if "--noninteractive" in sys.argv:
