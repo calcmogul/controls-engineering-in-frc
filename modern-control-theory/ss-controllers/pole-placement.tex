@@ -2,11 +2,7 @@
 \index{Controller design!pole placement}
 
 This is the practice of placing the poles of a closed-loop \gls{system} directly
-to produce a desired response. This can be done manually for state feedback
-controllers with controllable canonical form (see section \ref{sec:ctrl_canon}).
-This can also be done manually for \gls{state} \glspl{observer} with observable
-canonical form (see section \ref{sec:obsv_canon}).
-
-In general, pole placement should only be used if you know what you're doing.
-It's much easier to let LQR place the poles for you, then use those as a
-starting point for pole placement.
+to produce a desired response. Python Control offers several pole placement
+algorithms for generating controller or observer gains from a set of poles. In
+general, pole placement should only be used if you know what you're doing. It's
+much easier to let LQR place the poles for you, which we'll discuss next.

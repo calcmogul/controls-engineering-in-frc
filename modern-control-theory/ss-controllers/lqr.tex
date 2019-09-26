@@ -73,7 +73,8 @@ the result is finite, the controller is guaranteed to be stable and
 \begin{remark}
   LQR design's $\mtx{Q}$ and $\mtx{R}$ matrices don't need \gls{discretization},
   but the $\mtx{K}$ calculated for continuous time and discrete time
-  \glspl{system} will be different.
+  \glspl{system} will be different. The discrete time gains approach the
+  continuous time gains as the sample period tends to zero.
 \end{remark}
 
 \subsection{Bryson's rule}
