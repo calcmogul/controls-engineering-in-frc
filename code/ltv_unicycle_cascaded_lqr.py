@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Runs linearized unicycle simulation
+# Runs LTV unicycle simulation
 
 # Avoid needing display if plots aren't being shown
 import sys
@@ -124,7 +124,7 @@ def main():
         plt.legend()
 
         if "--noninteractive" in sys.argv:
-            latex.savefig(f"linearized_unicycle_cascaded_lqr_{i}")
+            latex.savefig(f"ltv_unicycle_cascaded_lqr_{i}")
     if "--noninteractive" not in sys.argv:
         plt.show()
 

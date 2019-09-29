@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Runs linearized differential drive simulation
+# Runs LTV differential drive simulation
 
 # Avoid needing display if plots aren't being shown
 import sys
@@ -56,8 +56,8 @@ def differential_drive(motor, num_motors, m, r, rb, J, Gl, Gr, states):
         vr = 1e-9
         v = 1e-9
     # fmt: off
-    A = np.array([[0, 0, 0, 0.5, 0.5],
-                  [0, 0, v, 0, 0],
+    A = np.array([[0, 0, -v * math.sin(theta), 0.5 * math.cos(theta), 0.5 * math.cos(theta)],
+                  [0, 0, v * math.cos(theta), 0.5 * math.sin(theta), 0.5 * math.sin(theta)],
                   [0, 0, 0, -0.5 / rb, 0.5 / rb],
                   [0, 0, 0, (1 / m + rb**2 / J) * C1, (1 / m - rb**2 / J) * C3],
                   [0, 0, 0, (1 / m - rb**2 / J) * C1, (1 / m + rb**2 / J) * C3]])
@@ -90,7 +90,7 @@ def get_diff_vels(v, omega, d):
 
 class DifferentialDrive(fct.System):
     def __init__(self, dt, states):
-        """Drivetrain subsystem.
+        """Differential drive subsystem.
 
         Keyword arguments:
         dt -- time between model/controller updates
@@ -144,7 +144,7 @@ class DifferentialDrive(fct.System):
         Glow = 60.0 / 11.0
         Ghigh = 60.0 / 11.0
 
-        # Drivetrain mass in kg
+        # Differential drive mass in kg
         m = 52
         # Radius of wheels in meters
         r = 0.08255 / 2.0
@@ -196,7 +196,7 @@ class DifferentialDrive(fct.System):
         q = [q_x, q_y, q_heading, q_vel, q_vel]
         r = [12.0, 12.0]
 
-        self.K = self.relinearize(q, r, self.x_hat, np.zeros((2, 1)))
+        self.K = self.relinearize(q, r, self.x_hat, self.u)
 
         self.design_two_state_feedforward()
 
@@ -208,21 +208,17 @@ class DifferentialDrive(fct.System):
             [q_pos, q_pos, q_heading, q_vel, q_vel], [r_gyro, r_vel, r_vel]
         )
 
+    def update_plant(self):
+        self.sysc = self.create_model(self.x, self.u)
+        self.sysd = self.sysc.sample(self.dt)
+
+        self.x = self.sysd.A @ self.x + self.sysd.B @ self.u
+        self.y = self.sysd.C @ self.x + self.sysd.D @ self.u
+
     def update_controller(self, next_r):
         self.design_controller_observer()
 
-        rot = self.x_hat[2, 0]
-        in_robot_frame = np.array(
-            [
-                [math.cos(rot), math.sin(rot), 0, 0, 0],
-                [-math.sin(rot), math.cos(rot), 0, 0, 0],
-                [0, 0, 1, 0, 0],
-                [0, 0, 0, 1, 0],
-                [0, 0, 0, 0, 1],
-            ]
-        )
-        e = self.r - self.x_hat
-        u = self.K @ in_robot_frame @ e
+        u = self.K @ (self.r - self.x_hat)
         rdot = (next_r - self.r) / self.dt
         uff = self.Kff @ (rdot - self.f(self.x_hat, np.zeros(self.u.shape)))
         self.r = next_r
@@ -265,7 +261,7 @@ def main():
     plt.figure(1)
     x_rec = np.squeeze(np.asarray(state_rec[0, :]))
     y_rec = np.squeeze(np.asarray(state_rec[1, :]))
-    plt.plot(x_rec, y_rec, label="Linearized controller")
+    plt.plot(x_rec, y_rec, label="LTV controller")
     plt.plot(ref_rec[0, :], ref_rec[1, :], label="Reference trajectory")
     plt.xlabel("x (m)")
     plt.ylabel("y (m)")
@@ -282,12 +278,12 @@ def main():
         plt.xlim([-height / 2, height / 2])
 
     if "--noninteractive" in sys.argv:
-        latex.savefig("linearized_diff_drive_exact_xy")
+        latex.savefig("ltv_diff_drive_nonrotated_firstorder_xy")
 
     diff_drive.plot_time_responses(t, state_rec, ref_rec, u_rec)
 
     if "--noninteractive" in sys.argv:
-        latex.savefig("linearized_diff_drive_exact_response")
+        latex.savefig("ltv_diff_drive_nonrotated_firstorder_response")
     else:
         plt.show()
 

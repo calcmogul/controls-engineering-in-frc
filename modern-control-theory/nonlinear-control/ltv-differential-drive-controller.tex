@@ -1,6 +1,19 @@
-\section{Linearized differential drive controller}
+\section{Linear time-varying differential drive controller}
+\index{Controller design!linear time-varying control}
+\index{Nonlinear control!linear time-varying control}
+\index{Optimal control!linear time-varying control}
 
-First, we'll start with theorem \ref{thm:ramsete_decoupled_ref_tracker}.
+As mentioned previously, one can approximate a nonlinear system via
+linearizations around points of interest in the state-space and design
+controllers for those linearized subspaces. If we sample linearization points
+progressively closer together, we converge on a control policy for the original
+nonlinear system. Since the linear \gls{plant} being controlled varies with
+time, its controller is called a linear time-varying (LTV) controller.
+
+If we use LQRs for the linearized subspaces, the nonlinear control policy will
+also be locally optimal. We'll be taking this approach with a differential
+drive. First, we need a model of one, so we'll start with theorem
+\ref{thm:ramsete_decoupled_ref_tracker}.
 
 \begin{equation*}
   \begin{array}{ccc}
@@ -80,7 +93,7 @@ $\mtx{u} = \begin{bmatrix} V_l & V_r \end{bmatrix}^T$.
       \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_2 V_l +
       \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_4 V_r
   \end{bmatrix}
-  \label{eq:linearized_diff_drive_f}
+  \label{eq:ltv_diff_drive_f}
 \end{equation}
 
 To create an LQR, we need to linearize this.
@@ -112,8 +125,8 @@ To create an LQR, we need to linearize this.
 
 Therefore,
 
-\begin{theorem}[Linearized differential drive state-space model]
-  \label{thm:linearized_diff_drive_model}
+\begin{theorem}[Linear time-varying differential drive state-space model]
+  \label{thm:ltv_diff_drive_model}
   \begin{equation*}
     \begin{array}{ccc}
       \mtx{x} =
@@ -194,19 +207,21 @@ velocities to rotate the robot.
 
 \subsection{Improving model accuracy}
 
-Figures \ref{fig:linearized_diff_drive_nonrotated_firstorder_xy} and
-\ref{fig:linearized_diff_drive_nonrotated_firstorder_response} demonstrate the
+Figures \ref{fig:ltv_diff_drive_nonrotated_firstorder_xy} and
+\ref{fig:ltv_diff_drive_nonrotated_firstorder_response} demonstrate the
 tracking behavior of the linearized differential drive controller.
 
 \begin{bookfigure}
-  \begin{minisvg}{2}{build/code/linearized_diff_drive_nonrotated_firstorder_xy}
-    \caption{Linearized differential drive controller x-y plot (first order)}
-    \label{fig:linearized_diff_drive_nonrotated_firstorder_xy}
+  \begin{minisvg}{2}{build/code/ltv_diff_drive_nonrotated_firstorder_xy}
+    \caption{Linear time-varying differential drive controller x-y plot (first
+      order)}
+    \label{fig:ltv_diff_drive_nonrotated_firstorder_xy}
   \end{minisvg}
   \hfill
-  \begin{minisvg}{2}{build/code/linearized_diff_drive_nonrotated_firstorder_response}
-    \caption{Linearized differential drive controller response (first order)}
-    \label{fig:linearized_diff_drive_nonrotated_firstorder_response}
+  \begin{minisvg}{2}{build/code/ltv_diff_drive_nonrotated_firstorder_response}
+    \caption{Linear time-varying differential drive controller response (first
+      order)}
+    \label{fig:ltv_diff_drive_nonrotated_firstorder_response}
   \end{minisvg}
 \end{bookfigure}
 
@@ -239,7 +254,7 @@ would be
 
 To include higher-order dynamics in the linearized differential drive model
 integration, we recommend using the fourth-order Runge-Kutta (RK4) integration
-method on equation (\ref{eq:linearized_diff_drive_f}). See snippet
+method on equation (\ref{eq:ltv_diff_drive_f}). See snippet
 \ref{lst:runge-kutta} for an implementation of RK4.
 
 \begin{code}{Python}{build/frccontrol/frccontrol/runge_kutta.py}
@@ -247,21 +262,21 @@ method on equation (\ref{eq:linearized_diff_drive_f}). See snippet
   \label{lst:runge-kutta}
 \end{code}
 
-Figures \ref{fig:linearized_diff_drive_nonrotated_xy} and
-\ref{fig:linearized_diff_drive_nonrotated_response} show a simulation using RK4
+Figures \ref{fig:ltv_diff_drive_nonrotated_xy} and
+\ref{fig:ltv_diff_drive_nonrotated_response} show a simulation using RK4
 instead of the first-order \gls{model}.
 
 \begin{bookfigure}
-  \begin{minisvg}{2}{build/code/linearized_diff_drive_nonrotated_xy}
-    \caption{Linearized differential drive controller (global reference frame
-      formulation) x-y plot}
-    \label{fig:linearized_diff_drive_nonrotated_xy}
+  \begin{minisvg}{2}{build/code/ltv_diff_drive_nonrotated_xy}
+    \caption{Linear time-varying differential drive controller (global reference
+        frame formulation) x-y plot}
+    \label{fig:ltv_diff_drive_nonrotated_xy}
   \end{minisvg}
   \hfill
-  \begin{minisvg}{2}{build/code/linearized_diff_drive_nonrotated_response}
-    \caption{Linearized differential drive controller (global reference frame
-      formulation) response}
-    \label{fig:linearized_diff_drive_nonrotated_response}
+  \begin{minisvg}{2}{build/code/ltv_diff_drive_nonrotated_response}
+    \caption{Linear time-varying differential drive controller (global reference
+        frame formulation) response}
+    \label{fig:ltv_diff_drive_nonrotated_response}
   \end{minisvg}
 \end{bookfigure}
 
@@ -280,8 +295,8 @@ instead of the first-order \gls{model}.
 \end{bookfigure}
 
 The tracking performance of the linearized differential drive controller
-(figures \ref{fig:linearized_diff_drive_nonrotated_xy} and
-\ref{fig:linearized_diff_drive_nonrotated_response}) and Ramsete (figures
+(figures \ref{fig:ltv_diff_drive_nonrotated_xy} and
+\ref{fig:ltv_diff_drive_nonrotated_response}) and Ramsete (figures
 \ref{fig:ramsete_traj_xy2} and \ref{fig:ramsete_traj_response2}) for a given
 trajectory are similar, but the former's performance-effort trade-off can be
 tuned more intuitively via the Q and R gains. However, if the $x$ and $y$ error
@@ -342,19 +357,19 @@ around $\theta = 0$ at all times.
   \end{bmatrix}
 \end{align*}
 
-This \gls{model} results in figures \ref{fig:linearized_diff_drive_exact_xy} and
-\ref{fig:linearized_diff_drive_exact_response}, which show slightly better
+This \gls{model} results in figures \ref{fig:ltv_diff_drive_exact_xy} and
+\ref{fig:ltv_diff_drive_exact_response}, which show slightly better
 tracking performance than the previous formulation.
 
 \begin{bookfigure}
-  \begin{minisvg}{2}{build/code/linearized_diff_drive_exact_xy}
-    \caption{Linearized differential drive controller x-y plot}
-    \label{fig:linearized_diff_drive_exact_xy}
+  \begin{minisvg}{2}{build/code/ltv_diff_drive_exact_xy}
+    \caption{Linear time-varying differential drive controller x-y plot}
+    \label{fig:ltv_diff_drive_exact_xy}
   \end{minisvg}
   \hfill
-  \begin{minisvg}{2}{build/code/linearized_diff_drive_exact_response}
-    \caption{Linearized differential drive controller response}
-    \label{fig:linearized_diff_drive_exact_response}
+  \begin{minisvg}{2}{build/code/ltv_diff_drive_exact_response}
+    \caption{Linear time-varying differential drive controller response}
+    \label{fig:ltv_diff_drive_exact_response}
   \end{minisvg}
 \end{bookfigure}
 
@@ -370,39 +385,39 @@ linearized differential drive controller gains. Fortunately, the formulation of
 the controller dealing with cross-track error only requires linearization around
 different values of $v$ rather than $v$ and $\theta$; only a two-dimensional
 function is needed rather than a three-dimensional one. See figures
-\ref{fig:linearized_diff_drive_lqr_fit_0} through
-\ref{fig:linearized_diff_drive_lqr_fit_4} for plots of each controller gain for
+\ref{fig:ltv_diff_drive_lqr_fit_0} through
+\ref{fig:ltv_diff_drive_lqr_fit_4} for plots of each controller gain for
 a range of velocities.
 
 \begin{bookfigure}
-  \begin{minisvg}{2}{build/code/linearized_diff_drive_lqr_fit_0}
-    \caption{Linearized differential drive controller LQR gain regression fit
-      ($x$)}
-    \label{fig:linearized_diff_drive_lqr_fit_0}
+  \begin{minisvg}{2}{build/code/ltv_diff_drive_lqr_fit_0}
+    \caption{Linear time-varying differential drive controller LQR gain
+      regression fit ($x$)}
+    \label{fig:ltv_diff_drive_lqr_fit_0}
   \end{minisvg}
   \hfill
-  \begin{minisvg}{2}{build/code/linearized_diff_drive_lqr_fit_1}
-    \caption{Linearized differential drive controller LQR gain fit regression
-      fit ($y$)}
-    \label{fig:linearized_diff_drive_lqr_fit_1}
+  \begin{minisvg}{2}{build/code/ltv_diff_drive_lqr_fit_1}
+    \caption{Linear time-varying differential drive controller LQR gain fit
+      regression fit ($y$)}
+    \label{fig:ltv_diff_drive_lqr_fit_1}
   \end{minisvg}
   \hfill
-  \begin{minisvg}{2}{build/code/linearized_diff_drive_lqr_fit_2}
-    \caption{Linearized differential drive controller LQR gain regression fit
-      ($\theta$)}
-    \label{fig:linearized_diff_drive_lqr_fit_2}
+  \begin{minisvg}{2}{build/code/ltv_diff_drive_lqr_fit_2}
+    \caption{Linear time-varying differential drive controller LQR gain
+      regression fit ($\theta$)}
+    \label{fig:ltv_diff_drive_lqr_fit_2}
   \end{minisvg}
   \hfill
-  \begin{minisvg}{2}{build/code/linearized_diff_drive_lqr_fit_3}
-    \caption{Linearized differential drive controller LQR gain regression fit
-      ($v_l$)}
-    \label{fig:linearized_diff_drive_lqr_fit_3}
+  \begin{minisvg}{2}{build/code/ltv_diff_drive_lqr_fit_3}
+    \caption{Linear time-varying differential drive controller LQR gain
+      regression fit ($v_l$)}
+    \label{fig:ltv_diff_drive_lqr_fit_3}
   \end{minisvg}
   \hfill
-  \begin{minisvg}{2}{build/code/linearized_diff_drive_lqr_fit_4}
-    \caption{Linearized differential drive controller LQR gain regression fit
-      ($v_r$)}
-    \label{fig:linearized_diff_drive_lqr_fit_4}
+  \begin{minisvg}{2}{build/code/ltv_diff_drive_lqr_fit_4}
+    \caption{Linear time-varying differential drive controller LQR gain
+      regression fit ($v_r$)}
+    \label{fig:ltv_diff_drive_lqr_fit_4}
   \end{minisvg}
 \end{bookfigure}
 
@@ -410,7 +425,7 @@ With the exception of the $x$ gain plot, all functions are a variation of a
 square root. $v = 0$ and $v = 1$ were used to scale each function to produce a
 close approximation.
 
-\begin{theorem}[Linearized differential drive controller]
+\begin{theorem}[Linear time-varying differential drive controller]
   The following $\mtx{A}$ and $\mtx{B}$ matrices are used to compute the LQR.
 
   \begin{equation}
@@ -455,7 +470,7 @@ close approximation.
   $C_2 = \frac{G_l K_t}{Rr}$, $C_3 = -\frac{G_r^2 K_t}{K_v R r^2}$, and
   $C_4 = \frac{G_r K_t}{Rr}$.
 
-  The Pareto optimal controller for this model is
+  The locally optimal controller for this model is
   $\mtx{u} = \mtx{K}(v) (\mtx{r} - \mtx{x})$ where
 
   \begin{align}
@@ -495,28 +510,30 @@ close approximation.
   \end{figurekey}
 \end{theorem}
 
-Figures \ref{fig:linearized_diff_drive_approx_xy} through
-\ref{fig:linearized_diff_drive_exact_response2} show the responses of the exact
+Figures \ref{fig:ltv_diff_drive_approx_xy} through
+\ref{fig:ltv_diff_drive_exact_response2} show the responses of the exact
 and approximate solutions are the same.
 
 \begin{bookfigure}
-  \begin{minisvg}{2}{build/code/linearized_diff_drive_approx_xy}
-    \caption{Linearized differential drive controller x-y plot (approximate)}
-    \label{fig:linearized_diff_drive_approx_xy}
+  \begin{minisvg}{2}{build/code/ltv_diff_drive_approx_xy}
+    \caption{Linear time-varying differential drive controller x-y plot
+      (approximate)}
+    \label{fig:ltv_diff_drive_approx_xy}
   \end{minisvg}
   \hfill
-  \begin{minisvg}{2}{build/code/linearized_diff_drive_exact_xy}
-    \caption{Linearized differential drive controller x-y plot (exact)}
-    \label{fig:linearized_diff_drive_exact_xy2}
+  \begin{minisvg}{2}{build/code/ltv_diff_drive_exact_xy}
+    \caption{Linear time-varying differential drive controller x-y plot (exact)}
+    \label{fig:ltv_diff_drive_exact_xy2}
   \end{minisvg}
   \hfill
-  \begin{minisvg}{2}{build/code/linearized_diff_drive_approx_response}
-    \caption{Linearized differential drive controller response (approximate)}
-    \label{fig:linearized_diff_drive_approx_response}
+  \begin{minisvg}{2}{build/code/ltv_diff_drive_approx_response}
+    \caption{Linear time-varying differential drive controller response
+      (approximate)}
+    \label{fig:ltv_diff_drive_approx_response}
   \end{minisvg}
   \hfill
-  \begin{minisvg}{2}{build/code/linearized_diff_drive_exact_response}
-    \caption{Linearized differential drive controller response (exact)}
-    \label{fig:linearized_diff_drive_exact_response2}
+  \begin{minisvg}{2}{build/code/ltv_diff_drive_exact_response}
+    \caption{Linear time-varying differential drive controller response (exact)}
+    \label{fig:ltv_diff_drive_exact_response2}
   \end{minisvg}
 \end{bookfigure}

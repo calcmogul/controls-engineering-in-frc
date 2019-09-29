@@ -1,6 +1,11 @@
-\section{Linearized unicycle controller (cascaded)}
+\section{Linear time-varying unicycle controller (cascaded)}
 
-The change in global pose is defined by these three equations.
+One can also create a linear time-varying controller with a cascaded control
+architecture like Ramsete. This section will derive a locally optimal
+replacement for Ramsete.
+
+The change in global pose for a unicycle is defined by the following three
+equations.
 
 \begin{align*}
   \dot{x} &= v\cos\theta \\
@@ -40,8 +45,8 @@ To create an LQR, we need to linearize this.
 
 Therefore,
 
-\begin{theorem}[Linearized unicycle state-space model]
-  \label{thm:linearized_unicycle_model}
+\begin{theorem}[Linear time-varying unicycle state-space model]
+  \label{thm:ltv_unicycle_model}
   \begin{equation*}
     \begin{array}{ccc}
       \mtx{x} =
@@ -91,30 +96,32 @@ Therefore,
 
 \subsection{Explicit time-varying control law}
 
-As with the linearized differential drive, we will fit a vector function of the
-states to the linearized unicycle controller gains. Fortunately, the formulation
-of the controller dealing with cross-track error only requires linearization
-around different values of $v$ rather than $v$ and $\theta$; only a
-two-dimensional function is needed rather than a three-dimensional one. See
-figures \ref{fig:linearized_unicycle_cascaded_lqr_0} through
-\ref{fig:linearized_unicycle_cascaded_lqr_2} for plots of each controller gain
-for a range of velocities.
+As with the LTV differential drive, we will fit a vector function of the states
+to the LTV unicycle controller gains. Fortunately, the formulation of the
+controller dealing with cross-track error only requires linearization around
+different values of $v$ rather than $v$ and $\theta$; only a two-dimensional
+function is needed rather than a three-dimensional one. See figures
+\ref{fig:ltv_unicycle_cascaded_lqr_0} through
+\ref{fig:ltv_unicycle_cascaded_lqr_2} for plots of each controller gain for a
+range of velocities.
 
 \begin{bookfigure}
-  \begin{minisvg}{2}{build/code/linearized_unicycle_cascaded_lqr_0}
-    \caption{Linearized unicycle controller cascaded LQR gain regression ($x$)}
-    \label{fig:linearized_unicycle_cascaded_lqr_0}
+  \begin{minisvg}{2}{build/code/ltv_unicycle_cascaded_lqr_0}
+    \caption{Linear time-varying unicycle controller cascaded LQR gain
+      regression ($x$)}
+    \label{fig:ltv_unicycle_cascaded_lqr_0}
   \end{minisvg}
   \hfill
-  \begin{minisvg}{2}{build/code/linearized_unicycle_cascaded_lqr_1}
-    \caption{Linearized unicycle controller cascaded LQR gain regression ($y$)}
-    \label{fig:linearized_unicycle_cascaded_lqr_1}
+  \begin{minisvg}{2}{build/code/ltv_unicycle_cascaded_lqr_1}
+    \caption{Linear time-varying unicycle controller cascaded LQR gain
+      regression ($y$)}
+    \label{fig:ltv_unicycle_cascaded_lqr_1}
   \end{minisvg}
   \hfill
-  \begin{minisvg}{2}{build/code/linearized_unicycle_cascaded_lqr_2}
-    \caption{Linearized unicycle controller cascaded LQR gain regression
-      ($\theta$)}
-    \label{fig:linearized_unicycle_cascaded_lqr_2}
+  \begin{minisvg}{2}{build/code/ltv_unicycle_cascaded_lqr_2}
+    \caption{Linear time-varying unicycle controller cascaded LQR gain
+      regression ($\theta$)}
+    \label{fig:ltv_unicycle_cascaded_lqr_2}
   \end{minisvg}
 \end{bookfigure}
 
@@ -122,7 +129,7 @@ With the exception of the $x$ gain plot, all functions are a variation of a
 square root. $v = 0$ and $v = 1$ were used to scale each function to produce a
 close approximation.
 
-\begin{theorem}[Linearized unicycle controller]
+\begin{theorem}[Linear time-varying unicycle controller]
   The following $\mtx{A}$ and $\mtx{B}$ matrices are used to compute the LQR.
 
   \begin{equation}
@@ -153,7 +160,7 @@ close approximation.
     \end{array}
   \end{equation}
 
-  The Pareto optimal controller for this model is
+  The locally optimal controller for this model is
   $\mtx{u} = \mtx{K}(v) (\mtx{r} - \mtx{x})$ where
 
   \begin{align}

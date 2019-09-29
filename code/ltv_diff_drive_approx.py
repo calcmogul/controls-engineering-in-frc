@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Runs linearized differential drive simulation
+# Runs LTV differential drive simulation
 
 # Avoid needing display if plots aren't being shown
 import sys
@@ -290,7 +290,7 @@ def main():
     plt.figure(1)
     x_rec = np.squeeze(np.asarray(state_rec[0, :]))
     y_rec = np.squeeze(np.asarray(state_rec[1, :]))
-    plt.plot(x_rec, y_rec, label="Linearized controller")
+    plt.plot(x_rec, y_rec, label="LTV controller")
     plt.plot(ref_rec[0, :], ref_rec[1, :], label="Reference trajectory")
     plt.xlabel("x (m)")
     plt.ylabel("y (m)")
@@ -307,12 +307,12 @@ def main():
         plt.xlim([-height / 2, height / 2])
 
     if "--noninteractive" in sys.argv:
-        latex.savefig("linearized_diff_drive_approx_xy")
+        latex.savefig("ltv_diff_drive_approx_xy")
 
     diff_drive.plot_time_responses(t, state_rec, ref_rec, u_rec)
 
     if "--noninteractive" in sys.argv:
-        latex.savefig("linearized_diff_drive_approx_response")
+        latex.savefig("ltv_diff_drive_approx_response")
     else:
         plt.show()
 

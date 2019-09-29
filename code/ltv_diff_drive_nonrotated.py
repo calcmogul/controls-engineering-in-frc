@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Runs linearized differential drive simulation
+# Runs LTV differential drive simulation
 
 # Avoid needing display if plots aren't being shown
 import sys
@@ -208,13 +208,6 @@ class DifferentialDrive(fct.System):
             [q_pos, q_pos, q_heading, q_vel, q_vel], [r_gyro, r_vel, r_vel]
         )
 
-    def update_plant(self):
-        self.sysc = self.create_model(self.x, self.u)
-        self.sysd = self.sysc.sample(self.dt)
-
-        self.x = self.sysd.A @ self.x + self.sysd.B @ self.u
-        self.y = self.sysd.C @ self.x + self.sysd.D @ self.u
-
     def update_controller(self, next_r):
         self.design_controller_observer()
 
@@ -261,7 +254,7 @@ def main():
     plt.figure(1)
     x_rec = np.squeeze(np.asarray(state_rec[0, :]))
     y_rec = np.squeeze(np.asarray(state_rec[1, :]))
-    plt.plot(x_rec, y_rec, label="Linearized controller")
+    plt.plot(x_rec, y_rec, label="LTV controller")
     plt.plot(ref_rec[0, :], ref_rec[1, :], label="Reference trajectory")
     plt.xlabel("x (m)")
     plt.ylabel("y (m)")
@@ -278,12 +271,12 @@ def main():
         plt.xlim([-height / 2, height / 2])
 
     if "--noninteractive" in sys.argv:
-        latex.savefig("linearized_diff_drive_nonrotated_firstorder_xy")
+        latex.savefig("ltv_diff_drive_nonrotated_xy")
 
     diff_drive.plot_time_responses(t, state_rec, ref_rec, u_rec)
 
     if "--noninteractive" in sys.argv:
-        latex.savefig("linearized_diff_drive_nonrotated_firstorder_response")
+        latex.savefig("ltv_diff_drive_nonrotated_response")
     else:
         plt.show()
 
