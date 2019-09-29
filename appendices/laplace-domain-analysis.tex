@@ -13,8 +13,42 @@ approach of transfer functions. For this, we'll be using equation
   K(s) = K_p + \frac{K_i}{s} + K_ds \label{eq:pid_tf}
 \end{equation}
 
-Remember, multiplication by $\frac{1}{s}$ corresponds to an integral in the
-Laplace domain and multiplication by $s$ corresponds to a derivative.
+\section{Laplace transform definition}
+
+The Laplace transform of a function $f(t)$ is defined as
+
+\begin{equation*}
+  \mathcal{L}\{f(t)\} = F(s) = \int_0^\infty f(t) e^{-st} \,dt
+\end{equation*}
+
+We won't be computing any Laplace transforms by hand using this formula
+(everyone in the real world looks these up in a table anyway). Common Laplace
+transforms (assuming zero initial conditions) are shown in table
+\ref{tab:common_laplace_transforms}. Of particular note are the Laplace
+transforms for the derivative, unit step\footnote{The unit step $u(t)$ is
+defined as $0$ for $t < 0$ and $1$ for $t \ge 0$.}, and exponential decay. We
+can see that a derivative is equivalent to multiplying by $s$, and an integral
+is equivalent to multiplying by $\frac{1}{s}$.
+
+\begin{booktable}
+  \begin{tabular}{|ccc|}
+    \hline
+    \rowcolor{headingbg}
+    & \textbf{Time domain} & \textbf{Laplace domain} \\
+    \hline
+    Linearity & $a\,f(t) + b\,g(t)$ & $a\,F(s) + b\,G(s)$ \\
+    Convolution & $(f * g)(t)$ & $F(s) \,G(s)$ \\
+    Derivative & $f'(t)$ & $s \,F(s)$ \\
+    $n^{th}$ derivative & $f^{(n)}(t)$ & $s^n \,F(s)$ \\
+    Unit step & $u(t)$ & $\frac{1}{s}$ \\
+    Ramp & $t \,u(t)$ & $\frac{1}{s^2}$ \\
+    Exponential decay & $e^{-\alpha t} u(t)$ & $\frac{1}{s + \alpha}$ \\
+    \hline
+  \end{tabular}
+  \caption{Common Laplace transforms and Laplace transform properties with zero
+    initial conditions}
+  \label{tab:common_laplace_transforms}
+\end{booktable}
 
 \section{Case study: steady-state error}
 \index{Steady-state error}

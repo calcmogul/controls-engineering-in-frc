@@ -12,7 +12,6 @@ of a transfer function.
 \end{equation}
 
 \subsection{Poles and zeroes}
-\label{subsec:poles_and_zeroes}
 
 The roots of factors in the numerator of a transfer function are called
 \textit{zeroes} because they make the transfer function approach zero. Likewise,
@@ -26,11 +25,11 @@ expansion into something like $\frac{A}{s + a} + \frac{B}{s + b}$, the constants
 $A$ and $B$ are called residues, which determine how much each pole contributes
 to the \gls{system response}.
 
-You may notice that the factors representing poles look a lot like the Laplace
-transform for a decaying exponential. This is why the time domain responses of
-\glspl{system} are typically decaying exponentials. One differential equation
-which can produce this kind of response is $\dot{x} = ax$ where $\dot{x}$ is the
-derivative of $x$ and $a < 0$.
+The factors representing poles are each the Laplace transform of a decaying
+exponential\footnote{We are handwaving Laplace transform derivations because
+they are complicated and neither relevant nor useful.}. That means the time
+domain responses of \glspl{system} comprise decaying exponentials (e.g.,
+$y = e^{-t}$).
 
 \begin{svg}{build/code/tf_3d}
   \caption{Equation \ref{eq:transfer_func} plotted in 3D}
