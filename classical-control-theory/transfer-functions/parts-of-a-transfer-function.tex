@@ -1,5 +1,18 @@
-\section{Poles and zeroes}
-\label{sec:poles_and_zeroes}
+\section{Parts of a transfer function}
+
+A transfer function maps an input coordinate to an output coordinate in the
+Laplace domain. These can be obtained by applying the Laplace transform to a
+differential equation and rearranging the terms to obtain a ratio of the output
+variable to the input variable. Equation (\ref{eq:transfer_func}) is an example
+of a transfer function.
+
+\begin{equation} \label{eq:transfer_func}
+  H(s) = \frac{\overbrace{(s-9+9i)(s-9-9i)}^{zeroes}}
+    {\underbrace{s(s+10)}_{poles}}
+\end{equation}
+
+\subsection{Poles and zeroes}
+\label{subsec:poles_and_zeroes}
 
 The roots of factors in the numerator of a transfer function are called
 \textit{zeroes} because they make the transfer function approach zero. Likewise,
@@ -116,3 +129,55 @@ When a \gls{system} is stable, its output may oscillate but it converges to
 steady-state. When a \gls{system} is marginally stable, its output oscillates at
 a constant amplitude forever. When a \gls{system} is unstable, its output grows
 without bound.
+
+\subsection{Nonminimum phase zeroes}
+
+While poles in the RHP are unstable, the same is not true for zeroes. They can
+be characterized by the \gls{system} initially moving in the wrong direction
+before heading toward the \gls{reference}. Since the poles always move toward
+the zeroes, zeroes impose a ``speed limit" on the \gls{system response} because
+it takes a finite amount of time to move the wrong direction, then change
+directions.
+
+One example of this type of \gls{system} is bicycle steering. Try riding a
+bicycle without holding the handle bars, then poke the right handle; the bicycle
+turns right. Furthermore, if one is holding the handlebars and wants to turn
+left, rotating the handlebars counterclockwise will make the bicycle fall toward
+the right. The rider has to lean into the turn and overpower the nonminimum
+phase dynamics to go the desired direction.
+
+Another example is a Segway. To move forward by some distance, the Segway must
+first roll backward to rotate the Segway forward. Once the Segway starts falling
+in that direction, it begins rolling forward to avoid falling over until
+it reaches the target distance. At that point, the Segway increases its forward
+speed to pitch backward and slow itself down. To come to a stop, the Segway
+rolls backward again to level itself out.
+
+\subsection{Pole-zero cancellation}
+\label{subsec:pole-zero_cancellation}
+
+Pole-zero cancellation occurs when a pole and zero are located at the same place
+in the s-plane. This effectively eliminates the contribution of each to the
+\gls{system} dynamics. By placing poles and zeroes at various locations (this is
+done by placing transfer functions in series), we can eliminate undesired
+\gls{system} dynamics. While this may appear to be a useful design tool at
+first, there are major caveats. Most of these are due to \gls{model} uncertainty
+resulting in poles which aren't in the locations the controls designer expected.
+
+Notch filters are typically used to dampen a specific range of frequencies in
+the \gls{system response}. If its band is made too narrow, it can still leave the
+undesirable dynamics, but now you can no longer measure them in the response.
+They are still happening, but they are what's called \textit{unobservable}.
+
+Never pole-zero cancel unstable or nonminimum phase dynamics. If the \gls{model}
+doesn't quite reflect reality, an attempted pole cancellation by placing a
+nonminimum phase zero results in the pole still moving to the zero placed next
+to it. You have the same dynamics as before, but the pole is also stuck where it
+is no matter how much \gls{feedback gain} is applied. For an attempted
+nonminimum phase zero cancellation, you have effectively placed an unstable pole
+that's unobservable. This means the \gls{system} will be going unstable and
+blowing up, but you won't be able to detect this and react to it.
+
+Keep in mind when making design decisions that the \gls{model} likely isn't
+perfect. The whole point of feedback control is to be robust to this kind of
+uncertainty.
