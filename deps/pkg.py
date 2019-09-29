@@ -98,9 +98,9 @@ class PackageTree:
         # reclone to retreive desired commit.
         if os.path.exists(f"build/{pkg.name}"):
             os.chdir(f"build/{pkg.name}")
-            commit = subprocess.run(
-                ["git", "rev-parse", "HEAD"], capture_output=True, encoding="utf-8"
-            ).stdout.rstrip()
+            commit = subprocess.check_output(
+                ["git", "rev-parse", "HEAD"], encoding="utf-8"
+            ).rstrip()
             os.chdir(self.root)
 
             if pkg.commit == commit:
