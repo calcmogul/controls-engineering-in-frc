@@ -116,3 +116,51 @@ Small values of $\rho$ penalize \gls{control effort} while large values of
 $\rho$ penalize \gls{state} excursions. Large values would be chosen in
 applications like fighter jets where performance is necessary. Spacecrafts would
 use small values to conserve their limited fuel supply.
+
+\subsection{Pole placement vs LQR}
+
+This example uses the following second-order \gls{model} for a CIM motor (a DC
+brushed motor).
+
+\begin{align*}
+  \begin{array}{cccc}
+    \mtx{A} = \begin{bmatrix}
+      -\frac{b}{J} & \frac{K_t}{J} \\
+      -\frac{K_e}{L} & -\frac{R}{L}
+    \end{bmatrix} &
+    \mtx{B} = \begin{bmatrix}
+      0 \\
+      \frac{1}{L}
+    \end{bmatrix} &
+    \mtx{C} = \begin{bmatrix}
+      1 & 0
+    \end{bmatrix} &
+    \mtx{D} = \begin{bmatrix}
+      0
+    \end{bmatrix}
+  \end{array}
+\end{align*}
+
+Figure \ref{fig:case_study_pp_lqr} shows the response using poles placed at
+$(0.1, 0)$ and $(0.9, 0)$ and LQR with the following cost matrices.
+
+\begin{align*}
+  \begin{array}{cc}
+    \mtx{Q} = \begin{bmatrix}
+      \frac{1}{20^2} & 0 \\
+      0 & \frac{1}{40^2}
+    \end{bmatrix} &
+    \mtx{R} = \begin{bmatrix}
+      \frac{1}{12^2}
+    \end{bmatrix}
+  \end{array}
+\end{align*}
+
+\begin{svg}{build/code/case_study_pp_lqr}
+  \caption{Second-order CIM motor response with pole placement and LQR}
+  \label{fig:case_study_pp_lqr}
+\end{svg}
+
+LQR selected poles at $(0.593, 0)$ and $(0.955, 0)$. Notice with pole placement
+that as the current pole moves left, the \gls{control effort} becomes more
+aggressive.
