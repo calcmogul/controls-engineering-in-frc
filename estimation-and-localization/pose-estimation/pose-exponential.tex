@@ -1,20 +1,64 @@
-\section{Nonlinear pose estimation}
-\label{sec:nonlinear_pose_estimation}
+\section{Pose exponential}
 
-The simplest way to perform pose estimation is to integrate the velocity in each
-orthogonal direction over time. In two dimensions, one could use
+We can obtain a more accurate approximation of the pose by including first order
+dynamics for the heading $\theta$. To provide a rationale for the math we're
+about to do, we need to cover some aspects of group theory.
 
-\begin{align*}
-  x_{k+1} &= x_k + v_k\cos\theta_k\,T \\
-  y_{k+1} &= y_k + v_k\sin\theta_k\,T
-\end{align*}
+\subsection{What is a group?}
 
-where $T$ is the sample period. $x_d$, $y_d$, and $\theta_d$ are obtained from a
-desired time-based trajectory.
+In mathematics, a group is a set equipped with a binary operation (an operation
+with two arguments) that combines any two elements (of the set) to form a third
+element in such a way that four conditions called \textit{group axioms} are
+satisfied: closure, associativity, identity, and invertibility.
 
-This odometry approach assumes that the robot follows a straight path between
-samples (that is, $\omega = 0$). We can obtain a more accurate approximation by
-including first order dynamics for the heading $\theta$.
+\textit{Closure} means that the result is in the same set as the arguments.
+
+\textit{Associativity} means that within an expression containing two or more
+occurrences in a row of the same associative operator, the order in which the
+operations are performed does not matter as long as the sequence of the operands
+is not changed. In other words, different groupings of the operations produces
+the same result.
+
+\textit{Identity}, or an identity element, is a special type of element of a set
+with respect to a binary operation on that set, which leaves any element of the
+set unchanged when combined with it. For example, the additive identity of the
+set of integers is zero, which means that any integer summed with zero produces
+that integer.
+
+\textit{Invertibility} means there is an element that can ``undo" the effect of
+combination with another given element. For integers and the addition operator,
+the inverse element would be the negation.
+
+\subsection{What is a pose?}
+
+To develop what a pose is in group theory, we need to define a few key groups.
+SO(2) is the special orthogonal group in dimension 2. They represent a 2D
+rotation.
+
+SE(2) is the special euclidean group in dimension 2. They represent a 2D
+rotation and a 2D translation, which we call a 2D pose. In other words, pose is
+an element of SE(2).
+
+\subsection{What is a twist?}
+
+A 2D twist is an element of the tangent space of SE(2) (like the tangential
+distance traveled by the robot along an arc in SE(2)). We use the ``pose
+exponential" to map a twist (an element of the tangent space) to an element of
+SE(2). In other words, we map a twist to a pose.
+
+We call it a pose exponential because it’s an exponential map onto a pose. The
+term exponential is used because the solution for integrating a change in
+something (like a slope or tangent) over time is usually an exponential. For
+example, $\frac{dx}{dt} = ax$ has the solution $x = x_0 e^{at}$.
+
+We use the pose exponential to take encoder measurement deltas and gyro angle
+deltas (which are in the tangent space and are thus a twist) and turn them into
+a change in pose. This gets added to the pose from the last update.
+
+\subsection{Derivation}
+
+We can obtain a more accurate approximation of the pose than Euler integration
+by including first order dynamics for the heading $\theta$.
 
 \begin{equation*}
   \mtx{x} = \begin{bmatrix}
@@ -25,8 +69,7 @@ including first order dynamics for the heading $\theta$.
 \end{equation*}
 
 $v_x$, $v_y$, and $\omega$ are the $x$ and $y$ velocities of the robot within
-its local coordinate frame, which will be treated as constants. These values in
-a column vector are called a "twist".
+its local coordinate frame, which will be treated as constants.
 
 \begin{remark}
   There are two coordinate frames used here: robot and global. A superscript on
@@ -35,7 +78,7 @@ a column vector are called a "twist".
   coordinate frame is denoted by $G$.
 \end{remark}
 
-In the robot frame
+In the robot frame (the tangent space)
 
 \begin{align*}
   \crdfrm{R}{dx} &= \crdfrm{R}{v_x} \,dt \\
@@ -43,8 +86,8 @@ In the robot frame
   \crdfrm{R}{d\theta} &= \crdfrm{R}{\omega} \,dt
 \end{align*}
 
-To transform this into the global frame, we apply a counterclockwise rotation
-matrix where $\theta$ changes over time.
+To transform this into the global frame SE(2), we apply a counterclockwise
+rotation matrix where $\theta$ changes over time.
 
 \begin{align*}
   \crdfrm{G}{\begin{bmatrix}
@@ -119,7 +162,7 @@ derivation heavily utilizes the integration method described in section
 This equation assumes a starting orientation of $\theta = 0$. For nonzero
 starting orientations, we can apply a counterclockwise rotation by $\theta$.
 
-\begin{equation*}
+\begin{equation}
   \crdfrm{G}{\begin{bmatrix}
     \Delta x \\
     \Delta y \\
@@ -140,12 +183,13 @@ starting orientations, we can apply a counterclockwise rotation by $\theta$.
     v_y \\
     \omega
   \end{bmatrix}}
-\end{equation*}
+  \label{eq:se2_exp_vel}
+\end{equation}
 
 If we factor out a $t$, we can use change in pose between updates instead of
 velocities.
 
-\begin{align*}
+\begin{align}
   \crdfrm{G}{\begin{bmatrix}
     \Delta x \\
     \Delta y \\
@@ -165,7 +209,7 @@ velocities.
     v_x \\
     v_y \\
     \omega
-  \end{bmatrix}} \\
+  \end{bmatrix}} \nonumber \\
   \crdfrm{G}{\begin{bmatrix}
     \Delta x \\
     \Delta y \\
@@ -185,7 +229,7 @@ velocities.
     v_x \\
     v_y \\
     \omega
-  \end{bmatrix}} t \\
+  \end{bmatrix}} t \nonumber \\
   \crdfrm{G}{\begin{bmatrix}
     \Delta x \\
     \Delta y \\
@@ -205,7 +249,7 @@ velocities.
     v_x t \\
     v_y t \\
     \omega t
-  \end{bmatrix}} \\
+  \end{bmatrix}} \nonumber \\
   \crdfrm{G}{\begin{bmatrix}
     \Delta x \\
     \Delta y \\
@@ -228,14 +272,19 @@ velocities.
     \Delta y \\
     \Delta\theta
   \end{bmatrix}}
-\end{align*}
+  \label{eq:se2_exp_twist}
+\end{align}
 
-The previous version used the current velocity and projected the model forward
-to the next timestep (into the future). As such, the prediction must be done
-after any controller calculations are performed. With the second version, the
-locally measured pose deltas can only be measured using past samples, so the
-model update must be performed before any controller calculations to advance the
-model to the current timestep.
+The vector $\begin{bmatrix}\Delta x & \Delta y & \Delta\theta \end{bmatrix}^T$
+is a twist because it's an element of the tangent space (the robot's local
+coordinate frame).
+
+Equation \eqref{eq:se2_exp_vel} used the current velocity and projected the
+model forward to the next timestep (into the future). As such, the prediction
+must be done after any controller calculations are performed. With equation
+\eqref{eq:se2_exp_twist}, the locally measured pose deltas can only be measured
+using past samples, so the model update must be performed before any controller
+calculations to advance the model to the current timestep.
 
 When the robot is traveling on a straight trajectory ($\omega = 0$), some
 expressions within the equation above are indeterminate. We can approximate
@@ -259,7 +308,7 @@ $x = vt$ with a rotation applied to them.
   \frac{1 - \cos\omega t}{\omega} &\sim \frac{t^2 \cdot 0}{2} = 0
 \end{align*}
 
-Now substitute these into equation \eqref{eq:nonlinear_pose_estimator}.
+Now substitute these into equation \eqref{eq:pose_exponential}.
 
 \begin{align*}
   \crdfrm{G}{\begin{bmatrix}
@@ -333,7 +382,7 @@ of the current heading, which is along the x-axis. Therefore,
   \end{bmatrix}
 \end{align*}
 
-\begin{theorem}[Nonlinear pose estimator with constant curvature]
+\begin{theorem}[Pose exponential]
   \begin{equation}
     \crdfrm{G}{\begin{bmatrix}
       \Delta x \\
@@ -355,7 +404,7 @@ of the current heading, which is along the x-axis. Therefore,
       v_y \\
       \omega
     \end{bmatrix}}
-    \label{eq:nonlinear_pose_estimator}
+    \label{eq:pose_exponential}
   \end{equation}
 
   or
@@ -429,3 +478,11 @@ displacement. The difference would be even more noticeable for paths with higher
 curvatures and longer durations. One mitigation is using a smaller update
 period. However, there are bigger sources of error like turning scrub on skid
 steer robots that should be dealt with before odometry numerical accuracy.
+
+\subsection{Lie groups}
+
+While we avoided the topic in our explanation, pose is what's known as a Lie
+group (a group that is also a differentiable manifold). There's a lot of
+mathematical and controls results  developed around Lie groups, so we're
+mentioning the connection here in case you want to search the Internet for more
+information.

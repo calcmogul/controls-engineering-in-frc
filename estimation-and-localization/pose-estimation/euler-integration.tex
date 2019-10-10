@@ -1,0 +1,15 @@
+\section{Euler integration}
+
+The simplest way to perform pose estimation via dead reckoning (that is, no
+direct measurements of the pose are used) is to integrate the velocity in each
+orthogonal direction over time. In two dimensions, one could use
+
+\begin{align*}
+  x_{k+1} &= x_k + v_k\cos\theta_k\,T \\
+  y_{k+1} &= y_k + v_k\sin\theta_k\,T \\
+  \theta_{k+1} &= \theta_{gyro,k+1}
+\end{align*}
+
+where $T$ is the sample period. This odometry approach assumes that the robot
+follows a straight path between samples (that is, $\omega = 0$ at all but the
+sample times).
