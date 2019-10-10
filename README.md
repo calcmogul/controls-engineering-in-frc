@@ -265,6 +265,7 @@ included in an appendix.
 * Fix bugs in dependencies
   * Fix nonsquare system pzmaps in Python Control, then enable non-Slycot pzmaps
     for remaining examples
+* Add script that verifies all labels are referenced at least once
 
 ## Licensing
 
