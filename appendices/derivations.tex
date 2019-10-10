@@ -309,8 +309,8 @@ A Luenberger \gls{observer} is defined as
 \end{align}
 
 where a superscript of minus denotes \textit{a priori} and plus denotes
-\textit{a posteriori} estimate. Combining equation (\ref{eq:luenberger1}) and
-equation (\ref{eq:luenberger2}) gives
+\textit{a posteriori} estimate. Combining equation \eqref{eq:luenberger1} and
+equation \eqref{eq:luenberger2} gives
 
 \begin{equation} \label{eq:luenberger}
   \hat{\mtx{x}}_{k+1}^+ = \mtx{A}\hat{\mtx{x}}_k^- + \mtx{B}\mtx{u}_k + \mtx{L}
@@ -335,7 +335,7 @@ update step.
     \mtx{\Gamma}\mtx{Q}\mtx{\Gamma}^T
 \end{align}
 
-Substitute equation (\ref{eq:post2_x}) into equation (\ref{eq:pre2_x}).
+Substitute equation \eqref{eq:post2_x} into equation \eqref{eq:pre2_x}.
 
 \begin{align*}
   \hat{\mtx{x}}_{k+1}^+ &= \mtx{A}(\hat{\mtx{x}}_k^- + \mtx{K}_k(\mtx{y}_k -
@@ -353,7 +353,7 @@ Let $\mtx{L} = \mtx{A} \mtx{K}_k$.
     (\mtx{y}_k - \mtx{C}\hat{\mtx{x}}_k^-)
 \end{equation}
 
-which matches equation (\ref{eq:luenberger}). Therefore, the eigenvalues of the
+which matches equation \eqref{eq:luenberger}. Therefore, the eigenvalues of the
 Kalman filter \gls{observer} can be obtained by
 
 \begin{align}
@@ -382,7 +382,7 @@ equation.
     (\mtx{y}_{k+1} - \mtx{C}\hat{\mtx{x}}_{k+1}^-)
 \end{align*}
 
-Substitute in equation (\ref{eq:z_obsv_y}).
+Substitute in equation \eqref{eq:z_obsv_y}.
 
 \begin{equation*}
   \hat{\mtx{x}}_{k+1}^+ = \hat{\mtx{x}}_{k+1}^- + \mtx{A}^{-1}\mtx{L}

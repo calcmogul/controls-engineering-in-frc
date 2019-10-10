@@ -81,7 +81,7 @@ We want to derive equations for the accelerations of the left and right sides of
 the robot $\dot{v}_l$ and $\dot{v}_r$ given left and right input voltages $V_l$
 and $V_r$.
 
-From equation (\ref{eq:tau_f}) of the flywheel \gls{model} derivations
+From equation \eqref{eq:tau_f} of the flywheel \gls{model} derivations
 
 \begin{equation}
   \tau = \frac{GK_t}{R} V - \frac{G^2K_t}{K_v R} \omega
@@ -146,7 +146,7 @@ where $r_b$ is the radius of the differential drive.
   \dot{v}_r &= \dot{v}_l + \frac{2 r_b^2}{J} (-F_l + F_r)
 \end{align*}
 
-Substitute in equation (\ref{eq:diff_drive_dotv_l}) for $\dot{v}_l$ to obtain an
+Substitute in equation \eqref{eq:diff_drive_dotv_l} for $\dot{v}_l$ to obtain an
 expression for $\dot{v}_r$.
 
 \begin{align}
@@ -162,8 +162,8 @@ expression for $\dot{v}_r$.
     \left(\frac{1}{m} + \frac{r_b^2}{J}\right) F_r \label{eq:diff_drive_vr_2}
 \end{align}
 
-Substitute equation (\ref{eq:diff_drive_vr_2mid}) back into equation
-(\ref{eq:diff_drive_dotv_l}) to obtain an expression for $\dot{v}_l$.
+Substitute equation \eqref{eq:diff_drive_vr_2mid} back into equation
+\eqref{eq:diff_drive_dotv_l} to obtain an expression for $\dot{v}_l$.
 
 \begin{align}
   \dot{v}_l &= \frac{2}{m} (F_l + F_r) - \left(\frac{1}{m} (F_l + F_r) +
@@ -179,7 +179,7 @@ Substitute equation (\ref{eq:diff_drive_vr_2mid}) back into equation
 \end{align}
 
 Now, plug the expressions for $F_l$ and $F_r$ into equation
-(\ref{eq:diff_drive_vr_2}).
+\eqref{eq:diff_drive_vr_2}.
 
 \begin{align}
   \dot{v}_r &= \left(\frac{1}{m} - \frac{r_b^2}{J}\right) F_l +
@@ -191,7 +191,7 @@ Now, plug the expressions for $F_l$ and $F_r$ into equation
 \end{align}
 
 Now, plug the expressions for $F_l$ and $F_r$ into equation
-(\ref{eq:diff_drive_vl_2}).
+\eqref{eq:diff_drive_vl_2}.
 
 \begin{align}
   \dot{v}_l &= \left(\frac{1}{m} + \frac{r_b^2}{J}\right) F_l +
@@ -255,6 +255,6 @@ procedure is as follows.
     Record the angular velocity over time using a gyroscope.
   \item Perform a linear regression of linear velocity versus angular velocity.
     The slope of this line has the form $\frac{I}{rm}$ as per equation
-    (\ref{eq:diff_drive_J_regression}).
+    \eqref{eq:diff_drive_J_regression}.
   \item Multiply the slope by $rm$ to obtain a least squares estimate of $I$.
 \end{enumerate}

@@ -125,8 +125,8 @@ Covariance matrices are symmetric, so
   (\mtx{I} - \mtx{A})^T = (\mtx{P} + \mtx{P}_b)^{-1}\mtx{P} \label{eq:ks_a4}
 \end{equation}
 
-Now starting from equation (\ref{eq:ks_error_cov_a}), substitute in equations
-(\ref{eq:ks_a1}) through (\ref{eq:ks_a4}).
+Now starting from equation \eqref{eq:ks_error_cov_a}, substitute in equations
+\eqref{eq:ks_a1} through \eqref{eq:ks_a4}.
 
 \begin{align*}
   \mtx{P}(t|T) &=
@@ -206,7 +206,7 @@ Factor out $(\mtx{P} + \mtx{P}_b)^{-1}$ to the right.
 \subsection{Optimal estimate}
 
 Now find the optimal estimate $\hat{\mtx{x}}(t|T)$ starting from equation
-(\ref{eq:ks_xhat}).
+\eqref{eq:ks_xhat}.
 
 \begin{align*}
   \hat{\mtx{x}}(t|T) &= \mtx{A}\hat{\mtx{x}}(t) + \mtx{A}'\hat{\mtx{x}}_b(t) \\
@@ -256,7 +256,7 @@ Factor out $(\mtx{P}_b^{-1} + \mtx{P}^{-1})^{-1}$ to the left.
     (\mtx{P}^{-1}\hat{\mtx{x}}(t) + \mtx{P}_b^{-1}\hat{\mtx{x}}_b(t))
 \end{equation*}
 
-Substitute in equation (\ref{eq:ks_error_cov}).
+Substitute in equation \eqref{eq:ks_error_cov}.
 
 \begin{align}
   \hat{\mtx{x}}(t|T) &= \mtx{P}(t|T)

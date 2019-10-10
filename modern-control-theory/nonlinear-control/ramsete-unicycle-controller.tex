@@ -83,8 +83,8 @@ rate respectively.
 where $k_1$, $k_2$, and $k_3$ are time-varying gains and $\sinc(e_3)$ is defined
 as $\frac{\sin{e_3}}{e_3}$.
 
-Substitute equations (\ref{eq:ramsete_e1}), (\ref{eq:ramsete_e2}), and
-(\ref{eq:ramsete_e3}) into the control laws.
+Substitute equations \eqref{eq:ramsete_e1}, \eqref{eq:ramsete_e2}, and
+\eqref{eq:ramsete_e3} into the control laws.
 
 \begin{align*}
   u_1 &= -k_1 ((x_d - x) \cos\theta + (y_d - y) \sin\theta) \\
@@ -121,7 +121,7 @@ Substituting the control laws $u_1$ and $u_2$ into these equations gives
 \begin{theorem}
   Assuming that $v_d$ and $\omega_d$ are bounded with bounded derivatives, and
   that $v_d(t) \rightarrow 0$ or $\omega_d(t) \rightarrow 0$ when
-  $t \rightarrow \infty$, the control laws in equation (\ref{eq:ramsete_u})
+  $t \rightarrow \infty$, the control laws in equation \eqref{eq:ramsete_u}
   globally asymptotically stabilize the origin $\mtx{e} = 0$.
 
   Proof:
@@ -203,7 +203,7 @@ provides nonzero desired turning rates to rotate the robot.
 \label{subsec:linear_reference_tracker}
 
 We need a velocity \gls{reference} tracker for the nonlinear \gls{controller}'s
-commands. Starting from equation (\ref{eq:diff_drive_ss_model}), we'll derive
+commands. Starting from equation \eqref{eq:diff_drive_ss_model}, we'll derive
 two \glspl{model} for this purpose and compare their responses with a straight
 profile and as part of a nonlinear trajectory follower.
 
@@ -333,7 +333,7 @@ velocity and angular velocity states and see how well it performs.
     \left(\frac{1}{m} + \frac{r_b^2}{J}\right) \left(C_3 v_r + C_4 V_r\right)
 \end{align*}
 
-Substitute in equations (\ref{eq:diff_vl}) and (\ref{eq:diff_vr}).
+Substitute in equations \eqref{eq:diff_vl} and \eqref{eq:diff_vr}.
 
 \begin{align}
   \dot{v}_c + \dot{\omega} r_b &= \left(\frac{1}{m} + \frac{r_b^2}{J}\right)
@@ -347,7 +347,7 @@ Substitute in equations (\ref{eq:diff_vl}) and (\ref{eq:diff_vr}).
 \end{align}
 
 Now, we need to solve for $\dot{v}_c$ and $\dot{\omega}$. First, we'll add
-equation (\ref{eq:diff_vc_l}) to equation (\ref{eq:diff_vc_r}).
+equation \eqref{eq:diff_vc_l} to equation \eqref{eq:diff_vc_r}.
 
 \begin{align*}
   2\dot{v}_c &= \frac{2}{m} \left(C_1(v_c - \omega r_b) + C_2 V_l\right) +
@@ -361,8 +361,8 @@ equation (\ref{eq:diff_vc_l}) to equation (\ref{eq:diff_vc_r}).
     \frac{1}{m} C_2 V_l + \frac{1}{m} C_4 V_r
 \end{align*}
 
-Next, we'll subtract equation (\ref{eq:diff_vc_r}) from equation
-(\ref{eq:diff_vc_l}).
+Next, we'll subtract equation \eqref{eq:diff_vc_r} from equation
+\eqref{eq:diff_vc_l}.
 
 \begin{align*}
   2\dot{\omega} r_b &= \frac{2r_b^2}{J}

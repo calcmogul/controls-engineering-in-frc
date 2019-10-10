@@ -85,7 +85,7 @@ See appendix \ref{subsec:deriv_luenberger_separate} for a derivation.
 The eigenvalues of the system matrix can be used to determine whether a
 \gls{state} \gls{observer}'s estimate will converge to the true \gls{state}.
 
-Plugging equation (\ref{eq:z_obsv_y}) into equation (\ref{eq:z_obsv_x}) gives
+Plugging equation \eqref{eq:z_obsv_y} into equation \eqref{eq:z_obsv_x} gives
 
 \begin{align*}
   \hat{\mtx{x}}_{k+1} &= \mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
@@ -96,7 +96,7 @@ Plugging equation (\ref{eq:z_obsv_y}) into equation (\ref{eq:z_obsv_x}) gives
     \mtx{L} (\mtx{y}_k - \mtx{C}\hat{\mtx{x}}_k - \mtx{D}\mtx{u}_k)
 \end{align*}
 
-Plugging in equation (\ref{eq:ssz_ctrl_y}) gives
+Plugging in equation \eqref{eq:ssz_ctrl_y} gives
 
 \begin{align*}
   \hat{\mtx{x}}_{k+1} &= \mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
@@ -119,7 +119,7 @@ $\hat{\mtx{x}}_k$.
     \mtx{L}\mtx{C}\mtx{E}_k
 \end{equation*}
 
-Subtracting this from equation (\ref{eq:ssz_ctrl_x}) gives
+Subtracting this from equation \eqref{eq:ssz_ctrl_x} gives
 
 \begin{align}
   \mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}\mtx{u}_k -
@@ -139,7 +139,7 @@ Subtracting this from equation (\ref{eq:ssz_ctrl_x}) gives
   \mtx{E}_{k+1} &= (\mtx{A} - \mtx{L}\mtx{C})\mtx{E}_k \label{eq:obsv_eig_calc}
 \end{align}
 
-For equation (\ref{eq:obsv_eig_calc}) to have a bounded output, the eigenvalues
+For equation \eqref{eq:obsv_eig_calc} to have a bounded output, the eigenvalues
 of $\mtx{A} - \mtx{L}\mtx{C}$ must be within the unit circle. These eigenvalues
 represent how fast the estimator converges to the true \gls{state} of the given
 \gls{model}. A fast estimator converges quickly while a slow estimator avoids

@@ -7,7 +7,7 @@ properties of control systems like \gls{steady-state error}.
 
 These case studies cover various aspects of PID control using the algebraic
 approach of transfer functions. For this, we'll be using equation
-(\ref{eq:pid_tf}), the transfer function for a PID controller.
+\eqref{eq:pid_tf}, the transfer function for a PID controller.
 
 \begin{equation}
   K(s) = K_p + \frac{K_i}{s} + K_ds \label{eq:pid_tf}
@@ -129,7 +129,7 @@ The denominator is nonzero, so $e_{ss} = 0$. Therefore, an integrator is
 required to eliminate \gls{steady-state error} in all cases for this
 \gls{model}.
 
-It should be noted that $e_{ss}$ in equation (\ref{eq:ss_nonzero}) approaches
+It should be noted that $e_{ss}$ in equation \eqref{eq:ss_nonzero} approaches
 zero for $K_p = \infty$. This is known as a bang-bang controller. In practice,
 an infinite switching frequency cannot be achieved, but it may be close enough
 for some performance specifications.
@@ -173,15 +173,15 @@ For an explanation of where these equations come from, read section
 
 First, we'll solve for $\frac{d\omega}{dt}$ in terms of $V$.
 
-Substitute equation (\ref{eq:cs_flywheel_2}) into equation
-(\ref{eq:cs_flywheel_1}).
+Substitute equation \eqref{eq:cs_flywheel_2} into equation
+\eqref{eq:cs_flywheel_1}.
 
 \begin{align*}
   V &= IR + \frac{\omega}{K_v} \\
   V &= \left(\frac{\tau}{K_t}\right) R + \frac{\omega}{K_v}
 \end{align*}
 
-Substitute in equation (\ref{eq:cs_flywheel_3}).
+Substitute in equation \eqref{eq:cs_flywheel_3}.
 
 \begin{align*}
   V &= \frac{\left(J \frac{d\omega}{dt}\right)}{K_t} R + \frac{\omega}{K_v} \\
@@ -224,7 +224,7 @@ First, we'll use a simple P loop.
   V = K_p (\omega_{goal} - \omega)
 \end{equation*}
 
-Substitute this controller into equation (\ref{eq:cs_motor_tf}).
+Substitute this controller into equation \eqref{eq:cs_motor_tf}.
 
 \begin{equation*}
   s \omega = -\frac{K_t}{JRK_v} \omega + \frac{K_t}{JR} K_p (\omega_{goal} -
@@ -269,7 +269,7 @@ modeling the derivative.)
   V = K_p (\omega_{goal} - \omega) + K_d s (\omega_{goal} - \omega)
 \end{equation*}
 
-Substitute this controller into equation (\ref{eq:cs_motor_tf}).
+Substitute this controller into equation \eqref{eq:cs_motor_tf}.
 
 \begin{align*}
   s \omega &= -\frac{K_t}{JRK_v} \omega + \frac{K_t}{JR}

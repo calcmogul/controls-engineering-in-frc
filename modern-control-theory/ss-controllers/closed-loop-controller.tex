@@ -5,7 +5,7 @@ the closed-loop state-space equations. We'll discuss where this
 \gls{control law} comes from in subsection \ref{sec:lqr}.
 
 First is the \gls{state} update equation. Substitute the \gls{control law} into
-equation (\ref{eq:ss_ctrl_x}).
+equation \eqref{eq:ss_ctrl_x}.
 
 \begin{align}
   \dot{\mtx{x}} &= \mtx{A}\mtx{x} + \mtx{B}\mtx{K}(\mtx{r} - \mtx{x}) \nonumber
@@ -16,7 +16,7 @@ equation (\ref{eq:ss_ctrl_x}).
 \end{align}
 
 Now for the \gls{output} equation. Substitute the \gls{control law} into
-equation (\ref{eq:ss_ctrl_y}).
+equation \eqref{eq:ss_ctrl_y}.
 
 \begin{align}
   \mtx{y} &= \mtx{C}\mtx{x} + \mtx{D}(\mtx{K}(\mtx{r} - \mtx{x})) \nonumber \\
@@ -26,7 +26,7 @@ equation (\ref{eq:ss_ctrl_y}).
 \end{align}
 
 Now, we'll do the same for the discrete \gls{system}. We'd like to know whether
-the \gls{system} defined by equation (\ref{eq:ssz_ctrl_x}) operating with the
+the \gls{system} defined by equation \eqref{eq:ssz_ctrl_x} operating with the
 \gls{control law} $\mtx{u}_k = \mtx{K}(\mtx{r}_k - \mtx{x}_k)$ converges to the
 \gls{reference} $\mtx{r}_k$.
 
@@ -90,9 +90,9 @@ Instead of commanding the \gls{system} to a \gls{state} using the vector
 $\mtx{u}$ directly, we can now specify a vector of desired \glspl{state} through
 $\mtx{r}$ and the \gls{controller} will choose values of $\mtx{u}$ for us over
 time to make the \gls{system} converge to the \gls{reference}. For equation
-(\ref{eq:s_ref_ctrl_x}) to reach steady-state, the eigenvalues of
+\eqref{eq:s_ref_ctrl_x} to reach steady-state, the eigenvalues of
 $\mtx{A} - \mtx{B}\mtx{K}$ must be in the left-half plane. For equation
-(\ref{eq:z_ref_ctrl_x}) to have a bounded output, the eigenvalues of
+\eqref{eq:z_ref_ctrl_x} to have a bounded output, the eigenvalues of
 $\mtx{A} - \mtx{B}\mtx{K}$ must be within the unit circle.
 
 The eigenvalues of $\mtx{A} - \mtx{B}\mtx{K}$ are the poles of the closed-loop

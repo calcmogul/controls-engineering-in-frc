@@ -99,7 +99,7 @@ given an input voltage $V$, which we can integrate to get arm angular velocity
 and angle.
 
 We will start with the equation derived earlier for a DC brushed motor, equation
-(\ref{eq:motor_tau_V}).
+\eqref{eq:motor_tau_V}.
 
 \begin{equation*}
   V = \frac{\tau_m}{K_t} R + \frac{\omega_m}{K_v}
@@ -139,8 +139,8 @@ The torque applied to the arm is defined as
 \end{equation}
 
 where $J$ is the moment of inertia of the arm and $\dot{\omega}_{arm}$ is the
-angular acceleration. Substitute equation (\ref{eq:tau_arm_def}) into equation
-(\ref{eq:tau_arm}).
+angular acceleration. Substitute equation \eqref{eq:tau_arm_def} into equation
+\eqref{eq:tau_arm}.
 
 \begin{align}
   (J \dot{\omega}_{arm}) &= \frac{G K_t}{R} V - \frac{G^2 K_t}{K_v R}
@@ -167,7 +167,7 @@ the moment of inertia of a thin rod rotating around one end. Therefore
 where $m$ is the mass of the arm and $l$ is the length of the arm. Otherwise, a
 procedure for measuring it experimentally is presented below.
 
-First, rearrange equation (\ref{eq:dot_omega_arm}) into the form $y = mx + b$
+First, rearrange equation \eqref{eq:dot_omega_arm} into the form $y = mx + b$
 such that $J$ is in the numerator of $m$.
 
 \begin{align*}
@@ -199,7 +199,7 @@ The test procedure is as follows.
     difference between each sample divided by the time between them.
   \item Perform a linear regression of angular velocity versus angular
     acceleration. The slope of this line has the form $-\frac{J K_v R}{G^2 K_t}$
-    as per equation (\ref{eq:arm_J_regression}).
+    as per equation \eqref{eq:arm_J_regression}.
   \item Multiply the slope by $-\frac{G^2 K_t}{K_v R}$ to obtain a least squares
     estimate of $J$.
 \end{enumerate}

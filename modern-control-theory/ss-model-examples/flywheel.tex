@@ -4,7 +4,7 @@
 \subsection{Continuous state-space model}
 \index{FRC models!flywheel equations}
 
-By equation (\ref{eq:dot_omega_f})
+By equation \eqref{eq:dot_omega_f}
 
 \begin{equation*}
   \dot{\omega}_f = -\frac{G^2 K_t}{K_v RJ} \omega_f + \frac{G K_t}{RJ} V
@@ -162,7 +162,7 @@ implementation of this flywheel controller is available online\footnote{
 In the FIRST Robotics Competition, we can get the current drawn for specific
 channels on the power distribution panel. We can theoretically use this to
 estimate the angular velocity of a DC motor without an encoder. We'll start with
-the flywheel model derived earlier as equation (\ref{eq:dot_omega_f}).
+the flywheel model derived earlier as equation \eqref{eq:dot_omega_f}.
 
 \begin{align*}
   \dot{\omega}_f &= \frac{G K_t}{RJ} V - \frac{G^2 K_t}{K_v RJ} \omega_f \\
