@@ -6,16 +6,23 @@ typically don't need $K_d$.
 \begin{enumerate}
   \item Set $K_p$, $K_i$, and $K_d$ to zero.
   \item Increase $K_p$ until the \gls{output} starts to oscillate around the
-    \gls{reference}.
+    \gls{setpoint}.
   \item Increase $K_d$ as much as possible without introducing jittering in the
     \gls{system response}.
 \end{enumerate}
 
+If the \gls{setpoint} follows a trapezoidal motion profile (see chapter
+\ref{ch:1_dof_motion_profiles}), tuning becomes a lot easier. Plot the position
+\gls{setpoint}, velocity \gls{setpoint}, measured position, and measured
+velocity. The velocity \gls{setpoint} can be obtained by numerical integration
+$v_{des,k} = \frac{r_k - r_{k-1}}{\Delta t}$. Increase $K_p$ until the position
+tracks well, then increase $K_d$ until the velocity tracks well.
+
 If the \gls{controller} settles at an \gls{output} above or below the
-\gls{reference}, increase $K_i$ such that the \gls{controller} reaches the
-\gls{reference} in a reasonable amount of time. However, a steady-state
-feedforward is preferred to integral control (especially for velocity PID
-control).
+\gls{setpoint}, one can increase $K_i$ such that the \gls{controller} reaches
+the \gls{setpoint} in a reasonable amount of time. However, a steady-state
+feedforward is strongly preferred over integral control (especially for velocity
+PID control).
 
 \begin{remark}
   \textit{Note:} Adding an integral gain to the \gls{controller} is an incorrect
@@ -26,6 +33,6 @@ control).
 \end{remark}
 
 Beware that if $K_i$ is too large, integral windup can occur. Following a large
-change in \gls{reference}, the integral term can accumulate an error larger than
+change in \gls{setpoint}, the integral term can accumulate an error larger than
 the maximal \gls{control input}. As a result, the system overshoots and
 continues to increase until this accumulated error is unwound.
