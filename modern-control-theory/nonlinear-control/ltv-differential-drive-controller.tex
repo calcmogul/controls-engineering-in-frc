@@ -66,9 +66,9 @@ $C_3 = -\frac{G_r^2 K_t}{K_v R r^2}$, and $C_4 = \frac{G_r K_t}{Rr}$.
 The change in global pose is defined by these three equations.
 
 \begin{align*}
-  \dot{x} &= \frac{v_r + v_l}{2}\cos\theta = \frac{v_r}{2}\cos\theta +
+  \dot{x} &= \frac{v_l + v_r}{2}\cos\theta = \frac{v_r}{2}\cos\theta +
     \frac{v_l}{2}\cos\theta \\
-  \dot{y} &= \frac{v_r + v_l}{2}\sin\theta = \frac{v_r}{2}\sin\theta +
+  \dot{y} &= \frac{v_l + v_r}{2}\sin\theta = \frac{v_r}{2}\sin\theta +
     \frac{v_l}{2}\sin\theta \\
   \dot{\theta} &= \frac{v_r - v_l}{2r_b} = \frac{v_r}{2r_b} - \frac{v_l}{2r_b}
 \end{align*}
@@ -101,9 +101,9 @@ To create an LQR, we need to linearize this.
 \begin{align*}
   \frac{\partial f(\mtx{x}, \mtx{u})}{\partial\mtx{x}} &=
   \begin{bmatrix}
-    0 & 0 & -\frac{v_r + v_l}{2}\sin\theta & \frac{1}{2}\cos\theta &
+    0 & 0 & -\frac{v_l + v_r}{2}\sin\theta & \frac{1}{2}\cos\theta &
       \frac{1}{2}\cos\theta \\
-    0 & 0 & \frac{v_r + v_l}{2}\cos\theta & \frac{1}{2}\sin\theta &
+    0 & 0 & \frac{v_l + v_r}{2}\cos\theta & \frac{1}{2}\sin\theta &
       \frac{1}{2}\sin\theta \\
     0 & 0 & 0 & -\frac{1}{2r_b} & \frac{1}{2r_b} \\
     0 & 0 & 0 & \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_1 &
@@ -131,23 +131,16 @@ Therefore,
     \begin{array}{ccc}
       \mtx{x} =
       \begin{bmatrix}
-        x \\
-        y \\
-        \theta \\
-        v_l \\
-        v_r
-      \end{bmatrix} &
+        x & y & \theta & v_l & v_r
+      \end{bmatrix}^T &
       \mtx{y} =
       \begin{bmatrix}
-        \theta \\
-        v_l \\
-        v_r
-      \end{bmatrix} &
+        \theta & v_l & v_r
+      \end{bmatrix}^T &
       \mtx{u} =
       \begin{bmatrix}
-        V_l \\
-        V_r
-      \end{bmatrix}
+        V_l & V_r
+      \end{bmatrix}^T
     \end{array}
   \end{equation*}
 
@@ -155,16 +148,14 @@ Therefore,
     \begin{array}{ll}
       \mtx{A} =
       \begin{bmatrix}
-        0 & 0 & -\frac{v_r + v_l}{2}\sin\theta & \frac{1}{2}\cos\theta &
-          \frac{1}{2}\cos\theta \\
-        0 & 0 & \frac{v_r + v_l}{2}\cos\theta & \frac{1}{2}\sin\theta &
-          \frac{1}{2}\sin\theta \\
+        0 & 0 & -v\sin\theta & \frac{1}{2}\cos\theta & \frac{1}{2}\cos\theta \\
+        0 & 0 & v\cos\theta & \frac{1}{2}\sin\theta & \frac{1}{2}\sin\theta \\
         0 & 0 & 0 & -\frac{1}{2r_b} & \frac{1}{2r_b} \\
         0 & 0 & 0 & \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_1 &
           \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_3 \\
         0 & 0 & 0 & \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_1 &
           \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_3
-      \end{bmatrix} \\
+      \end{bmatrix} &
       \mtx{B} =
       \begin{bmatrix}
         0 & 0 \\
@@ -185,8 +176,10 @@ Therefore,
     \end{array}
   \end{equation}
 
-  where $C_1 = -\frac{G_l^2 K_t}{K_v R r^2}$, $C_2 = \frac{G_l K_t}{Rr}$,
-  $C_3 = -\frac{G_r^2 K_t}{K_v R r^2}$, and $C_4 = \frac{G_r K_t}{Rr}$.
+  where $v = \frac{v_l + v_r}{2}$, $C_1 = -\frac{G_l^2 K_t}{K_v R r^2}$,
+  $C_2 = \frac{G_l K_t}{Rr}$, $C_3 = -\frac{G_r^2 K_t}{K_v R r^2}$, and
+  $C_4 = \frac{G_r K_t}{Rr}$. The constants $C_1$ through $C_4$ are from the
+  derivation in section \ref{sec:differential_drive}.
 
   The LQR gain should be recomputed around the current operating point regularly
   due to the high nonlinearity of this system. A less computationally expensive
@@ -234,8 +227,8 @@ respect to the state vector) being nonzero.
 \begin{equation*}
   \frac{\partial^2 f(\mtx{x}, \mtx{u})}{\partial\mtx{x}^2} =
   \begin{bmatrix}
-    0 & 0 & -\frac{v_r + v_l}{2}\cos\theta & 0 & 0 \\
-    0 & 0 & -\frac{v_r + v_l}{2}\sin\theta & 0 & 0 \\
+    0 & 0 & -\frac{v_l + v_r}{2}\cos\theta & 0 & 0 \\
+    0 & 0 & -\frac{v_l + v_r}{2}\sin\theta & 0 & 0 \\
     0 & 0 & 0 & 0 & 0 \\
     0 & 0 & 0 & 0 & 0 \\
     0 & 0 & 0 & 0 & 0
@@ -335,9 +328,9 @@ around $\theta = 0$ at all times.
 \begin{align*}
   \mtx{A} &=
   \begin{bmatrix}
-    0 & 0 & -\frac{v_r + v_l}{2}\sin 0 & \frac{1}{2}\cos 0 &
+    0 & 0 & -\frac{v_l + v_r}{2}\sin 0 & \frac{1}{2}\cos 0 &
       \frac{1}{2}\cos 0 \\
-    0 & 0 & \frac{v_r + v_l}{2}\cos 0 & \frac{1}{2}\sin 0 &
+    0 & 0 & \frac{v_l + v_r}{2}\cos 0 & \frac{1}{2}\sin 0 &
       \frac{1}{2}\sin 0 \\
     0 & 0 & 0 & -\frac{1}{2r_b} & \frac{1}{2r_b} \\
     0 & 0 & 0 & \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_1 &
@@ -348,7 +341,7 @@ around $\theta = 0$ at all times.
   \mtx{A} &=
   \begin{bmatrix}
     0 & 0 & 0 & \frac{1}{2} & \frac{1}{2} \\
-    0 & 0 & \frac{v_r + v_l}{2} & 0 & 0 \\
+    0 & 0 & \frac{v_l + v_r}{2} & 0 & 0 \\
     0 & 0 & 0 & -\frac{1}{2r_b} & \frac{1}{2r_b} \\
     0 & 0 & 0 & \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_1 &
       \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_3 \\
@@ -423,9 +416,35 @@ a range of velocities.
 
 With the exception of the $x$ gain plot, all functions are a variation of a
 square root. $v = 0$ and $v = 1$ were used to scale each function to produce a
-close approximation.
+close approximation. The sign function\footnote{The sign function is defined as
+follows:
+\begin{equation*}
+  \sgn(x) = \begin{cases}
+    -1 & x < 0 \\
+    0 & x = 0 \\
+    1 & x > 0
+  \end{cases}
+\end{equation*}} is used for symmetry around the origin in the regression for
+$y$.
 
 \begin{theorem}[Linear time-varying differential drive controller]
+  \begin{equation*}
+    \begin{array}{ccc}
+      \mtx{x} =
+      \begin{bmatrix}
+        x & y & \theta & v_l & v_r
+      \end{bmatrix}^T &
+      \mtx{y} =
+      \begin{bmatrix}
+        \theta & v_l & v_r
+      \end{bmatrix}^T &
+      \mtx{u} =
+      \begin{bmatrix}
+        V_l & V_r
+      \end{bmatrix}^T
+    \end{array}
+  \end{equation*}
+
   The following $\mtx{A}$ and $\mtx{B}$ matrices are used to compute the LQR.
 
   \begin{equation}
@@ -440,14 +459,6 @@ close approximation.
         0 & 0 & 0 & \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_1 &
           \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_3
       \end{bmatrix} &
-      \mtx{x} =
-      \begin{bmatrix}
-        x \\
-        y \\
-        \theta \\
-        v_l \\
-        v_r
-      \end{bmatrix} \\
       \mtx{B} =
       \begin{bmatrix}
         0 & 0 \\
@@ -457,37 +468,28 @@ close approximation.
         \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_4 \\
         \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_2 &
         \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_4
-      \end{bmatrix} &
-      \mtx{u} =
-      \begin{bmatrix}
-        V_l \\
-        V_r
       \end{bmatrix}
     \end{array}
   \end{equation}
 
   where $v = \frac{v_l + v_r}{2}$, $C_1 = -\frac{G_l^2 K_t}{K_v R r^2}$,
   $C_2 = \frac{G_l K_t}{Rr}$, $C_3 = -\frac{G_r^2 K_t}{K_v R r^2}$, and
-  $C_4 = \frac{G_r K_t}{Rr}$.
+  $C_4 = \frac{G_r K_t}{Rr}$. The constants $C_1$ through $C_4$ are from the
+  derivation in section \ref{sec:differential_drive}.
 
   The locally optimal controller for this model is
   $\mtx{u} = \mtx{K}(v) (\mtx{r} - \mtx{x})$ where
 
   \begin{align}
     \mtx{K}(v) &= \begin{bmatrix}
-      k_x & k_{1, 2}(v) \sign(v) & k_{\theta, 1} \sqrt{|v|} & k_{1, 4}(v) &
+      k_x & k_{1, 2}(v) \sgn(v) & k_{\theta, 1} \sqrt{|v|} & k_{1, 4}(v) &
         k_{2, 4}(v) \\
-      k_x & -k_{1, 2}(v) \sign(v) & -k_{\theta, 1} \sqrt{|v|} & k_{2, 4}(v) &
+      k_x & -k_{1, 2}(v) \sgn(v) & -k_{\theta, 1} \sqrt{|v|} & k_{2, 4}(v) &
         k_{1, 4}(v)
     \end{bmatrix} \\
     k_{1, 2}(v) &= k_{y, 0} + (k_{y, 1} - k_{y, 0}) \sqrt{|v|} \\
     k_{1, 4}(v) &= k_{v^+, 0} + (k_{v^+, 1} - k_{v^+, 0}) \sqrt{|v|} \\
-    k_{2, 4}(v) &= k_{v^-, 0} - (k_{v^+, 1} - k_{v^+, 0}) \sqrt{|v|} \\
-    \sign(v) &= \begin{cases}
-      -1 & v < 0 \\
-      0 & v = 0 \\
-      1 & v > 0
-    \end{cases}
+    k_{2, 4}(v) &= k_{v^-, 0} - (k_{v^+, 1} - k_{v^+, 0}) \sqrt{|v|}
   \end{align}
 
   Using $\mtx{K}$ computed via LQR at $v = 0$

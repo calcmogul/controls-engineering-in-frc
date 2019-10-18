@@ -127,36 +127,36 @@ range of velocities.
 
 With the exception of the $x$ gain plot, all functions are a variation of a
 square root. $v = 0$ and $v = 1$ were used to scale each function to produce a
-close approximation.
+close approximation. The sign function\footnote{The sign function is defined as
+follows:
+\begin{equation*}
+  \sgn(x) = \begin{cases}
+    -1 & x < 0 \\
+    0 & x = 0 \\
+    1 & x > 0
+  \end{cases}
+\end{equation*}} is used for symmetry around the origin in the regression for
+$y$.
 
 \begin{theorem}[Linear time-varying unicycle controller]
   The following $\mtx{A}$ and $\mtx{B}$ matrices are used to compute the LQR.
 
   \begin{equation}
-    \begin{array}{ll}
+    \begin{array}{llll}
       \mtx{A} =
       \begin{bmatrix}
         0 & 0 & 0 \\
         0 & 0 & v \\
         0 & 0 & 0
       \end{bmatrix} &
-      \mtx{x} =
-      \begin{bmatrix}
-        x \\
-        y \\
-        \theta
-      \end{bmatrix} \\
       \mtx{B} =
       \begin{bmatrix}
         1 & 0 \\
         0 & 0 \\
         0 & 1
       \end{bmatrix} &
-      \mtx{u} =
-      \begin{bmatrix}
-        v \\
-        \omega
-      \end{bmatrix}
+      \mtx{x} = \begin{bmatrix}x \\ y \\ \theta\end{bmatrix} &
+      \mtx{u} = \begin{bmatrix}v \\ \omega\end{bmatrix}
     \end{array}
   \end{equation}
 
@@ -166,14 +166,9 @@ close approximation.
   \begin{align}
     \mtx{K}(v) &= \begin{bmatrix}
       k_x & 0 & 0 \\
-      0 & k_y(v) \sign(v) & k_{\theta} \sqrt{|v|}
+      0 & k_y(v) \sgn(v) & k_{\theta} \sqrt{|v|}
     \end{bmatrix} \\
-    k_y(v) &= k_{y, 0} + (k_{y, 1} - k_{y, 0}) \sqrt{|v|} \\
-    \sign(v) &= \begin{cases}
-      -1 & v < 0 \\
-      0 & v = 0 \\
-      1 & v > 0
-    \end{cases}
+    k_y(v) &= k_{y, 0} + (k_{y, 1} - k_{y, 0}) \sqrt{|v|}
   \end{align}
 
   Using $\mtx{K}$ computed via LQR at $v = 0$
