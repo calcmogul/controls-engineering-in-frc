@@ -33,9 +33,9 @@ is defined as
 
 \begin{equation*}
   \begin{bmatrix}
-    e_1 \\
-    e_2 \\
-    e_3
+    e_x \\
+    e_y \\
+    e_\theta
   \end{bmatrix} =
   \begin{bmatrix}
     \cos\theta & \sin\theta & 0 \\
@@ -49,76 +49,48 @@ is defined as
   \end{bmatrix}
 \end{equation*}
 
-where $e_1$ is the tracking \gls{error} in $x$, $e_2$ is the tracking
-\gls{error} in $y$, and $e_3$ is the tracking \gls{error} in $\theta$.
+where $e_x$ is the tracking \gls{error} in $x$, $e_y$ is the tracking
+\gls{error} in $y$, and $e_\theta$ is the tracking \gls{error} in $\theta$.
 The $3 \times 3$ matrix is a rotation matrix that transforms the \gls{error} in
 the \gls{pose} (represented by $x_d - x$, $y_d - y$, and $\theta_d - \theta$)
 from the global coordinate frame into the vehicle's coordinate frame.
-
-Multiplying the matrices out gives
-
-\begin{align*}
-  e_1 &= (x_d - x) \cos\theta + (y_d - y) \sin\theta \\
-  e_2 &= -(x_d - x) \sin\theta + (y_d - y) \cos\theta \\
-  e_3 &= \theta_d - \theta
-\end{align*}
-
-\begin{align}
-  e_1 &= (x_d - x) \cos\theta + (y_d - y) \sin\theta \label{eq:ramsete_e1} \\
-  e_2 &= (y_d - y) \cos\theta - (x_d - x) \sin\theta \label{eq:ramsete_e2} \\
-  e_3 &= \theta_d - \theta \label{eq:ramsete_e3}
-\end{align}
 
 We will use the following control laws $u_1$ and $u_2$ for velocity and turning
 rate respectively.
 
 \begin{equation}
   \begin{aligned}
-    u_1 &= -k_1 e_1 \\
-    u_2 &= -k_2 v_d \sinc(e_3) e_2 - k_3 e_3
+    u_1 &= -k_1 e_x \\
+    u_2 &= -k_3 e_\theta - k_2 v_d \sinc(e_\theta) e_y
   \end{aligned}
   \label{eq:ramsete_u}
 \end{equation}
 
-where $k_1$, $k_2$, and $k_3$ are time-varying gains and $\sinc(e_3)$ is defined
-as $\frac{\sin{e_3}}{e_3}$.
-
-Substitute equations \eqref{eq:ramsete_e1}, \eqref{eq:ramsete_e2}, and
-\eqref{eq:ramsete_e3} into the control laws.
-
-\begin{align*}
-  u_1 &= -k_1 ((x_d - x) \cos\theta + (y_d - y) \sin\theta) \\
-  u_2 &= -k_2 v_d \sinc(\theta_d - \theta)
-    ((y_d - y) \cos\theta - (x_d - x) \sin\theta) - k_3 (\theta_d - \theta)
-\end{align*}
+where $k_1$, $k_2$, and $k_3$ are time-varying gains and $\sinc(e_\theta)$ is
+defined as $\frac{\sin{e_\theta}}{e_\theta}$. This choice of control law may
+seem arbitrary, and that's because it is. The only requirement on our choice is
+that there exist an associated Lyapunov candidate function that proves the
+control law is globally asymptotically stable. We'll provide a sketch of a proof
+in theorem \ref{thm:ramsete_lyapunov_stability}.
 
 Our velocity and turning rate commands for the vehicle will use the following
 nonlinear transformation of the inputs.
 
 \begin{align*}
-  v &= v_d\cos e_3 - u_1 \\
+  v &= v_d\cos e_\theta - u_1 \\
   \omega &= \omega_d - u_2
 \end{align*}
 
 Substituting the control laws $u_1$ and $u_2$ into these equations gives
 
 \begin{align*}
-  v &= v_d\cos(\theta_d - \theta) -
-    (-k_1 ((x_d - x) \cos\theta + (y_d - y) \sin\theta)) \\
-  v &= v_d\cos(\theta_d - \theta) +
-    k_1 ((x_d - x) \cos\theta + (y_d - y) \sin\theta) \\
-\end{align*}
-
-\begin{align*}
-  \omega &= \omega_d -
-    \left(-k_2 v_d \sinc(\theta_d - \theta)
-    ((y_d - y) \cos\theta - (x_d - x) \sin\theta) -
-      k_3 (\theta_d - \theta)\right) \\
-  \omega &= \omega_d + k_2 v_d \sinc(\theta_d - \theta)
-    ((y_d - y) \cos\theta - (x_d - x) \sin\theta) + k_3 (\theta_d - \theta)
+  v &= v_d\cos{e_\theta} + k_1 e_x \\
+  \omega &= k_3 e_\theta + \omega_d + k_2 v_d \sinc(e_\theta) e_y
 \end{align*}
 
 \begin{theorem}
+  \label{thm:ramsete_lyapunov_stability}
+
   Assuming that $v_d$ and $\omega_d$ are bounded with bounded derivatives, and
   that $v_d(t) \rightarrow 0$ or $\omega_d(t) \rightarrow 0$ when
   $t \rightarrow \infty$, the control laws in equation \eqref{eq:ramsete_u}
@@ -130,17 +102,17 @@ Substituting the control laws $u_1$ and $u_2$ into these equations gives
   Lyapunov function.
 
   \begin{equation*}
-    V = \frac{k_2}{2}(e_1^2 + e_2^2) + \frac{e_3^2}{2}
+    V = \frac{k_2}{2}(e_x^2 + e_y^2) + \frac{e_\theta^2}{2}
   \end{equation*}
 
-  where $k_2$ is a tuning constant, $e_1$ is the tracking error in $x$, $e_2$ is
-  the tracking error in $y$, and $e_3$ is the tracking error in $\theta$.
+  where $k_2$ is a tuning constant, $e_x$ is the tracking error in $x$, $e_y$ is
+  the tracking error in $y$, and $e_\theta$ is the tracking error in $\theta$.
 
   The time derivative along the solutions of the closed-loop \gls{system} is
   nonincreasing since
 
   \begin{equation*}
-    \dot{V} = -k_1 k_2 e_1^2 - k_3 e_3^2 \leq 0
+    \dot{V} = -k_1 k_2 e_x^2 - k_3 e_\theta^2 \leq 0
   \end{equation*}
 
   Thus, $\lVert e(t) \rVert$ is bounded, $\dot{V}(t)$ is uniformly continuous,
@@ -150,19 +122,30 @@ Substituting the control laws $u_1$ and $u_2$ into these equations gives
 
 \subsection{Nonlinear controller equations}
 
-Let $k_2 = b$.
+Let $k_2 = b$ and
+$k = k_1(v_d, \omega_d) = k_3(v_d, \omega_d) = 2\zeta\sqrt{\omega_d^2 + bv_d^2}$.
 
 \begin{theorem}[Ramsete unicycle controller]
   \begin{align}
-    &v = v_d \cos(\theta_d - \theta) + k_1(v_d, \omega_d)((x_d - x)\cos\theta +
-      (y_d - y)\sin\theta) \\
-    &\omega = \omega_d +
-      b v_d\sinc(\theta_d - \theta)((y_d - y)\cos\theta - (x_d - x)\sin\theta) +
-      k_3 (v_d, \omega_d)(\theta_d - \theta) \\
-    &k_1(v_d, \omega_d) = k_3(v_d, \omega_d) = 2\zeta\sqrt{\omega_d^2 + bv_d^2}
-      \\
-    &\sinc(\theta_d - \theta) =
-      \frac{\sin(\theta_d - \theta)}{\theta_d - \theta}
+    \begin{bmatrix}
+      e_x \\
+      e_y \\
+      e_\theta
+    \end{bmatrix} &=
+    \begin{bmatrix}
+      \cos\theta & \sin\theta & 0 \\
+      -\sin\theta & \cos\theta & 0 \\
+      0 & 0 & 1
+    \end{bmatrix}
+    \begin{bmatrix}
+      x_d - x \\
+      y_d - y \\
+      \theta_d - \theta
+    \end{bmatrix} \\
+    v &= v_d \cos{e_\theta} + k e_x \\
+    \omega &= \omega_d + k e_\theta + b v_d \sinc(e_\theta) e_y \\
+    k &= 2\zeta\sqrt{\omega_d^2 + bv_d^2} \\
+    \sinc(e_\theta) &= \frac{\sin{e_\theta}}{e_\theta}
   \end{align}
 
   \begin{figurekey}
