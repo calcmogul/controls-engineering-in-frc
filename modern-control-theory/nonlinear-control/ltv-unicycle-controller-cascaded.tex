@@ -47,6 +47,10 @@ Therefore,
 
 \begin{theorem}[Linear time-varying unicycle state-space model]
   \label{thm:ltv_unicycle_model}
+  \begin{align*}
+    \dot{\mtx{x}} &= \mtx{A}\mtx{x} + \mtx{B}\mtx{u} \\
+    \mtx{y} &= \mtx{C}\mtx{x} + \mtx{D}\mtx{u}
+  \end{align*}
   \begin{equation*}
     \begin{array}{ccc}
       \mtx{x} =
@@ -139,7 +143,8 @@ follows:
 $y$.
 
 \begin{theorem}[Linear time-varying unicycle controller]
-  The following $\mtx{A}$ and $\mtx{B}$ matrices are used to compute the LQR.
+  The following $\mtx{A}$ and $\mtx{B}$ matrices of a continuous system are used
+  to compute the LQR.
 
   \begin{equation}
     \begin{array}{llll}
