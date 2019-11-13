@@ -125,7 +125,7 @@ The variance of a joint PDF measures how a variable correlates with itself
 
 \begin{align*}
   \var(x) &= \Sigma_{xx} = E[(x - \overline{x})^2] =
-    \int_-\infty^{\infty} \int_{-\infty}^\infty (x - \overline{y})^2 \,p(x, y)
+    \int_{-\infty}^\infty \int_{-\infty}^\infty (x - \overline{x})^2 \,p(x, y)
     \,dx \,dy \\
   \var(y) &= \Sigma_{yy} = E[(y - \overline{y})^2] =
     \int_{-\infty}^\infty \int_{-\infty}^\infty (y - \overline{y})^2 \,p(x, y)
@@ -141,7 +141,7 @@ directions, the covariance decreases.
 
 \begin{equation*}
   \cov(x, y) = \Sigma_{xy} = E[(x - \overline{x})(y - \overline{y})] =
-    \int_{-\infty}^\infty \int_{-\infty}^\infty (x - \overline{y})
+    \int_{-\infty}^\infty \int_{-\infty}^\infty (x - \overline{x})
     (y - \overline{y}) \,p(x, y) \,dx \,dy \\
 \end{equation*}
 
@@ -293,7 +293,7 @@ The covariance matrix for a random vector $\mtx{x} \in \mathbb{R}^n$ is
     (\mtx{x} - \meanmtx{x})^T] \\
   \mtx{\Sigma} &= \begin{bmatrix}
     \cov(x_1, x_1) & \cov(x_1, x_2) & \ldots & \cov(x_1, x_n) \\
-    \cov(x_2, x_1) & \cov(x_1, x_2) & \ldots & \cov(x_1, x_n) \\
+    \cov(x_2, x_1) & \cov(x_2, x_2) & \ldots & \cov(x_1, x_n) \\
     \vdots        & \vdots        & \vdots & \vdots \\
     \cov(x_n, x_1) & \cov(x_n, x_2) & \ldots & \cov(x_n, x_n) \\
   \end{bmatrix}
