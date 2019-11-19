@@ -4,7 +4,7 @@
 One way to control nonlinear \glspl{system} is to
 \glslink{linearization}{linearize} the \gls{model} around a reference point.
 Then, all the powerful tools that exist for linear controls can be applied. This
-is done by taking the partial derivative of the functions.
+is done by taking the Jacobians of $f$ and $h$.
 
 \begin{align*}
   \begin{array}{cccc}
@@ -14,6 +14,70 @@ is done by taking the partial derivative of the functions.
     \mtx{D} = \frac{\partial h(\mtx{x}, \mtx{u}, \mtx{v})}{\partial \mtx{u}}
   \end{array}
 \end{align*}
+
+Let $f(\mtx{x}, \mtx{u})$ be defined as
+
+\begin{equation*}
+  \dot{\mtx{x}} = f(\mtx{x}, \mtx{u}) =
+  \begin{bmatrix}
+    f_1(\mtx{x}, \mtx{u}) \\
+    f_2(\mtx{x}, \mtx{u}) \\
+    \vdots \\
+    f_m(\mtx{x}, \mtx{u})
+  \end{bmatrix}
+\end{equation*}
+
+The subscript denotes a row of $f$, where each row represents the dynamics of a
+state.
+
+The Jacobian is the partial derivative of a vector-valued function with respect
+to one of the vector arguments. The Jacobian of $f$ has as many rows as $f$, and
+the columns are filled with partial deriviatives of $f$'s rows with respect to
+each of the argument's elements. For example, the Jacobian of $f$ with respect
+to $\mtx{x}$ is
+
+\begin{equation*}
+  \mtx{A} = \frac{\partial f(\mtx{x}, \mtx{u})}{\partial \mtx{x}} =
+  \begin{bmatrix}
+    \frac{\partial f_1}{\partial \mtx{x}_1} &
+      \frac{\partial f_1}{\partial \mtx{x}_2} & \hdots &
+      \frac{\partial f_1}{\partial \mtx{x}_m} \\
+    \frac{\partial f_2}{\partial \mtx{x}_1} &
+      \frac{\partial f_2}{\partial \mtx{x}_2} & \hdots &
+      \frac{\partial f_2}{\partial \mtx{x}_m} \\
+    \vdots & \vdots & \ddots & \vdots \\
+    \frac{\partial f_m}{\partial \mtx{x}_1} &
+      \frac{\partial f_m}{\partial \mtx{x}_2} & \hdots &
+      \frac{\partial f_m}{\partial \mtx{x}_m}
+  \end{bmatrix}
+\end{equation*}
+
+$\frac{\partial f_1}{\partial \mtx{x}_1}$ is the partial derivative of the first
+row of $f$ with respect to the first state, and so on for all rows of $f$ and
+states. This has $n^2$ permutations and thus produces a square matrix.
+
+The Jacobian of $f$ with respect to $\mtx{u}$ is
+
+\begin{equation*}
+  \mtx{B} = \frac{\partial f(\mtx{x}, \mtx{u})}{\partial \mtx{u}} =
+  \begin{bmatrix}
+    \frac{\partial f_1}{\partial \mtx{u}_1} &
+      \frac{\partial f_1}{\partial \mtx{u}_2} & \hdots &
+      \frac{\partial f_1}{\partial \mtx{u}_n} \\
+    \frac{\partial f_2}{\partial \mtx{u}_1} &
+      \frac{\partial f_2}{\partial \mtx{u}_2} & \hdots &
+      \frac{\partial f_2}{\partial \mtx{u}_n} \\
+    \vdots & \vdots & \ddots & \vdots \\
+    \frac{\partial f_m}{\partial \mtx{u}_1} &
+      \frac{\partial f_m}{\partial \mtx{u}_2} & \hdots &
+      \frac{\partial f_m}{\partial \mtx{u}_n}
+  \end{bmatrix}
+\end{equation*}
+
+$\frac{\partial f_1}{\partial \mtx{u}_1}$ is the partial derivative of the first
+row of $f$ with respect to the first input, and so on for all rows of $f$ and
+inputs. This has $m \times n$ permutations and can produce a nonsquare matrix if
+$m \neq n$.
 
 Linearization of a nonlinear equation is a Taylor series expansion to only the
 first-order terms (that is, terms whose variables have exponents on the order of
