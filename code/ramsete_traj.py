@@ -39,9 +39,9 @@ def drivetrain(motor, num_motors, m, r, rb, J, Gl, Gr):
     """
     motor = fct.models.gearbox(motor, num_motors)
 
-    C1 = -Gl ** 2 * motor.Kt / (motor.Kv * motor.R * r ** 2)
+    C1 = -(Gl ** 2) * motor.Kt / (motor.Kv * motor.R * r ** 2)
     C2 = Gl * motor.Kt / (motor.R * r)
-    C3 = -Gr ** 2 * motor.Kt / (motor.Kv * motor.R * r ** 2)
+    C3 = -(Gr ** 2) * motor.Kt / (motor.Kv * motor.R * r ** 2)
     C4 = Gr * motor.Kt / (motor.R * r)
     # fmt: off
     A = np.array([[(1 / m + rb**2 / J) * C1, (1 / m - rb**2 / J) * C3],

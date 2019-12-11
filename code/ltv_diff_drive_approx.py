@@ -41,9 +41,9 @@ def differential_drive(motor, num_motors, m, r, rb, J, Gl, Gr, states):
     """
     motor = fct.models.gearbox(motor, num_motors)
 
-    C1 = -Gl ** 2 * motor.Kt / (motor.Kv * motor.R * r ** 2)
+    C1 = -(Gl ** 2) * motor.Kt / (motor.Kv * motor.R * r ** 2)
     C2 = Gl * motor.Kt / (motor.R * r)
-    C3 = -Gr ** 2 * motor.Kt / (motor.Kv * motor.R * r ** 2)
+    C3 = -(Gr ** 2) * motor.Kt / (motor.Kv * motor.R * r ** 2)
     C4 = Gr * motor.Kt / (motor.R * r)
     x = states[0, 0]
     y = states[1, 0]
