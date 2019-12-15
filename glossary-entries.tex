@@ -21,9 +21,9 @@
   description={Monitors and controls the behavior of a \gls{system}.}}
 \newglossaryentry{controller}{
   name={controller},
-  description={Used in positive or negative feedback with a \gls{plant} to bring
-    about a desired \gls{system} \gls{state} by driving the difference between a
-    \gls{reference} signal and the \gls{output} to zero.}}
+  description={Applies an \gls{input} to a \gls{plant} to bring about a desired
+    \gls{system} \gls{state} by driving the difference between a \gls{reference}
+    signal and the \gls{output} to zero.}}
 \newglossaryentry{discretization}{
   name={discretization},
   description={The process by which a continuous (e.g., analog) \gls{system} or
@@ -39,10 +39,23 @@
 \newglossaryentry{error}{
   name={error},
   description={\Gls{reference} minus an \gls{output} or \gls{state}.}}
+\newglossaryentry{feedback controller}{
+  name={feedback controller},
+  description={Used in positive or negative feedback with a \gls{plant} to bring
+    about a desired \gls{system} \gls{state} by driving the difference between a
+    \gls{reference} signal and the \gls{output} to zero.}}
 \newglossaryentry{feedback gain}{
   name={feedback gain},
   description={The gain from the \gls{output} to an earlier point in a
     \gls{control system} diagram.}}
+\newglossaryentry{feedforward controller}{
+  name={feedforward controller},
+  description={A \gls{controller} that injects information about the
+    \gls{system}'s dynamics (like a \gls{model} does) or the desired movement.
+    The feedforward handles parts of the control actions we already know must be
+    applied to make a \gls{system} track a \gls{reference}, then the feedback
+    controller compensates for what we do not or cannot know about the
+    \gls{system}'s behavior at runtime.}}
 \newglossaryentry{gain}{
   name={gain},
   description={A proportional value that shows the relationship between the
