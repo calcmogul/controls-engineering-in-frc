@@ -20,8 +20,8 @@ systems.
 
 ## Download
 
-A PDF version is available at
-https://file.tavsys.net/control/controls-engineering-in-frc.pdf.
+A PDF version is available at https://tavsys.net/controls-in-frc (full link:
+https://file.tavsys.net/control/controls-engineering-in-frc.pdf).
 
 ## Running the examples
 
