@@ -43,7 +43,7 @@ with covariances
     \mtx{D}_d &= \mtx{D}_c \\
     \mtx{Q}_d &= \int_{\tau = 0}^{T} e^{\mtx{A}_c\tau} \mtx{Q}_c
       e^{\mtx{A}_c^T\tau} d\tau \\
-    \mtx{R}_d &= T\mtx{R}_c
+    \mtx{R}_d &= \frac{1}{T}\mtx{R}_c
   \end{align}
 
   where a subscript of $d$ denotes discrete, a subscript of $c$ denotes the
@@ -54,7 +54,22 @@ with covariances
 
 See appendix \ref{sec:deriv_zoh_ss} for derivations.
 
-$\mtx{Q}_d$ is computed as
+To compute $\mtx{A}_d$ and $\mtx{B}_d$ in one step, one can utilize the
+following property.
+
+\begin{equation*}
+  e^{
+  \begin{bmatrix}
+    \mtx{A}_c & \mtx{B}_c \\
+    \mtx{0} & \mtx{0}
+  \end{bmatrix}T} =
+  \begin{bmatrix}
+    \mtx{A}_d & \mtx{B}_d \\
+    \mtx{0} & \mtx{I}
+  \end{bmatrix}
+\end{equation*}
+
+$\mtx{Q}_d$ can be computed as
 
 \begin{equation*}
   \Phi = e^{
@@ -68,18 +83,21 @@ $\mtx{Q}_d$ is computed as
   \end{bmatrix}
 \end{equation*}
 
-where $\mtx{Q}_d = \Phi_{2,2}^T \Phi_{1,2}$ \cite{bib:integral_matrix_exp}. To
-compute $\mtx{A}_d$ and $\mtx{B}_d$ in one step, one can utilize the following
-property.
+where $\mtx{Q}_d = \Phi_{2,2}^T \Phi_{1,2}$ \cite{bib:integral_matrix_exp}.
 
-\begin{equation*}
-  e^{
-  \begin{bmatrix}
-    \mtx{A}_c & \mtx{B}_c \\
-    \mtx{0} & \mtx{0}
-  \end{bmatrix}T} =
-  \begin{bmatrix}
-    \mtx{A}_d & \mtx{B}_d \\
-    \mtx{0} & \mtx{I}
-  \end{bmatrix}
-\end{equation*}
+$\mtx{R}_c$ being divided by $T$ seems unintuitive at first. Consider the
+discrete white noise sequence $\mtx{y}_k$ and the (non-physically realizable)
+continuous white noise process $\mtx{v}$. Whereas
+$\mtx{R}_k = E[\mtx{y}_k \mtx{y}_k^T]$ is a covariance matrix, $\mtx{R}(t)$
+defined by $E[\mtx{y}(t) \mtx{y}^T(\tau)] = \mtx{R}(t)\delta(t - \tau)$ is a
+spectral density matrix (the Dirac function $\delta(t - \tau)$ has units of
+$1/\text{sec}$). The covariance matrix $\mtx{R}(t)\delta(t - \tau)$ has
+infinite-valued elements. The discrete white noise sequence can be made to
+approximate the continuous white noise process by shrinking the pulse lengths
+($T$) and increasing their amplitude, such that
+$\mtx{R}_k \rightarrow \frac{1}{T}\mtx{R}$.
+
+That is, in the limit as $T \rightarrow 0$, the discrete noise sequence tends to
+one of infinite-valued pulses of zero duration such that the area under the
+"impulse" autocorrelation function is $\mtx{R}_k T$. This is equal to the area
+$\mtx{R}$ under the continuous white noise impulse autocorrelation function.
