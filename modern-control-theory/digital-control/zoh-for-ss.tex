@@ -85,19 +85,19 @@ $\mtx{Q}_d$ can be computed as
 
 where $\mtx{Q}_d = \Phi_{2,2}^T \Phi_{1,2}$ \cite{bib:integral_matrix_exp}.
 
-$\mtx{R}_c$ being divided by $T$ seems unintuitive at first. Consider the
-discrete white noise sequence $\mtx{y}_k$ and the (non-physically realizable)
-continuous white noise process $\mtx{v}$. Whereas
-$\mtx{R}_k = E[\mtx{y}_k \mtx{y}_k^T]$ is a covariance matrix, $\mtx{R}(t)$
-defined by $E[\mtx{y}(t) \mtx{y}^T(\tau)] = \mtx{R}(t)\delta(t - \tau)$ is a
-spectral density matrix (the Dirac function $\delta(t - \tau)$ has units of
-$1/\text{sec}$). The covariance matrix $\mtx{R}(t)\delta(t - \tau)$ has
+To see why $\mtx{R}_c$ is being divided by $T$, consider the discrete white
+noise sequence $\mtx{v}_k$ and the (non-physically realizable) continuous white
+noise process $\mtx{v}$. Whereas $\mtx{R}_{d,k} = E[\mtx{v}_k \mtx{v}_k^T]$ is a
+covariance matrix, $\mtx{R}_c(t)$ defined by
+$E[\mtx{v}(t) \mtx{v}^T(\tau)] = \mtx{R}_c(t)\delta(t - \tau)$ is a spectral
+density matrix (the Dirac function $\delta(t - \tau)$ has units of
+$1/\text{sec}$). The covariance matrix $\mtx{R}_c(t)\delta(t - \tau)$ has
 infinite-valued elements. The discrete white noise sequence can be made to
 approximate the continuous white noise process by shrinking the pulse lengths
 ($T$) and increasing their amplitude, such that
-$\mtx{R}_k \rightarrow \frac{1}{T}\mtx{R}$.
+$\mtx{R}_d \rightarrow \frac{1}{T}\mtx{R}_c$.
 
 That is, in the limit as $T \rightarrow 0$, the discrete noise sequence tends to
 one of infinite-valued pulses of zero duration such that the area under the
-"impulse" autocorrelation function is $\mtx{R}_k T$. This is equal to the area
-$\mtx{R}$ under the continuous white noise impulse autocorrelation function.
+"impulse" autocorrelation function is $\mtx{R}_d T$. This is equal to the area
+$\mtx{R}_c$ under the continuous white noise impulse autocorrelation function.
