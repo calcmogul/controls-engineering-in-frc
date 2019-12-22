@@ -14,9 +14,10 @@ typically don't need $K_d$.
 If the \gls{setpoint} follows a trapezoidal motion profile (see chapter
 \ref{ch:1_dof_motion_profiles}), tuning becomes a lot easier. Plot the position
 \gls{setpoint}, velocity \gls{setpoint}, measured position, and measured
-velocity. The velocity \gls{setpoint} can be obtained by numerical integration
-$v_{des,k} = \frac{r_k - r_{k-1}}{\Delta t}$. Increase $K_p$ until the position
-tracks well, then increase $K_d$ until the velocity tracks well.
+velocity. The velocity \gls{setpoint} can be obtained via numerical
+differentiation of the position \gls{setpoint} (i.e.,
+$v_{desired,k} = \frac{r_k - r_{k-1}}{\Delta t}$). Increase $K_p$ until the
+position tracks well, then increase $K_d$ until the velocity tracks well.
 
 If the \gls{controller} settles at an \gls{output} above or below the
 \gls{setpoint}, one can increase $K_i$ such that the \gls{controller} reaches
