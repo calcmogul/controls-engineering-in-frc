@@ -1,0 +1,608 @@
+\section{Drivetrain velocity model}
+
+\begin{equation*}
+  \dot{\mtx{x}} = \mtx{A}\mtx{x} + \mtx{B}\mtx{u}
+\end{equation*}
+
+If $\mtx{u} =
+\begin{bmatrix}
+  K_{v1} v \\
+  K_{v1} v
+\end{bmatrix}$, then $\mtx{x} =
+\begin{bmatrix}
+  v \\
+  v
+\end{bmatrix}$ and $\dot{\mtx{x}} =
+\begin{bmatrix}
+  0 \\
+  0
+\end{bmatrix}$.
+
+\begin{equation*}
+  \begin{bmatrix}
+    0 \\
+    0
+  \end{bmatrix} =
+  \begin{bmatrix}
+    A_1 & A_2 \\
+    A_2 & A_1
+  \end{bmatrix}
+  \begin{bmatrix}
+    v \\
+    v
+  \end{bmatrix} +
+  \begin{bmatrix}
+    B_1 & B_2 \\
+    B_2 & B_1
+  \end{bmatrix}
+  \begin{bmatrix}
+    K_{v1} v \\
+    K_{v1} v
+  \end{bmatrix}
+\end{equation*}
+
+Since the column vectors contain the same element, the elements in the second
+row can be rearranged.
+
+\begin{equation*}
+  \begin{bmatrix}
+    0 \\
+    0
+  \end{bmatrix} =
+  \begin{bmatrix}
+    A_1 & A_2 \\
+    A_1 & A_2
+  \end{bmatrix}
+  \begin{bmatrix}
+    v \\
+    v
+  \end{bmatrix} +
+  \begin{bmatrix}
+    B_1 & B_2 \\
+    B_1 & B_2
+  \end{bmatrix}
+  \begin{bmatrix}
+    K_{v1} v \\
+    K_{v1} v
+  \end{bmatrix}
+\end{equation*}
+
+Since the rows are linearly dependent, we can use just one of them.
+
+\begin{align*}
+  \mtx{0} &=
+    \begin{bmatrix}
+      A_1 & A_2
+    \end{bmatrix} v +
+    \begin{bmatrix}
+      B_1 & B_2
+    \end{bmatrix} K_{v1} v \\
+  \mtx{0} &=
+    \begin{bmatrix}
+      v & v & K_{v1} v & K_{v1} v
+    \end{bmatrix}
+    \begin{bmatrix}
+      A_1 \\
+      A_2 \\
+      B_1 \\
+      B_2
+    \end{bmatrix} \\
+  \mtx{0} &=
+    \begin{bmatrix}
+      1 & 1 & K_{v1} & K_{v1}
+    \end{bmatrix}
+    \begin{bmatrix}
+      A_1 \\
+      A_2 \\
+      B_1 \\
+      B_2
+    \end{bmatrix}
+\end{align*}
+
+If $\mtx{u} =
+\begin{bmatrix}
+  K_{v1} v + K_{a1} a
+\end{bmatrix}$, then $\mtx{x} =
+\begin{bmatrix}
+  v \\
+  v
+\end{bmatrix}$ and $\dot{\mtx{x}} =
+\begin{bmatrix}
+  a \\
+  a
+\end{bmatrix}$.
+
+\begin{equation*}
+  \begin{bmatrix}
+    a \\
+    a
+  \end{bmatrix} =
+  \begin{bmatrix}
+    A_1 & A_2 \\
+    A_2 & A_1
+  \end{bmatrix}
+  \begin{bmatrix}
+    v \\
+    v
+  \end{bmatrix} +
+  \begin{bmatrix}
+    B_1 & B_2 \\
+    B_2 & B_1
+  \end{bmatrix}
+  \begin{bmatrix}
+    K_{v1} v + K_{a1} a \\
+    K_{v1} v + K_{a1} a
+  \end{bmatrix}
+\end{equation*}
+
+Since the column vectors contain the same element, the elements in the second
+row can be rearranged.
+
+\begin{equation*}
+  \begin{bmatrix}
+    a \\
+    a
+  \end{bmatrix} =
+  \begin{bmatrix}
+    A_1 & A_2 \\
+    A_1 & A_2
+  \end{bmatrix}
+  \begin{bmatrix}
+    v \\
+    v
+  \end{bmatrix} +
+  \begin{bmatrix}
+    B_1 & B_2 \\
+    B_1 & B_2
+  \end{bmatrix}
+  \begin{bmatrix}
+    K_{v1} v + K_{a1} a \\
+    K_{v1} v + K_{a1} a
+  \end{bmatrix}
+\end{equation*}
+
+Since the rows are linearly dependent, we can use just one of them.
+
+\begin{align*}
+  a &=
+    \begin{bmatrix}
+      A_1 & A_2
+    \end{bmatrix} v +
+    \begin{bmatrix}
+      B_1 & B_2
+    \end{bmatrix}
+    \begin{bmatrix}
+      K_{v1} v + K_{a1} a
+    \end{bmatrix} \\
+  a &=
+    \begin{bmatrix}
+      v & v & K_{v1} v + K_{a1} a & K_{v1} + K_{a1} a
+    \end{bmatrix}
+    \begin{bmatrix}
+      A_1 \\
+      A_2 \\
+      B_1 \\
+      B_2
+    \end{bmatrix}
+\end{align*}
+
+If $\mtx{u} =
+\begin{bmatrix}
+  -K_{v2} v \\
+  K_{v2} v
+\end{bmatrix}$, then $\mtx{x} =
+\begin{bmatrix}
+  -v \\
+  v
+\end{bmatrix}$ and $\dot{\mtx{x}} =
+\begin{bmatrix}
+  0 \\
+  0
+\end{bmatrix}$.
+
+\begin{align*}
+  \begin{bmatrix}
+    0 \\
+    0
+  \end{bmatrix} &=
+    \begin{bmatrix}
+      A_1 & A_2 \\
+      A_2 & A_1
+    \end{bmatrix}
+    \begin{bmatrix}
+      -v \\
+      v
+    \end{bmatrix} +
+    \begin{bmatrix}
+      B_1 & B_2 \\
+      B_2 & B_1
+    \end{bmatrix}
+    \begin{bmatrix}
+      -K_{v2} v \\
+      K_{v2} v
+    \end{bmatrix} \\
+  \begin{bmatrix}
+    0 \\
+    0
+  \end{bmatrix} &=
+    \begin{bmatrix}
+      -A_1 & A_2 \\
+      -A_2 & A_1
+    \end{bmatrix}
+    \begin{bmatrix}
+      v \\
+      v
+    \end{bmatrix} +
+    \begin{bmatrix}
+      -B_1 & B_2 \\
+      -B_2 & B_1
+    \end{bmatrix}
+    \begin{bmatrix}
+      K_{v2} v \\
+      K_{v2} v
+    \end{bmatrix} \\
+  \begin{bmatrix}
+    0 \\
+    0
+  \end{bmatrix} &=
+    \begin{bmatrix}
+      -A_1 & A_2 \\
+      A_1 & -A_2
+    \end{bmatrix}
+    \begin{bmatrix}
+      v \\
+      v
+    \end{bmatrix} +
+    \begin{bmatrix}
+      -B_1 & B_2 \\
+      B_1 & -B_2
+    \end{bmatrix}
+    \begin{bmatrix}
+      K_{v2} v \\
+      K_{v2} v
+    \end{bmatrix}
+\end{align*}
+
+Since the column vectors contain the same element, the elements in the second
+row can be rearranged.
+
+\begin{equation*}
+  \begin{bmatrix}
+    0 \\
+    0
+  \end{bmatrix} =
+  \begin{bmatrix}
+    -A_1 & A_2 \\
+    -A_1 & A_2
+  \end{bmatrix}
+  \begin{bmatrix}
+    v \\
+    v
+  \end{bmatrix} +
+  \begin{bmatrix}
+    -B_1 & B_2 \\
+    -B_1 & B_2
+  \end{bmatrix}
+  \begin{bmatrix}
+    K_{v2} v \\
+    K_{v2} v
+  \end{bmatrix}
+\end{equation*}
+
+Since the rows are linearly dependent, we can use just one of them.
+
+\begin{align*}
+  0 &=
+    \begin{bmatrix}
+      -A_1 & A_2
+    \end{bmatrix} v +
+    \begin{bmatrix}
+      -B_1 & B_2
+    \end{bmatrix} K_{v2} v \\
+  0 &= -v A_1 + v A_2 - K_{v2} v B_1 + K_{v2} v B_2 \\
+  0 &=
+    \begin{bmatrix}
+      -v & v & -K_{v2} v & K_{v2} v
+    \end{bmatrix}
+    \begin{bmatrix}
+      A_1 \\
+      A_2 \\
+      B_1 \\
+      B_2
+    \end{bmatrix} \\
+  0 &=
+    \begin{bmatrix}
+      -1 & 1 & -K_{v2} & K_{v2}
+    \end{bmatrix}
+    \begin{bmatrix}
+      A_1 \\
+      A_2 \\
+      B_1 \\
+      B_2
+    \end{bmatrix}
+\end{align*}
+
+If $\mtx{u} =
+\begin{bmatrix}
+  -K_{v2} v - K_{a2} a \\
+  K_{v2} v + K_{a2} a
+\end{bmatrix}$, then $\mtx{x} =
+\begin{bmatrix}
+  -v \\
+  v
+\end{bmatrix}$ and $\dot{\mtx{x}} =
+\begin{bmatrix}
+  -a \\
+  a
+\end{bmatrix}$.
+
+\begin{align*}
+  \begin{bmatrix}
+    -a \\
+    a
+  \end{bmatrix} &=
+    \begin{bmatrix}
+      A_1 & A_2 \\
+      A_2 & A_1
+    \end{bmatrix}
+    \begin{bmatrix}
+      -v \\
+      v
+    \end{bmatrix} +
+    \begin{bmatrix}
+      B_1 & B_2 \\
+      B_2 & B_1
+    \end{bmatrix}
+    \begin{bmatrix}
+      -K_{v2} v - K_{a2} a \\
+      K_{v2} v + K_{a2} a
+    \end{bmatrix} \\
+  \begin{bmatrix}
+    -a \\
+    a
+  \end{bmatrix} &=
+    \begin{bmatrix}
+      -A_1 & A_2 \\
+      -A_2 & A_1
+    \end{bmatrix}
+    \begin{bmatrix}
+      v \\
+      v
+    \end{bmatrix} +
+    \begin{bmatrix}
+      -B_1 & B_2 \\
+      -B_2 & B_1
+    \end{bmatrix}
+    \begin{bmatrix}
+      K_{v2} v + K_{a2} a \\
+      K_{v2} v + K_{a2} a
+    \end{bmatrix} \\
+  \begin{bmatrix}
+    -a \\
+    a
+  \end{bmatrix} &=
+    \begin{bmatrix}
+      -A_1 & A_2 \\
+      A1 & -A_2
+    \end{bmatrix}
+    \begin{bmatrix}
+      v \\
+      v
+    \end{bmatrix} +
+    \begin{bmatrix}
+      -B_1 & B_2 \\
+      B_1 & -B_2
+    \end{bmatrix}
+    \begin{bmatrix}
+      K_{v2} v + K_{a2} a \\
+      K_{v2} v + K_{a2} a
+    \end{bmatrix}
+\end{align*}
+
+Since the column vectors contain the same element, the elements in the second
+row can be rearranged.
+
+\begin{equation*}
+  \begin{bmatrix}
+    -a \\
+    -a
+  \end{bmatrix} =
+  \begin{bmatrix}
+    -A_1 & A_2 \\
+    -A_1 & A_2
+  \end{bmatrix}
+  \begin{bmatrix}
+    v \\
+    v
+  \end{bmatrix} +
+  \begin{bmatrix}
+    -B_1 & B_2 \\
+    -B_1 & B_2
+  \end{bmatrix}
+  \begin{bmatrix}
+    K_{v2} v + K_{a2} a \\
+    K_{v2} v + K_{a2} a
+  \end{bmatrix}
+\end{equation*}
+
+Since the rows are linearly dependent, we can use just one of them.
+
+\begin{align*}
+  -a &=
+    \begin{bmatrix}
+      -A_1 & A_2
+    \end{bmatrix} v +
+    \begin{bmatrix}
+      -B_1 & B_2
+    \end{bmatrix}
+    \begin{bmatrix}
+      K_{v2} v + K_{a2} a
+    \end{bmatrix} \\
+  -a &= -v A_1 + v A_2 - (K_{v2} v + K_{a2} a) B_1 + K_{v2} v + K_{a2} a) B_2 \\
+  -a &=
+    \begin{bmatrix}
+      -v & v & -(K_{v2} v + K_{a2} a) & K_{v2} v+ K_{a2} a
+    \end{bmatrix}
+    \begin{bmatrix}
+      A_1 \\
+      A_2 \\
+      B_1 \\
+      B_2
+    \end{bmatrix} \\
+  a &=
+    \begin{bmatrix}
+      v & -v & K_{v2} v + K_{a2} a & -(K_{v2} v + K_{a2} a)
+    \end{bmatrix}
+    \begin{bmatrix}
+      A_1 \\
+      A_2 \\
+      B_1 \\
+      B_2
+    \end{bmatrix}
+\end{align*}
+
+Now stack the rows.
+
+\begin{equation*}
+  \begin{bmatrix}
+    0 \\
+    a \\
+    0 \\
+    a
+  \end{bmatrix} =
+  \begin{bmatrix}
+    1 & 1 & K_{v1} & K_{v1} \\
+    v & v & K_{v1} v + K_{a1} a & K_{v1} v + K_{a1} a \\
+    -1 & 1 & -K_{v2} & K_{v2} \\
+    v & -v & K_{v2} v + K_{a2} a & -(K_{v2} v + K_{a2} a)
+  \end{bmatrix}
+  \begin{bmatrix}
+    A_1 \\
+    A_2 \\
+    B_1 \\
+    B_2
+  \end{bmatrix}
+\end{equation*}
+
+Solve for matrix elements with Wolfram Alpha. Let
+$b = K_{v1}$, $c = K_{a1}$, $d = K_{v2}$, and $f = K_{a2}$.
+
+\begin{verbatim}
+inverse of {{1, 1, b, b}, {v, v, b v + c a, b v + c a},
+  {-1, 1, -d, d}, {v, -v, d v + f a, -(d v + f a)}} * {{0}, {a}, {0}, {a}}
+\end{verbatim}
+
+\begin{align*}
+  \begin{bmatrix}
+    A_1 \\
+    A_2 \\
+    B_1 \\
+    B_2
+  \end{bmatrix} &= \frac{1}{2cf}
+  \begin{bmatrix}
+    -cd - bf \\
+    cd - bf \\
+    c + f \\
+    f - c
+  \end{bmatrix} \\
+  \begin{bmatrix}
+    A_1 \\
+    A_2 \\
+    B_1 \\
+    B_2
+  \end{bmatrix} &= \frac{1}{2 K_{a1} K_{a2}}
+  \begin{bmatrix}
+    -K_{a1} K_{v2} - K_{v1} K_{a2} \\
+    K_{a1} K_{v2} - K_{v1} K_{a2} \\
+    K_{a1} + K_{a2} \\
+    K_{a2} - K_{a1}
+  \end{bmatrix}
+\end{align*}
+
+To summarize,
+
+\begin{theorem}[Drivetrain velocity model]
+  \begin{equation*}
+    \dot{\mtx{x}} = \mtx{A}\mtx{x} + \mtx{B}\mtx{u}
+  \end{equation*}
+  \begin{equation*}
+    \begin{array}{cc}
+    \mtx{x} =
+      \begin{bmatrix}
+        \text{left velocity} \\
+        \text{right velocity}
+      \end{bmatrix} &
+    \mtx{u} =
+      \begin{bmatrix}
+        \text{left voltage} \\
+        \text{right voltage}
+      \end{bmatrix}
+    \end{array}
+  \end{equation*}
+  \begin{equation*}
+    \dot{\mtx{x}} =
+      \begin{bmatrix}
+        A_1 & A_2 \\
+        A_2 & A_1
+      \end{bmatrix} \mtx{x} +
+      \begin{bmatrix}
+        B_1 & B_2 \\
+        B_2 & B_1
+      \end{bmatrix} \mtx{u}
+  \end{equation*}
+  \begin{equation}
+    \begin{bmatrix}
+      A_1 \\
+      A_2 \\
+      B_1 \\
+      B_2
+    \end{bmatrix} = \frac{1}{2 K_{a,linear} K_{a,angular}}
+      \begin{bmatrix}
+        -K_{a,linear} K_{v,angular} - K_{v,linear} K_{a,angular} \\
+        K_{a,linear} K_{v,angular} - K_{v,linear} K_{a,angular} \\
+        K_{a,linear} + K_{a,angular} \\
+        K_{a,angular} - K_{a,linear}
+      \end{bmatrix}
+  \end{equation}
+\end{theorem}
+
+If $K_v$ and $K_a$ are the same for both the linear and angular cases, it devolves to the one-dimensional case. This means the left and right sides are decoupled.
+
+\begin{align*}
+  \begin{bmatrix}
+    A_1 \\
+    A_2 \\
+    B_1 \\
+    B_2
+  \end{bmatrix} &= \frac{1}{2 K_a K_a}
+    \begin{bmatrix}
+      -K_a K_v - K_v K_a \\
+      K_a K_v - K_v K_a \\
+      K_a + K_a \\
+      K_a - K_a
+    \end{bmatrix} \\
+  \begin{bmatrix}
+    A_1 \\
+    A_2 \\
+    B_1 \\
+    B_2
+  \end{bmatrix} &= \frac{1}{2 K_a K_a}
+    \begin{bmatrix}
+      -2K_v K_a \\
+      0 \\
+      2 K_a \\
+      0
+    \end{bmatrix} \\
+  \begin{bmatrix}
+    A_1 \\
+    A_2 \\
+    B_1 \\
+    B_2
+  \end{bmatrix} &=
+    \begin{bmatrix}
+      -\frac{K_v}{K_a} \\
+      0 \\
+      \frac{1}{K_a} \\
+      0
+    \end{bmatrix}
+\end{align*}

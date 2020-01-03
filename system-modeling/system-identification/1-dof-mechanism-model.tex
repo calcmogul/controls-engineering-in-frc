@@ -1,0 +1,75 @@
+\section{1 DOF mechanism model}
+
+\begin{equation*}
+  \dot{\mtx{x}} = \mtx{A}\mtx{x} + \mtx{B}\mtx{u}
+\end{equation*}
+\begin{equation*}
+  \begin{array}{ccc}
+    \mtx{x} = velocity & \dot{\mtx{x}} = acceleration & \mtx{u} = voltage
+  \end{array}
+\end{equation*}
+
+If $\mtx{u} = K_v v$, then $\mtx{x} = v$ and $\dot{\mtx{x}} = \mtx{0}$.
+Therefore
+
+\begin{equation}
+  0 = \mtx{A}v + \mtx{B}(K_v v) \label{eq:sysid-eq1}
+\end{equation}
+
+If $\mtx{u} = K_v v + K_a a$, then $\mtx{x} = v$ and $\dot{\mtx{x}} = a$.
+Therefore
+
+\begin{equation}
+  a = \mtx{A}v + \mtx{B}(K_v v + K_a a) \label{eq:sysid-eq2}
+\end{equation}
+
+Subtract equation \eqref{eq:sysid-eq1} from equation \eqref{eq:sysid-eq2}.
+
+\begin{align*}
+  a &= \mtx{B} (K_a a) \\
+  1 &= \mtx{B} K_a \\
+  \mtx{B} &= \frac{1}{K_a}
+\end{align*}
+
+Substitute $\mtx{B}$ back into \eqref{eq:sysid-eq1} to obtain $\mtx{A}$.
+
+\begin{align*}
+  \mtx{0} &= \mtx{A}v + \left(\frac{1}{K_a}\right)(K_v v) \\
+  \mtx{0} &= \mtx{A}v + \frac{K_v}{K_a} v \\
+  -\frac{K_v}{K_a} v &= \mtx{A}v \\
+  \mtx{A} &= -\frac{K_v}{K_a}
+\end{align*}
+
+A model with position and velocity states would be
+
+\begin{theorem}[1 DOF mechanism position model]
+  \begin{equation*}
+    \dot{\mtx{x}} = \mtx{A}\mtx{x} + \mtx{B}\mtx{u}
+  \end{equation*}
+  \begin{equation*}
+    \begin{array}{cc}
+    \mtx{x} =
+      \begin{bmatrix}
+        \text{position} \\
+        \text{velocity}
+      \end{bmatrix} &
+    \mtx{u} =
+      \begin{bmatrix}
+        \text{voltage}
+      \end{bmatrix}
+    \end{array}
+  \end{equation*}
+  \begin{equation}
+    \dot{\mtx{x}} =
+      \begin{bmatrix}
+        0 & 1 \\
+        0 & -\frac{K_v}{K_a}
+      \end{bmatrix}
+      \mtx{x} +
+      \begin{bmatrix}
+        0 \\
+        \frac{1}{K_a}
+      \end{bmatrix}
+      \mtx{u}
+  \end{equation}
+\end{theorem}
