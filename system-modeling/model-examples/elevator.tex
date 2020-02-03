@@ -121,7 +121,7 @@ mass up or down.
 
     % Mass velocity arrow
     \begin{scope}[xshift=6.04cm,yshift=0.95cm]
-      \draw[line width=0.7pt,<-] (0,0.4) -- node {$v_m$} (0,0);
+      \draw[line width=0.7pt,<-] (0,0.4) -- node {$v$} (0,0);
     \end{scope}
 
     % Descriptions inside graphic
@@ -143,9 +143,9 @@ mass up or down.
 Gear ratios are written as output over input, so $G$ is greater than one in
 figure \ref{fig:elevator}.
 
-We want to derive an equation for the carriage acceleration $a_m$ (derivative of
-$v_m$) given an input voltage $V$, which we can integrate to get carriage
-velocity and position.
+We want to derive an equation for the carriage acceleration $a$ (derivative of
+$v$) given an input voltage $V$, which we can integrate to get carriage velocity
+and position.
 
 First, we'll find a torque to substitute into the equation for a DC brushed
 motor. Based on figure \ref{fig:elevator}
@@ -186,46 +186,46 @@ where $\omega_p$ is the angular velocity of the pulley. The velocity of the mass
 (the elevator carriage) is
 
 \begin{equation*}
-  v_m = r \omega_p
+  v = r \omega_p
 \end{equation*}
 
 \begin{equation}
-  \omega_p = \frac{v_m}{r} \label{eq:elevator_omega_p}
+  \omega_p = \frac{v}{r} \label{eq:elevator_omega_p}
 \end{equation}
 
 Substitute equation \eqref{eq:elevator_omega_p} into equation
 \eqref{eq:elevator_omega_m_ratio}.
 
 \begin{equation}
-  \omega_m = G \frac{v_m}{r} \label{eq:elevator_omega_m}
+  \omega_m = G \frac{v}{r} \label{eq:elevator_omega_m}
 \end{equation}
 
 Substitute equation \eqref{eq:elevator_omega_m} into equation
 \eqref{eq:elevator_Vinter1} for $\omega_m$.
 
 \begin{align*}
-  V &= \frac{rF_m}{GK_t} R + \frac{G \frac{v_m}{r}}{K_v} \\
-  V &= \frac{RrF_m}{GK_t} + \frac{G}{rK_v} v_m
+  V &= \frac{rF_m}{GK_t} R + \frac{G \frac{v}{r}}{K_v} \\
+  V &= \frac{RrF_m}{GK_t} + \frac{G}{rK_v} v
 \end{align*}
 
 Solve for $F_m$.
 
 \begin{align}
-  \frac{RrF_m}{GK_t} &= V - \frac{G}{rK_v} v_m \nonumber \\
-  F_m &= \left(V - \frac{G}{rK_v} v_m\right) \frac{GK_t}{Rr} \nonumber \\
-  F_m &= \frac{GK_t}{Rr} V - \frac{G^2K_t}{Rr^2 K_v} v_m \label{eq:elevator_F_m}
+  \frac{RrF_m}{GK_t} &= V - \frac{G}{rK_v} v \nonumber \\
+  F_m &= \left(V - \frac{G}{rK_v} v\right) \frac{GK_t}{Rr} \nonumber \\
+  F_m &= \frac{GK_t}{Rr} V - \frac{G^2K_t}{Rr^2 K_v} v \label{eq:elevator_F_m}
 \end{align}
 
 \begin{equation}
-  \sum F = ma_m \label{eq:elevator_F_ma}
+  \sum F = ma \label{eq:elevator_F_ma}
 \end{equation}
 
 where $\sum F$ is the sum of forces applied to the elevator carriage, $m$ is the
-mass of the elevator carriage in kilograms, and $a_m$ is the acceleration of the
+mass of the elevator carriage in kilograms, and $a$ is the acceleration of the
 elevator carriage.
 
 \begin{equation*}
-  ma_m = F_m
+  ma = F_m
 \end{equation*}
 
 \begin{remark}
@@ -234,10 +234,8 @@ elevator carriage.
 \end{remark}
 
 \begin{align}
-  ma_m &= \left(\frac{GK_t}{Rr} V - \frac{G^2K_t}{Rr^2 K_v} v_m\right)
-    \nonumber \\
-  a_m &= \frac{GK_t}{Rrm} V - \frac{G^2K_t}{Rr^2 mK_v} v_m
-    \label{eq:elevator_accel}
+  ma &= \left(\frac{GK_t}{Rr} V - \frac{G^2K_t}{Rr^2 K_v} v\right) \nonumber \\
+  a &= \frac{GK_t}{Rrm} V - \frac{G^2K_t}{Rr^2 mK_v} v \label{eq:elevator_accel}
 \end{align}
 
 This model will be converted to state-space notation in section

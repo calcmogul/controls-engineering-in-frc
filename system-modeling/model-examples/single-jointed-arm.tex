@@ -94,9 +94,9 @@ spins a straight bar in pitch.
 Gear ratios are written as output over input, so $G$ is greater than one in
 figure \ref{fig:single_jointed_arm}.
 
-We want to derive an equation for the arm angular acceleration $\dot{\omega}_m$
-given an input voltage $V$, which we can integrate to get arm angular velocity
-and angle.
+We want to derive an equation for the arm angular acceleration
+$\dot{\omega}_{arm}$ given an input voltage $V$, which we can integrate to get
+arm angular velocity and angle.
 
 We will start with the equation derived earlier for a DC brushed motor, equation
 \eqref{eq:motor_tau_V}.
@@ -125,7 +125,7 @@ Since $\tau_m G = \tau_{arm}$ and $\omega_m = G \omega_{arm}$
 
 \begin{align}
   \left(\frac{\tau_{arm}}{G}\right) &= \frac{K_t}{R} V -
-    \frac{K_t}{K_v R} (G \omega_f) \nonumber \\
+    \frac{K_t}{K_v R} (G \omega_{arm}) \nonumber \\
   \frac{\tau_{arm}}{G} &= \frac{K_t}{R} V - \frac{G K_t}{K_v R} \omega_{arm}
     \nonumber \\
   \tau_{arm} &= \frac{G K_t}{R} V - \frac{G^2 K_t}{K_v R} \omega_{arm}
@@ -142,12 +142,19 @@ where $J$ is the moment of inertia of the arm and $\dot{\omega}_{arm}$ is the
 angular acceleration. Substitute equation \eqref{eq:tau_arm_def} into equation
 \eqref{eq:tau_arm}.
 
-\begin{align}
+\begin{align*}
   (J \dot{\omega}_{arm}) &= \frac{G K_t}{R} V - \frac{G^2 K_t}{K_v R}
     \omega_{arm} \nonumber \\
-  \dot{\omega}_{arm} &= \frac{G K_t}{RJ} V - \frac{G^2 K_t}{K_v RJ} \omega_{arm}
+  \dot{\omega}_{arm} &= -\frac{G^2 K_t}{K_v RJ} \omega_{arm} +
+    \frac{G K_t}{RJ} V
+\end{align*}
+
+We'll relabel $\omega_{arm}$ as $\omega$ for convenience.
+
+\begin{equation}
+  \dot{\omega} = -\frac{G^2 K_t}{K_v RJ} \omega + \frac{G K_t}{RJ} V
     \label{eq:dot_omega_arm}
-\end{align}
+\end{equation}
 
 This model will be converted to state-space notation in section
 \ref{sec:ss_model_single-jointed_arm}.
@@ -171,19 +178,17 @@ First, rearrange equation \eqref{eq:dot_omega_arm} into the form $y = mx + b$
 such that $J$ is in the numerator of $m$.
 
 \begin{align*}
-  \dot{\omega}_{arm} &= \frac{G K_t}{RJ} V - \frac{G^2 K_t}{K_v RJ} \omega_{arm}
-    \\
-  J\dot{\omega}_{arm} &= \frac{G K_t}{R} V - \frac{G^2 K_t}{K_v R} \omega_{arm}
+  \dot{\omega} &= -\frac{G^2 K_t}{K_v RJ} \omega + \frac{G K_t}{RJ} V \\
+  J\dot{\omega} &= -\frac{G^2 K_t}{K_v R} \omega + \frac{G K_t}{R} V
 \end{align*}
 
 Multiply by $\frac{K_v R}{G^2 K_t}$ on both sides.
 
 \begin{align}
-  \frac{J K_v R}{G^2 K_t} \dot{\omega}_{arm} &= \frac{G K_t}{R} \cdot
-    \frac{K_v R}{G^2 K_t} V - \omega_{arm} \nonumber \\
-  \frac{J K_v R}{G^2 K_t} \dot{\omega}_{arm} &= \frac{K_v}{G} V - \omega_{arm}
-    \nonumber \\
-  \omega_{arm} &= \frac{K_v}{G} V - \frac{J K_v R}{G^2 K_t} \dot{\omega}_{arm}
+  \frac{J K_v R}{G^2 K_t} \dot{\omega} &= -\omega + \frac{G K_t}{R} \cdot
+    \frac{K_v R}{G^2 K_t} V \nonumber \\
+  \frac{J K_v R}{G^2 K_t} \dot{\omega} &= -\omega + \frac{K_v}{G} V \nonumber \\
+  \omega &= -\frac{J K_v R}{G^2 K_t} \dot{\omega} + \frac{K_v}{G} V
     \label{eq:arm_J_regression}
 \end{align}
 

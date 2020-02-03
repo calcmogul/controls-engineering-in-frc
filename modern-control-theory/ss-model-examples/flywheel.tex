@@ -4,23 +4,23 @@
 \subsection{Continuous state-space model}
 \index{FRC models!flywheel equations}
 
-By equation \eqref{eq:dot_omega_f}
+By equation \eqref{eq:dot_omega_flywheel}
 
 \begin{equation*}
-  \dot{\omega}_f = -\frac{G^2 K_t}{K_v RJ} \omega_f + \frac{G K_t}{RJ} V
+  \dot{\omega} = -\frac{G^2 K_t}{K_v RJ} \omega + \frac{G K_t}{RJ} V
 \end{equation*}
 
-Factor out $\omega_f$ and $V$ into column vectors.
+Factor out $\omega$ and $V$ into column vectors.
 
 \begin{align*}
   \dot{\begin{bmatrix}
-    \omega_f
+    \omega
   \end{bmatrix}} &=
   \begin{bmatrix}
     -\frac{G^2 K_t}{K_v RJ}
   \end{bmatrix}
   \begin{bmatrix}
-    \omega_f
+    \omega
   \end{bmatrix} +
   \begin{bmatrix}
     \frac{GK_t}{RJ}
@@ -37,8 +37,8 @@ Factor out $\omega_f$ and $V$ into column vectors.
   \end{align*}
   \begin{equation*}
     \begin{array}{ccc}
-      \mtx{x} = \omega_f &
-      \mtx{y} = \omega_f &
+      \mtx{x} = \omega &
+      \mtx{y} = \omega &
       \mtx{u} = V
     \end{array}
   \end{equation*}
@@ -68,10 +68,10 @@ discrete \gls{controller}.
   \begin{array}{ccc}
     \mtx{x} =
     \begin{bmatrix}
-      \omega_f \\
+      \omega \\
       u_{error}
     \end{bmatrix} &
-    \mtx{y} = \omega_f &
+    \mtx{y} = \omega &
     \mtx{u} = V
   \end{array}
 \end{equation*}
@@ -162,19 +162,19 @@ implementation of this flywheel controller is available online\footnote{
 In the FIRST Robotics Competition, we can get the current drawn for specific
 channels on the power distribution panel. We can theoretically use this to
 estimate the angular velocity of a DC motor without an encoder. We'll start with
-the flywheel model derived earlier as equation \eqref{eq:dot_omega_f}.
+the flywheel model derived earlier as equation \eqref{eq:dot_omega_flywheel}.
 
 \begin{align*}
-  \dot{\omega}_f &= \frac{G K_t}{RJ} V - \frac{G^2 K_t}{K_v RJ} \omega_f \\
-  \dot{\omega}_f &= -\frac{G^2 K_t}{K_v RJ} \omega_f + \frac{G K_t}{RJ} V
+  \dot{\omega} &= \frac{G K_t}{RJ} V - \frac{G^2 K_t}{K_v RJ} \omega \\
+  \dot{\omega} &= -\frac{G^2 K_t}{K_v RJ} \omega + \frac{G K_t}{RJ} V
 \end{align*}
 
 Next, we'll derive the current $I$ as an output.
 
 \begin{align*}
-  V &= IR + \frac{\omega_f}{K_v} \\
-  IR &= V - \frac{\omega_f}{K_v} \\
-  I &= -\frac{1}{K_v R} \omega_f + \frac{1}{R} V
+  V &= IR + \frac{\omega}{K_v} \\
+  IR &= V - \frac{\omega}{K_v} \\
+  I &= -\frac{1}{K_v R} \omega + \frac{1}{R} V
 \end{align*}
 
 Therefore,
@@ -186,7 +186,7 @@ Therefore,
   \end{align*}
   \begin{equation*}
     \begin{array}{ccc}
-      \mtx{x} = \omega_f &
+      \mtx{x} = \omega &
       \mtx{y} = I &
       \mtx{u} = V
     \end{array}

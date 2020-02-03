@@ -31,7 +31,7 @@ The circuit for a DC brushed motor is shown in figure
     \draw (start) to (topright)
                   to [resistor={near start, info'={ $R$ }},
                       voltage source={near end, direction info'={<-},
-                      info={ $V_{emf}=\frac{\omega_m}{K_v}$ }}] (bottomright)
+                      info={ $V_{emf}=\frac{\omega}{K_v}$ }}] (bottomright)
                   to (end);
   \end{tikzpicture}
 
@@ -40,33 +40,33 @@ The circuit for a DC brushed motor is shown in figure
 \end{bookfigure}
 
 $V$ is the voltage applied to the motor, $I$ is the current through the motor in
-Amps, $R$ is the resistance across the motor in Ohms, $\omega_m$ is the angular
+Amps, $R$ is the resistance across the motor in Ohms, $\omega$ is the angular
 velocity of the motor in radians per second, and $K_v$ is the angular velocity
 constant in radians per second per Volt. This circuit reflects the following
 relation.
 
 \begin{equation}
-  V = IR + \frac{\omega_m}{K_v} \label{eq:motor_V}
+  V = IR + \frac{\omega}{K_v} \label{eq:motor_V}
 \end{equation}
 
 The mechanical relation for a DC brushed motor is
 
 \begin{equation}
-  \tau_m = K_t I \label{eq:motor_tau_m}
+  \tau = K_t I \label{eq:motor_tau}
 \end{equation}
 
-where $\tau_m$ is the torque produced by the motor in Newton-meters and $K_t$ is
+where $\tau$ is the torque produced by the motor in Newton-meters and $K_t$ is
 the torque constant in Newton-meters per Amp. Therefore
 
 \begin{equation*}
-  I = \frac{\tau_m}{K_t}
+  I = \frac{\tau}{K_t}
 \end{equation*}
 
 Substitute this into equation \eqref{eq:motor_V}.
 
 \index{FRC models!DC brushed motor equations}
 \begin{equation}
-  V = \frac{\tau_m}{K_t} R + \frac{\omega_m}{K_v} \label{eq:motor_tau_V}
+  V = \frac{\tau}{K_t} R + \frac{\omega}{K_v} \label{eq:motor_tau_V}
 \end{equation}
 
 \subsection{Calculating constants}
@@ -84,23 +84,23 @@ motors in FRC can be found at \url{https://motors.vex.com}.
 \subsubsection{Torque constant $K_t$}
 
 \begin{align}
-  \tau_m &= K_t I \nonumber \\
-  K_t &= \frac{\tau_m}{I} \nonumber \\
-  K_t &= \frac{\tau_{m,stall}}{I_{stall}}
+  \tau &= K_t I \nonumber \\
+  K_t &= \frac{\tau}{I} \nonumber \\
+  K_t &= \frac{\tau_{stall}}{I_{stall}}
 \end{align}
 
-where $\tau_{m,stall}$ is the stall torque and $I_{stall}$ is the stall current
-of the motor from its datasheet.
+where $\tau_{stall}$ is the stall torque and $I_{stall}$ is the stall current of
+the motor from its datasheet.
 
 \subsubsection{Resistance $R$}
 
 Recall equation \eqref{eq:motor_V}.
 
 \begin{equation*}
-  V = IR + \frac{\omega_m}{K_v}
+  V = IR + \frac{\omega}{K_v}
 \end{equation*}
 
-When the motor is stalled, $\omega_m = 0$.
+When the motor is stalled, $\omega = 0$.
 
 \begin{align}
   V &= I_{stall} R \nonumber \\
@@ -115,20 +115,20 @@ applied to the motor at stall.
 Recall equation \eqref{eq:motor_V}.
 
 \begin{align*}
-  V &= IR + \frac{\omega_m}{K_v} \\
-  V - IR &= \frac{\omega_m}{K_v} \\
-  K_v &= \frac{\omega_m}{V - IR}
+  V &= IR + \frac{\omega}{K_v} \\
+  V - IR &= \frac{\omega}{K_v} \\
+  K_v &= \frac{\omega}{V - IR}
 \end{align*}
 
 When the motor is spinning under no load
 
 \begin{align}
-  K_v &= \frac{\omega_{m,free}}{V - I_{free}R}
+  K_v &= \frac{\omega_{free}}{V - I_{free}R}
 \end{align}
 
-where $\omega_{m,free}$ is the angular velocity of the motor under no load (also
+where $\omega_{free}$ is the angular velocity of the motor under no load (also
 known as the free speed), and $V$ is the voltage applied to the motor when it's
-spinning at $\omega_{m,free}$, and $I_{free}$ is the current drawn by the motor
+spinning at $\omega_{free}$, and $I_{free}$ is the current drawn by the motor
 under no load.
 
 If several identical motors are being used in one gearbox for a mechanism,

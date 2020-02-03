@@ -7,34 +7,34 @@
 The position and velocity derivatives of the elevator can be written as
 
 \begin{align}
-  \dot{x}_m &= v_m \label{eq:elevator_cont_ss_pos} \\
-  \dot{v}_m &= a_m \label{eq:elevator_cont_ss_vel}
+  \dot{x} &= v \label{eq:elevator_cont_ss_pos} \\
+  \dot{v} &= a \label{eq:elevator_cont_ss_vel}
 \end{align}
 
 where by equation \eqref{eq:elevator_accel},
 
 \begin{equation*}
-  a_m = \frac{GK_t}{Rrm} V - \frac{G^2 K_t}{Rr^2 m K_v} v_m
+  a = \frac{GK_t}{Rrm} V - \frac{G^2 K_t}{Rr^2 m K_v} v
 \end{equation*}
 
 Substitute this into equation \eqref{eq:elevator_cont_ss_vel}.
 
 \begin{align}
-  \dot{v}_m &= \frac{GK_t}{Rrm} V - \frac{G^2 K_t}{Rr^2 m K_v} v_m \nonumber \\
-  \dot{v}_m &= -\frac{G^2 K_t}{Rr^2 m K_v} v_m + \frac{GK_t}{Rrm} V
+  \dot{v} &= \frac{GK_t}{Rrm} V - \frac{G^2 K_t}{Rr^2 m K_v} v \nonumber \\
+  \dot{v} &= -\frac{G^2 K_t}{Rr^2 m K_v} v + \frac{GK_t}{Rrm} V
 \end{align}
 
-Factor out $v_m$ and $V$ into column vectors.
+Factor out $v$ and $V$ into column vectors.
 
 \begin{align*}
   \dot{\begin{bmatrix}
-    v_m
+    v
   \end{bmatrix}} &=
   \begin{bmatrix}
     -\frac{G^2 K_t}{Rr^2 m K_v}
   \end{bmatrix}
   \begin{bmatrix}
-    v_m
+    v
   \end{bmatrix} +
   \begin{bmatrix}
     \frac{GK_t}{Rrm}
@@ -45,15 +45,14 @@ Factor out $v_m$ and $V$ into column vectors.
 \end{align*}
 
 Augment the matrix equation with the position state $x$, which has the model
-equation $\dot{x} = v_m$. The matrix elements corresponding to $v_m$ will be
-$1$, and the others will be $0$ since they don't appear, so
-$\dot{x} = 0x + 1v_m + 0V$. The existing rows will have zeroes inserted where
-$x$ is multiplied in.
+equation $\dot{x} = v$. The matrix elements corresponding to $v$ will be $1$,
+and the others will be $0$ since they don't appear, so $\dot{x} = 0x + 1v + 0V$.
+The existing rows will have zeroes inserted where $x$ is multiplied in.
 
 \begin{align*}
   \dot{\begin{bmatrix}
     x \\
-    v_m
+    v
   \end{bmatrix}} &=
   \begin{bmatrix}
     0 & 1 \\
@@ -61,7 +60,7 @@ $x$ is multiplied in.
   \end{bmatrix}
   \begin{bmatrix}
     x \\
-    v_m
+    v
   \end{bmatrix} +
   \begin{bmatrix}
     0 \\
@@ -82,7 +81,7 @@ $x$ is multiplied in.
       \mtx{x} =
       \begin{bmatrix}
         x \\
-        v_m
+        v
       \end{bmatrix} &
       \mtx{y} = x &
       \mtx{u} = V
@@ -126,7 +125,7 @@ discrete \gls{controller}.
     \mtx{x}_{aug} =
     \begin{bmatrix}
       x \\
-      v_m \\
+      v \\
       u_{error}
     \end{bmatrix} &
     \mtx{y} = x &

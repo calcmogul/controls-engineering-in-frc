@@ -37,7 +37,15 @@ values of $\theta$).
   \dot{\omega} &= -\frac{g}{l} \theta
 \end{align*}
 
-Now write the \gls{model} in state-space representation.
+Now write the \gls{model} in state-space representation. We'll write out the
+system of equations with the zeroed variables included to assist with this.
+
+\begin{align*}
+  \dot{\theta} &= \;\;\;\,0 \theta + 1 \omega \\
+  \dot{\omega} &= -\frac{g}{l} \theta + 0 \omega
+\end{align*}
+
+Factor out $\theta$ and $\omega$ into a column vector.
 
 \begin{align}
   \dot{
@@ -70,6 +78,21 @@ $\dot{\theta}$, so we'll need to estimate the latter. The $\mtx{C}$ matrix the
     1 & 0 \\
   \end{bmatrix}
 \end{equation*}
+
+Therefore, the measurement vector is
+
+\begin{align*}
+  \mtx{y} &= \mtx{C}\mtx{x} \\
+  \mtx{y} &= \begin{bmatrix}
+    1 & 0
+  \end{bmatrix}
+  \begin{bmatrix}
+    \theta \\
+    \omega
+  \end{bmatrix} \\
+  \mtx{y} &= 1\theta + 0\omega \\
+  \mtx{y} &= \theta
+\end{align*}
 
 \subsection{Implement controller}
 

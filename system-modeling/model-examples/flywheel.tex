@@ -137,12 +137,18 @@ where $J$ is the moment of inertia of the flywheel and $\dot{\omega}_f$ is the
 angular acceleration. Substitute equation \eqref{eq:tau_f_def} into equation
 \eqref{eq:tau_f}.
 
-\begin{align}
-  (J \dot{\omega}_f) &= \frac{G K_t}{R} V - \frac{G^2 K_t}{K_v R} \omega_f
-    \nonumber \\
-  \dot{\omega}_f &= \frac{G K_t}{RJ} V - \frac{G^2 K_t}{K_v RJ} \omega_f
-    \label{eq:dot_omega_f}
-\end{align}
+\begin{align*}
+  (J \dot{\omega}_f) &= \frac{G K_t}{R} V - \frac{G^2 K_t}{K_v R} \omega_f \\
+  \dot{\omega}_f &= \frac{G K_t}{RJ} V - \frac{G^2 K_t}{K_v RJ} \omega_f \\
+  \dot{\omega}_f &= -\frac{G^2 K_t}{K_v RJ} \omega_f + \frac{G K_t}{RJ} V
+\end{align*}
+
+We'll relabel $\omega_f$ as $\omega$ for convenience.
+
+\begin{equation}
+  \dot{\omega} = -\frac{G^2 K_t}{K_v RJ} \omega + \frac{G K_t}{RJ} V
+    \label{eq:dot_omega_flywheel}
+\end{equation}
 
 This model will be converted to state-space notation in section
 \ref{sec:ss_model_flywheel}.
@@ -155,22 +161,21 @@ Given the simplicity of this mechanism, it may be easier to compute this value
 theoretically using material properties in CAD. A procedure for measuring it
 experimentally is presented below.
 
-First, rearrange equation \eqref{eq:dot_omega_f} into the form $y = mx + b$
-such that $J$ is in the numerator of $m$.
+First, rearrange equation \eqref{eq:dot_omega_flywheel} into the form
+$y = mx + b$ such that $J$ is in the numerator of $m$.
 
 \begin{align*}
-  \dot{\omega}_f &= \frac{G K_t}{RJ} V - \frac{G^2 K_t}{K_v RJ} \omega_f \\
-  J\dot{\omega}_f &= \frac{G K_t}{R} V - \frac{G^2 K_t}{K_v R} \omega_f
+  \dot{\omega} &= -\frac{G^2 K_t}{K_v RJ} \omega + \frac{G K_t}{RJ} V \\
+  J\dot{\omega} &= -\frac{G^2 K_t}{K_v R} \omega + \frac{G K_t}{R} V
 \end{align*}
 
 Multiply by $\frac{K_v R}{G^2 K_t}$ on both sides.
 
 \begin{align}
-  \frac{J K_v R}{G^2 K_t} \dot{\omega}_f &= \frac{G K_t}{R} \cdot
-    \frac{K_v R}{G^2 K_t} V - \omega_f \nonumber \\
-  \frac{J K_v R}{G^2 K_t} \dot{\omega}_f &= \frac{K_v}{G} V - \omega_f \nonumber
-    \\
-  \omega_f &= \frac{K_v}{G} V - \frac{J K_v R}{G^2 K_t} \dot{\omega}_f
+  \frac{J K_v R}{G^2 K_t} \dot{\omega} &= -\omega + \frac{G K_t}{R} \cdot
+    \frac{K_v R}{G^2 K_t} V \nonumber \\
+  \frac{J K_v R}{G^2 K_t} \dot{\omega} &= -\omega + \frac{K_v}{G} V \nonumber \\
+  \omega &= -\frac{J K_v R}{G^2 K_t} \dot{\omega} + \frac{K_v}{G} V
     \label{eq:flywheel_J_regression}
 \end{align}
 
