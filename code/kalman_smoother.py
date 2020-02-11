@@ -39,7 +39,7 @@ def main():
 
     P = np.zeros((3, 3))
     K = np.zeros((3, 2))
-    H = np.array([[1, 0, 0],
+    C = np.array([[1, 0, 0],
                   [-1, 0, 1]])
     # fmt: on
 
@@ -79,9 +79,9 @@ def main():
         P_pre_rec[:, :, k] = P
 
         # Update
-        K = P @ H.T @ np.linalg.inv(H @ P @ H.T + R)
-        xhat += K @ (y[:, k : k + 1] - H @ xhat)
-        P = (np.eye(3, 3) - K @ H) @ P
+        K = P @ C.T @ np.linalg.inv(C @ P @ C.T + R)
+        xhat += K @ (y[:, k : k + 1] - C @ xhat)
+        P = (np.eye(3, 3) - K @ C) @ P
 
         xhat_post_rec[:, :, k] = xhat
         P_post_rec[:, :, k] = P
