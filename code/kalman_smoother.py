@@ -89,7 +89,7 @@ def main():
 
     # Kalman smoother
 
-    # Last estimate is already optional, so add it to the record
+    # Last estimate is already optimal, so add it to the record
     xhat_smooth_rec[:, :, -1] = xhat_post_rec[:, :, -1]
     P_smooth_rec[:, :, -1] = P_post_rec[:, :, -1]
 
