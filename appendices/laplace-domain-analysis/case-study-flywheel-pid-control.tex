@@ -1,0 +1,179 @@
+\section{Case study: flywheel PID control}
+\index{PID control}
+
+PID controllers typically control voltage to a motor in FRC independent of the
+equations of motion of that motor. For position PID control, large values of
+$K_p$ can lead to overshoot and $K_d$ is commonly used to reduce overshoots.
+Let's consider a flywheel controlled with a standard PID controller. Why
+wouldn't $K_d$ provide damping for velocity overshoots in this case?
+
+PID control is designed to control second-order and first-order \glspl{system}
+well. It can be used to control a lot of things, but struggles when given higher
+order \glspl{system}. It has three degrees of freedom. Two are used to place the
+two poles of the \gls{system}, and the third is used to remove steady-state
+error. With higher order \glspl{system} like a one input, seven \gls{state}
+\gls{system}, there aren't enough degrees of freedom to place the \gls{system}'s
+poles in desired locations. This will result in poor control.
+
+The math for PID doesn't assume voltage, a motor, etc. It defines an output
+based on derivatives and integrals of its input. We happen to use it for motors
+because it actually works pretty well for it because motors are second-order
+\glspl{system}.
+
+The following math will be in continuous time, but the same ideas apply to
+discrete time. This is all assuming a velocity controller.
+
+Our simple motor model hooked up to a mass is
+
+\begin{align}
+  V &= IR + \frac{\omega}{K_v} \label{eq:cs_flywheel_1} \\
+  \tau &= I K_t \label{eq:cs_flywheel_2} \\
+  \tau &= J \frac{d\omega}{dt} \label{eq:cs_flywheel_3}
+\end{align}
+
+For an explanation of where these equations come from, read section
+\ref{sec:dc_brushed_motor}.
+
+First, we'll solve for $\frac{d\omega}{dt}$ in terms of $V$.
+
+Substitute equation \eqref{eq:cs_flywheel_2} into equation
+\eqref{eq:cs_flywheel_1}.
+
+\begin{align*}
+  V &= IR + \frac{\omega}{K_v} \\
+  V &= \left(\frac{\tau}{K_t}\right) R + \frac{\omega}{K_v}
+\end{align*}
+
+Substitute in equation \eqref{eq:cs_flywheel_3}.
+
+\begin{align*}
+  V &= \frac{\left(J \frac{d\omega}{dt}\right)}{K_t} R + \frac{\omega}{K_v} \\
+\end{align*}
+
+Solve for $\frac{d\omega}{dt}$.
+
+\begin{align*}
+  V &= \frac{J \frac{d\omega}{dt}}{K_t} R + \frac{\omega}{K_v} \\
+  V - \frac{\omega}{K_v} &= \frac{J \frac{d\omega}{dt}}{K_t} R \\
+  \frac{d\omega}{dt} &= \frac{K_t}{JR} \left(V - \frac{\omega}{K_v}\right) \\
+  \frac{d\omega}{dt} &= -\frac{K_t}{JRK_v} \omega + \frac{K_t}{JR} V
+\end{align*}
+
+Now take the Laplace transform. Because the Laplace transform is a linear
+operator, we can take the Laplace transform of each term individually. Based on
+table \ref{tab:common_laplace_transforms}, $\frac{d\omega}{dt}$ becomes
+$s\omega$ and $\omega(t)$ and $V(t)$ become $\omega(s)$ and $V(s)$ respectively
+(the parenthetical notation has been dropped for clarity).
+
+\begin{equation}
+  s \omega = -\frac{K_t}{JRK_v} \omega + \frac{K_t}{JR} V
+  \label{eq:cs_motor_tf}
+\end{equation}
+
+Solve for the transfer function $H(s) = \frac{\omega}{V}$.
+
+\begin{align*}
+  s \omega &= -\frac{K_t}{JRK_v} \omega + \frac{K_t}{JR} V \\
+  \left(s + \frac{K_t}{JRK_v}\right) \omega &= \frac{K_t}{JR} V \\
+  \frac{\omega}{V} &= \frac{\frac{K_t}{JR}}{s + \frac{K_t}{JRK_v}} \\
+\end{align*}
+
+That gives us a pole at $-\frac{K_t}{JRK_v}$, which is actually stable. Notice
+that there is only one pole.
+
+First, we'll use a simple P loop.
+
+\begin{equation*}
+  V = K_p (\omega_{goal} - \omega)
+\end{equation*}
+
+Substitute this controller into equation \eqref{eq:cs_motor_tf}.
+
+\begin{equation*}
+  s \omega = -\frac{K_t}{JRK_v} \omega + \frac{K_t}{JR} K_p (\omega_{goal} -
+    \omega)
+\end{equation*}
+
+Solve for the transfer function $H(s) = \frac{\omega}{\omega_{goal}}$.
+
+\begin{align*}
+  s \omega &= -\frac{K_t}{JRK_v} \omega + \frac{K_t K_p}{JR} (\omega_{goal} -
+    \omega) \\
+  s \omega &= -\frac{K_t}{JRK_v} \omega + \frac{K_t K_p}{JR} \omega_{goal} -
+    \frac{K_t K_p}{JR} \omega \\
+  \left(s + \frac{K_t}{JRK_v} + \frac{K_t K_p}{JR}\right) \omega &=
+    \frac{K_t K_p}{JR} \omega_{goal} \\
+  \frac{\omega}{\omega_{goal}} &= \frac{\frac{K_t K_p}{JR}}
+    {\left(s + \frac{K_t}{JRK_v} + \frac{K_t K_p}{JR}\right)} \\
+\end{align*}
+
+This has a pole at $-\left(\frac{K_t}{JRK_v} + \frac{K_t K_p}{JR}\right)$.
+Assuming that that quantity is negative (i.e., we are stable), that pole
+corresponds to a time constant of
+$\frac{1}{\frac{K_t}{JRK_v} + \frac{K_t K_p}{JR}}$.
+
+As can be seen above, a flywheel has a single pole. It therefore only needs a
+single pole controller to place all of its poles anywhere.
+
+\begin{remark}
+  This analysis assumes that the motor is well coupled to the mass and that the
+  time constant of the inductor is small enough that it doesn't factor into the
+  motor equations. In Austin Schuh's experience with 971's robots, these are
+  pretty good assumptions.
+\end{remark}
+
+Next, we'll try a PD loop. (This will use a perfect derivative, but anyone
+following along closely already knows that we can't really take a derivative
+here, so the math will need to be updated at some point. We could switch to
+discrete time and pick a differentiation method, or pick some other way of
+modeling the derivative.)
+
+\begin{equation*}
+  V = K_p (\omega_{goal} - \omega) + K_d s (\omega_{goal} - \omega)
+\end{equation*}
+
+Substitute this controller into equation \eqref{eq:cs_motor_tf}.
+
+\begin{align*}
+  s \omega &= -\frac{K_t}{JRK_v} \omega + \frac{K_t}{JR}
+    \left(K_p (\omega_{goal} - \omega) + K_d s (\omega_{goal} - \omega)\right)
+    \\
+  s \omega &= -\frac{K_t}{JRK_v} \omega + \frac{K_t K_p}{JR}
+    (\omega_{goal} - \omega) + \frac{K_t K_d s}{JR} (\omega_{goal} - \omega) \\
+  s \omega &= -\frac{K_t}{JRK_v} \omega + \frac{K_t K_p}{JR} \omega_{goal} -
+    \frac{K_t K_p}{JR} \omega + \frac{K_t K_d s}{JR} \omega_{goal} -
+    \frac{K_t K_d s}{JR} \omega \\
+\end{align*}
+
+Collect the common terms on separate sides and refactor.
+
+\begin{align*}
+  s \omega + \frac{K_t K_d s}{JR} \omega + \frac{K_t}{JRK_v} \omega +
+    \frac{K_t K_p}{JR} \omega &= \frac{K_t K_p}{JR} \omega_{goal} +
+    \frac{K_t K_d s}{JR} \omega_{goal} \\
+  \left(s \left(1 + \frac{K_t K_d}{JR}\right) + \frac{K_t}{JRK_v} +
+    \frac{K_t K_p}{JR}\right) \omega &= \frac{K_t}{JR}
+    \left(K_p + K_d s\right) \omega_{goal} \\
+  \frac{\omega}{\omega_{goal}} &= \frac{\frac{K_t}{JR}
+    \left(K_p + K_d s\right)}{\left(s \left(1 + \frac{K_t K_d}{JR}\right) +
+    \frac{K_t}{JRK_v} + \frac{K_t K_p}{JR}\right)} \\
+\end{align*}
+
+So, we added a zero at $-\frac{K_p}{K_d}$ and moved our pole to
+$-\frac{\frac{K_t}{JRK_v} + \frac{K_t K_p}{JR}}{1 + \frac{K_t K_d}{JR}}$. This
+isn't progress. We've added more complexity to our \gls{system} and, practically
+speaking, gotten nothing good in return. Zeroes should be avoided if at all
+possible because they amplify unwanted high frequency modes of the \gls{system}
+and are noisier the faster the \gls{system} is sampled. At least this is a stable
+zero, but it's still undesirable.
+
+In summary, derivative doesn't help on an ideal flywheel. $K_d$ may compensate
+for unmodeled dynamics such as accelerating projectiles slowing the flywheel
+down, but that effect may also increase recovery time; $K_d$ drives the
+acceleration to zero in the undesired case of negative acceleration as well as
+well as the actually desired case of positive acceleration.
+
+We'll cover a superior compensation method much later in subsection
+\ref{subsec:u_error_estimation} that avoids zeroes in the \gls{controller},
+doesn't act against the desired control action, and facilitates better
+\gls{tracking}.
