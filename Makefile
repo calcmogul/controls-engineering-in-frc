@@ -104,6 +104,11 @@ $(STAMP): build/%.stamp: %.py $(CSV) $(DEPS_STAMP)
 	cd $(@D) && $(ROOT)/build/venv/bin/python3 $(ROOT)/$< --noninteractive
 	touch $@
 
+.PHONY: lint
+lint:
+	./check_tex_includes.py
+	./check_links.py
+
 .PHONY: clean
 clean: clean_tex
 	rm -rf build

@@ -25,7 +25,7 @@ files = [
     for dp, dn, fn in os.walk("code")
     for f in fn
     if f.endswith(".py") and "current_limit.py" not in f
-] + ["check_tex_includes.py", "format_code.py"]
+] + ["check_links.py", "check_tex_includes.py", "format_code.py"]
 files += [
     os.path.join(dp, f)
     for dp, dn, fn in os.walk("deps")
