@@ -21,14 +21,18 @@ def verify_url(filename, file_contents, match, url):
     True if verification succeeded or False otherwise
     """
     try:
+        # Get line regex match was on
+        linecount = 1
+        for i in range(match.start()):
+            if file_contents[i] == os.linesep:
+                linecount += 1
+
+        print(f"[{filename}:{linecount}]")
+        print(f"  {url}...", end="")
+        sys.stdout.flush()
         r = requests.head(url)
+        print(f" {r.status_code}")
         if r.status_code != 200:
-            # Get line regex match was on
-            linecount = 1
-            for i in range(match.start()):
-                if file_contents[i] == os.linesep:
-                    linecount += 1
-            print(f"[{filename}:{linecount}] error: {url} returned {r.status_code}")
             return False
     except requests.ConnectionError as ex:
         print(f"[{filename}] warning: {url} {str(ex)}")
@@ -36,14 +40,7 @@ def verify_url(filename, file_contents, match, url):
     return True
 
 
-cmd_rgx = re.compile(
-    r"""
-    \\(?P<command>[a-z]+)\*?       # Commaned name
-    ({(?P<arg1>[^}]+)}             # First argument
-     (?P<arg_count>\[[0-9]+\])?)?  # Optional square bracket arg count
-    ({(?P<arg2>[^}]+)})?""",
-    re.VERBOSE | re.MULTILINE,
-)
+cmd_rgx = re.compile(r"\\(url|href){(?P<url>[^}]+)}")
 bib_rgx = re.compile(r"url\s*=\s*{(?P<url>[^}]+)}")
 
 files = [
@@ -60,9 +57,8 @@ for filename in files:
         contents = f.read()
 
     for match in cmd_rgx.finditer(contents):
-        if match.group("command") in ["url", "href"]:
-            url = match.group("arg1")
-            success &= verify_url(filename, contents, match, url)
+        url = match.group("url")
+        success &= verify_url(filename, contents, match, url)
 
     for match in bib_rgx.finditer(contents):
         url = match.group("url")

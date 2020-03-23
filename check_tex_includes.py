@@ -38,7 +38,7 @@ def visit(filename):
 
     rgx = re.compile(
         r"""
-        \\(?P<command>[a-z]+)\*?       # Commaned name
+        \\(?P<command>[a-z ]+)\*?      # Commaned name
         ({(?P<arg1>[^}]+)}             # First argument
          (?P<arg_count>\[[0-9]+\])?)?  # Optional square bracket arg count
         ({(?P<arg2>[^}]+)})?""",
