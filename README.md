@@ -73,6 +73,7 @@ These can be installed via `make setup_ubuntu`.
 
 * biber (for generating bibliography)
 * build-essential (for `make` to run the makefile)
+* cm-super (for type1ec.sty)
 * ghostscript (to reduce size of final PDF for publishing)
 * inkscape (to convert SVGs to PDFs)
 * latexmk
@@ -97,6 +98,7 @@ have to be installed manually. Modifications to the Python package folders in
 The following packages are optional because the book can compile without them.
 
 * black (to format Python source code)
+* requests (for .tex HTTP link checker)
 
 ### Style guide
 

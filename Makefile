@@ -80,12 +80,15 @@ $(NAME)-prepress.pdf: $(NAME).pdf
 		$(NAME).pdf
 
 build/commit-date.tex: .git/refs/heads/$(git rev-parse --abbrev-ref HEAD) .git/HEAD
+	@mkdir -p $(@D)
 	date -d @`git log -1 --format=%at` "+%B %-d, %Y" > build/commit-date.tex
 
 build/commit-year.tex: .git/refs/heads/$(git rev-parse --abbrev-ref HEAD) .git/HEAD
+	@mkdir -p $(@D)
 	date -d @`git log -1 --format=%at` +%Y > build/commit-year.tex
 
 build/commit-hash.tex: .git/refs/heads/$(git rev-parse --abbrev-ref HEAD) .git/HEAD
+	@mkdir -p $(@D)
 	echo "\href{https://github.com/calcmogul/$(NAME)/commit/`git rev-parse --short HEAD`}{commit `git rev-parse --short HEAD`}" > build/commit-hash.tex
 
 $(DEPS_STAMP): build/%.stamp: %.json
@@ -104,10 +107,15 @@ $(STAMP): build/%.stamp: %.py $(CSV) $(DEPS_STAMP)
 	cd $(@D) && $(ROOT)/build/venv/bin/python3 $(ROOT)/$< --noninteractive
 	touch $@
 
-.PHONY: lint
-lint:
+build/lint.stamp: build/commit-date.tex build/commit-year.tex build/commit-hash.tex
+	./format_code.py
+	git --no-pager diff --exit-code HEAD  # Ensure formatter made no changes
 	./check_tex_includes.py
 	./check_links.py
+	touch build/lint.stamp
+
+.PHONY: lint
+lint: build/lint.stamp
 
 .PHONY: clean
 clean: clean_tex
@@ -133,6 +141,7 @@ setup_arch:
 		texlive-latexextra \
 		python \
 		python-pip
+	pip install --user black requests
 
 .PHONY: setup_ubuntu
 setup_ubuntu:
@@ -140,6 +149,7 @@ setup_ubuntu:
 	sudo apt-get install -y \
 		biber \
 		build-essential \
+		cm-super \
 		ghostscript \
 		inkscape \
 		latexmk \
@@ -149,3 +159,4 @@ setup_ubuntu:
 		texlive-xetex \
 		python3 \
 		python3-pip
+	pip3 install --user black requests

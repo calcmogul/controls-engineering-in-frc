@@ -43,11 +43,15 @@ def verify_url(filename, file_contents, match, url):
 cmd_rgx = re.compile(r"\\(url|href){(?P<url>[^}]+)}")
 bib_rgx = re.compile(r"url\s*=\s*{(?P<url>[^}]+)}")
 
+# commit-hash.tex is ignored because it may reference a local commit that hasn't
+# yet been pushed. In that case, the GitHub URL for it wouldn't yet exist.
 files = [
     os.path.join(dp, f)[2:]
     for dp, dn, fn in os.walk(".")
     for f in fn
-    if (f.endswith(".tex") or f.endswith(".bib")) and "build/venv/" not in dp
+    if (f.endswith(".tex") or f.endswith(".bib"))
+    and not f.endswith("commit-hash.tex")
+    and "build/venv/" not in dp
 ]
 
 success = True
