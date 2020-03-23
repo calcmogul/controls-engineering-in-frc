@@ -131,7 +131,6 @@ setup_arch:
 		biber \
 		python \
 		python-pip \
-		gcc-fortran blas lapack cmake \
 		inkscape \
 		ghostscript
 
@@ -148,6 +147,5 @@ setup_ubuntu:
 		biber \
 		python3 \
 		python3-pip \
-		gfortran libblas-dev liblapack-dev cmake \
 		inkscape \
 		ghostscript

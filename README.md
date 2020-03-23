@@ -64,7 +64,6 @@ These can be installed via `make setup_arch`.
 * biber (for generating bibliography)
 * python >= 3.6 (for generating plots)
 * python-pip (for installing required Python packages)
-* gcc-fortran, blas, lapack, cmake (to build slycot Python package)
 * inkscape (to convert SVGs to PDFs)
 * ghostscript (to reduce size of final PDF for publishing)
 
@@ -81,7 +80,6 @@ These can be installed via `make setup_ubuntu`.
 * biber (for generating bibliography)
 * python3 >= 3.6 (for generating plots)
 * python3-pip (for installing required Python packages)
-* gfortran, libblas-dev, liblapack-dev, cmake (to build slycot Python package)
 * inkscape (to convert SVGs to PDFs)
 * ghostscript (to reduce size of final PDF for publishing)
 
@@ -91,7 +89,6 @@ These packages are installed via pip3 (e.g., `pip3 install --user frccontrol`).
 
 * frccontrol (to provide FRC wrappers for Python Control and generate plots and
   state-space results)
-* slycot (to generate pole-zero maps for certain state-space model examples)
 
 The book's build process automatically sets these up in a venv so they don't
 have to be installed manually. Modifications to the Python package folders in
