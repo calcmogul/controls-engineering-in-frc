@@ -115,29 +115,8 @@ flywheel.
 Python Control will be used to \glslink{discretization}{discretize} the
 \gls{model} and simulate it. One of the frccontrol
 examples\footnote{\url{https://github.com/calcmogul/frccontrol/blob/master/examples/flywheel.py}}
-creates and tests a controller for it.
-
-Figures \ref{fig:flywheel_pzmap_open-loop} through
-\ref{fig:flywheel_pzmap_observer} show the pole-zero maps for the open-loop
-\gls{system}, closed-loop \gls{system}, and \gls{observer}. Figure
-\ref{fig:flywheel_response} shows the \gls{system} response with them.
-
-\begin{bookfigure}
-  \begin{minisvg}{3}{build/frccontrol/examples/flywheel_pzmap_open-loop}
-    \caption{Flywheel open-loop pole-zero map}
-    \label{fig:flywheel_pzmap_open-loop}
-  \end{minisvg}
-  \hfill
-  \begin{minisvg}{3}{build/frccontrol/examples/flywheel_pzmap_closed-loop}
-    \caption{Flywheel closed-loop pole-zero map}
-    \label{fig:flywheel_pzmap_closed-loop}
-  \end{minisvg}
-  \hfill
-  \begin{minisvg}{3}{build/frccontrol/examples/flywheel_pzmap_observer}
-    \caption{Flywheel observer pole-zero map}
-    \label{fig:flywheel_pzmap_observer}
-  \end{minisvg}
-\end{bookfigure}
+creates and tests a controller for it. Figure \ref{fig:flywheel_response} shows
+the closed-loop \gls{system} response.
 
 \begin{svg}{build/frccontrol/examples/flywheel_response}
   \caption{Flywheel response}

@@ -13,21 +13,15 @@ ENV_PIP = os.path.join(root, "build/venv/bin/pip3")
 def run(name):
     subprocess.run([ENV_PYTHON, name, "--noninteractive"])
     base = os.path.splitext(os.path.basename(name))[0]
-    for suffix in [
-        "pzmap_open-loop",
-        "pzmap_closed-loop",
-        "pzmap_observer",
-        "response",
-    ]:
-        subprocess.run(
-            [
-                "inkscape",
-                "-D",
-                "-z",
-                "--file=" + base + "_" + suffix + ".svg",
-                "--export-pdf=" + base + "_" + suffix + ".pdf",
-            ]
-        )
+    subprocess.run(
+        [
+            "inkscape",
+            "-D",
+            "-z",
+            "--file=" + base + "_response.svg",
+            "--export-pdf=" + base + "_response.pdf",
+        ]
+    )
 
 
 # Run frccontrol examples

@@ -1,9 +1,8 @@
 [
     {
-        "commit": "7fa04016bf0d7d587cc9b8c81058c9aafc71c4fa",
+        "commit": "77f6519a6d0f627ecb9fe6f36c56df81a256d79c",
         "depends": [
-            "control",
-            "slycot"
+            "control"
         ],
         "name": "frccontrol",
         "posthooks": [
@@ -17,13 +16,5 @@
         "name": "control",
         "posthooks": [],
         "repo": "git://github.com/python-control/python-control"
-    },
-    {
-        "comment": "for control.StateSpace.zero()",
-        "commit": "2f31897759d2f7fa9909fecdefc73abfa5a5917e",
-        "depends": [],
-        "name": "slycot",
-        "posthooks": [],
-        "repo": "git://github.com/python-control/slycot"
     }
 ]
