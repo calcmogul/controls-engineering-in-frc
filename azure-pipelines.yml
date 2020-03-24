@@ -9,6 +9,7 @@ jobs:
       versionSpec: '3.6'
       architecture: 'x64'
   - script: |
+      pip3 install black
       ./format_code.py
     displayName: 'Run Python formatter'
   - script: |
