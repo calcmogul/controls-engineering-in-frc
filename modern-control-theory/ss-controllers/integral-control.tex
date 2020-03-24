@@ -21,24 +21,15 @@ close without integral control, and integral adds all the issues listed above.
 Below, it is assumed that the controls designer has determined that integral
 control will be worth the inconvenience.
 
-There are three methods FRC team 971 has used over the years:
+We'll present two methods:
 
 \begin{enumerate}
   \item Augment the \gls{plant} as described earlier. For an arm, one would add
     an ``integral of position" state.
-  \item Add an integrator to the output of the controller, then estimate the
-    \gls{control effort} being applied. 971 has called this Delta U control. The
-    upside is that it doesn't have the windup issue described above; the
-    integrator only acts if the \gls{system} isn't behaving like the
-    \gls{model}, which was the original intent. The downside is working with it
-    is very confusing.
   \item Estimate the ``error" in the \gls{control input} (the difference between
     what was applied versus what was observed to happen) via the \gls{observer}
-    and compensate for it.
+    and compensate for it. We'll call this ``u error estimation".
 \end{enumerate}
-
-We'll present the first and third methods since the third is strictly better
-than the second.
 
 \subsection{Plant augmentation}
 \index{Integral control!plant augmentation}
