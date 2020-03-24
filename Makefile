@@ -125,27 +125,27 @@ upload: ebook
 setup_arch:
 	sudo pacman -Sy --needed \
 		base-devel \
+		biber \
+		ghostscript \
+		inkscape \
+		texlive-bibtexextra \
 		texlive-core \
 		texlive-latexextra \
-		texlive-bibtexextra \
-		biber \
 		python \
-		python-pip \
-		inkscape \
-		ghostscript
+		python-pip
 
 .PHONY: setup_ubuntu
 setup_ubuntu:
 	sudo apt-get update -y
 	sudo apt-get install -y \
-		build-essential \
-		latexmk \
-		texlive-xetex \
-		texlive-latex-extra \
-		texlive-generic-extra \
-		texlive-bibtex-extra \
 		biber \
-		python3 \
-		python3-pip \
+		build-essential \
+		ghostscript \
 		inkscape \
-		ghostscript
+		latexmk \
+		texlive-bibtex-extra \
+		texlive-generic-extra \
+		texlive-latex-extra \
+		texlive-xetex \
+		python3 \
+		python3-pip

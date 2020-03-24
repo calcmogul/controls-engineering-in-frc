@@ -58,30 +58,30 @@ To compile the book, the following packages are required.
 These can be installed via `make setup_arch`.
 
 * base-devel (for `make` to run the makefile)
+* biber (for generating bibliography)
+* ghostscript (to reduce size of final PDF for publishing)
+* inkscape (to convert SVGs to PDFs)
+* texlive-bibtexextra (for additional BibTeX styles and bibliography databases)
 * texlive-core (for latexmk and xelatex)
 * texlive-latexextra (for bibtex and makeglossaries)
-* texlive-bibtexextra (for additional BibTeX styles and bibliography databases)
-* biber (for generating bibliography)
 * python >= 3.6 (for generating plots)
 * python-pip (for installing required Python packages)
-* inkscape (to convert SVGs to PDFs)
-* ghostscript (to reduce size of final PDF for publishing)
 
 #### Ubuntu
 
 These can be installed via `make setup_ubuntu`.
 
-* build-essential (for `make` to run the makefile)
-* latexmk
-* texlive-xetex (for xelatex)
-* texlive-latex-extra (for bibtex and makeglossaries)
-* texlive-generic-extra (for miscellaneous LaTeX .sty files)
-* texlive-bibtex-extra (for additional BibTeX styles and bibliography databases)
 * biber (for generating bibliography)
+* build-essential (for `make` to run the makefile)
+* ghostscript (to reduce size of final PDF for publishing)
+* inkscape (to convert SVGs to PDFs)
+* latexmk
+* texlive-bibtex-extra (for additional BibTeX styles and bibliography databases)
+* texlive-generic-extra (for miscellaneous LaTeX .sty files)
+* texlive-latex-extra (for bibtex and makeglossaries)
+* texlive-xetex (for xelatex)
 * python3 >= 3.6 (for generating plots)
 * python3-pip (for installing required Python packages)
-* inkscape (to convert SVGs to PDFs)
-* ghostscript (to reduce size of final PDF for publishing)
 
 #### Python packages
 
