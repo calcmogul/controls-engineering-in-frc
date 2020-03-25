@@ -18,8 +18,9 @@ possible measured values) is the probability of that sample occurrring. The area
 under the function over a range gives the probability that the sample falls
 within that range. Let $x$ be a random variable, and let $p(x)$ denote the
 probability density function of $x$. The probability that the value of $x$ will
-be in the interval $x \in [x_1, x_1 + dx]$ is $p(x_1) \,dx_1$ (see figure
-\ref{fig:pdf}).
+be in the interval $x \in [x_1, x_1 + dx]$ is $p(x_1) \,dx$. In other words, the
+probability is the area under the PDF within the region $[x_1, x_1 + dx]$ (see
+figure \ref{fig:pdf}).
 
 \begin{svg}{build/code/pdf}
   \caption{Probability density function}
@@ -96,7 +97,8 @@ The standard deviation is the square root of the variance.
 Probability density functions can also include more than one variable. Let $x$
 and $y$ are random variables. The joint probability density function $p(x, y)$
 defines the probability $p(x, y) \,dx \,dy$, so that $x$ and $y$ are in the
-intervals $x \in [x, x + dx], y \in [y, y + dy]$ (see figure
+intervals $x \in [x, x + dx], y \in [y, y + dy]$. In other words, the
+probability is the volume under a region of the PDF manifold (see figure
 \ref{fig:joint_pdf} for an example of a joint PDF).
 
 \begin{svg}{build/code/joint_pdf}
