@@ -20,8 +20,8 @@ the set of real numbers, so $\mathbb{R}^2$ is the standard x-y plane).
 Ordinarily, we notate points in this plane by their components in the set of
 basis vectors $\{\hat{i}, \hat{j}\}$, where $\hat{i}$ (pronounced i-hat) is the
 unit vector in the positive $x$ direction and $\hat{j}$ is the unit vector in
-the positive $y$ direction. Figure \ref{fig:basis_vectors_R2} shows this for an
-arbitrary vector $\mtx{v}$.
+the positive $y$ direction. Figure \ref{fig:basis_vectors_R2} shows an example
+vector $\mtx{v}$ in this basis.
 
 \begin{bookfigure}
   \begin{tikzpicture}[auto, >=latex']
@@ -32,7 +32,8 @@ arbitrary vector $\mtx{v}$.
     \draw[<->] (0,-3) -- (0,3) node[right] {\small $y$};
 
     % Draw vector v
-    \draw[->,line width=0.4mm] (0,0) -- (2,1.5) node[above,right] {$\mtx{v}$};
+    \draw[->,line width=0.4mm] (0,0) -- (2,1.5) node[above,right]
+      {$\mtx{v} = 2\hat{i} + 1.5\hat{j}$};
 
     % Draw basis
     \draw[->,line width=0.4mm] (0,0) -- node[below] {$\hat{i}$} (1,0);
@@ -43,11 +44,11 @@ arbitrary vector $\mtx{v}$.
     \draw[dashed,gray] (2,0) -- node[right] {$1.5$} (2,1.5);
   \end{tikzpicture}
 
-  \caption{$\mtx{v}$ with basis $\{\hat{i}, \hat{j}\}$}
+  \caption{$\mtx{v}$ with basis set $\{\hat{i}, \hat{j}\}$}
   \label{fig:basis_vectors_R2}
 \end{bookfigure}
 
-How do we find the coordinates of a given vector $\mtx{v}$ in this basis? As
+How do we find the coordinates of $\mtx{v}$ in this basis mathematically? As
 long as the basis is \textit{orthogonal} (i.e., the basis vectors are at right
 angles to each other), we simply take the \textit{orthogonal projection} of
 $\mtx{v}$ onto $\hat{i}$ and $\hat{j}$. Intuitively, this means finding ``the
@@ -156,6 +157,13 @@ the case of the Fourier transform, the function basis is the family of functions
 of the form $f(x) = e^{-2\pi ix \xi} \text{ for } \xi \in \mathbb{R}$. Since
 these functions are oscillatory at a frequency determined by $\xi$, we can think
 of this as a ``frequency basis".
+
+\begin{remark}
+  Watch the ``Abstract vector spaces" video from 3Blue1Brown's \textit{Essence
+  of linear algebra} series (17 minutes)
+  \cite{bib:linalg_abstract_vector_spaces} for a more geometric introduction to
+  using functions as a basis.
+\end{remark}
 
 Now, the Laplace transform is somewhat more complicated - as it turns out, the
 Fourier basis is orthogonal, so the analogy to the simpler vector space holds
