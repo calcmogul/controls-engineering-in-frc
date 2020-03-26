@@ -159,6 +159,8 @@ Add stubs for missing chapters, missing sections, and todo items.
   * Move plant inversion proof to derivations appendix.
   * Add proof of pseudoinverse based on plant inversion proof to derivations
     appendix.
+  * Move QR-weighted pseudoinverse to appendix. Only the plant inversion version
+    has generally been used.
 * Add test of P vs PD controller for flywheel
   * Simulate flywheel with stochastic force applied to slow it down (simulates
     shots)
