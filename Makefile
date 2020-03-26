@@ -131,7 +131,7 @@ upload: ebook
 
 .PHONY: setup_arch
 setup_arch:
-	sudo pacman -Sy --needed \
+	sudo pacman -Sy --needed --noconfirm \
 		base-devel \
 		biber \
 		ghostscript \
@@ -140,8 +140,9 @@ setup_arch:
 		texlive-core \
 		texlive-latexextra \
 		python \
-		python-pip
-	pip install --user black requests
+		python-black \
+		python-pip \
+		python-requests
 
 .PHONY: setup_ubuntu
 setup_ubuntu:
@@ -158,5 +159,6 @@ setup_ubuntu:
 		texlive-latex-extra \
 		texlive-xetex \
 		python3 \
-		python3-pip
-	pip3 install --user black requests
+		python3-pip \
+		python3-requests
+	pip3 install --user black
