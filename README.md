@@ -177,12 +177,12 @@ Add stubs for missing chapters, missing sections, and todo items.
 * Ramsete improvements
   * Add diagram to Ramsete that shows global and vehicle coordinate frames to
     help explain what the pose represents.
-  * Rework robot odometry equations for use in EKF.
 * Consider removing linear drivetrain model/controller in favor of nonlinear one
   * The velocity part of the derivation could be folded into the nonlinear
     section because the position states were just an augmentation at the end
     anyway, and the nonlinear controller removes them in favor of global
     coordinates.
+  * Add 5-state nonlinear drivetrain model to differential drive example
 
 #### System modeling
 
