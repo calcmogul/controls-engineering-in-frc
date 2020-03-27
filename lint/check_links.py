@@ -2,46 +2,44 @@
 
 """Ensure URLs in every .tex file are reachable"""
 
+import multiprocessing as mp
 import os
 import re
 import requests
 import sys
 
 
-def verify_url(filename, file_contents, match, url):
+def lint_links(link):
+    """Runs the URL in the regex Match object through the link linter.
+
+    Keyword arguments:
+    link -- a tuple containing the filename, line number of URL, and URL
+    """
+    filename, line, url = link
+    return verify_url(filename, line, url)
+
+
+def verify_url(filename, line_number, url):
     """Verifies URL is reachable and returns 200 status code.
 
     Keyword arguments:
     filename -- name of file containing URL
-    file_contents -- file contents
-    match -- the regex Match object for the URL
+    line_number -- line number of URL
     url -- the URL to verify
 
     Returns:
     True if verification succeeded or False otherwise
     """
     try:
-        # Get line regex match was on
-        linecount = 1
-        for i in range(match.start()):
-            if file_contents[i] == os.linesep:
-                linecount += 1
-
-        print(f"[{filename}:{linecount}]")
-        print(f"  {url}...", end="")
-        sys.stdout.flush()
         r = requests.head(url)
-        print(f" {r.status_code}")
+        print(f"[{filename}:{line_number}]\n  {url}\n  {r.status_code}")
         if r.status_code != 200:
             return False
     except requests.ConnectionError as ex:
-        print(f"[{filename}] warning: {url} {str(ex)}")
+        print(f"[{filename}:{line_number}]\n  {url}\n  {str(ex)}")
         return False
     return True
 
-
-cmd_rgx = re.compile(r"\\(url|href){(?P<url>[^}]+)}")
-bib_rgx = re.compile(r"url\s*=\s*{(?P<url>[^}]+)}")
 
 # commit-hash.tex is ignored because it may reference a local commit that hasn't
 # yet been pushed. In that case, the GitHub URL for it wouldn't yet exist.
@@ -54,21 +52,32 @@ files = [
     and "build/venv/" not in dp
 ]
 
-success = True
+cmd_rgx = re.compile(r"\\(url|href){(?P<url>[^}]+)}")
+bib_rgx = re.compile(r"url\s*=\s*{(?P<url>[^}]+)}")
+
+# link tuples contain:
+#   filename -- filename
+#   contents -- file contents
+#   match -- regex Match object
+links = []
 for filename in files:
     # Get file contents
     with open(filename, "r") as f:
         contents = f.read()
 
-    for match in cmd_rgx.finditer(contents):
-        url = match.group("url")
-        success &= verify_url(filename, contents, match, url)
+    for match in list(cmd_rgx.finditer(contents)) + list(bib_rgx.finditer(contents)):
+        # Get line regex match was on
+        linecount = 1
+        for i in range(match.start()):
+            if contents[i] == os.linesep:
+                linecount += 1
 
-    for match in bib_rgx.finditer(contents):
-        url = match.group("url")
-        success &= verify_url(filename, contents, match, url)
+        links.append((filename, linecount, match.group("url")))
 
-if success:
+with mp.Pool(mp.cpu_count()) as pool:
+    results = pool.map(lint_links, links)
+
+if all(results):
     sys.exit(0)
 else:
     sys.exit(1)
