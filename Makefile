@@ -107,15 +107,12 @@ $(STAMP): build/%.stamp: %.py $(CSV) $(DEPS_STAMP)
 	cd $(@D) && $(ROOT)/build/venv/bin/python3 $(ROOT)/$< --noninteractive
 	touch $@
 
-build/lint.stamp: build/commit-date.tex build/commit-year.tex build/commit-hash.tex
-	./format_code.py
-	git --no-pager diff --exit-code HEAD  # Ensure formatter made no changes
-	./check_tex_includes.py
-	./check_links.py
-	touch build/lint.stamp
-
 .PHONY: lint
-lint: build/lint.stamp
+lint: build/commit-date.tex build/commit-year.tex build/commit-hash.tex
+	./lint/format_code.py
+	git --no-pager diff --exit-code HEAD  # Ensure formatter made no changes
+	./lint/check_tex_includes.py
+	./lint/check_links.py
 
 .PHONY: clean
 clean: clean_tex
