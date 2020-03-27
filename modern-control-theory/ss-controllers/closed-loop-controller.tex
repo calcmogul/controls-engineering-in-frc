@@ -47,14 +47,12 @@ the \gls{system} defined by equation \eqref{eq:ssz_ctrl_x} operating with the
     \dot{\mtx{x}} &= (\mtx{A} - \mtx{B}\mtx{K})\mtx{x} + \mtx{B}\mtx{K}\mtx{r}
       \label{eq:s_ref_ctrl_x} \\
     \mtx{y} &= (\mtx{C} - \mtx{D}\mtx{K})\mtx{x} + \mtx{D}\mtx{K}\mtx{r}
-      \label{eq:s_ref_ctrl_y}
   \end{align}
 
   \begin{align}
     \mtx{x}_{k+1} &= (\mtx{A} - \mtx{B}\mtx{K})\mtx{x}_k +
       \mtx{B}\mtx{K}\mtx{r}_k \label{eq:z_ref_ctrl_x} \\
     \mtx{y}_k &= (\mtx{C} - \mtx{D}\mtx{K})\mtx{x}_k + \mtx{D}\mtx{K}\mtx{r}_k
-      \label{eq:z_ref_ctrl_y}
   \end{align}
 
   \begin{figurekey}
@@ -82,7 +80,6 @@ the \gls{system} defined by equation \eqref{eq:ssz_ctrl_x} operating with the
     \hline
   \end{tabular}
   \caption{Controller matrix dimensions}
-  \label{tab:ctrl_matrix_dims}
 \end{booktable}
 
 \index{Stability!eigenvalues}

@@ -4,8 +4,8 @@
 \begin{theorem}[Luenberger observer]
   \begin{align}
     \dot{\hat{\mtx{x}}} &= \mtx{A}\hat{\mtx{x}} + \mtx{B}\mtx{u} +
-      \mtx{L} (\mtx{y} - \hat{\mtx{y}}) \label{eq:s_obsv_x} \\
-    \hat{\mtx{y}} &= \mtx{C}\hat{\mtx{x}} + \mtx{D}\mtx{u} \label{eq:s_obsv_y}
+      \mtx{L} (\mtx{y} - \hat{\mtx{y}}) \\
+    \hat{\mtx{y}} &= \mtx{C}\hat{\mtx{x}} + \mtx{D}\mtx{u}
   \end{align}
 
   \begin{align}
@@ -41,7 +41,6 @@
     \hline
   \end{tabular}
   \caption{Luenberger observer matrix dimensions}
-  \label{tab:luenberger_matrix_dims}
 \end{booktable}
 
 Variables denoted with a hat are estimates of the corresponding variable. For

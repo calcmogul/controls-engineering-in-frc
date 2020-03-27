@@ -290,8 +290,7 @@ and update steps for a Kalman filter at the $k^{th}$ timestep.
 
   \begin{align}
     \text{Predict step} \nonumber \\
-    \hat{\mtx{x}}_{k+1}^- &= \mtx{A}\hat{\mtx{x}}_k + \mtx{B} \mtx{u}_k
-      \label{eq:pre1_x} \\
+    \hat{\mtx{x}}_{k+1}^- &= \mtx{A}\hat{\mtx{x}}_k + \mtx{B} \mtx{u}_k \\
     \mtx{P}_{k+1}^- &= \mtx{A} \mtx{P}_k^- \mtx{A}^T +
       \mtx{\Gamma}\mtx{Q}\mtx{\Gamma}^T \\
     \text{Update step} \nonumber \\
@@ -300,8 +299,7 @@ and update steps for a Kalman filter at the $k^{th}$ timestep.
       \mtx{R})^{-1} \\
     \hat{\mtx{x}}_{k+1}^+ &=
       \hat{\mtx{x}}_{k+1}^- + \mtx{K}_{k+1}(\mtx{y}_{k+1} -
-      \mtx{C} \hat{\mtx{x}}_{k+1}^- - \mtx{D}\mtx{u}_{k+1}) \label{eq:post1_x}
-      \\
+      \mtx{C} \hat{\mtx{x}}_{k+1}^- - \mtx{D}\mtx{u}_{k+1}) \\
     \mtx{P}_{k+1}^+ &= (\mtx{I} - \mtx{K}_{k+1}\mtx{C})\mtx{P}_{k+1}^-
   \end{align}
 
@@ -349,7 +347,6 @@ earlier are made constants here.
     \hline
   \end{tabular}
   \caption{Kalman filter matrix dimensions}
-  \label{tab:kf_matrix_dims}
 \end{booktable}
 
 Unknown \glspl{state} in a Kalman filter are generally represented by a Wiener

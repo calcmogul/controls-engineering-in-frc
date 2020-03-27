@@ -261,7 +261,6 @@ included in an appendix.
 #### Build system
 
 * Add make flag for compiling without chapter heading images
-* Add script that verifies all labels are referenced at least once
 
 ## Licensing
 

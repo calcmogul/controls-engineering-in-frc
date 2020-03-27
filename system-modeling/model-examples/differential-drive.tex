@@ -75,7 +75,6 @@ massless.
   \end{tikzpicture}
 
   \caption{Differential drive system diagram}
-  \label{fig:diff_drive}
 \end{bookfigure}
 
 We want to derive equations for the accelerations of the left and right sides of
@@ -86,7 +85,6 @@ From equation \eqref{eq:tau_f} of the flywheel \gls{model} derivations
 
 \begin{equation}
   \tau = \frac{GK_t}{R} V - \frac{G^2K_t}{K_v R} \omega
-    \label{eq:diff_drive_tau}
 \end{equation}
 
 where $\tau$ is the torque applied by one wheel of the differential drive, $G$
@@ -116,8 +114,8 @@ Let $C_1 = -\frac{G_l^2 K_t}{K_v R r^2}$, $C_2 = \frac{G_l K_t}{Rr}$,
 $C_3 = -\frac{G_r^2 K_t}{K_v R r^2}$, and $C_4 = \frac{G_r K_t}{Rr}$.
 
 \begin{align}
-  F_l &= C_1 v_l + C_2 V_l \label{eq:diff_drive_Fl} \\
-  F_r &= C_3 v_r + C_4 V_r \label{eq:diff_drive_Fr}
+  F_l &= C_1 v_l + C_2 V_l \\
+  F_r &= C_3 v_r + C_4 V_r
 \end{align}
 
 First, find the sum of forces.

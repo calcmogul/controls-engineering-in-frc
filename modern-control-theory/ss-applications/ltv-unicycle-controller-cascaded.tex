@@ -46,7 +46,6 @@ To create an LQR, we need to linearize this.
 Therefore,
 
 \begin{theorem}[Linear time-varying unicycle state-space model]
-  \label{thm:ltv_unicycle_model}
   \begin{align*}
     \dot{\mtx{x}} &= \mtx{A}\mtx{x} + \mtx{B}\mtx{u} \\
     \mtx{y} &= \mtx{C}\mtx{x} + \mtx{D}\mtx{u}
@@ -119,7 +118,6 @@ range of velocities.
   \begin{minisvg}{2}{build/code/ltv_unicycle_cascaded_lqr_1}
     \caption{Linear time-varying unicycle controller cascaded LQR gain
       regression ($y$)}
-    \label{fig:ltv_unicycle_cascaded_lqr_1}
   \end{minisvg}
   \hfill
   \begin{minisvg}{2}{build/code/ltv_unicycle_cascaded_lqr_2}
