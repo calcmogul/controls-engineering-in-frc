@@ -260,12 +260,7 @@ included in an appendix.
 
 #### Build system
 
-* Makefile should pull frccontrol and rerun all Python scripts if new commits
-  were added. If pull fails due to lack of internet, ignore it.
 * Add make flag for compiling without chapter heading images
-* Fix bugs in dependencies
-  * Fix nonsquare system pzmaps in Python Control, then enable non-Slycot pzmaps
-    for remaining examples
 * Add script that verifies all labels are referenced at least once
 
 ## Licensing
