@@ -32,11 +32,11 @@ def verify_url(filename, line_number, url):
     """
     try:
         r = requests.head(url)
-        print(f"[{filename}:{line_number}]\n  {url}\n  {r.status_code}")
+        print(f"[{filename}:{line_number}]\n    {url}\n    {r.status_code}")
         if r.status_code != 200:
             return False
     except requests.ConnectionError as ex:
-        print(f"[{filename}:{line_number}]\n  {url}\n  {str(ex)}")
+        print(f"[{filename}:{line_number}]\n    {url}\n    {str(ex)}")
         return False
     return True
 
