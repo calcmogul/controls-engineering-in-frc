@@ -80,8 +80,13 @@ def visit(filename):
 visit(ROOT)
 
 if not all(node.visited for node in nodes.values()):
-    print(f"error: some .tex files are not transitively included in {ROOT}:")
     orphans = [node.filename for node in nodes.values() if not node.visited]
+
+    print(f"error: {len(orphans)} .tex file", end="")
+    if len(orphans) > 1:
+        print("s", end="")
+    print(f" not transitively included in {ROOT}:")
+
     for orphan in orphans:
         print("    " + orphan)
     sys.exit(1)
