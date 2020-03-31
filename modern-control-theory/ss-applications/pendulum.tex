@@ -27,10 +27,19 @@ Now separate the \glspl{state}.
   \dot{\omega} &= -\frac{g}{l} \sin\theta
 \end{align*}
 
-Since this \gls{model} is nonlinear, we should
-\glslink{linearization}{linearize} \index{Nonlinear control!linearization} it.
-We will use the small angle approximation ($\sin\theta = \theta$ for small
-values of $\theta$).
+Recall that state-space notation requires the \gls{model} to be a linear
+combination of the \glspl{state} and \glspl{input} (addition and multiplication
+by constants). Since this \gls{model} is nonlinear on account of the sine
+function, we should \glslink{linearization}{linearize}
+\index{Nonlinear control!linearization} it to fit into state-space notation.
+
+Linearization finds a tangent line to the nonlinear dynamics at a desired point
+in the state-space. The Taylor series is a way to approximate arbitrary
+functions with polynomials, so we can use it for linearization.
+
+The taylor series expansion for $\sin\theta$ around $\theta = 0$ is
+$\theta - \frac{1}{6} \theta^3 + \frac{1}{120} \theta^5 - \ldots$. We'll take
+just the first-order term $\theta$ to obtain a linear function.
 
 \begin{align*}
   \dot{\theta} &= \omega \\
