@@ -202,7 +202,6 @@ Add stubs for missing chapters, missing sections, and todo items.
 * Add section on controllability/observability Grammian for determining which
   states are uncontrollable/unobservable or which states are more/less
   controllable/observable.
-* Import an LQR derivation based on Lagrange multipliers?
 * Explain N term for LQR
   * Describe implicit model following application
   * Mention N is nonzero when cost includes y in some form
