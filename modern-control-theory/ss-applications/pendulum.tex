@@ -1,6 +1,6 @@
 \section{Pendulum}
 
-\subsection{Write model in state-space representation}
+\subsection{State-space model}
 
 Below is the \gls{model} for a pendulum
 
@@ -27,11 +27,24 @@ Now separate the \glspl{state}.
   \dot{\omega} &= -\frac{g}{l} \sin\theta
 \end{align*}
 
-Recall that state-space notation requires the \gls{model} to be a linear
+This makes our state vector $\begin{bmatrix}\theta & \omega\end{bmatrix}^T$ and
+our nonlinear model
+
+\begin{equation*}
+  f(\mtx{x}, \mtx{u}) =
+  \begin{bmatrix}
+    \omega \\
+    -\frac{g}{l}\sin\theta
+  \end{bmatrix}
+\end{equation*}
+
+\subsubsection{Linearization around $\theta = 0$}
+
+To apply our tools for linear control theory, the \gls{model} must be a linear
 combination of the \glspl{state} and \glspl{input} (addition and multiplication
 by constants). Since this \gls{model} is nonlinear on account of the sine
 function, we should \glslink{linearization}{linearize}
-\index{Nonlinear control!linearization} it to fit into state-space notation.
+\index{Nonlinear control!linearization} it.
 
 Linearization finds a tangent line to the nonlinear dynamics at a desired point
 in the state-space. The Taylor series is a way to approximate arbitrary
@@ -72,15 +85,36 @@ Factor out $\theta$ and $\omega$ into a column vector.
   \end{bmatrix}
 \end{align}
 
-\subsection{Add estimator for unmeasured states}
+\subsubsection{Linearization with the Jacobian}
+
+Here's the original nonlinear model in state-space representation.
+
+\begin{equation*}
+  f(\mtx{x}, \mtx{u}) =
+  \begin{bmatrix}
+    \omega \\
+    -\frac{g}{l}\sin\theta
+  \end{bmatrix}
+\end{equation*}
+
+If we want to linearize around an arbitrary point, we can take the Jacobian with
+respect to $\mtx{x}$.
+
+\begin{equation*}
+  \frac{\partial f(\mtx{x}, \mtx{u})}{\partial\mtx{x}} =
+  \begin{bmatrix}
+    0 & 1 \\
+    -\frac{g}{l}\cos\theta & 0
+  \end{bmatrix}
+\end{equation*}
 
 For full \gls{state} feedback, knowledge of all \glspl{state} is required. If
 not all \glspl{state} are measured directly, an estimator can be used to
 supplement them.
 
-For example, we may only be measuring $\theta$ in the pendulum example, not
-$\dot{\theta}$, so we'll need to estimate the latter. The $\mtx{C}$ matrix the
-\gls{observer} would use in this case is
+We may only be measuring $\theta$ in the pendulum example, not $\dot{\theta}$,
+so we'll need to estimate the latter. The $\mtx{C}$ matrix the \gls{observer}
+would use in this case is
 
 \begin{equation*}
   \mtx{C} = \begin{bmatrix}
@@ -103,55 +137,32 @@ Therefore, the measurement vector is
   \mtx{y} &= \theta
 \end{align*}
 
-\subsection{Implement controller}
-
-Use Bryson's rule when making the performance vs \gls{control effort} trade-off.
-Optimizing for performance will get you to the \gls{reference} as fast as
-possible while optimizing \gls{control effort} will get you to the
-\gls{reference} in the most ``fuel-efficient" way possible. The latter, for
-example, would potentially avoid voltage drops from motor usage on robots with a
-limited power supply, but the result would be slower to reach the
-\gls{reference}.
-
-\subsection{Simulate model/controller}
-
-This can be done in any platform supporting numerical computation. Common
-choices are MATLAB, v-REP, or Python. Tweak the LQR gains as necessary.
-
-If you're comfortable enough with it, you can use the controller designed by LQR
-as a starting point and tweak the pole locations after that with pole placement
-to produce the desired response.
-
-\subsubsection{Simulating a closed-loop system}
-
-Recall equation \eqref{eq:s_ref_ctrl_x} where a closed-loop system is written as
-$\dot{\mtx{x}} = (\mtx{A} - \mtx{B}\mtx{K})\mtx{x} + \mtx{B}\mtx{K}\mtx{r}$. In
-the open-loop \gls{system}, our \gls{control input} $\mtx{u}$ was a vector of
-\gls{system} \glspl{input}. In the closed-loop \gls{system}, our
-\gls{control input} $\mtx{u}$ is now a vector of \gls{reference} \glspl{state}
-$\mtx{r}$. To use this form in simulation, the corresponding state-space
-matrices, which we'll denote with apostrophes, would be
-
-\begin{align*}
-  \mtx{A}' &= \mtx{A} - \mtx{B}\mtx{K} \\
-  \mtx{B}' &= \mtx{B}\mtx{K} \\
-  \mtx{C}' &= \mtx{C} - \mtx{D}\mtx{K} \\
-  \mtx{D}' &= \mtx{D}\mtx{K}
-\end{align*}
-
-\subsection{Verify pole locations}
-
-Check the pole locations as a sanity check and to potentially gain an intuition
-for the chosen pole locations.
-
-\subsection{Unit test}
-
-Write unit tests to test the \gls{model} performance and \gls{robustness} with
-different initial conditions and \glspl{reference}. For C++, we recommend Google
-Test.
-
-\subsection{Test on real system}
-
-Try the controller on a real \gls{system} with low maximum \glspl{control input}
-for safety. The \glspl{control input} can be increased after verifying the
-sensors function and mechanisms move the correct direction.
+\begin{theorem}[Linear time-varying pendulum state-space model with no input]
+  \begin{align*}
+    \dot{\mtx{x}} &= \mtx{A} \mtx{x} \\
+    \mtx{y} &= \mtx{C} \mtx{x}
+  \end{align*}
+  \begin{equation*}
+    \begin{array}{ccc}
+      \mtx{x} =
+      \begin{bmatrix}
+        \theta \\
+        \omega
+      \end{bmatrix} &
+      \mtx{y} = \theta
+    \end{array}
+  \end{equation*}
+  \begin{equation}
+    \begin{array}{cccc}
+      \mtx{A} =
+      \begin{bmatrix}
+        0 & 1 \\
+        -\frac{g}{l}\cos\theta & 0
+      \end{bmatrix} &
+      \mtx{C} =
+      \begin{bmatrix}
+        1 & 0
+      \end{bmatrix}
+    \end{array}
+  \end{equation}
+\end{theorem}
