@@ -257,10 +257,6 @@ included in an appendix.
 * Double check drivetrain J calculation. It doesn't include robot radius, which
   seems suspicious.
 
-#### Build system
-
-* Add make flag for compiling without chapter heading images
-
 ## Licensing
 
 This project, except for the software, is released under the Creative Commons
