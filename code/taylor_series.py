@@ -7,7 +7,7 @@ import matplotlib as mpl
 
 if "--noninteractive" in sys.argv:
     mpl.use("svg")
-    import utils.latex as latex
+    import bookutil.latex as latex
 
 import math
 import matplotlib.pyplot as plt

@@ -9,7 +9,7 @@ if "--noninteractive" in sys.argv:
     import matplotlib as mpl
 
     mpl.use("svg")
-    import utils.latex as latex
+    import bookutil.latex as latex
 
 import control as ct
 import frccontrol as fct
@@ -17,7 +17,7 @@ import math
 import matplotlib.pyplot as plt
 import numpy as np
 
-from utils.pose2d import Pose2d
+from bookutil.pose2d import Pose2d
 
 
 def drivetrain(motor, num_motors, m, r, rb, J, Gl, Gr):

@@ -3,6 +3,7 @@
 import json
 import multiprocessing as mp
 import os
+import re
 import subprocess
 import sys
 
@@ -22,21 +23,9 @@ def run_json(name):
 
 files = [
     os.path.join(dp, f)
-    for dp, dn, fn in os.walk("code")
+    for dp, dn, fn in os.walk(".")
     for f in fn
-    if f.endswith(".py") and "current_limit.py" not in f
-]
-files += [
-    os.path.join(dp, f)
-    for dp, dn, fn in os.walk("deps")
-    for f in fn
-    if f.endswith(".py")
-]
-files += [
-    os.path.join(dp, f)
-    for dp, dn, fn in os.walk("lint")
-    for f in fn
-    if f.endswith(".py")
+    if f.endswith(".py") and not re.search("^\./build|\.egg-info/", dp)
 ]
 
 with mp.Pool(mp.cpu_count()) as pool:
@@ -44,7 +33,7 @@ with mp.Pool(mp.cpu_count()) as pool:
 
 files = [
     os.path.join(dp, f)
-    for dp, dn, fn in os.walk("deps")
+    for dp, dn, fn in os.walk("./deps")
     for f in fn
     if f.endswith(".json")
 ]

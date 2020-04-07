@@ -8,7 +8,7 @@ DEPS_STAMP := $(addprefix build/,$(DEPS_STAMP))
 rwildcard=$(wildcard $1$2) $(foreach dir,$(wildcard $1*),$(call rwildcard,$(dir)/,$2))
 
 # Python files that generate SVG files
-PY := $(filter-out code/utils,$(wildcard code/*.py))
+PY := $(filter-out ./bookutil/% ./build/% ./deps/% ./lint/% ./snippets/%,$(call rwildcard,./,*.py))
 STAMP := $(PY:.py=.stamp)
 STAMP := $(addprefix build/,$(STAMP))
 
@@ -94,6 +94,7 @@ build/commit-hash.tex: .git/refs/heads/$(git rev-parse --abbrev-ref HEAD) .git/H
 $(DEPS_STAMP): build/%.stamp: %.json
 	@mkdir -p $(@D)
 	$(ROOT)/deps/pkg.py
+	$(ROOT)/build/venv/bin/pip3 install -e $(ROOT)/bookutil
 	touch $@
 
 # This rule places CSVs into the build folder so scripts executed from the build

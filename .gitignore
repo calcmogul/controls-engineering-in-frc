@@ -3,6 +3,7 @@ build/
 *.bbl
 *.bcf
 *.blg
+*.egg-info/
 *.fdb_latexmk
 *.fls
 *.glg
