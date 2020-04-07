@@ -47,10 +47,18 @@ controlled by a PD controller.
   \label{fig:pd_ctrl_diag}
 \end{bookfigure}
 
+\begin{svg}{build/code/pd_controller}
+  \caption{PD controller on an elevator}
+  \label{fig:pd_controller}
+\end{svg}
+
 A PD controller has a proportional controller for position ($K_p$) and a
 proportional controller for velocity ($K_d$). The velocity \gls{setpoint} is
-implicitly provided by how the position \gls{setpoint} changes over time. To
-prove this, we will rearrange the equation for a PD controller.
+implicitly provided by how the position \gls{setpoint} changes over time. Figure
+\ref{fig:pd_controller} shows an example for an elevator.
+
+To prove a PD controller is just two proportional controllers, we will rearrange
+the equation for a PD controller.
 
 \begin{equation*}
   u_k = K_p e_k + K_d \frac{e_k - e_{k-1}}{dt}
