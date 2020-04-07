@@ -16,7 +16,7 @@ TEX := $(call rwildcard,./,*.tex)
 BIB := $(wildcard *.bib)
 FIGS := $(wildcard figs/*)
 
-CSV := $(wildcard code/*.csv)
+CSV := $(filter-out ./bookutil/% ./build/% ./deps/% ./lint/% ./snippets/%,$(call rwildcard,./,*.csv))
 CSV := $(addprefix build/,$(CSV))
 
 ROOT := $(shell pwd)
