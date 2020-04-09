@@ -1,13 +1,12 @@
-\section{LQR} \label{sec:lqr}
-\index{Controller design!LQR}
-\index{Optimal control!LQR}
+\section{Linear-quadratic regulator} \label{sec:lqr}
+\index{Controller design!Linear-quadratic regulator}
+\index{Optimal control!Linear-quadratic regulator}
 
-Instead of placing the poles of a closed-loop \gls{system} manually, LQR design
-places the poles for us based on acceptable \gls{error} and \gls{control effort}
-constraints. ``LQR" stands for ``Linear-Quadratic
-\glslink{regulator}{Regulator}". This method of controller design uses a
-quadratic function for the cost-to-go defined as the sum of the \gls{error} and
-\gls{control effort} over time for the linear \gls{system}
+Instead of placing the poles of a closed-loop \gls{system} manually, the
+linear-quadratic regulator (LQR) places the poles for us based on acceptable
+\gls{error} and \gls{control effort} constraints. This method of controller
+design uses a quadratic function for the cost-to-go defined as the sum of the
+\gls{error} and \gls{control effort} over time for the linear \gls{system}
 $\dot{\mtx{x}} = \mtx{A}\mtx{x} + \mtx{B}\mtx{u}$.
 
 \begin{equation*}
@@ -65,7 +64,7 @@ To use the \gls{control law}, we need knowledge of the full \gls{state} of the
 \gls{system}. That means we either have to measure all our \glspl{state}
 directly or estimate those we do not measure.
 
-See appendix \ref{sec:deriv_lqr} for how $\mtx{K}$ is calculated in Python. If
+See appendix \ref{ch:deriv_lqr} for how $\mtx{K}$ is calculated in Python. If
 the result is finite, the controller is guaranteed to be stable and
 \glslink{robustness}{robust} with a \gls{phase margin} of 60 degrees
 \cite{bib:lqr_phase_margin}.

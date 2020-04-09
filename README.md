@@ -202,10 +202,7 @@ Add stubs for missing chapters, missing sections, and todo items.
 * Add section on controllability/observability Grammian for determining which
   states are uncontrollable/unobservable or which states are more/less
   controllable/observable.
-* Explain N term for LQR
-  * Describe implicit model following application
-  * Mention N is nonzero when cost includes y in some form
-  * https://www.reddit.com/r/ControlTheory/comments/9wi42x/can_someone_please_explain_the_meaning_of_the_lqr/e9kwfmp
+* Describe implicit model following application
 * Finite horizon, discrete time LQR
 * Add a section on polytopes for convex optimization? So far, I've seen it used
   for handling saturated control inputs to prioritize tracking some states over
