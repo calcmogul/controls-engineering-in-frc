@@ -1,5 +1,31 @@
-\section{Luenberger observer}
+\section{State observers}
+
+State \glspl{observer} are used to estimate \glspl{state} which cannot be
+measured directly. This can be due to noisy measurements or the \gls{state} not
+being measurable (a hidden \gls{state}). This information can be used for
+\gls{localization}, which is the process of using external measurements to
+determine an \gls{agent}'s pose\footnote{An agent is a system-agnostic term for
+independent controlled actors like robots or aircraft.}, or orientation in the
+world.
+
+One type of \gls{state} estimator is LQE. ``LQE" stands for ``Linear-Quadratic
+Estimator". Similar to LQR, it places the estimator poles such that it minimizes
+the sum of squares of the estimation \gls{error}. The Luenberger \gls{observer}
+and Kalman filter are examples of these, where the latter chooses the pole
+locations optimally based on the \gls{model} and measurement uncertainties.
+
+Computer vision can also be used for \gls{localization}. By extracting features
+from an image taken by the \gls{agent}'s camera, like a retroreflective target
+in FRC, and comparing them to known dimensions, one can determine where the
+\gls{agent}'s camera would have to be to see that image. This can be used to
+correct our \gls{state} estimate in the same way we do with an encoder or
+gyroscope.
+
+\subsection{Luenberger observer}
 \index{State-space observers!Luenberger observer}
+
+We'll introduce the Luenberger observer first to demonstrate the general form of
+a state estimator and some of their properties.
 
 \begin{theorem}[Luenberger observer]
   \begin{align}
@@ -78,7 +104,7 @@ estimator. To run them separately, use the equations in theorem
 
 See appendix \ref{subsec:deriv_luenberger_separate} for a derivation.
 
-\subsection{Eigenvalues of closed-loop observer}
+\subsubsection{Eigenvalues of closed-loop observer}
 \index{Stability!eigenvalues}
 
 The eigenvalues of the system matrix can be used to determine whether a

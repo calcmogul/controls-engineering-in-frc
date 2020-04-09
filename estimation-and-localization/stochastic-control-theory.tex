@@ -4,10 +4,10 @@
 \label{ch:stochastic_control_theory}
 
 Stochastic control theory is a subfield of control theory that deals with the
-existence of uncertainty either in observations or in the noise that drives the
+existence of uncertainty either in observations or in noise that drives the
 evolution of a \gls{system}. We assign probability distributions to this random
 noise and aim to achieve a desired control task despite the presence of this
-noise.
+uncertainty.
 
 Stochastic optimal control is concerned with doing this with minimum cost
 defined by some cost functional, like we did with LQR earlier. First, we'll
@@ -18,6 +18,7 @@ applications of the Kalman filter theory.
 
 \renewcommand*{\chapterpath}{\partpath/stochastic-control-theory}
 \input{\chapterpath/terminology}
+\input{\chapterpath/state-observers}
 \input{\chapterpath/introduction-to-probability}
 \input{\chapterpath/linear-stochastic-systems}
 \input{\chapterpath/two-sensor-problem}
