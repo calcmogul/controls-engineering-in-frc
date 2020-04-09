@@ -238,11 +238,6 @@ included in an appendix.
 
 ### Miscellaneous fixes
 
-#### Digital control
-
-* Add note about k subscript representing the kth timestep of a variable
-  * Subscripts in general denote iterations of a variable (e.g., x_1, x_2, x_n)
-
 #### State-space controllers
 
 * Modify pareto_boundary.py to find and plot real Pareto boundary for LQR

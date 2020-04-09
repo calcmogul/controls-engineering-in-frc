@@ -21,9 +21,10 @@ to a difference equation like
   x_{k+1} = x_k + (x_k - 3) \Delta T \label{eq:difference_equ_example}
 \end{align}
 
-where the difference equation is run with some update period denoted by $T$, by
-$\Delta T$, or sometimes sloppily by $dt$\footnote{The discretization of
-equation \eqref{eq:differential_equ_example} to equation
+where $x_k$ refers to the value of $x$ at the $k^{th}$ timestep. The difference
+equation is run with some update period denoted by $T$, by $\Delta T$, or
+sometimes sloppily by $dt$\footnote{The discretization of equation
+\eqref{eq:differential_equ_example} to equation
 \eqref{eq:difference_equ_example} uses the forward Euler discretization
 method.}.
 
