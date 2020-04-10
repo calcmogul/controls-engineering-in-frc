@@ -208,6 +208,146 @@ Therefore,
 
 Substitute this into the cost functional.
 
+\begin{align*}
+  J &= \int_0^\infty \left((\dot{\mtx{y}} - \dot{\mtx{z}})^T \mtx{Q} (\dot{\mtx{y}} - \dot{\mtx{z}}) + \mtx{u}^T\mtx{R}\mtx{u}\right) dt \\
+  J &= \int_0^\infty \left(
+    ((\mtx{C}\mtx{A} - \mtx{A}_{ref}\mtx{C})\mtx{x} + \mtx{C}\mtx{B}\mtx{u})^T
+    \mtx{Q}
+    ((\mtx{C}\mtx{A} - \mtx{A}_{ref}\mtx{C})\mtx{x} + \mtx{C}\mtx{B}\mtx{u}) +
+    \mtx{u}^T\mtx{R}\mtx{u}\right) dt
+\end{align*}
+
+Apply the transpose to the left-hand side of the $\mtx{Q}$ term.
+
+\begin{equation*}
+  J = \int_0^\infty \left(
+    (\mtx{x}^T(\mtx{C}\mtx{A} - \mtx{A}_{ref}\mtx{C})^T + \mtx{u}^T(\mtx{C}\mtx{B})^T)
+    \mtx{Q}
+    ((\mtx{C}\mtx{A} - \mtx{A}_{ref}\mtx{C})\mtx{x} + \mtx{C}\mtx{B}\mtx{u}) +
+    \mtx{u}^T\mtx{R}\mtx{u}\right) dt
+\end{equation*}
+
+Factor out $\begin{bmatrix}\mtx{x} \\ \mtx{u}\end{bmatrix}^T$ from the left side
+and $\begin{bmatrix}\mtx{x} \\ \mtx{u}\end{bmatrix}$ from the right side of each
+term.
+
+\begin{align*}
+  J &= \int_0^\infty \left(
+    \begin{bmatrix}
+      \mtx{x} \\
+      \mtx{u}
+    \end{bmatrix}^T
+    \begin{bmatrix}
+      (\mtx{C}\mtx{A} - \mtx{A}_{ref}\mtx{C})^T \\
+      (\mtx{C}\mtx{B})^T
+    \end{bmatrix}
+    \mtx{Q}
+    \begin{bmatrix}
+      \mtx{C}\mtx{A} - \mtx{A}_{ref}\mtx{C} &
+      \mtx{C}\mtx{B}
+    \end{bmatrix}
+    \begin{bmatrix}
+      \mtx{x} \\
+      \mtx{u}
+    \end{bmatrix} +
+    \begin{bmatrix}
+      \mtx{x} \\
+      \mtx{u}
+    \end{bmatrix}^T
+    \begin{bmatrix}
+      \mtx{0} & \mtx{0} \\
+      \mtx{0} & \mtx{R}
+    \end{bmatrix}
+    \begin{bmatrix}
+      \mtx{x} \\
+      \mtx{u}
+    \end{bmatrix}
+    \right) dt \\
+  J &= \int_0^\infty \left(
+    \begin{bmatrix}
+      \mtx{x} \\
+      \mtx{u}
+    \end{bmatrix}^T
+    \left(
+    \begin{bmatrix}
+      (\mtx{C}\mtx{A} - \mtx{A}_{ref}\mtx{C})^T \\
+      (\mtx{C}\mtx{B})^T
+    \end{bmatrix}
+    \mtx{Q}
+    \begin{bmatrix}
+      \mtx{C}\mtx{A} - \mtx{A}_{ref}\mtx{C} &
+      \mtx{C}\mtx{B}
+    \end{bmatrix} +
+    \begin{bmatrix}
+      \mtx{0} & \mtx{0} \\
+      \mtx{0} & \mtx{R}
+    \end{bmatrix}
+    \right)
+    \begin{bmatrix}
+      \mtx{x} \\
+      \mtx{u}
+    \end{bmatrix}
+    \right) dt
+\end{align*}
+
+Multiply in $\mtx{Q}$.
+
+\begin{equation*}
+  J = \int_0^\infty \left(
+    \begin{bmatrix}
+      \mtx{x} \\
+      \mtx{u}
+    \end{bmatrix}^T
+    \left(
+    \begin{bmatrix}
+      (\mtx{C}\mtx{A} - \mtx{A}_{ref}\mtx{C})^T\mtx{Q} \\
+      (\mtx{C}\mtx{B})^T\mtx{Q}
+    \end{bmatrix}
+    \begin{bmatrix}
+      \mtx{C}\mtx{A} - \mtx{A}_{ref}\mtx{C} &
+      \mtx{C}\mtx{B}
+    \end{bmatrix} +
+    \begin{bmatrix}
+      \mtx{0} & \mtx{0} \\
+      \mtx{0} & \mtx{R}
+    \end{bmatrix}
+    \right)
+    \begin{bmatrix}
+      \mtx{x} \\
+      \mtx{u}
+    \end{bmatrix}
+    \right) dt
+\end{equation*}
+
+Multiply matrices in the left term together.
+
+\begin{equation*}
+  J = \int_0^\infty \left(
+    \begin{bmatrix}
+      \mtx{x} \\
+      \mtx{u}
+    \end{bmatrix}^T
+    \left(
+    \begin{bmatrix}
+      (\mtx{C}\mtx{A} - \mtx{A}_{ref}\mtx{C})^T\mtx{Q}(\mtx{C}\mtx{A} - \mtx{A}_{ref}\mtx{C}) &
+      (\mtx{C}\mtx{A} - \mtx{A}_{ref}\mtx{C})^T\mtx{Q}(\mtx{C}\mtx{B}) \\
+      (\mtx{C}\mtx{B})^T\mtx{Q}(\mtx{C}\mtx{A} - \mtx{A}_{ref}\mtx{C}) &
+      (\mtx{C}\mtx{B})^T\mtx{Q}(\mtx{C}\mtx{B})
+    \end{bmatrix} +
+    \begin{bmatrix}
+      \mtx{0} & \mtx{0} \\
+      \mtx{0} & \mtx{R}
+    \end{bmatrix}
+    \right)
+    \begin{bmatrix}
+      \mtx{x} \\
+      \mtx{u}
+    \end{bmatrix}
+    \right) dt
+\end{equation*}
+
+Add the terms together.
+
 \begin{equation}
   J = \int_0^\infty
   \begin{bmatrix}
@@ -230,8 +370,43 @@ Substitute this into the cost functional.
   dt
 \end{equation}
 
-If the original and desired system have the same states, $\mtx{C} = \mtx{I}$ and
-the cost functional simplifies to
+Thus, implicit model following can be defined as the following optimization
+problem.
+
+\begin{theorem}[Implicit model following]
+  \begin{align*}
+    \min_{\mtx{u}} &\int_0^\infty
+    \begin{bmatrix}
+      \mtx{x} \\
+      \mtx{u}
+    \end{bmatrix}^T
+    \begin{bmatrix}
+      \underbrace{(\mtx{C}\mtx{A} - \mtx{A}_{ref}\mtx{C})^T\mtx{Q}
+        (\mtx{C}\mtx{A} - \mtx{A}_{ref}\mtx{C})}_{\mtx{Q}} &
+      \underbrace{(\mtx{C}\mtx{A} - \mtx{A}_{ref}\mtx{C})^T\mtx{Q}
+        (\mtx{C}\mtx{B})}_{\mtx{N}} \\
+      \underbrace{(\mtx{C}\mtx{B})^T\mtx{Q}
+        (\mtx{C}\mtx{A} - \mtx{A}_{ref}\mtx{C})}_{\mtx{N}^T} &
+      \underbrace{(\mtx{C}\mtx{B})^T\mtx{Q}(\mtx{C}\mtx{B}) + \mtx{R}}_{\mtx{R}}
+    \end{bmatrix}
+    \begin{bmatrix}
+      \mtx{x} \\
+      \mtx{u}
+    \end{bmatrix}
+    dt \\
+    \text{subject to } &\dot{\mtx{x}} = \mtx{A}\mtx{x} + \mtx{B}\mtx{u}
+  \end{align*}
+
+  The optimal control policy $\mtx{u}^*$ is $-\mtx{K}\mtx{x}$. $\mtx{K}$ can be
+  computed via the typical LQR equations.
+\end{theorem}
+
+The control law $\mtx{u}_{imf} = -\mtx{K}\mtx{x}$ makes
+$\dot{\mtx{x}} = \mtx{A}\mtx{x} + \mtx{B}\mtx{u}_{imf}$ match the open-loop
+response of $\dot{\mtx{z}} = \mtx{A}_{ref}\mtx{z}$.
+
+If the original and desired system have the same states, then
+$\mtx{C} = \mtx{I}$ and the cost functional simplifies to
 
 \begin{equation}
   J = \int_0^\infty

@@ -203,8 +203,6 @@ Add stubs for missing chapters, missing sections, and todo items.
   states are uncontrollable/unobservable or which states are more/less
   controllable/observable.
 * Finish implicit model following
-  * Make implicit model following derivation more rigorous. It's missing steps
-    from the one-line cost functional to the matrix form.
   * Add implicit model following simulation
 * Add a section on polytopes for convex optimization? So far, I've seen it used
   for handling saturated control inputs to prioritize tracking some states over
