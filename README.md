@@ -202,7 +202,10 @@ Add stubs for missing chapters, missing sections, and todo items.
 * Add section on controllability/observability Grammian for determining which
   states are uncontrollable/unobservable or which states are more/less
   controllable/observable.
-* Describe implicit model following application
+* Finish implicit model following
+  * Make implicit model following derivation more rigorous. It's missing steps
+    from the one-line cost functional to the matrix form.
+  * Add implicit model following simulation
 * Finite horizon, discrete time LQR
 * Add a section on polytopes for convex optimization? So far, I've seen it used
   for handling saturated control inputs to prioritize tracking some states over

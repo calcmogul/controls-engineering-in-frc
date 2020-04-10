@@ -163,3 +163,92 @@ system and makes it behave like some other system, we can use \textit{implicit
 model following}. This is used on the Blackhawk helicopter at NASA Ames research
 center when they want to make it fly like experimental aircraft (within the
 limits of the helicopter's actuators, of course).
+
+Let the original system dynamics be
+
+\begin{align*}
+  \dot{\mtx{x}} &= \mtx{A}\mtx{x} + \mtx{B}\mtx{u} \\
+  \mtx{y} &= \mtx{C}\mtx{x}
+\end{align*}
+
+and the desired system dynamics be
+
+\begin{equation*}
+  \dot{\mtx{z}} = \mtx{A}_{ref}\mtx{z}
+\end{equation*}
+
+\begin{align*}
+  \dot{\mtx{y}} &= \mtx{C}\dot{\mtx{x}} \\
+  \dot{\mtx{y}} &= \mtx{C}(\mtx{A}\mtx{x} + \mtx{B}\mtx{u}) \\
+  \dot{\mtx{y}} &= \mtx{C}\mtx{A}\mtx{x} + \mtx{C}\mtx{B}\mtx{u}
+\end{align*}
+
+We want to minimize the following cost functional.
+
+\begin{equation*}
+  J = \int_0^\infty \left((\dot{\mtx{y}} - \dot{\mtx{z}})^T \mtx{Q} (\dot{\mtx{y}} - \dot{\mtx{z}}) + \mtx{u}^T\mtx{R}\mtx{u}\right) dt
+\end{equation*}
+
+We'll be measuring the desired system's state, so let $\mtx{y} = \mtx{z}$.
+
+\begin{align*}
+  \dot{\mtx{z}} &= \mtx{A}_{ref}\mtx{y} \\
+  \dot{\mtx{z}} &= \mtx{A}_{ref}\mtx{C}\mtx{x}
+\end{align*}
+
+Therefore,
+
+\begin{align*}
+  \dot{\mtx{y}} - \dot{\mtx{z}} &=
+    \mtx{C}\mtx{A}\mtx{x} + \mtx{C}\mtx{B}\mtx{u} -
+    (\mtx{A}_{ref}\mtx{C}\mtx{x}) \\
+  \dot{\mtx{y}} - \dot{\mtx{z}} &=
+    (\mtx{C}\mtx{A} - \mtx{A}_{ref}\mtx{C})\mtx{x} + \mtx{C}\mtx{B}\mtx{u}
+\end{align*}
+
+Substitute this into the cost functional.
+
+\begin{equation}
+  J = \int_0^\infty
+  \begin{bmatrix}
+    \mtx{x} \\
+    \mtx{u}
+  \end{bmatrix}^T
+  \begin{bmatrix}
+    \underbrace{(\mtx{C}\mtx{A} - \mtx{A}_{ref}\mtx{C})^T\mtx{Q}
+      (\mtx{C}\mtx{A} - \mtx{A}_{ref}\mtx{C})}_{\mtx{Q}} &
+    \underbrace{(\mtx{C}\mtx{A} - \mtx{A}_{ref}\mtx{C})^T\mtx{Q}
+      (\mtx{C}\mtx{B})}_{\mtx{N}} \\
+    \underbrace{(\mtx{C}\mtx{B})^T\mtx{Q}
+      (\mtx{C}\mtx{A} - \mtx{A}_{ref}\mtx{C})}_{\mtx{N}^T} &
+    \underbrace{(\mtx{C}\mtx{B})^T\mtx{Q}(\mtx{C}\mtx{B}) + \mtx{R}}_{\mtx{R}}
+  \end{bmatrix}
+  \begin{bmatrix}
+    \mtx{x} \\
+    \mtx{u}
+  \end{bmatrix}
+  dt
+\end{equation}
+
+If the original and desired system have the same states, $\mtx{C} = \mtx{I}$ and
+the cost functional simplifies to
+
+\begin{equation}
+  J = \int_0^\infty
+  \begin{bmatrix}
+    \mtx{x} \\
+    \mtx{u}
+  \end{bmatrix}^T
+  \begin{bmatrix}
+    \underbrace{(\mtx{A} - \mtx{A}_{ref})^T\mtx{Q}
+      (\mtx{A} - \mtx{A}_{ref})}_{\mtx{Q}} &
+    \underbrace{(\mtx{A} - \mtx{A}_{ref})^T\mtx{Q}\mtx{B}}_{\mtx{N}} \\
+    \underbrace{\mtx{B}^T\mtx{Q}(\mtx{A} - \mtx{A}_{ref})}_{\mtx{N}^T} &
+    \underbrace{\mtx{B}^T\mtx{Q}\mtx{B} + \mtx{R}}_{\mtx{R}}
+  \end{bmatrix}
+  \begin{bmatrix}
+    \mtx{x} \\
+    \mtx{u}
+  \end{bmatrix}
+  dt
+\end{equation}
