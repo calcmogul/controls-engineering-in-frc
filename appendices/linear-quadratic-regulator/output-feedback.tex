@@ -1,4 +1,5 @@
 \section{Output feedback}
+\index{Controller design!Linear-quadratic regulator!output feedback}
 
 LQR is normally used for state feedback on
 
@@ -184,7 +185,7 @@ Add the terms together.
 Thus, output feedback can be defined as the following optimization problem.
 
 \begin{theorem}[Linear-quadratic regulator with output feedback]
-  \begin{align*}
+  \begin{align}
     \min_{\mtx{u}} &\int_0^\infty
     \begin{bmatrix}
       \mtx{x} \\
@@ -200,9 +201,9 @@ Thus, output feedback can be defined as the following optimization problem.
       \mtx{x} \\
       \mtx{u}
     \end{bmatrix}
-    dt \\
+    dt \nonumber \\
     \text{subject to } &\dot{\mtx{x}} = \mtx{A}\mtx{x} + \mtx{B}\mtx{u}
-  \end{align*}
+  \end{align}
 
   The optimal control policy $\mtx{u}^*$ is $\mtx{K}(\mtx{r} - \mtx{y})$ where
   $\mtx{r}$ is the desired output and $\mtx{y}$ is the measured output defined

@@ -1,5 +1,6 @@
 \section{Implicit model following}
 \label{sec:implicit_model_following}
+\index{Controller design!Linear-quadratic regulator!implicit model following}
 
 If we want to design a feedback controller that erases the dynamics of our
 system and makes it behave like some other system, we can use \textit{implicit
@@ -217,7 +218,7 @@ Thus, implicit model following can be defined as the following optimization
 problem.
 
 \begin{theorem}[Implicit model following]
-  \begin{align*}
+  \begin{align}
     \min_{\mtx{u}} &\int_0^\infty
     \begin{bmatrix}
       \mtx{x} \\
@@ -236,9 +237,9 @@ problem.
       \mtx{x} \\
       \mtx{u}
     \end{bmatrix}
-    dt \\
+    dt \nonumber \\
     \text{subject to } &\dot{\mtx{x}} = \mtx{A}\mtx{x} + \mtx{B}\mtx{u}
-  \end{align*}
+  \end{align}
 
   The optimal control policy $\mtx{u}^*$ is $-\mtx{K}\mtx{x}$. $\mtx{K}$ can be
   computed via the typical LQR equations based on the algebraic Ricatti

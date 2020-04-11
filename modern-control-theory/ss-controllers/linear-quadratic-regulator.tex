@@ -35,34 +35,35 @@ The minimum of LQR's cost function is found by setting the derivative of the
 cost function to zero and solving for the \gls{control law} $\mtx{u}$. However,
 matrix calculus is used instead of normal calculus to take the derivative.
 
-The feedback \gls{control law} that minimizes $J$, which we'll call the
-``optimal control law", is shown in theorem \ref{thm:optimal_control_law}.
+The feedback \gls{control law} that minimizes $J$ is shown in theorem
+\ref{thm:linear-quadratic_regulator}.
 
-\begin{theorem}[Optimal control law]
-  \label{thm:optimal_control_law}
+\begin{theorem}[Linear-quadratic regulator]
+  \label{thm:linear-quadratic_regulator}
 
-  \begin{equation}
-    \mtx{u} = -\mtx{K}\mtx{x}
-  \end{equation}
-\end{theorem}
-\index{Controller design!LQR!optimal control law}
-\index{Optimal control!LQR!optimal control law}
+  \begin{align}
+    \min_{\mtx{u}} &\int\limits_0^\infty \left(\mtx{x}^T\mtx{Q}\mtx{x} +
+      \mtx{u}^T\mtx{R}\mtx{u}\right) dt \nonumber \\
+    \text{subject to } &\dot{\mtx{x}} = \mtx{A}\mtx{x} + \mtx{B}\mtx{u}
+  \end{align}
 
-This means that optimal control can be achieved with simply a set of
-proportional gains on all the \glspl{state}. This \gls{control law} will make
-all \glspl{state} converge to zero assuming the \gls{system} is controllable. To
-converge to nonzero \glspl{state}, a \gls{reference} vector $\mtx{r}$ can be
-added to the \gls{state} $\mtx{x}$.
+  If the \gls{system} is controllable, the optimal control policy $\mtx{u}^*$
+  that drives all the \glspl{state} to zero is $-\mtx{K}\mtx{x}$. To converge to
+  nonzero \glspl{state}, a \gls{reference} vector $\mtx{r}$ can be added to the
+  \gls{state} $\mtx{x}$.
 
-\begin{theorem}[Optimal control law with nonzero reference]
   \begin{equation}
     \mtx{u} = \mtx{K}(\mtx{r} - \mtx{x})
   \end{equation}
 \end{theorem}
+\index{Controller design!Linear-quadratic regulator!definition}
+\index{Optimal control!Linear-quadratic regulator!definition}
 
-To use the \gls{control law}, we need knowledge of the full \gls{state} of the
-\gls{system}. That means we either have to measure all our \glspl{state}
-directly or estimate those we do not measure.
+This means that optimal control can be achieved with simply a set of
+proportional gains on all the \glspl{state}. To use the \gls{control law}, we
+need knowledge of the full \gls{state} of the \gls{system}. That means we either
+have to measure all our \glspl{state} directly or estimate those we do not
+measure.
 
 See appendix \ref{ch:deriv_lqr} for how $\mtx{K}$ is calculated in Python. If
 the result is finite, the controller is guaranteed to be stable and
@@ -77,8 +78,8 @@ the result is finite, the controller is guaranteed to be stable and
 \end{remark}
 
 \subsection{Bryson's rule}
-\index{Controller design!LQR!Bryson's rule}
-\index{Optimal control!LQR!Bryson's rule}
+\index{Controller design!Linear-quadratic regulator!Bryson's rule}
+\index{Optimal control!Linear-quadratic regulator!Bryson's rule}
 
 The next obvious question is what values to choose for $\mtx{Q}$ and $\mtx{R}$.
 With Bryson's rule, the diagonals of the $\mtx{Q}$ and $\mtx{R}$ matrices are
