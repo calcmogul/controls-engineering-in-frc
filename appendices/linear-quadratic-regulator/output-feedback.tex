@@ -207,7 +207,7 @@ Thus, output feedback can be defined as the following optimization problem.
   The optimal control policy $\mtx{u}^*$ is $\mtx{K}(\mtx{r} - \mtx{y})$ where
   $\mtx{r}$ is the desired output and $\mtx{y}$ is the measured output defined
   as $\mtx{y} = \mtx{C}\mtx{x} + \mtx{D}\mtx{u}$. $\mtx{K}$ can be computed via
-  the typical LQR equations.
+  the typical LQR equations based on the algebraic Ricatti equation.
 \end{theorem}
 
 If the output is only the whole state vector, then $\mtx{C} = \mtx{I}$,
