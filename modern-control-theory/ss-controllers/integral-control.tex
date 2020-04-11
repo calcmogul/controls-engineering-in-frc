@@ -107,17 +107,18 @@ The controller is augmented as
   \end{bmatrix}\right)
 \end{align*}
 
-\subsection{U error estimation}
-\label{subsec:u_error_estimation}
-\index{integral control!U error estimation}
+\subsection{Input error estimation}
+\label{subsec:input_error_estimation}
+\index{integral control!input error estimation}
 
 Given the desired \gls{input} produced by a \gls{controller}, unmodeled
 \glspl{disturbance} may cause the observed behavior of a \gls{system} to deviate
-from its \gls{model}. U error estimation estimates the difference between the
-desired \gls{input} and a hypothetical \gls{input} that makes the \gls{model}
-match the observed behavior. This value can be added to the \gls{control input}
-to make the \gls{controller} compensate for unmodeled \glspl{disturbance} and
-make the \gls{model} better predict the \gls{system}'s future behavior.
+from its \gls{model}. Input error estimation estimates the difference between
+the desired \gls{input} and a hypothetical \gls{input} that makes the
+\gls{model} match the observed behavior. This value can be added to the
+\gls{control input} to make the \gls{controller} compensate for unmodeled
+\glspl{disturbance} and make the \gls{model} better predict the \gls{system}'s
+future behavior.
 
 First, we'll consider the one-dimensional case. Let $u_{error}$ be the
 difference between the \gls{input} actually applied to a \gls{system} and the

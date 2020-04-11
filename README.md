@@ -169,8 +169,8 @@ Add stubs for missing chapters, missing sections, and todo items.
 
 #### State-space model examples
 
-* Add examples of u_error state-space models to frccontrol and reference them in
-  the book. Also do C++ examples.
+* Add examples of input error state-space models to frccontrol and reference
+  them in the book. Also do C++ examples.
 
 #### Nonlinear control
 
