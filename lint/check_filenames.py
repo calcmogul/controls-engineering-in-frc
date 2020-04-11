@@ -5,7 +5,6 @@ is not allowed.
 """
 
 import os
-import re
 import sys
 
 files = [
