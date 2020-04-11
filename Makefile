@@ -112,6 +112,7 @@ $(STAMP): build/%.stamp: %.py $(CSV) $(DEPS_STAMP)
 lint: build/commit-date.tex build/commit-year.tex build/commit-hash.tex
 	./lint/format_code.py
 	git --no-pager diff --exit-code HEAD  # Ensure formatter made no changes
+	./lint/check_filenames.py
 	./lint/check_tex_includes.py
 	./lint/check_tex_labels.py
 	./lint/check_links.py
