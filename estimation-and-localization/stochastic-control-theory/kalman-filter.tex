@@ -6,7 +6,7 @@ initial \gls{state} optimally. Now, we'll combine these concepts to produce an
 estimator which minimizes the error covariance for linear \glspl{system}.
 
 \subsection{Derivations}
-\index{State-space observers!Kalman filter!derivations}
+\index{state-space observers!Kalman filter!derivations}
 
 Given the \textit{a posteriori} update equation
 $\hat{\mtx{x}}_{k+1}^+ = \hat{\mtx{x}}_{k+1}^- + \mtx{K}_{k+1}(\mtx{y}_{k+1} -
@@ -284,7 +284,7 @@ Now that we've derived all the pieces we need, we can finally write all the
 equations for a Kalman filter. Theorem \ref{thm:kalman_filter} shows the predict
 and update steps for a Kalman filter at the $k^{th}$ timestep.
 
-\index{State-space observers!Kalman filter!equations}
+\index{state-space observers!Kalman filter!equations}
 \begin{theorem}[Kalman filter]
   \label{thm:kalman_filter}
 
@@ -356,7 +356,7 @@ calculus, which is outside the scope of this book.}. This process has the
 property that its variance increases linearly with time $t$.
 
 \subsection{Setup}
-\index{State-space observers!Kalman filter!setup}
+\index{state-space observers!Kalman filter!setup}
 
 \subsubsection{Equations to model}
 
@@ -551,7 +551,7 @@ than any one measurement alone.
 \end{svg}
 
 \subsection{Kalman filter as Luenberger observer}
-\index{State-space observers!Kalman filter!as Luenberger observer}
+\index{state-space observers!Kalman filter!as Luenberger observer}
 
 A Kalman filter can be represented as a Luenberger \gls{observer} by letting
 $\mtx{L} = \mtx{A} \mtx{K}_k$ (see appendix \ref{sec:deriv_kalman_luenberger}).

@@ -10,20 +10,20 @@ state-space, there are several common types of augmentation used: \gls{plant}
 augmentation, controller augmentation, and \gls{observer} augmentation.
 
 \subsection{Plant augmentation}
-\index{Model augmentation!of plant}
+\index{model augmentation!of plant}
 
 Plant augmentation is the process of adding a state to a model's state vector
 and adding a corresponding row to the $\mtx{A}$ and $\mtx{B}$ matrices.
 
 \subsection{Controller augmentation}
-\index{Model augmentation!of controller}
+\index{model augmentation!of controller}
 
 Controller augmentation is the process of adding a column to a controller's
 $\mtx{K}$ matrix. This is often done in combination with \gls{plant}
 augmentation to add controller dynamics relating to a newly added \gls{state}.
 
 \subsection{Observer augmentation}
-\index{Model augmentation!of observer}
+\index{model augmentation!of observer}
 
 Observer augmentation is closely related to \gls{plant} augmentation. In
 addition to adding entries to the \gls{observer} matrix $\mtx{L}$, the
@@ -41,7 +41,7 @@ Rather than our \glspl{input} and other \glspl{state} affecting it directly, the
 dynamics the term has and the \gls{observer} will estimate it for us.
 
 \subsection{Output augmentation}
-\index{Model augmentation!of output}
+\index{model augmentation!of output}
 
 Output augmentation is the process of adding rows to the $\mtx{C}$ matrix. This
 is done to help the controls designer visualize the behavior of internal states

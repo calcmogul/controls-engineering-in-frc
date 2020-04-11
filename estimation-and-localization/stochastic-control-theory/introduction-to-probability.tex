@@ -1,11 +1,11 @@
 \section{Introduction to probability}
-\index{Probability}
+\index{probability}
 
 Now we'll begin establishing probability concepts we need to describe and
 manipulate stochastic systems.
 
 \subsection{Random variables}
-\index{Probability!random variables}
+\index{probability!random variables}
 
 A random variable is a variable whose values are the outcomes of a random
 phenomenon, like dice rolls or noisy process measurements. As such, a random
@@ -14,7 +14,7 @@ process to numerical quantities. A particular output of this function is called
 a sample. The sample space is the set of possible values taken by the random
 variable.
 
-\index{Probability!probability density function}
+\index{probability!probability density function}
 A probability density function (PDF) is a function of the random variable whose
 value at a given sample (measured value) in the sample space (the range of
 possible measured values) is the probability of that sample occurrring. The area
@@ -44,7 +44,7 @@ or given that the probability of a given sample is greater than or equal to
 zero, the sum of probabilities for all possible input values is equal to one.
 
 \subsection{Expected value}
-\index{Probability!expected value}
+\index{probability!expected value}
 
 Expected value or expectation is a weighted average of the values the PDF can
 produce where the weight for each value is the probability of that value
@@ -76,7 +76,7 @@ expectation of a random variable is its mean. Here's a proof.
 \end{align*}
 
 \subsection{Variance}
-\index{Probability!variance}
+\index{probability!variance}
 
 Informally, variance is a measure of how far the outcome of a random variable
 deviates from its mean. Later, we will use variance to quantify how confident we
@@ -95,7 +95,7 @@ The standard deviation is the square root of the variance.
 \end{equation*}
 
 \subsection{Joint probability density functions}
-\index{Probability!probability density functions}
+\index{probability!probability density functions}
 
 Probability density functions can also include more than one variable. Let $x$
 and $y$ are random variables. The joint probability density function $p(x, y)$
@@ -138,7 +138,7 @@ The variance of a joint PDF measures how a variable correlates with itself
 \end{align*}
 
 \subsection{Covariance}
-\index{Probability!covariance}
+\index{probability!covariance}
 
 A covariance is a measurement of how a variable correlates with another. If they
 vary in the same direction, the covariance increases. If they vary in opposite
@@ -195,7 +195,7 @@ Therefore, the covariance $\Sigma_{xy}$ is zero, as expected. Furthermore,
 $\rho(x, y) = 0$, which means they are uncorrelated.
 
 \subsection{Marginal probability density functions}
-\index{Probability!marginal probability density functions}
+\index{probability!marginal probability density functions}
 
 Given two random variables $x$ and $y$ whose joint distribution is known, the
 marginal PDF $p(x)$ expresses the probability of $x$ averaged over information
@@ -207,7 +207,7 @@ calculated by integrating the joint PDF over $y$.
 \end{equation*}
 
 \subsection{Conditional probability density functions}
-\index{Probability!conditional probability density functions}
+\index{probability!conditional probability density functions}
 
 Let us assume that we know the joint PDF $p(x, y)$ and the exact value for $y$.
 The conditional PDF gives the probability of $x$ in the interval $[x, x + dx]$
@@ -225,7 +225,7 @@ The scale factor $\frac{1}{C(y^\ast)}$ is used to scale the area under the PDF
 to $1$.
 
 \subsection{Bayes's rule}
-\index{Probability!Bayes's rule}
+\index{probability!Bayes's rule}
 
 Bayes's rule is used to determine the probability of an event based on prior
 knowledge of conditions related to the event.
@@ -238,7 +238,7 @@ If $x$ and $y$ are independent, then $p(x|y) = p(x)$, $p(y|x) = p(y)$, and
 $p(x, y) = p(x) \,p(y)$.
 
 \subsection{Conditional expectation}
-\index{Probability!conditional expectation}
+\index{probability!conditional expectation}
 
 The concept of expectation can also be applied to conditional PDFs. This allows
 us to determine what the mean of a variable is given prior knowledge of other
@@ -250,7 +250,7 @@ variables.
 \end{align*}
 
 \subsection{Conditional variances}
-\index{Probability!conditional variances}
+\index{probability!conditional variances}
 
 \begin{align*}
   \var(x|y) &= E[(x - E[x|y])^2|y] \\
@@ -289,7 +289,7 @@ density $p(x_1, x_2, \ldots, x_n)$. The expectation is
 \end{align*}
 
 \subsection{Covariance matrix}
-\index{Probability!covariance matrix}
+\index{probability!covariance matrix}
 
 The covariance matrix for a random vector $\mtx{x} \in \mathbb{R}^n$ is
 
@@ -434,7 +434,7 @@ theorem.
   When independent random variables are added, their properly normalized sum
   tends toward a normal distribution (a Gaussian distribution or ``bell curve").
 \end{definition}
-\index{Probability!central limit theorem}
+\index{probability!central limit theorem}
 
 This is the case even if the original variables themselves are not normally
 distributed. The theorem is a key concept in probability theory because it

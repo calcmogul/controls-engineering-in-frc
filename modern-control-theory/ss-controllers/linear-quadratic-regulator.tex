@@ -1,6 +1,6 @@
 \section{Linear-quadratic regulator} \label{sec:lqr}
-\index{Controller design!Linear-quadratic regulator}
-\index{Optimal control!Linear-quadratic regulator}
+\index{controller design!linear-quadratic regulator}
+\index{optimal control!linear-quadratic regulator}
 
 Instead of placing the poles of a closed-loop \gls{system} manually, the
 linear-quadratic regulator (LQR) places the poles for us based on acceptable
@@ -56,8 +56,8 @@ The feedback \gls{control law} that minimizes $J$ is shown in theorem
     \mtx{u} = \mtx{K}(\mtx{r} - \mtx{x})
   \end{equation}
 \end{theorem}
-\index{Controller design!Linear-quadratic regulator!definition}
-\index{Optimal control!Linear-quadratic regulator!definition}
+\index{controller design!linear-quadratic regulator!definition}
+\index{optimal control!linear-quadratic regulator!definition}
 
 This means that optimal control can be achieved with simply a set of
 proportional gains on all the \glspl{state}. To use the \gls{control law}, we
@@ -78,8 +78,8 @@ the result is finite, the controller is guaranteed to be stable and
 \end{remark}
 
 \subsection{Bryson's rule}
-\index{Controller design!Linear-quadratic regulator!Bryson's rule}
-\index{Optimal control!Linear-quadratic regulator!Bryson's rule}
+\index{controller design!linear-quadratic regulator!Bryson's rule}
+\index{optimal control!linear-quadratic regulator!Bryson's rule}
 
 The next obvious question is what values to choose for $\mtx{Q}$ and $\mtx{R}$.
 With Bryson's rule, the diagonals of the $\mtx{Q}$ and $\mtx{R}$ matrices are
