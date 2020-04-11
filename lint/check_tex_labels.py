@@ -65,6 +65,7 @@ if labels == refs:
     # If labels and refs are equivalent sets, there are no undefined references
     # or unreferenced labels, so return success
     sys.exit(0)
+
 if undefined_refs:
     print(f"error: {len(undefined_refs)} undefined reference", end="")
     if len(undefined_refs) > 1:
@@ -74,6 +75,7 @@ if undefined_refs:
     # Print refs sorted by filename and line number
     for ref in sorted(ref_locations[l] for l in undefined_refs):
         print(f"[{ref.filename}:{ref.line_number}]\n    {ref.name}")
+
 if unrefed_labels:
     print(f"error: {len(unrefed_labels)} unreferenced label", end="")
     if len(unrefed_labels) > 1:
@@ -83,4 +85,5 @@ if unrefed_labels:
     # Print labels sorted by filename and line number
     for label in sorted(label_locations[l] for l in unrefed_labels):
         print(f"[{label.filename}:{label.line_number}]\n    {label.name}")
+
 sys.exit(1)
