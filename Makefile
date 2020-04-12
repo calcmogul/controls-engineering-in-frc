@@ -110,6 +110,7 @@ $(STAMP): build/%.stamp: %.py $(CSV) $(DEPS_STAMP)
 
 .PHONY: lint
 lint: build/commit-date.tex build/commit-year.tex build/commit-hash.tex
+	./lint/format_bibliography.py
 	./lint/format_json.py
 	python3 -m black -q .
 	git --no-pager diff --exit-code HEAD  # Ensure formatter made no changes
