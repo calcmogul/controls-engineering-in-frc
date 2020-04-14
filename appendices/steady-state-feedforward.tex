@@ -261,18 +261,20 @@ allows using specific actuators to maintain the \gls{reference} at steady-state.
 \ref{fig:case_study_ss_ff1} shows both types of feedforwards applied to a
 second-order CIM motor model.
 
-\begin{svg}{build/\partpath/case_study_ss_ff1}
-  \caption{Second-order CIM motor response with various feedforwards}
-  \label{fig:case_study_ss_ff1}
-\end{svg}
+\begin{bookfigure}
+  \begin{minisvg}{2}{build/\partpath/case_study_ss_ff1}
+    \caption{Second-order CIM motor response with various feedforwards}
+    \label{fig:case_study_ss_ff1}
+  \end{minisvg}
+  \hfill
+  \begin{minisvg}{2}{build/\partpath/case_study_ss_ff2}
+    \caption{Second-order CIM motor response with plant inversions}
+    \label{fig:case_study_ss_ff2}
+  \end{minisvg}
+\end{bookfigure}
 
 \Gls{plant} inversion isn't as effective in figure \ref{fig:case_study_ss_ff1}
 because the $\mtx{R}$ matrix penalized \gls{control effort}. If the $\mtx{R}$
 cost matrix is removed from the \gls{plant} inversion calculation, the
 \gls{reference} \gls{tracking} is much better (see figure
 \ref{fig:case_study_ss_ff2}).
-
-\begin{svg}{build/\partpath/case_study_ss_ff2}
-  \caption{Second-order CIM motor response with plant inversions}
-  \label{fig:case_study_ss_ff2}
-\end{svg}
