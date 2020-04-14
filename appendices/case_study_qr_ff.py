@@ -57,11 +57,6 @@ def main():
     r = np.array([[2000 * 0.1047], [0]])
     r_rec = np.zeros((2, 1, len(t)))
 
-    # No feedforward
-    x = np.array([[0], [0]])
-    x_rec = np.zeros((2, 1, len(t)))
-    u_rec = np.zeros((1, 1, len(t)))
-
     # Plant inversion
     x_ts1 = np.array([[0], [0]])
     x_ts1_rec = np.zeros((2, 1, len(t)))
@@ -78,13 +73,6 @@ def main():
     for k in range(len(t)):
         r_rec[:, :, k] = r
 
-        # Without feedforward
-        u = K @ (r - x)
-        u = np.clip(u, u_min, u_max)
-        x = sysd.A @ x + sysd.B @ u
-        x_rec[:, :, k] = x
-        u_rec[:, :, k] = u
-
         # Plant inversion
         u_ts1 = K @ (r - x_ts1) + Kff_ts1 @ (r - sysd.A @ r)
         u_ts1 = np.clip(u_ts1, u_min, u_max)
@@ -92,31 +80,38 @@ def main():
         x_ts1_rec[:, :, k] = x_ts1
         u_ts1_rec[:, :, k] = u_ts1
 
+        # Plant inversion (Q and R cost)
+        u_ts2 = K @ (r - x_ts2) + Kff_ts2 @ (r - sysd.A @ r)
+        u_ts2 = np.clip(u_ts2, u_min, u_max)
+        x_ts2 = sysd.A @ x_ts2 + sysd.B @ u_ts2
+        x_ts2_rec[:, :, k] = x_ts2
+        u_ts2_rec[:, :, k] = u_ts2
+
     plt.figure(1)
 
     plt.subplot(3, 1, 1)
     plt.plot(t, r_rec[0, 0, :], label="Reference")
     plt.ylabel("$\omega$ (rad/s)")
-    plt.plot(t, x_rec[0, 0, :], label="No feedforward")
     plt.plot(t, x_ts1_rec[0, 0, :], label="Plant inversion")
+    plt.plot(t, x_ts2_rec[0, 0, :], label="Plant inversion (Q and R cost)")
     plt.legend()
 
     plt.subplot(3, 1, 2)
     plt.plot(t, r_rec[1, 0, :], label="Reference")
     plt.ylabel("Current (A)")
-    plt.plot(t, x_rec[1, 0, :], label="No feedforward")
     plt.plot(t, x_ts1_rec[1, 0, :], label="Plant inversion")
+    plt.plot(t, x_ts2_rec[1, 0, :], label="Plant inversion (Q and R cost)")
     plt.legend()
 
     plt.subplot(3, 1, 3)
-    plt.plot(t, u_rec[0, 0, :], label="No feedforward")
     plt.plot(t, u_ts1_rec[0, 0, :], label="Plant inversion")
+    plt.plot(t, u_ts2_rec[0, 0, :], label="Plant inversion (Q and R cost)")
     plt.legend()
     plt.ylabel("Control effort (V)")
     plt.xlabel("Time (s)")
 
     if "--noninteractive" in sys.argv:
-        latex.savefig("case_study_ff")
+        latex.savefig("case_study_qr_ff")
     else:
         plt.show()
 

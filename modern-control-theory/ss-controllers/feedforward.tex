@@ -42,46 +42,10 @@ While it can be an effective tool, the following should be kept in mind.
     cancellation in subsection \ref{subsec:pole-zero_cancellation} applies here.
 \end{enumerate}
 
-Let's start with the equation for the \gls{reference} dynamics
+\subsubsection{Necessary theorems}
 
-\begin{equation*}
-  \mtx{r}_{k+1} = \mtx{A}\mtx{r}_k + \mtx{B}\mtx{u}_{ff}
-\end{equation*}
-
-where $\mtx{u}_{ff}$ is the feedforward input. Note that this feedforward
-equation does not and should not take into account any feedback terms. We want
-to find the optimal $\mtx{u}_{ff}$ such that we minimize the \gls{tracking}
-error between $\mtx{r}_{k+1}$ and $\mtx{r}_k$.
-
-\begin{equation*}
-  \mtx{r}_{k+1} - \mtx{A}\mtx{r}_k = \mtx{B}\mtx{u}_{ff}
-\end{equation*}
-
-To solve for $\mtx{u}_{ff}$, we need to take the inverse of the nonsquare matrix
-$\mtx{B}$. This isn't possible, but we can find the pseudoinverse given some
-constraints on the \gls{state} \gls{tracking} error and \gls{control effort}. To
-find the optimal solution for these sorts of trade-offs, one can define a cost
-function and attempt to minimize it. To do this, we'll first solve the
-expression for $\mtx{0}$.
-
-\begin{equation*}
-  \mtx{0} = \mtx{B}\mtx{u}_{ff} - (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k)
-\end{equation*}
-
-This expression will be the \gls{state} \gls{tracking} cost we use in our cost
-function.
-
-Our cost function will use an $H_2$ norm with $\mtx{Q}$ as the \gls{state} cost
-matrix with dimensionality $states \times states$ and $\mtx{R}$ as the
-\gls{control input} cost matrix with dimensionality $inputs \times inputs$.
-
-\begin{equation*}
-  \mtx{J} = (\mtx{B}\mtx{u}_{ff} - (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k))^T \mtx{Q}
-    (\mtx{B}\mtx{u}_{ff} - (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k)) +
-    \mtx{u}_{ff}^T\mtx{R}\mtx{u}_{ff}
-\end{equation*}
-
-The following theorems will be needed to find the minimum of $\mtx{J}$.
+The following theorem will be needed to derive the linear plant inversion
+equation.
 
 \begin{theorem}
   \label{thm:partial_xax}
@@ -90,113 +54,85 @@ The following theorems will be needed to find the minimum of $\mtx{J}$.
     2\mtx{A}\mtx{x}$ where $\mtx{A}$ is symmetric.
 \end{theorem}
 
-\begin{theorem}
-  $\frac{\partial (\mtx{A}\mtx{x} + \mtx{b})^T\mtx{C}
-    (\mtx{D}\mtx{x} + \mtx{e})}{\partial\mtx{x}} =
-    \mtx{A}^T\mtx{C}(\mtx{D}\mtx{x} + \mtx{e}) + \mtx{D}^T\mtx{C}^T
-    (\mtx{A}\mtx{x} + \mtx{b})$
-\end{theorem}
+\subsubsection{Setup}
 
-\begin{corollary}
-  \label{cor:partial_ax_b}
+Let's start with the equation for the \gls{reference} dynamics
 
-  $\frac{\partial (\mtx{A}\mtx{x} + \mtx{b})^T\mtx{C}
-    (\mtx{A}\mtx{x} + \mtx{b})}{\partial\mtx{x}} =
-    2\mtx{A}^T\mtx{C}(\mtx{A}\mtx{x} + \mtx{b})$ where $\mtx{C}$ is symmetric.
+\begin{equation*}
+  \mtx{r}_{k+1} = \mtx{A}\mtx{r}_k + \mtx{B}\mtx{u}_k
+\end{equation*}
 
-  Proof:
-  \begin{align*}
-    \frac{\partial (\mtx{A}\mtx{x} + \mtx{b})^T\mtx{C}
-      (\mtx{A}\mtx{x} + \mtx{b})}{\partial\mtx{x}} &=
-      \mtx{A}^T\mtx{C}(\mtx{A}\mtx{x} + \mtx{b}) + \mtx{A}^T\mtx{C}^T
-      (\mtx{A}\mtx{x} + \mtx{b}) \\
-    \frac{\partial (\mtx{A}\mtx{x} + \mtx{b})^T\mtx{C}
-      (\mtx{A}\mtx{x} + \mtx{b})}{\partial\mtx{x}} &=
-      (\mtx{A}^T\mtx{C} + \mtx{A}^T\mtx{C}^T)(\mtx{A}\mtx{x} + \mtx{b})
-  \end{align*}
+where $\mtx{u}_k$ is the feedforward input. Note that this feedforward equation
+does not and should not take into account any feedback terms. We want to find
+the optimal $\mtx{u}_k$ such that we minimize the \gls{tracking} error between
+$\mtx{r}_{k+1}$ and $\mtx{r}_k$.
 
-  $\mtx{C}$ is symmetric, so
+\begin{equation*}
+  \mtx{r}_{k+1} - \mtx{A}\mtx{r}_k = \mtx{B}\mtx{u}_k
+\end{equation*}
 
-  \begin{align*}
-    \frac{\partial (\mtx{A}\mtx{x} + \mtx{b})^T\mtx{C}
-      (\mtx{A}\mtx{x} + \mtx{b})}{\partial\mtx{x}} &=
-      (\mtx{A}^T\mtx{C} + \mtx{A}^T\mtx{C})(\mtx{A}\mtx{x} + \mtx{b}) \\
-    \frac{\partial (\mtx{A}\mtx{x} + \mtx{b})^T\mtx{C}
-      (\mtx{A}\mtx{x} + \mtx{b})}{\partial\mtx{x}} &=
-      2\mtx{A}^T\mtx{C}(\mtx{A}\mtx{x} + \mtx{b})
-  \end{align*}
-\end{corollary}
+To solve for $\mtx{u}_k$, we need to take the inverse of the nonsquare matrix
+$\mtx{B}$. This isn't possible, but we can find the pseudoinverse given some
+constraints on the \gls{state} \gls{tracking} error and \gls{control effort}. To
+find the optimal solution for these sorts of trade-offs, one can define a cost
+function and attempt to minimize it. To do this, we'll first solve the
+expression for $\mtx{0}$.
 
-Given theorem \ref{thm:partial_xax} and corollary \ref{cor:partial_ax_b}, find
-the minimum of $\mtx{J}$ by taking the partial derivative with respect to
-$\mtx{u}_{ff}$ and setting the result to $\mtx{0}$.
+\begin{equation*}
+  \mtx{0} = \mtx{B}\mtx{u}_k - (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k)
+\end{equation*}
+
+This expression will be the \gls{state} \gls{tracking} cost we use in the
+following cost function as an $H_2$ norm.
+
+\begin{equation*}
+  \mtx{J} = (\mtx{B}\mtx{u}_k - (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k))^T
+    (\mtx{B}\mtx{u}_k - (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k))
+\end{equation*}
+
+\subsubsection{Minimization}
+
+Given theorem \ref{thm:partial_xax}, find the minimum of $\mtx{J}$ by taking the
+partial derivative with respect to $\mtx{u}_k$ and setting the result to
+$\mtx{0}$.
 
 \begin{align*}
-  \frac{\partial\mtx{J}}{\partial\mtx{u}_{ff}} &= 2\mtx{B}^T\mtx{Q}
-    (\mtx{B}\mtx{u}_{ff} - (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k)) +
-    2\mtx{R}\mtx{u}_{ff} \\
-  \mtx{0} &= 2\mtx{B}^T\mtx{Q}
-    (\mtx{B}\mtx{u}_{ff} - (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k)) +
-    2\mtx{R}\mtx{u}_{ff} \\
-  \mtx{0} &= \mtx{B}^T\mtx{Q}
-    (\mtx{B}\mtx{u}_{ff} - (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k)) +
-    \mtx{R}\mtx{u}_{ff} \\
-  \mtx{0} &= \mtx{B}^T\mtx{Q}\mtx{B}\mtx{u}_{ff} -
-    \mtx{B}^T\mtx{Q}(\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k) + \mtx{R}\mtx{u}_{ff} \\
-  \mtx{B}^T\mtx{Q}\mtx{B}\mtx{u}_{ff} + \mtx{R}\mtx{u}_{ff} &=
-    \mtx{B}^T\mtx{Q}(\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k) \\
-  (\mtx{B}^T\mtx{Q}\mtx{B} + \mtx{R})\mtx{u}_{ff} &=
-    \mtx{B}^T\mtx{Q}(\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k) \\
-  \mtx{u}_{ff} &= (\mtx{B}^T\mtx{Q}\mtx{B} + \mtx{R})^{-1}
-    \mtx{B}^T\mtx{Q}(\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k)
+  \frac{\partial\mtx{J}}{\partial\mtx{u}_k} &= 2\mtx{B}^T
+    (\mtx{B}\mtx{u}_k - (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k)) \\
+  \mtx{0} &= 2\mtx{B}^T
+    (\mtx{B}\mtx{u}_k - (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k)) \\
+  \mtx{0} &= 2\mtx{B}^T\mtx{B}\mtx{u}_k -
+    2\mtx{B}^T(\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k) \\
+  2\mtx{B}^T\mtx{B}\mtx{u}_k &=
+    2\mtx{B}^T(\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k) \\
+  \mtx{B}^T\mtx{B}\mtx{u}_k &=
+    \mtx{B}^T(\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k) \\
+  \mtx{u}_k &=
+    (\mtx{B}^T\mtx{B})^{-1} \mtx{B}^T(\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k)
 \end{align*}
+
+$(\mtx{B}^T\mtx{B})^{-1} \mtx{B}^T$ is the Moore-Penrose pseudoinverse of
+$\mtx{B}$ denoted by $\mtx{B}^\dagger$.
 
 \begin{theorem}[Linear plant inversion]
   \label{thm:linear_plant_inversion}
 
-  \begin{align}
-    &\mtx{u}_{ff} = \mtx{K}_{ff} (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k) \\
-    &\text{where } \mtx{K}_{ff} =
-      (\mtx{B}^T\mtx{Q}\mtx{B} + \mtx{R})^{-1}\mtx{B}^T\mtx{Q}
-  \end{align}
-
-  The exact solution without $\mtx{Q}$ and $\mtx{R}$ weights gives
+  Given the discrete model
+  $\mtx{x}_{k+1} = \mtx{A}\mtx{x}_k + \mtx{B}\mtx{u}_k$, the plant inversion
+  feedforward is
 
   \begin{equation}
-    \mtx{u}_{ff} = \mtx{B}^\dagger (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k)
+    \mtx{u}_k = \mtx{B}^\dagger (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k)
   \end{equation}
 
-  Proof:
-
-  \begin{equation*}
-    \mtx{J} = (\mtx{B}\mtx{u}_{ff} - (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k))^T
-      (\mtx{B}\mtx{u}_{ff} - (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k))
-  \end{equation*}
-
-  Given theorem \ref{thm:partial_xax} and corollary \ref{cor:partial_ax_b}, find
-  the minimum of $\mtx{J}$ by taking the partial derivative with respect to
-  $\mtx{u}_{ff}$ and setting the result to $\mtx{0}$.
-
-  \begin{align*}
-    \frac{\partial\mtx{J}}{\partial\mtx{u}_{ff}} &= 2\mtx{B}^T
-      (\mtx{B}\mtx{u}_{ff} - (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k)) \\
-    \mtx{0} &= 2\mtx{B}^T
-      (\mtx{B}\mtx{u}_{ff} - (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k)) \\
-    \mtx{0} &= 2\mtx{B}^T\mtx{B}\mtx{u}_{ff} -
-      2\mtx{B}^T(\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k) \\
-    2\mtx{B}^T\mtx{B}\mtx{u}_{ff} &=
-      2\mtx{B}^T(\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k) \\
-    \mtx{B}^T\mtx{B}\mtx{u}_{ff} &=
-      \mtx{B}^T(\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k) \\
-    \mtx{u}_{ff} &=
-      (\mtx{B}^T\mtx{B})^{-1} \mtx{B}^T(\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k)
-  \end{align*}
-
-  $(\mtx{B}^T\mtx{B})^{-1} \mtx{B}^T$ is the definition of the Moore-Penrose
-  pseudoinverse denoted by $\mtx{B}^\dagger$.
+  where $\mtx{B}^\dagger$ is the Moore-Penrose pseudoinverse of $\mtx{B}$,
+  $\mtx{r}_{k+1}$ is the reference at the next timestep, and $\mtx{r}_k$ is the
+  reference at the current timestep.
 \end{theorem}
 \index{feedforward!linear plant inversion}
 \index{optimal control!linear plant inversion}
+
+\subsubsection{Discussion}
 
 Linear \gls{plant} inversion in theorem \ref{thm:linear_plant_inversion}
 compensates for \gls{reference} dynamics that don't follow how the \gls{model}
@@ -207,34 +143,29 @@ this occurs, $\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k$ will return a zero vector.
 For example, a constant \gls{reference} requires a feedforward that opposes
 \gls{system} dynamics that would change the \gls{state} over time. If the
 \gls{system} has no dynamics, then $\mtx{A} = \mtx{I}$ and thus
-
 \begin{align*}
-  \mtx{u}_{ff} &= \mtx{K}_{ff} (\mtx{r}_{k+1} - \mtx{I}\mtx{r}_k) \\
-  \mtx{u}_{ff} &= \mtx{K}_{ff} (\mtx{r}_{k+1} - \mtx{r}_k)
+  \mtx{u}_k &= \mtx{B}_\dagger (\mtx{r}_{k+1} - \mtx{I}\mtx{r}_k) \\
+  \mtx{u}_k &= \mtx{B}_\dagger (\mtx{r}_{k+1} - \mtx{r}_k)
 \end{align*}
 
 For a constant \gls{reference}, $\mtx{r}_{k+1} = \mtx{r}_k$.
-
 \begin{align*}
-  \mtx{u}_{ff} &= \mtx{K}_{ff} (\mtx{r}_k - \mtx{r}_k) \\
-  \mtx{u}_{ff} &= \mtx{K}_{ff} (\mtx{0}) \\
-  \mtx{u}_{ff} &= \mtx{0}
+  \mtx{u}_k &= \mtx{B}_\dagger (\mtx{r}_k - \mtx{r}_k) \\
+  \mtx{u}_k &= \mtx{B}_\dagger (\mtx{0}) \\
+  \mtx{u}_k &= \mtx{0}
 \end{align*}
 
 so no feedforward is required to hold a \gls{system} with no dynamics at a
 constant \gls{reference}, as expected.
 
 Figure \ref{fig:case_study_ff} shows \gls{plant} inversion applied to a
-second-order CIM motor model.
+second-order CIM motor model. \Gls{plant} inversion accounts for the motor
+back-EMF and eliminates steady-state error.
 
 \begin{svg}{build/\chapterpath/case_study_ff}
   \caption{Second-order CIM motor response with plant inversion}
   \label{fig:case_study_ff}
 \end{svg}
-
-\Gls{plant} inversion isn't as effective with both $\mtx{Q}$ and $\mtx{R}$ cost
-because the $\mtx{R}$ matrix penalized \gls{control effort}. The \gls{reference}
-\gls{tracking} with no cost matrices is much better.
 
 \subsection{Unmodeled dynamics}
 
@@ -245,14 +176,14 @@ of a voltage constant because voltage is proportional to force applied, and the
 force is acting in only one direction at all times.
 
 \begin{equation}
-  u_{ff} = V_{app}
+  u_k = V_{app}
 \end{equation}
 
 where $V_{app}$ is a constant. Another feedforward holds a single-jointed arm
 steady in the presence of gravity. It has the following form.
 
 \begin{equation}
-  u_{ff} = V_{app} \cos\theta
+  u_k = V_{app} \cos\theta
 \end{equation}
 
 where $V_{app}$ is the voltage required to keep the single-jointed arm level
