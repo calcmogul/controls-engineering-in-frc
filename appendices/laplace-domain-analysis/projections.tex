@@ -3,7 +3,6 @@
 Consider a two-dimensional Euclidean space $\mathbb{R}^2$ shown in figure
 \ref{fig:euclidean_space_R2} (each $\mathbb{R}$ is a dimension whose domain is
 the set of real numbers, so $\mathbb{R}^2$ is the standard x-y plane).
-
 \begin{bookfigure}
   \begin{tikzpicture}[auto, >=latex']
     %\draw [help lines] (-4,-2) grid (4,4);
@@ -22,7 +21,6 @@ basis vectors $\{\hat{i}, \hat{j}\}$, where $\hat{i}$ (pronounced i-hat) is the
 unit vector in the positive $x$ direction and $\hat{j}$ is the unit vector in
 the positive $y$ direction. Figure \ref{fig:basis_vectors_R2} shows an example
 vector $\mtx{v}$ in this basis.
-
 \begin{bookfigure}
   \begin{tikzpicture}[auto, >=latex']
     %\draw [help lines] (-4,-2) grid (4,4);
@@ -58,7 +56,6 @@ each other.
 
 More formally, we can calculate projections with the dot product - the
 projection of $\mtx{v}$ onto any other vector $\mtx{w}$ is as follows.
-
 \begin{equation*}
   \text{proj}_\mtx{w} \mtx{v} = \frac{\mtx{v} \cdot \mtx{w}}{|\mtx{w}|}
 \end{equation*}
@@ -73,7 +70,6 @@ $\{\hat{i} + \hat{j}, \hat{i} - \hat{j}\}$ - the coordinates in this basis are
 given by $\frac{\mtx{v} \cdot (\hat{i} + \hat{j})}{\sqrt{2}}$ and
 $\frac{\mtx{v} \cdot (\hat{i} - \hat{j})}{\sqrt{2}}$. Let's ``unwrap" the
 formula for dot product and look a bit more closely.
-
 \begin{equation*}
   \frac{\mtx{v} \cdot (\hat{i} + \hat{j})}{\sqrt{2}} =
     \frac{1}{\sqrt{2}} \sum_{i=0}^n \mtx{v}_i (\hat{i} + \hat{j})_i
@@ -85,7 +81,6 @@ and $\hat{i} + \hat{j}$ in a basis, multiplied their components, and added them
 up. Here's a more concrete example. Let $\mtx{v} = 2\hat{i} + 1.5\hat{j}$ from
 figure \ref{fig:basis_vectors_R2}. First, we'll project $\mtx{v}$ onto the
 $\hat{i} + \hat{j}$ basis vector.
-
 \begin{align*}
   \frac{\mtx{v} \cdot (\hat{i} + \hat{j})}{\sqrt{2}} &=
     \frac{1}{\sqrt{2}} (2\hat{i} \cdot \hat{i} + 1.5\hat{j} \cdot \hat{j}) \\
@@ -97,7 +92,6 @@ $\hat{i} + \hat{j}$ basis vector.
 \end{align*}
 
 Next, we'll project $\mtx{v}$ onto the $\hat{i} - \hat{j}$ basis vector.
-
 \begin{align*}
   \frac{\mtx{v} \cdot (\hat{i} - \hat{j})}{\sqrt{2}} &=
     \frac{1}{\sqrt{2}} (2\hat{i} \cdot \hat{i} - 1.5\hat{j} \cdot \hat{j}) \\
@@ -110,7 +104,6 @@ Next, we'll project $\mtx{v}$ onto the $\hat{i} - \hat{j}$ basis vector.
 
 Figure \ref{fig:alternative_basis} shows this result geometrically with respect
 to the basis $\{\hat{i} + \hat{j}, \hat{i} - \hat{j}\}$.
-
 \begin{bookfigure}
   \begin{tikzpicture}[auto, >=latex']
     %\draw [help lines] (-4,-2) grid (4,4);
@@ -142,7 +135,6 @@ The previous example was only a change of coordinates in a finite-dimensional
 vector space. However, as we will see, the core idea does not change much when
 we move to more complicated structures. Observe the formula for the Fourier
 transform.
-
 \begin{equation*}
   \hat{f}(\xi) = \int_{-\infty}^\infty f(x) e^{-2\pi ix \xi} \,dx
     \text{ where } \xi \in \mathbb{R}
@@ -157,7 +149,6 @@ the case of the Fourier transform, the function basis is the family of functions
 of the form $f(x) = e^{-2\pi ix \xi} \text{ for } \xi \in \mathbb{R}$. Since
 these functions are oscillatory at a frequency determined by $\xi$, we can think
 of this as a ``frequency basis".
-
 \begin{remark}
   Watch the ``Abstract vector spaces" video from 3Blue1Brown's \textit{Essence
   of linear algebra} series (17 minutes)
@@ -171,7 +162,6 @@ almost-precisely. The Laplace transform is \textit{not} orthogonal, so we can't
 interpret it \textit{strictly} as a change of coordinates in the traditional
 sense. However, the intuition is the same: we are taking the orthogonal
 projection of our original function onto the functions of our new basis set.
-
 \begin{equation*}
   F(s) = \int_0^\infty f(t) e^{-st} \,dt, \text{ where } s \in \mathbb{C}
 \end{equation*}

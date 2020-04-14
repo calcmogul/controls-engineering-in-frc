@@ -18,14 +18,12 @@ because this minimizes the estimation error.
 
 The following is the definition of the \textit{a posteriori} estimate covariance
 matrix.
-
 \begin{equation*}
   \mtx{P}_{k+1}^+ = \cov(\mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1}^+)
 \end{equation*}
 
 Substitute in the \textit{a posteriori} update equation and expand the
 measurement equations.
-
 \begin{align*}
   \mtx{P}_{k+1}^+ = \cov(&\mtx{x}_{k+1} - (\hat{\mtx{x}}_{k+1}^- +
     \mtx{K}_{k+1}(\mtx{y}_{k+1} - \hat{\mtx{y}}_{k+1}))) \\
@@ -42,7 +40,6 @@ measurement equations.
 \end{align*}
 
 Reorder terms.
-
 \begin{align*}
   \mtx{P}_{k+1}^+ = \cov(&\mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1}^- - \\
     &\mtx{K}_{k+1}(\mtx{C}_{k+1} \mtx{x}_{k+1} -
@@ -51,7 +48,6 @@ Reorder terms.
 \end{align*}
 
 The $\mtx{D}_{k+1}\mtx{u}_{k+1}$ terms cancel.
-
 \begin{equation*}
   \mtx{P}_{k+1}^+ = \cov(\mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1}^- -
     \mtx{K}_{k+1}(\mtx{C}_{k+1}\mtx{x}_{k+1} -
@@ -59,7 +55,6 @@ The $\mtx{D}_{k+1}\mtx{u}_{k+1}$ terms cancel.
 \end{equation*}
 
 Distribute $\mtx{K}_{k+1}$ to $\mtx{v}_{k+1}$.
-
 \begin{equation*}
   \mtx{P}_{k+1}^+ = \cov(\mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1}^- -
     \mtx{K}_{k+1}(\mtx{C}_{k+1}\mtx{x}_{k+1} -
@@ -67,7 +62,6 @@ Distribute $\mtx{K}_{k+1}$ to $\mtx{v}_{k+1}$.
 \end{equation*}
 
 Factor out $\mtx{C}_{k+1}$.
-
 \begin{equation*}
   \mtx{P}_{k+1}^+ = \cov(\mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1}^- -
     \mtx{K}_{k+1}\mtx{C}_{k+1}(\mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1}^-) -
@@ -75,7 +69,6 @@ Factor out $\mtx{C}_{k+1}$.
 \end{equation*}
 
 Factor out $\mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1}^-$ to the right.
-
 \begin{equation*}
   \mtx{P}_{k+1}^+ = \cov((\mtx{I} - \mtx{K}_{k+1}\mtx{C}_{k+1})
     (\mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1}^-) - \mtx{K}_{k+1}\mtx{v}_{k+1})
@@ -84,14 +77,12 @@ Factor out $\mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1}^-$ to the right.
 Covariance is a linear operator, so it can be applied to each term separately.
 Covariance squares terms internally, so the negative sign on
 $\mtx{K}_{k+1}\mtx{v}_{k+1}$ is removed.
-
 \begin{equation*}
   \mtx{P}_{k+1}^+ = \cov((\mtx{I} - \mtx{K}_{k+1}\mtx{C}_{k+1})
     (\mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1}^-)) + \cov(\mtx{K}_{k+1}\mtx{v}_{k+1})
 \end{equation*}
 
 Now just evaluate the covariances.
-
 \begin{align*}
   \mtx{P}_{k+1}^+ &= (\mtx{I} - \mtx{K}_{k+1}\mtx{C}_{k+1})
     \cov(\mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1}^-)
@@ -110,7 +101,6 @@ of the square of the magnitude of this vector. This is equivalent to minimizing
 the trace of the a posteriori estimate covariance matrix $\mtx{P}_{k+1}^+$.
 
 We'll start with the equation for $\mtx{P}_{k+1}^+$.
-
 \begin{equation*}
   \mtx{P}_{k+1}^+ = (\mtx{I} - \mtx{K}_{k+1}\mtx{C}_{k+1})\mtx{P}_{k+1}^-
     (\mtx{I} - \mtx{K}_{k+1}\mtx{C}_{k+1})^T + \mtx{K}_{k+1}\mtx{R}_{k+1}
@@ -119,7 +109,6 @@ We'll start with the equation for $\mtx{P}_{k+1}^+$.
 
 We're going to expand the equation for $\mtx{P}_{k+1}^+$ and collect terms.
 First, multiply in $\mtx{P}_{k+1}^-$.
-
 \begin{equation*}
   \mtx{P}_{k+1}^+ =
     (\mtx{P}_{k+1}^- - \mtx{K}_{k+1}\mtx{C}_{k+1}\mtx{P}_{k+1}^-)
@@ -129,7 +118,6 @@ First, multiply in $\mtx{P}_{k+1}^-$.
 
 Tranpose each term in $\mtx{I} - \mtx{K}_{k+1}\mtx{C}_{k+1}$. $\mtx{I}$ is
 symmetric, so its transpose is dropped.
-
 \begin{equation*}
   \mtx{P}_{k+1}^+ =
     (\mtx{P}_{k+1}^- - \mtx{K}_{k+1}\mtx{C}_{k+1}\mtx{P}_{k+1}^-)
@@ -138,7 +126,6 @@ symmetric, so its transpose is dropped.
 \end{equation*}
 
 Multiply in $\mtx{I} - \mtx{C}_{k+1}^T\mtx{K}_{k+1}^T$.
-
 \begin{equation*}
   \mtx{P}_{k+1}^+ =
     \mtx{P}_{k+1}^-(\mtx{I} - \mtx{C}_{k+1}^T\mtx{K}_{k+1}^T) -
@@ -148,7 +135,6 @@ Multiply in $\mtx{I} - \mtx{C}_{k+1}^T\mtx{K}_{k+1}^T$.
 \end{equation*}
 
 Expand terms.
-
 \begin{align*}
   \mtx{P}_{k+1}^+ =~&
     \mtx{P}_{k+1}^- - \mtx{P}_{k+1}^-\mtx{C}_{k+1}^T\mtx{K}_{k+1}^T -
@@ -158,7 +144,6 @@ Expand terms.
 \end{align*}
 
 Factor out $\mtx{K}_{k+1}$ and $\mtx{K}_{k+1}^T$.
-
 \begin{align}
   \mtx{P}_{k+1}^+ =~&
     \mtx{P}_{k+1}^- - \mtx{P}_{k+1}^-\mtx{C}_{k+1}^T\mtx{K}_{k+1}^T -
@@ -172,7 +157,6 @@ Factor out $\mtx{K}_{k+1}$ and $\mtx{K}_{k+1}^T$.
 \end{align}
 
 Now take the trace.
-
 \begin{equation*}
   \tr(\mtx{P}_{k+1}^+) =
     \tr(\mtx{P}_{k+1}^-) - \tr(\mtx{P}_{k+1}^-\mtx{C}_{k+1}^T\mtx{K}_{k+1}^T) -
@@ -181,7 +165,6 @@ Now take the trace.
 \end{equation*}
 
 Transpose one of the terms twice.
-
 \begin{equation*}
   \tr(\mtx{P}_{k+1}^+) = \tr(\mtx{P}_{k+1}^-) -
     \tr((\mtx{K}_{k+1}\mtx{C}_{k+1}\mtx{P}_{k+1}^{-T})^T) -
@@ -190,7 +173,6 @@ Transpose one of the terms twice.
 \end{equation*}
 
 $\mtx{P}_{k+1}^-$ is symmetric, so we can drop the transpose.
-
 \begin{equation*}
   \tr(\mtx{P}_{k+1}^+) = \tr(\mtx{P}_{k+1}^-) -
     \tr((\mtx{K}_{k+1}\mtx{C}_{k+1}\mtx{P}_{k+1}^-)^T) -
@@ -200,7 +182,6 @@ $\mtx{P}_{k+1}^-$ is symmetric, so we can drop the transpose.
 
 The trace of a matrix is equal to the trace of its transpose since the elements
 used in the trace are on the diagonal.
-
 \begin{align*}
   \tr(\mtx{P}_{k+1}^+) &= \tr(\mtx{P}_{k+1}^-) -
     \tr(\mtx{K}_{k+1}\mtx{C}_{k+1}\mtx{P}_{k+1}^-) -
@@ -212,14 +193,12 @@ used in the trace are on the diagonal.
 \end{align*}
 
 Given theorems \ref{thm:partial_tr_aba} and \ref{thm:partial_tr_ac}
-
 \begin{theorem}
   \label{thm:partial_tr_aba}
 
   $\frac{\partial}{\partial\mtx{A}}\tr(\mtx{A}\mtx{B}\mtx{A}^T) =
     2\mtx{A}\mtx{B}$ where $\mtx{B}$ is symmetric.
 \end{theorem}
-
 \begin{theorem}
   \label{thm:partial_tr_ac}
 
@@ -228,7 +207,6 @@ Given theorems \ref{thm:partial_tr_aba} and \ref{thm:partial_tr_ac}
 
 find the minimum of the trace of $\mtx{P}_{k+1}^+$ by taking the partial
 derivative with respect to $\mtx{K}$ and setting the result to $\mtx{0}$.
-
 \begin{align*}
   \frac{\partial\tr(\mtx{P}_{k+1}^+)}{\partial\mtx{K}} &=
     \mtx{0} - 2(\mtx{C}_{k+1}\mtx{P}_{k+1}^-)^T + 2\mtx{K}_{k+1}\mtx{S}_{k+1} \\
@@ -249,7 +227,6 @@ This is the optimal Kalman gain.
 If the optimal Kalman gain is used, the \textit{a posteriori} estimate
 covariance matrix update equation can be simplified. First, we'll manipulate the
 equation for the optimal Kalman gain.
-
 \begin{align*}
   \mtx{K}_{k+1} &= \mtx{P}_{k+1}^-\mtx{C}_{k+1}^T\mtx{S}_{k+1}^{-1} \\
   \mtx{K}_{k+1}\mtx{S}_{k+1} &= \mtx{P}_{k+1}^-\mtx{C}_{k+1}^T \\
@@ -258,7 +235,6 @@ equation for the optimal Kalman gain.
 \end{align*}
 
 Now we'll substitute it into equation \eqref{eq:post_p_update}.
-
 \begin{align*}
   \mtx{P}_{k+1}^+ &=
     \mtx{P}_{k+1}^- - \mtx{P}_{k+1}^-\mtx{C}_{k+1}^T\mtx{K}_{k+1}^T -
@@ -273,7 +249,6 @@ Now we'll substitute it into equation \eqref{eq:post_p_update}.
 \end{align*}
 
 Factor out $\mtx{P}_{k+1}^-$ to the right.
-
 \begin{equation*}
   \mtx{P}_{k+1}^+ = (\mtx{I} - \mtx{K}_{k+1}\mtx{C}_{k+1})\mtx{P}_{k+1}^-
 \end{equation*}
@@ -323,13 +298,11 @@ and update steps for a Kalman filter at the $k^{th}$ timestep.
 
 $\mtx{C}$, $\mtx{D}$, $\mtx{Q}$, and $\mtx{R}$ from the equations derived
 earlier are made constants here.
-
 \begin{remark}
   To implement a discrete time Kalman filter from a continuous model, the model
   and continuous time $\mtx{Q}$ and $\mtx{R}$ matrices can be
   \glslink{discretization}{discretized} using theorem \ref{thm:zoh_ss}.
 \end{remark}
-
 \begin{booktable}
   \begin{tabular}{|ll|ll|}
     \hline
@@ -368,7 +341,6 @@ other at a velocity of $0.8 cm/s$ and uses ultrasonic sensors to provide noisy
 measurements of the distances to the walls in front of and behind it. To
 estimate the distance between the walls, we will define three \glspl{state}:
 robot position, robot velocity, and distance between the walls.
-
 \begin{align}
   x_{k+1} &= x_k + v_k \Delta T \\
   v_{k+1} &= v_k \\
@@ -376,7 +348,6 @@ robot position, robot velocity, and distance between the walls.
 \end{align}
 
 This can be converted to the following state-space \gls{model}.
-
 \begin{equation}
   \mtx{x}_k =
   \begin{bmatrix}
@@ -385,7 +356,6 @@ This can be converted to the following state-space \gls{model}.
     x_k^w
   \end{bmatrix}
 \end{equation}
-
 \begin{equation}
   \mtx{x}_{k+1} =
   \begin{bmatrix}
@@ -407,7 +377,6 @@ This can be converted to the following state-space \gls{model}.
 
 where the Gaussian random variable $w_k$ has a mean of $0$ and a variance of
 $1$. The observation \gls{model} is
-
 \begin{equation}
   \mtx{y}_k =
   \begin{bmatrix}
@@ -422,7 +391,6 @@ $2 \times 2$ matrix with both diagonals $10 cm^2$.
 The \gls{state} vector is usually initialized using the first measurement or
 two. The covariance matrix entries are assigned by calculating the covariance of
 the expressions used when assigning the state vector. Let $k = 2$.
-
 \begin{align}
   \mtx{Q} &= \begin{bmatrix}1\end{bmatrix} \\
   \mtx{R} &=
@@ -534,17 +502,14 @@ is, $0.5188\,m$ and $0.4491\,m$ respectively. They are smaller than the
 precision of the raw measurements, $\sqrt{10} = 3.1623\,m$. As expected,
 combining the information from several measurements produces a better estimate
 than any one measurement alone.
-
 \begin{svg}{build/\chapterpath/kalman_filter_all}
   \caption{State estimates and measurements with Kalman filter}
   \label{fig:filter_all}
 \end{svg}
-
 \begin{svg}{build/\chapterpath/kalman_filter_robot_pos}
   \caption{Robot position estimate and variance with Kalman filter}
   \label{fig:filter_robot_pos}
 \end{svg}
-
 \begin{svg}{build/\chapterpath/kalman_filter_wall_pos}
   \caption{Wall position estimate and variance with Kalman filter}
   \label{fig:filter_wall_pos}
@@ -562,7 +527,6 @@ find this shortly.
 Kalman filter theory provides a way to place the poles of the Luenberger
 observer optimally in the same way we placed the poles of the controller
 optimally with LQR. The eigenvalues of the Kalman filter are
-
 \begin{equation}
   \eig(\mtx{A}(\mtx{I} - \mtx{K}_k\mtx{C}))
 \end{equation}
@@ -577,7 +541,6 @@ Kalman gain.
 
 Snippet \ref{lst:kalman} computes the steady-state matrices for a Kalman
 filter.
-
 \begin{code}{Python}{build/frccontrol/frccontrol/kalmd.py}
   \caption{Steady-state Kalman gain and error covariance matrices calculation in
     Python}

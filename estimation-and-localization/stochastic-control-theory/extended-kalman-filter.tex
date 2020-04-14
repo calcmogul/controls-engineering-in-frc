@@ -11,7 +11,6 @@ accurate.
 The extended Kalman filter \glslink{linearization}{linearizes} the matrices used
 during the prediction step. $\mtx{A}$, $\mtx{B}$, $\mtx{C}$, and $\mtx{D}$ are
 \glslink{linearization}{linearized} as follows:
-
 \begin{align*}
   \mtx{A} &\approx
     \frac{\partial f(\mtx{x}, \mtx{u})}{\partial \mtx{x}} &
@@ -27,7 +26,6 @@ From there, the continuous Kalman filter equations are used like normal to
 compute the error covariance matrix $\mtx{P}$ and Kalman gain matrix. The
 \gls{state} estimate update can still use the function $h(\mtx{x})$ for
 accuracy.
-
 \begin{equation*}
   \hat{\mtx{x}}_{k+1}^+ = \hat{\mtx{x}}_{k+1}^- +
     \mtx{K}_{k+1}(\mtx{y}_{k+1} - h(\hat{\mtx{x}}_{k+1}^-))

@@ -2,7 +2,6 @@
 \index{discretization!zero-order hold}
 
 Given the following continuous time state space model
-
 \begin{align*}
   \dot{\mtx{x}} &= \mtx{A}_c\mtx{x} + \mtx{B}_c\mtx{u} + \mtx{w} \\
   \mtx{y} &= \mtx{C}_c\mtx{x} + \mtx{D}_c\mtx{u} + \mtx{v}
@@ -12,26 +11,22 @@ where $\mtx{w}$ is the process noise, $\mtx{v}$ is the measurement noise, and
 both are zero-mean white noise sources with covariances of $\mtx{Q}_c$ and
 $\mtx{R}_c$ respectively. $\mtx{w}$ and $\mtx{v}$ are defined as normally
 distributed random variables.
-
 \begin{align*}
   \mtx{w} &\sim N(0, \mtx{Q}_c) \\
   \mtx{v} &\sim N(0, \mtx{R}_c)
 \end{align*}
 
 The model can be \glslink{discretization}{discretized} as follows
-
 \begin{align*}
   \mtx{x}_{k+1} &= \mtx{A}_d \mtx{x}_k + \mtx{B}_d \mtx{u}_k + \mtx{w}_k \\
    \mtx{y}_k &= \mtx{C}_d \mtx{x}_k + \mtx{D}_d \mtx{u}_k + \mtx{v}_k
 \end{align*}
 
 with covariances
-
 \begin{align*}
   \mtx{w}_k &\sim N(0, \mtx{Q}_d) \\
   \mtx{v}_k &\sim N(0, \mtx{R}_d)
 \end{align*}
-
 \begin{theorem}[Zero-order hold for state-space]
   \label{thm:zoh_ss}
 
@@ -56,7 +51,6 @@ See appendix \ref{sec:deriv_zoh_ss} for derivations.
 
 To compute $\mtx{A}_d$ and $\mtx{B}_d$ in one step, one can utilize the
 following property.
-
 \begin{equation*}
   e^{
   \begin{bmatrix}
@@ -70,7 +64,6 @@ following property.
 \end{equation*}
 
 $\mtx{Q}_d$ can be computed as
-
 \begin{equation*}
   \Phi = e^{
   \begin{bmatrix}

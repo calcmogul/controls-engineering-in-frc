@@ -6,14 +6,12 @@
 
 The following theorem and corollary will be needed to derive the QR-weighted
 linear plant inversion equation.
-
 \begin{theorem}
   $\frac{\partial (\mtx{A}\mtx{x} + \mtx{b})^T\mtx{C}
     (\mtx{D}\mtx{x} + \mtx{e})}{\partial\mtx{x}} =
     \mtx{A}^T\mtx{C}(\mtx{D}\mtx{x} + \mtx{e}) + \mtx{D}^T\mtx{C}^T
     (\mtx{A}\mtx{x} + \mtx{b})$
 \end{theorem}
-
 \begin{corollary}
   \label{cor:partial_ax_b}
 
@@ -47,7 +45,6 @@ linear plant inversion equation.
 \section{Setup}
 
 Let's start with the equation for the \gls{reference} dynamics
-
 \begin{equation*}
   \mtx{r}_{k+1} = \mtx{A}\mtx{r}_k + \mtx{B}\mtx{u}_k
 \end{equation*}
@@ -56,7 +53,6 @@ where $\mtx{u}_k$ is the feedforward input. Note that this feedforward equation
 does not and should not take into account any feedback terms. We want to find
 the optimal $\mtx{u}_k$ such that we minimize the \gls{tracking} error between
 $\mtx{r}_{k+1}$ and $\mtx{r}_k$.
-
 \begin{equation*}
   \mtx{r}_{k+1} - \mtx{A}\mtx{r}_k = \mtx{B}\mtx{u}_k
 \end{equation*}
@@ -67,7 +63,6 @@ constraints on the \gls{state} \gls{tracking} error and \gls{control effort}. To
 find the optimal solution for these sorts of trade-offs, one can define a cost
 function and attempt to minimize it. To do this, we'll first solve the
 expression for $\mtx{0}$.
-
 \begin{equation*}
   \mtx{0} = \mtx{B}\mtx{u}_k - (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k)
 \end{equation*}
@@ -78,7 +73,6 @@ function.
 Our cost function will use an $H_2$ norm with $\mtx{Q}$ as the \gls{state} cost
 matrix with dimensionality $states \times states$ and $\mtx{R}$ as the
 \gls{control input} cost matrix with dimensionality $inputs \times inputs$.
-
 \begin{equation*}
   \mtx{J} = (\mtx{B}\mtx{u}_k - (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k))^T \mtx{Q}
     (\mtx{B}\mtx{u}_k - (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k)) +
@@ -90,7 +84,6 @@ matrix with dimensionality $states \times states$ and $\mtx{R}$ as the
 Given theorem \ref{thm:partial_xax} and corollary \ref{cor:partial_ax_b}, find
 the minimum of $\mtx{J}$ by taking the partial derivative with respect to
 $\mtx{u}_k$ and setting the result to $\mtx{0}$.
-
 \begin{align*}
   \frac{\partial\mtx{J}}{\partial\mtx{u}_k} &= 2\mtx{B}^T\mtx{Q}
     (\mtx{B}\mtx{u}_k - (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k)) +
@@ -110,7 +103,6 @@ $\mtx{u}_k$ and setting the result to $\mtx{0}$.
   \mtx{u}_k &= (\mtx{B}^T\mtx{Q}\mtx{B} + \mtx{R})^{-1}
     \mtx{B}^T\mtx{Q}(\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k)
 \end{align*}
-
 \begin{theorem}[QR-weighted linear plant inversion]
   Given the discrete model
   $\mtx{x}_{k+1} = \mtx{A}\mtx{x}_k + \mtx{B}\mtx{u}_k$, the plant inversion
@@ -128,7 +120,6 @@ $\mtx{u}_k$ and setting the result to $\mtx{0}$.
 
 Figure \ref{fig:case_study_qr_ff} shows \gls{plant} inversion applied to a
 second-order CIM motor model.
-
 \begin{svg}{build/\partpath/case_study_qr_ff}
   \caption{Second-order CIM motor response with plant inversion}
   \label{fig:case_study_qr_ff}

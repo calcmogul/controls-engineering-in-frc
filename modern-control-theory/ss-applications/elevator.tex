@@ -5,27 +5,23 @@
 \index{FRC models!elevator equations}
 
 The position and velocity derivatives of the elevator can be written as
-
 \begin{align}
   \dot{x} &= v \\
   \dot{v} &= a \label{eq:elevator_cont_ss_vel}
 \end{align}
 
 where by equation \eqref{eq:elevator_accel},
-
 \begin{equation*}
   a = \frac{GK_t}{Rrm} V - \frac{G^2 K_t}{Rr^2 m K_v} v
 \end{equation*}
 
 Substitute this into equation \eqref{eq:elevator_cont_ss_vel}.
-
 \begin{align}
   \dot{v} &= \frac{GK_t}{Rrm} V - \frac{G^2 K_t}{Rr^2 m K_v} v \nonumber \\
   \dot{v} &= -\frac{G^2 K_t}{Rr^2 m K_v} v + \frac{GK_t}{Rrm} V
 \end{align}
 
 Factor out $v$ and $V$ into column vectors.
-
 \begin{align*}
   \dot{\begin{bmatrix}
     v
@@ -48,7 +44,6 @@ Augment the matrix equation with the position state $x$, which has the model
 equation $\dot{x} = v$. The matrix elements corresponding to $v$ will be $1$,
 and the others will be $0$ since they don't appear, so $\dot{x} = 0x + 1v + 0V$.
 The existing rows will have zeroes inserted where $x$ is multiplied in.
-
 \begin{align*}
   \dot{\begin{bmatrix}
     x \\
@@ -70,7 +65,6 @@ The existing rows will have zeroes inserted where $x$ is multiplied in.
     V
   \end{bmatrix}
 \end{align*}
-
 \begin{theorem}[Elevator state-space model]
   \begin{align*}
     \dot{\mtx{x}} &= \mtx{A} \mtx{x} + \mtx{B} \mtx{u} \\
@@ -119,7 +113,6 @@ gain is computed with the unaugmented discrete \gls{model}, the controller may
 be augmented. Therefore, the \gls{plant} and \gls{observer} augmentations assume
 a continuous \gls{model} and the \gls{controller} augmentation assumes a
 discrete \gls{controller}.
-
 \begin{equation*}
   \begin{array}{ccc}
     \mtx{x}_{aug} =
@@ -132,7 +125,6 @@ discrete \gls{controller}.
     \mtx{u} = V
   \end{array}
 \end{equation*}
-
 \begin{equation}
   \begin{array}{cccc}
     \mtx{A}_{aug} =
@@ -151,7 +143,6 @@ discrete \gls{controller}.
     \mtx{D}_{aug} = \mtx{D}
   \end{array}
 \end{equation}
-
 \begin{equation}
   \begin{array}{cc}
     \mtx{K}_{aug} = \begin{bmatrix}
@@ -176,14 +167,12 @@ constant voltage feedforward can compensate for gravity. We'll model gravity as
 a disturbance described by $-mg$. To compensate for it, we want to find a
 voltage that is equal and opposite to it. The bottom row of the continuous
 elevator model contains the acceleration terms.
-
 \begin{equation*}
   Bu_{ff} = -(\text{unmodeled dynamics})
 \end{equation*}
 
 where $B$ is the motor acceleration term from $\mtx{B}$ and $u_{ff}$ is the
 voltage feedforward.
-
 \begin{align*}
   Bu_{ff} &= -(-mg) \\
   Bu_{ff} &= mg \\
@@ -198,7 +187,6 @@ Python Control will be used to \glslink{discretization}{discretize} the
 examples\footnote{\url{https://github.com/calcmogul/frccontrol/blob/master/examples/elevator.py}}
 creates and tests a controller for it. Figure \ref{fig:elevator_response} shows
 the closed-loop \gls{system} response.
-
 \begin{svg}{build/frccontrol/examples/elevator_response}
   \caption{Elevator response}
   \label{fig:elevator_response}

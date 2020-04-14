@@ -6,7 +6,6 @@ replacement for Ramsete.
 
 The change in global pose for a unicycle is defined by the following three
 equations.
-
 \begin{align*}
   \dot{x} &= v\cos\theta \\
   \dot{y} &= v\sin\theta \\
@@ -16,7 +15,6 @@ equations.
 Here's the model as a vector function where
 $\mtx{x} = \begin{bmatrix} x & y & \theta \end{bmatrix}^T$ and
 $\mtx{u} = \begin{bmatrix} v & \omega \end{bmatrix}^T$.
-
 \begin{equation}
   f(\mtx{x}, \mtx{u}) =
   \begin{bmatrix}
@@ -27,7 +25,6 @@ $\mtx{u} = \begin{bmatrix} v & \omega \end{bmatrix}^T$.
 \end{equation}
 
 To create an LQR, we need to linearize this.
-
 \begin{align*}
   \frac{\partial f(\mtx{x}, \mtx{u})}{\partial\mtx{x}} &=
   \begin{bmatrix}
@@ -44,7 +41,6 @@ To create an LQR, we need to linearize this.
 \end{align*}
 
 Therefore,
-
 \begin{theorem}[Linear time-varying unicycle state-space model]
   \begin{align*}
     \dot{\mtx{x}} &= \mtx{A}\mtx{x} + \mtx{B}\mtx{u} \\
@@ -107,7 +103,6 @@ function is needed rather than a three-dimensional one. See figures
 \ref{fig:ltv_unicycle_cascaded_lqr_0} through
 \ref{fig:ltv_unicycle_cascaded_lqr_2} for plots of each controller gain for a
 range of velocities.
-
 \begin{bookfigure}
   \begin{minisvg}{2}{build/\chapterpath/ltv_unicycle_cascaded_lqr_0}
     \caption{Linear time-varying unicycle controller cascaded LQR gain
@@ -139,7 +134,6 @@ follows:
   \end{cases}
 \end{equation*}} is used for symmetry around the origin in the regression for
 $y$.
-
 \begin{theorem}[Linear time-varying unicycle controller]
   The following $\mtx{A}$ and $\mtx{B}$ matrices of a continuous system are used
   to compute the LQR.

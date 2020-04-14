@@ -4,7 +4,6 @@
 The matrix exponential (and \gls{system} \gls{discretization} in general) is
 typically solved with a computer. Python Control's \texttt{StateSpace.sample()}
 with the ``zoh" method (the default) does this.
-
 \begin{definition}[Matrix exponential]
   Let $\mtx{X}$ be an $n \times n$ matrix. The exponential of $\mtx{X}$ denoted
   by $e^{\mtx{X}}$ is the $n \times n$ matrix given by the following power
@@ -25,7 +24,6 @@ $\dot{\mtx{x}} = \mtx{A}\mtx{x}$ we use to describe \glspl{system}
 clarity). The solution to this type of differential equation uses an
 exponential. Since we are using matrices and vectors here, we use the matrix
 exponential.
-
 \begin{equation*}
   \mtx{x}(t) = e^{\mtx{A}t} \mtx{x}_0
 \end{equation*}
@@ -33,7 +31,6 @@ exponential.
 where $\mtx{x}_0$ contains the initial conditions. If the initial \gls{state} is
 the current system \gls{state}, then we can describe the \gls{system}'s
 \gls{state} over time as
-
 \begin{equation*}
   \mtx{x}_{k+1} = e^{\mtx{A}T} \mtx{x}_k
 \end{equation*}

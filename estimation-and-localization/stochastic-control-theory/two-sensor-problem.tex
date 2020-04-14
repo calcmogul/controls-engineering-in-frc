@@ -5,14 +5,12 @@ We'll skip the probability derivations here, but given two data points with
 associated variances represented by Gaussian distributions, the information can
 be optimally combined into a third Gaussian distribution with its own mean value
 and variance. The expected value of $x$ given a measurement $z_1$ is
-
 \begin{equation}
   E[x|z_1] = \mu = \frac{\sigma_0^2}{\sigma_0^2 + \sigma^2}z_1 +
     \frac{\sigma^2}{\sigma_0^2 + \sigma^2}x_0
 \end{equation}
 
 The variance of $x$ given $z_1$ is
-
 \begin{equation}
   E[(x - \mu)^2|z_1] = \frac{\sigma^2 \sigma_0^2}{\sigma_0^2 + \sigma^2}
 \end{equation}
@@ -20,7 +18,6 @@ The variance of $x$ given $z_1$ is
 The expected value, which is also the maximum likelihood value, is the linear
 combination of the prior expected (maximum likelihood) value and the
 measurement. The expected value is a reasonable estimator of $x$.
-
 \begin{align}
   \hat{x} &= E[x|z_1] = \frac{\sigma_0^2}{\sigma_0^2 + \sigma^2}z_1 +
     \frac{\sigma^2}{\sigma_0^2 + \sigma^2}x_0 \\
@@ -29,7 +26,6 @@ measurement. The expected value is a reasonable estimator of $x$.
 
 Note that the weights $w_1$ and $w_2$ sum to $1$. When the prior (i.e., prior
 knowledge of \gls{state}) is uninformative (a large variance)
-
 \begin{align}
   w_1 &= \lim_{\sigma_0^2 \to 0} \frac{\sigma_0^2}{\sigma_0^2 + \sigma^2} = 0 \\
   w_2 &= \lim_{\sigma_0^2 \to 0} \frac{\sigma^2}{\sigma_0^2 + \sigma^2} = 1
@@ -40,7 +36,6 @@ is equal to the measurement.
 
 Let us assume we have a \gls{model} providing an almost exact prior for $x$. In
 that case, $\sigma_0^2$ approaches 0 and
-
 \begin{align}
   w_1 &= \lim_{\sigma_0^2 \to 0} \frac{\sigma_0^2}{\sigma_0^2 + \sigma^2} = 1 \\
   w_2 &= \lim_{\sigma_0^2 \to 0} \frac{\sigma^2}{\sigma_0^2 + \sigma^2} = 0

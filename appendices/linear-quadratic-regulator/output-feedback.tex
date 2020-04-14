@@ -2,14 +2,12 @@
 \index{controller design!linear-quadratic regulator!output feedback}
 
 LQR is normally used for state feedback on
-
 \begin{align*}
   \dot{\mtx{x}} &= \mtx{A}\mtx{x} + \mtx{B}\mtx{u} \\
   \mtx{y} &= \mtx{C}\mtx{x} + \mtx{D}\mtx{u}
 \end{align*}
 
 with the cost functional
-
 \begin{equation*}
   J = \int_0^\infty \left(\mtx{x}^T\mtx{Q}\mtx{x} +
     \mtx{u}^T\mtx{R}\mtx{u}\right) dt
@@ -24,21 +22,18 @@ combination of the states and inputs\footnote{We'll see this later on in section
 from the behavior of another model.}.
 
 For output feedback, we want to minimize the following cost functional.
-
 \begin{equation*}
   J = \int_0^\infty \left(\mtx{y}^T\mtx{Q}\mtx{y} +
     \mtx{u}^T\mtx{R}\mtx{u}\right) dt
 \end{equation*}
 
 Substitute in the expression for $\mtx{y}$.
-
 \begin{equation*}
   J = \int_0^\infty \left((\mtx{C}\mtx{x} + \mtx{D}\mtx{u})^T\mtx{Q}
     (\mtx{C}\mtx{x} + \mtx{D}\mtx{u}) + \mtx{u}^T\mtx{R}\mtx{u}\right) dt
 \end{equation*}
 
 Apply the transpose to the left-hand side of the $\mtx{Q}$ term.
-
 \begin{equation*}
   J = \int_0^\infty \left((\mtx{x}^T\mtx{C}^T + \mtx{u}^T\mtx{D}^T)\mtx{Q}
     (\mtx{C}\mtx{x} + \mtx{D}\mtx{u}) + \mtx{u}^T\mtx{R}\mtx{u}\right) dt
@@ -47,7 +42,6 @@ Apply the transpose to the left-hand side of the $\mtx{Q}$ term.
 Factor out $\begin{bmatrix}\mtx{x} \\ \mtx{u}\end{bmatrix}^T$ from the left side
 and $\begin{bmatrix}\mtx{x} \\ \mtx{u}\end{bmatrix}$ from the right side of each
 term.
-
 \begin{align*}
   J &= \int_0^\infty \left(
     \begin{bmatrix}
@@ -108,7 +102,6 @@ term.
 \end{align*}
 
 Multiply in $\mtx{Q}$.
-
 \begin{equation*}
   J = \int_0^\infty \left(
     \begin{bmatrix}
@@ -137,7 +130,6 @@ Multiply in $\mtx{Q}$.
 \end{equation*}
 
 Multiply matrices in the left term together.
-
 \begin{equation*}
   J = \int_0^\infty \left(
     \begin{bmatrix}
@@ -162,7 +154,6 @@ Multiply matrices in the left term together.
 \end{equation*}
 
 Add the terms together.
-
 \begin{equation}
   J = \int_0^\infty
   \begin{bmatrix}
@@ -183,7 +174,6 @@ Add the terms together.
 \end{equation}
 
 Thus, output feedback can be defined as the following optimization problem.
-
 \begin{theorem}[Linear-quadratic regulator with output feedback]
   \begin{align}
     \min_{\mtx{u}} &\int_0^\infty
@@ -214,7 +204,6 @@ Thus, output feedback can be defined as the following optimization problem.
 If the output is only the whole state vector, then $\mtx{C} = \mtx{I}$,
 $\mtx{D} = \mtx{0}$, and the cost functional simplifies to that of state
 feedback LQR.
-
 \begin{equation*}
   J = \int_0^\infty
   \begin{bmatrix}

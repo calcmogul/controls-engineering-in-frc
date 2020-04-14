@@ -4,7 +4,6 @@
 
 This elevator consists of a DC brushed motor attached to a pulley that drives a
 mass up or down.
-
 \begin{bookfigure}
   \begin{tikzpicture}[auto, >=latex', circuit ee IEC,
                       set resistor graphic=var resistor IEC graphic]
@@ -149,14 +148,12 @@ and position.
 
 First, we'll find a torque to substitute into the equation for a DC brushed
 motor. Based on figure \ref{fig:elevator}
-
 \begin{equation}
   \tau_m G = \tau_p \label{eq:elevator_tau_m_ratio}
 \end{equation}
 
 where $G$ is the gear ratio between the motor and the pulley and $\tau_p$ is the
 torque produced by the pulley.
-
 \begin{equation}
   rF_m = \tau_p \label{eq:elevator_torque_pulley}
 \end{equation}
@@ -164,58 +161,49 @@ torque produced by the pulley.
 where $r$ is the radius of the pulley. Substitute equation
 \eqref{eq:elevator_tau_m_ratio} into $\tau_m$ in the DC brushed motor equation
 \eqref{eq:motor_tau_V}.
-
 \begin{align*}
   V &= \frac{\frac{\tau_p}{G}}{K_t} R + \frac{\omega_m}{K_v} \\
   V &= \frac{\tau_p}{GK_t} R + \frac{\omega_m}{K_v}
 \end{align*}
 
 Substitute in equation \eqref{eq:elevator_torque_pulley} for $\tau_p$.
-
 \begin{equation}
   V = \frac{rF_m}{GK_t} R + \frac{\omega_m}{K_v} \label{eq:elevator_Vinter1}
 \end{equation}
 
 The angular velocity of the motor armature $\omega_m$ is
-
 \begin{equation}
   \omega_m = G \omega_p \label{eq:elevator_omega_m_ratio}
 \end{equation}
 
 where $\omega_p$ is the angular velocity of the pulley. The velocity of the mass
 (the elevator carriage) is
-
 \begin{equation*}
   v = r \omega_p
 \end{equation*}
-
 \begin{equation}
   \omega_p = \frac{v}{r} \label{eq:elevator_omega_p}
 \end{equation}
 
 Substitute equation \eqref{eq:elevator_omega_p} into equation
 \eqref{eq:elevator_omega_m_ratio}.
-
 \begin{equation}
   \omega_m = G \frac{v}{r} \label{eq:elevator_omega_m}
 \end{equation}
 
 Substitute equation \eqref{eq:elevator_omega_m} into equation
 \eqref{eq:elevator_Vinter1} for $\omega_m$.
-
 \begin{align*}
   V &= \frac{rF_m}{GK_t} R + \frac{G \frac{v}{r}}{K_v} \\
   V &= \frac{RrF_m}{GK_t} + \frac{G}{rK_v} v
 \end{align*}
 
 Solve for $F_m$.
-
 \begin{align}
   \frac{RrF_m}{GK_t} &= V - \frac{G}{rK_v} v \nonumber \\
   F_m &= \left(V - \frac{G}{rK_v} v\right) \frac{GK_t}{Rr} \nonumber \\
   F_m &= \frac{GK_t}{Rr} V - \frac{G^2K_t}{Rr^2 K_v} v
 \end{align}
-
 \begin{equation}
   \sum F = ma
 \end{equation}
@@ -223,16 +211,13 @@ Solve for $F_m$.
 where $\sum F$ is the sum of forces applied to the elevator carriage, $m$ is the
 mass of the elevator carriage in kilograms, and $a$ is the acceleration of the
 elevator carriage.
-
 \begin{equation*}
   ma = F_m
 \end{equation*}
-
 \begin{remark}
   Gravity is not part of the modeled dynamics because it complicates the
   state-space \gls{model} and the controller will behave well enough without it.
 \end{remark}
-
 \begin{align}
   ma &= \left(\frac{GK_t}{Rr} V - \frac{G^2K_t}{Rr^2 K_v} v\right) \nonumber \\
   a &= \frac{GK_t}{Rrm} V - \frac{G^2K_t}{Rr^2 mK_v} v \label{eq:elevator_accel}

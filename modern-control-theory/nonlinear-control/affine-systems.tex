@@ -4,7 +4,6 @@ Let $\mtx{x} = \mtx{x}_0 + \delta\mtx{x}$ and
 $\mtx{u} = \mtx{u}_0 + \delta\mtx{u}$ where $\delta\mtx{x}$ and $\delta\mtx{u}$
 are perturbations from $(\mtx{x}_0, \mtx{u}_0)$. A first-order linearization of
 $\dot{\mtx{x}} = f(\mtx{x}, \mtx{u})$ around $(\mtx{x}_0, \mtx{u}_0)$ gives
-
 \begin{align*}
   \dot{\mtx{x}} &\approx f(\mtx{x}_0, \mtx{u}_0) +
     \left.\frac{\partial f(\mtx{x}, \mtx{u})}{\partial \mtx{x}}
@@ -24,7 +23,6 @@ $f(\mtx{x}_0, \mtx{u}_0) = \mtx{0}$, the resulting \gls{model} is linear, and
 LQR works as usual. If $(\mtx{x}_0, \mtx{u}_0)$ is, say, the current operating
 point rather than an equilibrium point, the easiest way to correctly apply LQR
 is
-
 \begin{enumerate}
   \item Find a control input $\mtx{u}_0$ that makes $(\mtx{x}_0, \mtx{u}_0)$ an
     equilibrium point.
@@ -35,7 +33,6 @@ is
 For a control-affine \gls{system} (a nonlinear \gls{system} with linear control
 inputs) $\dot{\mtx{x}} = f(\mtx{x}) + \mtx{B}\mtx{u}$, $\mtx{u}_0$ can be
 derived via plant inversion as follows.
-
 \begin{align}
   \dot{\mtx{x}} &= f(\mtx{x}_0) + \mtx{B}\mtx{u}_0 \nonumber \\
   \mtx{0} &= f(\mtx{x}_0) + \mtx{B}\mtx{u}_0 \nonumber \\
@@ -50,14 +47,12 @@ can apply our own (usually linear) dynamics for \gls{reference} tracking. To do
 this, we will perform a similar procedure as in subsection
 \ref{subsec:plant_inversion} and solve for $\mtx{u}$ given the \gls{reference}
 dynamics in $\dot{\mtx{r}}$.
-
 \begin{align}
   \dot{\mtx{r}} &= f(\mtx{x}) + \mtx{B}\mtx{u} \nonumber \\
   \mtx{B}\mtx{u} &= \dot{\mtx{r}} - f(\mtx{x}) \nonumber \\
   \mtx{u} &= \mtx{B}^\dagger (\dot{\mtx{r}} - f(\mtx{x}))
     \label{eq:control_affine_plant_invert}
 \end{align}
-
 \begin{remark}
   To use equation \eqref{eq:control_affine_plant_invert} in a discrete
   controller, one can approximate $\dot{\mtx{r}}$ with

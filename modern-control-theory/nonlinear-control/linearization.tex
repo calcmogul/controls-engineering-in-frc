@@ -5,7 +5,6 @@ One way to control nonlinear \glspl{system} is to
 \glslink{linearization}{linearize} the \gls{model} around a reference point.
 Then, all the powerful tools that exist for linear controls can be applied. This
 is done by taking the Jacobians of $f$ and $h$.
-
 \begin{align*}
   \begin{array}{cccc}
     \mtx{A} = \frac{\partial f(\mtx{x}, \mtx{u}, \mtx{w})}{\partial \mtx{x}} &
@@ -16,7 +15,6 @@ is done by taking the Jacobians of $f$ and $h$.
 \end{align*}
 
 Let $f(\mtx{x}, \mtx{u})$ be defined as
-
 \begin{equation*}
   \dot{\mtx{x}} = f(\mtx{x}, \mtx{u}) =
   \begin{bmatrix}
@@ -35,7 +33,6 @@ to one of the vector arguments. The Jacobian of $f$ has as many rows as $f$, and
 the columns are filled with partial deriviatives of $f$'s rows with respect to
 each of the argument's elements. For example, the Jacobian of $f$ with respect
 to $\mtx{x}$ is
-
 \begin{equation*}
   \mtx{A} = \frac{\partial f(\mtx{x}, \mtx{u})}{\partial \mtx{x}} =
   \begin{bmatrix}
@@ -57,7 +54,6 @@ row of $f$ with respect to the first state, and so on for all rows of $f$ and
 states. This has $n^2$ permutations and thus produces a square matrix.
 
 The Jacobian of $f$ with respect to $\mtx{u}$ is
-
 \begin{equation*}
   \mtx{B} = \frac{\partial f(\mtx{x}, \mtx{u})}{\partial \mtx{u}} =
   \begin{bmatrix}

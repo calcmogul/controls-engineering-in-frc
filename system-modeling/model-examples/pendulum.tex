@@ -4,7 +4,6 @@ Kinematics and dynamics are a rather large topics, so for now, we'll just focus
 on the basics required for working with the \glspl{model} in this book. We'll
 derive the same \gls{model}, a pendulum, using three approaches: sum of forces,
 sum of torques, and conservation of energy.
-
 \begin{bookfigure}
   \begin{subfigure}{0.5\textwidth}
     \centering
@@ -109,7 +108,6 @@ components parallel and perpendicular to the bob's instantaneous motion. The
 direction of the bob's instantaneous velocity always points along the red axis,
 which is considered the tangential axis because its direction is always tangent
 to the circle. Consider Newton's second law
-
 \begin{equation*}
   F = ma
 \end{equation*}
@@ -120,7 +118,6 @@ the bob is forced to stay in a circular path, we apply Newton's equation to the
 tangential axis only. The short violet arrow represents the component of the
 gravitational force in the tangential axis, and trigonometry can be used to
 determine its magnitude. Therefore
-
 \begin{align*}
   -mg\sin\theta &= ma \\
   a &= -g\sin\theta
@@ -134,7 +131,6 @@ the left, we would expect it to accelerate back toward the right.
 This linear acceleration $a$ along the red axis can be related to the change in
 angle $\theta$ by the arc length formulas; $s$ is arc length and $l$ is the
 length of the pendulum.
-
 \begin{align}
   s &= l\theta \label{eq:arc_length} \\
   v &= \frac{ds}{dt} = l\frac{d\theta}{dt} \nonumber \\
@@ -142,7 +138,6 @@ length of the pendulum.
 \end{align}
 
 Therefore
-
 \begin{align*}
   l\frac{d^2\theta}{dt^2} &= -g\sin\theta \\
   \frac{d^2\theta}{dt^2} &= -\frac{g}{l}\sin\theta \\
@@ -153,14 +148,12 @@ Therefore
 \index{physics!sum of torques}
 
 The equation can be obtained using two definitions for torque.
-
 \begin{equation*}
   \mtx{\tau} = \mtx{r} \times \mtx{F}
 \end{equation*}
 
 First start by defining the torque on the pendulum bob using the force due to
 gravity.
-
 \begin{equation*}
   \mtx{\tau} = \mtx{l} \times \mtx{F}_g
 \end{equation*}
@@ -169,7 +162,6 @@ where $\mtx{l}$ is the length vector of the pendulum and $\mtx{F}_g$ is the
 force due to gravity.
 
 For now just consider the magnitude of the torque on the pendulum.
-
 \begin{equation*}
   \lvert\tau\rvert = -mgl\sin\theta
 \end{equation*}
@@ -179,14 +171,12 @@ $l$ is the length of the pendulum and $\theta$ is the angle between the length
 vector and the force due to gravity.
 
 Next rewrite the angular momentum.
-
 \begin{equation*}
   \mtx{L} = \mtx{r} \times \mtx{p} =
     m\mtx{r} \times (\mtx{\omega} \times \mtx{r})
 \end{equation*}
 
 Again just consider the magnitude of the angular momentum.
-
 \begin{align*}
   \lvert\mtx{L}\rvert &= mr^2\omega \\
   \lvert\mtx{L}\rvert &= ml^2 \frac{d\theta}{dt} \\
@@ -194,7 +184,6 @@ Again just consider the magnitude of the angular momentum.
 \end{align*}
 
 According to $\tau = \frac{d\mtx{L}}{dt}$, we can just compare the magnitudes.
-
 \begin{align*}
   -mgl\sin\theta &= ml^2\frac{d^2\theta}{dt^2} \\
   -\frac{g}{l}\sin\theta &= \frac{d^2\theta}{dt^2} \\
@@ -211,32 +200,27 @@ principle: any object falling a vertical distance $h$ would acquire kinetic
 energy equal to that which it lost to the fall. In other words, gravitational
 potential energy is converted into kinetic energy. Change in potential energy is
 given by
-
 \begin{equation*}
   \Delta U = mgh
 \end{equation*}
 
 The change in kinetic energy (body started from rest) is given by
-
 \begin{equation*}
   \Delta K = \frac{1}{2}mv^2
 \end{equation*}
 
 Since no energy is lost, the gain in one must be equal to the loss in the other
-
 \begin{equation*}
   \frac{1}{2}mv^2 = mgh
 \end{equation*}
 
 The change in velocity for a given change in height can be expressed as
-
 \begin{equation*}
   v = \sqrt{2gh}
 \end{equation*}
 
 Using equation \eqref{eq:arc_length}, this equation can be rewritten in terms of
 $\frac{d\theta}{dt}$.
-
 \begin{align}
   v = l\frac{d\theta}{dt} &= \sqrt{2gh} \nonumber \\
   \frac{d\theta}{dt} &= \frac{2gh}{l} \label{eq:energy_dtheta}
@@ -245,25 +229,21 @@ $\frac{d\theta}{dt}$.
 where $h$ is the vertical distance the pendulum fell. Look at figure \ref{subfig:trig_pendulum}, which presents the trigonometry of a pendulum. If the pendulum
 starts its swing from some initial angle $\theta_0$, then $y_0$, the vertical
 distance from the pivot point, is given by
-
 \begin{equation*}
   y_0 = l\cos\theta_0
 \end{equation*}
 
 Similarly for $y_1$, we have
-
 \begin{equation*}
   y_1 = l\cos\theta
 \end{equation*}
 
 Then $h$ is the difference of the two
-
 \begin{equation*}
   h = l(\cos\theta - \cos\theta_0)
 \end{equation*}
 
 Substituting this into equation \eqref{eq:energy_dtheta} gives
-
 \begin{equation*}
   \frac{d\theta}{dt} = \sqrt{\frac{2g}{l}(\cos\theta - \cos\theta_0)}
 \end{equation*}
@@ -272,7 +252,6 @@ This equation is known as the first integral of motion. It gives the velocity in
 terms of the location and includes an integration constant related to the
 initial displacement ($\theta_0$). We can differentiate by applying the chain
 rule with respect to time. Doing so gives the acceleration.
-
 \begin{align*}
   \frac{d}{dt}\frac{d\theta}{dt} &=
     \frac{d}{dt}\sqrt{\frac{2g}{l}(\cos\theta - \cos\theta_0)} \\

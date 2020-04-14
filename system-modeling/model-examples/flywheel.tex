@@ -4,7 +4,6 @@
 
 This flywheel consists of a DC brushed motor attached to a spinning mass of
 non-negligible moment of inertia.
-
 \begin{bookfigure}
   \begin{tikzpicture}[auto, >=latex', circuit ee IEC,
                       set resistor graphic=var resistor IEC graphic]
@@ -96,7 +95,6 @@ flywheel angular velocity.
 
 We will start with the equation derived earlier for a DC brushed motor, equation
 \eqref{eq:motor_tau_V}.
-
 \begin{equation*}
   V = \frac{\tau_m}{K_t} R + \frac{\omega_m}{K_v}
 \end{equation*}
@@ -104,13 +102,11 @@ We will start with the equation derived earlier for a DC brushed motor, equation
 Solve for the angular acceleration. First, we'll rearrange the terms because
 from inspection, $V$ is the \gls{model} \gls{input}, $\omega_m$ is the
 \gls{state}, and $\tau_m$ contains the angular acceleration.
-
 \begin{equation*}
   V = \frac{R}{K_t} \tau_m + \frac{1}{K_v} \omega_m
 \end{equation*}
 
 Solve for $\tau_m$.
-
 \begin{align*}
   V &= \frac{R}{K_t} \tau_m + \frac{1}{K_v} \omega_m \\
   \frac{R}{K_t} \tau_m &= V - \frac{1}{K_v} \omega_m \\
@@ -118,7 +114,6 @@ Solve for $\tau_m$.
 \end{align*}
 
 Since $\tau_m G = \tau_f$ and $\omega_m = G \omega_f$
-
 \begin{align}
   \left(\frac{\tau_f}{G}\right) &= \frac{K_t}{R} V -
     \frac{K_t}{K_v R} (G \omega_f) \nonumber \\
@@ -128,7 +123,6 @@ Since $\tau_m G = \tau_f$ and $\omega_m = G \omega_f$
 \end{align}
 
 The torque applied to the flywheel is defined as
-
 \begin{equation}
   \tau_f = J \dot{\omega}_f \label{eq:tau_f_def}
 \end{equation}
@@ -136,7 +130,6 @@ The torque applied to the flywheel is defined as
 where $J$ is the moment of inertia of the flywheel and $\dot{\omega}_f$ is the
 angular acceleration. Substitute equation \eqref{eq:tau_f_def} into equation
 \eqref{eq:tau_f}.
-
 \begin{align*}
   (J \dot{\omega}_f) &= \frac{G K_t}{R} V - \frac{G^2 K_t}{K_v R} \omega_f \\
   \dot{\omega}_f &= \frac{G K_t}{RJ} V - \frac{G^2 K_t}{K_v RJ} \omega_f \\
@@ -144,7 +137,6 @@ angular acceleration. Substitute equation \eqref{eq:tau_f_def} into equation
 \end{align*}
 
 We'll relabel $\omega_f$ as $\omega$ for convenience.
-
 \begin{equation}
   \dot{\omega} = -\frac{G^2 K_t}{K_v RJ} \omega + \frac{G K_t}{RJ} V
     \label{eq:dot_omega_flywheel}
@@ -163,14 +155,12 @@ experimentally is presented below.
 
 First, rearrange equation \eqref{eq:dot_omega_flywheel} into the form
 $y = mx + b$ such that $J$ is in the numerator of $m$.
-
 \begin{align*}
   \dot{\omega} &= -\frac{G^2 K_t}{K_v RJ} \omega + \frac{G K_t}{RJ} V \\
   J\dot{\omega} &= -\frac{G^2 K_t}{K_v R} \omega + \frac{G K_t}{R} V
 \end{align*}
 
 Multiply by $\frac{K_v R}{G^2 K_t}$ on both sides.
-
 \begin{align}
   \frac{J K_v R}{G^2 K_t} \dot{\omega} &= -\omega + \frac{G K_t}{R} \cdot
     \frac{K_v R}{G^2 K_t} V \nonumber \\
@@ -180,7 +170,6 @@ Multiply by $\frac{K_v R}{G^2 K_t}$ on both sides.
 \end{align}
 
 The test procedure is as follows.
-
 \begin{enumerate}
   \item Run the flywheel forward at a constant voltage. Record the angular
     velocity over time.

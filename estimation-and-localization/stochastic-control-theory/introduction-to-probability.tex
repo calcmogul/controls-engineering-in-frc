@@ -24,7 +24,6 @@ probability density function of $x$. The probability that the value of $x$ will
 be in the interval $x \in [x_1, x_1 + dx]$ is $p(x_1) \,dx$. In other words, the
 probability is the area under the PDF within the region $[x_1, x_1 + dx]$ (see
 figure \ref{fig:pdf}).
-
 \begin{svg}{build/\chapterpath/pdf}
   \caption{Probability density function}
   \label{fig:pdf}
@@ -35,7 +34,6 @@ one means that the sample will always occur. Probability density functions
 require that no probabilities are negative and that the sum of all probabilities
 is $1$. If the probabilities sum to $1$, that means one of those outcomes
 \textit{must} happen. In other words,
-
 \begin{equation*}
   p(x) \geq 0, \int_{-\infty}^\infty p(x) \,dx = 1
 \end{equation*}
@@ -49,13 +47,11 @@ zero, the sum of probabilities for all possible input values is equal to one.
 Expected value or expectation is a weighted average of the values the PDF can
 produce where the weight for each value is the probability of that value
 occurring. This can be written mathematically as
-
 \begin{equation*}
   \overline{x} = E[x] = \int_{-\infty}^\infty x \,p(x) \,dx
 \end{equation*}
 
 The expectation can be applied to random functions as well as random variables.
-
 \begin{equation*}
   E[f(x)] = \int_{-\infty}^\infty f(x) \,p(x) \,dx
 \end{equation*}
@@ -64,7 +60,6 @@ The mean of a random variable is denoted by an overbar (e.g., $\overline{x}$)
 pronounced x-bar. The expectation of the difference between a random variable
 and its mean $x - \overline{x}$ converges to zero. In other words, the
 expectation of a random variable is its mean. Here's a proof.
-
 \begin{align*}
   E[x - \overline{x}] &= \int_{-\infty}^\infty (x - \overline{x}) \,p(x) \,dx \\
   E[x - \overline{x}] &= \int_{-\infty}^\infty x \, p(x) \,dx -
@@ -82,14 +77,12 @@ Informally, variance is a measure of how far the outcome of a random variable
 deviates from its mean. Later, we will use variance to quantify how confident we
 are in the estimate of a random variable; we can't know the true value of that
 variable without randomness, but we can give a bound on its randomness.
-
 \begin{equation*}
   \var(x) = \sigma^2 = E[(x - \overline{x})^2] =
     \int_{-\infty}^{\infty} (x - \overline{x})^2 \,p(x) \,dx
 \end{equation*}
 
 The standard deviation is the square root of the variance.
-
 \begin{equation*}
   \std[x] = \sigma = \sqrt{\var(x)}
 \end{equation*}
@@ -103,7 +96,6 @@ defines the probability $p(x, y) \,dx \,dy$, so that $x$ and $y$ are in the
 intervals $x \in [x, x + dx], y \in [y, y + dy]$. In other words, the
 probability is the volume under a region of the PDF manifold (see figure
 \ref{fig:joint_pdf} for an example of a joint PDF).
-
 \begin{svg}{build/\chapterpath/joint_pdf}
   \caption{Joint probability density function}
   \label{fig:joint_pdf}
@@ -111,14 +103,12 @@ probability is the volume under a region of the PDF manifold (see figure
 
 Joint probability density functions also require that no probabilities are
 negative and that the sum of all probabilities is $1$.
-
 \begin{equation*}
   p(x, y) \geq 0, \int_{-\infty}^\infty \int_{-\infty}^{\infty} p(x, y) \,dx
     \,dy = 1
 \end{equation*}
 
 The expected values for joint PDFs are as follows.
-
 \begin{align*}
   E[x] &= \int_{-\infty}^\infty \int_{-\infty}^{\infty} x \,dx \,dy \\
   E[y] &= \int_{-\infty}^\infty \int_{-\infty}^{\infty} y \,dx \,dy \\
@@ -127,7 +117,6 @@ The expected values for joint PDFs are as follows.
 
 The variance of a joint PDF measures how a variable correlates with itself
 (we'll cover variances with respect to other variables shortly).
-
 \begin{align*}
   \var(x) &= \Sigma_{xx} = E[(x - \overline{x})^2] =
     \int_{-\infty}^\infty \int_{-\infty}^\infty (x - \overline{x})^2 \,p(x, y)
@@ -143,7 +132,6 @@ The variance of a joint PDF measures how a variable correlates with itself
 A covariance is a measurement of how a variable correlates with another. If they
 vary in the same direction, the covariance increases. If they vary in opposite
 directions, the covariance decreases.
-
 \begin{equation*}
   \cov(x, y) = \Sigma_{xy} = E[(x - \overline{x})(y - \overline{y})] =
     \int_{-\infty}^\infty \int_{-\infty}^\infty (x - \overline{x})
@@ -154,7 +142,6 @@ directions, the covariance decreases.
 
 Two random variables are correlated if the result of one random variable affects
 the result of another. Correlation is defined as
-
 \begin{equation*}
   \rho(x, y) = \frac{\Sigma_{xy}}{\sqrt{\Sigma_{xx}\Sigma_{yy}}}, |\rho(x, y)|
     \leq 1
@@ -166,7 +153,6 @@ mean of their variances. Uncorrelated sources have a covariance of zero.
 \subsection{Independence}
 
 Two random variables are independent if the following relation is true.
-
 \begin{equation*}
   p(x, y) = p(x) \,p(y)
 \end{equation*}
@@ -174,7 +160,6 @@ Two random variables are independent if the following relation is true.
 This means that the values of $x$ do not correlate with the values of $y$. That
 is, the outcome of one random variable does not affect another's outcome. If we
 assume independence,
-
 \begin{align*}
   E[xy] &= \int_{-\infty}^\infty \int_{-\infty}^\infty xy \,p(x, y) \,dx \,dy \\
   E[xy] &= \int_{-\infty}^\infty \int_{-\infty}^\infty xy \,p(x) \,p(y) \,dx
@@ -184,7 +169,6 @@ assume independence,
   E[xy] &= E[x]E[y] \\
   E[xy] &= \overline{x}\,\overline{y}
 \end{align*}
-
 \begin{align*}
   \cov(x, y) &= E[(x - \overline{x})(y - \overline{y})] \\
   \cov(x, y) &= E[(x - \overline{x})]E[(y - \overline{y})] \\
@@ -201,7 +185,6 @@ Given two random variables $x$ and $y$ whose joint distribution is known, the
 marginal PDF $p(x)$ expresses the probability of $x$ averaged over information
 about $y$. In other words, it's the PDF of $x$ when $y$ is unknown. This is
 calculated by integrating the joint PDF over $y$.
-
 \begin{equation*}
   p(x) = \int_{-\infty}^\infty p(x, y) \,dy
 \end{equation*}
@@ -215,7 +198,6 @@ for the given value $y$.
 
 If $p(x, y)$ is known, then we also know $p(x, y = y^\ast)$. However, note that
 the latter is not the conditional density $p(x|y^\ast)$, instead
-
 \begin{align*}
   C(y^\ast) &= \int_{-\infty}^\infty p(x, y = y^\ast) \,dx \\
   p(x|y^\ast) &= \frac{1}{C(y^\ast)} p(x, y = y^\ast)
@@ -229,7 +211,6 @@ to $1$.
 
 Bayes's rule is used to determine the probability of an event based on prior
 knowledge of conditions related to the event.
-
 \begin{equation*}
   p(x, y) = p(x|y) \,p(y) = p(y|x) \,p(x)
 \end{equation*}
@@ -243,7 +224,6 @@ $p(x, y) = p(x) \,p(y)$.
 The concept of expectation can also be applied to conditional PDFs. This allows
 us to determine what the mean of a variable is given prior knowledge of other
 variables.
-
 \begin{align*}
   E[x|y] &= \int_{-\infty}^\infty x \,p(x|y) \,dx = f(y), E[x|y] \neq E[x] \\
   E[y|x] &= \int_{-\infty}^\infty y \,p(y|x) \,dy = f(x), E[y|x] \neq E[y]
@@ -251,7 +231,6 @@ variables.
 
 \subsection{Conditional variances}
 \index{probability!conditional variances}
-
 \begin{align*}
   \var(x|y) &= E[(x - E[x|y])^2|y] \\
   \var(x|y) &= \int_{-\infty}^\infty (x - E[x|y])^2 \,p(x|y) \,dx
@@ -261,7 +240,6 @@ variables.
 
 Now we will extend the probability concepts discussed so far to vectors where
 each element has a PDF.
-
 \begin{equation*}
   \mtx{x} = \begin{bmatrix}
     x_1 \\
@@ -273,7 +251,6 @@ each element has a PDF.
 
 The elements of $\mtx{x}$ are scalar variables jointly distributed with a joint
 density $p(x_1, x_2, \ldots, x_n)$. The expectation is
-
 \begin{align*}
   E[\mtx{x}] &= \meanmtx{x} = \int_{-\infty}^\infty \mtx{x} \,p(\mtx{x})
     \,d\mtx{x} \\
@@ -292,7 +269,6 @@ density $p(x_1, x_2, \ldots, x_n)$. The expectation is
 \index{probability!covariance matrix}
 
 The covariance matrix for a random vector $\mtx{x} \in \mathbb{R}^n$ is
-
 \begin{align*}
   \mtx{\Sigma} &= \cov(\mtx{x}, \mtx{x}) = E[(\mtx{x} - \meanmtx{x})
     (\mtx{x} - \meanmtx{x})^T] \\
@@ -314,14 +290,12 @@ $\mtx{\Sigma}$ are all greater than or equal to zero.
 
 First, independent vectors imply linearity from
 $p(\mtx{x}, \mtx{y}) = p(\mtx{x}) \,p(\mtx{y})$.
-
 \begin{align*}
   E[\mtx{A}\mtx{x} + \mtx{B}\mtx{y}] &= \mtx{A}E[\mtx{x}] + \mtx{B}E[\mtx{y}] \\
   E[\mtx{A}\mtx{x} + \mtx{B}\mtx{y}] &= \mtx{A}\meanmtx{x} + \mtx{B}\meanmtx{y}
 \end{align*}
 
 Second, independent vectors being uncorrelated means their covariance is zero.
-
 \begin{align}
   \mtx{\Sigma}_{\mtx{x}\mtx{y}} &= \cov(\mtx{x}, \mtx{y}) \nonumber \\
   \mtx{\Sigma}_{\mtx{x}\mtx{y}} &= E[(\mtx{x} - \meanmtx{x})
@@ -340,7 +314,6 @@ Second, independent vectors being uncorrelated means their covariance is zero.
 \end{align}
 
 Now, compute $E[\mtx{x}\mtx{y}^T]$.
-
 \begin{equation*}
   E[\mtx{x}\mtx{y}^T] = \int_X \int_Y \mtx{x}\mtx{y}^T \,p(\mtx{x})
     \,p(\mtx{y}) \,d\mtx{x} \,d\mtx{y}^T
@@ -348,7 +321,6 @@ Now, compute $E[\mtx{x}\mtx{y}^T]$.
 
 Factor out constants from the inner integral. This includes variables which are
 held constant for each inner integral evaluation.
-
 \begin{equation*}
   E[\mtx{x}\mtx{y}^T] = \int_X p(\mtx{x}) \,\mtx{x} \,d\mtx{x}
     \int_Y p(\mtx{y}) \,\mtx{y}^T \,d\mtx{y}^T
@@ -356,13 +328,11 @@ held constant for each inner integral evaluation.
 
 Each of these integrals is just the expected value of their respective
 integration variable.
-
 \begin{align}
   E[\mtx{x}\mtx{y}^T] &= \meanmtx{x}\meanmtx{y}^T \label{eq:prb_exyt}
 \end{align}
 
 Substitute equation \eqref{eq:prb_exyt} into equation \eqref{eq:prb_sigma}.
-
 \begin{align*}
   \mtx{\Sigma}_{\mtx{x}\mtx{y}} &= (\meanmtx{x}\meanmtx{y}^T) -
     \meanmtx{x}\meanmtx{y}^T \\
@@ -371,7 +341,6 @@ Substitute equation \eqref{eq:prb_exyt} into equation \eqref{eq:prb_sigma}.
 
 Using these results, we can compute the covariance of
 $\mtx{z} = \mtx{A}\mtx{x} + \mtx{B}\mtx{y}$.
-
 \begin{align*}
   \Sigma_z =~& \cov(\mtx{z}, \mtx{z}) \\
   \Sigma_z =~& E[(\mtx{z} - \meanmtx{z})(\mtx{z} - \meanmtx{z})^T] \\
@@ -395,7 +364,6 @@ $\mtx{z} = \mtx{A}\mtx{x} + \mtx{B}\mtx{y}$.
 
 Since $\mtx{x}$ and $\mtx{y}$ are independent, $\Sigma_{xy} = 0$ and the cross
 terms cancel out.
-
 \begin{align*}
   \Sigma_z &= E[
     \mtx{A}(\mtx{x} - \meanmtx{x})(\mtx{x} - \meanmtx{x})^T\mtx{A}^T + 0 + 0 +
@@ -410,7 +378,6 @@ terms cancel out.
 
 Recall that $\Sigma_x = \cov(\mtx{x}, \mtx{x})$ and
 $\Sigma_y = \cov(\mtx{y}, \mtx{y})$.
-
 \begin{equation*}
   \Sigma_z = \mtx{A}\Sigma_x\mtx{A}^T + \mtx{B}\Sigma_y\mtx{B}^T
 \end{equation*}
@@ -418,7 +385,6 @@ $\Sigma_y = \cov(\mtx{y}, \mtx{y})$.
 \subsection{Gaussian random variables}
 
 A Gaussian random variable has the following properties:
-
 \begin{align*}
   E[x] &= \overline{x} \\
   \var(x) &= \sigma^2 \\
@@ -429,7 +395,6 @@ A Gaussian random variable has the following properties:
 While we could use any random variable to represent a random process, we use the
 Gaussian random variable a lot in probability theory due to the central limit
 theorem.
-
 \begin{definition}[Central limit theorem]
   When independent random variables are added, their properly normalized sum
   tends toward a normal distribution (a Gaussian distribution or ``bell curve").

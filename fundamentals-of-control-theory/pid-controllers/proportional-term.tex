@@ -1,7 +1,6 @@
 \section{Proportional term}
 
 The \textit{Proportional} term drives the position error to zero.
-
 \begin{definition}[Proportional controller]
   \begin{equation}
     u(t) = K_p e(t)
@@ -13,7 +12,6 @@ The \textit{Proportional} term drives the position error to zero.
 
 Figure \ref{fig:p_ctrl_diag} shows a block diagram for a \gls{system}
 controlled by a P controller.
-
 \begin{bookfigure}
   \begin{tikzpicture}[auto, >=latex']
     \fontsize{9pt}{10pt}
@@ -49,7 +47,6 @@ constant, and $x$ is the displacement from the equilibrium point. This can be
 written another way as $F = k(0 - x)$ where $0$ is the equilibrium point.
 If we let the equilibrium point be our feedback controller's \gls{setpoint}, the
 equations have a one-to-one correspondence.
-
 \begin{align*}
   F &= k(r - x) \\
   u(t) &= K_p e(t) = K_p(r(t) - y(t))

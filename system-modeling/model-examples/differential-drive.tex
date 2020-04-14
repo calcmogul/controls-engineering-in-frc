@@ -6,7 +6,6 @@
 This drivetrain consists of two DC brushed motors per side which are chained
 together on their respective sides and drive wheels which are assumed to be
 massless.
-
 \begin{bookfigure}
   \begin{tikzpicture}[auto, >=latex', circuit ee IEC,
                       set resistor graphic=var resistor IEC graphic]
@@ -82,7 +81,6 @@ the robot $\dot{v}_l$ and $\dot{v}_r$ given left and right input voltages $V_l$
 and $V_r$.
 
 From equation \eqref{eq:tau_f} of the flywheel \gls{model} derivations
-
 \begin{equation}
   \tau = \frac{GK_t}{R} V - \frac{G^2K_t}{K_v R} \omega
 \end{equation}
@@ -92,7 +90,6 @@ is the gear ratio of the differential drive, $K_t$ is the torque constant of the
 motor, $R$ is the resistance of the motor, and $K_v$ is the angular velocity
 constant. Since $\tau = rF$ and $\omega = \frac{v}{r}$ where $v$ is the velocity
 of a given drive side along the ground and $r$ is the drive wheel radius
-
 \begin{align*}
   (rF) = \frac{GK_t}{R} V - \frac{G^2K_t}{K_v R} \left(\frac{v}{r}\right) \\
   rF = \frac{GK_t}{R} V - \frac{G^2K_t}{K_v Rr} v \\
@@ -101,7 +98,6 @@ of a given drive side along the ground and $r$ is the drive wheel radius
 \end{align*}
 
 Therefore, for each side of the robot
-
 \begin{align*}
   F_l &= -\frac{G_l^2 K_t}{K_v R r^2} v_l + \frac{G_l K_t}{Rr} V_l \\
   F_r &= -\frac{G_r^2 K_t}{K_v R r^2} v_r + \frac{G_r K_t}{Rr} V_r
@@ -112,14 +108,12 @@ variable corresponds.
 
 Let $C_1 = -\frac{G_l^2 K_t}{K_v R r^2}$, $C_2 = \frac{G_l K_t}{Rr}$,
 $C_3 = -\frac{G_r^2 K_t}{K_v R r^2}$, and $C_4 = \frac{G_r K_t}{Rr}$.
-
 \begin{align}
   F_l &= C_1 v_l + C_2 V_l \\
   F_r &= C_3 v_r + C_4 V_r
 \end{align}
 
 First, find the sum of forces.
-
 \begin{align}
   \sum F &= ma \nonumber \\
   F_l + F_r &= m \dot{v} \nonumber \\
@@ -129,14 +123,12 @@ First, find the sum of forces.
 \end{align}
 
 Next, find the sum of torques.
-
 \begin{align*}
   \sum \tau &= J \dot{\omega} \\
   \tau_l + \tau_r &= J \left(\frac{\dot{v}_r - \dot{v}_l}{2 r_b}\right)
 \end{align*}
 
 where $r_b$ is the radius of the differential drive.
-
 \begin{align*}
   (-r_b F_l) + (r_b F_r) &= J \frac{\dot{v}_r - \dot{v}_l}{2 r_b} \\
   -r_b F_l + r_b F_r &= \frac{J}{2 r_b} (\dot{v}_r - \dot{v}_l) \\
@@ -147,7 +139,6 @@ where $r_b$ is the radius of the differential drive.
 
 Substitute in equation \eqref{eq:diff_drive_dotv_l} for $\dot{v}_l$ to obtain an
 expression for $\dot{v}_r$.
-
 \begin{align}
   \dot{v}_r &= \left(\frac{2}{m} (F_l + F_r) - \dot{v}_r\right) +
     \frac{2 r_b^2}{J} (-F_l + F_r) \nonumber \\
@@ -163,7 +154,6 @@ expression for $\dot{v}_r$.
 
 Substitute equation \eqref{eq:diff_drive_vr_2mid} back into equation
 \eqref{eq:diff_drive_dotv_l} to obtain an expression for $\dot{v}_l$.
-
 \begin{align}
   \dot{v}_l &= \frac{2}{m} (F_l + F_r) - \left(\frac{1}{m} (F_l + F_r) +
     \frac{r_b^2}{J} (-F_l + F_r)\right) \nonumber \\
@@ -179,7 +169,6 @@ Substitute equation \eqref{eq:diff_drive_vr_2mid} back into equation
 
 Now, plug the expressions for $F_l$ and $F_r$ into equation
 \eqref{eq:diff_drive_vr_2}.
-
 \begin{align}
   \dot{v}_r &= \left(\frac{1}{m} - \frac{r_b^2}{J}\right) F_l +
     \left(\frac{1}{m} + \frac{r_b^2}{J}\right) F_r \nonumber \\
@@ -191,7 +180,6 @@ Now, plug the expressions for $F_l$ and $F_r$ into equation
 
 Now, plug the expressions for $F_l$ and $F_r$ into equation
 \eqref{eq:diff_drive_vl_2}.
-
 \begin{align}
   \dot{v}_l &= \left(\frac{1}{m} + \frac{r_b^2}{J}\right) F_l +
     \left(\frac{1}{m} - \frac{r_b^2}{J}\right) F_r \nonumber \\
@@ -211,7 +199,6 @@ This model will be converted to state-space notation in section
 We'll use empirical measurements of linear and angular velocity to determine
 $J$. First, we'll derive the equation required to perform a linear regression
 using velocity test data.
-
 \begin{align*}
   \tau_1 &= \mtx{r} \times \mtx{F} \\
   \tau_1 &= rma
@@ -220,7 +207,6 @@ using velocity test data.
 where $\tau_1$ is the torque applied by a drive motor during only linear
 acceleration, $r$ is the wheel radius, $m$ is the robot mass, and $a$ is the
 linear acceleration.
-
 \begin{equation*}
   \tau_2 = I \alpha
 \end{equation*}
@@ -229,13 +215,11 @@ where $\tau_2$ is the torque applied by a drive motor during only angular
 acceleration, $I$ is the moment of inertia (same as $J$), and $\alpha$ is the
 angular acceleration. If a constant voltage is applied during both the linear
 and angular acceleration tests, $\tau_1 = \tau_2$. Therefore,
-
 \begin{equation*}
   rma = I \alpha
 \end{equation*}
 
 Integrate with respect to time.
-
 \begin{align}
   rmv + C_1 &= I \omega + C_2 \nonumber \\
   rmv &= I \omega + C_3 \nonumber \\
@@ -245,7 +229,6 @@ Integrate with respect to time.
 where $v$ is linear velocity and $\omega$ is angular velocity. $C_1$, $C_2$, and
 $C_3$ are arbitrary constants of integration that won't be needed. The test
 procedure is as follows.
-
 \begin{enumerate}
   \item Run the drivetrain forward at a constant voltage. Record the linear
     velocity over time using encoders.

@@ -8,7 +8,6 @@ relative \gls{error} and \gls{control effort} costs. This method of controller
 design uses a quadratic function for the cost-to-go defined as the sum of the
 \gls{error} and \gls{control effort} over time for the linear \gls{system}
 $\dot{\mtx{x}} = \mtx{A}\mtx{x} + \mtx{B}\mtx{u}$.
-
 \begin{equation*}
   J = \int\limits_0^\infty \left(\mtx{x}^T\mtx{Q}\mtx{x} +
     \mtx{u}^T\mtx{R}\mtx{u}\right) dt
@@ -25,7 +24,6 @@ obtained without using more \gls{control effort} to do so. Also, a reduction in
 performance. Pole placement, on the other hand, will have a cost anywhere on,
 above, or to the right of the Pareto boundary (no cost can be inside the
 boundary).
-
 \begin{svg}{build/\chapterpath/pareto_boundary}
   \caption{Pareto boundary for LQR}
   \label{fig:pareto_boundary}
@@ -37,7 +35,6 @@ matrix calculus is used instead of normal calculus to take the derivative.
 
 The feedback \gls{control law} that minimizes $J$ is shown in theorem
 \ref{thm:linear-quadratic_regulator}.
-
 \begin{theorem}[Linear-quadratic regulator]
   \label{thm:linear-quadratic_regulator}
 
@@ -69,7 +66,6 @@ See appendix \ref{ch:deriv_lqr} for how $\mtx{K}$ is calculated in Python. If
 the result is finite, the controller is guaranteed to be stable and
 \glslink{robustness}{robust} with a \gls{phase margin} of 60 degrees
 \cite{bib:lqr_phase_margin}.
-
 \begin{remark}
   LQR design's $\mtx{Q}$ and $\mtx{R}$ matrices don't need \gls{discretization},
   but the $\mtx{K}$ calculated for continuous time and discrete time
@@ -86,7 +82,6 @@ With Bryson's rule, the diagonals of the $\mtx{Q}$ and $\mtx{R}$ matrices are
 chosen based on the maximum acceptable value for each \gls{state} and actuator.
 The nondiagonal elements are zero. The balance between $\mtx{Q}$ and $\mtx{R}$
 can be slid along the Pareto boundary using a weighting factor $\rho$.
-
 \begin{equation*}
   J = \int\limits_0^\infty \left(\rho \left[
     \left(\frac{x_1}{x_{1,max}}\right)^2 + \ldots +
@@ -94,7 +89,6 @@ can be slid along the Pareto boundary using a weighting factor $\rho$.
     \left(\frac{u_1}{u_{1,max}}\right)^2 + \ldots +
     \left(\frac{u_n}{u_{n,max}}\right)^2\right]\right) dt
 \end{equation*}
-
 \begin{equation*}
   \begin{array}{cc}
     \mtx{Q} = \begin{bmatrix}
@@ -121,7 +115,6 @@ use small values to conserve their limited fuel supply.
 
 This example uses the following second-order \gls{model} for a CIM motor (a DC
 brushed motor).
-
 \begin{align*}
   \begin{array}{cccc}
     \mtx{A} = \begin{bmatrix}
@@ -146,7 +139,6 @@ poles\footnote{See section \ref{sec:s-plane_to_z-plane} for pole mappings of
 discrete systems (inside unit circle is stable). The pole mappings mentioned so
 far (LHP is stable) only apply to continuous systems.} placed at $(0.1, 0)$ and
 $(0.9, 0)$ and LQR with the following cost matrices.
-
 \begin{align*}
   \begin{array}{cc}
     \mtx{Q} = \begin{bmatrix}
@@ -158,7 +150,6 @@ $(0.9, 0)$ and LQR with the following cost matrices.
     \end{bmatrix}
   \end{array}
 \end{align*}
-
 \begin{svg}{build/\chapterpath/case_study_pp_lqr}
   \caption{Second-order CIM motor response with pole placement and LQR}
   \label{fig:case_study_pp_lqr}

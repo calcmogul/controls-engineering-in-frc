@@ -4,20 +4,17 @@
 To demonstrate the problem of \gls{steady-state error}, we will use a DC brushed
 motor controlled by a velocity PID controller. A DC brushed motor has a transfer
 function from voltage ($V$) to angular velocity ($\dot{\theta}$) of
-
 \begin{equation}
   G(s) = \frac{\dot{\Theta}(s)}{V(s)} = \frac{K}{(Js+b)(Ls+R)+K^2}
 \end{equation}
 
 First, we'll try controlling it with a P controller defined as
-
 \begin{equation*}
   K(s) = K_p
 \end{equation*}
 
 When these are in unity feedback, the transfer function from the input voltage
 to the error is
-
 \begin{align*}
   \frac{E(s)}{V(s)} &= \frac{1}{1 + K(s)G(s)} \\
   E(s) &= \frac{1}{1 + K(s)G(s)} V(s) \\
@@ -26,13 +23,11 @@ to the error is
 \end{align*}
 
 The steady-state of a transfer function can be found via
-
 \begin{equation}
   \lim_{s\to0} sH(s)
 \end{equation}
 
 since steady-state has an input frequency of zero.
-
 \begin{align}
   e_{ss} &= \lim_{s\to0} sE(s) \nonumber \\
   e_{ss} &= \lim_{s\to0} s \frac{1}{1 + \frac{K_p K}{(Js+b)(Ls+R)+K^2}} V(s)
@@ -47,14 +42,12 @@ since steady-state has an input frequency of zero.
 
 Notice that the \gls{steady-state error} is nonzero. To fix this, an integrator
 must be included in the controller.
-
 \begin{equation*}
   K(s) = K_p + \frac{K_i}{s}
 \end{equation*}
 
 The same steady-state calculations are performed as before with the new
 controller.
-
 \begin{align*}
   \frac{E(s)}{V(s)} &= \frac{1}{1 + K(s)G(s)} \\
   E(s) &= \frac{1}{1 + K(s)G(s)} V(s) \\

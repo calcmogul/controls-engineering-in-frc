@@ -4,7 +4,6 @@ For these derivations, we'll assume positive $x$ ($\hat{i}$) is forward,
 positive $y$ ($\hat{j}$) is to the left, positive $z$ ($\hat{k}$) is up, and
 the robot is facing in the $x$ direction. This axes convention is known as
 North-West-Up (NWU), and is shown in figure \ref{fig:nwu_axes_convention}.
-
 \begin{bookfigure}
   \begin{tikzpicture}[auto, >=latex']
     %\draw [help lines] (-4,-3) grid (4,3);
@@ -20,7 +19,6 @@ North-West-Up (NWU), and is shown in figure \ref{fig:nwu_axes_convention}.
 \end{bookfigure}
 
 The main equation we'll need is the following.
-
 \begin{equation*}
   \vec{v}_B = \vec{v}_A + \omega_A \times \vec{r}_{B|A}
 \end{equation*}
@@ -35,7 +33,6 @@ as the ``distance to B relative to A").
 A differential drive has two wheels, one on each side, separated by some
 distance $2r_b$. The forces they generate when moving forward are shown in
 figure \ref{fig:differential_drive_fbd}.
-
 \begin{bookfigure}
   \begin{tikzpicture}[auto, >=latex']
     %\draw [help lines] (-4,-3) grid (4,3);
@@ -88,7 +85,6 @@ Once we have the vector equation representing the wheel's velocity, we'll
 project it onto the wheel direction vector using the dot product.
 
 First, we'll derive $v_l$.
-
 \begin{align*}
   \vec{v}_l &= v_c \hat{i} + \omega \hat{k} \times r_b \hat{j} \\
   \vec{v}_l &= v_c \hat{i} - \omega r_b \hat{i} \\
@@ -97,20 +93,17 @@ First, we'll derive $v_l$.
 
 Now, project this vector onto the left wheel, which is pointed in the $\hat{i}$
 direction.
-
 \begin{equation*}
   v_l = (v_c - \omega r_b) \hat{i} \cdot \frac{\hat{i}}{\norm{\hat{i}}}
 \end{equation*}
 
 The magnitude of $\hat{i}$ is $1$, so the denominator cancels.
-
 \begin{align}
   v_l &= (v_c - \omega r_b) \hat{i} \cdot \hat{i} \nonumber \\
   v_l &= v_c - \omega r_b \label{eq:diff_vl}
 \end{align}
 
 Next, we'll derive $v_r$.
-
 \begin{align*}
   \vec{v}_r &= v_c \hat{i} + \omega \hat{k} \times r_b \hat{j} \\
   \vec{v}_r &= v_c \hat{i} + \omega r_b \hat{i} \\
@@ -119,20 +112,17 @@ Next, we'll derive $v_r$.
 
 Now, project this vector onto the right wheel, which is pointed in the $\hat{i}$
 direction.
-
 \begin{equation*}
   v_r = (v_c + \omega r_b) \hat{i} \cdot \frac{\hat{i}}{\norm{\hat{i}}}
 \end{equation*}
 
 The magnitude of $\hat{i}$ is $1$, so the denominator cancels.
-
 \begin{align}
   v_r &= (v_c + \omega r_b) \hat{i} \cdot \hat{i} \nonumber \\
   v_r &= v_c + \omega r_b \label{eq:diff_vr}
 \end{align}
 
 So the two inverse kinematic equations are as follows.
-
 \begin{align}
   v_l &= v_c - \omega r_b \\
   v_r &= v_c + \omega r_b
@@ -142,14 +132,12 @@ So the two inverse kinematic equations are as follows.
 
 The mapping from the left and right wheel velocities $v_l$ and $v_r$ to $v$ and
 $\omega$ is derived as follows.
-
 \begin{align}
   v_r &= v_c + \omega r_b \nonumber \\
   v_c &= v_r - \omega r_b \label{eq:diff_drive_v_c}
 \end{align}
 
 Substitute equation \eqref{eq:diff_drive_v_c} equation for $v_l$.
-
 \begin{align*}
   v_l &= v_c - \omega r_b \\
   v_l &= (v_r - \omega r_b) - \omega r_b \\
@@ -159,7 +147,6 @@ Substitute equation \eqref{eq:diff_drive_v_c} equation for $v_l$.
 \end{align*}
 
 Substitute this back into equation \eqref{eq:diff_drive_v_c}.
-
 \begin{align*}
   v_c &= v_r - \omega r_b \\
   v_c &= v_r - \left(\frac{v_r - v_l}{2 r_b}\right) r_b \\
@@ -169,7 +156,6 @@ Substitute this back into equation \eqref{eq:diff_drive_v_c}.
 \end{align*}
 
 So the two forward kinematic equations are as follows.
-
 \begin{align}
   v_c &= \frac{v_r + v_l}{2} \\
   \omega &= \frac{v_r - v_l}{2 r_b}
@@ -181,7 +167,6 @@ A mecanum drive has four wheels, one on each corner of a rectangular chassis.
 The wheels have rollers offset at $45$ degrees (whether it's clockwise or not
 varies per wheel). The forces they generate when moving forward are shown in
 figure \ref{fig:mecanum_drive_fbd}.
-
 \begin{bookfigure}
   \begin{tikzpicture}[auto, >=latex']
     %\draw [help lines] (-4,-3) grid (4,3);
@@ -293,7 +278,6 @@ figure \ref{fig:mecanum_drive_fbd}.
 \subsubsection{Inverse kinematics}
 
 First, we'll derive the front-left wheel kinematics.
-
 \begin{align*}
   \vec{v}_{fl} &= v_x \hat{i} + v_y \hat{j} +
     \omega \hat{k} \times (r_{fl_x} \hat{i} + r_{fl_y} \hat{j}) \\
@@ -304,7 +288,6 @@ First, we'll derive the front-left wheel kinematics.
 \end{align*}
 
 Project the front-left wheel onto its wheel vector.
-
 \begin{align}
   v_{fl} &= ((v_x - \omega r_{fl_y}) \hat{i} + (v_y + \omega r_{fl_x}) \hat{j})
     \cdot \frac{\hat{i} - \hat{j}}{\sqrt{2}} \nonumber \\
@@ -321,7 +304,6 @@ Project the front-left wheel onto its wheel vector.
 \end{align}
 
 Next, we'll derive the front-right wheel kinematics.
-
 \begin{align*}
   \vec{v}_{fr} &= v_x \hat{i} + v_y \hat{j} +
     \omega \hat{k} \times (r_{fr_x} \hat{i} + r_{fr_y} \hat{j}) \\
@@ -332,7 +314,6 @@ Next, we'll derive the front-right wheel kinematics.
 \end{align*}
 
 Project the front-right wheel onto its wheel vector.
-
 \begin{align}
   v_{fr} &= ((v_x - \omega r_{fr_y}) \hat{i} + (v_y + \omega r_{fr_x}) \hat{j})
     \cdot (\hat{i} + \hat{j}) \frac{1}{\sqrt{2}} \nonumber \\
@@ -349,7 +330,6 @@ Project the front-right wheel onto its wheel vector.
 \end{align}
 
 Next, we'll derive the rear-left wheel kinematics.
-
 \begin{align*}
   \vec{v}_{rl} &= v_x \hat{i} + v_y \hat{j} +
     \omega \hat{k} \times (r_{rl_x} \hat{i} + r_{rl_y} \hat{j}) \\
@@ -360,7 +340,6 @@ Next, we'll derive the rear-left wheel kinematics.
 \end{align*}
 
 Project the rear-left wheel onto its wheel vector.
-
 \begin{align}
   v_{rl} &= ((v_x - \omega r_{rl_y}) \hat{i} + (v_y + \omega r_{rl_x}) \hat{j})
     \cdot (\hat{i} + \hat{j}) \frac{1}{\sqrt{2}} \nonumber \\
@@ -377,7 +356,6 @@ Project the rear-left wheel onto its wheel vector.
 \end{align}
 
 Next, we'll derive the rear-right wheel kinematics.
-
 \begin{align*}
   \vec{v}_{rr} &= v_x \hat{i} + v_y \hat{j} +
     \omega \hat{k} \times (r_{rr_x} \hat{i} + r_{rr_y} \hat{j}) \\
@@ -388,7 +366,6 @@ Next, we'll derive the rear-right wheel kinematics.
 \end{align*}
 
 Project the rear-right wheel onto its wheel vector.
-
 \begin{align}
   v_{rr} &= ((v_x - \omega r_{rr_y}) \hat{i} + (v_y + \omega r_{rr_x}) \hat{j})
     \cdot \frac{\hat{i} - \hat{j}}{\sqrt{2}} \nonumber \\
@@ -405,7 +382,6 @@ Project the rear-right wheel onto its wheel vector.
 \end{align}
 
 This gives the following inverse kinematic equations.
-
 \begin{align*}
   v_{fl} &= \frac{1}{\sqrt{2}} v_x - \frac{1}{\sqrt{2}} v_y -
     \frac{1}{\sqrt{2}} \omega (r_{fl_x} + r_{fl_y}) \\
@@ -418,7 +394,6 @@ This gives the following inverse kinematic equations.
 \end{align*}
 
 Now we'll factor them out into matrices.
-
 \begin{align}
   \begin{bmatrix}
     v_{fl} \\
@@ -464,7 +439,6 @@ Now we'll factor them out into matrices.
 
 Let $\mtx{M}$ be the $4 \times 3$ inverse kinematics matrix above including the
 $\frac{1}{\sqrt{2}}$ factor. The forward kinematics are
-
 \begin{equation}
   \begin{bmatrix}
     v_x \\
@@ -487,7 +461,6 @@ where $\mtx{M}^\dagger$ is the pseudoinverse of $\mtx{M}$.
 A swerve drive has an arbitrary number of wheels which can rotate in place
 independent of the chassis. The forces they generate are shown in figure
 \ref{fig:swerve_drive_fbd}.
-
 \begin{bookfigure}
   \begin{tikzpicture}[auto, >=latex']
     %\draw [help lines] (-4,-3) grid (4,3);
@@ -555,7 +528,6 @@ independent of the chassis. The forces they generate are shown in figure
 \end{bookfigure}
 
 \subsubsection{Inverse kinematics}
-
 \begin{align*}
   \vec{v}_{wheel1} &= \vec{v}_{robot} + \vec{\omega}_{robot} \times
     \vec{r}_{robot2wheel1} \\
@@ -571,7 +543,6 @@ where $\vec{v}$ is linear velocity vector, $\vec{\omega}$ is angular velocity
 vector, $\vec{r}$ is distance vector from the center of rotation to the wheel,
 $\vec{v}_{robot} = v_x \hat{i} + v_y \hat{j}$, and
 $\vec{r}_{robot2wheel} = r_x \hat{i} + r_y \hat{j}$.
-
 \begin{align*}
   \vec{v}_1 &= v_x \hat{i} + v_y \hat{j} + \omega \hat{k} \times
     (r_{1x} \hat{i} + r_{1y} \hat{j}) \\
@@ -582,7 +553,6 @@ $\vec{r}_{robot2wheel} = r_x \hat{i} + r_y \hat{j}$.
   \vec{v}_4 &= v_x \hat{i} + v_y \hat{j} + \omega \hat{k} \times
     (r_{4x} \hat{i} + r_{4y} \hat{j})
 \end{align*}
-
 \begin{align*}
   \vec{v}_1 &= v_x \hat{i} + v_y \hat{j} +
     (\omega r_{1x} \hat{j} - \omega r_{1y} \hat{i}) \\
@@ -593,7 +563,6 @@ $\vec{r}_{robot2wheel} = r_x \hat{i} + r_y \hat{j}$.
   \vec{v}_4 &= v_x \hat{i} + v_y \hat{j} +
     (\omega r_{4x} \hat{j} - \omega r_{4y} \hat{i})
 \end{align*}
-
 \begin{align*}
   \vec{v}_1 &= v_x \hat{i} + v_y \hat{j} +
     \omega r_{1x} \hat{j} - \omega r_{1y} \hat{i} \\
@@ -604,7 +573,6 @@ $\vec{r}_{robot2wheel} = r_x \hat{i} + r_y \hat{j}$.
   \vec{v}_4 &= v_x \hat{i} + v_y \hat{j} +
     \omega r_{4x} \hat{j} - \omega r_{4y} \hat{i}
 \end{align*}
-
 \begin{align*}
   \vec{v}_1 &= v_x \hat{i} - \omega r_{1y} \hat{i} +
     v_y \hat{j} + \omega r_{1x} \hat{j} \\
@@ -615,7 +583,6 @@ $\vec{r}_{robot2wheel} = r_x \hat{i} + r_y \hat{j}$.
   \vec{v}_4 &= v_x \hat{i} - \omega r_{4y} \hat{i} +
     v_y \hat{j} + \omega r_{4x} \hat{j}
 \end{align*}
-
 \begin{align*}
   \vec{v}_1 &= (v_x - \omega r_{1y}) \hat{i} + (v_y + \omega r_{1x}) \hat{j} \\
   \vec{v}_2 &= (v_x - \omega r_{2y}) \hat{i} + (v_y + \omega r_{2x}) \hat{j} \\
@@ -624,7 +591,6 @@ $\vec{r}_{robot2wheel} = r_x \hat{i} + r_y \hat{j}$.
 \end{align*}
 
 Separate the i-hat components into independent equations.
-
 \begin{align*}
   v_{1x} &= v_x - \omega r_{1y} \\
   v_{2x} &= v_x - \omega r_{2y} \\
@@ -633,7 +599,6 @@ Separate the i-hat components into independent equations.
 \end{align*}
 
 Separate the j-hat components into independent equations.
-
 \begin{align*}
   v_{1y} &= v_y + \omega r_{1x} \\
   v_{2y} &= v_y + \omega r_{2x} \\
@@ -642,7 +607,6 @@ Separate the j-hat components into independent equations.
 \end{align*}
 
 Now we'll factor them out into matrices.
-
 \begin{equation*}
   \begin{bmatrix}
     v_{1x} \\
@@ -672,7 +636,6 @@ Now we'll factor them out into matrices.
 \end{equation*}
 
 Rearrange the rows so the $x$ and $y$ components are in adjacent rows.
-
 \begin{equation}
   \begin{bmatrix}
     v_{1x} \\
@@ -704,7 +667,6 @@ Rearrange the rows so the $x$ and $y$ components are in adjacent rows.
 To convert from swerve module $x$ and $y$ velocity components to a velocity and
 heading, use the Pythagorean theorem and arctangent respectively, as shown
 below.
-
 \begin{align}
   v &= \sqrt{v_x^2 + v_y^2} \\
   \theta &= \tan^{-1}\left(\frac{v_y}{v_x}\right)
@@ -714,7 +676,6 @@ below.
 
 Let $\mtx{M}$ be the $8 \times 3$ inverse kinematics matrix above. The forward
 kinematics are
-
 \begin{equation}
   \begin{bmatrix}
     v_x \\

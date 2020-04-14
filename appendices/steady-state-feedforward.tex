@@ -6,21 +6,18 @@ Steady-state feedforwards apply the \gls{control effort} required to keep a
 \gls{system} at the \gls{reference} if it is no longer moving (i.e., the
 \gls{system} is at steady-state). The first steady-state feedforward converts
 desired \glspl{output} to desired \glspl{state}.
-
 \begin{equation*}
   \mtx{x}_c = \mtx{N}_x\mtx{y}_c
 \end{equation*}
 
 $\mtx{N}_x$ converts desired \glspl{output} $\mtx{y}_c$ to desired \glspl{state}
 $\mtx{x}_c$ (also known as $\mtx{r}$). For steady-state, that is
-
 \begin{equation}
   \mtx{x}_{ss} = \mtx{N}_x\mtx{y}_{ss} \label{eq:x_ss}
 \end{equation}
 
 The second steady-state feedforward converts the desired \glspl{output}
 $\mtx{y}$ to the \gls{control input} required at steady-state.
-
 \begin{equation*}
   \mtx{u}_c = \mtx{N}_u\mtx{y}_c
 \end{equation*}
@@ -28,7 +25,6 @@ $\mtx{y}$ to the \gls{control input} required at steady-state.
 $\mtx{N}_u$ converts the desired \glspl{output} $\mtx{y}$ to the
 \gls{control input} $\mtx{u}$ required at steady-state. For steady-state, that
 is
-
 \begin{equation}
   \mtx{u}_{ss} = \mtx{N}_u\mtx{y}_{ss} \label{eq:u_ss}
 \end{equation}
@@ -37,22 +33,18 @@ is
 
 To find the \gls{control input} required at steady-state, set equation
 \eqref{eq:ss_ctrl_x} to zero.
-
 \begin{align*}
   \dot{\mtx{x}} &= \mtx{A}\mtx{x} + \mtx{B}\mtx{u} \\
   \mtx{y} &= \mtx{C}\mtx{x} + \mtx{D}\mtx{u}
 \end{align*}
-
 \begin{align*}
   \mtx{0} &= \mtx{A}\mtx{x}_{ss} + \mtx{B}\mtx{u}_{ss} \\
   \mtx{y}_{ss} &= \mtx{C}\mtx{x}_{ss} + \mtx{D}\mtx{u}_{ss}
 \end{align*}
-
 \begin{align*}
   \mtx{0} &= \mtx{A}\mtx{N}_x\mtx{y}_{ss} + \mtx{B}\mtx{N}_u\mtx{y}_{ss} \\
   \mtx{y}_{ss} &= \mtx{C}\mtx{N}_x\mtx{y}_{ss} + \mtx{D}\mtx{N}_u\mtx{y}_{ss}
 \end{align*}
-
 \begin{align*}
   \begin{bmatrix}
     \mtx{0} \\
@@ -104,28 +96,23 @@ where $^\dagger$ is the Moore-Penrose pseudoinverse.
 Now, we'll do the same thing for the discrete \gls{system}. To find the
 \gls{control input} required at steady-state, set equation \eqref{eq:ssz_ctrl_x}
 to zero.
-
 \begin{align*}
   \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}\mtx{u}_k \\
   \mtx{y}_k &= \mtx{C}\mtx{x}_k + \mtx{D}\mtx{u}_k
 \end{align*}
-
 \begin{align*}
   \mtx{x}_{ss} &= \mtx{A}\mtx{x}_{ss} + \mtx{B}\mtx{u}_{ss} \\
   \mtx{y}_{ss} &= \mtx{C}\mtx{x}_{ss} + \mtx{D}\mtx{u}_{ss}
 \end{align*}
-
 \begin{align*}
   \mtx{0} &= (\mtx{A} - \mtx{I})\mtx{x}_{ss} + \mtx{B}\mtx{u}_{ss} \\
   \mtx{y}_{ss} &= \mtx{C}\mtx{x}_{ss} + \mtx{D}\mtx{u}_{ss}
 \end{align*}
-
 \begin{align*}
   \mtx{0} &= (\mtx{A} - \mtx{I})\mtx{N}_x\mtx{y}_{ss} +
     \mtx{B}\mtx{N}_u\mtx{y}_{ss} \\
   \mtx{y}_{ss} &= \mtx{C}\mtx{N}_x\mtx{y}_{ss} + \mtx{D}\mtx{N}_u\mtx{y}_{ss}
 \end{align*}
-
 \begin{align*}
   \begin{bmatrix}
     \mtx{0} \\
@@ -177,14 +164,12 @@ where $^\dagger$ is the Moore-Penrose pseudoinverse.
 Now, we'll find an expression that uses $\mtx{N}_x$ and $\mtx{N}_u$ to convert
 the \gls{reference} $\mtx{r}$ to a \gls{control input} feedforward
 $\mtx{u}_{ff}$. Let's start with equation \eqref{eq:x_ss}.
-
 \begin{align*}
   \mtx{x}_{ss} &= \mtx{N}_x \mtx{y}_{ss} \\
   \mtx{N}_x^\dagger \mtx{x}_{ss} &= \mtx{y}_{ss}
 \end{align*}
 
 Now substitute this into equation \eqref{eq:u_ss}.
-
 \begin{align*}
   \mtx{u}_{ss} &= \mtx{N}_u \mtx{y}_{ss} \\
   \mtx{u}_{ss} &= \mtx{N}_u (\mtx{N}_x^\dagger \mtx{x}_{ss}) \\
@@ -193,7 +178,6 @@ Now substitute this into equation \eqref{eq:u_ss}.
 
 $\mtx{u}_{ss}$ and $\mtx{x}_{ss}$ are also known as $\mtx{u}_{ff}$ and $\mtx{r}$
 respectively.
-
 \begin{align*}
   \mtx{u}_{ff} = \mtx{N}_u \mtx{N}_x^\dagger \mtx{r}
 \end{align*}
@@ -260,7 +244,6 @@ allows using specific actuators to maintain the \gls{reference} at steady-state.
 \gls{tracking} as well with the same tuning parameters as LQR design. Figure
 \ref{fig:case_study_ss_ff1} shows both types of feedforwards applied to a
 second-order CIM motor model.
-
 \begin{bookfigure}
   \begin{minisvg}{2}{build/\partpath/case_study_ss_ff1}
     \caption{Second-order CIM motor response with various feedforwards}

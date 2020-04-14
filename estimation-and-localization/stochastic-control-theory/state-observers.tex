@@ -26,7 +26,6 @@ gyroscope.
 
 We'll introduce the Luenberger observer first to demonstrate the general form of
 a state estimator and some of their properties.
-
 \begin{theorem}[Luenberger observer]
   \begin{align}
     \dot{\hat{\mtx{x}}} &= \mtx{A}\hat{\mtx{x}} + \mtx{B}\mtx{u} +
@@ -51,7 +50,6 @@ a state estimator and some of their properties.
     \end{tabular}
   \end{figurekey}
 \end{theorem}
-
 \begin{booktable}
   \begin{tabular}{|ll|ll|}
     \hline
@@ -77,7 +75,6 @@ evolution equation. This term uses the difference between the estimated
 \glspl{output} and measured \glspl{output} to steer the estimated \gls{state}
 toward the true \gls{state}. Large values of $\mtx{L}$ trust the measurements
 more while small values trust the \gls{model} more.
-
 \begin{remark}
   Using an estimator forfeits the performance guarantees from earlier, but the
   responses are still generally very good if the process and measurement noises
@@ -88,7 +85,6 @@ more while small values trust the \gls{model} more.
 A Luenberger \gls{observer} combines the prediction and update steps of an
 estimator. To run them separately, use the equations in theorem
 \ref{thm:luenberger} instead.
-
 \begin{theorem}[Luenberger observer with separate predict/update]
   \label{thm:luenberger}
 
@@ -111,7 +107,6 @@ The eigenvalues of the system matrix can be used to determine whether a
 \gls{state} \gls{observer}'s estimate will converge to the true \gls{state}.
 
 Plugging equation \eqref{eq:z_obsv_y} into equation \eqref{eq:z_obsv_x} gives
-
 \begin{align*}
   \hat{\mtx{x}}_{k+1} &= \mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
     \mtx{L} (\mtx{y}_k - \hat{\mtx{y}}_k) \\
@@ -122,7 +117,6 @@ Plugging equation \eqref{eq:z_obsv_y} into equation \eqref{eq:z_obsv_x} gives
 \end{align*}
 
 Plugging in equation \eqref{eq:ssz_ctrl_y} gives
-
 \begin{align*}
   \hat{\mtx{x}}_{k+1} &= \mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
     \mtx{L}((\mtx{C}\mtx{x}_k + \mtx{D}\mtx{u}_k) - \mtx{C}\hat{\mtx{x}}_k -
@@ -138,14 +132,12 @@ Plugging in equation \eqref{eq:ssz_ctrl_y} gives
 
 Let $E_k = \mtx{x}_k - \hat{\mtx{x}}_k$ be the \gls{error} in the estimate
 $\hat{\mtx{x}}_k$.
-
 \begin{equation*}
   \hat{\mtx{x}}_{k+1} = \mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
     \mtx{L}\mtx{C}\mtx{E}_k
 \end{equation*}
 
 Subtracting this from equation \eqref{eq:ssz_ctrl_x} gives
-
 \begin{align}
   \mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}\mtx{u}_k -
     (\mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
@@ -177,14 +169,12 @@ and a controller with perfect \gls{tracking}.
 
 The effect of noise can be seen if it is modeled
 \glslink{stochastic process}{stochastically} as
-
 \begin{equation*}
   \hat{\mtx{x}}_{k+1} = \mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
     \mtx{L} ((\mtx{y}_k + \mtx{\nu}_k) - \hat{\mtx{y}}_k) \\
 \end{equation*}
 
 where $\mtx{\nu}_k$ is the measurement noise. Rearranging this equation yields
-
 \begin{align*}
   \hat{\mtx{x}}_{k+1} &= \mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
     \mtx{L} (\mtx{y}_k - \hat{\mtx{y}}_k + \mtx{\nu}_k) \\

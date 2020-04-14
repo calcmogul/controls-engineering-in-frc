@@ -7,7 +7,6 @@
 
 Given the feedback network in figure \ref{fig:closed_loop_deriv}, find an
 expression for $Y(s)$.
-
 \begin{bookfigure}
   \begin{tikzpicture}[auto, >=latex']
     % Place the blocks
@@ -28,7 +27,6 @@ expression for $Y(s)$.
   \caption{Closed-loop block diagram}
   \label{fig:closed_loop_deriv}
 \end{bookfigure}
-
 \begin{align}
   Y(s) &= Z(s) G(s) \nonumber \\
   Z(s) &= X(s) - Y(s) H(s) \nonumber \\
@@ -39,7 +37,6 @@ expression for $Y(s)$.
 \end{align}
 
 A more general form is
-
 \begin{equation}
   \frac{Y(s)}{X(s)} = \frac{G(s)}{1 \mp G(s) H(s)}
 \end{equation}
@@ -51,13 +48,11 @@ sign.
 \label{sec:deriv_zoh_ss}
 
 Starting with the continuous \gls{model}
-
 \begin{equation*}
   \dot{\mtx{x}}(t) = \mtx{A}\mtx{x}(t) + \mtx{B}\mtx{u}(t)
 \end{equation*}
 
 by premultiplying the \gls{model} by $e^{-\mtx{A}t}$, we get
-
 \begin{align*}
   e^{-\mtx{A}t}\dot{\mtx{x}}(t) &= e^{-\mtx{A}t}\mtx{A}\mtx{x}(t) +
     e^{-\mtx{A}t}\mtx{B}\mtx{u}(t) \\
@@ -66,20 +61,17 @@ by premultiplying the \gls{model} by $e^{-\mtx{A}t}$, we get
 \end{align*}
 
 The derivative of the matrix exponential is
-
 \begin{equation*}
   \frac{d}{dt}e^{\mtx{A}t} = \mtx{A}e^{\mtx{A}t} = e^{\mtx{A}t}\mtx{A}
 \end{equation*}
 
 so we recognize the previous equation as
-
 \begin{equation*}
   \frac{d}{dt}\left(e^{-\mtx{A}t}\mtx{x}(t)\right) =
     e^{-\mtx{A}t}\mtx{B}\mtx{u}(t)
 \end{equation*}
 
 By integrating this equation, we get
-
 \begin{align*}
   e^{-\mtx{A}t}\mtx{x}(t) - e^0\mtx{x}(0) &=
     \int_0^t e^{-\mtx{A}\tau}\mtx{B}\mtx{u}(\tau) \,d\tau \\
@@ -89,7 +81,6 @@ By integrating this equation, we get
 
 which is an analytical solution to the continuous \gls{model}. Now we want to
 \glslink{discretization}{discretize} it.
-
 \begin{align*}
   \mtx{x}_k &\stackrel{def}{=} \mtx{x}(kT) \\
   \mtx{x}_k &= e^{\mtx{A}kT}\mtx{x}(0) +
@@ -113,7 +104,6 @@ which is an analytical solution to the continuous \gls{model}. Now we want to
 
 We assume that $\mtx{u}$ is constant during each timestep, so it can be pulled
 out of the integral.
-
 \begin{equation*}
   \mtx{x}_{k+1} = e^{\mtx{A}T}\mtx{x}_k +
     \left(\int_{kT}^{(k + 1)T} e^{\mtx{A}(kT + T - \tau)} \,d\tau\right)
@@ -122,7 +112,6 @@ out of the integral.
 
 The second term can be simplified by substituting it with the function
 $v(\tau) = kT + T - \tau$. Note that $d\tau = -dv$.
-
 \begin{align*}
   \mtx{x}_{k+1} &= e^{\mtx{A}T}\mtx{x}_k -
     \left(\int_{v(kT)}^{v((k + 1)T)} e^{\mtx{A}v} \,dv\right)
@@ -145,7 +134,6 @@ which is an exact solution to the \gls{discretization} problem.
 \label{sec:deriv_kalman_luenberger}
 
 A Luenberger \gls{observer} is defined as
-
 \begin{align}
   \hat{\mtx{x}}_{k+1}^+ &= \mtx{A}\hat{\mtx{x}}_k^- + \mtx{B}\mtx{u}_k + \mtx{L}
     (\mtx{y}_k - \hat{\mtx{y}}_k) \label{eq:luenberger1} \\
@@ -155,7 +143,6 @@ A Luenberger \gls{observer} is defined as
 where a superscript of minus denotes \textit{a priori} and plus denotes
 \textit{a posteriori} estimate. Combining equation \eqref{eq:luenberger1} and
 equation \eqref{eq:luenberger2} gives
-
 \begin{equation} \label{eq:luenberger}
   \hat{\mtx{x}}_{k+1}^+ = \mtx{A}\hat{\mtx{x}}_k^- + \mtx{B}\mtx{u}_k + \mtx{L}
     (\mtx{y}_k - \mtx{C}\hat{\mtx{x}}_k^-)
@@ -164,7 +151,6 @@ equation \eqref{eq:luenberger2} gives
 The following is a Kalman filter that considers the current update step and the
 next predict step together rather than the current predict step and current
 update step.
-
 \begin{align}
   \text{Update step} \nonumber \\
   \mtx{K}_k &= \mtx{P}_k^- \mtx{C}^T (\mtx{C}\mtx{P}_k^- \mtx{C}^T +
@@ -180,7 +166,6 @@ update step.
 \end{align}
 
 Substitute equation \eqref{eq:post2_x} into equation \eqref{eq:pre2_x}.
-
 \begin{align*}
   \hat{\mtx{x}}_{k+1}^+ &= \mtx{A}(\hat{\mtx{x}}_k^- + \mtx{K}_k(\mtx{y}_k -
     \mtx{C}\hat{\mtx{x}}_k^-)) + \mtx{B}\mtx{u}_k \\
@@ -191,7 +176,6 @@ Substitute equation \eqref{eq:post2_x} into equation \eqref{eq:pre2_x}.
 \end{align*}
 
 Let $\mtx{L} = \mtx{A} \mtx{K}_k$.
-
 \begin{equation}
   \hat{\mtx{x}}_{k+1}^+ = \mtx{A}\hat{\mtx{x}}_k^- + \mtx{B}\mtx{u}_k + \mtx{L}
     (\mtx{y}_k - \mtx{C}\hat{\mtx{x}}_k^-)
@@ -199,7 +183,6 @@ Let $\mtx{L} = \mtx{A} \mtx{K}_k$.
 
 which matches equation \eqref{eq:luenberger}. Therefore, the eigenvalues of the
 Kalman filter \gls{observer} can be obtained by
-
 \begin{align}
   &\eig(\mtx{A} - \mtx{L}\mtx{C}) \nonumber \\
   &\eig(\mtx{A} - (\mtx{A}\mtx{K}_k)(\mtx{C})) \nonumber \\
@@ -218,7 +201,6 @@ $\mtx{L} = \mtx{A}\mtx{K}_k$. Since $\mtx{L}$ and $\mtx{A}$ are constant, one
 must assume $\mtx{K}_k$ has reached steady-state. Then,
 $\mtx{K} = \mtx{A}^{-1}\mtx{L}$. Substitute this into the Kalman filter update
 equation.
-
 \begin{align*}
   \hat{\mtx{x}}_{k+1}^+ &= \hat{\mtx{x}}_{k+1}^- + \mtx{K}(\mtx{y}_{k+1} -
     \mtx{C}\hat{\mtx{x}}_{k+1}^-) \\
@@ -227,7 +209,6 @@ equation.
 \end{align*}
 
 Substitute in equation \eqref{eq:z_obsv_y}.
-
 \begin{equation*}
   \hat{\mtx{x}}_{k+1}^+ = \hat{\mtx{x}}_{k+1}^- + \mtx{A}^{-1}\mtx{L}
     (\mtx{y}_{k+1} - \hat{\mtx{y}}_{k+1})
@@ -235,7 +216,6 @@ Substitute in equation \eqref{eq:z_obsv_y}.
 
 The predict step is the same as the Kalman filter's. Therefore, a Luenberger
 \gls{observer} run with prediction and update steps is written as follows.
-
 \begin{align}
   \text{Predict step} \nonumber \\
   \hat{\mtx{x}}_{k+1}^- &= \mtx{A}\hat{\mtx{x}}_k^- + \mtx{B}\mtx{u}_k \\

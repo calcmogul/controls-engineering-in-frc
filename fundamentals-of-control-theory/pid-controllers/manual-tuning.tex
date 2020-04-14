@@ -2,7 +2,6 @@
 
 These steps apply to position PID controllers. Velocity PID controllers
 typically don't need $K_d$.
-
 \begin{enumerate}
   \item Set $K_p$, $K_i$, and $K_d$ to zero.
   \item Increase $K_p$ until the \gls{output} starts to oscillate around the
@@ -24,7 +23,6 @@ If the \gls{controller} settles at an \gls{output} above or below the
 the \gls{setpoint} in a reasonable amount of time. However, a steady-state
 feedforward is strongly preferred over integral control (especially for velocity
 PID control).
-
 \begin{remark}
   \textit{Note:} Adding an integral gain to the \gls{controller} is an incorrect
   way to eliminate \gls{steady-state error}. A better approach would be to tune

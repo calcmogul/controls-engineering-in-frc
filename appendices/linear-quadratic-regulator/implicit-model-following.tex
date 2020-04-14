@@ -9,18 +9,15 @@ center when they want to make it fly like experimental aircraft (within the
 limits of the helicopter's actuators, of course).
 
 Let the original system dynamics be
-
 \begin{align*}
   \dot{\mtx{x}} &= \mtx{A}\mtx{x} + \mtx{B}\mtx{u} \\
   \mtx{y} &= \mtx{C}\mtx{x}
 \end{align*}
 
 and the desired system dynamics be
-
 \begin{equation*}
   \dot{\mtx{z}} = \mtx{A}_{ref}\mtx{z}
 \end{equation*}
-
 \begin{align*}
   \dot{\mtx{y}} &= \mtx{C}\dot{\mtx{x}} \\
   \dot{\mtx{y}} &= \mtx{C}(\mtx{A}\mtx{x} + \mtx{B}\mtx{u}) \\
@@ -28,20 +25,17 @@ and the desired system dynamics be
 \end{align*}
 
 We want to minimize the following cost functional.
-
 \begin{equation*}
   J = \int_0^\infty \left((\dot{\mtx{y}} - \dot{\mtx{z}})^T \mtx{Q} (\dot{\mtx{y}} - \dot{\mtx{z}}) + \mtx{u}^T\mtx{R}\mtx{u}\right) dt
 \end{equation*}
 
 We'll be measuring the desired system's state, so let $\mtx{y} = \mtx{z}$.
-
 \begin{align*}
   \dot{\mtx{z}} &= \mtx{A}_{ref}\mtx{y} \\
   \dot{\mtx{z}} &= \mtx{A}_{ref}\mtx{C}\mtx{x}
 \end{align*}
 
 Therefore,
-
 \begin{align*}
   \dot{\mtx{y}} - \dot{\mtx{z}} &=
     \mtx{C}\mtx{A}\mtx{x} + \mtx{C}\mtx{B}\mtx{u} -
@@ -51,7 +45,6 @@ Therefore,
 \end{align*}
 
 Substitute this into the cost functional.
-
 \begin{align*}
   J &= \int_0^\infty \left((\dot{\mtx{y}} - \dot{\mtx{z}})^T \mtx{Q} (\dot{\mtx{y}} - \dot{\mtx{z}}) + \mtx{u}^T\mtx{R}\mtx{u}\right) dt \\
   J &= \int_0^\infty \left(
@@ -62,7 +55,6 @@ Substitute this into the cost functional.
 \end{align*}
 
 Apply the transpose to the left-hand side of the $\mtx{Q}$ term.
-
 \begin{equation*}
   J = \int_0^\infty \left(
     (\mtx{x}^T(\mtx{C}\mtx{A} - \mtx{A}_{ref}\mtx{C})^T + \mtx{u}^T(\mtx{C}\mtx{B})^T)
@@ -74,7 +66,6 @@ Apply the transpose to the left-hand side of the $\mtx{Q}$ term.
 Factor out $\begin{bmatrix}\mtx{x} \\ \mtx{u}\end{bmatrix}^T$ from the left side
 and $\begin{bmatrix}\mtx{x} \\ \mtx{u}\end{bmatrix}$ from the right side of each
 term.
-
 \begin{align*}
   J &= \int_0^\infty \left(
     \begin{bmatrix}
@@ -135,7 +126,6 @@ term.
 \end{align*}
 
 Multiply in $\mtx{Q}$.
-
 \begin{equation*}
   J = \int_0^\infty \left(
     \begin{bmatrix}
@@ -164,7 +154,6 @@ Multiply in $\mtx{Q}$.
 \end{equation*}
 
 Multiply matrices in the left term together.
-
 \begin{equation*}
   J = \int_0^\infty \left(
     \begin{bmatrix}
@@ -191,7 +180,6 @@ Multiply matrices in the left term together.
 \end{equation*}
 
 Add the terms together.
-
 \begin{equation}
   J = \int_0^\infty
   \begin{bmatrix}
@@ -216,7 +204,6 @@ Add the terms together.
 
 Thus, implicit model following can be defined as the following optimization
 problem.
-
 \begin{theorem}[Implicit model following]
   \begin{align}
     \min_{\mtx{u}} &\int_0^\infty
@@ -252,7 +239,6 @@ response of $\dot{\mtx{z}} = \mtx{A}_{ref}\mtx{z}$.
 
 If the original and desired system have the same states, then
 $\mtx{C} = \mtx{I}$ and the cost functional simplifies to
-
 \begin{equation}
   J = \int_0^\infty
   \begin{bmatrix}

@@ -8,13 +8,11 @@ electronics, which are continuous in nature. Nowadays, microprocessors can be
 used to achieve cheaper, less complex controller designs. \Gls{discretization}
 converts the continuous \gls{model} we've worked with so far from a differential
 equation like
-
 \begin{equation}
   \dot{x} = x - 3 \label{eq:differential_equ_example}
 \end{equation}
 
 to a difference equation like
-
 \begin{align}
   \frac{x_{k+1} - x_k}{\Delta T} = x_k - 3 \nonumber \\
   x_{k+1} - x_k = (x_k - 3) \Delta T \nonumber \\

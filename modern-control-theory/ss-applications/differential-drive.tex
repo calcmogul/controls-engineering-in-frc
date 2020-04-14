@@ -6,7 +6,6 @@
 
 By equations \eqref{eq:diff_drive_model_right} and
 \eqref{eq:diff_drive_model_left}
-
 \begin{align*}
   \dot{v}_l &= \left(\frac{1}{m} + \frac{r_b^2}{J}\right)
     \left(C_1 v_l + C_2 V_l\right) +
@@ -17,7 +16,6 @@ By equations \eqref{eq:diff_drive_model_right} and
 \end{align*}
 
 Regroup the terms into states $v_l$ and $v_r$ and inputs $V_l$ and $V_r$.
-
 \begin{align*}
   \dot{v}_l &= \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_1 v_l +
     \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_2 V_l +
@@ -28,7 +26,6 @@ Regroup the terms into states $v_l$ and $v_r$ and inputs $V_l$ and $V_r$.
     \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_3 v_r +
     \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_4 V_r
 \end{align*}
-
 \begin{align*}
   \dot{v}_l &= \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_1 v_l +
     \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_3 v_r +
@@ -42,7 +39,6 @@ Regroup the terms into states $v_l$ and $v_r$ and inputs $V_l$ and $V_r$.
 
 Factor out $v_l$ and $v_r$ into a column vector and $V_l$ and $V_r$ into a
 column vector.
-
 \begin{align*}
   \dot{\begin{bmatrix}
     v_l \\
@@ -69,7 +65,6 @@ column vector.
     V_r
   \end{bmatrix}
 \end{align*}
-
 \begin{theorem}[Differential drive velocity state-space model]
   \label{thm:diff_drive_velocity_ss_model}
 
@@ -129,7 +124,6 @@ Python Control will be used to \glslink{discretization}{discretize} the
 examples\footnote{\url{https://github.com/calcmogul/frccontrol/blob/master/examples/differential_drive.py}}
 creates and tests a controller for it. Figure \ref{fig:diff_drive_response}
 shows the closed-loop \gls{system} response.
-
 \begin{svg}{build/frccontrol/examples/differential_drive_response}
   \caption{Drivetrain response}
   \label{fig:diff_drive_response}
@@ -146,7 +140,6 @@ with a motion profile instead of a \gls{step input} for reproducibility.
 The model in theorem \ref{thm:diff_drive_velocity_ss_model} is linear, but only
 includes the velocity dynamics, not the dynamics of the drivetrain's global
 pose. The change in global pose is defined by these three equations.
-
 \begin{align*}
   \dot{x} &= \frac{v_l + v_r}{2}\cos\theta = \frac{v_r}{2}\cos\theta +
     \frac{v_l}{2}\cos\theta \\
@@ -159,7 +152,6 @@ Next, we'll augment the linear subspace's state with the global pose $x$, $y$,
 and $\theta$. Here's the model as a vector function where
 $\mtx{x} = \begin{bmatrix} x & y & \theta & v_l & v_r \end{bmatrix}^T$ and
 $\mtx{u} = \begin{bmatrix} V_l & V_r \end{bmatrix}^T$.
-
 \begin{equation}
   f(\mtx{x}, \mtx{u}) =
   \begin{bmatrix}
@@ -190,7 +182,6 @@ If we use LQRs for the linearized subspaces, the nonlinear control policy will
 also be locally optimal. We'll be taking this approach with a differential
 drive. To create an LQR, we need to linearize equation
 \eqref{eq:ltv_diff_drive_f}.
-
 \begin{align*}
   \frac{\partial f(\mtx{x}, \mtx{u})}{\partial\mtx{x}} &=
   \begin{bmatrix}
@@ -217,7 +208,6 @@ drive. To create an LQR, we need to linearize equation
 \end{align*}
 
 Therefore,
-
 \begin{theorem}[Linear time-varying differential drive state-space model]
   \begin{align*}
     \dot{\mtx{x}} &= \mtx{A}\mtx{x} + \mtx{B}\mtx{u} \\
@@ -299,7 +289,6 @@ velocities to rotate the robot.
 Figures \ref{fig:ltv_diff_drive_nonrotated_firstorder_xy} and
 \ref{fig:ltv_diff_drive_nonrotated_firstorder_response} demonstrate the
 tracking behavior of the linearized differential drive controller.
-
 \begin{bookfigure}
   \begin{minisvg}{2}{build/\chapterpath/ltv_diff_drive_nonrotated_firstorder_xy}
     \caption{Linear time-varying differential drive controller x-y plot (first
@@ -319,7 +308,6 @@ first-order linearization of $\mtx{A}$ doesn't capture the full heading
 dynamics, making the \gls{model} update inaccurate. This linearization
 inaccuracy is evident in the Hessian matrix (second partial derivative with
 respect to the state vector) being nonzero.
-
 \begin{equation*}
   \frac{\partial^2 f(\mtx{x}, \mtx{u})}{\partial\mtx{x}^2} =
   \begin{bmatrix}
@@ -333,7 +321,6 @@ respect to the state vector) being nonzero.
 
 The second-order Taylor series expansion of the \gls{model} around $\mtx{x}_0$
 would be
-
 \begin{equation*}
   f(\mtx{x}, \mtx{u}_0) \approx f(\mtx{x}_0, \mtx{u}_0) +
     \frac{\partial f(\mtx{x}, \mtx{u})}{\partial\mtx{x}}(\mtx{x} - \mtx{x}_0) +
@@ -345,7 +332,6 @@ To include higher-order dynamics in the linearized differential drive model
 integration, we recommend using the fourth-order Runge-Kutta (RK4) integration
 method on equation \eqref{eq:ltv_diff_drive_f}. See snippet
 \ref{lst:runge-kutta} for an implementation of RK4.
-
 \begin{code}{Python}{build/frccontrol/frccontrol/runge_kutta.py}
   \caption{Fourth-order Runge-Kutta integration in Python}
   \label{lst:runge-kutta}
@@ -354,7 +340,6 @@ method on equation \eqref{eq:ltv_diff_drive_f}. See snippet
 Figures \ref{fig:ltv_diff_drive_nonrotated_xy} and
 \ref{fig:ltv_diff_drive_nonrotated_response} show a simulation using RK4
 instead of the first-order \gls{model}.
-
 \begin{bookfigure}
   \begin{minisvg}{2}{build/\chapterpath/ltv_diff_drive_nonrotated_xy}
     \caption{Linear time-varying differential drive controller (global reference
@@ -370,7 +355,6 @@ instead of the first-order \gls{model}.
 \end{bookfigure}
 
 \subsection{Cross track error controller}
-
 \begin{bookfigure}
   \begin{minisvg}{2}{build/\chapterpath/ramsete_traj_xy}
     \caption{Ramsete nonlinear controller x-y plot}
@@ -393,7 +377,6 @@ cost are too high, the $x$ and $y$ components of the controller will fight each
 other, and it will take longer to converge to the path. This can be fixed by
 applying a counterclockwise rotation matrix to the global tracking error to
 transform it into the robot's coordinate frame.
-
 \begin{equation*}
   \crdfrm{R}{\begin{bmatrix}
     e_x \\
@@ -420,7 +403,6 @@ ahead of the robot and cross-track error respectively instead of global pose
 error. Since the cross-track error is always measured from the robot's
 coordinate frame, the \gls{model} used to compute the LQR should be linearized
 around $\theta = 0$ at all times.
-
 \begin{align*}
   \mtx{A} &=
   \begin{bmatrix}
@@ -449,7 +431,6 @@ around $\theta = 0$ at all times.
 This \gls{model} results in figures \ref{fig:ltv_diff_drive_exact_xy} and
 \ref{fig:ltv_diff_drive_exact_response}, which show slightly better
 tracking performance than the previous formulation.
-
 \begin{bookfigure}
   \begin{minisvg}{2}{build/\chapterpath/ltv_diff_drive_exact_xy}
     \caption{Linear time-varying differential drive controller x-y plot}
@@ -477,7 +458,6 @@ function is needed rather than a three-dimensional one. See figures
 \ref{fig:ltv_diff_drive_lqr_fit_0} through
 \ref{fig:ltv_diff_drive_lqr_fit_4} for plots of each controller gain for
 a range of velocities.
-
 \begin{bookfigure}
   \begin{minisvg}{2}{build/\chapterpath/ltv_diff_drive_lqr_fit_0}
     \caption{Linear time-varying differential drive controller LQR gain
@@ -519,7 +499,6 @@ follows:
   \end{cases}
 \end{equation*}} is used for symmetry around the origin in the regression for
 $y$.
-
 \begin{theorem}[Linear time-varying differential drive controller]
   \begin{equation*}
     \begin{array}{ccc}
@@ -609,7 +588,6 @@ $y$.
 Figures \ref{fig:ltv_diff_drive_approx_xy} through
 \ref{fig:ltv_diff_drive_exact_response2} show the responses of the exact
 and approximate solutions are the same.
-
 \begin{bookfigure}
   \begin{minisvg}{2}{build/\chapterpath/ltv_diff_drive_approx_xy}
     \caption{Linear time-varying differential drive controller x-y plot
@@ -649,7 +627,6 @@ will be $1$, and the others will be $0$ since they don't appear, so
 $\dot{x}_l = 1v_l + 0v_r + 0x_l + 0x_r + 0V_l + 0V_r$ and
 $\dot{x}_r = 0v_l + 1v_r + 0x_l + 0x_r + 0V_l + 0V_r$. The existing rows will
 have zeroes inserted where $x_l$ and $x_r$ are multiplied in.
-
 \begin{align*}
   \dot{\begin{bmatrix}
     x_l \\
@@ -675,7 +652,6 @@ have zeroes inserted where $x_l$ and $x_r$ are multiplied in.
 
 This produces the following linear subspace over
 $\mtx{x} = \begin{bmatrix}v_l & v_r & x_l & x_r\end{bmatrix}^T$.
-
 \begin{equation}
   \begin{array}{ll}
     \mtx{A} =
@@ -731,7 +707,6 @@ $\mtx{x} = \begin{bmatrix}x & y & \theta & v_l & v_r & x_l & x_r & u_{error,l} &
 The complete nonlinear model is as follows. Let $v = \frac{v_l + v_r}{2}$. The
 three $u_{error}$ states augment the linear subspace, so the nonlinear pose
 dynamics are the same.
-
 \begin{align}
   \dot{\begin{bmatrix}
     x \\
@@ -752,7 +727,6 @@ The heading $u_{error}$ is measuring counterclockwise encoder understeer
 relative to the gyroscope heading, so it should add to the left position and
 subtract from the right position for clockwise correction of encoder positions.
 That corresponds to the following input mapping vector.
-
 \begin{equation*}
   \mtx{B}_{\theta} = \begin{bmatrix}
     0 \\
@@ -764,7 +738,6 @@ That corresponds to the following input mapping vector.
 
 Now we'll augment the linear system matrix horizontally to accomodate the
 $u_{error}$ states.
-
 \begin{equation}
   \dot{\begin{bmatrix}
     v_l \\
@@ -791,7 +764,6 @@ $\mtx{A}$ and $\mtx{B}$ are the linear subspace from equation
 
 The $u_{error}$ states have no dynamics. The observer selects them to minimize
 the difference between the expected and actual measurements.
-
 \begin{equation}
   \dot{\begin{bmatrix}
     u_{error,l} \\
@@ -801,7 +773,6 @@ the difference between the expected and actual measurements.
 \end{equation}
 
 The controller is augmented as follows.
-
 \begin{equation}
   \begin{array}{ccc}
     \mtx{K}_{error} =
@@ -822,13 +793,11 @@ The controller is augmented as follows.
 \end{equation}
 
 This controller augmentation compensates for unmodeled dynamics like:
-
 \begin{enumerate}
   \item Understeer caused by wheel friction inherent in skid-steer robots
   \item Battery voltage drop under load, which reduces the available control
     authority
 \end{enumerate}
-
 \begin{remark}
   The process noise for the voltage error states should be how much the voltage
   can be expected to drop. The heading error state should be the encoder

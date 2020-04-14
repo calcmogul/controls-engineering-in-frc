@@ -5,7 +5,6 @@ Laplace domain. These can be obtained by applying the Laplace transform to a
 differential equation and rearranging the terms to obtain a ratio of the output
 variable to the input variable. Equation \eqref{eq:transfer_func} is an example
 of a transfer function.
-
 \begin{equation} \label{eq:transfer_func}
   H(s) = \frac{\overbrace{(s-9+9i)(s-9-9i)}^{zeroes}}
     {\underbrace{s(s+10)}_{poles}}
@@ -30,12 +29,10 @@ exponential\footnote{We are handwaving Laplace transform derivations because
 they are complicated and neither relevant nor useful.}. That means the time
 domain responses of \glspl{system} comprise decaying exponentials (e.g.,
 $y = e^{-t}$).
-
 \begin{svg}{build/\chapterpath/tf_3d}
   \caption{Equation \eqref{eq:transfer_func} plotted in 3D}
   \label{fig:tf_3d}
 \end{svg}
-
 \begin{remark}
   Imaginary poles and zeroes always come in complex conjugate pairs (e.g.,
   $-2 + 3i$, $-2 - 3i$).
@@ -48,7 +45,6 @@ stability of the \gls{system}. Each pole represents a frequency mode of the
 for a given input frequency. Figure \ref{fig:impulse_response_poles} shows the
 \glspl{impulse response} in the time domain for transfer functions with various
 pole locations. They all have an initial condition of $1$.
-
 \begin{bookfigure}
   \begin{tikzpicture}[auto, >=latex']
     % \draw [help lines] (-4,-2) grid (4,4);
@@ -107,7 +103,6 @@ pole locations. They all have an initial condition of $1$.
   \caption{Impulse response vs pole location}
   \label{fig:impulse_response_poles}
 \end{bookfigure}
-
 \begin{booktable}
   \begin{tabular}{|ll|}
     \hline

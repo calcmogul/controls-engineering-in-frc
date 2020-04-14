@@ -32,7 +32,6 @@ inverted \gls{plant} feedforward and \gls{plant} cancel out to produce a unity
 system from input to output.
 
 While it can be an effective tool, the following should be kept in mind.
-
 \begin{enumerate}
   \item Don't invert an unstable \gls{plant}. If the expected \gls{plant}
     doesn't match the real \gls{plant} exactly, the \gls{plant} inversion will
@@ -46,7 +45,6 @@ While it can be an effective tool, the following should be kept in mind.
 
 The following theorem will be needed to derive the linear plant inversion
 equation.
-
 \begin{theorem}
   \label{thm:partial_xax}
 
@@ -57,7 +55,6 @@ equation.
 \subsubsection{Setup}
 
 Let's start with the equation for the \gls{reference} dynamics
-
 \begin{equation*}
   \mtx{r}_{k+1} = \mtx{A}\mtx{r}_k + \mtx{B}\mtx{u}_k
 \end{equation*}
@@ -66,7 +63,6 @@ where $\mtx{u}_k$ is the feedforward input. Note that this feedforward equation
 does not and should not take into account any feedback terms. We want to find
 the optimal $\mtx{u}_k$ such that we minimize the \gls{tracking} error between
 $\mtx{r}_{k+1}$ and $\mtx{r}_k$.
-
 \begin{equation*}
   \mtx{r}_{k+1} - \mtx{A}\mtx{r}_k = \mtx{B}\mtx{u}_k
 \end{equation*}
@@ -77,14 +73,12 @@ constraints on the \gls{state} \gls{tracking} error and \gls{control effort}. To
 find the optimal solution for these sorts of trade-offs, one can define a cost
 function and attempt to minimize it. To do this, we'll first solve the
 expression for $\mtx{0}$.
-
 \begin{equation*}
   \mtx{0} = \mtx{B}\mtx{u}_k - (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k)
 \end{equation*}
 
 This expression will be the \gls{state} \gls{tracking} cost we use in the
 following cost function as an $H_2$ norm.
-
 \begin{equation*}
   \mtx{J} = (\mtx{B}\mtx{u}_k - (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k))^T
     (\mtx{B}\mtx{u}_k - (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k))
@@ -95,7 +89,6 @@ following cost function as an $H_2$ norm.
 Given theorem \ref{thm:partial_xax}, find the minimum of $\mtx{J}$ by taking the
 partial derivative with respect to $\mtx{u}_k$ and setting the result to
 $\mtx{0}$.
-
 \begin{align*}
   \frac{\partial\mtx{J}}{\partial\mtx{u}_k} &= 2\mtx{B}^T
     (\mtx{B}\mtx{u}_k - (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k)) \\
@@ -113,7 +106,6 @@ $\mtx{0}$.
 
 $(\mtx{B}^T\mtx{B})^{-1} \mtx{B}^T$ is the Moore-Penrose pseudoinverse of
 $\mtx{B}$ denoted by $\mtx{B}^\dagger$.
-
 \begin{theorem}[Linear plant inversion]
   \label{thm:linear_plant_inversion}
 
@@ -161,7 +153,6 @@ constant \gls{reference}, as expected.
 Figure \ref{fig:case_study_ff} shows \gls{plant} inversion applied to a
 second-order CIM motor model. \Gls{plant} inversion accounts for the motor
 back-EMF and eliminates steady-state error.
-
 \begin{svg}{build/\chapterpath/case_study_ff}
   \caption{Second-order CIM motor response with plant inversion}
   \label{fig:case_study_ff}
@@ -174,14 +165,12 @@ dynamics. Consider an elevator model which doesn't include gravity. A constant
 voltage offset can be used compensate for this. The feedforward takes the form
 of a voltage constant because voltage is proportional to force applied, and the
 force is acting in only one direction at all times.
-
 \begin{equation}
   u_k = V_{app}
 \end{equation}
 
 where $V_{app}$ is a constant. Another feedforward holds a single-jointed arm
 steady in the presence of gravity. It has the following form.
-
 \begin{equation}
   u_k = V_{app} \cos\theta
 \end{equation}

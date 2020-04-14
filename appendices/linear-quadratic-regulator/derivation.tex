@@ -1,13 +1,11 @@
 \section{Derivation}
 
 Let a continuous time linear \gls{system} be defined as
-
 \begin{equation}
   \dot{\mtx{x}} = \mtx{A}\mtx{x} + \mtx{B}\mtx{u}
 \end{equation}
 
 with the cost function
-
 \begin{equation*}
   J = \int\limits_0^\infty
     \begin{bmatrix}
@@ -30,7 +28,6 @@ $\mtx{N}$. $\mtx{Q}$ is the weight matrix for \gls{error}, $\mtx{R}$ is the
 weight matrix for \gls{control effort}, and $\mtx{N}$ is a cross weight matrix
 between \gls{error} and \gls{control effort}. $\mtx{N}$ is commonly utilized
 when penalizing the output in addition to the state and input.
-
 \begin{align*}
   J &= \int\limits_0^\infty
     \begin{bmatrix}
@@ -69,20 +66,17 @@ when penalizing the output in addition to the state and input.
 
 The feedback \gls{control law} which minimizes $J$ subject to the constraint
 $\dot{\mtx{x}} = \mtx{A}\mtx{x} + \mtx{B}\mtx{u}$ is
-
 \begin{equation*}
   \mtx{u} = -\mtx{K}\mtx{x}
 \end{equation*}
 
 where $\mtx{K}$ is given by
-
 \begin{equation*}
   \mtx{K} = \mtx{R}^{-1} \left(\mtx{B}^T\mtx{S} + \mtx{N}^T\right)
 \end{equation*}
 
 and $\mtx{S}$ is found by solving the continuous time algebraic Riccati equation
 defined as
-
 \begin{equation*}
   \mtx{A}^T\mtx{S} + \mtx{S}\mtx{A} - \left(\mtx{S}\mtx{B} +
     \mtx{N}\right) \mtx{R}^{-1} \left(\mtx{B}^T\mtx{S} + \mtx{N}^T\right) +
@@ -90,14 +84,12 @@ defined as
 \end{equation*}
 
 or alternatively
-
 \begin{equation*}
   \mathscrbf{A}^T\mtx{S} + \mtx{S}\mathscrbf{A} -
     \mtx{S}\mtx{B}\mtx{R}^{-1}\mtx{B}^T\mtx{S} + \mathscrbf{Q} = 0
 \end{equation*}
 
 with
-
 \begin{align*}
   \mathscrbf{A} &= \mtx{A} - \mtx{B}\mtx{R}^{-1}\mtx{N}^T \\
   \mathscrbf{Q} &= \mtx{Q} - \mtx{N}\mtx{R}^{-1}\mtx{N}^T
@@ -105,7 +97,6 @@ with
 
 If there is no cross-correlation between \gls{error} and \gls{control effort},
 $\mtx{N}$ is a zero matrix and the cost function simplifies to
-
 \begin{equation*}
   J = \int\limits_0^\infty
     \left(\mtx{x}^T\mtx{Q}\mtx{x} + \mtx{u}^T\mtx{R}\mtx{u}\right) dt
@@ -113,20 +104,17 @@ $\mtx{N}$ is a zero matrix and the cost function simplifies to
 
 The feedback \gls{control law} which minimizes this $J$ subject to
 $\dot{\mtx{x}} = \mtx{A}\mtx{x} + \mtx{B}\mtx{u}$ is
-
 \begin{equation*}
   \mtx{u} = -\mtx{K}\mtx{x}
 \end{equation*}
 
 where $\mtx{K}$ is given by
-
 \begin{equation*}
   \mtx{K} = \mtx{R}^{-1}\mtx{B}^T\mtx{S}
 \end{equation*}
 
 and $\mtx{S}$ is found by solving the continuous time algebraic Riccati equation
 defined as
-
 \begin{equation*}
   \mtx{A}^T\mtx{S} + \mtx{S}\mtx{A} -
     \mtx{S}\mtx{B}\mtx{R}^{-1}\mtx{B}^T\mtx{S} + \mtx{Q} = 0
@@ -136,7 +124,6 @@ The discrete time LQR \gls{controller} is computed via a slightly different cost
 function, constraint, and resulting algebraic Riccati equation. Snippet
 \ref{lst:lqr} computes the optimal infinite horizon, discrete time LQR
 \gls{controller}.
-
 \begin{code}{Python}{build/frccontrol/frccontrol/lqr.py}
   \caption{Infinite horizon, discrete time LQR computation in Python}
   \label{lst:lqr}

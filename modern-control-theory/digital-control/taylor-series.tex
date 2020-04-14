@@ -1,6 +1,5 @@
 \section{Taylor series}
 \index{discretization!Taylor series}
-
 \begin{remark}
   Watch the ``Taylor series" video from 3Blue1Brown's \textit{Essence of
   calculus} series (22 minutes) \cite{bib:calculus_taylor_series} for an
@@ -11,7 +10,6 @@ The definition for the matrix exponential and the approximations below all use
 the \textit{Taylor series expansion}. The Taylor series is a method of
 approximating a function like $e^t$ via the summation of weighted polynomial
 terms like $t^k$. $e^t$ has the following Taylor series around $t = 0$.
-
 \begin{equation*}
   e^t = \sum_{n = 0}^\infty \frac{t^n}{n!}
 \end{equation*}
@@ -24,7 +22,6 @@ the number of terms approaches infinity\footnote{Functions for which their
 Taylor series expansion converges to and also equals it are called analytic
 functions.}. Figure \ref{fig:taylor_series} shows the Taylor series expansion of
 $e^t$ around $t = 0$ for a varying number of terms.
-
 \begin{svg}{build/\chapterpath/taylor_series}
   \caption{Taylor series expansions of $e^t$ around $t = 0$ for $n$ terms}
   \label{fig:taylor_series}
@@ -33,7 +30,6 @@ $e^t$ around $t = 0$ for a varying number of terms.
 We'll expand the first few terms of the Taylor series expansion in equation
 \eqref{eq:mat_exp} for $\mtx{X} = \mtx{A}T$ so we can compare it with other
 methods.
-
 \begin{equation*}
   \sum_{k=0}^3 \frac{1}{k!} (\mtx{A}T)^k = \mtx{I} + \mtx{A}T +
     \frac{1}{2}\mtx{A}^2T^2 + \frac{1}{6}\mtx{A}^3T^3
@@ -42,7 +38,6 @@ methods.
 Table \ref{tab:disc_approx_matrix} compares the Taylor series expansions of the
 \gls{discretization} methods for the matrix case. These use a more complex
 formula which we won't present here.
-
 \begin{booktable}
   \begin{tabular}{|cll|}
     \hline

@@ -1,5 +1,4 @@
 \section{Drivetrain velocity model}
-
 \begin{equation*}
   \dot{\mtx{x}} = \mtx{A}\mtx{x} + \mtx{B}\mtx{u}
 \end{equation*}
@@ -17,7 +16,6 @@ If $\mtx{u} =
   0 \\
   0
 \end{bmatrix}$.
-
 \begin{equation*}
   \begin{bmatrix}
     0 \\
@@ -43,7 +41,6 @@ If $\mtx{u} =
 
 Since the column vectors contain the same element, the elements in the second
 row can be rearranged.
-
 \begin{equation*}
   \begin{bmatrix}
     0 \\
@@ -68,7 +65,6 @@ row can be rearranged.
 \end{equation*}
 
 Since the rows are linearly dependent, we can use just one of them.
-
 \begin{align*}
   \mtx{0} &=
     \begin{bmatrix}
@@ -111,7 +107,6 @@ If $\mtx{u} =
   a \\
   a
 \end{bmatrix}$.
-
 \begin{equation*}
   \begin{bmatrix}
     a \\
@@ -137,7 +132,6 @@ If $\mtx{u} =
 
 Since the column vectors contain the same element, the elements in the second
 row can be rearranged.
-
 \begin{equation*}
   \begin{bmatrix}
     a \\
@@ -162,7 +156,6 @@ row can be rearranged.
 \end{equation*}
 
 Since the rows are linearly dependent, we can use just one of them.
-
 \begin{align*}
   a &=
     \begin{bmatrix}
@@ -199,7 +192,6 @@ If $\mtx{u} =
   0 \\
   0
 \end{bmatrix}$.
-
 \begin{align*}
   \begin{bmatrix}
     0 \\
@@ -265,7 +257,6 @@ If $\mtx{u} =
 
 Since the column vectors contain the same element, the elements in the second
 row can be rearranged.
-
 \begin{equation*}
   \begin{bmatrix}
     0 \\
@@ -290,7 +281,6 @@ row can be rearranged.
 \end{equation*}
 
 Since the rows are linearly dependent, we can use just one of them.
-
 \begin{align*}
   0 &=
     \begin{bmatrix}
@@ -335,7 +325,6 @@ If $\mtx{u} =
   -a \\
   a
 \end{bmatrix}$.
-
 \begin{align*}
   \begin{bmatrix}
     -a \\
@@ -401,7 +390,6 @@ If $\mtx{u} =
 
 Since the column vectors contain the same element, the elements in the second
 row can be rearranged.
-
 \begin{equation*}
   \begin{bmatrix}
     -a \\
@@ -426,7 +414,6 @@ row can be rearranged.
 \end{equation*}
 
 Since the rows are linearly dependent, we can use just one of them.
-
 \begin{align*}
   -a &=
     \begin{bmatrix}
@@ -462,7 +449,6 @@ Since the rows are linearly dependent, we can use just one of them.
 \end{align*}
 
 Now stack the rows.
-
 \begin{equation*}
   \begin{bmatrix}
     0 \\
@@ -486,12 +472,10 @@ Now stack the rows.
 
 Solve for matrix elements with Wolfram Alpha. Let
 $b = K_{v1}$, $c = K_{a1}$, $d = K_{v2}$, and $f = K_{a2}$.
-
 \begin{verbatim}
 inverse of {{1, 1, b, b}, {v, v, b v + c a, b v + c a},
   {-1, 1, -d, d}, {v, -v, d v + f a, -(d v + f a)}} * {{0}, {a}, {0}, {a}}
 \end{verbatim}
-
 \begin{align*}
   \begin{bmatrix}
     A_1 \\
@@ -520,7 +504,6 @@ inverse of {{1, 1, b, b}, {v, v, b v + c a, b v + c a},
 \end{align*}
 
 To summarize,
-
 \begin{theorem}[Drivetrain velocity model]
   \begin{equation*}
     \dot{\mtx{x}} = \mtx{A}\mtx{x} + \mtx{B}\mtx{u}
@@ -567,7 +550,6 @@ To summarize,
 \end{theorem}
 
 If $K_v$ and $K_a$ are the same for both the linear and angular cases, it devolves to the one-dimensional case. This means the left and right sides are decoupled.
-
 \begin{align*}
   \begin{bmatrix}
     A_1 \\

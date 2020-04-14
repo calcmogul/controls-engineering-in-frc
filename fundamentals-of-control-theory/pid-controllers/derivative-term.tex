@@ -1,7 +1,6 @@
 \section{Derivative term}
 
 The \textit{Derivative} term drives the velocity error to zero.
-
 \begin{definition}[PD controller]
   \begin{equation}
     u(t) = K_p e(t) + K_d \frac{de}{dt}
@@ -13,7 +12,6 @@ The \textit{Derivative} term drives the velocity error to zero.
 
 Figure \ref{fig:pd_ctrl_diag} shows a block diagram for a \gls{system}
 controlled by a PD controller.
-
 \begin{bookfigure}
   \begin{tikzpicture}[auto, >=latex']
     \fontsize{9pt}{10pt}
@@ -46,7 +44,6 @@ controlled by a PD controller.
   \caption{PD controller block diagram}
   \label{fig:pd_ctrl_diag}
 \end{bookfigure}
-
 \begin{svg}{build/\chapterpath/pd_controller}
   \caption{PD controller on an elevator}
   \label{fig:pd_controller}
@@ -59,7 +56,6 @@ implicitly provided by how the position \gls{setpoint} changes over time. Figure
 
 To prove a PD controller is just two proportional controllers, we will rearrange
 the equation for a PD controller.
-
 \begin{equation*}
   u_k = K_p e_k + K_d \frac{e_k - e_{k-1}}{dt}
 \end{equation*}
@@ -67,7 +63,6 @@ the equation for a PD controller.
 where $u_k$ is the \gls{control input} at timestep $k$ and $e_k$ is the
 \gls{error} at timestep $k$. $e_k$ is defined as $e_k = r_k - x_k$ where $r_k$
 is the \gls{setpoint} and $x_k$ is the current \gls{state} at timestep $k$.
-
 \begin{align*}
   u_k &= K_p (r_k - x_k) + K_d \frac{(r_k - x_k) - (r_{k-1} - x_{k-1})}{dt} \\
   u_k &= K_p (r_k - x_k) + K_d \frac{r_k - x_k - r_{k-1} + x_{k-1}}{dt} \\

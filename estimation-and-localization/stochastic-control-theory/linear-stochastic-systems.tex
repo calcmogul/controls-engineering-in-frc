@@ -3,7 +3,6 @@
 \index{state-space observers!Kalman filter!derivations}
 
 Given the following stochastic system
-
 \begin{align*}
   \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}\mtx{u}_k +
     \mtx{\Gamma}\mtx{w}_k \\
@@ -12,7 +11,6 @@ Given the following stochastic system
 
 where $\mtx{w}_k$ is the process noise and $\mtx{v}_k$ is the measurement noise,
 \index{stochastic!process noise} \index{stochastic!measurement noise}
-
 \begin{align*}
   E[\mtx{w}_k] &= 0 \\
   E[\mtx{w}_k\mtx{w}_k^T] &= \mtx{Q}_k \\
@@ -33,7 +31,6 @@ which we'll use later for deriving the Kalman filter.
 
 First, we will compute how the expectation of the \gls{system} \gls{state}
 evolves.
-
 \begin{align*}
   E[\mtx{x}_{k+1}] &= E[\mtx{A}\mtx{x}_k + \mtx{B}\mtx{u}_k +
     \mtx{\Gamma}\mtx{w}_k] \\
@@ -49,7 +46,6 @@ evolves.
 
 Now, we will use this to compute how the \gls{state} covariance matrix $\mtx{P}$
 evolves.
-
 \begin{align*}
   \mtx{x}_{k+1} - \meanmtx{x}_{k+1} &= \mtx{A}\mtx{x}_k +
     \mtx{B}\mtx{u}_k + \mtx{\Gamma}\mtx{w}_k - (\mtx{A}\meanmtx{x}_k -
@@ -57,13 +53,11 @@ evolves.
   \mtx{x}_{k+1} - \meanmtx{x}_{k+1} &=
     \mtx{A}(\mtx{x}_k - \meanmtx{x}_k) + \mtx{\Gamma}\mtx{w}_k
 \end{align*}
-
 \begin{equation*}
   E[(\mtx{x}_{k+1} - \meanmtx{x}_{k+1})(\mtx{x}_{k+1} - \meanmtx{x}_{k+1})^T] =
     E[(\mtx{A}(\mtx{x}_k - \meanmtx{x}_k) + \mtx{\Gamma}\mtx{w}_k)
       (\mtx{A}(\mtx{x}_k - \meanmtx{x}_k) + \mtx{\Gamma}\mtx{w}_k)^T]
 \end{equation*}
-
 \begin{align*}
   \mtx{P}_{k+1} =~&
     E[(\mtx{A}(\mtx{x}_k - \meanmtx{x}_k) + \mtx{\Gamma}\mtx{w}_k)
@@ -87,7 +81,6 @@ evolves.
 \end{align*}
 
 Since the state and noise are independent, the cross terms are zero.
-
 \begin{align*}
   \mtx{P}_{k+1} =~& \mtx{A}\mtx{P}_k\mtx{A}^T + 0 + 0 +
     \mtx{\Gamma}\mtx{Q}_k\mtx{\Gamma}^T \\
@@ -98,7 +91,6 @@ Since the state and noise are independent, the cross terms are zero.
 \subsection{Measurement vector expectation}
 
 Next, we will compute the expectation of the \gls{output} $\mtx{y}$.
-
 \begin{align*}
   E[\mtx{y}_k] &= E[\mtx{C}\mtx{x}_k + \mtx{D}\mtx{u}_k + \mtx{v}_k] \\
   E[\mtx{y}_k] &= \mtx{C}E[\mtx{x}_k] + \mtx{D}\mtx{u}_k + 0 \\
@@ -109,13 +101,11 @@ Next, we will compute the expectation of the \gls{output} $\mtx{y}$.
 
 Now, we will use this to compute how the measurement covariance matrix
 $\mtx{S}$ evolves.
-
 \begin{align*}
   \mtx{y}_k - \meanmtx{y}_k &= \mtx{C}\mtx{x}_k + \mtx{D}\mtx{u}_k + \mtx{v}_k -
     (\mtx{C}\meanmtx{x}_k + \mtx{D}\mtx{u}_k) \\
   \mtx{y}_k - \meanmtx{y}_k &= \mtx{C}(\mtx{x}_k - \meanmtx{x}_k) + \mtx{v}_k
 \end{align*}
-
 \begin{align*}
   E[(\mtx{y}_k - \meanmtx{y}_k)(\mtx{y}_k - \meanmtx{y}_k)^T] &=
     E[(\mtx{C}(\mtx{x}_k - \meanmtx{x}_k) + \mtx{v}_k)

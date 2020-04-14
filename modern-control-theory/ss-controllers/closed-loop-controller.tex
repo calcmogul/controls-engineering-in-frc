@@ -6,7 +6,6 @@ the closed-loop state-space equations. We'll discuss where this
 
 First is the \gls{state} update equation. Substitute the \gls{control law} into
 equation \eqref{eq:ss_ctrl_x}.
-
 \begin{align}
   \dot{\mtx{x}} &= \mtx{A}\mtx{x} + \mtx{B}\mtx{K}(\mtx{r} - \mtx{x}) \nonumber
     \\
@@ -17,7 +16,6 @@ equation \eqref{eq:ss_ctrl_x}.
 
 Now for the \gls{output} equation. Substitute the \gls{control law} into
 equation \eqref{eq:ss_ctrl_y}.
-
 \begin{align}
   \mtx{y} &= \mtx{C}\mtx{x} + \mtx{D}(\mtx{K}(\mtx{r} - \mtx{x})) \nonumber \\
   \mtx{y} &= \mtx{C}\mtx{x} + \mtx{D}\mtx{K}\mtx{r} - \mtx{D}\mtx{K}\mtx{x}
@@ -29,7 +27,6 @@ Now, we'll do the same for the discrete \gls{system}. We'd like to know whether
 the \gls{system} defined by equation \eqref{eq:ssz_ctrl_x} operating with the
 \gls{control law} $\mtx{u}_k = \mtx{K}(\mtx{r}_k - \mtx{x}_k)$ converges to the
 \gls{reference} $\mtx{r}_k$.
-
 \begin{align*}
   \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}\mtx{u}_k \\
   \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}(\mtx{K}(\mtx{r}_k - \mtx{x}_k)) \\
@@ -39,7 +36,6 @@ the \gls{system} defined by equation \eqref{eq:ssz_ctrl_x} operating with the
     \mtx{B}\mtx{K}\mtx{r}_k \\
   \mtx{x}_{k+1} &= (\mtx{A} - \mtx{B}\mtx{K})\mtx{x}_k + \mtx{B}\mtx{K}\mtx{r}_k
 \end{align*}
-
 \begin{theorem}[Closed-loop state-space controller]
   \index{state-space controllers!closed-loop}
 
@@ -64,7 +60,6 @@ the \gls{system} defined by equation \eqref{eq:ssz_ctrl_x} operating with the
     \end{tabular}
   \end{figurekey}
 \end{theorem}
-
 \begin{booktable}
   \begin{tabular}{|ll|ll|}
     \hline

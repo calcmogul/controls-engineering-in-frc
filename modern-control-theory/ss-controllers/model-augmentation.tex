@@ -54,7 +54,6 @@ zeroes as well in these cases to maintain the correct matrix dimensionality.
 
 Since $\mtx{u} = -\mtx{K}\mtx{x}$, augmenting $\mtx{C}$ with $-\mtx{K}$ makes
 the \gls{observer} estimate the \gls{control input} $\mtx{u}$ applied.
-
 \begin{align*}
   \mtx{y} &= \mtx{C}\mtx{x} + \mtx{D}\mtx{u} \\
   \begin{bmatrix}
@@ -82,14 +81,12 @@ matrix augmentation.
 
 Snippet \ref{lst:augment_concat} shows how one packs together the following
 augmented matrix in Python using concatenation.
-
 \begin{equation*}
   \begin{bmatrix}
     \mtx{A} & \mtx{B} \\
     \mtx{C} & \mtx{D}
   \end{bmatrix}
 \end{equation*}
-
 \begin{code}{Python}{snippets/augment_concat.py}
   \caption{Matrix augmentation example: concatenation}
   \label{lst:augment_concat}
@@ -97,7 +94,6 @@ augmented matrix in Python using concatenation.
 
 Snippet \ref{lst:augment_slices} shows how one packs together the same augmented
 matrix in Python using array slices.
-
 \begin{code}{Python}{snippets/augment_slices.py}
   \caption{Matrix augmentation example: array slices}
   \label{lst:augment_slices}

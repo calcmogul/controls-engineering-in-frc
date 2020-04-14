@@ -5,20 +5,17 @@
 \index{FRC models!single-jointed arm equations}
 
 The angle and angular rate derivatives of the arm can be written as
-
 \begin{align}
   \dot{\theta}_{arm} &= \omega_{arm} \\
   \dot{\omega}_{arm} &= \dot{\omega}_{arm}
 \end{align}
 
 By equation \eqref{eq:dot_omega_arm}
-
 \begin{equation*}
   \dot{\omega}_{arm} = -\frac{G^2 K_t}{K_v RJ} \omega_{arm} + \frac{G K_t}{RJ} V
 \end{equation*}
 
 Factor out $\omega_{arm}$ and $V$ into column vectors.
-
 \begin{align*}
   \dot{\begin{bmatrix}
     \omega_{arm}
@@ -43,7 +40,6 @@ corresponding to $\omega_{arm}$ will be $1$, and the others will be $0$ since
 they don't appear, so $\dot{\theta}_{arm} = 0\theta_{arm} + 1\omega_{arm} + 0V$.
 The existing rows will have zeroes inserted where $\theta_{arm}$ is multiplied
 in.
-
 \begin{align*}
   \dot{\begin{bmatrix}
     \theta_{arm} \\
@@ -65,7 +61,6 @@ in.
     V
   \end{bmatrix}
 \end{align*}
-
 \begin{theorem}[Single-jointed arm state-space model]
   \begin{align*}
     \dot{\mtx{x}} &= \mtx{A} \mtx{x} + \mtx{B} \mtx{u} \\
@@ -114,7 +109,6 @@ gain is computed with the unaugmented discrete \gls{model}, the controller may
 be augmented. Therefore, the \gls{plant} and \gls{observer} augmentations assume
 a continuous \gls{model} and the \gls{controller} augmentation assumes a
 discrete \gls{controller}.
-
 \begin{equation*}
   \begin{array}{ccc}
     \mtx{x}_{aug} =
@@ -126,7 +120,6 @@ discrete \gls{controller}.
     \mtx{u} = V
   \end{array}
 \end{equation*}
-
 \begin{equation}
   \begin{array}{cccc}
     \mtx{A}_{aug} =
@@ -146,7 +139,6 @@ discrete \gls{controller}.
     \mtx{D}_{aug} = \mtx{D}
   \end{array}
 \end{equation}
-
 \begin{equation}
   \begin{array}{cc}
     \mtx{K}_{aug} = \begin{bmatrix}
@@ -176,7 +168,6 @@ mass. To compensate for it, we want to find a torque that is equal and opposite
 to the torque applied to the arm by gravity. The bottom row of the continuous
 elevator model contains the angular acceleration terms, so $Bu_{ff}$ is angular
 acceleration caused by the motor; $JBu_{ff}$ is the torque.
-
 \begin{align*}
   J Bu_{ff} &= -(\mtx{r}\times\mtx{F}) \\
   J Bu_{ff} &= -(rF\cos\theta)
@@ -191,14 +182,12 @@ maximum torque from gravity being applied rather than the minimum.
 The force of gravity $mg$ is applied at the center of the arm's mass. For a
 uniform beam, this is halfway down its length, or $\frac{L}{2}$ where $L$ is the
 length of the arm.
-
 \begin{align*}
   J Bu_{ff} &= -\left(\left(\frac{L}{2}\right)(-mg)\cos\theta\right) \\
   J Bu_{ff} &= mg \frac{L}{2}\cos\theta
 \end{align*}
 
 $B = \frac{GK_t}{RJ}$, so
-
 \begin{align*}
   J \frac{GK_t}{RJ} u_{ff} &= mg \frac{L}{2}\cos\theta \\
   u_{ff} &= \frac{RJ}{JGK_t} mg \frac{L}{2}\cos\theta \\
@@ -216,7 +205,6 @@ examples\footnote{\url{https://github.com/calcmogul/frccontrol/blob/master/examp
 creates and tests a controller for it. Figure
 \ref{fig:single_jointed_arm_response} shows the closed-loop \gls{system}
 response.
-
 \begin{svg}{build/frccontrol/examples/single_jointed_arm_response}
   \caption{Single-jointed arm response}
   \label{fig:single_jointed_arm_response}

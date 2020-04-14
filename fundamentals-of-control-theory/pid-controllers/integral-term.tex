@@ -4,7 +4,6 @@ The \textit{Integral} term accumulates the area between the \gls{setpoint}
 and \gls{output} plots over time (i.e., the integral of position \gls{error})
 and adds the current total to the \gls{control input}. Accumulating the area
 between two curves is called integration.
-
 \begin{definition}[PI controller]
   \begin{equation}
     u(t) = K_p e(t) + K_i \int_0^t e(\tau) \,d\tau
@@ -21,7 +20,6 @@ between two curves is called integration.
 
 Figure \ref{fig:pi_ctrl_diag} shows a block diagram for a \gls{system}
 controlled by a PI controller.
-
 \begin{bookfigure}
   \begin{tikzpicture}[auto, >=latex']
     \fontsize{9pt}{10pt}
@@ -60,7 +58,6 @@ proportional term may be too small to pull the \gls{output} all the way to the
 \gls{setpoint}, and the derivative term is zero. This can result in
 \gls{steady-state error}, as shown in figure
 \ref{fig:p_controller_steady-state_error}.
-
 \begin{svg}{build/\chapterpath/p_controller_ss_error}
   \caption{P controller on a flywheel with steady-state error}
   \label{fig:p_controller_steady-state_error}
@@ -75,7 +72,6 @@ A common way of eliminating \gls{steady-state error} is to integrate the
 flywheel controller eliminates it. However, too high of an integral gain can
 lead to overshoot, as shown in figure
 \ref{fig:pi_controller_steady-state_error_overshoot}.
-
 \begin{bookfigure}
   \begin{minisvg}{2}{build/\chapterpath/pi_controller_ss_error}
     \caption{PI controller on a flywheel without steady-state error}
@@ -87,7 +83,6 @@ lead to overshoot, as shown in figure
     \label{fig:pi_controller_steady-state_error_overshoot}
   \end{minisvg}
 \end{bookfigure}
-
 \begin{remark}
   There are better approaches to fix \gls{steady-state error} like using
   feedforwards or constraining when the integral control acts using other

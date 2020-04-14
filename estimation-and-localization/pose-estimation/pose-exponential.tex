@@ -59,7 +59,6 @@ a change in pose. This gets added to the pose from the last update.
 
 We can obtain a more accurate approximation of the pose than Euler integration
 by including first order dynamics for the heading $\theta$.
-
 \begin{equation*}
   \mtx{x} = \begin{bmatrix}
     x \\
@@ -70,7 +69,6 @@ by including first order dynamics for the heading $\theta$.
 
 $v_x$, $v_y$, and $\omega$ are the $x$ and $y$ velocities of the robot within
 its local coordinate frame, which will be treated as constants.
-
 \begin{remark}
   There are two coordinate frames used here: robot and global. A superscript on
   the left side of a matrix denotes the coordinate frame in which that matrix is
@@ -79,7 +77,6 @@ its local coordinate frame, which will be treated as constants.
 \end{remark}
 
 In the robot frame (the tangent space)
-
 \begin{align*}
   \crdfrm{R}{dx} &= \crdfrm{R}{v_x} \,dt \\
   \crdfrm{R}{dy} &= \crdfrm{R}{v_y} \,dt \\
@@ -88,7 +85,6 @@ In the robot frame (the tangent space)
 
 To transform this into the global frame SE(2), we apply a counterclockwise
 rotation matrix where $\theta$ changes over time.
-
 \begin{align*}
   \crdfrm{G}{\begin{bmatrix}
     dx \\
@@ -125,7 +121,6 @@ rotation matrix where $\theta$ changes over time.
 Now, integrate the matrix equation (matrices are integrated element-wise). This
 derivation heavily utilizes the integration method described in section
 \ref{subsec:calculus_change_of_vars}.
-
 \begin{align*}
   \crdfrm{G}{\begin{bmatrix}
     \Delta x \\
@@ -161,7 +156,6 @@ derivation heavily utilizes the integration method described in section
 
 This equation assumes a starting orientation of $\theta = 0$. For nonzero
 starting orientations, we can apply a counterclockwise rotation by $\theta$.
-
 \begin{equation}
   \crdfrm{G}{\begin{bmatrix}
     \Delta x \\
@@ -188,7 +182,6 @@ starting orientations, we can apply a counterclockwise rotation by $\theta$.
 
 If we factor out a $t$, we can use change in pose between updates instead of
 velocities.
-
 \begin{align}
   \crdfrm{G}{\begin{bmatrix}
     \Delta x \\
@@ -290,7 +283,6 @@ calculations to advance the model to the current timestep.
 When the robot is traveling on a straight trajectory ($\omega = 0$), some
 expressions within the equation above are indeterminate. We can approximate
 these with Taylor series expansions.
-
 \begin{align*}
   \frac{\sin\omega t}{\omega} &= t - \frac{t^3 \omega^2}{6} + \ldots \\
   \frac{\sin\omega t}{\omega} &\sim t - \frac{t^3 \omega^2}{6} \\
@@ -302,7 +294,6 @@ these with Taylor series expansions.
 
 If we let $\omega = 0$, we should get the standard kinematic equations like
 $x = vt$ with a rotation applied to them.
-
 \begin{align*}
   \frac{\sin\omega t}{\omega} &\sim t - \frac{t^3 \cdot 0^2}{6} = t \\
   \frac{\cos\omega t - 1}{\omega} &\sim -\frac{t^2 \cdot 0}{2} = 0 \\
@@ -310,7 +301,6 @@ $x = vt$ with a rotation applied to them.
 \end{align*}
 
 Now substitute these into equation \eqref{eq:pose_exponential}.
-
 \begin{align*}
   \crdfrm{G}{\begin{bmatrix}
     \Delta x \\
@@ -354,7 +344,6 @@ matrix applied to the velocities in the robot's local coordinate frame.
 
 Differential drive robots have $v_y = 0$ since they only move in the direction
 of the current heading, which is along the x-axis. Therefore,
-
 \begin{align*}
   \crdfrm{G}{\begin{bmatrix}
     \Delta x \\
@@ -382,7 +371,6 @@ of the current heading, which is along the x-axis. Therefore,
     \omega t
   \end{bmatrix}
 \end{align*}
-
 \begin{theorem}[Pose exponential]
   \begin{equation}
     \crdfrm{G}{\begin{bmatrix}
@@ -468,7 +456,6 @@ Figure \ref{fig:ramsete_twist_odometry_error} shows the error in the global pose
 coordinates over time for the simpler odometry method compared to the method
 using twists (uses the Ramsete controller from subsection
 \ref{sec:ramsete_unicycle_controller}).
-
 \begin{svg}{build/\chapterpath/ramsete_twist_odometry_error}
   \caption{Odometry error compared to method using twists ($dt = 0.05s$)}
   \label{fig:ramsete_twist_odometry_error}

@@ -30,7 +30,6 @@ e Mobile per i SErvizi e le TEcnologie").
 
 The \gls{state} tracking \gls{error} $\mtx{e}$ in the vehicle's coordinate frame
 is defined as
-
 \begin{equation*}
   \begin{bmatrix}
     e_x \\
@@ -57,7 +56,6 @@ from the global coordinate frame into the vehicle's coordinate frame.
 
 We will use the following control laws $u_1$ and $u_2$ for velocity and turning
 rate respectively.
-
 \begin{equation}
   \begin{aligned}
     u_1 &= -k_1 e_x \\
@@ -75,19 +73,16 @@ in theorem \ref{thm:ramsete_lyapunov_stability}.
 
 Our velocity and turning rate commands for the vehicle will use the following
 nonlinear transformation of the inputs.
-
 \begin{align*}
   v &= v_d\cos e_\theta - u_1 \\
   \omega &= \omega_d - u_2
 \end{align*}
 
 Substituting the control laws $u_1$ and $u_2$ into these equations gives
-
 \begin{align*}
   v &= v_d\cos{e_\theta} + k_1 e_x \\
   \omega &= k_3 e_\theta + \omega_d + k_2 v_d \sinc(e_\theta) e_y
 \end{align*}
-
 \begin{theorem}
   \label{thm:ramsete_lyapunov_stability}
 
@@ -124,7 +119,6 @@ Substituting the control laws $u_1$ and $u_2$ into these equations gives
 
 Let $k_2 = b$ and
 $k = k_1(v_d, \omega_d) = k_3(v_d, \omega_d) = 2\zeta\sqrt{\omega_d^2 + bv_d^2}$.
-
 \begin{theorem}[Ramsete unicycle controller]
   \begin{align}
     \begin{bmatrix}
@@ -190,7 +184,6 @@ two \glspl{model} for this purpose and compare their responses with a straight
 profile and as part of a nonlinear trajectory follower.
 
 \subsubsection{Left/right velocity reference tracker}
-
 \begin{equation*}
   \begin{array}{ccc}
     \mtx{x} =
@@ -212,7 +205,6 @@ profile and as part of a nonlinear trajectory follower.
     \end{bmatrix}
   \end{array}
 \end{equation*}
-
 \begin{equation*}
   \begin{array}{ll}
     \mtx{A} =
@@ -243,7 +235,6 @@ $C_3 = -\frac{G_r^2 K_t}{K_v R r^2}$, and $C_4 = \frac{G_r K_t}{Rr}$.
 
 To obtain a left/right velocity \gls{reference} tracker, we can just remove the
 position \glspl{state} from the \gls{model}.
-
 \begin{theorem}[Left/right velocity reference tracker]
   \label{thm:ramsete_decoupled_ref_tracker}
   \begin{equation*}
@@ -305,7 +296,6 @@ Since the Ramsete controller produces velocity and turning rate commands, it
 would be more convenient if the \glspl{state} are velocity and turning rate
 instead of left and right wheel velocity. We'll create a second model that has
 velocity and angular velocity states and see how well it performs.
-
 \begin{align*}
   \dot{v}_l &= \left(\frac{1}{m} + \frac{r_b^2}{J}\right)
     \left(C_1 v_l + C_2 V_l\right) +
@@ -316,7 +306,6 @@ velocity and angular velocity states and see how well it performs.
 \end{align*}
 
 Substitute in equations \eqref{eq:diff_vl} and \eqref{eq:diff_vr}.
-
 \begin{align}
   \dot{v}_c + \dot{\omega} r_b &= \left(\frac{1}{m} + \frac{r_b^2}{J}\right)
     \left(C_1(v_c - \omega r_b) + C_2 V_l\right) +
@@ -330,7 +319,6 @@ Substitute in equations \eqref{eq:diff_vl} and \eqref{eq:diff_vr}.
 
 Now, we need to solve for $\dot{v}_c$ and $\dot{\omega}$. First, we'll add
 equation \eqref{eq:diff_vc_l} to equation \eqref{eq:diff_vc_r}.
-
 \begin{align*}
   2\dot{v}_c &= \frac{2}{m} \left(C_1(v_c - \omega r_b) + C_2 V_l\right) +
     \frac{2}{m} \left(C_3(v_c + \omega r_b) + C_4 V_r\right) \\
@@ -345,7 +333,6 @@ equation \eqref{eq:diff_vc_l} to equation \eqref{eq:diff_vc_r}.
 
 Next, we'll subtract equation \eqref{eq:diff_vc_r} from equation
 \eqref{eq:diff_vc_l}.
-
 \begin{align*}
   2\dot{\omega} r_b &= \frac{2r_b^2}{J}
     \left(C_1(v_c - \omega r_b) + C_2 V_l\right) -
@@ -361,7 +348,6 @@ Next, we'll subtract equation \eqref{eq:diff_vc_r} from equation
 \end{align*}
 
 Now, just convert the two equations to state-space notation.
-
 \begin{theorem}[Linear/angular velocity reference tracker]
   \label{thm:ramsete_coupled_ref_tracker}
   \begin{equation*}
@@ -418,7 +404,6 @@ for an implementation.
 Figures \ref{fig:ramsete_decoupled_vel_lqr_profile} and
 \ref{fig:ramsete_coupled_vel_lqr_profile} shows how well each \gls{reference}
 tracker performs.
-
 \begin{bookfigure}
   \begin{minisvg}{2}{build/\chapterpath/ramsete_decoupled_vel_lqr_profile}
     \caption{Left/right velocity reference tracker response to a motion profile}
@@ -442,7 +427,6 @@ drivetrain with the \gls{reference} tracking behavior shown in figure
 velocity / angular velocity \gls{reference} tracker for a typical FRC drivetrain
 with the \gls{reference} tracking behavior shown in figure
 \ref{fig:ramsete_coupled_vel_lqr_response}.
-
 \begin{bookfigure}
   \begin{minisvg}{2}{build/\chapterpath/ramsete_decoupled_response}
     \caption{Ramsete controller response with left/right velocity reference

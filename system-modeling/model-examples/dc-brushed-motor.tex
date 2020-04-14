@@ -17,7 +17,6 @@ to measure accurately without the right equipment.
 
 The circuit for a DC brushed motor is shown in figure
 \ref{fig:dc_motor_circuit}.
-
 \begin{bookfigure}
   \begin{tikzpicture}[auto, >=latex', circuit ee IEC,
                       set resistor graphic=var resistor IEC graphic]
@@ -44,20 +43,17 @@ Amps, $R$ is the resistance across the motor in Ohms, $\omega$ is the angular
 velocity of the motor in radians per second, and $K_v$ is the angular velocity
 constant in radians per second per Volt. This circuit reflects the following
 relation.
-
 \begin{equation}
   V = IR + \frac{\omega}{K_v} \label{eq:motor_V}
 \end{equation}
 
 The mechanical relation for a DC brushed motor is
-
 \begin{equation}
   \tau = K_t I
 \end{equation}
 
 where $\tau$ is the torque produced by the motor in Newton-meters and $K_t$ is
 the torque constant in Newton-meters per Amp. Therefore
-
 \begin{equation*}
   I = \frac{\tau}{K_t}
 \end{equation*}
@@ -75,14 +71,12 @@ A typical motor's datasheet should include graphs of the motor's measured torque
 and current for different angular velocities for a given voltage applied to the
 motor. Figure \ref{fig:motor_data} is an example. Data for the most common
 motors in FRC can be found at \url{https://motors.vex.com}.
-
 \begin{svg}{build/\chapterpath/motor_data}
   \caption{Example motor datasheet for 775pro}
   \label{fig:motor_data}
 \end{svg}
 
 \subsubsection{Torque constant $K_t$}
-
 \begin{align}
   \tau &= K_t I \nonumber \\
   K_t &= \frac{\tau}{I} \nonumber \\
@@ -95,13 +89,11 @@ the motor from its datasheet.
 \subsubsection{Resistance $R$}
 
 Recall equation \eqref{eq:motor_V}.
-
 \begin{equation*}
   V = IR + \frac{\omega}{K_v}
 \end{equation*}
 
 When the motor is stalled, $\omega = 0$.
-
 \begin{align}
   V &= I_{stall} R \nonumber \\
   R &= \frac{V}{I_{stall}}
@@ -113,7 +105,6 @@ applied to the motor at stall.
 \subsubsection{Angular velocity constant $K_v$}
 
 Recall equation \eqref{eq:motor_V}.
-
 \begin{align*}
   V &= IR + \frac{\omega}{K_v} \\
   V - IR &= \frac{\omega}{K_v} \\
@@ -121,7 +112,6 @@ Recall equation \eqref{eq:motor_V}.
 \end{align*}
 
 When the motor is spinning under no load
-
 \begin{align}
   K_v &= \frac{\omega_{free}}{V - I_{free}R}
 \end{align}
@@ -143,7 +133,6 @@ threshold is exceeded. Reactive current limiting uses an actual current
 measurement, so the voltage is reduced after the current threshold is exceeded.
 
 The following pseudocode demonstrates each type of current limiting.
-
 \begin{code}{Python}{snippets/current_limit.py}
   \caption{Limits current of DC motor to $I_{max}$}
 \end{code}

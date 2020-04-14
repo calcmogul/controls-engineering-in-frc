@@ -6,7 +6,6 @@
 samples (see figure \ref{fig:zoh}). The exact method of applying this uses the
 matrix exponential, but this can be computationally expensive. Instead,
 approximations such as the following are used.
-
 \begin{enumerate}
   \item Forward Euler method. This is defined as
     $y_{n+1} = y_n + f(t_n, y_n) \Delta t$.
@@ -29,17 +28,14 @@ distortion between the real discrete \gls{system}'s poles and the approximate
 poles. This is in addition to the phase loss introduced by discretizing at a
 given sample rate in the first place. For fast-changing \glspl{system}, this
 distortion can quickly lead to instability.
-
 \begin{svg}{build/\chapterpath/zoh}
     \caption{Zero-order hold of a system response}
     \label{fig:zoh}
 \end{svg}
-
 \begin{svg}{build/\chapterpath/discretization_methods_vel}
   \caption{Discretization methods applied to velocity data}
   \label{fig:discretization_methods_vel}
 \end{svg}
-
 \begin{svg}{build/\chapterpath/discretization_methods_pos}
   \caption{Position plot of discretization methods applied to velocity data}
   \label{fig:discretization_methods_pos}
