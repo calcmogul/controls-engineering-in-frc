@@ -212,8 +212,6 @@ Add stubs for missing chapters, missing sections, and todo items.
 
 * Add derivations for trapezoidal and S-curve profiles to the derivations
   appendix.
-* Add section on spline generation to complement motion profiling
-  * Mention circular arc approximation
 * Configuration spaces
   * See [this post](https://www.chiefdelphi.com/t/multi-segement-arm-or-hilo-arm-interferences/340751/11)
     on using configuration spaces for mechanism collision avoidance

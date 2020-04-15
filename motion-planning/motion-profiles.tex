@@ -1,8 +1,6 @@
 \chapterimage{motion-planning.jpg}{OPERS field at UCSC}
 
-\chapter{1 DOF motion profiles}
-\label{ch:1_dof_motion_profiles}
-\index{motion profiles!1 DOF}
+\chapter{Motion profiles}
 
 If smooth, predictable motion of a \gls{system} over time is desired, it's best
 to only change a \gls{system}'s \gls{reference} as fast as the \gls{system} is
@@ -10,6 +8,10 @@ able to physically move. Motion profiles, also known as trajectories, are used
 for this purpose. For multi-state \glspl{system}, each \gls{state} is given its
 own trajectory. Since these \glspl{state} are usually position and velocity,
 they share different derivatives of the same profile.
+
+\section{1 DOF motion profiles}
+\label{sec:1_dof_motion_profiles}
+\index{motion profiles!1 DOF}
 
 For one degree of freedom ($1$ DOF) point-to-point movements in FRC, the most
 commonly used profiles are the trapezoidal profile (figure
@@ -56,7 +58,7 @@ nonacceleration; the trapezoidal profile has instantaneous transitions between
 these phases. This can be seen in the acceleration graphs of the corresponding
 velocity profiles for these two profile types.
 
-\section{Jerk}
+\subsection{Jerk}
 
 The motion characteristic that defines the change in acceleration, or
 transitional period, is known as "jerk". Jerk is defined as the rate of change
@@ -78,7 +80,7 @@ energy is absorbed in the system mechanics, it may cause an increase in
 \gls{settling time} or reduced accuracy if the vibration frequency matches
 resonances in the mechanical system.
 
-\section{Profile selection}
+\subsection{Profile selection}
 
 Since trapezoidal profiles spend their time at full acceleration or full
 deceleration, they are, from the standpoint of profile execution, faster than
@@ -111,7 +113,7 @@ Another consideration is whether that ``S" segment will actually lead to
 smoother control of the \gls{system}. If the high frequency dynamics at play are
 negligible, one can use the simpler trapezoidal profile.
 
-\section{Profile equations}
+\subsection{Profile equations}
 
 The trapezoidal profile uses the following equations.
 \begin{align*}
@@ -137,7 +139,7 @@ profile phases. The derivations for a trapezoid profile are in appendix
 because the continuous acceleration over time that S-curves provide isn't
 required for FRC mechanisms.
 
-\section{Other profile types}
+\subsection{Other profile types}
 
 The ultimate goal of any profile is to match the profile's motion
 characteristics to the desired application. Trapezoidal and S-curve profiles
@@ -168,7 +170,30 @@ parabolic profiles may not work as well as an S-curve despite the fact that a
 standard S-curve profile is not optimized for a stepper motor from the
 standpoint of the torque/speed curve.
 
-\section{Further reading}
+\subsection{Further reading}
 
 FRC teams 254 and 971 gave a talk at FIRST World Championships in 2015 about
 motion profiles \cite{bib:motion_profiles}.
+
+\section{2 DOF motion profiles}
+\index{motion profiles!2 DOF}
+
+In FRC, two degree of freedom ($2$ DOF) point-to-point movements are almost
+always within the context of drivetrains where the two degrees of freedom are
+the $x$ and $y$ axes.
+
+A \textit{path} is a set of (x, y) points for the drivetrain to follow. A
+\textit{trajectory} is a path that includes both the states (e.g., position and
+velocity) and control inputs (e.g., voltage) of the drivetrain as functions of
+time.
+
+Currently, the most common form of multidimensional trajectory planning in FRC
+is based on polynomial splines. The splines determine the path of the
+trajectory, and the path is parameterized by a trapezoidal motion profile to
+create a trajectory. \textit{A Dive into WPILib Trajectories} by Declan
+Freeman-Gleason introduces 2 DOF trajectory planning in FRC using polynomial
+splines \cite{bib:a_dive_into_wpilib_trajectories}.
+
+\textit{Planning Motion Trajectories for Mobile Robots Using Splines} by
+Christoph Sprunk provides a more general treatment of spline-based trajectory
+generation \cite{bib:spline_traj_sprunk}.
