@@ -1,0 +1,123 @@
+\chapterimage{motion-planning.jpg}{OPERS field at UCSC}
+
+\chapter{Configuration spaces}
+
+\section{Introduction}
+
+When a robot can interfere with itself, we need a motion profiling solution that
+ensures the robot doesn't destroy itself. Now that we've demonstrated various
+methods of motion profiling, how can we incorporate safe zones into the planning
+process or implement mechanism collision avoidance?
+
+1-DOF systems are straightforward. We define the minimum and maximum position
+constraints for the arm, elevator, etc. and ensure we stay between them. To do
+so, we might use some combination of:
+\begin{enumerate}
+  \item Rejecting, coercing, or clamping setpoints so that they are always
+    within the valid range
+  \item Soft limits on the speed controller
+  \item Limit switches, and/or physical hard stops
+\end{enumerate}
+
+Multi-DOF systems are more complex. In the 2-DOF case (e.g., an arm with a
+shoulder and a wrist, or an elevator and an arm), each DOF has some limits that
+are independent of the rest of the system (e.g., min and max angles), but there
+are also dependent constraints (e.g., if the shoulder is angled down, the wrist
+must be angled up to avoid hitting the ground). Examples of such constraints
+could include:
+\begin{itemize}
+  \item Minimum/maximum angles
+  \item Maximum extension rules
+  \item Robot chassis
+  \item Angles that require an infeasible amount of holding torque
+\end{itemize}
+
+One intuitive way to think about this is to envision an N-D space (2D for 2
+DOFs, etc.) where the $x$ and $y$ axes are the positions of the degrees of
+freedom. A given point $(x, y)$ can either be a valid configuration or an
+invalid configuration (meaning it violates one or more constraints). So, our 2D
+plot may have regions (half-planes, rectangles, etc.) representing constraints.
+
+\section{Waypoint planning}
+
+Our first example has 2 DOFs where all of the constraints are independent
+(minimum/maximum limits on each axis), as shown in figure
+\ref{fig:config_spaces_1}.
+\begin{svg}{build/\partpath/configuration_spaces_fig1}
+  \caption{Elevator-arm configuration space with independent constraints}
+  \label{fig:config_spaces_1}
+\end{svg}
+
+Motion planning and control in this example is simple; just make sure all
+controller references are always inside the box of valid states.
+
+Now let's make it more interesting. Say that if the arm is near the middle of
+travel (pointing straight down), the elevator must be above a certain height.
+Otherwise, the arm intersects the robot chassis. This configuration space would
+look like figure \ref{fig:config_spaces_2}.
+\begin{svg}{build/\partpath/configuration_spaces_fig2}
+  \caption{Elevator-arm configuration space requiring elevator to be above a
+    certain height when arm is pointing down}
+  \label{fig:config_spaces_2}
+\end{svg}
+
+Let's consider motion planning in the second example. Say the current state of
+our system is $x$ and our goal state is $r$ as shown in figure
+\ref{fig:config_spaces_3}.
+\begin{svg}{build/\partpath/configuration_spaces_fig3}
+  \caption{Elevator-arm configuration space with initial state $x$ and goal
+    state $r$}
+  \label{fig:config_spaces_3}
+\end{svg}
+
+Notice that the elevator height at the current state and the goal is identical.
+Do we just have to move the arm? Moving this way will sweep the system into the
+constraint we defined for preventing self-intersection with the chassis.
+Instead, we need to plan a sequence of references to execute that only pass
+through valid states. Figure \ref{fig:config_spaces_4} shows an example.
+\begin{svg}{build/\partpath/configuration_spaces_fig4}
+  \caption{Elevator-arm configuration space with path between initial state $x$
+    and final state $r$}
+  \label{fig:config_spaces_4}
+\end{svg}
+
+$a$ and $b$ are intermediate waypoints we added to ensure that the whole system
+moves in a safe manner. Considering again our toy example, the elevator goes up,
+then the arm rotates underneath, then the elevator goes back down. There are
+many possible ways to generate this path (or other valid paths), including some
+sort of search (discretize the plot into a grid and find a valid path using
+breadth-first search or A*) or hard-coded rules to handle different regions of
+the constraint space.
+
+\section{Waypoint traversal}
+
+Once we have a sequence of waypoints, there are a few options for traversing
+them:
+\begin{enumerate}
+  \item Generate trajectories for each DOF and time-synchronize them. This
+    ensures the mechanism follows the ``diagonal lines" in the path above. The
+    upside of this approach is it can yield the fastest (time-optimal)
+    coordinated movements possible. The downside is that the motion planning is
+    ``open loop" -- if one of the DOFs lags behind its trajectory, it's possible
+    that the system may still end up in an invalid state. In practice, we
+    include some buffer around our references to ensure that tracking error
+    doesn’t immediately lead to violated constraints. We are making our
+    trajectories more robust to uncertainty.
+  \item Perform movements sequentially. That is, move from $x$ to $a$, and only
+    start moving toward $b$ once the path from the current system state to $b$
+    is a straight line that is collision-free. This gives robustness to control
+    error, but may result in unnecessary stops or jerky movement compared to the
+    optimized, open-loop trajectory.
+\end{enumerate}
+
+This planning approach generalizes to an arbitrary number of DOFs and is
+essentially how industrial 7-DOF arms are operated.
+
+\section{State machine validation with safe sets}
+
+Configuration spaces can also be used for state machine validation. The states
+of all the mechanisms, including solenoid actuation states, would be axes in a
+configuration space. A state machine unit test would define a valid path through
+the configuration space, send the desired events to the state machine, then
+ensure the robot took the correct path in response to each event for all
+iterations.

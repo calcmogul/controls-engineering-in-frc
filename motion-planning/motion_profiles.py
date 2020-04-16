@@ -19,7 +19,7 @@ def main():
     t, x, v, a = fct.generate_trapezoid_profile(
         max_v=7.0, time_to_max_v=2.0, dt=0.05, goal=50.0
     )
-    plt.figure(1)
+    plt.figure()
     plt.subplot(3, 1, 1)
     plt.ylabel("Position (m)")
     plt.plot(t, x, label="Position")
@@ -36,7 +36,7 @@ def main():
     t, x, v, a = fct.generate_s_curve_profile(
         max_v=7.0, max_a=3.5, time_to_max_a=1.0, dt=0.05, goal=50.0
     )
-    plt.figure(2)
+    plt.figure()
     plt.subplot(3, 1, 1)
     plt.ylabel("Position (m)")
     plt.plot(t, x, label="Position")

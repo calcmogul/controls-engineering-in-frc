@@ -217,9 +217,6 @@ Add stubs for missing chapters, missing sections, and todo items.
 #### Motion planning
 
 * Add derivations for trapezoid and S-curve profiles to derivations appendix
-* Configuration spaces
-  * See [this post](https://www.chiefdelphi.com/t/multi-segement-arm-or-hilo-arm-interferences/340751/11)
-    on using configuration spaces for mechanism collision avoidance
 
 Any other results that are good for background but are unnecessary should be
 included in an appendix.
