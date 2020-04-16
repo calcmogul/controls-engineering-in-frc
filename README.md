@@ -159,6 +159,8 @@ Add stubs for missing chapters, missing sections, and todo items.
   * Simulate flywheel with stochastic force applied to slow it down (simulates
     shots)
   * Try P controller, PD controller, P + FF, PD + FF, and P + FF + u_error
+* Add information on controllability and observability Grammians
+  * Link to controllability Grammian video by Steve Brunton
 * Add links to implementations
 
 #### State-space model examples
