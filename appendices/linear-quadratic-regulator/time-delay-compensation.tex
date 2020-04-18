@@ -1,0 +1,133 @@
+\section{Time delay compensation}
+\index{controller design!linear-quadratic regulator!time delay compensation}
+
+Linear-Quadratic regulator controller gains tend to be aggressive, and in the
+presence of sensor delay, they may be unstable (see figure
+\ref{fig:elevator_time_delay_no_comp}). However, if we know the amount of delay,
+we can design the controller for a projected version of the undelayed model.
+That is, we can compute the control based on where the system will be after the
+time delay (see figure \ref{fig:elevator_time_delay_comp}).
+\begin{bookfigure}
+  \begin{minisvg}{2}{build/\chapterpath/elevator_time_delay_no_comp}
+    \caption{Elevator response at 5ms sample period with 50ms of output lag
+      (uncompensated controller gains)}
+    \label{fig:elevator_time_delay_no_comp}
+  \end{minisvg}
+  \hfill
+  \begin{minisvg}{2}{build/\chapterpath/elevator_time_delay_comp}
+    \caption{Elevator response at 5ms sample period with 50ms of output lag
+      (compensated controller gains)}
+    \label{fig:elevator_time_delay_comp}
+  \end{minisvg}
+\end{bookfigure}
+
+This method of delay compensation seems to work best for second-order systems.
+Figure \ref{fig:drivetrain_time_delay_no_comp} shows time delay for a drivetrain
+velocity system. Figure \ref{fig:drivetrain_time_delay_comp} shows that
+compensating the controller gain significantly reduces the feedback gain. Mainly
+feedforward is acting for a predominantly open-loop response, which has poor
+disturbance rejection. Fixing the source of the time delay is always preferred
+in general, but especially in cases like these.
+\begin{bookfigure}
+  \begin{minisvg}{2}{build/\chapterpath/drivetrain_time_delay_no_comp}
+    \caption{Drivetrain response at 1ms sample period with 40ms of output lag
+      (uncompensated controller gain)}
+    \label{fig:drivetrain_time_delay_no_comp}
+  \end{minisvg}
+  \hfill
+  \begin{minisvg}{2}{build/\chapterpath/drivetrain_time_delay_comp}
+    \caption{Drivetrain response at 1ms sample period with 40ms of output lag
+      (compensated controller gain)}
+    \label{fig:drivetrain_time_delay_comp}
+  \end{minisvg}
+\end{bookfigure}
+
+We'll show how to derive this controller gain compensation for continuous and
+discrete systems. For more details on the method involved and controller startup
+considerations, read the original paper \cite{bib:lqr_time_delay}.
+
+\subsection{Continuous case}
+
+The continuous linear system is defined as
+\begin{equation*}
+  \dot{\mtx{x}} = \mtx{A}\mtx{x}(t) + \mtx{B}\mtx{u}(t)
+\end{equation*}
+
+Let the controller for this system be
+\begin{equation*}
+  \mtx{u}(t) = -\mtx{K}\mtx{x}(t)
+\end{equation*}
+
+Substitute this into the continuous model.
+\begin{align*}
+  \dot{\mtx{x}} &= \mtx{A}\mtx{x}(t) + \mtx{B}\mtx{u}(t) \\
+  \dot{\mtx{x}} &= \mtx{A}\mtx{x}(t) + \mtx{B}(-\mtx{K}\mtx{x}(t)) \\
+  \dot{\mtx{x}} &= \mtx{A}\mtx{x}(t) - \mtx{B}\mtx{K}\mtx{x}(t) \\
+  \dot{\mtx{x}} &= (\mtx{A} - \mtx{B}\mtx{K}) \mtx{x}(t)
+\end{align*}
+
+Let $L$ be the amount of time delay in seconds. Take the matrix exponential from
+the current time $t$ to $L$ in the future.
+\begin{equation}
+  \mtx{x}(t + L) = e^{(\mtx{A} - \mtx{B}\mtx{K})L} \mtx{x}(t)
+    \label{eq:continuous_advance_state_by_delay}
+\end{equation}
+
+We can avoid the time delay if we compute the control based on the plant $L$
+seconds in the future using equation
+\eqref{eq:continuous_advance_state_by_delay}. Therefore, the latency-compensated
+controller is
+\begin{align}
+  \mtx{u}(t) &= -\mtx{K}\mtx{x}(t + L) \nonumber \\
+  \mtx{u}(t) &= -\mtx{K} e^{(\mtx{A} - \mtx{B}\mtx{K})L} \mtx{x}(t)
+\end{align}
+
+\subsection{Discrete case}
+
+The discrete linear system is defined as
+\begin{equation*}
+  \mtx{x}_{k+1} = \mtx{A}\mtx{x}_k + \mtx{B}\mtx{u}_k
+\end{equation*}
+
+Let the controller for this system be
+\begin{equation*}
+  \mtx{u}_k = -\mtx{K}\mtx{x}_k
+\end{equation*}
+
+Substitute this into the discrete model.
+\begin{align*}
+  \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}\mtx{u}_k \\
+  \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}(-\mtx{K}\mtx{x}_k) \\
+  \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k - \mtx{B}\mtx{K}\mtx{x}_k \\
+  \mtx{x}_{k+1} &= (\mtx{A} - \mtx{B}\mtx{K}) \mtx{x}_k
+\end{align*}
+
+Let $T$ be the duration between timesteps in seconds and $L$ be the amount of
+time delay in seconds. $\frac{L}{T}$ gives the number of timesteps represented
+by $L$.
+\begin{equation}
+  \mtx{x}_{k+L} = (\mtx{A} - \mtx{B}\mtx{K})^\frac{L}{T} \mtx{x}_k
+    \label{eq:discrete_advance_state_by_delay}
+\end{equation}
+
+We can avoid the time delay if we compute the control based on the plant $L$
+seconds in the future using equation \eqref{eq:discrete_advance_state_by_delay}.
+Therefore, the latency-compensated controller is
+\begin{align}
+  \mtx{u}_k &= -\mtx{K}\mtx{x}_{k+L} \nonumber \\
+  \mtx{u}_k &= -\mtx{K} (\mtx{A} - \mtx{B}\mtx{K})^\frac{L}{T} \mtx{x}_k
+    \label{eq:discrete_delay_comp_control_law}
+\end{align}
+
+If the delay $L$ isn't a multiple of the sample period $T$ in equation
+\eqref{eq:discrete_delay_comp_control_law}, we have to evaluate a fractional
+matrix power, which can be tricky. If $\mtx{A} - \mtx{B}\mtx{K}$ is
+diagonalizable, we can obtain an exact answer for
+$(\mtx{A} - \mtx{B}\mtx{K})^\frac{L}{T}$ by decomposing
+$\mtx{A} - \mtx{B}\mtx{K}$ into $\mtx{P}\mtx{D}\mtx{P}^{-1}$ where $\mtx{D}$ is
+a diagonal matrix, computing $\mtx{D}^\frac{L}{T}$ as each diagonal element
+raised to $\frac{L}{T}$, then recomposing
+$\mtx{P}\mtx{D}^\frac{L}{T}\mtx{P}^{-1}$. If $\mtx{A} - \mtx{B}\mtx{K}$ isn't
+diagonalizable, we'll have to approximate the matrix power by rounding
+$\frac{L}{T}$ to the nearest integer. This approximation gets worse as
+$L \bmod T$ approaches $\frac{T}{2}$.
