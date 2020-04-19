@@ -42,9 +42,9 @@ evolves.
   \meanmtx{x}_{k+1} &= \mtx{A}\meanmtx{x}_k + \mtx{B}\mtx{u}_k \\
 \end{align*}
 
-\subsection{State covariance matrix evolution}
+\subsection{Error covariance matrix evolution}
 
-Now, we will use this to compute how the \gls{state} covariance matrix $\mtx{P}$
+Now, we will use this to compute how the \gls{error} covariance matrix $\mtx{P}$
 evolves.
 \begin{align*}
   \mtx{x}_{k+1} - \meanmtx{x}_{k+1} &= \mtx{A}\mtx{x}_k +
@@ -75,15 +75,19 @@ evolves.
     &\mtx{\Gamma} E[\mtx{w}_k(\mtx{x}_k - \meanmtx{x}_k)^T]\mtx{A}^T +
     \mtx{\Gamma} E[\mtx{w}_k\mtx{w}_k^T]\mtx{\Gamma}^T \\
   \mtx{P}_{k+1} =~& \mtx{A}\mtx{P}_k\mtx{A}^T +
-    \mtx{A}E[(\mtx{x}_k - \meanmtx{x}_k)\mtx{w}_k^T]\mtx{\Gamma}^T + \\
-    &\mtx{\Gamma} E[\mtx{w}_k(\mtx{x}_k - \meanmtx{x}_k)^T]\mtx{A}^T +
+    \mtx{A}E[(\mtx{x}_k - \meanmtx{x}_k)\mtx{w}_k^T]\mtx{\Gamma}^T +
+    \mtx{\Gamma} E[\mtx{w}_k(\mtx{x}_k - \meanmtx{x}_k)^T]\mtx{A}^T +
     \mtx{\Gamma}\mtx{Q}_k\mtx{\Gamma}_k^T
 \end{align*}
 
-Since the state and noise are independent, the cross terms are zero.
+Since the error and noise are independent, the cross terms are zero.
 \begin{align*}
-  \mtx{P}_{k+1} =~& \mtx{A}\mtx{P}_k\mtx{A}^T + 0 + 0 +
-    \mtx{\Gamma}\mtx{Q}_k\mtx{\Gamma}^T \\
+  \mtx{P}_{k+1} =~& \mtx{A}\mtx{P}_k\mtx{A}^T +
+    \mtx{A}\underbrace{
+      E[(\mtx{x}_k - \meanmtx{x}_k)\mtx{w}_k^T]}_\mtx{0}\mtx{\Gamma}^T +
+    \mtx{\Gamma}\underbrace{
+      E[\mtx{w}_k(\mtx{x}_k - \meanmtx{x}_k)^T]}_\mtx{0}\mtx{A}^T +
+    \mtx{\Gamma}\mtx{Q}_k\mtx{\Gamma}_k^T \\
   \mtx{P}_{k+1} =~& \mtx{A}\mtx{P}_k\mtx{A}^T +
     \mtx{\Gamma}\mtx{Q}_k\mtx{\Gamma}^T
 \end{align*}
