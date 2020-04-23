@@ -234,8 +234,8 @@ Therefore,
     \begin{array}{ll}
       \mtx{A} =
       \begin{bmatrix}
-        0 & 0 & -v\sin\theta & \frac{1}{2}\cos\theta & \frac{1}{2}\cos\theta \\
-        0 & 0 & v\cos\theta & \frac{1}{2}\sin\theta & \frac{1}{2}\sin\theta \\
+        0 & 0 & -vs & \frac{1}{2}c & \frac{1}{2}c \\
+        0 & 0 & vc & \frac{1}{2}s & \frac{1}{2}s \\
         0 & 0 & 0 & -\frac{1}{2r_b} & \frac{1}{2r_b} \\
         0 & 0 & 0 & \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_1 &
           \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_3 \\
@@ -262,10 +262,11 @@ Therefore,
     \end{array}
   \end{equation}
 
-  where $v = \frac{v_l + v_r}{2}$, $C_1 = -\frac{G_l^2 K_t}{K_v R r^2}$,
-  $C_2 = \frac{G_l K_t}{Rr}$, $C_3 = -\frac{G_r^2 K_t}{K_v R r^2}$, and
-  $C_4 = \frac{G_r K_t}{Rr}$. The constants $C_1$ through $C_4$ are from the
-  derivation in section \ref{sec:differential_drive}.
+  where $v = \frac{v_l + v_r}{2}$, $c = \cos\theta$, $s = \sin\theta$,
+  $C_1 = -\frac{G_l^2 K_t}{K_v R r^2}$, $C_2 = \frac{G_l K_t}{Rr}$,
+  $C_3 = -\frac{G_r^2 K_t}{K_v R r^2}$, and $C_4 = \frac{G_r K_t}{Rr}$. The
+  constants $C_1$ through $C_4$ are from the derivation in section
+  \ref{sec:differential_drive}.
 
   The LQR gain should be recomputed around the current operating point regularly
   due to the high nonlinearity of this system. A less computationally expensive
