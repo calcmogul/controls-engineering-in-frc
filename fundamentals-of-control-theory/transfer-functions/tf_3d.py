@@ -22,6 +22,21 @@ def clamp(val, low, high):
     return max(low, min(val, high))
 
 
+def func(x, y):
+    """Function to plot.
+
+    Keyword arguments:
+    x -- x coordinate
+    y -- y coordinate
+
+    Returns:
+    z coordinate
+    """
+    s = x + y * 1j
+    h = (s - 9 + 9j) * (s - 9 - 9j) / (s * (s + 10))
+    return clamp(math.sqrt(h.real ** 2 + h.imag ** 2), -30, 30)
+
+
 def main():
     x, y = np.mgrid[-20.0:20.0:250j, -20.0:20.0:250j]
 
@@ -30,9 +45,7 @@ def main():
 
     z = np.zeros(xy.shape[0])
     for i, pair in enumerate(xy):
-        s = pair[0] + pair[1] * 1j
-        h = (s - 9 + 9j) * (s - 9 - 9j) / (s * (s + 10))
-        z[i] = clamp(math.sqrt(h.real ** 2 + h.imag ** 2), -30, 30)
+        z[i] = func(pair[0], pair[1])
     z = z.reshape(x.shape)
 
     fig = plt.figure()
