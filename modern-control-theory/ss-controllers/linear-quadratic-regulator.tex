@@ -78,10 +78,12 @@ the result is finite, the controller is guaranteed to be stable and
 \index{optimal control!linear-quadratic regulator!Bryson's rule}
 
 The next obvious question is what values to choose for $\mtx{Q}$ and $\mtx{R}$.
-With Bryson's rule, the diagonals of the $\mtx{Q}$ and $\mtx{R}$ matrices are
-chosen based on the maximum acceptable value for each \gls{state} and actuator.
-The nondiagonal elements are zero. The balance between $\mtx{Q}$ and $\mtx{R}$
-can be slid along the Pareto boundary using a weighting factor $\rho$.
+While this can be more of an art than a science, Bryson's rule provides a good
+starting point. With Bryson's rule, the diagonals of the $\mtx{Q}$ and $\mtx{R}$
+matrices are chosen based on the maximum acceptable value for each \gls{state}
+and actuator. The nondiagonal elements are zero. The balance between $\mtx{Q}$
+and $\mtx{R}$ can be slid along the Pareto boundary using a weighting factor
+$\rho$.
 \begin{equation*}
   J = \int\limits_0^\infty \left(\rho \left[
     \left(\frac{x_1}{x_{1,max}}\right)^2 + \ldots +
