@@ -126,7 +126,8 @@ clean: clean_tex
 
 .PHONY: clean_tex
 clean_tex:
-	rm -f *.aux *.bbl *.bcf *.blg *.fdb_latexmk *.fls *.glg *.glo *.gls *.idx *.ilg *.ind *.ist *.lof *.log *.los *.lot *.out *.toc *.pdf *.ptc *.xdv *.xml
+	latexmk -xelatex -C
+	rm -f controls-engineering-in-frc-*.pdf
 
 .PHONY: upload
 upload: ebook
