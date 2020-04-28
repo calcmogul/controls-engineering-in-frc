@@ -4,3 +4,4 @@ sub makeglo2gls {
 }
 
 $clean_ext = "bbl glg glo gls ist ptc run.xml";
+$xdvipdfmx = "xdvipdfmx -V 7 -o %D %O %S"

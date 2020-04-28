@@ -39,7 +39,7 @@ $(NAME).pdf: $(TEX) $(STAMP) $(BIB) $(FIGS) \
 
 $(NAME)-ebook.pdf: $(NAME).pdf
 	gs -sDEVICE=pdfwrite \
-		-dCompatibilityLevel=1.4 \
+		-dCompatibilityLevel=1.7 \
 		-dPDFSETTINGS=/ebook \
 		-dEmbedAllFonts=true \
 		-dSubsetFonts=true \
@@ -53,7 +53,7 @@ $(NAME)-ebook.pdf: $(NAME).pdf
 
 $(NAME)-printer.pdf: $(NAME).pdf
 	gs -sDEVICE=pdfwrite \
-		-dCompatibilityLevel=1.4 \
+		-dCompatibilityLevel=1.7 \
 		-dPDFSETTINGS=/printer \
 		-dEmbedAllFonts=true \
 		-dSubsetFonts=true \
@@ -67,7 +67,7 @@ $(NAME)-printer.pdf: $(NAME).pdf
 
 $(NAME)-prepress.pdf: $(NAME).pdf
 	gs -sDEVICE=pdfwrite \
-		-dCompatibilityLevel=1.4 \
+		-dCompatibilityLevel=1.7 \
 		-dPDFSETTINGS=/prepress \
 		-dEmbedAllFonts=true \
 		-dSubsetFonts=true \
