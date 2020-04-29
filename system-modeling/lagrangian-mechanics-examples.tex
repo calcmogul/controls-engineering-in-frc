@@ -1,6 +1,6 @@
 \chapterimage{system-modeling.jpg}{Hills by northbound freeway between Santa Maria and Ventura}
 
-\chapter{Model examples}
+\chapter{Lagrangian mechanics examples}
 
 A \gls{model} is a set of differential equations describing how the \gls{system}
 behaves over time. There are two common approaches for developing them.
@@ -10,7 +10,12 @@ behaves over time. There are two common approaches for developing them.
   \item Using physics to derive the \gls{system}'s model from first principles.
 \end{enumerate}
 
-We'll use the second approach in this book.
+This chapter covers the second approach using Lagrangian mechanics.
+
+We suggest reading \textit{An introduction to Lagrangian and Hamiltonian
+Mechanics} by Simon J.A. Malham for the basics
+\cite{bib:an_intro_to_lagrangian_and_hamiltonian_mechanics}. Then, we'll apply
+Lagrangian mechanics to FRC mechanisms in particular.
 
 The \glspl{model} derived here should cover most types of motion seen on an FRC
 robot. Furthermore, they can be easily tweaked to describe many types of
@@ -27,7 +32,7 @@ mode except where the applied voltage is zero. In brake mode, the motor leads
 are shorted together to prevent movement. In coast mode, the motor leads are an
 open circuit.
 
-\renewcommand*{\chapterpath}{\partpath/model-examples}
+\renewcommand*{\chapterpath}{\partpath/lagrangian-mechanics-examples}
 \input{\chapterpath/dc-brushed-motor}
 \input{\chapterpath/elevator}
 \input{\chapterpath/flywheel}
