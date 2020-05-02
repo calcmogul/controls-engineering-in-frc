@@ -83,8 +83,8 @@ def savefig(file_name):
         [
             "inkscape",
             "-D",
-            "-z",
-            "--file=" + file_name + ".svg",
-            "--export-pdf=" + file_name + ".pdf",
+            "--export-type=pdf",
+            "--export-filename=" + file_name + ".pdf",
+            file_name + ".svg",
         ]
     )

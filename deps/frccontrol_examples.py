@@ -17,9 +17,9 @@ def run(name):
         [
             "inkscape",
             "-D",
-            "-z",
-            "--file=" + base + "_response.svg",
-            "--export-pdf=" + base + "_response.pdf",
+            "--export-type=pdf",
+            "--export-filename=" + base + "_response.pdf",
+            base + "_response.svg",
         ]
     )
 
