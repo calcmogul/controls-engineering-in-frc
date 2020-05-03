@@ -93,8 +93,9 @@ build/commit-hash.tex: .git/refs/heads/$(git rev-parse --abbrev-ref HEAD) .git/H
 
 $(DEPS_STAMP): build/%.stamp: %.json
 	@mkdir -p $(@D)
-	$(ROOT)/deps/pkg.py
+	$(ROOT)/deps/pkg.py init
 	$(ROOT)/build/venv/bin/pip3 install -e $(ROOT)/bookutil
+	$(ROOT)/deps/pkg.py install_all
 	touch $@
 
 # This rule places CSVs into the build folder so scripts executed from the build

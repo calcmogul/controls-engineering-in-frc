@@ -70,21 +70,48 @@ def plot_time_responses(
     plt.xlabel("Time (s)")
 
 
-def savefig(file_name):
+def convert_svg2pdf(filename):
+    """Converts the given SVG to PDF with inkscape.
+
+    Keyword arguments:
+    filename -- filename without the extension
+    """
+    import re
+    import subprocess
+
+    inkscape_output = subprocess.check_output(
+        ["inkscape", "--version"], encoding="utf-8"
+    )
+    match = re.search(r"(?P<major>[0-9]+)\.(?P<minor>[0-9]+)", inkscape_output)
+
+    # Inkscape 0.x has different arguments than later versions
+    if match.group("major") == "0":
+        subprocess.run(
+            [
+                "inkscape",
+                "-D",
+                "-z",
+                "--file=" + filename + ".svg",
+                "--export-pdf=" + filename + ".pdf",
+            ]
+        )
+    else:
+        subprocess.run(
+            [
+                "inkscape",
+                "-D",
+                "--export-type=pdf",
+                "--export-filename=" + filename + ".pdf",
+                filename + ".svg",
+            ]
+        )
+
+
+def savefig(filename):
     """Saves the current plot as an SVG and converts it to a PDF with inkscape.
 
     Keyword arguments:
-    file_name -- file name without the extension
+    filename -- filename without the extension
     """
-    import subprocess
-
-    plt.savefig(file_name + ".svg")
-    subprocess.run(
-        [
-            "inkscape",
-            "-D",
-            "--export-type=pdf",
-            "--export-filename=" + file_name + ".pdf",
-            file_name + ".svg",
-        ]
-    )
+    plt.savefig(filename + ".svg")
+    convert_svg2pdf(filename)

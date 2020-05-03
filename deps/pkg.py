@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import argparse
 import json
 import os
 import shutil
@@ -132,12 +133,30 @@ class PackageTree:
             subprocess.run([self.ENV_PYTHON, hook])
 
 
-files = [
-    os.path.join(dp, f)
-    for dp, dn, fn in os.walk("deps")
-    for f in fn
-    if f.endswith(".json")
-]
-for file in files:
-    pkgs = PackageTree(file)
-    pkgs.install_pkgs("build/venv")
+def main():
+    parser = argparse.ArgumentParser(
+        description="Python venv package installation manager"
+    )
+    parser.add_argument("operation", choices=["init", "install_all"])
+    args = parser.parse_args()
+
+    venv_name = "build/venv"
+
+    if args.operation == "init":
+        # Create venv
+        if not os.path.exists(venv_name):
+            subprocess.run([sys.executable, "-m", "venv", venv_name])
+    elif args.operation == "install_all":
+        files = [
+            os.path.join(dp, f)
+            for dp, dn, fn in os.walk("deps")
+            for f in fn
+            if f.endswith(".json")
+        ]
+        for file in files:
+            pkgs = PackageTree(file)
+            pkgs.install_pkgs(venv_name)
+
+
+if __name__ == "__main__":
+    main()

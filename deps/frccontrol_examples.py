@@ -2,7 +2,6 @@
 
 import multiprocessing as mp
 import os
-import subprocess
 
 
 root = os.getcwd()
@@ -11,17 +10,12 @@ ENV_PIP = os.path.join(root, "build/venv/bin/pip3")
 
 
 def run(name):
+    import bookutil.latex as latex
+    import subprocess
+
     subprocess.run([ENV_PYTHON, name, "--noninteractive"])
-    base = os.path.splitext(os.path.basename(name))[0]
-    subprocess.run(
-        [
-            "inkscape",
-            "-D",
-            "--export-type=pdf",
-            "--export-filename=" + base + "_response.pdf",
-            base + "_response.svg",
-        ]
-    )
+    filename = os.path.splitext(os.path.basename(name))[0] + "_response"
+    latex.convert_svg2pdf(filename)
 
 
 # Run frccontrol examples
