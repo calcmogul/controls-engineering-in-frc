@@ -35,6 +35,10 @@ command.
 pip3 install --user frccontrol
 ```
 
+Some also use bookutil, a Python package containing common utilities for this
+book. That can be installed by running `pip3 install --user -e bookutil` from
+the root of this Git repository.
+
 The scripts can be run as follows:
 
 ```
