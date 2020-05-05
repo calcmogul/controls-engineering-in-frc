@@ -2,6 +2,67 @@
 \index{controller design!linear-quadratic regulator}
 \index{optimal control!linear-quadratic regulator}
 
+\subsection{The intuition}
+
+We can demonstrate the basic idea behind the linear-quadratic regulator with the
+following flywheel model:
+\begin{equation*}
+  \dot{x} = ax + bu
+\end{equation*}
+
+where $a$ is a negative constant representing the back-EMF of the motor, $x$ is
+the angular velocity, $b$ is a positive constant that maps the input voltage to
+some change in angular velocity (angular acceleration), $u$ is the voltage
+applied to the motor, and $\dot{x}$ is the angular acceleration.
+
+If the angular velocity starts from zero and we apply a positive voltage, we'd
+see the motor spin up to some constant speed following an exponential decay,
+then stay at that speed. If we throw in the control law $u = k(r - x)$, we can
+make the system converge to a desired state $r$ through proportional feedback.
+In what manner can we pick the constant $k$ that balances getting to the target
+angular velocity quickly with getting there efficiently? (That is, quickly, but
+without oscillation or excessive voltage)
+
+We can solve this problem with something called the linear-quadratic regulator.
+We'll define the following cost function that includes the states and inputs:
+\begin{equation*}
+  J = \int_0^\infty (Q(r - x)^2 + Ru^2) \,dt
+\end{equation*}
+
+We want to minimize this while obeying the constraint that the system follow our
+flywheel dynamics $\dot{x} = ax + bu$.
+
+The cost is the sum of the squares of the error and the input for all time. If
+the controller gain $k$ we pick in the control law $u = k(r - x)$ is stable, the
+error $r - x$ and the input $u$ will both go to zero and give us a finite cost.
+$Q$ and $R$ let us decide how much the error and input contribute to the cost
+(we will require that $Q \geq 0$ and $R > 0$ for reasons that will be clear
+shortly\footnote{Lets consider the boundary conditions on the weights $Q$ and
+$R$. If we set $Q$ to zero, error doesn't contribute to the cost, so the optimal
+solution is to not move. This minimizes the sum of the inputs over time. If we
+let $R$ be zero, the input doesn't contribute to the cost, so infinite inputs
+are allowed as they minimize the sum of the errors over time. This isn't useful,
+so we require that the input be penalized with a nonzero $R$.}). Penalizing
+error more will make the controller more aggressive, while penalizing the input
+more will make the controller less aggressive. We want to pick a $k$ that
+minimizes the cost.
+
+There's a common trick for finding the value of a variable that minimizes a
+function of that variable. We'll take the derivative (the slope) of the cost
+function with respect to the input $u$, set the derivative to zero, then solve
+for $u$. When the slope is zero, the function is at a minimum or maximum. Now,
+the cost function we picked is quadratic. All the terms are strictly positive on
+account of the squared variables and nonnegative weights, so our cost is
+strictly positive and the quadratic function is concave up. The $u$ we found is
+therefore a minimum.
+
+The actual process of solving for $u$ is mathematically intensive and outside
+the scope of this explanation (appendix \ref{ch:deriv_lqr} references a
+derivation for those curious). The rest of this section will describe the more
+general form of the linear-quadratic regulator and how to use it.
+
+\subsection{The mathematical definition}
+
 Instead of placing the poles of a closed-loop \gls{system} manually, the
 linear-quadratic regulator (LQR) places the poles for us based on acceptable
 relative \gls{error} and \gls{control effort} costs. This method of controller
@@ -62,8 +123,8 @@ need knowledge of the full \gls{state} of the \gls{system}. That means we either
 have to measure all our \glspl{state} directly or estimate those we do not
 measure.
 
-See appendix \ref{ch:deriv_lqr} for how $\mtx{K}$ is calculated in Python. If
-the result is finite, the controller is guaranteed to be stable and
+See appendix \ref{ch:deriv_lqr} for how $\mtx{K}$ is calculated. If the result
+is finite, the controller is guaranteed to be stable and
 \glslink{robustness}{robust} with a \gls{phase margin} of 60 degrees
 \cite{bib:lqr_phase_margin}.
 \begin{remark}
