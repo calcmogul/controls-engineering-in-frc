@@ -20,8 +20,8 @@ see the motor spin up to some constant speed following an exponential decay,
 then stay at that speed. If we throw in the control law $u = k(r - x)$, we can
 make the system converge to a desired state $r$ through proportional feedback.
 In what manner can we pick the constant $k$ that balances getting to the target
-angular velocity quickly with getting there efficiently? (That is, quickly, but
-without oscillation or excessive voltage)
+angular velocity quickly with getting there efficiently (minimal oscillations or
+excessive voltage)?
 
 We can solve this problem with something called the linear-quadratic regulator.
 We'll define the following cost function that includes the states and inputs:
