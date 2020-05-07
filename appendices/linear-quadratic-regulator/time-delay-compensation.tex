@@ -26,8 +26,7 @@ Figure \ref{fig:drivetrain_time_delay_no_comp} shows time delay for a drivetrain
 velocity system. Figure \ref{fig:drivetrain_time_delay_comp} shows that
 compensating the controller gain significantly reduces the feedback gain. Mainly
 feedforward is acting for a predominantly open-loop response, which has poor
-disturbance rejection. Fixing the source of the time delay is always preferred
-in general, but especially in cases like these.
+disturbance rejection.
 \begin{bookfigure}
   \begin{minisvg}{2}{build/\chapterpath/drivetrain_time_delay_no_comp}
     \caption{Drivetrain response at 1ms sample period with 40ms of output lag
@@ -42,9 +41,19 @@ in general, but especially in cases like these.
   \end{minisvg}
 \end{bookfigure}
 
+For this controller to be optimal, we need to have a time-varying control gain
+to give the system an initial kick in the right direction. Since we are
+effectively controlling the state some time in the future, the state
+exponentially converges to zero and so does the control gain. However, the
+inputs we use to project into the future start at zero since there's no history.
+This is reflected by equation (10) in the original paper
+\cite{bib:lqr_time_delay}. As the input buffer fills up, the controller gain
+converges to the steady-state one we're using. Fixing the source of the time
+delay is always preferred in general, but especially in cases that require a
+constant controller gain.
+
 We'll show how to derive this controller gain compensation for continuous and
-discrete systems. For more details on the method involved and controller startup
-considerations, read the original paper \cite{bib:lqr_time_delay}.
+discrete systems.
 
 \subsection{Continuous case}
 
