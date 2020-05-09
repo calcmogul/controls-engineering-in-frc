@@ -135,6 +135,8 @@ follows:
 \end{equation*}} is used for symmetry around the origin in the regression for
 $y$.
 \begin{theorem}[Linear time-varying unicycle controller]
+  \label{thm:linear_time-varying_unicycle_controller}
+
   The following $\mtx{A}$ and $\mtx{B}$ matrices of a continuous system are used
   to compute the LQR.
 
@@ -182,3 +184,18 @@ $y$.
     \end{tabular}
   \end{figurekey}
 \end{theorem}
+
+The controller in theorem \ref{thm:linear_time-varying_unicycle_controller}
+results in figures \ref{fig:ltv_unicycle_traj_xy} and
+\ref{fig:ltv_unicycle_traj_response}.
+\begin{bookfigure}
+  \begin{minisvg}{2}{build/\chapterpath/ltv_unicycle_traj_xy}
+    \caption{Linear time-varying unicycle controller x-y plot}
+    \label{fig:ltv_unicycle_traj_xy}
+  \end{minisvg}
+  \hfill
+  \begin{minisvg}{2}{build/\chapterpath/ltv_unicycle_traj_response}
+    \caption{Linear time-varying unicycle controller response}
+    \label{fig:ltv_unicycle_traj_response}
+  \end{minisvg}
+\end{bookfigure}
