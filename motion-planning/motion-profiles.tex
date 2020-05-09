@@ -9,31 +9,30 @@ for this purpose. For multi-state \glspl{system}, each \gls{state} is given its
 own trajectory. Since these \glspl{state} are usually position and velocity,
 they share different derivatives of the same profile.
 
-\section{1 DOF motion profiles}
+\section{1-DOF motion profiles}
 \label{sec:1_dof_motion_profiles}
-\index{motion profiles!1 DOF}
+\index{motion profiles!1-DOF}
 
-For one degree of freedom ($1$ DOF) point-to-point movements in FRC, the most
-commonly used profiles are the trapezoidal profile (figure
-\ref{fig:trapezoidal_profile}) and the S-curve profile (figure
-\ref{fig:s_curve_profile}). These profiles accelerate the \gls{system} to a
-maximum velocity from rest, then decelerate it later such that the final
-acceleration velocity, are zero at the moment the \gls{system} arrives at the
-desired location.
+Trapezoid profiles (figure \ref{fig:trapezoid_profile}) and S-curve profiles
+(figure \ref{fig:s-curve_profile}) are the most commonly used motion profiles in
+FRC for point-to-point movements with one degree of freedom ($1$ DOF). These
+profiles accelerate the \gls{system} to a maximum velocity from rest, then
+decelerate it later such that the final acceleration velocity, are zero at the
+moment the \gls{system} arrives at the desired location.
 \begin{bookfigure}
   \begin{minisvg}{2}{build/\partpath/trapezoid_profile}
-    \caption{Trapezoidal profile}
-    \label{fig:trapezoidal_profile}
+    \caption{Trapezoid profile}
+    \label{fig:trapezoid_profile}
   \end{minisvg}
   \hfill
   \begin{minisvg}{2}{build/\partpath/s_curve_profile}
     \caption{S-curve profile}
-    \label{fig:s_curve_profile}
+    \label{fig:s-curve_profile}
   \end{minisvg}
 \end{bookfigure}
 
 These profiles are given their names based on the shape of their velocity
-trajectory. The trapezoidal profile has a velocity trajectory shaped like a
+trajectory. The trapezoid profile has a velocity trajectory shaped like a
 trapezoid and the S-curve profile has a velocity trajectory shaped like an
 S-curve.
 
@@ -47,14 +46,14 @@ phase III when the acceleration linearly decreases until it reaches zero. In
 phase IV, the velocity is constant until deceleration begins, at which point the
 profiles decelerates in a manner symmetric to phases I, II and III.
 
-\index{motion profiles!trapezoidal}
-A trapezoidal profile, on the other hand, has three phases. It is a subset of an
+\index{motion profiles!trapezoid}
+A trapezoid profile, on the other hand, has three phases. It is a subset of an
 S-curve profile, having only the phases corresponding to phase II of the S-curve
 profile (constant acceleration), phase IV (constant velocity), and phase VI
 (constant deceleration). This reduced number of phases underscores the
 difference between these two profiles: the S-curve profile has extra motion
 phases which transition between periods of acceleration and periods of
-nonacceleration; the trapezoidal profile has instantaneous transitions between
+nonacceleration; the trapezoid profile has instantaneous transitions between
 these phases. This can be seen in the acceleration graphs of the corresponding
 velocity profiles for these two profile types.
 
@@ -62,17 +61,16 @@ velocity profiles for these two profile types.
 
 The motion characteristic that defines the change in acceleration, or
 transitional period, is known as "jerk". Jerk is defined as the rate of change
-of acceleration with time. In a trapezoidal profile, the jerk (change in
+of acceleration with time. In a trapezoid profile, the jerk (change in
 acceleration) is infinite at the phase transitions, while in the S-curve profile
 the jerk is a constant value, spreading the change in acceleration over a period
 of time.
 
-From figures \ref{fig:trapezoidal_profile} and \ref{fig:s_curve_profile}, we can
-see S-curve profiles are smoother than trapezoidal profiles. Why, however, do
-the S-curve profile result in less load oscillation? For a given load, the
-higher the jerk, the greater the amount of unwanted vibration energy will be
-generated, and the broader the frequency spectrum of the vibration's energy will
-be.
+From figures \ref{fig:trapezoid_profile} and \ref{fig:s-curve_profile}, we can
+see S-curve profiles are smoother than trapezoid profiles. Why, however, do the
+S-curve profile result in less load oscillation? For a given load, the higher
+the jerk, the greater the amount of unwanted vibration energy will be generated,
+and the broader the frequency spectrum of the vibration's energy will be.
 
 This means that more rapid changes in acceleration induce more powerful
 vibrations, and more vibrational modes will be excited. Because vibrational
@@ -82,7 +80,7 @@ resonances in the mechanical system.
 
 \subsection{Profile selection}
 
-Since trapezoidal profiles spend their time at full acceleration or full
+Since trapezoid profiles spend their time at full acceleration or full
 deceleration, they are, from the standpoint of profile execution, faster than
 S-curve profiles. However, if this ``all on"/``all off" approach causes an
 increase in settling time, the advantage is lost. Often, only a small amount of
@@ -111,11 +109,11 @@ do accurately.
 
 Another consideration is whether that ``S" segment will actually lead to
 smoother control of the \gls{system}. If the high frequency dynamics at play are
-negligible, one can use the simpler trapezoidal profile.
+negligible, one can use the simpler trapezoid profile.
 
 \subsection{Profile equations}
 
-The trapezoidal profile uses the following equations.
+The trapezoid profile uses the following equations.
 \begin{align*}
   x(t) &= x_0 + v_0t + \frac{1}{2}at^2 \\
   v(t) &= v_0 + at
@@ -175,12 +173,12 @@ standpoint of the torque/speed curve.
 FRC teams 254 and 971 gave a talk at FIRST World Championships in 2015 about
 motion profiles \cite{bib:motion_profiles}.
 
-\section{2 DOF motion profiles}
-\index{motion profiles!2 DOF}
+\section{2-DOF motion profiles}
+\index{motion profiles!2-DOF}
 
-In FRC, two degree of freedom ($2$ DOF) point-to-point movements are almost
-always within the context of drivetrains where the two degrees of freedom are
-the $x$ and $y$ axes.
+In FRC, point-to-point movements with two degrees of freedom ($2$ DOFs) are
+almost always within the context of drivetrains where the two degrees of freedom
+are the $x$ and $y$ axes.
 
 A \textit{path} is a set of (x, y) points for the drivetrain to follow. A
 \textit{trajectory} is a path that includes both the states (e.g., position and
@@ -191,7 +189,7 @@ Currently, the most common form of multidimensional trajectory planning in FRC
 is based on polynomial splines. The splines determine the path of the
 trajectory, and the path is parameterized by a trapezoidal motion profile to
 create a trajectory. \textit{A Dive into WPILib Trajectories} by Declan
-Freeman-Gleason introduces 2 DOF trajectory planning in FRC using polynomial
+Freeman-Gleason introduces 2-DOF trajectory planning in FRC using polynomial
 splines \cite{bib:a_dive_into_wpilib_trajectories}.
 
 \textit{Planning Motion Trajectories for Mobile Robots Using Splines} by
