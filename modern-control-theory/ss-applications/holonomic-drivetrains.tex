@@ -1,0 +1,134 @@
+\section{Holonomic drivetrains}
+\index{FRC models!holonomic drivetrains}
+
+\subsection{Model}
+
+Holonomic drivetrains have three degrees of freedom: $x$, $y$, and heading. They
+are described by the following kinematics.
+\begin{equation*}
+  \dot{\begin{bmatrix}
+    x \\
+    y \\
+    \theta
+  \end{bmatrix}} =
+  \begin{bmatrix}
+    \cos\theta & -\sin\theta & 0 \\
+    \sin\theta & \cos\theta & 0 \\
+    0 & 0 & 1
+  \end{bmatrix}
+  \begin{bmatrix}
+    v_{x,chassis} \\
+    v_{y,chassis} \\
+    \omega_{chassis}
+  \end{bmatrix}
+\end{equation*}
+
+where $v_{x,chassis}$ is the velocity ahead in the chassis frame,
+$v_{y,chassis}$ is the velocity to the left in the chassis frame, and
+$\omega_{chassis}$ is the angular velocity in the chassis frame. This can be
+written in state-space notation as
+\begin{equation*}
+  \dot{\begin{bmatrix}
+    x \\
+    y \\
+    \theta
+  \end{bmatrix}} =
+  \begin{bmatrix}
+    0 & 0 & 0 \\
+    0 & 0 & 0 \\
+    0 & 0 & 0
+  \end{bmatrix}
+  \begin{bmatrix}
+    x \\
+    y \\
+    \theta
+  \end{bmatrix} +
+  \begin{bmatrix}
+    \cos\theta & -\sin\theta & 0 \\
+    \sin\theta & \cos\theta & 0 \\
+    0 & 0 & 1
+  \end{bmatrix}
+  \begin{bmatrix}
+    v_{x,chassis} \\
+    v_{y,chassis} \\
+    \omega_{chassis}
+  \end{bmatrix}
+\end{equation*}
+
+\subsection{Control}
+
+This control-affine model is fully actuated but nonlinear in the chassis frame.
+However, we can apply linear control theory to the error dynamics in the global
+frame instead. Note how equation \eqref{eq:holonomic_eq1}'s state vector
+contains the global pose and its input vector contains the global linear and
+angular velocities.
+\begin{align}
+  &\dot{\begin{bmatrix}
+    x \\
+    y \\
+    \theta
+  \end{bmatrix}} =
+  \begin{bmatrix}
+    0 & 0 & 0 \\
+    0 & 0 & 0 \\
+    0 & 0 & 0
+  \end{bmatrix}
+  \begin{bmatrix}
+    x \\
+    y \\
+    \theta
+  \end{bmatrix} +
+  \begin{bmatrix}
+    1 & 0 & 0 \\
+    0 & 1 & 0 \\
+    0 & 0 & 1
+  \end{bmatrix}
+  \begin{bmatrix}
+    v_{x,global} \\
+    v_{y,global} \\
+    \omega_{global}
+  \end{bmatrix}
+  \label{eq:holonomic_eq1} \\
+  \text{where}
+  &\begin{bmatrix}
+    v_{x,global} \\
+    v_{y,global} \\
+    \omega_{global}
+  \end{bmatrix} =
+  \begin{bmatrix}
+    \cos\theta & -\sin\theta & 0 \\
+    \sin\theta & \cos\theta & 0 \\
+    0 & 0 & 1
+  \end{bmatrix}
+  \begin{bmatrix}
+    v_{x,chassis} \\
+    v_{y,chassis} \\
+    \omega_{chassis}
+  \end{bmatrix}
+  \label{eq:holonomic_eq2}
+\end{align}
+
+We can control the model in equation \eqref{eq:holonomic_eq1} with an LQR, which
+will have three independent proportional controllers. Then, we can convert the
+global velocity commands to chassis velocity commands with equation
+\eqref{eq:holonomic_eq2} and convert the chassis velocity commands to wheel
+speed commands with inverse kinematics. LQRs on each wheel can track the wheel
+speed commands.
+
+Note that the full control law is nonlinear because the kinematics contain a
+rotation matrix for transforming from the chassis frame to the global frame.
+However, the nonlinear part has been abstracted away from the tunable linear
+control laws.
+
+\subsection{Holonomic vs nonholonomic control}
+
+Drivetrains that are unable to exercise all possible degrees of freedom (e.g.,
+moving sideways with respect to the chassis) are nonholonomic. An LQR on each
+degree of freedom is ideal for holonomic drivetrains, but not for nonholonomic.
+Section \ref{sec:ss_model_differential_drive} will use the differential drive as
+a motivating example for various nonholonomic controllers.
+\begin{remark}
+  Nonholonomic controllers should not be used for holonomic drivetrains. They
+  make different assumptions about the drivetrain dynamics that yield suboptimal
+  results compared to holonomic controllers.
+\end{remark}
