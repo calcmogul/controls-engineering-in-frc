@@ -101,7 +101,7 @@ them:
     ``open loop" -- if one of the DOFs lags behind its trajectory, it's possible
     that the system may still end up in an invalid state. In practice, we
     include some buffer around our references to ensure that tracking error
-    doesn’t immediately lead to violated constraints. We are making our
+    doesn't immediately lead to violated constraints. We are making our
     trajectories more robust to uncertainty.
   \item Perform movements sequentially. That is, move from $x$ to $a$, and only
     start moving toward $b$ once the path from the current system state to $b$
