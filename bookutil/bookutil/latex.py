@@ -11,7 +11,7 @@ plt.rc("text", usetex=True)
 
 
 def plot_time_responses(
-    system, t, x_rec, ref_rec, u_rec, ndigits, use_pid_labels=False
+    system, t, x_rec, ref_rec, u_rec, ndigits, title=None, use_pid_labels=False
 ):
     """Plots time-domain responses for a given system with the K_p and K_d
     controller gains included in the legend.
@@ -22,6 +22,7 @@ def plot_time_responses(
     ref_rec -- recording of references from generate_time_responses()
     u_rec -- recording of inputs from generate_time_responses()
     ndigits -- number of digits after decimal point to include in gains
+    title -- title for time-domain plots (default: no title)
     use_pid_labels -- whether to use PID controller or state-space controller
                       labels (output and setpoint vs state and reference)
     """
@@ -43,6 +44,7 @@ def plot_time_responses(
         else:
             label = "State"
         if i == 0:
+            plt.title(title)
             label += f" ($K_p = {round(system.K[0, 0], ndigits)}$)"
         elif i == 1:
             label += f" ($K_d = {round(system.K[0, 1], ndigits)}$)"
