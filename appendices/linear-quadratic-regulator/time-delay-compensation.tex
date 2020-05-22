@@ -1,61 +1,88 @@
 \section{Time delay compensation}
 \index{controller design!linear-quadratic regulator!time delay compensation}
 
-Linear-Quadratic regulator controller gains tend to be aggressive, and in the
-presence of sensor delay, they may be unstable (see figure
+Linear-Quadratic regulator controller gains tend to be aggressive. If sensor
+measurements are time-delayed too long, the LQR may be unstable (see figure
 \ref{fig:elevator_time_delay_no_comp}). However, if we know the amount of delay,
-we can design the controller for a projected version of the undelayed model.
-That is, we can compute the control based on where the system will be after the
-time delay (see figure \ref{fig:elevator_time_delay_comp}).
+we can compute the control based on where the system will be after the time
+delay.
+
+We can compensate for the time delay if we know the control law we're applying
+in future timesteps ($\mtx{u} = -\mtx{K}\mtx{x}$) and the duration of the time
+delay. To get the true state at the current time for control purposes, we
+project our delayed state forward by the time delay using our model and the
+aforementioned control law. Figure \ref{fig:elevator_time_delay_comp} shows
+improved control with the predicted state.\footnote{Input delay and output delay
+have the same effect on the system, so the time delay can be simulated with
+either an input delay buffer or a measurement delay buffer.}
 \begin{bookfigure}
   \begin{minisvg}{2}{build/\chapterpath/elevator_time_delay_no_comp}
-    \caption{Elevator response at 5ms sample period with 50ms of output lag
-      (uncompensated controller gains)}
+    \caption{Elevator response at 5ms sample period with 50ms of output lag}
     \label{fig:elevator_time_delay_no_comp}
   \end{minisvg}
   \hfill
   \begin{minisvg}{2}{build/\chapterpath/elevator_time_delay_comp}
     \caption{Elevator response at 5ms sample period with 50ms of output lag
-      (compensated controller gains)}
+      (delay-compensated)}
     \label{fig:elevator_time_delay_comp}
   \end{minisvg}
 \end{bookfigure}
 
-This method of delay compensation seems to work best for second-order systems.
-Figure \ref{fig:drivetrain_time_delay_no_comp} shows time delay for a drivetrain
-velocity system. Figure \ref{fig:drivetrain_time_delay_comp} shows that
-compensating the controller gain significantly reduces the feedback gain. Mainly
-feedforward is acting for a predominantly open-loop response, which has poor
-disturbance rejection.
+For steady-state controller gains, this method of delay compensation seems to
+work better for second-order systems than first-order systems. Figures
+\ref{fig:drivetrain_time_delay_no_comp} and
+\ref{fig:flywheel_time_delay_no_comp} show time delay for a drivetrain velocity
+system and flywheel system respectively. Figures
+\ref{fig:drivetrain_time_delay_comp} and \ref{fig:flywheel_time_delay_comp} show
+that compensating the controller gain significantly reduces the feedback gain.
+For systems with fast dynamics and a long time delay, the delay-compensated
+controller has an almost open-loop response because only feedforward has a
+significant effect; this has poor disturbance rejection. Fixing the source of
+the time delay is always preferred for these systems.
 \begin{bookfigure}
   \begin{minisvg}{2}{build/\chapterpath/drivetrain_time_delay_no_comp}
-    \caption{Drivetrain response at 1ms sample period with 40ms of output lag
-      (uncompensated controller gain)}
+    \caption{Drivetrain velocity response at 1ms sample period with 40ms of
+      output lag}
     \label{fig:drivetrain_time_delay_no_comp}
   \end{minisvg}
   \hfill
   \begin{minisvg}{2}{build/\chapterpath/drivetrain_time_delay_comp}
-    \caption{Drivetrain response at 1ms sample period with 40ms of output lag
-      (compensated controller gain)}
+    \caption{Drivetrain velocity response at 1ms sample period with 40ms of
+      output lag (delay-compensated)}
     \label{fig:drivetrain_time_delay_comp}
+  \end{minisvg}
+  \begin{minisvg}{2}{build/\chapterpath/flywheel_time_delay_no_comp}
+    \caption{Flywheel response at 1ms sample period with 100ms of output lag}
+    \label{fig:flywheel_time_delay_no_comp}
+  \end{minisvg}
+  \hfill
+  \begin{minisvg}{2}{build/\chapterpath/flywheel_time_delay_comp}
+    \caption{Flywheel response at 1ms sample period with 100ms of output lag
+      (delay-compensated)}
+    \label{fig:flywheel_time_delay_comp}
   \end{minisvg}
 \end{bookfigure}
 
-For this controller to be optimal, we need to have a time-varying control gain
-to give the system an initial kick in the right direction. Since we are
-effectively controlling the state some time in the future, the state
-exponentially converges to zero and so does the control gain. However, the
-inputs we use to project into the future start at zero since there's no history.
-This is reflected by equation (10) in the original paper
-\cite{bib:lqr_time_delay}. As the input buffer fills up, the controller gain
-converges to the steady-state one we're using. Fixing the source of the time
-delay is always preferred in general, but especially in cases that require a
-constant controller gain.
+Since we are computing the control based on future states and the state
+exponentially converges to zero over time, the control action we apply at the
+current timestep also converges to zero for longer time delays. During startup,
+the inputs we use to predict the future state are zero because there's initially
+no input history. This means the initial inputs are larger to give the system a
+kick in the right direction. As the input delay buffer fills up, the controller
+gain converges to a smaller steady-state value. If one uses the steady-state
+controller gain during startup, the transient response may be slow.
+
+All figures shown here use the steady-state control law (the second case in
+equation \eqref{eq:discrete_delay_comp_control_law}).
 
 We'll show how to derive this controller gain compensation for continuous and
 discrete systems.
 
 \subsection{Continuous case}
+
+We can avoid the time delay if we compute the control based on the plant $L$
+seconds in the future. Therefore, we need to derive an equation for the plant's
+state $L$ seconds in the future given the current state.
 
 The continuous linear system is defined as
 \begin{equation*}
@@ -79,19 +106,42 @@ Let $L$ be the amount of time delay in seconds. Take the matrix exponential from
 the current time $t$ to $L$ in the future.
 \begin{equation}
   \mtx{x}(t + L) = e^{(\mtx{A} - \mtx{B}\mtx{K})L} \mtx{x}(t)
-    \label{eq:continuous_advance_state_by_delay}
+    \label{eq:continuous_advance_state_by_delay_post}
 \end{equation}
 
-We can avoid the time delay if we compute the control based on the plant $L$
-seconds in the future using equation
-\eqref{eq:continuous_advance_state_by_delay}. Therefore, the latency-compensated
-controller is
+This works when $t > L$, but when $0 \leq t < L$, the inputs in the time
+interval $[t, L)$ are zero because there's initially no input history. The state
+prediction for that time interval is thus
+\begin{equation*}
+  \mtx{x}(L) = e^{\mtx{A}(L - t)} \mtx{x}(t)
+\end{equation*}
+
+The time interval $[0, t)$ has nonzero inputs, so it uses the normal control
+law.
 \begin{align}
-  \mtx{u}(t) &= -\mtx{K}\mtx{x}(t + L) \nonumber \\
-  \mtx{u}(t) &= -\mtx{K} e^{(\mtx{A} - \mtx{B}\mtx{K})L} \mtx{x}(t)
+  \mtx{x}(t + L) &= e^{(\mtx{A} - \mtx{B}\mtx{K})t} \mtx{x}(L) \nonumber \\
+  \mtx{x}(t + L) &= e^{(\mtx{A} - \mtx{B}\mtx{K})t} e^{\mtx{A}(L - t)}
+    \mtx{x}(t) \label{eq:continuous_advance_state_by_delay_pre}
+\end{align}
+
+Therefore, equations \eqref{eq:continuous_advance_state_by_delay_post} and
+\eqref{eq:continuous_advance_state_by_delay_pre} give the latency-compensated
+control law for all $t \geq 0$.
+\begin{align}
+  \mtx{u}(t) &= -\mtx{K} \mtx{x}(t + L) \nonumber \\
+  \mtx{u}(t) &=
+  \begin{cases}
+    -\mtx{K} e^{(\mtx{A} - \mtx{B}\mtx{K})t} e^{\mtx{A}(L - t)} \mtx{x}(t) &
+      \text{if } 0 \leq t < L \\
+    -\mtx{K} e^{(\mtx{A} - \mtx{B}\mtx{K})L} \mtx{x}(t) & \text{if } t \geq L
+  \end{cases}
 \end{align}
 
 \subsection{Discrete case}
+
+We can avoid the time delay if we compute the control based on the plant $L$
+seconds in the future. Therefore, we need to derive an equation for the plant's
+state $L$ seconds in the future given the current state.
 
 The discrete linear system is defined as
 \begin{equation*}
@@ -116,16 +166,40 @@ time delay in seconds. $\frac{L}{T}$ gives the number of timesteps represented
 by $L$.
 \begin{equation}
   \mtx{x}_{k+L} = (\mtx{A} - \mtx{B}\mtx{K})^\frac{L}{T} \mtx{x}_k
-    \label{eq:discrete_advance_state_by_delay}
+    \label{eq:discrete_advance_state_by_delay_post}
 \end{equation}
 
-We can avoid the time delay if we compute the control based on the plant $L$
-seconds in the future using equation \eqref{eq:discrete_advance_state_by_delay}.
-Therefore, the latency-compensated controller is
+This works when the current time $kT$ is greater than or equal to $L$, but when
+$0 \leq kT < L$, the inputs in the time interval $[kT, L)$ are zero because
+there's initially no input history. The state prediction for that time interval
+is thus
+\begin{equation*}
+  \mtx{x}_L = \mtx{A}^\frac{L - kT}{T} \mtx{x}_k
+\end{equation*}
+
+The time interval $[0, kT)$ has nonzero inputs, so it uses the normal control
+law.
 \begin{align}
-  \mtx{u}_k &= -\mtx{K}\mtx{x}_{k+L} \nonumber \\
-  \mtx{u}_k &= -\mtx{K} (\mtx{A} - \mtx{B}\mtx{K})^\frac{L}{T} \mtx{x}_k
-    \label{eq:discrete_delay_comp_control_law}
+  \mtx{x}_{k + L} &= (\mtx{A} - \mtx{B}\mtx{K})^\frac{L}{T} \mtx{x}_L
+    \nonumber \\
+  \mtx{x}_{k + L} &= (\mtx{A} - \mtx{B}\mtx{K})^\frac{L}{T}
+    \mtx{A}^\frac{L - kT}{T} \mtx{x}_k
+    \label{eq:discrete_advance_state_by_delay_pre}
+\end{align}
+
+Therefore, equations \eqref{eq:discrete_advance_state_by_delay_post} and
+\eqref{eq:discrete_advance_state_by_delay_pre} give the latency-compensated
+control law for all $t \geq 0$.
+\begin{align}
+  \mtx{u}_k &= -\mtx{K} \mtx{x}_{k + L} \nonumber \\
+  \mtx{u}_k &=
+  \begin{cases}
+    -\mtx{K} (\mtx{A} - \mtx{B}\mtx{K})^\frac{L}{T} \mtx{A}^\frac{L - kT}{T}
+      \mtx{x}_k & \text{if } 0 \leq kT < L \\
+    -\mtx{K} (\mtx{A} - \mtx{B}\mtx{K})^\frac{L}{T} \mtx{x}_k &
+      \text{if } kT \geq L
+  \end{cases}
+  \label{eq:discrete_delay_comp_control_law}
 \end{align}
 
 If the delay $L$ isn't a multiple of the sample period $T$ in equation

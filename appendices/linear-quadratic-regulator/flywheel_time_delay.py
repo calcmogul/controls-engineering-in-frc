@@ -18,12 +18,12 @@ import scipy as sp
 plt.rc("text", usetex=True)
 
 DT = 0.001
-DELAY = 0.04
+DELAY = 0.08
 
 
-class DrivetrainVelocitySystem(fct.System):
+class FlywheelVelocitySystem(fct.System):
     def __init__(self, dt, latency_comp=False):
-        """DrivetrainVelocitySystem subsystem.
+        """FlywheelVelocitySystem subsystem.
 
         Keyword arguments:
         dt -- time between model/controller updates
@@ -31,7 +31,7 @@ class DrivetrainVelocitySystem(fct.System):
         """
         self.latency_comp = latency_comp
 
-        state_labels = [("Velocity", "m/s")]
+        state_labels = [("Angular velocity", "rad/s")]
         u_labels = [("Voltage", "V")]
         self.set_plot_labels(state_labels, u_labels)
 
@@ -45,8 +45,8 @@ class DrivetrainVelocitySystem(fct.System):
         )
 
     def create_model(self, states, inputs):
-        Kv = 3.02
-        Ka = 0.642
+        Kv = 0.011
+        Ka = 0.005515
 
         A = np.array([[-Kv / Ka]])
         B = np.array([[1.0 / Ka]])
@@ -57,10 +57,10 @@ class DrivetrainVelocitySystem(fct.System):
 
     def design_controller_observer(self):
         self.design_two_state_feedforward()
-        self.design_lqr([0.2], [7])
+        self.design_lqr([80], [12])
 
-        q_vel = 1.0
-        r_vel = 0.01
+        q_vel = 700
+        r_vel = 50
         self.design_kalman_filter([q_vel], [r_vel])
 
         self.ubuf = []
@@ -99,22 +99,22 @@ def main():
         if t[i] < l0:
             r = np.array([[0]])
         elif t[i] < l1:
-            r = np.array([[2]])
+            r = np.array([[510]])
         else:
             r = np.array([[0]])
         refs.append(r)
 
-    flywheel = DrivetrainVelocitySystem(DT)
+    flywheel = FlywheelVelocitySystem(DT)
     x_rec, ref_rec, u_rec, y_rec = flywheel.generate_time_responses(t, refs)
     latex.plot_time_responses(flywheel, t, x_rec, ref_rec, u_rec, 2)
     if "--noninteractive" in sys.argv:
-        latex.savefig("drivetrain_time_delay_no_comp")
+        latex.savefig("flywheel_time_delay_no_comp")
 
-    flywheel = DrivetrainVelocitySystem(DT, latency_comp=True)
+    flywheel = FlywheelVelocitySystem(DT, latency_comp=True)
     x_rec, ref_rec, u_rec, y_rec = flywheel.generate_time_responses(t, refs)
     latex.plot_time_responses(flywheel, t, x_rec, ref_rec, u_rec, 8)
     if "--noninteractive" in sys.argv:
-        latex.savefig("drivetrain_time_delay_comp")
+        latex.savefig("flywheel_time_delay_comp")
     else:
         plt.show()
 
