@@ -1,6 +1,6 @@
 \section{Pose exponential}
 
-We can obtain a more accurate approximation of the pose by including first order
+We can obtain a more accurate approximation of the pose by including first-order
 dynamics for the heading $\theta$. To provide a rationale for the math we're
 about to do, we need to cover some aspects of group theory.
 
@@ -58,7 +58,7 @@ a change in pose. This gets added to the pose from the last update.
 \subsection{Derivation}
 
 We can obtain a more accurate approximation of the pose than Euler integration
-by including first order dynamics for the heading $\theta$.
+by including first-order dynamics for the heading $\theta$.
 \begin{equation*}
   \mtx{x} = \begin{bmatrix}
     x \\
@@ -339,7 +339,7 @@ Now substitute these into equation \eqref{eq:pose_exponential}.
   \end{bmatrix}
 \end{align*}
 
-As expected, the equations simplify to the first order case with a rotation
+As expected, the equations simplify to the first-order case with a rotation
 matrix applied to the velocities in the robot's local coordinate frame.
 
 Differential drive robots have $v_y = 0$ since they only move in the direction
