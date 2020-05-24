@@ -7,9 +7,10 @@
 
 \newenvironment{bookfigure}%
   {\begin{figure}[ht]%
-    \centering%
+    \begin{center}%
   }%
-  {\end{figure}}
+  {\end{center}%
+    \end{figure}}
 
 \newenvironment{nofloatfigure}%
   {\begin{figure}[H]%
@@ -41,9 +42,10 @@
 % #2: file name without extension
 \newenvironment{minisvg}[2]
   {\begin{minipage}{\linewidth/#1 - 0.3cm}%
-    \centering%
-    \includegraphics[width=\textwidth]{#2.pdf}}%
-  {\end{minipage}}
+    \begin{center}%
+      \includegraphics[width=\textwidth]{#2.pdf}}%
+  {\end{center}%
+    \end{minipage}}
 
 \newcommand{\mtx}[1] {\mathbf{#1}}
 \newcommand{\meanmtx}[1] {\overline{\mathbf{#1}}}
