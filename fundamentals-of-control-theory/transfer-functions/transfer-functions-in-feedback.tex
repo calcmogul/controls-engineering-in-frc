@@ -94,14 +94,23 @@ unmodeled high frequency, nonlinear dynamics, but they can be safely ignored
 depending on the operating regime.
 
 To demonstrate this, consider the transfer function for a second-order DC
-brushed motor (a CIM motor) from voltage to position
+brushed motor (a CIM motor) from voltage to velocity.
 \begin{equation*}
-  G(s) = \frac{K}{s((Js + b)(Ls + R) + K^2)}
+  G(s) = \frac{K}{(Js + b)(Ls + R) + K^2}
 \end{equation*}
 
 where $J = 3.2284 \times 10^{-6}$ $kg$-$m^2$, $b = 3.5077 \times 10^{-6}$
 $N$-$m$-$s$, $K_e = K_t = 0.0181 \,V/rad/s$, $R = 0.0902 \,\Omega$, and
 $L = 230 \times 10^{-6} \,H$.
+
+This system is second-order because it has two poles; one corresponds to
+velocity and the other corresponds to current. To make position the output
+instead, we'll multiply by $\frac{1}{s}$ because position is the integral of
+velocity.\footnote{This also has the effect of augmenting the system with a
+position state, making it a third-order system.}
+\begin{equation*}
+  G(s) = \frac{K}{s((Js + b)(Ls + R) + K^2)}
+\end{equation*}
 
 This \gls{plant} has the root locus shown in figure
 \ref{fig:highfreq_unstable_rlocus}. In proportional feedback, the \gls{plant} is
@@ -117,23 +126,27 @@ second-order model and its first-order approximation are similar for low
 frequency operating regimes.
 \begin{bookfigure}
   \begin{minisvg}{2}{build/\chapterpath/highfreq_unstable_rlocus}
-    \caption{Root locus of second-order DC brushed motor plant}
+    \caption{Root locus of second-order DC brushed motor plant augmented with
+      position}
     \label{fig:highfreq_unstable_rlocus}
   \end{minisvg}
   \hfill
   \begin{minisvg}{2}{build/\chapterpath/highfreq_stable_rlocus}
-    \caption{Root locus of first-order DC brushed motor plant}
+    \caption{Root locus of first-order DC brushed motor plant augmented with
+      position}
     \label{fig:highfreq_stable_rlocus}
   \end{minisvg}
 \end{bookfigure}
 \begin{bookfigure}
   \begin{minisvg}{2}{build/\chapterpath/highfreq_unstable_step}
-    \caption{Step response of second-order DC brushed motor plant}
+    \caption{Step response of second-order DC brushed motor plant augmented with
+      position}
     \label{fig:highfreq_unstable_step}
   \end{minisvg}
   \hfill
   \begin{minisvg}{2}{build/\chapterpath/highfreq_stable_step}
-    \caption{Step response of first-order DC brushed motor plant}
+    \caption{Step response of first-order DC brushed motor plant augmented with
+      position}
     \label{fig:highfreq_stable_step}
   \end{minisvg}
 \end{bookfigure}
