@@ -56,8 +56,10 @@ def differential_drive(motor, num_motors, m, r, rb, J, Gl, Gr, states):
         vr = 5e-8
         v = 5e-8
     # fmt: off
-    A = np.array([[0, 0, -v * math.sin(theta), 0.5 * math.cos(theta), 0.5 * math.cos(theta)],
-                  [0, 0, v * math.cos(theta), 0.5 * math.sin(theta), 0.5 * math.sin(theta)],
+    c = math.cos(theta)
+    s = math.sin(theta)
+    A = np.array([[0, 0, -v * s, 0.5 * c, 0.5 * c],
+                  [0, 0, v * c, 0.5 * s, 0.5 * s],
                   [0, 0, 0, -0.5 / rb, 0.5 / rb],
                   [0, 0, 0, (1 / m + rb**2 / J) * C1, (1 / m - rb**2 / J) * C3],
                   [0, 0, 0, (1 / m - rb**2 / J) * C1, (1 / m + rb**2 / J) * C3]])

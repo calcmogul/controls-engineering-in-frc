@@ -40,11 +40,13 @@ def unicycle(states, inputs):
     if abs(v) < 5e-8:
         v = 5e-8
     # fmt: off
-    A = np.array([[0, 0, -v * math.sin(theta)],
-                  [0, 0, v * math.cos(theta)],
+    c = math.cos(theta)
+    s = math.sin(theta)
+    A = np.array([[0, 0, -v * s],
+                  [0, 0, v * c],
                   [0, 0, 0]])
-    B = np.array([[math.cos(theta), 0],
-                  [math.sin(theta), 0],
+    B = np.array([[c, 0],
+                  [s, 0],
                   [0, 1]])
     C = np.array([[0, 0, 1]])
     D = np.array([[0, 0]])
