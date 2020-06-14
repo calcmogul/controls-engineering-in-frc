@@ -4,18 +4,40 @@
 \end{equation*}
 \begin{equation*}
   \begin{array}{ccc}
-    \mtx{x} = velocity & \dot{\mtx{x}} = acceleration & \mtx{u} = voltage
+    \mtx{x} = \text{velocity} & \dot{\mtx{x}} = \text{acceleration} &
+      \mtx{u} = \text{voltage}
   \end{array}
 \end{equation*}
 
-If $\mtx{u} = K_v v$, then $\mtx{x} = v$ and $\dot{\mtx{x}} = \mtx{0}$.
-Therefore
+We want to derive what $\mtx{A}$ and $\mtx{B}$ are from the following
+feedforward model
+\begin{equation*}
+  \mtx{u} = K_v v + K_a a
+\end{equation*}
+
+where $K_v$ and $K_a$ are constants that should be measured from empirical
+quasistatic velocity tests and acceleration tests.
+
+$K_v$ is a proportional constant that describes how much voltage is required to
+maintain a given constant velocity by offsetting the electromagnetic resistance
+of the motor and any friction that increases linearly with speed (viscous drag).
+The relationship between speed and voltage (at constant acceleration) is linear
+for permanent-magnet DC motors in the FRC operating regime.
+
+$K_a$ is a proportional constant that describes how much voltage is required to
+induce a given acceleration in the motor shaft. As with $K_v$, the relationship
+between voltage and acceleration (at constant velocity) is linear.
+
+Let $\mtx{u} = K_v v$ be the input that makes the system move at a constant
+velocity $v$. Therefore, $\mtx{x} = v$ and $\dot{\mtx{x}} = \mtx{0}$. Substitute
+these into the state-space model.
 \begin{equation}
   0 = \mtx{A}v + \mtx{B}(K_v v) \label{eq:sysid-eq1}
 \end{equation}
 
-If $\mtx{u} = K_v v + K_a a$, then $\mtx{x} = v$ and $\dot{\mtx{x}} = a$.
-Therefore
+Let $\mtx{u} = K_v v + K_a a$ be the input that accelerates the system by $a$
+from an initial velocity of $v$. Therefore, $\mtx{x} = v$ and
+$\dot{\mtx{x}} = a$. Substitute these into the state-space model.
 \begin{equation}
   a = \mtx{A}v + \mtx{B}(K_v v + K_a a) \label{eq:sysid-eq2}
 \end{equation}

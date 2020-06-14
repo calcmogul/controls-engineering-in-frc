@@ -2,20 +2,50 @@
 \begin{equation*}
   \dot{\mtx{x}} = \mtx{A}\mtx{x} + \mtx{B}\mtx{u}
 \end{equation*}
+\begin{equation*}
+  \begin{array}{ccc}
+    \mtx{x} = \begin{bmatrix}
+      \text{left velocity} \\
+      \text{right velocity}
+    \end{bmatrix} &
+    \dot{\mtx{x}} = \begin{bmatrix}
+      \text{left acceleration} \\
+      \text{right acceleration}
+    \end{bmatrix} &
+    \mtx{u} = \begin{bmatrix}
+      \text{left voltage} \\
+      \text{right voltage}
+    \end{bmatrix}
+  \end{array}
+\end{equation*}
 
-If $\mtx{u} =
+We want to derive what $\mtx{A}$ and $\mtx{B}$ are from linear and angular
+feedforward models. Since the left and right dynamics are symmetric, we'll guess
+the model has the form
+\begin{equation*}
+  \begin{array}{cc}
+    \mtx{A} = \begin{bmatrix}
+      A_1 & A_2 \\
+      A_2 & A_1
+    \end{bmatrix} &
+    \mtx{B} = \begin{bmatrix}
+      B_1 & B_2 \\
+      B_2 & B_1
+    \end{bmatrix}
+  \end{array}
+\end{equation*}
+
+Let $\mtx{u} =
 \begin{bmatrix}
-  K_{v1} v \\
-  K_{v1} v
-\end{bmatrix}$, then $\mtx{x} =
+  K_{v,linear} v & K_{v,linear} v
+\end{bmatrix}^T$ be the input that makes both sides of the drivetrain move at a
+constant velocity $v$. Therefore, $\mtx{x} =
 \begin{bmatrix}
-  v \\
-  v
-\end{bmatrix}$ and $\dot{\mtx{x}} =
+  v & v
+\end{bmatrix}^T$ and $\dot{\mtx{x}} =
 \begin{bmatrix}
-  0 \\
-  0
-\end{bmatrix}$.
+  0 & 0
+\end{bmatrix}^T$. Substitute these into the state-space model.
 \begin{equation*}
   \begin{bmatrix}
     0 \\
@@ -34,8 +64,8 @@ If $\mtx{u} =
     B_2 & B_1
   \end{bmatrix}
   \begin{bmatrix}
-    K_{v1} v \\
-    K_{v1} v
+    K_{v,linear} v \\
+    K_{v,linear} v
   \end{bmatrix}
 \end{equation*}
 
@@ -59,23 +89,23 @@ row can be rearranged.
     B_1 & B_2
   \end{bmatrix}
   \begin{bmatrix}
-    K_{v1} v \\
-    K_{v1} v
+    K_{v,linear} v \\
+    K_{v,linear} v
   \end{bmatrix}
 \end{equation*}
 
 Since the rows are linearly dependent, we can use just one of them.
 \begin{align*}
-  \mtx{0} &=
+  0 &=
     \begin{bmatrix}
       A_1 & A_2
     \end{bmatrix} v +
     \begin{bmatrix}
       B_1 & B_2
-    \end{bmatrix} K_{v1} v \\
-  \mtx{0} &=
+    \end{bmatrix} K_{v,linear} v \\
+  0 &=
     \begin{bmatrix}
-      v & v & K_{v1} v & K_{v1} v
+      v & v & K_{v,linear} v & K_{v,linear} v
     \end{bmatrix}
     \begin{bmatrix}
       A_1 \\
@@ -83,9 +113,9 @@ Since the rows are linearly dependent, we can use just one of them.
       B_1 \\
       B_2
     \end{bmatrix} \\
-  \mtx{0} &=
+  0 &=
     \begin{bmatrix}
-      1 & 1 & K_{v1} & K_{v1}
+      1 & 1 & K_{v,linear} & K_{v,linear}
     \end{bmatrix}
     \begin{bmatrix}
       A_1 \\
@@ -95,18 +125,17 @@ Since the rows are linearly dependent, we can use just one of them.
     \end{bmatrix}
 \end{align*}
 
-If $\mtx{u} =
+Let $\mtx{u} =
 \begin{bmatrix}
-  K_{v1} v + K_{a1} a
-\end{bmatrix}$, then $\mtx{x} =
+  K_{v,linear} v + K_{a,linear} a & K_{v,linear} v + K_{a,linear} a
+\end{bmatrix}^T$ be the input that accelerates both sides of the drivetrain by
+$a$ from an initial velocity of $v$. Therefore, $\mtx{x} =
 \begin{bmatrix}
-  v \\
-  v
-\end{bmatrix}$ and $\dot{\mtx{x}} =
+  v & v
+\end{bmatrix}^T$ and $\dot{\mtx{x}} =
 \begin{bmatrix}
-  a \\
-  a
-\end{bmatrix}$.
+  a & a
+\end{bmatrix}^T$. Substitute these into the state-space model.
 \begin{equation*}
   \begin{bmatrix}
     a \\
@@ -125,8 +154,8 @@ If $\mtx{u} =
     B_2 & B_1
   \end{bmatrix}
   \begin{bmatrix}
-    K_{v1} v + K_{a1} a \\
-    K_{v1} v + K_{a1} a
+    K_{v,linear} v + K_{a,linear} a \\
+    K_{v,linear} v + K_{a,linear} a
   \end{bmatrix}
 \end{equation*}
 
@@ -150,8 +179,8 @@ row can be rearranged.
     B_1 & B_2
   \end{bmatrix}
   \begin{bmatrix}
-    K_{v1} v + K_{a1} a \\
-    K_{v1} v + K_{a1} a
+    K_{v,linear} v + K_{a,linear} a \\
+    K_{v,linear} v + K_{a,linear} a
   \end{bmatrix}
 \end{equation*}
 
@@ -165,11 +194,11 @@ Since the rows are linearly dependent, we can use just one of them.
       B_1 & B_2
     \end{bmatrix}
     \begin{bmatrix}
-      K_{v1} v + K_{a1} a
+      K_{v,linear} v + K_{a,linear} a
     \end{bmatrix} \\
   a &=
     \begin{bmatrix}
-      v & v & K_{v1} v + K_{a1} a & K_{v1} + K_{a1} a
+      v & v & K_{v,linear} v + K_{a,linear} a & K_{v,linear} + K_{a,linear} a
     \end{bmatrix}
     \begin{bmatrix}
       A_1 \\
@@ -179,19 +208,17 @@ Since the rows are linearly dependent, we can use just one of them.
     \end{bmatrix}
 \end{align*}
 
-If $\mtx{u} =
+Let $\mtx{u} =
 \begin{bmatrix}
-  -K_{v2} v \\
-  K_{v2} v
-\end{bmatrix}$, then $\mtx{x} =
+  -K_{v,angular} v & K_{v,angular} v
+\end{bmatrix}^T$ be the input that rotates the drivetrain in place where each
+wheel has a constant velocity $v$. Therefore, $\mtx{x} =
 \begin{bmatrix}
-  -v \\
-  v
-\end{bmatrix}$ and $\dot{\mtx{x}} =
+  -v & v
+\end{bmatrix}^T$ and $\dot{\mtx{x}} =
 \begin{bmatrix}
-  0 \\
-  0
-\end{bmatrix}$.
+  0 & 0
+\end{bmatrix}^T$.
 \begin{align*}
   \begin{bmatrix}
     0 \\
@@ -210,8 +237,8 @@ If $\mtx{u} =
       B_2 & B_1
     \end{bmatrix}
     \begin{bmatrix}
-      -K_{v2} v \\
-      K_{v2} v
+      -K_{v,angular} v \\
+      K_{v,angular} v
     \end{bmatrix} \\
   \begin{bmatrix}
     0 \\
@@ -230,8 +257,8 @@ If $\mtx{u} =
       -B_2 & B_1
     \end{bmatrix}
     \begin{bmatrix}
-      K_{v2} v \\
-      K_{v2} v
+      K_{v,angular} v \\
+      K_{v,angular} v
     \end{bmatrix} \\
   \begin{bmatrix}
     0 \\
@@ -250,8 +277,8 @@ If $\mtx{u} =
       B_1 & -B_2
     \end{bmatrix}
     \begin{bmatrix}
-      K_{v2} v \\
-      K_{v2} v
+      K_{v,angular} v \\
+      K_{v,angular} v
     \end{bmatrix}
 \end{align*}
 
@@ -275,8 +302,8 @@ row can be rearranged.
     -B_1 & B_2
   \end{bmatrix}
   \begin{bmatrix}
-    K_{v2} v \\
-    K_{v2} v
+    K_{v,angular} v \\
+    K_{v,angular} v
   \end{bmatrix}
 \end{equation*}
 
@@ -288,11 +315,11 @@ Since the rows are linearly dependent, we can use just one of them.
     \end{bmatrix} v +
     \begin{bmatrix}
       -B_1 & B_2
-    \end{bmatrix} K_{v2} v \\
-  0 &= -v A_1 + v A_2 - K_{v2} v B_1 + K_{v2} v B_2 \\
+    \end{bmatrix} K_{v,angular} v \\
+  0 &= -v A_1 + v A_2 - K_{v,angular} v B_1 + K_{v,angular} v B_2 \\
   0 &=
     \begin{bmatrix}
-      -v & v & -K_{v2} v & K_{v2} v
+      -v & v & -K_{v,angular} v & K_{v,angular} v
     \end{bmatrix}
     \begin{bmatrix}
       A_1 \\
@@ -302,7 +329,7 @@ Since the rows are linearly dependent, we can use just one of them.
     \end{bmatrix} \\
   0 &=
     \begin{bmatrix}
-      -1 & 1 & -K_{v2} & K_{v2}
+      -1 & 1 & -K_{v,angular} & K_{v,angular}
     \end{bmatrix}
     \begin{bmatrix}
       A_1 \\
@@ -312,19 +339,17 @@ Since the rows are linearly dependent, we can use just one of them.
     \end{bmatrix}
 \end{align*}
 
-If $\mtx{u} =
+Let $\mtx{u} =
 \begin{bmatrix}
-  -K_{v2} v - K_{a2} a \\
-  K_{v2} v + K_{a2} a
-\end{bmatrix}$, then $\mtx{x} =
+  -K_{v,angular} v - K_{a,angular} a & K_{v,angular} v + K_{a,angular} a
+\end{bmatrix}^T$ be the input that rotates the drivetrain in place where each
+wheel has an initial speed of $v$ and accelerates by $a$. Therefore, $\mtx{x} =
 \begin{bmatrix}
-  -v \\
-  v
-\end{bmatrix}$ and $\dot{\mtx{x}} =
+  -v & v
+\end{bmatrix}^T$ and $\dot{\mtx{x}} =
 \begin{bmatrix}
-  -a \\
-  a
-\end{bmatrix}$.
+  -a & a
+\end{bmatrix}^T$.
 \begin{align*}
   \begin{bmatrix}
     -a \\
@@ -343,8 +368,8 @@ If $\mtx{u} =
       B_2 & B_1
     \end{bmatrix}
     \begin{bmatrix}
-      -K_{v2} v - K_{a2} a \\
-      K_{v2} v + K_{a2} a
+      -K_{v,angular} v - K_{a,angular} a \\
+      K_{v,angular} v + K_{a,angular} a
     \end{bmatrix} \\
   \begin{bmatrix}
     -a \\
@@ -363,8 +388,8 @@ If $\mtx{u} =
       -B_2 & B_1
     \end{bmatrix}
     \begin{bmatrix}
-      K_{v2} v + K_{a2} a \\
-      K_{v2} v + K_{a2} a
+      K_{v,angular} v + K_{a,angular} a \\
+      K_{v,angular} v + K_{a,angular} a
     \end{bmatrix} \\
   \begin{bmatrix}
     -a \\
@@ -383,8 +408,8 @@ If $\mtx{u} =
       B_1 & -B_2
     \end{bmatrix}
     \begin{bmatrix}
-      K_{v2} v + K_{a2} a \\
-      K_{v2} v + K_{a2} a
+      K_{v,angular} v + K_{a,angular} a \\
+      K_{v,angular} v + K_{a,angular} a
     \end{bmatrix}
 \end{align*}
 
@@ -408,8 +433,8 @@ row can be rearranged.
     -B_1 & B_2
   \end{bmatrix}
   \begin{bmatrix}
-    K_{v2} v + K_{a2} a \\
-    K_{v2} v + K_{a2} a
+    K_{v,angular} v + K_{a,angular} a \\
+    K_{v,angular} v + K_{a,angular} a
   \end{bmatrix}
 \end{equation*}
 
@@ -423,12 +448,12 @@ Since the rows are linearly dependent, we can use just one of them.
       -B_1 & B_2
     \end{bmatrix}
     \begin{bmatrix}
-      K_{v2} v + K_{a2} a
+      K_{v,angular} v + K_{a,angular} a
     \end{bmatrix} \\
-  -a &= -v A_1 + v A_2 - (K_{v2} v + K_{a2} a) B_1 + K_{v2} v + K_{a2} a) B_2 \\
+  -a &= -v A_1 + v A_2 - (K_{v,angular} v + K_{a,angular} a) B_1 + K_{v,angular} v + K_{a,angular} a) B_2 \\
   -a &=
     \begin{bmatrix}
-      -v & v & -(K_{v2} v + K_{a2} a) & K_{v2} v+ K_{a2} a
+      -v & v & -(K_{v,angular} v + K_{a,angular} a) & K_{v,angular} v+ K_{a,angular} a
     \end{bmatrix}
     \begin{bmatrix}
       A_1 \\
@@ -438,7 +463,7 @@ Since the rows are linearly dependent, we can use just one of them.
     \end{bmatrix} \\
   a &=
     \begin{bmatrix}
-      v & -v & K_{v2} v + K_{a2} a & -(K_{v2} v + K_{a2} a)
+      v & -v & K_{v,angular} v + K_{a,angular} a & -(K_{v,angular} v + K_{a,angular} a)
     \end{bmatrix}
     \begin{bmatrix}
       A_1 \\
@@ -457,10 +482,10 @@ Now stack the rows.
     a
   \end{bmatrix} =
   \begin{bmatrix}
-    1 & 1 & K_{v1} & K_{v1} \\
-    v & v & K_{v1} v + K_{a1} a & K_{v1} v + K_{a1} a \\
-    -1 & 1 & -K_{v2} & K_{v2} \\
-    v & -v & K_{v2} v + K_{a2} a & -(K_{v2} v + K_{a2} a)
+    1 & 1 & K_{v,linear} & K_{v,linear} \\
+    v & v & K_{v,linear} v + K_{a,linear} a & K_{v,linear} v + K_{a,linear} a \\
+    -1 & 1 & -K_{v,angular} & K_{v,angular} \\
+    v & -v & K_{v,angular} v + K_{a,angular} a & -(K_{v,angular} v + K_{a,angular} a)
   \end{bmatrix}
   \begin{bmatrix}
     A_1 \\
@@ -471,7 +496,7 @@ Now stack the rows.
 \end{equation*}
 
 Solve for matrix elements with Wolfram Alpha. Let
-$b = K_{v1}$, $c = K_{a1}$, $d = K_{v2}$, and $f = K_{a2}$.
+$b = K_{v,linear}$, $c = K_{a,linear}$, $d = K_{v,angular}$, and $f = K_{a,angular}$.
 \begin{verbatim}
 inverse of {{1, 1, b, b}, {v, v, b v + c a, b v + c a},
   {-1, 1, -d, d}, {v, -v, d v + f a, -(d v + f a)}} * {{0}, {a}, {0}, {a}}
@@ -494,12 +519,12 @@ inverse of {{1, 1, b, b}, {v, v, b v + c a, b v + c a},
     A_2 \\
     B_1 \\
     B_2
-  \end{bmatrix} &= \frac{1}{2 K_{a1} K_{a2}}
+  \end{bmatrix} &= \frac{1}{2 K_{a,linear} K_{a,angular}}
   \begin{bmatrix}
-    -K_{a1} K_{v2} - K_{v1} K_{a2} \\
-    K_{a1} K_{v2} - K_{v1} K_{a2} \\
-    K_{a1} + K_{a2} \\
-    K_{a2} - K_{a1}
+    -K_{a,linear} K_{v,angular} - K_{v,linear} K_{a,angular} \\
+    K_{a,linear} K_{v,angular} - K_{v,linear} K_{a,angular} \\
+    K_{a,linear} + K_{a,angular} \\
+    K_{a,angular} - K_{a,linear}
   \end{bmatrix}
 \end{align*}
 
