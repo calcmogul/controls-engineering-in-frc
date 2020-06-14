@@ -109,12 +109,15 @@ $(STAMP): build/%.stamp: %.py $(CSV) $(DEPS_STAMP)
 	cd $(@D) && $(ROOT)/build/venv/bin/python3 $(ROOT)/$< --noninteractive
 	touch $@
 
-.PHONY: lint
-lint: build/commit-date.tex build/commit-year.tex build/commit-hash.tex
+.PHONY: format
+format:
 	./lint/format_bibliography.py
 	./lint/format_json.py
 	./lint/format_paragraph_breaks.py
 	python3 -m black -q .
+
+.PHONY: lint
+lint: format build/commit-date.tex build/commit-year.tex build/commit-hash.tex
 	git --no-pager diff --exit-code HEAD  # Ensure formatter made no changes
 	./lint/check_filenames.py
 	./lint/check_tex_includes.py
