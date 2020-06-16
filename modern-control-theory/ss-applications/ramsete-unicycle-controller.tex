@@ -175,6 +175,20 @@ address this controller's limitation at $v = 0$, one can temporarily switch to
 an LQR of just $\theta$, $v_l$, and $v_r$; or plan a new trajectory that
 provides nonzero desired turning rates to rotate the robot.
 
+Figures \ref{fig:ramsete_traj_xy} and \ref{fig:ramsete_traj_response} show the
+tracking performance of Ramsete for a given trajectory.
+\begin{bookfigure}
+  \begin{minisvg}{2}{build/\chapterpath/ramsete_traj_xy}
+    \caption{Ramsete nonlinear controller x-y plot}
+    \label{fig:ramsete_traj_xy}
+  \end{minisvg}
+  \hfill
+  \begin{minisvg}{2}{build/\chapterpath/ramsete_traj_response}
+    \caption{Ramsete nonlinear controller response}
+    \label{fig:ramsete_traj_response}
+  \end{minisvg}
+\end{bookfigure}
+
 \subsection{Linear reference tracker}
 \label{subsec:linear_reference_tracker}
 

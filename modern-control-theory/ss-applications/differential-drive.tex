@@ -356,28 +356,16 @@ instead of the first-order \gls{model}.
 \end{bookfigure}
 
 \subsection{Cross track error controller}
-\begin{bookfigure}
-  \begin{minisvg}{2}{build/\chapterpath/ramsete_traj_xy}
-    \caption{Ramsete nonlinear controller x-y plot}
-    \label{fig:ramsete_traj_xy2}
-  \end{minisvg}
-  \hfill
-  \begin{minisvg}{2}{build/\chapterpath/ramsete_traj_response}
-    \caption{Ramsete nonlinear controller response}
-    \label{fig:ramsete_traj_response2}
-  \end{minisvg}
-\end{bookfigure}
 
-The tracking performance of the linearized differential drive controller
-(figures \ref{fig:ltv_diff_drive_nonrotated_xy} and
-\ref{fig:ltv_diff_drive_nonrotated_response}) and Ramsete (figures
-\ref{fig:ramsete_traj_xy2} and \ref{fig:ramsete_traj_response2}) for a given
-trajectory are similar, but the former's performance-effort trade-off can be
-tuned more intuitively via the Q and R gains. However, if the $x$ and $y$ error
-cost are too high, the $x$ and $y$ components of the controller will fight each
-other, and it will take longer to converge to the path. This can be fixed by
-applying a counterclockwise rotation matrix to the global tracking error to
-transform it into the robot's coordinate frame.
+Figures \ref{fig:ltv_diff_drive_nonrotated_xy} and
+\ref{fig:ltv_diff_drive_nonrotated_response} show the tracking performance of
+the linearized differential drive controller for a given trajectory. The
+performance-effort trade-off can be tuned rather intuitively via the Q and R
+gains. However, if the $x$ and $y$ error cost are too high, the $x$ and $y$
+components of the controller will fight each other, and it will take longer to
+converge to the path. This can be fixed by applying a counterclockwise rotation
+matrix to the global tracking error to transform it into the robot's coordinate
+frame.
 \begin{equation*}
   \crdfrm{R}{\begin{bmatrix}
     e_x \\
@@ -446,10 +434,8 @@ tracking performance than the previous formulation.
 
 \subsection{Explicit time-varying control law}
 
-Another downside of this controller over Ramsete is that the user must generate
-controller gains for every state they visit in the state-space (an implicit
-control law) whereas Ramsete has two closed-form functions for its explicit
-control law.
+Another downside of this controller is that the user must generate controller
+gains for every state they visit in the state-space (an implicit control law).
 
 A possible solution to this is fitting a vector function of the states to the
 linearized differential drive controller gains. Fortunately, the formulation of
