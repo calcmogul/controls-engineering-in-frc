@@ -73,16 +73,10 @@ class LTVUnicycle:
         self.Q = np.diag(1.0 / np.square(q))
         self.R = np.diag(1.0 / np.square(r))
 
-        sys = self.make_model(1e-9)
-        dsys = sys.sample(0.02)
-        self.K0 = fct.lqr(dsys, self.Q, self.R)
-
-        sys = self.make_model(1)
-        dsys = sys.sample(0.02)
-        self.K1 = fct.lqr(dsys, self.Q, self.R)
-
     def make_model(self, v):
         A = np.zeros((3, 3))
+        if abs(v) < 1e-9:
+            v = 1e-9
         A[1, 2] = v
         B = np.array([[1, 0], [0, 0], [0, 1]])
         C = np.array([[0, 0, 1]])
@@ -94,30 +88,10 @@ class LTVUnicycle:
         error = pose_desired.relative_to(pose)
         e = np.array([[error.x], [error.y], [error.theta]])
 
-        sign = 1 if np.sign(v) >= 0 else -1
+        sys = self.make_model(v)
+        dsys = sys.sample(0.02)
+        K = fct.lqr(dsys, self.Q, self.R)
 
-        kx = self.K0[0, 0]
-        ky0 = self.K0[1, 1]
-        ktheta0 = self.K0[1, 2]
-        ky1 = self.K1[1, 1]
-        ktheta1 = self.K1[1, 2]
-
-        v = abs(v)
-        K = np.zeros((2, 3))
-        K[0, 0] = kx
-        K[0, 1] = 0
-        K[0, 2] = 0
-        K[1, 0] = 0
-        K[1, 1] = (ky0 + (ky1 - ky0) * math.sqrt(v)) * sign
-        K[1, 2] = ktheta0 + (ktheta1 - ktheta0) * math.sqrt(v)
-
-        in_robot_frame = np.array(
-            [
-                [math.cos(pose.theta), math.sin(pose.theta), 0],
-                [-math.sin(pose.theta), math.cos(pose.theta), 0],
-                [0, 0, 1],
-            ]
-        )
         u = K @ e
         return v_desired + u[0, 0], omega_desired + u[1, 0]
 

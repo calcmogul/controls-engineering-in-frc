@@ -25,23 +25,61 @@ $\mtx{u} = \begin{bmatrix} v & \omega \end{bmatrix}^T$.
 \end{equation}
 
 To create an LQR, we need to linearize this.
-\begin{align*}
-  \frac{\partial f(\mtx{x}, \mtx{u})}{\partial\mtx{x}} &=
-  \begin{bmatrix}
-    0 & 0 & -v\sin\theta \\
-    0 & 0 & v\cos\theta \\
-    0 & 0 & 0
-  \end{bmatrix} \\
-  \frac{\partial f(\mtx{x}, \mtx{u})}{\partial\mtx{u}} &=
-  \begin{bmatrix}
-    \cos\theta & 0 \\
-    \sin\theta & 0 \\
-    0 & 1
-  \end{bmatrix}
-\end{align*}
+\begin{equation*}
+  \begin{array}{ll}
+    \frac{\partial f(\mtx{x}, \mtx{u})}{\partial\mtx{x}} =
+    \begin{bmatrix}
+      0 & 0 & -v\sin\theta \\
+      0 & 0 & v\cos\theta \\
+      0 & 0 & 0
+    \end{bmatrix} &
+    \frac{\partial f(\mtx{x}, \mtx{u})}{\partial\mtx{u}} =
+    \begin{bmatrix}
+      \cos\theta & 0 \\
+      \sin\theta & 0 \\
+      0 & 1
+    \end{bmatrix}
+  \end{array}
+\end{equation*}
+
+We're going to make a cross-track error controller, so we'll apply a clockwise
+rotation matrix to the global tracking error to transform it into the robot's
+coordinate frame. Since the cross-track error is always measured from the
+robot's coordinate frame, the \gls{model} used to compute the LQR should be
+linearized around $\theta = 0$ at all times.
+\begin{equation*}
+  \begin{array}{ll}
+    \mtx{A} =
+    \begin{bmatrix}
+      0 & 0 & -v\sin 0 \\
+      0 & 0 & v\cos 0 \\
+      0 & 0 & 0
+    \end{bmatrix} &
+    \mtx{B} =
+    \begin{bmatrix}
+      \cos 0 & 0 \\
+      \sin 0 & 0 \\
+      0 & 1
+    \end{bmatrix} \\
+    \mtx{A} =
+    \begin{bmatrix}
+      0 & 0 & 0 \\
+      0 & 0 & v \\
+      0 & 0 & 0
+    \end{bmatrix} &
+    \mtx{B} =
+    \begin{bmatrix}
+      1 & 0 \\
+      0 & 0 \\
+      0 & 1
+    \end{bmatrix}
+  \end{array}
+\end{equation*}
 
 Therefore,
-\begin{theorem}[Linear time-varying unicycle state-space model]
+\begin{theorem}[Linear time-varying unicycle controller]
+  \label{thm:linear_time-varying_unicycle_controller}
+
   \begin{align*}
     \dot{\mtx{x}} &= \mtx{A}\mtx{x} + \mtx{B}\mtx{u} \\
     \mtx{y} &= \mtx{C}\mtx{x} + \mtx{D}\mtx{u}
@@ -50,93 +88,18 @@ Therefore,
     \begin{array}{ccc}
       \mtx{x} =
       \begin{bmatrix}
-        x \\
-        y \\
-        \theta \\
-      \end{bmatrix} &
+        x & y & \theta
+      \end{bmatrix}^T &
       \mtx{y} =
       \begin{bmatrix}
         \theta
       \end{bmatrix} &
       \mtx{u} =
       \begin{bmatrix}
-        v \\
-        \omega
-      \end{bmatrix}
+        v & \omega
+      \end{bmatrix}^T
     \end{array}
   \end{equation*}
-
-  \begin{equation}
-    \begin{array}{ll}
-      \mtx{A} =
-      \begin{bmatrix}
-        0 & 0 & -v\sin\theta \\
-        0 & 0 & v\cos\theta \\
-        0 & 0 & 0
-      \end{bmatrix} &
-      \mtx{B} =
-      \begin{bmatrix}
-        \cos\theta & 0 \\
-        \sin\theta & 0 \\
-        0 & 1
-      \end{bmatrix} \\
-      \mtx{C} =
-      \begin{bmatrix}
-        0 & 0 & 1
-      \end{bmatrix} &
-      \mtx{D} = \mtx{0}_{1 \times 2}
-    \end{array}
-  \end{equation}
-
-  The LQR gain should be recomputed around the current operating point regularly
-  due to the high nonlinearity of this system. A less computationally expensive
-  controller will be developed next.
-\end{theorem}
-
-\subsection{Explicit time-varying control law}
-
-As with the LTV differential drive, we will fit a vector function of the states
-to the LTV unicycle controller gains. Fortunately, the formulation of the
-controller dealing with cross-track error only requires linearization around
-different values of $v$ rather than $v$ and $\theta$; only a two-dimensional
-function is needed rather than a three-dimensional one. See figures
-\ref{fig:ltv_unicycle_lqr_fit_0} through \ref{fig:ltv_unicycle_lqr_fit_2} for
-plots of each controller gain for a range of velocities.
-\begin{bookfigure}
-  \begin{minisvg}{2}{build/\chapterpath/ltv_unicycle_lqr_fit_0}
-    \caption{Linear time-varying unicycle controller LQR gain regression ($x$)}
-    \label{fig:ltv_unicycle_lqr_fit_0}
-  \end{minisvg}
-  \hfill
-  \begin{minisvg}{2}{build/\chapterpath/ltv_unicycle_lqr_fit_1}
-    \caption{Linear time-varying unicycle controller LQR gain regression ($y$)}
-  \end{minisvg}
-  \hfill
-  \begin{minisvg}{2}{build/\chapterpath/ltv_unicycle_lqr_fit_2}
-    \caption{Linear time-varying unicycle controller LQR gain regression
-      ($\theta$)}
-    \label{fig:ltv_unicycle_lqr_fit_2}
-  \end{minisvg}
-\end{bookfigure}
-
-With the exception of the $x$ gain plot, all functions are a variation of a
-square root. $v = 0$ and $v = 1$ were used to scale each function to produce a
-close approximation. The sign function\footnote{The sign function is defined as
-follows:
-\begin{equation*}
-  \sgn(x) = \begin{cases}
-    -1 & x < 0 \\
-    0 & x = 0 \\
-    1 & x > 0
-  \end{cases}
-\end{equation*}} is used for symmetry around the origin in the regression for
-$y$.
-\begin{theorem}[Linear time-varying unicycle controller]
-  \label{thm:linear_time-varying_unicycle_controller}
-
-  The following $\mtx{A}$ and $\mtx{B}$ matrices of a continuous system are used
-  to compute the LQR.
-
   \begin{equation}
     \begin{array}{llll}
       \mtx{A} =
@@ -151,37 +114,25 @@ $y$.
         0 & 0 \\
         0 & 1
       \end{bmatrix} &
-      \mtx{x} = \begin{bmatrix}x \\ y \\ \theta\end{bmatrix} &
-      \mtx{u} = \begin{bmatrix}v \\ \omega\end{bmatrix}
+      \mtx{C} =
+      \begin{bmatrix}
+        0 & 0 & 1
+      \end{bmatrix} &
+      \mtx{D} = \mtx{0}_{1 \times 2}
     \end{array}
   \end{equation}
+  \begin{equation}
+    \mtx{u} = \mtx{K}
+    \begin{bmatrix}
+      \cos\theta & \sin\theta & 0 \\
+      -\sin\theta & \cos\theta & 0 \\
+      0 & 0 & 1
+    \end{bmatrix}
+    (\mtx{r} - \mtx{x})
+  \end{equation}
 
-  The locally optimal controller for this model is
-  $\mtx{u} = \mtx{K}(v) (\mtx{r} - \mtx{x})$ where
-
-  \begin{align}
-    \mtx{K}(v) &= \begin{bmatrix}
-      k_x & 0 & 0 \\
-      0 & k_y(v) \sgn(v) & k_{\theta}(v)
-    \end{bmatrix} \\
-    k_y(v) &= k_{y, 0} + (k_{y, 1} - k_{y, 0}) \sqrt{|v|} \\
-    k_\theta(v) &= k_{\theta, 0} + (k_{\theta, 1} - k_{\theta, 0}) \sqrt{|v|}
-  \end{align}
-
-  Using $\mtx{K}$ computed via LQR at $v = 0$
-  \begin{figurekey}
-    \begin{tabular}{lll}
-      $k_x = \mtx{K}_{1, 1}$ & $k_{y, 0} = \mtx{K}_{2, 2}$ &
-        $k_\theta = \mtx{K}_{2, 3}$
-    \end{tabular}
-  \end{figurekey}
-
-  Using $\mtx{K}$ computed via LQR at $v = 1$
-  \begin{figurekey}
-    \begin{tabular}{ll}
-        $k_{y, 1} = \mtx{K}_{2, 2}$ & $k_\theta = \mtx{K}_{2, 3}$
-    \end{tabular}
-  \end{figurekey}
+  The controller gain $\mtx{K}$ from LQR should be recomputed from the model
+  linearized around the current state during every timestep.
 \end{theorem}
 
 The controller in theorem \ref{thm:linear_time-varying_unicycle_controller}
