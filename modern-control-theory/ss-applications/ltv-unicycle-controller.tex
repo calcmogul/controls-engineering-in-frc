@@ -1,4 +1,4 @@
-\section{Linear time-varying unicycle controller (cascaded)}
+\section{Linear time-varying unicycle controller}
 
 One can also create a linear time-varying controller with a cascaded control
 architecture like Ramsete. This section will derive a locally optimal
@@ -100,25 +100,22 @@ to the LTV unicycle controller gains. Fortunately, the formulation of the
 controller dealing with cross-track error only requires linearization around
 different values of $v$ rather than $v$ and $\theta$; only a two-dimensional
 function is needed rather than a three-dimensional one. See figures
-\ref{fig:ltv_unicycle_cascaded_lqr_0} through
-\ref{fig:ltv_unicycle_cascaded_lqr_2} for plots of each controller gain for a
-range of velocities.
+\ref{fig:ltv_unicycle_lqr_fit_0} through \ref{fig:ltv_unicycle_lqr_fit_2} for
+plots of each controller gain for a range of velocities.
 \begin{bookfigure}
-  \begin{minisvg}{2}{build/\chapterpath/ltv_unicycle_cascaded_lqr_0}
-    \caption{Linear time-varying unicycle controller cascaded LQR gain
-      regression ($x$)}
-    \label{fig:ltv_unicycle_cascaded_lqr_0}
+  \begin{minisvg}{2}{build/\chapterpath/ltv_unicycle_lqr_fit_0}
+    \caption{Linear time-varying unicycle controller LQR gain regression ($x$)}
+    \label{fig:ltv_unicycle_lqr_fit_0}
   \end{minisvg}
   \hfill
-  \begin{minisvg}{2}{build/\chapterpath/ltv_unicycle_cascaded_lqr_1}
-    \caption{Linear time-varying unicycle controller cascaded LQR gain
-      regression ($y$)}
+  \begin{minisvg}{2}{build/\chapterpath/ltv_unicycle_lqr_fit_1}
+    \caption{Linear time-varying unicycle controller LQR gain regression ($y$)}
   \end{minisvg}
   \hfill
-  \begin{minisvg}{2}{build/\chapterpath/ltv_unicycle_cascaded_lqr_2}
-    \caption{Linear time-varying unicycle controller cascaded LQR gain
-      regression ($\theta$)}
-    \label{fig:ltv_unicycle_cascaded_lqr_2}
+  \begin{minisvg}{2}{build/\chapterpath/ltv_unicycle_lqr_fit_2}
+    \caption{Linear time-varying unicycle controller LQR gain regression
+      ($\theta$)}
+    \label{fig:ltv_unicycle_lqr_fit_2}
   \end{minisvg}
 \end{bookfigure}
 
