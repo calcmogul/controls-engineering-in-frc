@@ -51,10 +51,10 @@ def differential_drive(motor, num_motors, m, r, rb, J, Gl, Gr, states):
     vl = states[3, 0]
     vr = states[4, 0]
     v = (vr + vl) / 2.0
-    if abs(v) < 5e-8:
-        vl = 5e-8
-        vr = 5e-8
-        v = 5e-8
+    if abs(v) < 1e-9:
+        vl = 1e-9
+        vr = 1e-9
+        v = 1e-9
     # fmt: off
     c = math.cos(theta)
     s = math.sin(theta)
@@ -80,12 +80,13 @@ def differential_drive(motor, num_motors, m, r, rb, J, Gl, Gr, states):
 
 
 class DifferentialDrive(fct.System):
-    def __init__(self, dt, states):
+    def __init__(self, dt, states, inputs):
         """Differential drive subsystem.
 
         Keyword arguments:
         dt -- time between model/controller updates
         states -- state vector around which to linearize model
+        inputs -- input vector around which to linearize model
         """
         state_labels = [
             ("x position", "m"),
@@ -190,23 +191,25 @@ class DifferentialDrive(fct.System):
 
 
 class ApproxDifferentialDrive:
-    def __init__(self, dt, states):
+    def __init__(self, dt, states, inputs):
         """Differential drive subsystem.
 
         Keyword arguments:
         dt -- time between model/controller updates
         states -- state vector around which to linearize model
+        inputs -- input vector around which to linearize model
         """
         self.dt = dt
-        self.create_model(states)
+        self.create_model(states, inputs)
         self.design_controller_observer()
-        self.update_controller(states)
+        self.update_controller(states, inputs)
 
-    def create_model(self, states):
+    def create_model(self, states, inputs):
         """Relinearize model around given state.
 
         Keyword arguments:
         states -- state vector around which to linearize model
+        inputs -- input vector around which to linearize model
 
         Returns:
         StateSpace instance containing continuous state-space model
@@ -243,10 +246,10 @@ class ApproxDifferentialDrive:
             np.asarray(states),
         )
 
-    def relinearize(self, Q_elems, R_elems, states):
+    def relinearize(self, Q_elems, R_elems, states, inputs):
         from frccontrol import lqr
 
-        sysc = self.create_model(states)
+        sysc = self.create_model(states, inputs)
         sysd = sysc.sample(self.dt)
 
         Q = np.diag(1.0 / np.square(Q_elems))
@@ -263,9 +266,10 @@ class ApproxDifferentialDrive:
         r = [12.0, 12.0]
 
         self.K = np.zeros((2, 5))
+        inputs = np.zeros((2, 1))
 
         states = np.array([[0], [0], [0], [0], [0]])
-        K = self.relinearize(q, r, states)
+        K = self.relinearize(q, r, states, inputs)
         self.k_x = K[0, 0]
         self.k_y0 = K[0, 1]
         self.k_theta0 = K[0, 2]
@@ -273,12 +277,12 @@ class ApproxDifferentialDrive:
         self.k_vneg0 = K[1, 3]
 
         states = np.array([[0], [0], [0], [1], [1]])
-        K = self.relinearize(q, r, states)
+        K = self.relinearize(q, r, states, inputs)
         self.k_y1 = K[0, 1]
         self.k_theta1 = K[0, 2]
         self.k_vpos1 = K[0, 3]
 
-    def update_controller(self, x):
+    def update_controller(self, x, u):
         v = (x[3, 0] + x[4, 0]) / 2.0
         sign = 1 if np.sign(v) >= 0 else -1
         v = abs(x[3, 0] + x[4, 0]) / 2.0
@@ -287,7 +291,7 @@ class ApproxDifferentialDrive:
         self.K[1, 0] = self.k_x
         self.K[0, 1] = (self.k_y0 + (self.k_y1 - self.k_y0) * math.sqrt(v)) * sign
         self.K[1, 1] = -self.K[0, 1]
-        self.K[0, 2] = self.k_theta1 * math.sqrt(v)
+        self.K[0, 2] = self.k_theta0 + (self.k_theta1 - self.k_theta0) * math.sqrt(v)
         self.K[1, 2] = -self.K[0, 2]
         self.K[0, 3] = self.k_vpos0 + (self.k_vpos1 - self.k_vpos0) * math.sqrt(v)
         self.K[1, 3] = self.k_vneg0 - (self.k_vpos1 - self.k_vpos0) * math.sqrt(v)
@@ -303,8 +307,9 @@ def main():
     Kapprox_rec = np.zeros((2, 5, len(vs)))
     for i, v in enumerate(vs):
         x_linear = np.array([[0], [0], [0], [v], [v]])
-        K_rec[:, :, i] = DifferentialDrive(dt, x_linear).K
-        Kapprox_rec[:, :, i] = ApproxDifferentialDrive(dt, x_linear).K
+        u_linear = np.zeros((2, 1))
+        K_rec[:, :, i] = DifferentialDrive(dt, x_linear, u_linear).K
+        Kapprox_rec[:, :, i] = ApproxDifferentialDrive(dt, x_linear, u_linear).K
 
     state_labels = ["$x$", "$y$", "$\\theta$", "$v_l$", "$v_r$"]
     input_labels = ["Left voltage", "Right voltage"]

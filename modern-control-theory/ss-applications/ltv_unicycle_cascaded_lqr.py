@@ -104,15 +104,88 @@ class Unicycle(fct.System):
         self.design_kalman_filter([q_pos, q_pos, q_heading], [r_gyro])
 
 
+class ApproxUnicycle:
+    def __init__(self, dt, states, inputs):
+        """Unicycle subsystem.
+
+        Keyword arguments:
+        dt -- time between model/controller updates
+        states -- state vector around which to linearize model
+        inputs -- input vector around which to linearize model
+        """
+        self.dt = dt
+        self.create_model(states, inputs)
+        self.design_controller_observer()
+        self.update_controller(states, inputs)
+
+    def create_model(self, states, inputs):
+        """Relinearize model around given state.
+
+        Keyword arguments:
+        states -- state vector around which to linearize model
+        inputs -- input vector around which to linearize model
+
+        Returns:
+        StateSpace instance containing continuous state-space model
+        """
+        return unicycle(np.asarray(states), np.asarray(inputs))
+
+    def relinearize(self, Q_elems, R_elems, states, inputs):
+        from frccontrol import lqr
+
+        sysc = self.create_model(states, inputs)
+        sysd = sysc.sample(self.dt)
+
+        Q = np.diag(1.0 / np.square(Q_elems))
+        R = np.diag(1.0 / np.square(R_elems))
+        return lqr(sysd, Q, R)
+
+    def design_controller_observer(self):
+        q_x = 0.0625
+        q_y = 0.125
+        q_heading = 10.0
+
+        q = [q_x, q_y, q_heading]
+        r = [2.5, 2.5]
+
+        self.K = np.zeros((2, 3))
+        states = np.zeros((3, 1))
+
+        inputs = np.array([[0], [0]])
+        K = self.relinearize(q, r, states, inputs)
+        self.k_x = K[0, 0]
+        self.k_y0 = K[1, 1]
+        self.k_theta0 = K[1, 2]
+
+        inputs = np.array([[1], [1]])
+        K = self.relinearize(q, r, states, inputs)
+        self.k_y1 = K[1, 1]
+        self.k_theta1 = K[1, 2]
+
+    def update_controller(self, x, u):
+        v = u[0, 0]
+        sign = 1 if np.sign(v) >= 0 else -1
+        v = abs(u[0, 0])
+
+        self.K[0, 0] = self.k_x
+        self.K[0, 1] = 0
+        self.K[0, 2] = 0
+        self.K[1, 0] = 0
+        self.K[1, 1] = (self.k_y0 + (self.k_y1 - self.k_y0) * math.sqrt(v)) * sign
+        self.K[1, 2] = self.k_theta0 + (self.k_theta1 - self.k_theta0) * math.sqrt(v)
+
+
 def main():
     dt = 0.02
 
     vs = np.arange(-1.1, 1.1, 0.01)
     K_rec = np.zeros((2, 3, len(vs)))
+    Kapprox_rec = np.zeros((2, 3, len(vs)))
     for i, v in enumerate(vs):
         x_linear = np.array([[0], [0], [0]])
         u_linear = np.array([[v], [v]])
         K_rec[:, :, i] = Unicycle(dt, x_linear, u_linear).K
+        Kapprox_rec[:, :, i] = ApproxUnicycle(dt, x_linear, u_linear).K
 
     state_labels = ["$x$", "$y$", "$\\theta$"]
     input_labels = ["Velocity", "Angular velocity"]
@@ -120,7 +193,11 @@ def main():
     for i in range(len(state_labels)):
         plt.figure(i + 1)
         plt.plot(vs, K_rec[0, i, :], label=f"{input_labels[0]}")
+        plt.plot(vs, Kapprox_rec[0, i, :], label=f"Approx {input_labels[0].lower()}")
+
         plt.plot(vs, K_rec[1, i, :], label=f"{input_labels[1]}")
+        plt.plot(vs, Kapprox_rec[1, i, :], label=f"Approx {input_labels[1].lower()}")
+
         plt.xlabel("v (m/s)")
         plt.ylabel(f"Gain {state_labels[i]} error to input")
         plt.legend()

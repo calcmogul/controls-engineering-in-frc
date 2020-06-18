@@ -165,22 +165,24 @@ $y$.
   \begin{align}
     \mtx{K}(v) &= \begin{bmatrix}
       k_x & 0 & 0 \\
-      0 & k_y(v) \sgn(v) & k_{\theta} \sqrt{|v|}
+      0 & k_y(v) \sgn(v) & k_{\theta}(v)
     \end{bmatrix} \\
-    k_y(v) &= k_{y, 0} + (k_{y, 1} - k_{y, 0}) \sqrt{|v|}
+    k_y(v) &= k_{y, 0} + (k_{y, 1} - k_{y, 0}) \sqrt{|v|} \\
+    k_\theta(v) &= k_{\theta, 0} + (k_{\theta, 1} - k_{\theta, 0}) \sqrt{|v|}
   \end{align}
 
   Using $\mtx{K}$ computed via LQR at $v = 0$
   \begin{figurekey}
-    \begin{tabular}{lllll}
-      $k_x = \mtx{K}_{1, 1}$ & $k_{y, 0} = \mtx{K}_{2, 2}$
+    \begin{tabular}{lll}
+      $k_x = \mtx{K}_{1, 1}$ & $k_{y, 0} = \mtx{K}_{2, 2}$ &
+        $k_\theta = \mtx{K}_{2, 3}$
     \end{tabular}
   \end{figurekey}
 
   Using $\mtx{K}$ computed via LQR at $v = 1$
   \begin{figurekey}
-    \begin{tabular}{lll}
-        $k_{y, 1} = \mtx{K}_{2, 2}$ & $k_{\theta} = \mtx{K}_{2, 3}$
+    \begin{tabular}{ll}
+        $k_{y, 1} = \mtx{K}_{2, 2}$ & $k_\theta = \mtx{K}_{2, 3}$
     \end{tabular}
   \end{figurekey}
 \end{theorem}

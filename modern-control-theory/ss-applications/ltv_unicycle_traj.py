@@ -98,8 +98,9 @@ class LTVUnicycle:
 
         kx = self.K0[0, 0]
         ky0 = self.K0[1, 1]
+        ktheta0 = self.K0[1, 2]
         ky1 = self.K1[1, 1]
-        ktheta = self.K1[1, 2]
+        ktheta1 = self.K1[1, 2]
 
         v = abs(v)
         K = np.zeros((2, 3))
@@ -108,7 +109,7 @@ class LTVUnicycle:
         K[0, 2] = 0
         K[1, 0] = 0
         K[1, 1] = (ky0 + (ky1 - ky0) * math.sqrt(v)) * sign
-        K[1, 2] = ktheta * math.sqrt(v)
+        K[1, 2] = ktheta0 + (ktheta1 - ktheta0) * math.sqrt(v)
 
         in_robot_frame = np.array(
             [
