@@ -31,7 +31,7 @@ class Entry:
 #   year = {2017}
 # }
 entry_regex = re.compile(
-    r"""@(?P<type>[a-z]+) \{ (?P<label>[\w:]+) \s*
+    r"""@(?P<type>[a-z]+) \{ (?P<label>[\w:-]+) \s*
 (?P<fields>(, \s* \w+ \s* = \s* \{ [^\}]+ \} \s*)+)
 \}""",
     re.VERBOSE,
