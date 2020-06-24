@@ -1,0 +1,55 @@
+name: CI
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch.
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    - name: Install add-apt-repository
+      run: |
+        sudo apt-get update -q
+        sudo apt-get install gnupg lsb-release software-properties-common -y
+
+    - name: Upgrade Git to 2.18+
+      run: |
+        sudo add-apt-repository ppa:git-core/ppa
+        sudo apt-get update -q
+        sudo apt-get install git -y
+
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - uses: actions/setup-python@v2
+      with:
+        python-version: '3.6'
+        architecture: 'x64'
+
+    - name: Install system dependencies
+      run: make setup_ubuntu
+
+    - name: Lint .py and .tex files
+      run: |
+        # For some reason, python3-requests isn't picked up by "make lint"
+        pip3 install --user requests
+        make lint
+
+    - name: Generate PDF
+      run: |
+        git checkout -b pr
+        git checkout master
+        git checkout pr
+
+        make -j$(nproc) ebook

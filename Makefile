@@ -167,6 +167,7 @@ setup_ubuntu:
 		texlive-latex-extra \
 		texlive-xetex \
 		python3 \
-		black \
 		python3-pip \
 		python3-requests
+	# Install "black" Ubuntu package instead on 19.10+
+	pip3 install --user black
