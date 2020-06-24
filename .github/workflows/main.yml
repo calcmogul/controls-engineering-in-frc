@@ -4,7 +4,6 @@ name: CI
 # events but only for the master branch.
 on:
   push:
-    branches: [ master ]
   pull_request:
     branches: [ master ]
 
@@ -53,3 +52,8 @@ jobs:
         git checkout pr
 
         make -j$(nproc) ebook
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: controls-engineering-in-frc.pdf
+        path: controls-engineering-in-frc-ebook.pdf
