@@ -135,6 +135,12 @@ Therefore,
   linearized around the current state during every timestep.
 \end{theorem}
 
+With the \gls{model} in theorem
+\ref{thm:linear_time-varying_unicycle_controller}, $y$ is uncontrollable at
+$v = 0$ because nonholonomic drivetrains are unable to move sideways. Some DARE
+solvers throw errors in this case, but one can avoid it by linearizing the model
+around a slightly nonzero velocity instead.
+
 The controller in theorem \ref{thm:linear_time-varying_unicycle_controller}
 results in figures \ref{fig:ltv_unicycle_traj_xy} and
 \ref{fig:ltv_unicycle_traj_response}.

@@ -167,14 +167,6 @@ a \gls{pose} estimator (see chapter \ref{ch:pose_estimation} for how to
 implement one). The desired velocity, turning rate, and \gls{pose} can be varied
 over time according to a desired trajectory.
 
-With this \gls{controller}, $\theta$ becomes uncontrollable at $v = 0$. This is
-fine for controlling unicycles because that's already an inherent structural
-limitation; unicycles can't change their heading unless they are rolling (just
-like bicycles). However, differential drives \textit{can} rotate in place. To
-address this controller's limitation at $v = 0$, one can temporarily switch to
-an LQR of just $\theta$, $v_l$, and $v_r$; or plan a new trajectory that
-provides nonzero desired turning rates to rotate the robot.
-
 Figures \ref{fig:ramsete_traj_xy} and \ref{fig:ramsete_traj_response} show the
 tracking performance of Ramsete for a given trajectory.
 \begin{bookfigure}

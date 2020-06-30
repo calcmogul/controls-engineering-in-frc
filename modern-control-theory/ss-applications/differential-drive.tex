@@ -272,15 +272,6 @@ Therefore,
 We can also use this in an extended Kalman filter as is since the measurement
 model ($\mtx{y} = \mtx{C}\mtx{x} + \mtx{D}\mtx{u}$) is linear.
 
-With this \gls{controller}, $\theta$ becomes uncontrollable at $v = 0$ due to
-the $x$ and $y$ dynamics being equivalent to a unicycle; it can't change its
-heading unless it's rolling (just like a bicycle). However, a differential
-drive \textit{can} rotate in place. To address this controller's limitation at
-$v = 0$, one can temporarily switch to an LQR of just $\theta$, $v_l$, and
-$v_r$; linearize the controller around a slightly nonzero state; or plan a new
-trajectory after the previous one completes that provides nonzero wheel
-velocities to rotate the robot.
-
 \subsection{Improving model accuracy}
 
 Figures \ref{fig:ltv_diff_drive_nonrotated_firstorder_xy} and
@@ -455,6 +446,8 @@ around $\theta = 0$ at all times.
   \end{bmatrix}
 \end{align*}
 \begin{theorem}[Linear time-varying differential drive controller]
+  \label{thm:linear_time-varying_diff_drive_controller}
+
   \begin{equation*}
     \begin{array}{ccc}
       \mtx{x} =
@@ -523,9 +516,16 @@ around $\theta = 0$ at all times.
   linearized around the current state during every timestep.
 \end{theorem}
 
-This \gls{model} results in figures \ref{fig:ltv_diff_drive_traj_xy} and
-\ref{fig:ltv_diff_drive_traj_response}, which show slightly better
-tracking performance than the previous formulation.
+With the \gls{model} in theorem
+\ref{thm:linear_time-varying_diff_drive_controller}, $y$ is uncontrollable at
+$v = 0$ because nonholonomic drivetrains are unable to move sideways. Some DARE
+solvers throw errors in this case, but one can avoid it by linearizing the model
+around a slightly nonzero velocity instead.
+
+The controller in theorem \ref{thm:linear_time-varying_diff_drive_controller}
+results in figures \ref{fig:ltv_diff_drive_traj_xy} and
+\ref{fig:ltv_diff_drive_traj_response}, which show slightly better tracking
+performance than the previous formulation.
 \begin{bookfigure}
   \begin{minisvg}{2}{build/\chapterpath/ltv_diff_drive_traj_xy}
     \caption{Linear time-varying differential drive controller x-y plot}
