@@ -3,7 +3,7 @@
 \chapter{Laplace domain analysis}
 \label{ch:laplace-domain-analysis}
 
-This appendix uses Laplace transforms and transfer functions to analyze
+This chapter uses Laplace transforms and transfer functions to analyze
 properties of control systems like \gls{steady-state error}.
 
 These case studies cover various aspects of PID control using the algebraic
@@ -13,8 +13,8 @@ approach of transfer functions. For this, we'll be using equation
   K(s) = K_p + \frac{K_i}{s} + K_ds \label{eq:pid_tf}
 \end{equation}
 
-First, we need to define what Laplace transforms and transfer functions are,
-which is rooted in the concept of orthogonal projections.
+First, we will define mathematically what Laplace transforms and transfer
+functions are, which is rooted in the concept of orthogonal projections.
 
 \renewcommand*{\chapterpath}{\partpath/laplace-domain-analysis}
 \input{\chapterpath/projections}
@@ -23,3 +23,4 @@ which is rooted in the concept of orthogonal projections.
 \input{\chapterpath/laplace-transform-definition}
 \input{\chapterpath/case-study-steady-state-error}
 \input{\chapterpath/case-study-flywheel-pid-control}
+\input{\chapterpath/gain-margin-and-phase-margin}

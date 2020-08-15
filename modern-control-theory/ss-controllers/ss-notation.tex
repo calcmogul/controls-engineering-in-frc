@@ -15,28 +15,6 @@ as vectors. Since the mapping from the current \glspl{state} and \glspl{input}
 to the change in \gls{state} is a system of equations, it's natural to write it
 in matrix form.
 
-\subsection{Benefits over classical control}
-
-State-space notation provides a more convenient and compact way to model and
-analyze \glspl{system} with multiple \glspl{input} and \glspl{output}. For a
-\gls{system} with $p$ \glspl{input} and $q$ \glspl{output}, we would have to
-write $q \times p$ transfer functions to represent it. Not only is the resulting
-algebra unwieldy, but it only works for linear \glspl{system}. Including nonzero
-initial conditions complicates the algebra even more. State-space representation
-uses the time domain instead of the Laplace domain, so it can model nonlinear
-\glspl{system}\footnote{This book focuses on analysis and control of linear
-\glspl{system}. See chapter \ref{ch:nonlinear_control} for more on nonlinear
-control.} and trivially supports nonzero initial conditions.
-
-If modern control theory is so great and classical control theory isn't needed
-to use it, why learn classical control theory at all? We teach classical control
-theory because it provides a framework within which to understand results from
-the mathematical machinery of modern control as well as vocabulary with which to
-communicate that understanding. For example, faster poles (poles moved to the
-left in the s-plane) mean faster decay, and oscillation means there is at least
-one pair of complex conjugate poles. Not only can you describe what happened
-succinctly, but you know why it happened from a theoretical perspective.
-
 \subsection{Definition}
 
 Below are the continuous and discrete versions of state-space notation.

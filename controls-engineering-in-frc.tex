@@ -110,7 +110,7 @@
 \renewcommand*{\partpath}{fundamentals-of-control-theory}
 \input{\partpath/control-system-basics}
 \input{\partpath/pid-controllers}
-\input{\partpath/transfer-functions}
+\input{\partpath/application-advice}
 
 \part{Modern control theory}
 \label{part:modern_control_theory}
@@ -143,13 +143,17 @@
 \input{\partpath/configuration-spaces}
 \input{\partpath/trajectory-optimization}
 
+\part{Classical control theory}
+\label{part:classical_control_theory}
+\renewcommand*{\partpath}{classical-control-theory}
+\input{\partpath/transfer-functions}
+\input{\partpath/laplace-domain-analysis}
+
 \part{Appendices}
 \renewcommand{\chaptermark}[1]{\markboth{\sffamily\normalsize\bfseries\appendixname\ \thechapter.\ #1}{}}
 \appendix
 \renewcommand*{\partpath}{appendices}
 \input{\partpath/simplifying-block-diagrams}
-\input{\partpath/laplace-domain-analysis}
-\input{\partpath/robust-control}
 \input{\partpath/installing-python-packages}
 \input{\partpath/linear-quadratic-regulator}
 \input{\partpath/qr-weighted-linear-plant-inversion}
