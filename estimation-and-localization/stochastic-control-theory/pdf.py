@@ -42,7 +42,11 @@ def main():
     )
 
     plt.annotate(
-        "$dx$", xy=(2.25, -0.005), xycoords="data", ha="center", va="center",
+        "$dx$",
+        xy=(2.25, -0.005),
+        xycoords="data",
+        ha="center",
+        va="center",
     )
 
     plt.xlabel("$x$")
