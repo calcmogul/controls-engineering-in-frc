@@ -179,6 +179,13 @@ starting orientations, we can apply a counterclockwise rotation by $\theta$.
   \end{bmatrix}}
   \label{eq:se2_exp_vel}
 \end{equation}
+\begin{remark}
+  Control system implementations will generally have a model update and a
+  controller update in a given iteration. Equation \eqref{eq:se2_exp_vel} (the
+  model update) uses the current velocity to advance the state to the next
+  timestep (into the future). Since controllers use the current state, the
+  controller update should be run before the model update.
+\end{remark}
 
 If we factor out a $t$, we can use change in pose between updates instead of
 velocities.
@@ -272,13 +279,14 @@ The vector
 $\crdfrm{R}{\begin{bmatrix}\Delta x & \Delta y & \Delta\theta \end{bmatrix}}^T$
 is a twist because it's an element of the tangent space (the robot's local
 coordinate frame).
-
-Equation \eqref{eq:se2_exp_vel} used the current velocity and projected the
-model forward to the next timestep (into the future). As such, the prediction
-must be done after any controller calculations are performed. With equation
-\eqref{eq:se2_exp_twist}, the locally measured pose deltas can only be measured
-using past samples, so the model update must be performed before any controller
-calculations to advance the model to the current timestep.
+\begin{remark}
+  Control system implementations will generally have a model update and a
+  controller update in a given iteration. Equation \eqref{eq:se2_exp_twist} (the
+  model update) uses local distance and heading deltas between the previous and
+  current timestep, so it advances the state to the current timestep. Since
+  controllers use the current state, the controller update should be run after
+  the model update.
+\end{remark}
 
 When the robot is traveling on a straight trajectory ($\omega = 0$), some
 expressions within the equation above are indeterminate. We can approximate
