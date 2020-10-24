@@ -342,23 +342,23 @@ Substitute equation \eqref{eq:prb_exyt} into equation \eqref{eq:prb_sigma}.
 Using these results, we can compute the covariance of
 $\mtx{z} = \mtx{A}\mtx{x} + \mtx{B}\mtx{y}$.
 \begin{align*}
-  \Sigma_z =~& \cov(\mtx{z}, \mtx{z}) \\
-  \Sigma_z =~& E[(\mtx{z} - \mtxbar{z})(\mtx{z} - \mtxbar{z})^T] \\
-  \Sigma_z =~& E[(\mtx{A}\mtx{x} + \mtx{B}\mtx{y} - \mtx{A}\mtxbar{x} -
+  \Sigma_z &= \cov(\mtx{z}, \mtx{z}) \\
+  \Sigma_z &= E[(\mtx{z} - \mtxbar{z})(\mtx{z} - \mtxbar{z})^T] \\
+  \Sigma_z &= E[(\mtx{A}\mtx{x} + \mtx{B}\mtx{y} - \mtx{A}\mtxbar{x} -
     \mtx{B}\mtxbar{y})(\mtx{A}\mtx{x} + \mtx{B}\mtx{y} -
     \mtx{A}\mtxbar{x} - \mtx{B}\mtxbar{y})^T] \\
-  \Sigma_z =~& E[(\mtx{A}(\mtx{x} - \mtxbar{x}) +
+  \Sigma_z &= E[(\mtx{A}(\mtx{x} - \mtxbar{x}) +
     \mtx{B}(\mtx{y} - \mtxbar{y}))
     (\mtx{A}(\mtx{x} - \mtxbar{x}) +
      \mtx{B}(\mtx{y} - \mtxbar{y}))^T] \\
-  \Sigma_z =~& E[(\mtx{A}(\mtx{x} - \mtxbar{x}) +
+  \Sigma_z &= E[(\mtx{A}(\mtx{x} - \mtxbar{x}) +
     \mtx{B}(\mtx{y} - \mtxbar{y}))
     ((\mtx{x} - \mtxbar{x})^T\mtx{A}^T +
      (\mtx{y} - \mtxbar{y})^T\mtx{B}^T)] \\
-  \Sigma_z =~& E[
+  \Sigma_z &= E[
     \mtx{A}(\mtx{x} - \mtxbar{x})(\mtx{x} - \mtxbar{x})^T\mtx{A}^T +
-    \mtx{A}(\mtx{x} - \mtxbar{x})(\mtx{y} - \mtxbar{y})^T\mtx{B}^T + \\
-    &\mtx{B}(\mtx{y} - \mtxbar{y})(\mtx{x} - \mtxbar{x})^T\mtx{A}^T +
+    \mtx{A}(\mtx{x} - \mtxbar{x})(\mtx{y} - \mtxbar{y})^T\mtx{B}^T \\
+    &\qquad + \mtx{B}(\mtx{y} - \mtxbar{y})(\mtx{x} - \mtxbar{x})^T\mtx{A}^T +
     \mtx{B}(\mtx{y} - \mtxbar{y})(\mtx{y} - \mtxbar{y})^T\mtx{B}^T]
 \end{align*}
 

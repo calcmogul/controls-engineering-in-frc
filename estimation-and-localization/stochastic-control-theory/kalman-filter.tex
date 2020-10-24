@@ -136,21 +136,21 @@ Multiply in $\mtx{I} - \mtx{C}_{k+1}^T\mtx{K}_{k+1}^T$.
 
 Expand terms.
 \begin{align*}
-  \mtx{P}_{k+1}^+ =~&
+  \mtx{P}_{k+1}^+ &=
     \mtx{P}_{k+1}^- - \mtx{P}_{k+1}^-\mtx{C}_{k+1}^T\mtx{K}_{k+1}^T -
     \mtx{K}_{k+1}\mtx{C}_{k+1}\mtx{P}_{k+1}^- +
-    \mtx{K}_{k+1}\mtx{C}_{k+1}\mtx{P}_{k+1}^-\mtx{C}_{k+1}^T\mtx{K}_{k+1}^T + \\
-    &\mtx{K}_{k+1}\mtx{R}_{k+1} \mtx{K}_{k+1}^T
+    \mtx{K}_{k+1}\mtx{C}_{k+1}\mtx{P}_{k+1}^-\mtx{C}_{k+1}^T\mtx{K}_{k+1}^T \\
+    &\qquad + \mtx{K}_{k+1}\mtx{R}_{k+1} \mtx{K}_{k+1}^T
 \end{align*}
 
 Factor out $\mtx{K}_{k+1}$ and $\mtx{K}_{k+1}^T$.
 \begin{align}
-  \mtx{P}_{k+1}^+ =~&
+  \mtx{P}_{k+1}^+ &=
     \mtx{P}_{k+1}^- - \mtx{P}_{k+1}^-\mtx{C}_{k+1}^T\mtx{K}_{k+1}^T -
-    \mtx{K}_{k+1}\mtx{C}_{k+1}\mtx{P}_{k+1}^- + \nonumber \\
-    &\mtx{K}_{k+1}(\mtx{C}_{k+1}\mtx{P}_{k+1}^-\mtx{C}_{k+1}^T +
+    \mtx{K}_{k+1}\mtx{C}_{k+1}\mtx{P}_{k+1}^- \nonumber \\
+    &\qquad + \mtx{K}_{k+1}(\mtx{C}_{k+1}\mtx{P}_{k+1}^-\mtx{C}_{k+1}^T +
     \mtx{R}_{k+1})\mtx{K}_{k+1}^T \nonumber \\
-  \mtx{P}_{k+1}^+ =~&
+  \mtx{P}_{k+1}^+ &=
     \mtx{P}_{k+1}^- - \mtx{P}_{k+1}^-\mtx{C}_{k+1}^T\mtx{K}_{k+1}^T -
     \mtx{K}_{k+1}\mtx{C}_{k+1}\mtx{P}_{k+1}^- +
     \mtx{K}_{k+1}\mtx{S}_{k+1}\mtx{K}_{k+1}^T \label{eq:post_p_update}

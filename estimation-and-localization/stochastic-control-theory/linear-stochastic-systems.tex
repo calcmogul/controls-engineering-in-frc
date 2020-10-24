@@ -59,22 +59,22 @@ evolves.
       (\mtx{A}(\mtx{x}_k - \mtxbar{x}_k) + \mtx{\Gamma}\mtx{w}_k)^T]
 \end{equation*}
 \begin{align*}
-  \mtx{P}_{k+1} =~&
+  \mtx{P}_{k+1} &=
     E[(\mtx{A}(\mtx{x}_k - \mtxbar{x}_k) + \mtx{\Gamma}\mtx{w}_k)
       (\mtx{A}(\mtx{x}_k - \mtxbar{x}_k) + \mtx{\Gamma}\mtx{w}_k)^T] \\
-  \mtx{P}_{k+1} =~&
+  \mtx{P}_{k+1} &=
     E[(\mtx{A}(\mtx{x}_k - \mtxbar{x}_k)(\mtx{x}_k - \mtxbar{x}_k)^T
       \mtx{A}^T] +
-    E[\mtx{A}(\mtx{x}_k - \mtxbar{x}_k)\mtx{w}_k^T\mtx{\Gamma}^T] + \\
-    &E[\mtx{\Gamma}\mtx{w}_k(\mtx{x}_k - \mtxbar{x}_k)^T\mtx{A}^T] +
+    E[\mtx{A}(\mtx{x}_k - \mtxbar{x}_k)\mtx{w}_k^T\mtx{\Gamma}^T] \\
+    &\qquad + E[\mtx{\Gamma}\mtx{w}_k(\mtx{x}_k - \mtxbar{x}_k)^T\mtx{A}^T] +
     E[\mtx{\Gamma}\mtx{w}_k\mtx{w}_k^T\mtx{\Gamma}^T] \\
-  \mtx{P}_{k+1} =~&
+  \mtx{P}_{k+1} &=
     \mtx{A}E[(\mtx{x}_k - \mtxbar{x}_k)(\mtx{x}_k - \mtxbar{x}_k)^T]
     \mtx{A}^T +
-    \mtx{A}E[(\mtx{x}_k - \mtxbar{x}_k)\mtx{w}_k^T]\mtx{\Gamma}^T + \\
-    &\mtx{\Gamma} E[\mtx{w}_k(\mtx{x}_k - \mtxbar{x}_k)^T]\mtx{A}^T +
+    \mtx{A}E[(\mtx{x}_k - \mtxbar{x}_k)\mtx{w}_k^T]\mtx{\Gamma}^T \\
+    &\qquad + \mtx{\Gamma} E[\mtx{w}_k(\mtx{x}_k - \mtxbar{x}_k)^T]\mtx{A}^T +
     \mtx{\Gamma} E[\mtx{w}_k\mtx{w}_k^T]\mtx{\Gamma}^T \\
-  \mtx{P}_{k+1} =~& \mtx{A}\mtx{P}_k\mtx{A}^T +
+  \mtx{P}_{k+1} &= \mtx{A}\mtx{P}_k\mtx{A}^T +
     \mtx{A}E[(\mtx{x}_k - \mtxbar{x}_k)\mtx{w}_k^T]\mtx{\Gamma}^T +
     \mtx{\Gamma} E[\mtx{w}_k(\mtx{x}_k - \mtxbar{x}_k)^T]\mtx{A}^T +
     \mtx{\Gamma}\mtx{Q}_k\mtx{\Gamma}_k^T
@@ -82,13 +82,13 @@ evolves.
 
 Since the error and noise are independent, the cross terms are zero.
 \begin{align*}
-  \mtx{P}_{k+1} =~& \mtx{A}\mtx{P}_k\mtx{A}^T +
+  \mtx{P}_{k+1} &= \mtx{A}\mtx{P}_k\mtx{A}^T +
     \mtx{A}\underbrace{
       E[(\mtx{x}_k - \mtxbar{x}_k)\mtx{w}_k^T]}_\mtx{0}\mtx{\Gamma}^T +
     \mtx{\Gamma}\underbrace{
       E[\mtx{w}_k(\mtx{x}_k - \mtxbar{x}_k)^T]}_\mtx{0}\mtx{A}^T +
     \mtx{\Gamma}\mtx{Q}_k\mtx{\Gamma}_k^T \\
-  \mtx{P}_{k+1} =~& \mtx{A}\mtx{P}_k\mtx{A}^T +
+  \mtx{P}_{k+1} &= \mtx{A}\mtx{P}_k\mtx{A}^T +
     \mtx{\Gamma}\mtx{Q}_k\mtx{\Gamma}^T
 \end{align*}
 
@@ -108,30 +108,30 @@ $\mtx{S}$ evolves.
 \begin{align*}
   \mtx{y}_k - \mtxbar{y}_k &= \mtx{C}\mtx{x}_k + \mtx{D}\mtx{u}_k + \mtx{v}_k -
     (\mtx{C}\mtxbar{x}_k + \mtx{D}\mtx{u}_k) \\
-  \mtx{y}_k - \mtxbar{y}_k &= \mtx{C}(\mtx{x}_k - \mtxbar{x}_k) + \mtx{v}_k
+  \mtx{y}_k - \mtxbar{y}_k &= \mtx{C}(\mtx{x}_k - \mtxbar{x}_k) + \mtx{v}_k \\
+  E[(\mtx{y}_k - \mtxbar{y}_k)(\mtx{y}_k - \mtxbar{y}_k)^T] &=
+    E[(\mtx{C}(\mtx{x}_k - \mtxbar{x}_k) + \mtx{v}_k)
+      (\mtx{C}(\mtx{x}_k - \mtxbar{x}_k) + \mtx{v}_k)^T]
 \end{align*}
 \begin{align*}
-  E[(\mtx{y}_k - \mtxbar{y}_k)(\mtx{y}_k - \mtxbar{y}_k)^T] =~&
+  \mtx{S}_k &=
     E[(\mtx{C}(\mtx{x}_k - \mtxbar{x}_k) + \mtx{v}_k)
       (\mtx{C}(\mtx{x}_k - \mtxbar{x}_k) + \mtx{v}_k)^T] \\
-  \mtx{S}_k =~&
-    E[(\mtx{C}(\mtx{x}_k - \mtxbar{x}_k) + \mtx{v}_k)
-      (\mtx{C}(\mtx{x}_k - \mtxbar{x}_k) + \mtx{v}_k)^T] \\
-  \mtx{S}_k =~&
+  \mtx{S}_k &=
     E[(\mtx{C}(\mtx{x}_k - \mtxbar{x}_k) + \mtx{v}_k)
       ((\mtx{x}_k - \mtxbar{x}_k)^T\mtx{C}^T + \mtx{v}_k^T)] \\
-  \mtx{S}_k =~&
+  \mtx{S}_k &=
     E[(\mtx{C}(\mtx{x}_k - \mtxbar{x}_k)(\mtx{x}_k - \mtxbar{x}_k)^T
       \mtx{C}^T] +
-    E[\mtx{C}(\mtx{x}_k - \mtxbar{x}_k)\mtx{v}_k^T] + \\
-    &E[\mtx{v}_k(\mtx{x}_k - \mtxbar{x}_k)^T\mtx{C}^T] +
+    E[\mtx{C}(\mtx{x}_k - \mtxbar{x}_k)\mtx{v}_k^T] \\
+    &\qquad + E[\mtx{v}_k(\mtx{x}_k - \mtxbar{x}_k)^T\mtx{C}^T] +
     E[\mtx{v}_k\mtx{v}_k^T] \\
-  \mtx{S}_k =~&
+  \mtx{S}_k &=
     \mtx{C}E[(\mtx{x}_k - \mtxbar{x}_k)(\mtx{x}_k - \mtxbar{x}_k)^T]
-    \mtx{C}^T + \mtx{C}E[(\mtx{x}_k - \mtxbar{x}_k)\mtx{v}_k^T] + \\
-    &E[\mtx{v}_k(\mtx{x}_k - \mtxbar{x}_k)^T]\mtx{C}^T +
+    \mtx{C}^T + \mtx{C}E[(\mtx{x}_k - \mtxbar{x}_k)\mtx{v}_k^T] \\
+    &\qquad + E[\mtx{v}_k(\mtx{x}_k - \mtxbar{x}_k)^T]\mtx{C}^T +
     E[\mtx{v}_k\mtx{v}_k^T] \\
-  \mtx{S}_k =~& \mtx{C}\mtx{P}_k\mtx{C}^T +
+  \mtx{S}_k &= \mtx{C}\mtx{P}_k\mtx{C}^T +
     \mtx{C}E[(\mtx{x}_k - \mtxbar{x}_k)\mtx{v}_k^T] +
     E[\mtx{v}_k(\mtx{x}_k - \mtxbar{x}_k)^T]\mtx{C}^T +
     \mtx{R}_k
@@ -139,9 +139,9 @@ $\mtx{S}$ evolves.
 
 Since the error and noise are independent, the cross terms are zero.
 \begin{align*}
-  \mtx{S}_k =~& \mtx{C}\mtx{P}_k\mtx{C}^T +
+  \mtx{S}_k &= \mtx{C}\mtx{P}_k\mtx{C}^T +
     \mtx{C}\underbrace{E[(\mtx{x}_k - \mtxbar{x}_k)\mtx{v}_k^T]}_\mtx{0} +
     \underbrace{
       E[\mtx{v}_k(\mtx{x}_k - \mtxbar{x}_k)^T]}_\mtx{0}\mtx{C}^T + \mtx{R}_k \\
-  \mtx{S}_k =~& \mtx{C}\mtx{P}_k\mtx{C}^T + \mtx{R}_k
+  \mtx{S}_k &= \mtx{C}\mtx{P}_k\mtx{C}^T + \mtx{R}_k
 \end{align*}
