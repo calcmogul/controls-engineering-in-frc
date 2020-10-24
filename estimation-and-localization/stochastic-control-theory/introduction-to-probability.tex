@@ -252,7 +252,7 @@ each element has a PDF.
 The elements of $\mtx{x}$ are scalar variables jointly distributed with a joint
 density $p(x_1, x_2, \ldots, x_n)$. The expectation is
 \begin{align*}
-  E[\mtx{x}] &= \meanmtx{x} = \int_{-\infty}^\infty \mtx{x} \,p(\mtx{x})
+  E[\mtx{x}] &= \mtxbar{x} = \int_{-\infty}^\infty \mtx{x} \,p(\mtx{x})
     \,d\mtx{x} \\
   E[\mtx{x}] &= \begin{bmatrix}
     E[x_1] \\
@@ -270,8 +270,8 @@ density $p(x_1, x_2, \ldots, x_n)$. The expectation is
 
 The covariance matrix for a random vector $\mtx{x} \in \mathbb{R}^n$ is
 \begin{align*}
-  \mtx{\Sigma} &= \cov(\mtx{x}, \mtx{x}) = E[(\mtx{x} - \meanmtx{x})
-    (\mtx{x} - \meanmtx{x})^T] \\
+  \mtx{\Sigma} &= \cov(\mtx{x}, \mtx{x}) = E[(\mtx{x} - \mtxbar{x})
+    (\mtx{x} - \mtxbar{x})^T] \\
   \mtx{\Sigma} &= \begin{bmatrix}
     \cov(x_1, x_1) & \cov(x_1, x_2) & \ldots & \cov(x_1, x_n) \\
     \cov(x_2, x_1) & \cov(x_2, x_2) & \ldots & \cov(x_1, x_n) \\
@@ -292,25 +292,25 @@ First, independent vectors imply linearity from
 $p(\mtx{x}, \mtx{y}) = p(\mtx{x}) \,p(\mtx{y})$.
 \begin{align*}
   E[\mtx{A}\mtx{x} + \mtx{B}\mtx{y}] &= \mtx{A}E[\mtx{x}] + \mtx{B}E[\mtx{y}] \\
-  E[\mtx{A}\mtx{x} + \mtx{B}\mtx{y}] &= \mtx{A}\meanmtx{x} + \mtx{B}\meanmtx{y}
+  E[\mtx{A}\mtx{x} + \mtx{B}\mtx{y}] &= \mtx{A}\mtxbar{x} + \mtx{B}\mtxbar{y}
 \end{align*}
 
 Second, independent vectors being uncorrelated means their covariance is zero.
 \begin{align}
   \mtx{\Sigma}_{\mtx{x}\mtx{y}} &= \cov(\mtx{x}, \mtx{y}) \nonumber \\
-  \mtx{\Sigma}_{\mtx{x}\mtx{y}} &= E[(\mtx{x} - \meanmtx{x})
-    (\mtx{y} - \meanmtx{y})^T] \nonumber \\
+  \mtx{\Sigma}_{\mtx{x}\mtx{y}} &= E[(\mtx{x} - \mtxbar{x})
+    (\mtx{y} - \mtxbar{y})^T] \nonumber \\
   \mtx{\Sigma}_{\mtx{x}\mtx{y}} &= E[\mtx{x}\mtx{y}^T] -
-    E[\mtx{x}\meanmtx{y}^T] - E[\meanmtx{x}\mtx{y}^T] +
-    E[\meanmtx{x}\meanmtx{y}^T] \nonumber \\
+    E[\mtx{x}\mtxbar{y}^T] - E[\mtxbar{x}\mtx{y}^T] +
+    E[\mtxbar{x}\mtxbar{y}^T] \nonumber \\
   \mtx{\Sigma}_{\mtx{x}\mtx{y}} &= E[\mtx{x}\mtx{y}^T] -
-    E[\mtx{x}]\meanmtx{y}^T - \meanmtx{x}E[\mtx{y}^T] +
-    \meanmtx{x}\meanmtx{y}^T \nonumber \\
+    E[\mtx{x}]\mtxbar{y}^T - \mtxbar{x}E[\mtx{y}^T] +
+    \mtxbar{x}\mtxbar{y}^T \nonumber \\
   \mtx{\Sigma}_{\mtx{x}\mtx{y}} &= E[\mtx{x}\mtx{y}^T] -
-    \meanmtx{x}\meanmtx{y}^T - \meanmtx{x}\meanmtx{y}^T +
-    \meanmtx{x}\meanmtx{y}^T \nonumber \\
+    \mtxbar{x}\mtxbar{y}^T - \mtxbar{x}\mtxbar{y}^T +
+    \mtxbar{x}\mtxbar{y}^T \nonumber \\
   \mtx{\Sigma}_{\mtx{x}\mtx{y}} &= E[\mtx{x}\mtx{y}^T] -
-    \meanmtx{x}\meanmtx{y}^T \label{eq:prb_sigma}
+    \mtxbar{x}\mtxbar{y}^T \label{eq:prb_sigma}
 \end{align}
 
 Now, compute $E[\mtx{x}\mtx{y}^T]$.
@@ -329,13 +329,13 @@ held constant for each inner integral evaluation.
 Each of these integrals is just the expected value of their respective
 integration variable.
 \begin{align}
-  E[\mtx{x}\mtx{y}^T] &= \meanmtx{x}\meanmtx{y}^T \label{eq:prb_exyt}
+  E[\mtx{x}\mtx{y}^T] &= \mtxbar{x}\mtxbar{y}^T \label{eq:prb_exyt}
 \end{align}
 
 Substitute equation \eqref{eq:prb_exyt} into equation \eqref{eq:prb_sigma}.
 \begin{align*}
-  \mtx{\Sigma}_{\mtx{x}\mtx{y}} &= (\meanmtx{x}\meanmtx{y}^T) -
-    \meanmtx{x}\meanmtx{y}^T \\
+  \mtx{\Sigma}_{\mtx{x}\mtx{y}} &= (\mtxbar{x}\mtxbar{y}^T) -
+    \mtxbar{x}\mtxbar{y}^T \\
   \mtx{\Sigma}_{\mtx{x}\mtx{y}} &= 0
 \end{align*}
 
@@ -343,37 +343,37 @@ Using these results, we can compute the covariance of
 $\mtx{z} = \mtx{A}\mtx{x} + \mtx{B}\mtx{y}$.
 \begin{align*}
   \Sigma_z =~& \cov(\mtx{z}, \mtx{z}) \\
-  \Sigma_z =~& E[(\mtx{z} - \meanmtx{z})(\mtx{z} - \meanmtx{z})^T] \\
-  \Sigma_z =~& E[(\mtx{A}\mtx{x} + \mtx{B}\mtx{y} - \mtx{A}\meanmtx{x} -
-    \mtx{B}\meanmtx{y})(\mtx{A}\mtx{x} + \mtx{B}\mtx{y} -
-    \mtx{A}\meanmtx{x} - \mtx{B}\meanmtx{y})^T] \\
-  \Sigma_z =~& E[(\mtx{A}(\mtx{x} - \meanmtx{x}) +
-    \mtx{B}(\mtx{y} - \meanmtx{y}))
-    (\mtx{A}(\mtx{x} - \meanmtx{x}) +
-     \mtx{B}(\mtx{y} - \meanmtx{y}))^T] \\
-  \Sigma_z =~& E[(\mtx{A}(\mtx{x} - \meanmtx{x}) +
-    \mtx{B}(\mtx{y} - \meanmtx{y}))
-    ((\mtx{x} - \meanmtx{x})^T\mtx{A}^T +
-     (\mtx{y} - \meanmtx{y})^T\mtx{B}^T)] \\
+  \Sigma_z =~& E[(\mtx{z} - \mtxbar{z})(\mtx{z} - \mtxbar{z})^T] \\
+  \Sigma_z =~& E[(\mtx{A}\mtx{x} + \mtx{B}\mtx{y} - \mtx{A}\mtxbar{x} -
+    \mtx{B}\mtxbar{y})(\mtx{A}\mtx{x} + \mtx{B}\mtx{y} -
+    \mtx{A}\mtxbar{x} - \mtx{B}\mtxbar{y})^T] \\
+  \Sigma_z =~& E[(\mtx{A}(\mtx{x} - \mtxbar{x}) +
+    \mtx{B}(\mtx{y} - \mtxbar{y}))
+    (\mtx{A}(\mtx{x} - \mtxbar{x}) +
+     \mtx{B}(\mtx{y} - \mtxbar{y}))^T] \\
+  \Sigma_z =~& E[(\mtx{A}(\mtx{x} - \mtxbar{x}) +
+    \mtx{B}(\mtx{y} - \mtxbar{y}))
+    ((\mtx{x} - \mtxbar{x})^T\mtx{A}^T +
+     (\mtx{y} - \mtxbar{y})^T\mtx{B}^T)] \\
   \Sigma_z =~& E[
-    \mtx{A}(\mtx{x} - \meanmtx{x})(\mtx{x} - \meanmtx{x})^T\mtx{A}^T +
-    \mtx{A}(\mtx{x} - \meanmtx{x})(\mtx{y} - \meanmtx{y})^T\mtx{B}^T + \\
-    &\mtx{B}(\mtx{y} - \meanmtx{y})(\mtx{x} - \meanmtx{x})^T\mtx{A}^T +
-    \mtx{B}(\mtx{y} - \meanmtx{y})(\mtx{y} - \meanmtx{y})^T\mtx{B}^T]
+    \mtx{A}(\mtx{x} - \mtxbar{x})(\mtx{x} - \mtxbar{x})^T\mtx{A}^T +
+    \mtx{A}(\mtx{x} - \mtxbar{x})(\mtx{y} - \mtxbar{y})^T\mtx{B}^T + \\
+    &\mtx{B}(\mtx{y} - \mtxbar{y})(\mtx{x} - \mtxbar{x})^T\mtx{A}^T +
+    \mtx{B}(\mtx{y} - \mtxbar{y})(\mtx{y} - \mtxbar{y})^T\mtx{B}^T]
 \end{align*}
 
 Since $\mtx{x}$ and $\mtx{y}$ are independent, $\Sigma_{xy} = 0$ and the cross
 terms cancel out.
 \begin{align*}
   \Sigma_z &= E[
-    \mtx{A}(\mtx{x} - \meanmtx{x})(\mtx{x} - \meanmtx{x})^T\mtx{A}^T + 0 + 0 +
-    \mtx{B}(\mtx{y} - \meanmtx{y})(\mtx{y} - \meanmtx{y})^T\mtx{B}^T] \\
+    \mtx{A}(\mtx{x} - \mtxbar{x})(\mtx{x} - \mtxbar{x})^T\mtx{A}^T + 0 + 0 +
+    \mtx{B}(\mtx{y} - \mtxbar{y})(\mtx{y} - \mtxbar{y})^T\mtx{B}^T] \\
   \Sigma_z &=
-    E[\mtx{A}(\mtx{x} - \meanmtx{x})(\mtx{x} - \meanmtx{x})^T\mtx{A}^T] +
-    E[\mtx{B}(\mtx{y} - \meanmtx{y})(\mtx{y} - \meanmtx{y})^T\mtx{B}^T] \\
+    E[\mtx{A}(\mtx{x} - \mtxbar{x})(\mtx{x} - \mtxbar{x})^T\mtx{A}^T] +
+    E[\mtx{B}(\mtx{y} - \mtxbar{y})(\mtx{y} - \mtxbar{y})^T\mtx{B}^T] \\
   \Sigma_z &=
-    \mtx{A}E[(\mtx{x} - \meanmtx{x})(\mtx{x} - \meanmtx{x})^T]\mtx{A}^T +
-    \mtx{B}E[(\mtx{y} - \meanmtx{y})(\mtx{y} - \meanmtx{y})^T]\mtx{B}^T
+    \mtx{A}E[(\mtx{x} - \mtxbar{x})(\mtx{x} - \mtxbar{x})^T]\mtx{A}^T +
+    \mtx{B}E[(\mtx{y} - \mtxbar{y})(\mtx{y} - \mtxbar{y})^T]\mtx{B}^T
 \end{align*}
 
 Recall that $\Sigma_x = \cov(\mtx{x}, \mtx{x})$ and
