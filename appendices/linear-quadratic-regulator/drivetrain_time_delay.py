@@ -68,8 +68,8 @@ class DrivetrainVelocitySystem(fct.System):
             self.ubuf.append(np.zeros((1, 1)))
 
         if self.latency_comp:
-            self.K = self.K @ np.linalg.matrix_power(
-                self.sysd.A - self.sysd.B @ self.K, round(DELAY / DT)
+            self.K = self.K @ sp.linalg.fractional_matrix_power(
+                self.sysd.A - self.sysd.B @ self.K, DELAY / DT
             )
 
     def update_controller(self, next_r):

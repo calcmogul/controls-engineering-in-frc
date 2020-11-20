@@ -204,7 +204,12 @@ control law for all $t \geq 0$.
 
 If the delay $L$ isn't a multiple of the sample period $T$ in equation
 \eqref{eq:discrete_delay_comp_control_law}, we have to evaluate fractional
-matrix powers, which can be tricky.
+matrix powers, which can be tricky. Eigen (a C++ library) supports fractional
+powers with the \texttt{pow()} member function provided by
+\texttt{<unsupported/Eigen/MatrixFunctions>}. scipy (a Python library) supports
+fractional powers with the free function
+\texttt{scipy.linalg.fractional\_matrix\_power()}. If the language you're using
+doesn't provide such a function, you can try the following approach instead.
 
 Let there be a matrix $\mtx{M}$ raised to a fractional power $n$. If $\mtx{M}$
 is diagonalizable, we can obtain an exact answer for $\mtx{M}^n$ by decomposing
