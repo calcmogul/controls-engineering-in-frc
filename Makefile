@@ -163,12 +163,11 @@ setup_ubuntu:
 		inkscape \
 		latexmk \
 		texlive-bibtex-extra \
-		texlive-generic-extra \
 		texlive-latex-extra \
 		texlive-xetex \
 		python3 \
 		python3-pip \
 		python3-requests \
 		python3-setuptools
-	# Install "black" Ubuntu package instead on 19.10+
+	# The Ubuntu 20.04 package is too old
 	pip3 install --user black
