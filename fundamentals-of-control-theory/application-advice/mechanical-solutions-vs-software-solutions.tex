@@ -1,0 +1,47 @@
+\section{Mechanical solutions vs software solutions}
+
+While this book focuses on controls engineering applications in FRC, controls
+isn't necessary to have a successful robot; FRC is primarily a mechanical
+competition, not a software competition. We spend over six weeks designing and
+building a robot, but we often allocate just two days for software testing.
+Despite this, teams still field competitive robots, which is a testament to how
+simple and easy to use the FRC software ecosystem is nowadays. Focus on a
+reliabile mechanical design first because a good mechanical design can succeed
+with simple software, but the robot can't succeed with unreliable hardware.
+
+The solution to a design problem may be a tradeoff between mechanical and
+software complexity. For example, for a mechanism that only needs two positions,
+a solenoid connected to a pneumatic actuator may take less effort and be more
+reliable than a motor, rotary encoder, and software feedback control. If one can
+get the software solution working though, the robot may not need the added space
+and weight of a compressor and air tanks.
+
+My rule of thumb for evaluating designs is to prefer elegant mechanical
+solutions over comprehensive software solutions because it's easier to make
+mechanical solutions reliable in competition. Well-placed sensors can also
+drastically improve robot performance and reduce driver cognitive load. An
+example would be a limit switch and match timer for automatically deploying
+minibots in the 2011 FRC game as soon as the endgame starts. In many cases,
+manual processes can be automated later and given a manual fallback if the
+associated software or sensor fails. Be cautious with designs that require
+closed-loop control to function.
+
+When should problems be solved in hardware instead of software with clever
+controls? Controls can handle disturbances like battery voltage drop or
+measurement noise, but there are limits. For example, there's nothing software
+can do to work around a drivetrain gearbox seizing up or throwing a chain.
+Sometimes, you're better off just fixing the root cause in hardware.
+
+Design robot mechanisms for controllability. FRC team 971's
+seminar\footnote{\url{https://www.youtube.com/watch?v=VNfFn-gcfFI}} goes into
+more detail. Two of the important takeaways from it are:
+\begin{itemize}
+  \item Reduce gearbox backlash
+  \item Choose motors and gear reductions that provide adequate control
+        authority
+\end{itemize}
+
+Remember, ``fix it in software" isn't always the answer. The remaining chapters
+of this book assume you've done the engineering analysis and concluded that your
+chosen design would benefit from more sophisticated controls, and you have the
+time or expertise to make it work.
