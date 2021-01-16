@@ -29,8 +29,13 @@
 \usepackage{float} % For preventing figure floating
 \usepackage[bottom]{footmisc} % For putting footnotes at the bottom of the page
 \usepackage{textcomp,gensymb} % For degree symbol
-\usepackage[top=3cm,bottom=3cm,left=3cm,right=3cm,
-            headsep=10pt,marginpar=70pt,a4paper]{geometry}
+\usepackage[top=3cm,
+            bottom=3cm,
+            left=3cm,
+            right=3cm,
+            headsep=10pt,
+            marginpar=70pt,
+            a4paper]{geometry}
 \usepackage{graphicx} % For including figures
 \graphicspath{{figs/}} % Specifies directory where figures are stored
 \usepackage{imakeidx} % For \indexsetup command to fix index heading style
@@ -63,7 +68,16 @@
 \renewcommand{\familydefault}{\rmdefault}
 
 % Bibliography setup
-\usepackage[style=numeric,citestyle=numeric,sorting=nyt,sortcites=true,autopunct=true,autolang=hyphen,hyperref=true,abbreviate=false,backref=true,backend=biber]{biblatex}
+\usepackage[style=numeric,
+            citestyle=numeric,
+            sorting=nyt,
+            sortcites=true,
+            autopunct=true,
+            autolang=hyphen,
+            hyperref=true,
+            abbreviate=false,
+            backref=true,
+            backend=biber]{biblatex}
 \addbibresource{controls-engineering-in-frc.bib}
 \defbibheading{bibempty}{}
 
@@ -77,7 +91,9 @@
 \urlstyle{same}
 
 % Load after hyperref
-\usepackage[nopostdot,style=index,nonumberlist]{glossaries}
+\usepackage[nopostdot,
+            style=index,
+            nonumberlist]{glossaries}
 
 \input{preamble/styles}
 \input{preamble/macros}
