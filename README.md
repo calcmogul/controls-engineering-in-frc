@@ -26,7 +26,7 @@ https://file.tavsys.net/control/controls-engineering-in-frc.pdf).
 ## Running the examples
 
 Example Python scripts can be obtained from frccontrol's Git repository at
-https://github.com/calcmogul/frccontrol/tree/master/examples. Furthermore, all
+https://github.com/calcmogul/frccontrol/tree/main/examples. Furthermore, all
 scripts in the [code](code) directory are runnable by the user. They require
 Python 3.5+ and frccontrol. frccontrol can be installed with the following
 command.

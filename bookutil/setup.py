@@ -26,19 +26,19 @@ if exists(git_dir):
             "--count",
             # Includes previous year's commits in case one was merged after the
             # year incremented. Otherwise, the version wouldn't increment.
-            '--after="master@{' + str(date.today().year - 1) + '-01-01}"',
-            "master",
+            '--after="main@{' + str(date.today().year - 1) + '-01-01}"',
+            "main",
         ],
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
     )
-    # If there is no master branch, the commit count defaults to 0
+    # If there is no main branch, the commit count defaults to 0
     if proc.returncode:
         commit_count = "0"
     else:
         commit_count = proc.stdout.decode("utf-8")
 
-    # Version number: <year>.<# commits on master>
+    # Version number: <year>.<# commits on main>
     version = str(date.today().year) + "." + commit_count.strip()
 
     # Create the version.py file
@@ -49,7 +49,7 @@ if exists(version_file):
     with open(version_file, "r") as fp:
         exec(fp.read(), globals())
 else:
-    __version__ = "master"
+    __version__ = "main"
 
 setup(
     name="bookutil",
