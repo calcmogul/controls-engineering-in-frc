@@ -118,9 +118,10 @@ class PackageTree:
         subprocess.run(["git", "init", "--quiet"])
         subprocess.run(["git", "remote", "add", "origin", pkg.repo])
 
-        # Fetch master first since desired commit is on master and GitHub
+        # Fetch main branch first since desired commit is there and GitHub
         # doesn't allow fetches of specific commits that aren't pointed to by a
         # ref
+        subprocess.run(["git", "fetch", "--quiet", "origin", "main"])
         subprocess.run(["git", "fetch", "--quiet", "origin", "master"])
 
         # Checkout the specified commit and install it
