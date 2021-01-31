@@ -118,11 +118,11 @@ format:
 
 .PHONY: lint
 lint: format build/commit-date.tex build/commit-year.tex build/commit-hash.tex
-	git --no-pager diff --exit-code HEAD  # Ensure formatter made no changes
 	./lint/check_filenames.py
 	./lint/check_tex_includes.py
 	./lint/check_tex_labels.py
 	./lint/check_links.py
+	git --no-pager diff --exit-code HEAD  # Ensure formatter made no changes
 
 .PHONY: clean
 clean: clean_tex
