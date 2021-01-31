@@ -397,31 +397,18 @@ around $\theta = 0$ at all times.
 \end{align*}
 \begin{theorem}[Linear time-varying differential drive controller]
   \label{thm:linear_time-varying_diff_drive_controller}
-  \begin{equation*}
-    \begin{array}{ccc}
-      \mtx{x} =
-      \begin{bmatrix}
-        x & y & \theta & v_l & v_r
-      \end{bmatrix}^T &
-      \mtx{y} =
-      \begin{bmatrix}
-        \theta & v_l & v_r
-      \end{bmatrix}^T &
-      \mtx{u} =
-      \begin{bmatrix}
-        V_l & V_r
-      \end{bmatrix}^T
-    \end{array}
-  \end{equation*}
 
-  The following $\mtx{A}$ and $\mtx{B}$ matrices of a continuous system are used
-  to compute the LQR.
+  Let the differential drive dynamics be of the form
+  $\dot{\mtx{x}} = f(\mtx{x}) + \mtx{B}\mtx{u}$ where
+  $\mtx{x} = \begin{bmatrix}x & y & \theta & v_l & v_r\end{bmatrix}^T$,
+  $\mtx{u} = \begin{bmatrix}V_l & V_r\end{bmatrix}^T$, and
+  $\mtx{A} = \frac{\partial f(\mtx{x})}{\partial\mtx{x}}$.
   \begin{equation}
     \begin{array}{ll}
       \mtx{A} =
       \begin{bmatrix}
         0 & 0 & 0 & \frac{1}{2} & \frac{1}{2} \\
-        0 & 0 & \frac{v_l + v_r}{2} & 0 & 0 \\
+        0 & 0 & v & 0 & 0 \\
         0 & 0 & 0 & -\frac{1}{2r_b} & \frac{1}{2r_b} \\
         0 & 0 & 0 & \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_1 &
           \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_3 \\
@@ -445,6 +432,8 @@ around $\theta = 0$ at all times.
   $C_2 = \frac{G_l K_t}{Rr}$, $C_3 = -\frac{G_r^2 K_t}{K_v R r^2}$, and
   $C_4 = \frac{G_r K_t}{Rr}$. The constants $C_1$ through $C_4$ are from the
   derivation in section \ref{sec:differential_drive}.
+
+  The linear time-varying differential drive controller is
   \begin{equation}
     \mtx{u} = \mtx{K}
     \left[
@@ -460,8 +449,8 @@ around $\theta = 0$ at all times.
     (\mtx{r} - \mtx{x})
   \end{equation}
 
-  The controller gain $\mtx{K}$ from LQR should be recomputed from the model
-  linearized around the current state during every timestep.
+  At each timestep, the LQR controller gain $\mtx{K}$ is computed for the
+  $(\mtx{A}, \mtx{B})$ pair evaluated at the current state.
 \end{theorem}
 
 With the \gls{model} in theorem

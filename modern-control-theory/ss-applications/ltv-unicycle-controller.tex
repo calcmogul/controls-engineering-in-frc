@@ -79,47 +79,42 @@ linearized around $\theta = 0$ at all times.
 Therefore,
 \begin{theorem}[Linear time-varying unicycle controller]
   \label{thm:linear_time-varying_unicycle_controller}
-  \begin{align*}
-    \dot{\mtx{x}} &= \mtx{A}\mtx{x} + \mtx{B}\mtx{u} \\
-    \mtx{y} &= \mtx{C}\mtx{x} + \mtx{D}\mtx{u}
-  \end{align*}
-  \begin{equation*}
-    \begin{array}{ccc}
-      \mtx{x} =
-      \begin{bmatrix}
-        x & y & \theta
-      \end{bmatrix}^T &
-      \mtx{y} =
-      \begin{bmatrix}
-        \theta
-      \end{bmatrix} &
-      \mtx{u} =
-      \begin{bmatrix}
-        v & \omega
-      \end{bmatrix}^T
-    \end{array}
-  \end{equation*}
+
+  Let the unicycle dynamics be
+  $\dot{\mtx{x}} = f(\mtx{x}, \mtx{u}) =
+  \begin{bmatrix}
+    v\cos\theta &
+    v\sin\theta &
+    \omega
+  \end{bmatrix}^T$ where
+  $\mtx{x} =
+  \begin{bmatrix}
+    x &
+    y &
+    \theta
+  \end{bmatrix}^T$ and
+  $\mtx{u} =
+  \begin{bmatrix}
+    v &
+    \omega
+  \end{bmatrix}^T$.
   \begin{equation}
-    \begin{array}{llll}
-      \mtx{A} =
+    \begin{array}{cc}
+      \mtx{A} = \frac{\partial f(\mtx{x}, \mtx{u})}{\partial\mtx{x}} =
       \begin{bmatrix}
         0 & 0 & 0 \\
         0 & 0 & v \\
         0 & 0 & 0
       \end{bmatrix} &
-      \mtx{B} =
+      \mtx{B} = \frac{\partial f(\mtx{x}, \mtx{u})}{\partial\mtx{u}} =
       \begin{bmatrix}
         1 & 0 \\
         0 & 0 \\
         0 & 1
-      \end{bmatrix} &
-      \mtx{C} =
-      \begin{bmatrix}
-        0 & 0 & 1
-      \end{bmatrix} &
-      \mtx{D} = \mtx{0}_{1 \times 2}
+      \end{bmatrix}
     \end{array}
   \end{equation}
+  The linear time-varying unicycle controller is
   \begin{equation}
     \mtx{u} = \mtx{K}
     \begin{bmatrix}
@@ -130,8 +125,8 @@ Therefore,
     (\mtx{r} - \mtx{x})
   \end{equation}
 
-  The controller gain $\mtx{K}$ from LQR should be recomputed from the model
-  linearized around the current state during every timestep.
+  At each timestep, the LQR controller gain $\mtx{K}$ is computed for the
+  $(\mtx{A}, \mtx{B})$ pair evaluated at the current input.
 \end{theorem}
 
 With the \gls{model} in theorem
