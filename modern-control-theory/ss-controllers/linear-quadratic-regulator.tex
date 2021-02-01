@@ -98,7 +98,6 @@ The feedback \gls{control law} that minimizes $J$ is shown in theorem
 \ref{thm:linear-quadratic_regulator}.
 \begin{theorem}[Linear-quadratic regulator]
   \label{thm:linear-quadratic_regulator}
-
   \begin{align}
     \min_{\mtx{u}} &\int\limits_0^\infty \left(\mtx{x}^T\mtx{Q}\mtx{x} +
       \mtx{u}^T\mtx{R}\mtx{u}\right) dt \nonumber \\
@@ -109,7 +108,6 @@ The feedback \gls{control law} that minimizes $J$ is shown in theorem
   that drives all the \glspl{state} to zero is $-\mtx{K}\mtx{x}$. To converge to
   nonzero \glspl{state}, a \gls{reference} vector $\mtx{r}$ can be added to the
   \gls{state} $\mtx{x}$.
-
   \begin{equation}
     \mtx{u} = \mtx{K}(\mtx{r} - \mtx{x})
   \end{equation}

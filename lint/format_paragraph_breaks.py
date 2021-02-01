@@ -8,7 +8,7 @@ paragraphs.
 import os
 import re
 
-begin_rgx = re.compile(r"\n (\n \\begin \{ [^\}]+ \})", re.VERBOSE)
+begin_rgx = re.compile(r"\n [ ]* (\n [ ]* \\begin\{ [^\}]+ \})", re.VERBOSE)
 end_rgx = re.compile(r"(\\end \{ [^\}]+ \}) (?=\n[\w\$])", re.VERBOSE)
 
 files = [

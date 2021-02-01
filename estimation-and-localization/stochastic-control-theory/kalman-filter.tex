@@ -262,7 +262,6 @@ and update steps for a Kalman filter at the $k^{th}$ timestep.
 \index{state-space observers!Kalman filter!equations}
 \begin{theorem}[Kalman filter]
   \label{thm:kalman_filter}
-
   \begin{align}
     \text{Predict step} \nonumber \\
     \hat{\mtx{x}}_{k+1}^- &= \mtx{A}\hat{\mtx{x}}_k + \mtx{B} \mtx{u}_k \\
@@ -277,7 +276,6 @@ and update steps for a Kalman filter at the $k^{th}$ timestep.
       \mtx{C} \hat{\mtx{x}}_{k+1}^- - \mtx{D}\mtx{u}_{k+1}) \\
     \mtx{P}_{k+1}^+ &= (\mtx{I} - \mtx{K}_{k+1}\mtx{C})\mtx{P}_{k+1}^-
   \end{align}
-
   \begin{figurekey}
     \begin{tabular}{llll}
       $\mtx{A}$ & system matrix & $\hat{\mtx{x}}$ & state estimate vector \\

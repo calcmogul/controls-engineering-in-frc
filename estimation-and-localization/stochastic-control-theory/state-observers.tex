@@ -32,14 +32,12 @@ a state estimator and some of their properties.
       \mtx{L} (\mtx{y} - \hat{\mtx{y}}) \\
     \hat{\mtx{y}} &= \mtx{C}\hat{\mtx{x}} + \mtx{D}\mtx{u}
   \end{align}
-
   \begin{align}
     \hat{\mtx{x}}_{k+1} &= \mtx{A}\hat{\mtx{x}}_k + \mtx{B}\mtx{u}_k +
       \mtx{L}(\mtx{y}_k - \hat{\mtx{y}}_k) \label{eq:z_obsv_x} \\
     \hat{\mtx{y}}_k &= \mtx{C}\hat{\mtx{x}}_k + \mtx{D}\mtx{u}_k
       \label{eq:z_obsv_y} \\ \nonumber
   \end{align}
-
   \begin{figurekey}
     \begin{tabular}{llll}
       $\mtx{A}$ & system matrix      & $\hat{\mtx{x}}$ & state estimate vector \\
@@ -87,7 +85,6 @@ estimator. To run them separately, use the equations in theorem
 \ref{thm:luenberger} instead.
 \begin{theorem}[Luenberger observer with separate predict/update]
   \label{thm:luenberger}
-
   \begin{align}
     \text{Predict step} \nonumber \\
     \hat{\mtx{x}}_{k+1}^- &= \mtx{A}\hat{\mtx{x}}_k^- + \mtx{B}\mtx{u}_k \\

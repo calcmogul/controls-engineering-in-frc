@@ -95,7 +95,6 @@ Substituting the control laws $u_1$ and $u_2$ into these equations gives
 
   To prove convergence, the paper previously mentioned uses the following
   Lyapunov function.
-
   \begin{equation*}
     V = \frac{k_2}{2}(e_x^2 + e_y^2) + \frac{e_\theta^2}{2}
   \end{equation*}
@@ -105,7 +104,6 @@ Substituting the control laws $u_1$ and $u_2$ into these equations gives
 
   The time derivative along the solutions of the closed-loop \gls{system} is
   nonincreasing since
-
   \begin{equation*}
     \dot{V} = -k_1 k_2 e_x^2 - k_3 e_\theta^2 \leq 0
   \end{equation*}
@@ -141,7 +139,6 @@ $k = k_1(v_d, \omega_d) = k_3(v_d, \omega_d) = 2\zeta\sqrt{\omega_d^2 + bv_d^2}$
     k &= 2\zeta\sqrt{\omega_d^2 + bv_d^2} \\
     \sinc(e_\theta) &= \frac{\sin{e_\theta}}{e_\theta}
   \end{align}
-
   \begin{figurekey}
     \begin{tabular}{llll}
       $v$ & velocity command & $v_d$ & desired velocity \\
@@ -262,7 +259,6 @@ position \glspl{state} from the \gls{model}.
       \end{bmatrix}
     \end{array}
   \end{equation*}
-
   \begin{equation}
     \begin{array}{ll}
       \mtx{A} =
@@ -375,7 +371,6 @@ Now, just convert the two equations to state-space notation.
       \end{bmatrix}
     \end{array}
   \end{equation*}
-
   \begin{equation}
     \begin{array}{ll}
       \mtx{A} =
