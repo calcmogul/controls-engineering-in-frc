@@ -10,7 +10,7 @@ unit \gls{step input}. That is, the integrator accumulates even if the
 \gls{system} is \gls{tracking} the \gls{model} correctly. The second is
 demonstrated by an example from Jared Russell of FRC team 254. Say there is a
 position/velocity trajectory for some \gls{plant} to follow. Without integral
-control, one can calculate a desired $\mtx{K}\mtx{x}$ to use as the
+control, one can calculate a desired $\mat{K}\mat{x}$ to use as the
 \gls{control input}. As a result of using both desired position and velocity,
 \gls{reference} \gls{tracking} is good. With integral control added, the
 \gls{reference} is always the desired position, but there is no way to tell the
@@ -34,72 +34,72 @@ We'll present two methods:
 \index{integral control!plant augmentation}
 
 We want to augment the \gls{system} with an integral term that integrates the
-\gls{error} $\mtx{e} = \mtx{r} - \mtx{y} = \mtx{r} - \mtx{C}\mtx{x}$.
+\gls{error} $\mat{e} = \mat{r} - \mat{y} = \mat{r} - \mat{C}\mat{x}$.
 \begin{align*}
-  \mtx{x}_I &= \int \mtx{e} \,dt \\
-  \dot{\mtx{x}}_I &= \mtx{e} = \mtx{r} - \mtx{C}\mtx{x}
+  \mat{x}_I &= \int \mat{e} \,dt \\
+  \dot{\mat{x}}_I &= \mat{e} = \mat{r} - \mat{C}\mat{x}
 \end{align*}
 
 The \gls{plant} is augmented as
 \begin{align*}
   \dot{\begin{bmatrix}
-    \mtx{x} \\
-    \mtx{x}_I
+    \mat{x} \\
+    \mat{x}_I
   \end{bmatrix}} &=
   \begin{bmatrix}
-    \mtx{A} & \mtx{0} \\
-    -\mtx{C} & \mtx{0}
+    \mat{A} & \mat{0} \\
+    -\mat{C} & \mat{0}
   \end{bmatrix}
   \begin{bmatrix}
-    \mtx{x} \\
-    \mtx{x}_I
+    \mat{x} \\
+    \mat{x}_I
   \end{bmatrix} +
   \begin{bmatrix}
-    \mtx{B} \\
-    \mtx{0}
+    \mat{B} \\
+    \mat{0}
   \end{bmatrix}
-  \mtx{u} +
+  \mat{u} +
   \begin{bmatrix}
-    \mtx{0} \\
-    \mtx{I}
+    \mat{0} \\
+    \mat{I}
   \end{bmatrix}
-  \mtx{r} \\
+  \mat{r} \\
   \dot{\begin{bmatrix}
-    \mtx{x} \\
-    \mtx{x}_I
+    \mat{x} \\
+    \mat{x}_I
   \end{bmatrix}} &=
   \begin{bmatrix}
-    \mtx{A} & \mtx{0} \\
-    -\mtx{C} & \mtx{0}
+    \mat{A} & \mat{0} \\
+    -\mat{C} & \mat{0}
   \end{bmatrix}
   \begin{bmatrix}
-    \mtx{x} \\
-    \mtx{x}_I
+    \mat{x} \\
+    \mat{x}_I
   \end{bmatrix} +
   \begin{bmatrix}
-    \mtx{B} & \mtx{0} \\
-    \mtx{0} & \mtx{I}
+    \mat{B} & \mat{0} \\
+    \mat{0} & \mat{I}
   \end{bmatrix}
   \begin{bmatrix}
-    \mtx{u} \\
-    \mtx{r}
+    \mat{u} \\
+    \mat{r}
   \end{bmatrix}
 \end{align*}
 
 The controller is augmented as
 \begin{align*}
-  \mtx{u} &= \mtx{K} (\mtx{r} - \mtx{x}) - \mtx{K}_I\mtx{x}_I \\
-  \mtx{u} &=
+  \mat{u} &= \mat{K} (\mat{r} - \mat{x}) - \mat{K}_I\mat{x}_I \\
+  \mat{u} &=
   \begin{bmatrix}
-    \mtx{K} & \mtx{K}_I
+    \mat{K} & \mat{K}_I
   \end{bmatrix}
   \left(\begin{bmatrix}
-    \mtx{r} \\
-    \mtx{0}
+    \mat{r} \\
+    \mat{0}
   \end{bmatrix} -
   \begin{bmatrix}
-    \mtx{x} \\
-    \mtx{x}_I
+    \mat{x} \\
+    \mat{x}_I
   \end{bmatrix}\right)
 \end{align*}
 
@@ -132,63 +132,63 @@ $u + u_{error}$ is the hypothetical \gls{input} actually applied to the
 
 The following equation generalizes this to a multiple-input \gls{system}.
 \begin{equation*}
-  \dot{\mtx{x}} = \mtx{A}\mtx{x} + \mtx{B}\mtx{u} + \mtx{B}_{error}u_{error}
+  \dot{\mat{x}} = \mat{A}\mat{x} + \mat{B}\mat{u} + \mat{B}_{error}u_{error}
 \end{equation*}
 
-where $\mtx{B}_{error}$ is a column vector that maps $u_{error}$ to changes in
-the rest of the \gls{state} the same way $\mtx{B}$ does for $\mtx{u}$.
-$\mtx{B}_{error}$ is only a column of $\mtx{B}$ if $u_{error}$ corresponds to an
-existing \gls{input} within $\mtx{u}$.
+where $\mat{B}_{error}$ is a column vector that maps $u_{error}$ to changes in
+the rest of the \gls{state} the same way $\mat{B}$ does for $\mat{u}$.
+$\mat{B}_{error}$ is only a column of $\mat{B}$ if $u_{error}$ corresponds to an
+existing \gls{input} within $\mat{u}$.
 
 Given the above equation, we'll augment the \gls{plant} as
 \begin{align*}
   \dot{\begin{bmatrix}
-    \mtx{x} \\
+    \mat{x} \\
     u_{error}
   \end{bmatrix}} &=
   \begin{bmatrix}
-    \mtx{A} & \mtx{B}_{error} \\
-    \mtx{0} & \mtx{0}
+    \mat{A} & \mat{B}_{error} \\
+    \mat{0} & \mat{0}
   \end{bmatrix}
   \begin{bmatrix}
-    \mtx{x} \\
+    \mat{x} \\
     u_{error}
   \end{bmatrix} +
   \begin{bmatrix}
-    \mtx{B} \\
-    \mtx{0}
+    \mat{B} \\
+    \mat{0}
   \end{bmatrix}
-  \mtx{u} \\
-  \mtx{y} &= \begin{bmatrix}
-    \mtx{C} & 0
+  \mat{u} \\
+  \mat{y} &= \begin{bmatrix}
+    \mat{C} & 0
   \end{bmatrix} \begin{bmatrix}
-    \mtx{x} \\
+    \mat{x} \\
     u_{error}
-  \end{bmatrix} + \mtx{D}\mtx{u}
+  \end{bmatrix} + \mat{D}\mat{u}
 \end{align*}
 
 Notice how the \gls{state} is augmented with $u_{error}$. With this \gls{model},
 the \gls{observer} will estimate both the \gls{state} and the $u_{error}$ term.
-The controller is augmented similarly. $\mtx{r}$ is augmented with a zero for
+The controller is augmented similarly. $\mat{r}$ is augmented with a zero for
 the goal $u_{error}$ term.
 \begin{align*}
-  \mtx{u} &= \mtx{K} \left(\mtx{r} - \mtx{x}\right) - \mtx{k}_{error}u_{error}
+  \mat{u} &= \mat{K} \left(\mat{r} - \mat{x}\right) - \mat{k}_{error}u_{error}
     \\
-  \mtx{u} &=
+  \mat{u} &=
   \begin{bmatrix}
-    \mtx{K} & \mtx{k}_{error}
+    \mat{K} & \mat{k}_{error}
   \end{bmatrix}
   \left(\begin{bmatrix}
-    \mtx{r} \\
+    \mat{r} \\
     0
   \end{bmatrix} -
   \begin{bmatrix}
-    \mtx{x} \\
+    \mat{x} \\
     u_{error}
   \end{bmatrix}\right)
 \end{align*}
 
-where $\mtx{k}_{error}$ is a column vector with a $1$ in a given row if
+where $\mat{k}_{error}$ is a column vector with a $1$ in a given row if
 $u_{error}$ should be applied to that \gls{input} or a $0$ otherwise.
 
 This process can be repeated for an arbitrary \gls{error} which can be corrected

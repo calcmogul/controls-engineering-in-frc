@@ -27,7 +27,7 @@ Now separate the \glspl{state}.
 This makes our state vector $\begin{bmatrix}\theta & \omega\end{bmatrix}^T$ and
 our nonlinear model
 \begin{equation*}
-  f(\mtx{x}, \mtx{u}) =
+  f(\mat{x}, \mat{u}) =
   \begin{bmatrix}
     \omega \\
     -\frac{g}{l}\sin\theta
@@ -82,7 +82,7 @@ Factor out $\theta$ and $\omega$ into a column vector.
 
 Here's the original nonlinear model in state-space representation.
 \begin{equation*}
-  f(\mtx{x}, \mtx{u}) =
+  f(\mat{x}, \mat{u}) =
   \begin{bmatrix}
     \omega \\
     -\frac{g}{l}\sin\theta
@@ -90,9 +90,9 @@ Here's the original nonlinear model in state-space representation.
 \end{equation*}
 
 If we want to linearize around an arbitrary point, we can take the Jacobian with
-respect to $\mtx{x}$.
+respect to $\mat{x}$.
 \begin{equation*}
-  \frac{\partial f(\mtx{x}, \mtx{u})}{\partial\mtx{x}} =
+  \frac{\partial f(\mat{x}, \mat{u})}{\partial\mat{x}} =
   \begin{bmatrix}
     0 & 1 \\
     -\frac{g}{l}\cos\theta & 0
@@ -104,50 +104,50 @@ not all \glspl{state} are measured directly, an estimator can be used to
 supplement them.
 
 We may only be measuring $\theta$ in the pendulum example, not $\dot{\theta}$,
-so we'll need to estimate the latter. The $\mtx{C}$ matrix the \gls{observer}
+so we'll need to estimate the latter. The $\mat{C}$ matrix the \gls{observer}
 would use in this case is
 \begin{equation*}
-  \mtx{C} = \begin{bmatrix}
+  \mat{C} = \begin{bmatrix}
     1 & 0 \\
   \end{bmatrix}
 \end{equation*}
 
 Therefore, the measurement vector is
 \begin{align*}
-  \mtx{y} &= \mtx{C}\mtx{x} \\
-  \mtx{y} &= \begin{bmatrix}
+  \mat{y} &= \mat{C}\mat{x} \\
+  \mat{y} &= \begin{bmatrix}
     1 & 0
   \end{bmatrix}
   \begin{bmatrix}
     \theta \\
     \omega
   \end{bmatrix} \\
-  \mtx{y} &= 1\theta + 0\omega \\
-  \mtx{y} &= \theta
+  \mat{y} &= 1\theta + 0\omega \\
+  \mat{y} &= \theta
 \end{align*}
 \begin{theorem}[Linear time-varying pendulum state-space model with no input]
   \begin{align*}
-    \dot{\mtx{x}} &= \mtx{A} \mtx{x} \\
-    \mtx{y} &= \mtx{C} \mtx{x}
+    \dot{\mat{x}} &= \mat{A} \mat{x} \\
+    \mat{y} &= \mat{C} \mat{x}
   \end{align*}
   \begin{equation*}
     \begin{array}{ccc}
-      \mtx{x} =
+      \mat{x} =
       \begin{bmatrix}
         \theta \\
         \omega
       \end{bmatrix} &
-      \mtx{y} = \theta
+      \mat{y} = \theta
     \end{array}
   \end{equation*}
   \begin{equation}
     \begin{array}{cccc}
-      \mtx{A} =
+      \mat{A} =
       \begin{bmatrix}
         0 & 1 \\
         -\frac{g}{l}\cos\theta & 0
       \end{bmatrix} &
-      \mtx{C} =
+      \mat{C} =
       \begin{bmatrix}
         1 & 0
       \end{bmatrix}

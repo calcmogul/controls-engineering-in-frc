@@ -9,8 +9,8 @@ estimator which minimizes the error covariance for linear \glspl{system}.
 \index{state-space observers!Kalman filter!derivations}
 
 Given the \textit{a posteriori} update equation
-$\hat{\mtx{x}}_{k+1}^+ = \hat{\mtx{x}}_{k+1}^- + \mtx{K}_{k+1}(\mtx{y}_{k+1} -
-\hat{\mtx{y}}_{k+1})$, we want to find the value of $\mtx{K}_{k+1}$ that
+$\hat{\mat{x}}_{k+1}^+ = \hat{\mat{x}}_{k+1}^- + \mat{K}_{k+1}(\mat{y}_{k+1} -
+\hat{\mat{y}}_{k+1})$, we want to find the value of $\mat{K}_{k+1}$ that
 minimizes the \textit{a posteriori} estimate covariance (the error covariance)
 because this minimizes the estimation error.
 
@@ -19,205 +19,205 @@ because this minimizes the estimation error.
 The following is the definition of the \textit{a posteriori} estimate covariance
 matrix.
 \begin{equation*}
-  \mtx{P}_{k+1}^+ = \cov(\mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1}^+)
+  \mat{P}_{k+1}^+ = \cov(\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^+)
 \end{equation*}
 
 Substitute in the \textit{a posteriori} update equation and expand the
 measurement equations.
 \begin{align*}
-  \mtx{P}_{k+1}^+ = \cov(&\mtx{x}_{k+1} - (\hat{\mtx{x}}_{k+1}^- +
-    \mtx{K}_{k+1}(\mtx{y}_{k+1} - \hat{\mtx{y}}_{k+1}))) \\
-  \mtx{P}_{k+1}^+ = \cov(&\mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1}^- -
-    \mtx{K}_{k+1}(\mtx{y}_{k+1} - \hat{\mtx{y}}_{k+1})) \\
-  \mtx{P}_{k+1}^+ = \cov(&\mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1}^- - \\
-    &\mtx{K}_{k+1}((\mtx{C}_{k+1} \mtx{x}_{k+1} + \mtx{D}_{k+1} \mtx{u}_{k+1} +
-      \mtx{v}_{k+1}) - (\mtx{C}_{k+1} \hat{\mtx{x}}_{k+1}^- +
-      \mtx{D}_{k+1}\mtx{u}_{k+1}))) \\
-  \mtx{P}_{k+1}^+ = \cov(&\mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1}^- - \\
-    &\mtx{K}_{k+1}(\mtx{C}_{k+1} \mtx{x}_{k+1} + \mtx{D}_{k+1} \mtx{u}_{k+1} +
-      \mtx{v}_{k+1} - \mtx{C}_{k+1} \hat{\mtx{x}}_{k+1}^- -
-      \mtx{D}_{k+1}\mtx{u}_{k+1}))
+  \mat{P}_{k+1}^+ = \cov(&\mat{x}_{k+1} - (\hat{\mat{x}}_{k+1}^- +
+    \mat{K}_{k+1}(\mat{y}_{k+1} - \hat{\mat{y}}_{k+1}))) \\
+  \mat{P}_{k+1}^+ = \cov(&\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^- -
+    \mat{K}_{k+1}(\mat{y}_{k+1} - \hat{\mat{y}}_{k+1})) \\
+  \mat{P}_{k+1}^+ = \cov(&\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^- - \\
+    &\mat{K}_{k+1}((\mat{C}_{k+1} \mat{x}_{k+1} + \mat{D}_{k+1} \mat{u}_{k+1} +
+      \mat{v}_{k+1}) - (\mat{C}_{k+1} \hat{\mat{x}}_{k+1}^- +
+      \mat{D}_{k+1}\mat{u}_{k+1}))) \\
+  \mat{P}_{k+1}^+ = \cov(&\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^- - \\
+    &\mat{K}_{k+1}(\mat{C}_{k+1} \mat{x}_{k+1} + \mat{D}_{k+1} \mat{u}_{k+1} +
+      \mat{v}_{k+1} - \mat{C}_{k+1} \hat{\mat{x}}_{k+1}^- -
+      \mat{D}_{k+1}\mat{u}_{k+1}))
 \end{align*}
 
 Reorder terms.
 \begin{align*}
-  \mtx{P}_{k+1}^+ = \cov(&\mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1}^- - \\
-    &\mtx{K}_{k+1}(\mtx{C}_{k+1} \mtx{x}_{k+1} -
-      \mtx{C}_{k+1} \hat{\mtx{x}}_{k+1}^- + \mtx{D}_{k+1} \mtx{u}_{k+1} -
-      \mtx{D}_{k+1}\mtx{u}_{k+1} + \mtx{v}_{k+1}))
+  \mat{P}_{k+1}^+ = \cov(&\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^- - \\
+    &\mat{K}_{k+1}(\mat{C}_{k+1} \mat{x}_{k+1} -
+      \mat{C}_{k+1} \hat{\mat{x}}_{k+1}^- + \mat{D}_{k+1} \mat{u}_{k+1} -
+      \mat{D}_{k+1}\mat{u}_{k+1} + \mat{v}_{k+1}))
 \end{align*}
 
-The $\mtx{D}_{k+1}\mtx{u}_{k+1}$ terms cancel.
+The $\mat{D}_{k+1}\mat{u}_{k+1}$ terms cancel.
 \begin{equation*}
-  \mtx{P}_{k+1}^+ = \cov(\mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1}^- -
-    \mtx{K}_{k+1}(\mtx{C}_{k+1}\mtx{x}_{k+1} -
-    \mtx{C}_{k+1} \hat{\mtx{x}}_{k+1}^- + \mtx{v}_{k+1}))
+  \mat{P}_{k+1}^+ = \cov(\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^- -
+    \mat{K}_{k+1}(\mat{C}_{k+1}\mat{x}_{k+1} -
+    \mat{C}_{k+1} \hat{\mat{x}}_{k+1}^- + \mat{v}_{k+1}))
 \end{equation*}
 
-Distribute $\mtx{K}_{k+1}$ to $\mtx{v}_{k+1}$.
+Distribute $\mat{K}_{k+1}$ to $\mat{v}_{k+1}$.
 \begin{equation*}
-  \mtx{P}_{k+1}^+ = \cov(\mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1}^- -
-    \mtx{K}_{k+1}(\mtx{C}_{k+1}\mtx{x}_{k+1} -
-    \mtx{C}_{k+1} \hat{\mtx{x}}_{k+1}^-) - \mtx{K}_{k+1}\mtx{v}_{k+1})
+  \mat{P}_{k+1}^+ = \cov(\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^- -
+    \mat{K}_{k+1}(\mat{C}_{k+1}\mat{x}_{k+1} -
+    \mat{C}_{k+1} \hat{\mat{x}}_{k+1}^-) - \mat{K}_{k+1}\mat{v}_{k+1})
 \end{equation*}
 
-Factor out $\mtx{C}_{k+1}$.
+Factor out $\mat{C}_{k+1}$.
 \begin{equation*}
-  \mtx{P}_{k+1}^+ = \cov(\mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1}^- -
-    \mtx{K}_{k+1}\mtx{C}_{k+1}(\mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1}^-) -
-    \mtx{K}_{k+1}\mtx{v}_{k+1})
+  \mat{P}_{k+1}^+ = \cov(\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^- -
+    \mat{K}_{k+1}\mat{C}_{k+1}(\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^-) -
+    \mat{K}_{k+1}\mat{v}_{k+1})
 \end{equation*}
 
-Factor out $\mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1}^-$ to the right.
+Factor out $\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^-$ to the right.
 \begin{equation*}
-  \mtx{P}_{k+1}^+ = \cov((\mtx{I} - \mtx{K}_{k+1}\mtx{C}_{k+1})
-    (\mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1}^-) - \mtx{K}_{k+1}\mtx{v}_{k+1})
+  \mat{P}_{k+1}^+ = \cov((\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})
+    (\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^-) - \mat{K}_{k+1}\mat{v}_{k+1})
 \end{equation*}
 
 Covariance is a linear operator, so it can be applied to each term separately.
 Covariance squares terms internally, so the negative sign on
-$\mtx{K}_{k+1}\mtx{v}_{k+1}$ is removed.
+$\mat{K}_{k+1}\mat{v}_{k+1}$ is removed.
 \begin{equation*}
-  \mtx{P}_{k+1}^+ = \cov((\mtx{I} - \mtx{K}_{k+1}\mtx{C}_{k+1})
-    (\mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1}^-)) + \cov(\mtx{K}_{k+1}\mtx{v}_{k+1})
+  \mat{P}_{k+1}^+ = \cov((\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})
+    (\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^-)) + \cov(\mat{K}_{k+1}\mat{v}_{k+1})
 \end{equation*}
 
 Now just evaluate the covariances.
 \begin{align*}
-  \mtx{P}_{k+1}^+ &= (\mtx{I} - \mtx{K}_{k+1}\mtx{C}_{k+1})
-    \cov(\mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1}^-)
-    (\mtx{I} - \mtx{K}_{k+1}\mtx{C}_{k+1})^T + \mtx{K}_{k+1}cov(\mtx{v}_{k+1})
-    \mtx{K}_{k+1}^T \\
-  \mtx{P}_{k+1}^+ &= (\mtx{I} - \mtx{K}_{k+1}\mtx{C}_{k+1})\mtx{P}_{k+1}^-
-    (\mtx{I} - \mtx{K}_{k+1}\mtx{C}_{k+1})^T + \mtx{K}_{k+1}\mtx{R}_{k+1}
-    \mtx{K}_{k+1}^T
+  \mat{P}_{k+1}^+ &= (\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})
+    \cov(\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^-)
+    (\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})^T + \mat{K}_{k+1}cov(\mat{v}_{k+1})
+    \mat{K}_{k+1}^T \\
+  \mat{P}_{k+1}^+ &= (\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})\mat{P}_{k+1}^-
+    (\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})^T + \mat{K}_{k+1}\mat{R}_{k+1}
+    \mat{K}_{k+1}^T
 \end{align*}
 
 \subsubsection{Finding the optimal Kalman gain}
 
 The error in the \textit{a posteriori} \gls{state} estimation is
-$\mtx{x}_{k+1} - \hat{\mtx{x}}_{k+1}^-$. We want to minimize the expected value
+$\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^-$. We want to minimize the expected value
 of the square of the magnitude of this vector. This is equivalent to minimizing
-the trace of the a posteriori estimate covariance matrix $\mtx{P}_{k+1}^+$.
+the trace of the a posteriori estimate covariance matrix $\mat{P}_{k+1}^+$.
 
-We'll start with the equation for $\mtx{P}_{k+1}^+$.
+We'll start with the equation for $\mat{P}_{k+1}^+$.
 \begin{equation*}
-  \mtx{P}_{k+1}^+ = (\mtx{I} - \mtx{K}_{k+1}\mtx{C}_{k+1})\mtx{P}_{k+1}^-
-    (\mtx{I} - \mtx{K}_{k+1}\mtx{C}_{k+1})^T + \mtx{K}_{k+1}\mtx{R}_{k+1}
-    \mtx{K}_{k+1}^T
+  \mat{P}_{k+1}^+ = (\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})\mat{P}_{k+1}^-
+    (\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})^T + \mat{K}_{k+1}\mat{R}_{k+1}
+    \mat{K}_{k+1}^T
 \end{equation*}
 
-We're going to expand the equation for $\mtx{P}_{k+1}^+$ and collect terms.
-First, multiply in $\mtx{P}_{k+1}^-$.
+We're going to expand the equation for $\mat{P}_{k+1}^+$ and collect terms.
+First, multiply in $\mat{P}_{k+1}^-$.
 \begin{equation*}
-  \mtx{P}_{k+1}^+ =
-    (\mtx{P}_{k+1}^- - \mtx{K}_{k+1}\mtx{C}_{k+1}\mtx{P}_{k+1}^-)
-    (\mtx{I} - \mtx{K}_{k+1}\mtx{C}_{k+1})^T + \mtx{K}_{k+1}\mtx{R}_{k+1}
-    \mtx{K}_{k+1}^T
+  \mat{P}_{k+1}^+ =
+    (\mat{P}_{k+1}^- - \mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^-)
+    (\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})^T + \mat{K}_{k+1}\mat{R}_{k+1}
+    \mat{K}_{k+1}^T
 \end{equation*}
 
-Tranpose each term in $\mtx{I} - \mtx{K}_{k+1}\mtx{C}_{k+1}$. $\mtx{I}$ is
+Tranpose each term in $\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1}$. $\mat{I}$ is
 symmetric, so its transpose is dropped.
 \begin{equation*}
-  \mtx{P}_{k+1}^+ =
-    (\mtx{P}_{k+1}^- - \mtx{K}_{k+1}\mtx{C}_{k+1}\mtx{P}_{k+1}^-)
-    (\mtx{I} - \mtx{C}_{k+1}^T\mtx{K}_{k+1}^T) +
-    \mtx{K}_{k+1}\mtx{R}_{k+1} \mtx{K}_{k+1}^T
+  \mat{P}_{k+1}^+ =
+    (\mat{P}_{k+1}^- - \mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^-)
+    (\mat{I} - \mat{C}_{k+1}^T\mat{K}_{k+1}^T) +
+    \mat{K}_{k+1}\mat{R}_{k+1} \mat{K}_{k+1}^T
 \end{equation*}
 
-Multiply in $\mtx{I} - \mtx{C}_{k+1}^T\mtx{K}_{k+1}^T$.
+Multiply in $\mat{I} - \mat{C}_{k+1}^T\mat{K}_{k+1}^T$.
 \begin{equation*}
-  \mtx{P}_{k+1}^+ =
-    \mtx{P}_{k+1}^-(\mtx{I} - \mtx{C}_{k+1}^T\mtx{K}_{k+1}^T) -
-    \mtx{K}_{k+1}\mtx{C}_{k+1}\mtx{P}_{k+1}^-
-    (\mtx{I} - \mtx{C}_{k+1}^T\mtx{K}_{k+1}^T) +
-    \mtx{K}_{k+1}\mtx{R}_{k+1} \mtx{K}_{k+1}^T
+  \mat{P}_{k+1}^+ =
+    \mat{P}_{k+1}^-(\mat{I} - \mat{C}_{k+1}^T\mat{K}_{k+1}^T) -
+    \mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^-
+    (\mat{I} - \mat{C}_{k+1}^T\mat{K}_{k+1}^T) +
+    \mat{K}_{k+1}\mat{R}_{k+1} \mat{K}_{k+1}^T
 \end{equation*}
 
 Expand terms.
 \begin{align*}
-  \mtx{P}_{k+1}^+ &=
-    \mtx{P}_{k+1}^- - \mtx{P}_{k+1}^-\mtx{C}_{k+1}^T\mtx{K}_{k+1}^T -
-    \mtx{K}_{k+1}\mtx{C}_{k+1}\mtx{P}_{k+1}^- +
-    \mtx{K}_{k+1}\mtx{C}_{k+1}\mtx{P}_{k+1}^-\mtx{C}_{k+1}^T\mtx{K}_{k+1}^T \\
-    &\qquad + \mtx{K}_{k+1}\mtx{R}_{k+1} \mtx{K}_{k+1}^T
+  \mat{P}_{k+1}^+ &=
+    \mat{P}_{k+1}^- - \mat{P}_{k+1}^-\mat{C}_{k+1}^T\mat{K}_{k+1}^T -
+    \mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^- +
+    \mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^-\mat{C}_{k+1}^T\mat{K}_{k+1}^T \\
+    &\qquad + \mat{K}_{k+1}\mat{R}_{k+1} \mat{K}_{k+1}^T
 \end{align*}
 
-Factor out $\mtx{K}_{k+1}$ and $\mtx{K}_{k+1}^T$.
+Factor out $\mat{K}_{k+1}$ and $\mat{K}_{k+1}^T$.
 \begin{align}
-  \mtx{P}_{k+1}^+ &=
-    \mtx{P}_{k+1}^- - \mtx{P}_{k+1}^-\mtx{C}_{k+1}^T\mtx{K}_{k+1}^T -
-    \mtx{K}_{k+1}\mtx{C}_{k+1}\mtx{P}_{k+1}^- \nonumber \\
-    &\qquad + \mtx{K}_{k+1}(\mtx{C}_{k+1}\mtx{P}_{k+1}^-\mtx{C}_{k+1}^T +
-    \mtx{R}_{k+1})\mtx{K}_{k+1}^T \nonumber \\
-  \mtx{P}_{k+1}^+ &=
-    \mtx{P}_{k+1}^- - \mtx{P}_{k+1}^-\mtx{C}_{k+1}^T\mtx{K}_{k+1}^T -
-    \mtx{K}_{k+1}\mtx{C}_{k+1}\mtx{P}_{k+1}^- +
-    \mtx{K}_{k+1}\mtx{S}_{k+1}\mtx{K}_{k+1}^T \label{eq:post_p_update}
+  \mat{P}_{k+1}^+ &=
+    \mat{P}_{k+1}^- - \mat{P}_{k+1}^-\mat{C}_{k+1}^T\mat{K}_{k+1}^T -
+    \mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^- \nonumber \\
+    &\qquad + \mat{K}_{k+1}(\mat{C}_{k+1}\mat{P}_{k+1}^-\mat{C}_{k+1}^T +
+    \mat{R}_{k+1})\mat{K}_{k+1}^T \nonumber \\
+  \mat{P}_{k+1}^+ &=
+    \mat{P}_{k+1}^- - \mat{P}_{k+1}^-\mat{C}_{k+1}^T\mat{K}_{k+1}^T -
+    \mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^- +
+    \mat{K}_{k+1}\mat{S}_{k+1}\mat{K}_{k+1}^T \label{eq:post_p_update}
 \end{align}
 
 Now take the trace.
 \begin{equation*}
-  \tr(\mtx{P}_{k+1}^+) =
-    \tr(\mtx{P}_{k+1}^-) - \tr(\mtx{P}_{k+1}^-\mtx{C}_{k+1}^T\mtx{K}_{k+1}^T) -
-    \tr(\mtx{K}_{k+1}\mtx{C}_{k+1}\mtx{P}_{k+1}^-) +
-    \tr(\mtx{K}_{k+1}\mtx{S}_{k+1}\mtx{K}_{k+1}^T)
+  \tr(\mat{P}_{k+1}^+) =
+    \tr(\mat{P}_{k+1}^-) - \tr(\mat{P}_{k+1}^-\mat{C}_{k+1}^T\mat{K}_{k+1}^T) -
+    \tr(\mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^-) +
+    \tr(\mat{K}_{k+1}\mat{S}_{k+1}\mat{K}_{k+1}^T)
 \end{equation*}
 
 Transpose one of the terms twice.
 \begin{equation*}
-  \tr(\mtx{P}_{k+1}^+) = \tr(\mtx{P}_{k+1}^-) -
-    \tr((\mtx{K}_{k+1}\mtx{C}_{k+1}\mtx{P}_{k+1}^{-T})^T) -
-    \tr(\mtx{K}_{k+1}\mtx{C}_{k+1}\mtx{P}_{k+1}^-) +
-    \tr(\mtx{K}_{k+1}\mtx{S}_{k+1}\mtx{K}_{k+1}^T)
+  \tr(\mat{P}_{k+1}^+) = \tr(\mat{P}_{k+1}^-) -
+    \tr((\mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^{-T})^T) -
+    \tr(\mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^-) +
+    \tr(\mat{K}_{k+1}\mat{S}_{k+1}\mat{K}_{k+1}^T)
 \end{equation*}
 
-$\mtx{P}_{k+1}^-$ is symmetric, so we can drop the transpose.
+$\mat{P}_{k+1}^-$ is symmetric, so we can drop the transpose.
 \begin{equation*}
-  \tr(\mtx{P}_{k+1}^+) = \tr(\mtx{P}_{k+1}^-) -
-    \tr((\mtx{K}_{k+1}\mtx{C}_{k+1}\mtx{P}_{k+1}^-)^T) -
-    \tr(\mtx{K}_{k+1}\mtx{C}_{k+1}\mtx{P}_{k+1}^-) +
-    \tr(\mtx{K}_{k+1}\mtx{S}_{k+1}\mtx{K}_{k+1}^T)
+  \tr(\mat{P}_{k+1}^+) = \tr(\mat{P}_{k+1}^-) -
+    \tr((\mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^-)^T) -
+    \tr(\mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^-) +
+    \tr(\mat{K}_{k+1}\mat{S}_{k+1}\mat{K}_{k+1}^T)
 \end{equation*}
 
 The trace of a matrix is equal to the trace of its transpose since the elements
 used in the trace are on the diagonal.
 \begin{align*}
-  \tr(\mtx{P}_{k+1}^+) &= \tr(\mtx{P}_{k+1}^-) -
-    \tr(\mtx{K}_{k+1}\mtx{C}_{k+1}\mtx{P}_{k+1}^-) -
-    \tr(\mtx{K}_{k+1}\mtx{C}_{k+1}\mtx{P}_{k+1}^-) +
-    \tr(\mtx{K}_{k+1}\mtx{S}_{k+1}\mtx{K}_{k+1}^T) \\
-  \tr(\mtx{P}_{k+1}^+) &= \tr(\mtx{P}_{k+1}^-) -
-    2\tr(\mtx{K}_{k+1}\mtx{C}_{k+1}\mtx{P}_{k+1}^-) +
-    \tr(\mtx{K}_{k+1}\mtx{S}_{k+1}\mtx{K}_{k+1}^T)
+  \tr(\mat{P}_{k+1}^+) &= \tr(\mat{P}_{k+1}^-) -
+    \tr(\mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^-) -
+    \tr(\mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^-) +
+    \tr(\mat{K}_{k+1}\mat{S}_{k+1}\mat{K}_{k+1}^T) \\
+  \tr(\mat{P}_{k+1}^+) &= \tr(\mat{P}_{k+1}^-) -
+    2\tr(\mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^-) +
+    \tr(\mat{K}_{k+1}\mat{S}_{k+1}\mat{K}_{k+1}^T)
 \end{align*}
 
 Given theorems \ref{thm:partial_tr_aba} and \ref{thm:partial_tr_ac}
 \begin{theorem}
   \label{thm:partial_tr_aba}
 
-  $\frac{\partial}{\partial\mtx{A}}\tr(\mtx{A}\mtx{B}\mtx{A}^T) =
-    2\mtx{A}\mtx{B}$ where $\mtx{B}$ is symmetric.
+  $\frac{\partial}{\partial\mat{A}}\tr(\mat{A}\mat{B}\mat{A}^T) =
+    2\mat{A}\mat{B}$ where $\mat{B}$ is symmetric.
 \end{theorem}
 \begin{theorem}
   \label{thm:partial_tr_ac}
 
-  $\frac{\partial}{\partial\mtx{A}}\tr(\mtx{A}\mtx{C}) = \mtx{C}^T$
+  $\frac{\partial}{\partial\mat{A}}\tr(\mat{A}\mat{C}) = \mat{C}^T$
 \end{theorem}
 
-find the minimum of the trace of $\mtx{P}_{k+1}^+$ by taking the partial
-derivative with respect to $\mtx{K}$ and setting the result to $\mtx{0}$.
+find the minimum of the trace of $\mat{P}_{k+1}^+$ by taking the partial
+derivative with respect to $\mat{K}$ and setting the result to $\mat{0}$.
 \begin{align*}
-  \frac{\partial\tr(\mtx{P}_{k+1}^+)}{\partial\mtx{K}} &=
-    \mtx{0} - 2(\mtx{C}_{k+1}\mtx{P}_{k+1}^-)^T + 2\mtx{K}_{k+1}\mtx{S}_{k+1} \\
-  \frac{\partial\tr(\mtx{P}_{k+1}^+)}{\partial\mtx{K}} &=
-    -2\mtx{P}_{k+1}^{-T}\mtx{C}_{k+1}^T + 2\mtx{K}_{k+1}\mtx{S}_{k+1} \\
-  \frac{\partial\tr(\mtx{P}_{k+1}^+)}{\partial\mtx{K}} &=
-    -2\mtx{P}_{k+1}^-\mtx{C}_{k+1}^T + 2\mtx{K}_{k+1}\mtx{S}_{k+1} \\
-  \mtx{0} &= -2\mtx{P}_{k+1}^-\mtx{C}_{k+1}^T + 2\mtx{K}_{k+1}\mtx{S}_{k+1} \\
-  2\mtx{K}_{k+1}\mtx{S}_{k+1} &= 2\mtx{P}_{k+1}^-\mtx{C}_{k+1}^T \\
-  \mtx{K}_{k+1}\mtx{S}_{k+1} &= \mtx{P}_{k+1}^-\mtx{C}_{k+1}^T \\
-  \mtx{K}_{k+1} &= \mtx{P}_{k+1}^-\mtx{C}_{k+1}^T\mtx{S}_{k+1}^{-1}
+  \frac{\partial\tr(\mat{P}_{k+1}^+)}{\partial\mat{K}} &=
+    \mat{0} - 2(\mat{C}_{k+1}\mat{P}_{k+1}^-)^T + 2\mat{K}_{k+1}\mat{S}_{k+1} \\
+  \frac{\partial\tr(\mat{P}_{k+1}^+)}{\partial\mat{K}} &=
+    -2\mat{P}_{k+1}^{-T}\mat{C}_{k+1}^T + 2\mat{K}_{k+1}\mat{S}_{k+1} \\
+  \frac{\partial\tr(\mat{P}_{k+1}^+)}{\partial\mat{K}} &=
+    -2\mat{P}_{k+1}^-\mat{C}_{k+1}^T + 2\mat{K}_{k+1}\mat{S}_{k+1} \\
+  \mat{0} &= -2\mat{P}_{k+1}^-\mat{C}_{k+1}^T + 2\mat{K}_{k+1}\mat{S}_{k+1} \\
+  2\mat{K}_{k+1}\mat{S}_{k+1} &= 2\mat{P}_{k+1}^-\mat{C}_{k+1}^T \\
+  \mat{K}_{k+1}\mat{S}_{k+1} &= \mat{P}_{k+1}^-\mat{C}_{k+1}^T \\
+  \mat{K}_{k+1} &= \mat{P}_{k+1}^-\mat{C}_{k+1}^T\mat{S}_{k+1}^{-1}
 \end{align*}
 
 This is the optimal Kalman gain.
@@ -228,29 +228,29 @@ If the optimal Kalman gain is used, the \textit{a posteriori} estimate
 covariance matrix update equation can be simplified. First, we'll manipulate the
 equation for the optimal Kalman gain.
 \begin{align*}
-  \mtx{K}_{k+1} &= \mtx{P}_{k+1}^-\mtx{C}_{k+1}^T\mtx{S}_{k+1}^{-1} \\
-  \mtx{K}_{k+1}\mtx{S}_{k+1} &= \mtx{P}_{k+1}^-\mtx{C}_{k+1}^T \\
-  \mtx{K}_{k+1}\mtx{S}_{k+1}\mtx{K}_{k+1}^T &=
-    \mtx{P}_{k+1}^-\mtx{C}_{k+1}^T\mtx{K}_{k+1}^T
+  \mat{K}_{k+1} &= \mat{P}_{k+1}^-\mat{C}_{k+1}^T\mat{S}_{k+1}^{-1} \\
+  \mat{K}_{k+1}\mat{S}_{k+1} &= \mat{P}_{k+1}^-\mat{C}_{k+1}^T \\
+  \mat{K}_{k+1}\mat{S}_{k+1}\mat{K}_{k+1}^T &=
+    \mat{P}_{k+1}^-\mat{C}_{k+1}^T\mat{K}_{k+1}^T
 \end{align*}
 
 Now we'll substitute it into equation \eqref{eq:post_p_update}.
 \begin{align*}
-  \mtx{P}_{k+1}^+ &=
-    \mtx{P}_{k+1}^- - \mtx{P}_{k+1}^-\mtx{C}_{k+1}^T\mtx{K}_{k+1}^T -
-    \mtx{K}_{k+1}\mtx{C}_{k+1}\mtx{P}_{k+1}^- +
-    \mtx{K}_{k+1}\mtx{S}_{k+1}\mtx{K}_{k+1}^T \\
-  \mtx{P}_{k+1}^+ &=
-    \mtx{P}_{k+1}^- - \mtx{P}_{k+1}^-\mtx{C}_{k+1}^T\mtx{K}_{k+1}^T -
-    \mtx{K}_{k+1}\mtx{C}_{k+1}\mtx{P}_{k+1}^- +
-    (\mtx{P}_{k+1}^-\mtx{C}_{k+1}^T\mtx{K}_{k+1}^T) \\
-  \mtx{P}_{k+1}^+ &=
-    \mtx{P}_{k+1}^- - \mtx{K}_{k+1}\mtx{C}_{k+1}\mtx{P}_{k+1}^-
+  \mat{P}_{k+1}^+ &=
+    \mat{P}_{k+1}^- - \mat{P}_{k+1}^-\mat{C}_{k+1}^T\mat{K}_{k+1}^T -
+    \mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^- +
+    \mat{K}_{k+1}\mat{S}_{k+1}\mat{K}_{k+1}^T \\
+  \mat{P}_{k+1}^+ &=
+    \mat{P}_{k+1}^- - \mat{P}_{k+1}^-\mat{C}_{k+1}^T\mat{K}_{k+1}^T -
+    \mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^- +
+    (\mat{P}_{k+1}^-\mat{C}_{k+1}^T\mat{K}_{k+1}^T) \\
+  \mat{P}_{k+1}^+ &=
+    \mat{P}_{k+1}^- - \mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^-
 \end{align*}
 
-Factor out $\mtx{P}_{k+1}^-$ to the right.
+Factor out $\mat{P}_{k+1}^-$ to the right.
 \begin{equation*}
-  \mtx{P}_{k+1}^+ = (\mtx{I} - \mtx{K}_{k+1}\mtx{C}_{k+1})\mtx{P}_{k+1}^-
+  \mat{P}_{k+1}^+ = (\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})\mat{P}_{k+1}^-
 \end{equation*}
 
 \subsection{Predict and update equations}
@@ -264,28 +264,28 @@ and update steps for a Kalman filter at the $k^{th}$ timestep.
   \label{thm:kalman_filter}
   \begin{align}
     \text{Predict step} \nonumber \\
-    \hat{\mtx{x}}_{k+1}^- &= \mtx{A}\hat{\mtx{x}}_k + \mtx{B} \mtx{u}_k \\
-    \mtx{P}_{k+1}^- &= \mtx{A} \mtx{P}_k^- \mtx{A}^T +
-      \mtx{\Gamma}\mtx{Q}\mtx{\Gamma}^T \\
+    \hat{\mat{x}}_{k+1}^- &= \mat{A}\hat{\mat{x}}_k + \mat{B} \mat{u}_k \\
+    \mat{P}_{k+1}^- &= \mat{A} \mat{P}_k^- \mat{A}^T +
+      \mat{\Gamma}\mat{Q}\mat{\Gamma}^T \\
     \text{Update step} \nonumber \\
-    \mtx{K}_{k+1} &=
-      \mtx{P}_{k+1}^- \mtx{C}^T (\mtx{C}\mtx{P}_{k+1}^- \mtx{C}^T +
-      \mtx{R})^{-1} \\
-    \hat{\mtx{x}}_{k+1}^+ &=
-      \hat{\mtx{x}}_{k+1}^- + \mtx{K}_{k+1}(\mtx{y}_{k+1} -
-      \mtx{C} \hat{\mtx{x}}_{k+1}^- - \mtx{D}\mtx{u}_{k+1}) \\
-    \mtx{P}_{k+1}^+ &= (\mtx{I} - \mtx{K}_{k+1}\mtx{C})\mtx{P}_{k+1}^-
+    \mat{K}_{k+1} &=
+      \mat{P}_{k+1}^- \mat{C}^T (\mat{C}\mat{P}_{k+1}^- \mat{C}^T +
+      \mat{R})^{-1} \\
+    \hat{\mat{x}}_{k+1}^+ &=
+      \hat{\mat{x}}_{k+1}^- + \mat{K}_{k+1}(\mat{y}_{k+1} -
+      \mat{C} \hat{\mat{x}}_{k+1}^- - \mat{D}\mat{u}_{k+1}) \\
+    \mat{P}_{k+1}^+ &= (\mat{I} - \mat{K}_{k+1}\mat{C})\mat{P}_{k+1}^-
   \end{align}
   \begin{figurekey}
     \begin{tabular}{llll}
-      $\mtx{A}$ & system matrix & $\hat{\mtx{x}}$ & state estimate vector \\
-      $\mtx{B}$ & input matrix       & $\mtx{u}$ & input vector \\
-      $\mtx{C}$ & output matrix      & $\mtx{y}$ & output vector \\
-      $\mtx{D}$ & feedthrough matrix & $\mtx{\Gamma}$ & process noise intensity
+      $\mat{A}$ & system matrix & $\hat{\mat{x}}$ & state estimate vector \\
+      $\mat{B}$ & input matrix       & $\mat{u}$ & input vector \\
+      $\mat{C}$ & output matrix      & $\mat{y}$ & output vector \\
+      $\mat{D}$ & feedthrough matrix & $\mat{\Gamma}$ & process noise intensity
         vector \\
-      $\mtx{P}$ & error covariance matrix & $\mtx{Q}$ & process noise covariance
+      $\mat{P}$ & error covariance matrix & $\mat{Q}$ & process noise covariance
         matrix \\
-      $\mtx{K}$ & Kalman gain matrix & $\mtx{R}$ & measurement noise covariance
+      $\mat{K}$ & Kalman gain matrix & $\mat{R}$ & measurement noise covariance
         matrix
     \end{tabular}
   \end{figurekey}
@@ -294,11 +294,11 @@ and update steps for a Kalman filter at the $k^{th}$ timestep.
   \textit{a posteriori} estimate (before and after update respectively).
 \end{theorem}
 
-$\mtx{C}$, $\mtx{D}$, $\mtx{Q}$, and $\mtx{R}$ from the equations derived
+$\mat{C}$, $\mat{D}$, $\mat{Q}$, and $\mat{R}$ from the equations derived
 earlier are made constants here.
 \begin{remark}
   To implement a discrete time Kalman filter from a continuous model, the model
-  and continuous time $\mtx{Q}$ and $\mtx{R}$ matrices can be
+  and continuous time $\mat{Q}$ and $\mat{R}$ matrices can be
   \glslink{discretization}{discretized} using theorem \ref{thm:zoh_ss}.
 \end{remark}
 \begin{booktable}
@@ -308,12 +308,12 @@ earlier are made constants here.
     \textbf{Matrix} & \textbf{Rows $\times$ Columns} &
     \textbf{Matrix} & \textbf{Rows $\times$ Columns} \\
     \hline
-    $\mtx{A}$ & states $\times$ states & $\hat{\mtx{x}}$ & states $\times$ 1 \\
-    $\mtx{B}$ & states $\times$ inputs & $\mtx{u}$ & inputs $\times$ 1 \\
-    $\mtx{C}$ & outputs $\times$ states & $\mtx{y}$ & outputs $\times$ 1 \\
-    $\mtx{D}$ & outputs $\times$ inputs & $\mtx{\Gamma}$ & states $\times$ 1 \\
-    $\mtx{P}$ & states $\times$ states & $\mtx{Q}$ & states $\times$ states \\
-    $\mtx{K}$ & states $\times$ outputs & $\mtx{R}$ & outputs $\times$ outputs
+    $\mat{A}$ & states $\times$ states & $\hat{\mat{x}}$ & states $\times$ 1 \\
+    $\mat{B}$ & states $\times$ inputs & $\mat{u}$ & inputs $\times$ 1 \\
+    $\mat{C}$ & outputs $\times$ states & $\mat{y}$ & outputs $\times$ 1 \\
+    $\mat{D}$ & outputs $\times$ inputs & $\mat{\Gamma}$ & states $\times$ 1 \\
+    $\mat{P}$ & states $\times$ states & $\mat{Q}$ & states $\times$ states \\
+    $\mat{K}$ & states $\times$ outputs & $\mat{R}$ & outputs $\times$ outputs
       \\
     \hline
   \end{tabular}
@@ -347,7 +347,7 @@ robot position, robot velocity, and distance between the walls.
 
 This can be converted to the following state-space \gls{model}.
 \begin{equation}
-  \mtx{x}_k =
+  \mat{x}_k =
   \begin{bmatrix}
     x_k \\
     v_k \\
@@ -355,12 +355,12 @@ This can be converted to the following state-space \gls{model}.
   \end{bmatrix}
 \end{equation}
 \begin{equation}
-  \mtx{x}_{k+1} =
+  \mat{x}_{k+1} =
   \begin{bmatrix}
     1 & 1 & 0 \\
     0 & 0 & 0 \\
     0 & 0 & 1
-  \end{bmatrix} \mtx{x}_k +
+  \end{bmatrix} \mat{x}_k +
   \begin{bmatrix}
     0 \\
     0.8 \\
@@ -376,11 +376,11 @@ This can be converted to the following state-space \gls{model}.
 where the Gaussian random variable $w_k$ has a mean of $0$ and a variance of
 $1$. The observation \gls{model} is
 \begin{equation}
-  \mtx{y}_k =
+  \mat{y}_k =
   \begin{bmatrix}
     1 & 0 & 0 \\
     -1 & 0 & 1
-  \end{bmatrix} \mtx{x}_k + \theta_k
+  \end{bmatrix} \mat{x}_k + \theta_k
 \end{equation}
 
 where the covariance matrix of Gaussian measurement noise $\theta$ is a
@@ -390,19 +390,19 @@ The \gls{state} vector is usually initialized using the first measurement or
 two. The covariance matrix entries are assigned by calculating the covariance of
 the expressions used when assigning the state vector. Let $k = 2$.
 \begin{align}
-  \mtx{Q} &= \begin{bmatrix}1\end{bmatrix} \\
-  \mtx{R} &=
+  \mat{Q} &= \begin{bmatrix}1\end{bmatrix} \\
+  \mat{R} &=
   \begin{bmatrix}
     10 & 0 \\
     0 & 10
   \end{bmatrix} \\
-  \hat{\mtx{x}} &=
+  \hat{\mat{x}} &=
   \begin{bmatrix}
-    \mtx{y}_{k,1} \\
-    (\mtx{y}_{k,1} - \mtx{y}_{k-1,1})/dt \\
-    \mtx{y}_{k,1} + \mtx{y}_{k,2}
+    \mat{y}_{k,1} \\
+    (\mat{y}_{k,1} - \mat{y}_{k-1,1})/dt \\
+    \mat{y}_{k,1} + \mat{y}_{k,2}
   \end{bmatrix} \\
-  \mtx{P} &=
+  \mat{P} &=
   \begin{bmatrix}
     10 & 10/dt & 10 \\
     10/dt & 20/dt^2 & 10/dt \\
@@ -412,19 +412,19 @@ the expressions used when assigning the state vector. Let $k = 2$.
 
 \subsubsection{Initial conditions}
 
-To fill in the $\mtx{P}$ matrix, we calculate the covariance of each combination
+To fill in the $\mat{P}$ matrix, we calculate the covariance of each combination
 of \gls{state} variables. The resulting value is a measure of how much those
 variables are correlated. Due to how the covariance calculation works out, the
 covariance between two variables is the sum of the variance of matching terms
 which aren't constants multiplied by any constants the two have. If no terms
 match, the variables are uncorrelated and the covariance is zero.
 
-In $\mtx{P}_{11}$, the terms in $\mtx{x}_1$ correlate with itself. Therefore,
-$\mtx{P}_{11}$ is $\mtx{x}_1$'s variance, or $\mtx{P}_{11} = 10$. For
-$\mtx{P}_{21}$, One term correlates between $\mtx{x}_1$ and $\mtx{x}_2$, so
-$\mtx{P}_{21} = \frac{10}{dt}$. The constants from each are simply multiplied
-together. For $\mtx{P}_{22}$, both measurements are correlated, so the variances
-add together. Therefore, $\mtx{P}_{22} = \frac{20}{dt^2}$. It continues in this
+In $\mat{P}_{11}$, the terms in $\mat{x}_1$ correlate with itself. Therefore,
+$\mat{P}_{11}$ is $\mat{x}_1$'s variance, or $\mat{P}_{11} = 10$. For
+$\mat{P}_{21}$, One term correlates between $\mat{x}_1$ and $\mat{x}_2$, so
+$\mat{P}_{21} = \frac{10}{dt}$. The constants from each are simply multiplied
+together. For $\mat{P}_{22}$, both measurements are correlated, so the variances
+add together. Therefore, $\mat{P}_{22} = \frac{20}{dt^2}$. It continues in this
 fashion until the matrix is filled up. Order doesn't matter for correlation, so
 the matrix is symmetric.
 
@@ -458,17 +458,17 @@ not.
 
 \subsubsection{Process noise and measurement noise covariance selection}
 
-Recall that the process noise covariance is $\mtx{Q}$ and the measurement noise
-covariance is $\mtx{R}$. To tune the elements of these, it can be helpful to
+Recall that the process noise covariance is $\mat{Q}$ and the measurement noise
+covariance is $\mat{R}$. To tune the elements of these, it can be helpful to
 take a collection of measurements, then run the Kalman filter on them offline to
 evaluate its performance.
 
-The diagonal elements of $\mtx{R}$ are the variances of each measurement, which
+The diagonal elements of $\mat{R}$ are the variances of each measurement, which
 can be easily determined from the offline measurements. The diagonal elements of
-$\mtx{Q}$ are the variances of each \gls{state}. They represent how much each
+$\mat{Q}$ are the variances of each \gls{state}. They represent how much each
 \gls{state} is expected to deviate from the \gls{model}.
 
-Selecting $\mtx{Q}$ is more difficult. If the data is trusted too much over the
+Selecting $\mat{Q}$ is more difficult. If the data is trusted too much over the
 model, one risks overfitting the data. One should balance estimating any hidden
 \glspl{state} sufficiently with actually filtering out the noise.
 
@@ -477,7 +477,7 @@ model, one risks overfitting the data. One should balance estimating any hidden
 The Kalman filter assumes a \gls{model} with zero-mean white noise. If the
 \gls{model} is incomplete in some way, whether it's missing dynamics or assumes
 an incorrect noise \gls{model}, the residual
-$\widetilde{\mtx{y}} = \mtx{y} - \mtx{C}\hat{\mtx{x}}$ over time will have
+$\widetilde{\mat{y}} = \mat{y} - \mat{C}\hat{\mat{x}}$ over time will have
 probability characteristics not indicative of white noise (e.g., it isn't
 zero-mean).
 
@@ -517,8 +517,8 @@ than any one measurement alone.
 \index{state-space observers!Kalman filter!as Luenberger observer}
 
 A Kalman filter can be represented as a Luenberger \gls{observer} by letting
-$\mtx{L} = \mtx{A} \mtx{K}_k$ (see appendix \ref{sec:deriv_kalman_luenberger}).
-The Luenberger observer has a constant observer gain matrix $\mtx{L}$, so the
+$\mat{L} = \mat{A} \mat{K}_k$ (see appendix \ref{sec:deriv_kalman_luenberger}).
+The Luenberger observer has a constant observer gain matrix $\mat{L}$, so the
 steady-state Kalman gain is used to calculate it. We will demonstrate how to
 find this shortly.
 
@@ -526,7 +526,7 @@ Kalman filter theory provides a way to place the poles of the Luenberger
 observer optimally in the same way we placed the poles of the controller
 optimally with LQR. The eigenvalues of the Kalman filter are
 \begin{equation}
-  \eig(\mtx{A}(\mtx{I} - \mtx{K}_k\mtx{C}))
+  \eig(\mat{A}(\mat{I} - \mat{K}_k\mat{C}))
 \end{equation}
 
 \subsubsection{Steady-state Kalman gain}

@@ -7,37 +7,37 @@
 The following theorem and corollary will be needed to derive the QR-weighted
 linear plant inversion equation.
 \begin{theorem}
-  $\frac{\partial (\mtx{A}\mtx{x} + \mtx{b})^T\mtx{C}
-    (\mtx{D}\mtx{x} + \mtx{e})}{\partial\mtx{x}} =
-    \mtx{A}^T\mtx{C}(\mtx{D}\mtx{x} + \mtx{e}) + \mtx{D}^T\mtx{C}^T
-    (\mtx{A}\mtx{x} + \mtx{b})$
+  $\frac{\partial (\mat{A}\mat{x} + \mat{b})^T\mat{C}
+    (\mat{D}\mat{x} + \mat{e})}{\partial\mat{x}} =
+    \mat{A}^T\mat{C}(\mat{D}\mat{x} + \mat{e}) + \mat{D}^T\mat{C}^T
+    (\mat{A}\mat{x} + \mat{b})$
 \end{theorem}
 \begin{corollary}
   \label{cor:partial_ax_b}
 
-  $\frac{\partial (\mtx{A}\mtx{x} + \mtx{b})^T\mtx{C}
-    (\mtx{A}\mtx{x} + \mtx{b})}{\partial\mtx{x}} =
-    2\mtx{A}^T\mtx{C}(\mtx{A}\mtx{x} + \mtx{b})$ where $\mtx{C}$ is symmetric.
+  $\frac{\partial (\mat{A}\mat{x} + \mat{b})^T\mat{C}
+    (\mat{A}\mat{x} + \mat{b})}{\partial\mat{x}} =
+    2\mat{A}^T\mat{C}(\mat{A}\mat{x} + \mat{b})$ where $\mat{C}$ is symmetric.
 
   Proof:
   \begin{align*}
-    \frac{\partial (\mtx{A}\mtx{x} + \mtx{b})^T\mtx{C}
-      (\mtx{A}\mtx{x} + \mtx{b})}{\partial\mtx{x}} &=
-      \mtx{A}^T\mtx{C}(\mtx{A}\mtx{x} + \mtx{b}) + \mtx{A}^T\mtx{C}^T
-      (\mtx{A}\mtx{x} + \mtx{b}) \\
-    \frac{\partial (\mtx{A}\mtx{x} + \mtx{b})^T\mtx{C}
-      (\mtx{A}\mtx{x} + \mtx{b})}{\partial\mtx{x}} &=
-      (\mtx{A}^T\mtx{C} + \mtx{A}^T\mtx{C}^T)(\mtx{A}\mtx{x} + \mtx{b})
+    \frac{\partial (\mat{A}\mat{x} + \mat{b})^T\mat{C}
+      (\mat{A}\mat{x} + \mat{b})}{\partial\mat{x}} &=
+      \mat{A}^T\mat{C}(\mat{A}\mat{x} + \mat{b}) + \mat{A}^T\mat{C}^T
+      (\mat{A}\mat{x} + \mat{b}) \\
+    \frac{\partial (\mat{A}\mat{x} + \mat{b})^T\mat{C}
+      (\mat{A}\mat{x} + \mat{b})}{\partial\mat{x}} &=
+      (\mat{A}^T\mat{C} + \mat{A}^T\mat{C}^T)(\mat{A}\mat{x} + \mat{b})
   \end{align*}
 
-  $\mtx{C}$ is symmetric, so
+  $\mat{C}$ is symmetric, so
   \begin{align*}
-    \frac{\partial (\mtx{A}\mtx{x} + \mtx{b})^T\mtx{C}
-      (\mtx{A}\mtx{x} + \mtx{b})}{\partial\mtx{x}} &=
-      (\mtx{A}^T\mtx{C} + \mtx{A}^T\mtx{C})(\mtx{A}\mtx{x} + \mtx{b}) \\
-    \frac{\partial (\mtx{A}\mtx{x} + \mtx{b})^T\mtx{C}
-      (\mtx{A}\mtx{x} + \mtx{b})}{\partial\mtx{x}} &=
-      2\mtx{A}^T\mtx{C}(\mtx{A}\mtx{x} + \mtx{b})
+    \frac{\partial (\mat{A}\mat{x} + \mat{b})^T\mat{C}
+      (\mat{A}\mat{x} + \mat{b})}{\partial\mat{x}} &=
+      (\mat{A}^T\mat{C} + \mat{A}^T\mat{C})(\mat{A}\mat{x} + \mat{b}) \\
+    \frac{\partial (\mat{A}\mat{x} + \mat{b})^T\mat{C}
+      (\mat{A}\mat{x} + \mat{b})}{\partial\mat{x}} &=
+      2\mat{A}^T\mat{C}(\mat{A}\mat{x} + \mat{b})
   \end{align*}
 \end{corollary}
 
@@ -45,74 +45,74 @@ linear plant inversion equation.
 
 Let's start with the equation for the \gls{reference} dynamics
 \begin{equation*}
-  \mtx{r}_{k+1} = \mtx{A}\mtx{r}_k + \mtx{B}\mtx{u}_k
+  \mat{r}_{k+1} = \mat{A}\mat{r}_k + \mat{B}\mat{u}_k
 \end{equation*}
 
-where $\mtx{u}_k$ is the feedforward input. Note that this feedforward equation
+where $\mat{u}_k$ is the feedforward input. Note that this feedforward equation
 does not and should not take into account any feedback terms. We want to find
-the optimal $\mtx{u}_k$ such that we minimize the \gls{tracking} error between
-$\mtx{r}_{k+1}$ and $\mtx{r}_k$.
+the optimal $\mat{u}_k$ such that we minimize the \gls{tracking} error between
+$\mat{r}_{k+1}$ and $\mat{r}_k$.
 \begin{equation*}
-  \mtx{r}_{k+1} - \mtx{A}\mtx{r}_k = \mtx{B}\mtx{u}_k
+  \mat{r}_{k+1} - \mat{A}\mat{r}_k = \mat{B}\mat{u}_k
 \end{equation*}
 
-To solve for $\mtx{u}_k$, we need to take the inverse of the nonsquare matrix
-$\mtx{B}$. This isn't possible, but we can find the pseudoinverse given some
+To solve for $\mat{u}_k$, we need to take the inverse of the nonsquare matrix
+$\mat{B}$. This isn't possible, but we can find the pseudoinverse given some
 constraints on the \gls{state} \gls{tracking} error and \gls{control effort}. To
 find the optimal solution for these sorts of trade-offs, one can define a cost
 function and attempt to minimize it. To do this, we'll first solve the
-expression for $\mtx{0}$.
+expression for $\mat{0}$.
 \begin{equation*}
-  \mtx{0} = \mtx{B}\mtx{u}_k - (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k)
+  \mat{0} = \mat{B}\mat{u}_k - (\mat{r}_{k+1} - \mat{A}\mat{r}_k)
 \end{equation*}
 
 This expression will be the \gls{state} \gls{tracking} cost we use in our cost
 function.
 
-Our cost function will use an $H_2$ norm with $\mtx{Q}$ as the \gls{state} cost
-matrix with dimensionality $states \times states$ and $\mtx{R}$ as the
+Our cost function will use an $H_2$ norm with $\mat{Q}$ as the \gls{state} cost
+matrix with dimensionality $states \times states$ and $\mat{R}$ as the
 \gls{control input} cost matrix with dimensionality $inputs \times inputs$.
 \begin{equation*}
-  \mtx{J} = (\mtx{B}\mtx{u}_k - (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k))^T \mtx{Q}
-    (\mtx{B}\mtx{u}_k - (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k)) +
-    \mtx{u}_k^T\mtx{R}\mtx{u}_k
+  \mat{J} = (\mat{B}\mat{u}_k - (\mat{r}_{k+1} - \mat{A}\mat{r}_k))^T \mat{Q}
+    (\mat{B}\mat{u}_k - (\mat{r}_{k+1} - \mat{A}\mat{r}_k)) +
+    \mat{u}_k^T\mat{R}\mat{u}_k
 \end{equation*}
 
 \section{Minimization}
 
 Given theorem \ref{thm:partial_xax} and corollary \ref{cor:partial_ax_b}, find
-the minimum of $\mtx{J}$ by taking the partial derivative with respect to
-$\mtx{u}_k$ and setting the result to $\mtx{0}$.
+the minimum of $\mat{J}$ by taking the partial derivative with respect to
+$\mat{u}_k$ and setting the result to $\mat{0}$.
 \begin{align*}
-  \frac{\partial\mtx{J}}{\partial\mtx{u}_k} &= 2\mtx{B}^T\mtx{Q}
-    (\mtx{B}\mtx{u}_k - (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k)) +
-    2\mtx{R}\mtx{u}_k \\
-  \mtx{0} &= 2\mtx{B}^T\mtx{Q}
-    (\mtx{B}\mtx{u}_k - (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k)) +
-    2\mtx{R}\mtx{u}_k \\
-  \mtx{0} &= \mtx{B}^T\mtx{Q}
-    (\mtx{B}\mtx{u}_k - (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k)) +
-    \mtx{R}\mtx{u}_k \\
-  \mtx{0} &= \mtx{B}^T\mtx{Q}\mtx{B}\mtx{u}_k -
-    \mtx{B}^T\mtx{Q}(\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k) + \mtx{R}\mtx{u}_k \\
-  \mtx{B}^T\mtx{Q}\mtx{B}\mtx{u}_k + \mtx{R}\mtx{u}_k &=
-    \mtx{B}^T\mtx{Q}(\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k) \\
-  (\mtx{B}^T\mtx{Q}\mtx{B} + \mtx{R})\mtx{u}_k &=
-    \mtx{B}^T\mtx{Q}(\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k) \\
-  \mtx{u}_k &= (\mtx{B}^T\mtx{Q}\mtx{B} + \mtx{R})^{-1}
-    \mtx{B}^T\mtx{Q}(\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k)
+  \frac{\partial\mat{J}}{\partial\mat{u}_k} &= 2\mat{B}^T\mat{Q}
+    (\mat{B}\mat{u}_k - (\mat{r}_{k+1} - \mat{A}\mat{r}_k)) +
+    2\mat{R}\mat{u}_k \\
+  \mat{0} &= 2\mat{B}^T\mat{Q}
+    (\mat{B}\mat{u}_k - (\mat{r}_{k+1} - \mat{A}\mat{r}_k)) +
+    2\mat{R}\mat{u}_k \\
+  \mat{0} &= \mat{B}^T\mat{Q}
+    (\mat{B}\mat{u}_k - (\mat{r}_{k+1} - \mat{A}\mat{r}_k)) +
+    \mat{R}\mat{u}_k \\
+  \mat{0} &= \mat{B}^T\mat{Q}\mat{B}\mat{u}_k -
+    \mat{B}^T\mat{Q}(\mat{r}_{k+1} - \mat{A}\mat{r}_k) + \mat{R}\mat{u}_k \\
+  \mat{B}^T\mat{Q}\mat{B}\mat{u}_k + \mat{R}\mat{u}_k &=
+    \mat{B}^T\mat{Q}(\mat{r}_{k+1} - \mat{A}\mat{r}_k) \\
+  (\mat{B}^T\mat{Q}\mat{B} + \mat{R})\mat{u}_k &=
+    \mat{B}^T\mat{Q}(\mat{r}_{k+1} - \mat{A}\mat{r}_k) \\
+  \mat{u}_k &= (\mat{B}^T\mat{Q}\mat{B} + \mat{R})^{-1}
+    \mat{B}^T\mat{Q}(\mat{r}_{k+1} - \mat{A}\mat{r}_k)
 \end{align*}
 \begin{theorem}[QR-weighted linear plant inversion]
   Given the discrete model
-  $\mtx{x}_{k+1} = \mtx{A}\mtx{x}_k + \mtx{B}\mtx{u}_k$, the plant inversion
+  $\mat{x}_{k+1} = \mat{A}\mat{x}_k + \mat{B}\mat{u}_k$, the plant inversion
   feedforward is
   \begin{equation*}
-    \mtx{u}_k = \mtx{K}_{ff} (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k)
+    \mat{u}_k = \mat{K}_{ff} (\mat{r}_{k+1} - \mat{A}\mat{r}_k)
   \end{equation*}
 
   where
-  $\mtx{K}_{ff} = (\mtx{B}^T\mtx{Q}\mtx{B} + \mtx{R})^{-1}\mtx{B}^T\mtx{Q}$,
-  $\mtx{r}_{k+1}$ is the reference at the next timestep, and $\mtx{r}_k$ is the
+  $\mat{K}_{ff} = (\mat{B}^T\mat{Q}\mat{B} + \mat{R})^{-1}\mat{B}^T\mat{Q}$,
+  $\mat{r}_{k+1}$ is the reference at the next timestep, and $\mat{r}_k$ is the
   reference at the current timestep.
 \end{theorem}
 
@@ -123,6 +123,6 @@ second-order CIM motor model.
   \label{fig:case_study_qr_ff}
 \end{svg}
 
-\Gls{plant} inversion isn't as effective with both $\mtx{Q}$ and $\mtx{R}$ cost
-because the $\mtx{R}$ matrix penalized \gls{control effort}. The \gls{reference}
+\Gls{plant} inversion isn't as effective with both $\mat{Q}$ and $\mat{R}$ cost
+because the $\mat{R}$ matrix penalized \gls{control effort}. The \gls{reference}
 \gls{tracking} with no cost matrices is much better.

@@ -12,19 +12,19 @@ It's simple and accurate for most systems we'll see in FRC.
 \begin{theorem}[Fourth-order Runge-Kutta integration]
   \label{thm:rk4}
 
-  Given the differential equation $\dot{\mtx{x}} = f(\mtx{x}_k, \mtx{u}_k)$,
-  this method solves for $\mtx{x}_{k+1}$ at $dt$ seconds in the future.
-  $\mtx{u}$ is assumed to be held constant between timesteps.
+  Given the differential equation $\dot{\mat{x}} = f(\mat{x}_k, \mat{u}_k)$,
+  this method solves for $\mat{x}_{k+1}$ at $dt$ seconds in the future.
+  $\mat{u}$ is assumed to be held constant between timesteps.
   \begin{center}
     \begin{minipage}{0.35\linewidth}
       \centering
       \begin{align*}
-        \mtx{k}_1 &= f(\mtx{x}_k, \mtx{u}_k) \\
-        \mtx{k}_2 &= f(\mtx{x}_k + \frac{1}{2} dt \mtx{k}_1, \mtx{u}_k) \\
-        \mtx{k}_3 &= f(\mtx{x}_k + \frac{1}{2} dt \mtx{k}_2, \mtx{u}_k) \\
-        \mtx{k}_4 &= f(\mtx{x}_k + dt \mtx{k}_3, \mtx{u}_k) \\
-        \mtx{x}_{k+1} &= \mtx{x}_k + \frac{1}{6} dt (\mtx{k}_1 + 2\mtx{k}_2 +
-          2\mtx{k}_3 + \mtx{k}_4)
+        \mat{k}_1 &= f(\mat{x}_k, \mat{u}_k) \\
+        \mat{k}_2 &= f(\mat{x}_k + \frac{1}{2} dt \mat{k}_1, \mat{u}_k) \\
+        \mat{k}_3 &= f(\mat{x}_k + \frac{1}{2} dt \mat{k}_2, \mat{u}_k) \\
+        \mat{k}_4 &= f(\mat{x}_k + dt \mat{k}_3, \mat{u}_k) \\
+        \mat{x}_{k+1} &= \mat{x}_k + \frac{1}{6} dt (\mat{k}_1 + 2\mat{k}_2 +
+          2\mat{k}_3 + \mat{k}_4)
       \end{align*}
     \end{minipage}
     \quad
@@ -48,12 +48,12 @@ It's simple and accurate for most systems we'll see in FRC.
 The Butcher tableau on the right in theorem \ref{thm:rk4} is a more succinct
 representation of the equations on the left. Each row in the tableau corresponds
 to one of the equations, and each column in the right half corresponds to a
-$\mtx{k}$ coefficient from $\mtx{k}_1$ to $\mtx{k}_4$.
+$\mat{k}$ coefficient from $\mat{k}_1$ to $\mat{k}_4$.
 
 The top-left quadrant contains the sums of each row in the top-right quadrant.
-These sums are the $\mtx{k}$ coefficients in the first argument of
-$f(\mtx{x}, \mtx{u})$. The bottom row contains the $\mtx{k}$ coefficients for
-the $\mtx{x}_{k+1}$ equation.
+These sums are the $\mat{k}$ coefficients in the first argument of
+$f(\mat{x}, \mat{u})$. The bottom row contains the $\mat{k}$ coefficients for
+the $\mat{x}_{k+1}$ equation.
 
 Other methods of Runge-Kutta integration exist with various properties
 \cite{bib:wiki_rk4}, but the one presented here is popular for its high accuracy
@@ -73,9 +73,9 @@ See the Wikipedia page on RKF45 for an implementation guide
 Dormand-Prince (RKDP45) is similar to RKF45, but it has higher precision per
 unit work.
 \begin{theorem}[Dormand-Prince integration]
-  Given the differential equation $\dot{\mtx{x}} = f(\mtx{x}_k, \mtx{u}_k)$,
-  this method solves for $\mtx{x}_{k+1}$ at $dt$ seconds in the future.
-  $\mtx{u}$ is assumed to be held constant between timesteps. It has the
+  Given the differential equation $\dot{\mat{x}} = f(\mat{x}_k, \mat{u}_k)$,
+  this method solves for $\mat{x}_{k+1}$ at $dt$ seconds in the future.
+  $\mat{u}$ is assumed to be held constant between timesteps. It has the
   following Butcher tableau.
   \begin{equation*}
     \renewcommand\arraystretch{1.2}

@@ -28,11 +28,11 @@ $e^t$ around $t = 0$ for a varying number of terms.
 \end{svg}
 
 We'll expand the first few terms of the Taylor series expansion in equation
-\eqref{eq:mat_exp} for $\mtx{X} = \mtx{A}T$ so we can compare it with other
+\eqref{eq:mat_exp} for $\mat{X} = \mat{A}T$ so we can compare it with other
 methods.
 \begin{equation*}
-  \sum_{k=0}^3 \frac{1}{k!} (\mtx{A}T)^k = \mtx{I} + \mtx{A}T +
-    \frac{1}{2}\mtx{A}^2T^2 + \frac{1}{6}\mtx{A}^3T^3
+  \sum_{k=0}^3 \frac{1}{k!} (\mat{A}T)^k = \mat{I} + \mat{A}T +
+    \frac{1}{2}\mat{A}^2T^2 + \frac{1}{6}\mat{A}^3T^3
 \end{equation*}
 
 Table \ref{tab:disc_approx_matrix} compares the Taylor series expansions of the
@@ -47,22 +47,22 @@ formula which we won't present here.
       \multicolumn{1}{c|}{\textbf{Taylor series expansion}} \\
     \hline
     Zero-order hold &
-      $\mtx{A}_d = e^{\mtx{A}_c T}$ &
-      $\mtx{A}_d = \mtx{I} + \mtx{A}_c T + \frac{1}{2}\mtx{A}_c^2T^2 +
-        \frac{1}{6}\mtx{A}_c^3T^3 + \ldots$ \\
+      $\mat{A}_d = e^{\mat{A}_c T}$ &
+      $\mat{A}_d = \mat{I} + \mat{A}_c T + \frac{1}{2}\mat{A}_c^2T^2 +
+        \frac{1}{6}\mat{A}_c^3T^3 + \ldots$ \\
     Bilinear &
-      $\mtx{A}_d =
-        \left(\mtx{I} + \frac{1}{2}\mtx{A}_c T\right)
-        \left(\mtx{I} - \frac{1}{2}\mtx{A}_c T\right)^{-1}$ &
-      $\mtx{A}_d = \mtx{I} + \mtx{A}_c T + \frac{1}{2}\mtx{A}_c^2T^2 +
-        \frac{1}{4}\mtx{A}_c^3T^3 + \ldots$ \\
+      $\mat{A}_d =
+        \left(\mat{I} + \frac{1}{2}\mat{A}_c T\right)
+        \left(\mat{I} - \frac{1}{2}\mat{A}_c T\right)^{-1}$ &
+      $\mat{A}_d = \mat{I} + \mat{A}_c T + \frac{1}{2}\mat{A}_c^2T^2 +
+        \frac{1}{4}\mat{A}_c^3T^3 + \ldots$ \\
     Forward Euler &
-      $\mtx{A}_d = \mtx{I} + \mtx{A}_c T$ &
-      $\mtx{A}_d = \mtx{I} + \mtx{A}_c T$ \\
+      $\mat{A}_d = \mat{I} + \mat{A}_c T$ &
+      $\mat{A}_d = \mat{I} + \mat{A}_c T$ \\
     Reverse Euler &
-      $\mtx{A}_d = \left(\mtx{I} - \mtx{A}_c T\right)^{-1}$ &
-      $\mtx{A}_d =
-        \mtx{I} + \mtx{A}_c T + \mtx{A}_c^2T^2 + \mtx{A}_c^3T^3 + \ldots$ \\
+      $\mat{A}_d = \left(\mat{I} - \mat{A}_c T\right)^{-1}$ &
+      $\mat{A}_d =
+        \mat{I} + \mat{A}_c T + \mat{A}_c^2T^2 + \mat{A}_c^3T^3 + \ldots$ \\
     \hline
   \end{tabular}
   \caption{Taylor series expansions of discretization methods (matrix case).

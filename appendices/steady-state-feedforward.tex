@@ -7,26 +7,26 @@ Steady-state feedforwards apply the \gls{control effort} required to keep a
 \gls{system} is at steady-state). The first steady-state feedforward converts
 desired \glspl{output} to desired \glspl{state}.
 \begin{equation*}
-  \mtx{x}_c = \mtx{N}_x\mtx{y}_c
+  \mat{x}_c = \mat{N}_x\mat{y}_c
 \end{equation*}
 
-$\mtx{N}_x$ converts desired \glspl{output} $\mtx{y}_c$ to desired \glspl{state}
-$\mtx{x}_c$ (also known as $\mtx{r}$). For steady-state, that is
+$\mat{N}_x$ converts desired \glspl{output} $\mat{y}_c$ to desired \glspl{state}
+$\mat{x}_c$ (also known as $\mat{r}$). For steady-state, that is
 \begin{equation}
-  \mtx{x}_{ss} = \mtx{N}_x\mtx{y}_{ss} \label{eq:x_ss}
+  \mat{x}_{ss} = \mat{N}_x\mat{y}_{ss} \label{eq:x_ss}
 \end{equation}
 
 The second steady-state feedforward converts the desired \glspl{output}
-$\mtx{y}$ to the \gls{control input} required at steady-state.
+$\mat{y}$ to the \gls{control input} required at steady-state.
 \begin{equation*}
-  \mtx{u}_c = \mtx{N}_u\mtx{y}_c
+  \mat{u}_c = \mat{N}_u\mat{y}_c
 \end{equation*}
 
-$\mtx{N}_u$ converts the desired \glspl{output} $\mtx{y}$ to the
-\gls{control input} $\mtx{u}$ required at steady-state. For steady-state, that
+$\mat{N}_u$ converts the desired \glspl{output} $\mat{y}$ to the
+\gls{control input} $\mat{u}$ required at steady-state. For steady-state, that
 is
 \begin{equation}
-  \mtx{u}_{ss} = \mtx{N}_u\mtx{y}_{ss} \label{eq:u_ss}
+  \mat{u}_{ss} = \mat{N}_u\mat{y}_{ss} \label{eq:u_ss}
 \end{equation}
 
 \section{Continuous case}
@@ -34,58 +34,58 @@ is
 To find the \gls{control input} required at steady-state, set equation
 \eqref{eq:ss_ctrl_x} to zero.
 \begin{align*}
-  \dot{\mtx{x}} &= \mtx{A}\mtx{x} + \mtx{B}\mtx{u} \\
-  \mtx{y} &= \mtx{C}\mtx{x} + \mtx{D}\mtx{u}
+  \dot{\mat{x}} &= \mat{A}\mat{x} + \mat{B}\mat{u} \\
+  \mat{y} &= \mat{C}\mat{x} + \mat{D}\mat{u}
 \end{align*}
 \begin{align*}
-  \mtx{0} &= \mtx{A}\mtx{x}_{ss} + \mtx{B}\mtx{u}_{ss} \\
-  \mtx{y}_{ss} &= \mtx{C}\mtx{x}_{ss} + \mtx{D}\mtx{u}_{ss}
+  \mat{0} &= \mat{A}\mat{x}_{ss} + \mat{B}\mat{u}_{ss} \\
+  \mat{y}_{ss} &= \mat{C}\mat{x}_{ss} + \mat{D}\mat{u}_{ss}
 \end{align*}
 \begin{align*}
-  \mtx{0} &= \mtx{A}\mtx{N}_x\mtx{y}_{ss} + \mtx{B}\mtx{N}_u\mtx{y}_{ss} \\
-  \mtx{y}_{ss} &= \mtx{C}\mtx{N}_x\mtx{y}_{ss} + \mtx{D}\mtx{N}_u\mtx{y}_{ss}
+  \mat{0} &= \mat{A}\mat{N}_x\mat{y}_{ss} + \mat{B}\mat{N}_u\mat{y}_{ss} \\
+  \mat{y}_{ss} &= \mat{C}\mat{N}_x\mat{y}_{ss} + \mat{D}\mat{N}_u\mat{y}_{ss}
 \end{align*}
 \begin{align*}
   \begin{bmatrix}
-    \mtx{0} \\
-    \mtx{y}_{ss}
+    \mat{0} \\
+    \mat{y}_{ss}
   \end{bmatrix} &=
   \begin{bmatrix}
-    \mtx{A}\mtx{N}_x + \mtx{B}\mtx{N}_u \\
-    \mtx{C}\mtx{N}_x + \mtx{D}\mtx{N}_u
+    \mat{A}\mat{N}_x + \mat{B}\mat{N}_u \\
+    \mat{C}\mat{N}_x + \mat{D}\mat{N}_u
   \end{bmatrix}
-  \mtx{y}_{ss} \\
+  \mat{y}_{ss} \\
   \begin{bmatrix}
-    \mtx{0} \\
-    \mtx{1}
+    \mat{0} \\
+    \mat{1}
   \end{bmatrix} &=
   \begin{bmatrix}
-    \mtx{A}\mtx{N}_x + \mtx{B}\mtx{N}_u \\
-    \mtx{C}\mtx{N}_x + \mtx{D}\mtx{N}_u
+    \mat{A}\mat{N}_x + \mat{B}\mat{N}_u \\
+    \mat{C}\mat{N}_x + \mat{D}\mat{N}_u
   \end{bmatrix} \\
   \begin{bmatrix}
-    \mtx{0} \\
-    \mtx{1}
+    \mat{0} \\
+    \mat{1}
   \end{bmatrix} &=
   \begin{bmatrix}
-    \mtx{A} & \mtx{B} \\
-    \mtx{C} & \mtx{D}
+    \mat{A} & \mat{B} \\
+    \mat{C} & \mat{D}
   \end{bmatrix}
   \begin{bmatrix}
-    \mtx{N}_x \\
-    \mtx{N}_u
+    \mat{N}_x \\
+    \mat{N}_u
   \end{bmatrix} \\
   \begin{bmatrix}
-    \mtx{N}_x \\
-    \mtx{N}_u
+    \mat{N}_x \\
+    \mat{N}_u
   \end{bmatrix} &=
   \begin{bmatrix}
-    \mtx{A} & \mtx{B} \\
-    \mtx{C} & \mtx{D}
+    \mat{A} & \mat{B} \\
+    \mat{C} & \mat{D}
   \end{bmatrix}^{\dagger}
   \begin{bmatrix}
-    \mtx{0} \\
-    \mtx{1}
+    \mat{0} \\
+    \mat{1}
   \end{bmatrix}
 \end{align*}
 
@@ -97,63 +97,63 @@ Now, we'll do the same thing for the discrete \gls{system}. To find the
 \gls{control input} required at steady-state, set equation \eqref{eq:ssz_ctrl_x}
 to zero.
 \begin{align*}
-  \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}\mtx{u}_k \\
-  \mtx{y}_k &= \mtx{C}\mtx{x}_k + \mtx{D}\mtx{u}_k
+  \mat{x}_{k+1} &= \mat{A}\mat{x}_k + \mat{B}\mat{u}_k \\
+  \mat{y}_k &= \mat{C}\mat{x}_k + \mat{D}\mat{u}_k
 \end{align*}
 \begin{align*}
-  \mtx{x}_{ss} &= \mtx{A}\mtx{x}_{ss} + \mtx{B}\mtx{u}_{ss} \\
-  \mtx{y}_{ss} &= \mtx{C}\mtx{x}_{ss} + \mtx{D}\mtx{u}_{ss}
+  \mat{x}_{ss} &= \mat{A}\mat{x}_{ss} + \mat{B}\mat{u}_{ss} \\
+  \mat{y}_{ss} &= \mat{C}\mat{x}_{ss} + \mat{D}\mat{u}_{ss}
 \end{align*}
 \begin{align*}
-  \mtx{0} &= (\mtx{A} - \mtx{I})\mtx{x}_{ss} + \mtx{B}\mtx{u}_{ss} \\
-  \mtx{y}_{ss} &= \mtx{C}\mtx{x}_{ss} + \mtx{D}\mtx{u}_{ss}
+  \mat{0} &= (\mat{A} - \mat{I})\mat{x}_{ss} + \mat{B}\mat{u}_{ss} \\
+  \mat{y}_{ss} &= \mat{C}\mat{x}_{ss} + \mat{D}\mat{u}_{ss}
 \end{align*}
 \begin{align*}
-  \mtx{0} &= (\mtx{A} - \mtx{I})\mtx{N}_x\mtx{y}_{ss} +
-    \mtx{B}\mtx{N}_u\mtx{y}_{ss} \\
-  \mtx{y}_{ss} &= \mtx{C}\mtx{N}_x\mtx{y}_{ss} + \mtx{D}\mtx{N}_u\mtx{y}_{ss}
+  \mat{0} &= (\mat{A} - \mat{I})\mat{N}_x\mat{y}_{ss} +
+    \mat{B}\mat{N}_u\mat{y}_{ss} \\
+  \mat{y}_{ss} &= \mat{C}\mat{N}_x\mat{y}_{ss} + \mat{D}\mat{N}_u\mat{y}_{ss}
 \end{align*}
 \begin{align*}
   \begin{bmatrix}
-    \mtx{0} \\
-    \mtx{y}_{ss}
+    \mat{0} \\
+    \mat{y}_{ss}
   \end{bmatrix} &=
   \begin{bmatrix}
-    (\mtx{A} - \mtx{I})\mtx{N}_x + \mtx{B}\mtx{N}_u \\
-    \mtx{C}\mtx{N}_x + \mtx{D}\mtx{N}_u
+    (\mat{A} - \mat{I})\mat{N}_x + \mat{B}\mat{N}_u \\
+    \mat{C}\mat{N}_x + \mat{D}\mat{N}_u
   \end{bmatrix}
-  \mtx{y}_{ss} \\
+  \mat{y}_{ss} \\
   \begin{bmatrix}
-    \mtx{0} \\
-    \mtx{1}
+    \mat{0} \\
+    \mat{1}
   \end{bmatrix} &=
   \begin{bmatrix}
-    (\mtx{A} - \mtx{I})\mtx{N}_x + \mtx{B}\mtx{N}_u \\
-    \mtx{C}\mtx{N}_x + \mtx{D}\mtx{N}_u
+    (\mat{A} - \mat{I})\mat{N}_x + \mat{B}\mat{N}_u \\
+    \mat{C}\mat{N}_x + \mat{D}\mat{N}_u
   \end{bmatrix} \\
   \begin{bmatrix}
-    \mtx{0} \\
-    \mtx{1}
+    \mat{0} \\
+    \mat{1}
   \end{bmatrix} &=
   \begin{bmatrix}
-    \mtx{A} - \mtx{I} & \mtx{B} \\
-    \mtx{C} & \mtx{D}
+    \mat{A} - \mat{I} & \mat{B} \\
+    \mat{C} & \mat{D}
   \end{bmatrix}
   \begin{bmatrix}
-    \mtx{N}_x \\
-    \mtx{N}_u
+    \mat{N}_x \\
+    \mat{N}_u
   \end{bmatrix} \\
   \begin{bmatrix}
-    \mtx{N}_x \\
-    \mtx{N}_u
+    \mat{N}_x \\
+    \mat{N}_u
   \end{bmatrix} &=
   \begin{bmatrix}
-    \mtx{A} - \mtx{I} & \mtx{B} \\
-    \mtx{C} & \mtx{D}
+    \mat{A} - \mat{I} & \mat{B} \\
+    \mat{C} & \mat{D}
   \end{bmatrix}^{\dagger}
   \begin{bmatrix}
-    \mtx{0} \\
-    \mtx{1}
+    \mat{0} \\
+    \mat{1}
   \end{bmatrix}
 \end{align*}
 
@@ -161,25 +161,25 @@ where $^\dagger$ is the Moore-Penrose pseudoinverse.
 
 \section{Deriving steady-state input}
 
-Now, we'll find an expression that uses $\mtx{N}_x$ and $\mtx{N}_u$ to convert
-the \gls{reference} $\mtx{r}$ to a \gls{control input} feedforward
-$\mtx{u}_{ff}$. Let's start with equation \eqref{eq:x_ss}.
+Now, we'll find an expression that uses $\mat{N}_x$ and $\mat{N}_u$ to convert
+the \gls{reference} $\mat{r}$ to a \gls{control input} feedforward
+$\mat{u}_{ff}$. Let's start with equation \eqref{eq:x_ss}.
 \begin{align*}
-  \mtx{x}_{ss} &= \mtx{N}_x \mtx{y}_{ss} \\
-  \mtx{N}_x^\dagger \mtx{x}_{ss} &= \mtx{y}_{ss}
+  \mat{x}_{ss} &= \mat{N}_x \mat{y}_{ss} \\
+  \mat{N}_x^\dagger \mat{x}_{ss} &= \mat{y}_{ss}
 \end{align*}
 
 Now substitute this into equation \eqref{eq:u_ss}.
 \begin{align*}
-  \mtx{u}_{ss} &= \mtx{N}_u \mtx{y}_{ss} \\
-  \mtx{u}_{ss} &= \mtx{N}_u (\mtx{N}_x^\dagger \mtx{x}_{ss}) \\
-  \mtx{u}_{ss} &= \mtx{N}_u \mtx{N}_x^\dagger \mtx{x}_{ss}
+  \mat{u}_{ss} &= \mat{N}_u \mat{y}_{ss} \\
+  \mat{u}_{ss} &= \mat{N}_u (\mat{N}_x^\dagger \mat{x}_{ss}) \\
+  \mat{u}_{ss} &= \mat{N}_u \mat{N}_x^\dagger \mat{x}_{ss}
 \end{align*}
 
-$\mtx{u}_{ss}$ and $\mtx{x}_{ss}$ are also known as $\mtx{u}_{ff}$ and $\mtx{r}$
+$\mat{u}_{ss}$ and $\mat{x}_{ss}$ are also known as $\mat{u}_{ff}$ and $\mat{r}$
 respectively.
 \begin{align*}
-  \mtx{u}_{ff} = \mtx{N}_u \mtx{N}_x^\dagger \mtx{r}
+  \mat{u}_{ff} = \mat{N}_u \mat{N}_x^\dagger \mat{r}
 \end{align*}
 
 So all together, we get theorem \ref{thm:steady-state_ff}.
@@ -190,43 +190,43 @@ So all together, we get theorem \ref{thm:steady-state_ff}.
   \begin{align}
     &\text{Continuous:} \nonumber \\
     &\begin{bmatrix}
-      \mtx{N}_x \\
-      \mtx{N}_u
+      \mat{N}_x \\
+      \mat{N}_u
     \end{bmatrix} =
     \begin{bmatrix}
-      \mtx{A} & \mtx{B} \\
-      \mtx{C} & \mtx{D}
+      \mat{A} & \mat{B} \\
+      \mat{C} & \mat{D}
     \end{bmatrix}^{\dagger}
     \begin{bmatrix}
-      \mtx{0} \\
-      \mtx{1}
+      \mat{0} \\
+      \mat{1}
     \end{bmatrix} \\
     &\text{Discrete:} \nonumber \\
     &\begin{bmatrix}
-      \mtx{N}_x \\
-      \mtx{N}_u
+      \mat{N}_x \\
+      \mat{N}_u
     \end{bmatrix} =
     \begin{bmatrix}
-      \mtx{A} - \mtx{I} & \mtx{B} \\
-      \mtx{C} & \mtx{D}
+      \mat{A} - \mat{I} & \mat{B} \\
+      \mat{C} & \mat{D}
     \end{bmatrix}^{\dagger}
     \begin{bmatrix}
-      \mtx{0} \\
-      \mtx{1}
+      \mat{0} \\
+      \mat{1}
     \end{bmatrix}
   \end{align}
   \begin{equation}
-    \mtx{u}_{ff} = \mtx{N}_u \mtx{N}_x^\dagger \mtx{r}
+    \mat{u}_{ff} = \mat{N}_u \mat{N}_x^\dagger \mat{r}
   \end{equation}
 
-  In the augmented matrix, $\mtx{B}$ should contain one column corresponding to
-  an actuator and $\mtx{C}$ should contain one row whose \gls{output} will be
+  In the augmented matrix, $\mat{B}$ should contain one column corresponding to
+  an actuator and $\mat{C}$ should contain one row whose \gls{output} will be
   driven by that actuator. More than one actuator or output can be included in
   the computation at once, but the result won't be the same as if they were
   computed independently and summed afterward.
 
   After computing the feedforward for each actuator-output pair, the respective
-  collections of $\mtx{N}_x$ and $\mtx{N}_u$ matrices can summed to produce the
+  collections of $\mat{N}_x$ and $\mat{N}_u$ matrices can summed to produce the
   combined feedforward.
 \end{theorem}
 
@@ -255,7 +255,7 @@ second-order CIM motor model.
 \end{bookfigure}
 
 \Gls{plant} inversion isn't as effective in figure \ref{fig:case_study_ss_ff1}
-because the $\mtx{R}$ matrix penalized \gls{control effort}. If the $\mtx{R}$
+because the $\mat{R}$ matrix penalized \gls{control effort}. If the $\mat{R}$
 cost matrix is removed from the \gls{plant} inversion calculation, the
 \gls{reference} \gls{tracking} is much better (see figure
 \ref{fig:case_study_ss_ff2}).

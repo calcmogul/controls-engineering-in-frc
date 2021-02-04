@@ -441,7 +441,7 @@ Now we'll factor them out into matrices.
 
 \subsubsection{Forward kinematics}
 
-Let $\mtx{M}$ be the $4 \times 3$ inverse kinematics matrix above including the
+Let $\mat{M}$ be the $4 \times 3$ inverse kinematics matrix above including the
 $\frac{1}{\sqrt{2}}$ factor. The forward kinematics are
 \begin{equation}
   \begin{bmatrix}
@@ -449,7 +449,7 @@ $\frac{1}{\sqrt{2}}$ factor. The forward kinematics are
     v_y \\
     \omega
   \end{bmatrix} =
-  \mtx{M}^\dagger
+  \mat{M}^\dagger
   \begin{bmatrix}
     v_{fl} \\
     v_{fr} \\
@@ -458,7 +458,7 @@ $\frac{1}{\sqrt{2}}$ factor. The forward kinematics are
   \end{bmatrix}
 \end{equation}
 
-where $\mtx{M}^\dagger$ is the pseudoinverse of $\mtx{M}$.
+where $\mat{M}^\dagger$ is the pseudoinverse of $\mat{M}$.
 
 \subsection{Swerve drive}
 
@@ -683,7 +683,7 @@ example for module 1.
 
 \subsubsection{Forward kinematics}
 
-Let $\mtx{M}$ be the $8 \times 3$ inverse kinematics matrix from equation
+Let $\mat{M}$ be the $8 \times 3$ inverse kinematics matrix from equation
 \eqref{eq:swerve_ik}. The forward kinematics are
 \begin{equation}
   \begin{bmatrix}
@@ -691,7 +691,7 @@ Let $\mtx{M}$ be the $8 \times 3$ inverse kinematics matrix from equation
     v_y \\
     \omega
   \end{bmatrix} =
-  \mtx{M}^\dagger
+  \mat{M}^\dagger
   \begin{bmatrix}
     v_{1x} \\
     v_{1y} \\
@@ -704,4 +704,4 @@ Let $\mtx{M}$ be the $8 \times 3$ inverse kinematics matrix from equation
   \end{bmatrix}
 \end{equation}
 
-where $\mtx{M}^\dagger$ is the pseudoinverse of $\mtx{M}$.
+where $\mat{M}^\dagger$ is the pseudoinverse of $\mat{M}$.

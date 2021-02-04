@@ -149,16 +149,16 @@ Therefore
 
 The equation can be obtained using two definitions for torque.
 \begin{equation*}
-  \mtx{\tau} = \mtx{r} \times \mtx{F}
+  \mat{\tau} = \mat{r} \times \mat{F}
 \end{equation*}
 
 First start by defining the torque on the pendulum bob using the force due to
 gravity.
 \begin{equation*}
-  \mtx{\tau} = \mtx{l} \times \mtx{F}_g
+  \mat{\tau} = \mat{l} \times \mat{F}_g
 \end{equation*}
 
-where $\mtx{l}$ is the length vector of the pendulum and $\mtx{F}_g$ is the
+where $\mat{l}$ is the length vector of the pendulum and $\mat{F}_g$ is the
 force due to gravity.
 
 For now just consider the magnitude of the torque on the pendulum.
@@ -172,18 +172,18 @@ vector and the force due to gravity.
 
 Next rewrite the angular momentum.
 \begin{equation*}
-  \mtx{L} = \mtx{r} \times \mtx{p} =
-    m\mtx{r} \times (\mtx{\omega} \times \mtx{r})
+  \mat{L} = \mat{r} \times \mat{p} =
+    m\mat{r} \times (\mat{\omega} \times \mat{r})
 \end{equation*}
 
 Again just consider the magnitude of the angular momentum.
 \begin{align*}
-  \lvert\mtx{L}\rvert &= mr^2\omega \\
-  \lvert\mtx{L}\rvert &= ml^2 \frac{d\theta}{dt} \\
-  \frac{d}{dt}\lvert\mtx{L}\rvert &= ml^2 \frac{d^2\theta}{dt^2}
+  \lvert\mat{L}\rvert &= mr^2\omega \\
+  \lvert\mat{L}\rvert &= ml^2 \frac{d\theta}{dt} \\
+  \frac{d}{dt}\lvert\mat{L}\rvert &= ml^2 \frac{d^2\theta}{dt^2}
 \end{align*}
 
-According to $\tau = \frac{d\mtx{L}}{dt}$, we can just compare the magnitudes.
+According to $\tau = \frac{d\mat{L}}{dt}$, we can just compare the magnitudes.
 \begin{align*}
   -mgl\sin\theta &= ml^2\frac{d^2\theta}{dt^2} \\
   -\frac{g}{l}\sin\theta &= \frac{d^2\theta}{dt^2} \\

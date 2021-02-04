@@ -68,16 +68,16 @@ linear-quadratic regulator (LQR) places the poles for us based on acceptable
 relative \gls{error} and \gls{control effort} costs. This method of controller
 design uses a quadratic function for the cost-to-go defined as the sum of the
 \gls{error} and \gls{control effort} over time for the linear \gls{system}
-$\dot{\mtx{x}} = \mtx{A}\mtx{x} + \mtx{B}\mtx{u}$.
+$\dot{\mat{x}} = \mat{A}\mat{x} + \mat{B}\mat{u}$.
 \begin{equation*}
-  J = \int\limits_0^\infty \left(\mtx{x}^T\mtx{Q}\mtx{x} +
-    \mtx{u}^T\mtx{R}\mtx{u}\right) dt
+  J = \int\limits_0^\infty \left(\mat{x}^T\mat{Q}\mat{x} +
+    \mat{u}^T\mat{R}\mat{u}\right) dt
 \end{equation*}
 
 where $J$ represents a trade-off between \gls{state} excursion and
-\gls{control effort} with the weighting factors $\mtx{Q}$ and $\mtx{R}$. LQR is
-a \gls{control law} $\mtx{u}$ that minimizes the cost function. $\mtx{Q}$ and
-$\mtx{R}$ slide the cost along a Pareto boundary between state tracking and
+\gls{control effort} with the weighting factors $\mat{Q}$ and $\mat{R}$. LQR is
+a \gls{control law} $\mat{u}$ that minimizes the cost function. $\mat{Q}$ and
+$\mat{R}$ slide the cost along a Pareto boundary between state tracking and
 \gls{control effort} (see figure \ref{fig:pareto_boundary}). Pareto optimality
 for this problem means that an improvement in state \gls{tracking} cannot be
 obtained without using more \gls{control effort} to do so. Also, a reduction in
@@ -91,7 +91,7 @@ boundary).
 \end{svg}
 
 The minimum of LQR's cost function is found by setting the derivative of the
-cost function to zero and solving for the \gls{control law} $\mtx{u}$. However,
+cost function to zero and solving for the \gls{control law} $\mat{u}$. However,
 matrix calculus is used instead of normal calculus to take the derivative.
 
 The feedback \gls{control law} that minimizes $J$ is shown in theorem
@@ -99,17 +99,17 @@ The feedback \gls{control law} that minimizes $J$ is shown in theorem
 \begin{theorem}[Linear-quadratic regulator]
   \label{thm:linear-quadratic_regulator}
   \begin{align}
-    \min_{\mtx{u}} &\int\limits_0^\infty \left(\mtx{x}^T\mtx{Q}\mtx{x} +
-      \mtx{u}^T\mtx{R}\mtx{u}\right) dt \nonumber \\
-    \text{subject to } &\dot{\mtx{x}} = \mtx{A}\mtx{x} + \mtx{B}\mtx{u}
+    \min_{\mat{u}} &\int\limits_0^\infty \left(\mat{x}^T\mat{Q}\mat{x} +
+      \mat{u}^T\mat{R}\mat{u}\right) dt \nonumber \\
+    \text{subject to } &\dot{\mat{x}} = \mat{A}\mat{x} + \mat{B}\mat{u}
   \end{align}
 
-  If the \gls{system} is controllable, the optimal control policy $\mtx{u}^*$
-  that drives all the \glspl{state} to zero is $-\mtx{K}\mtx{x}$. To converge to
-  nonzero \glspl{state}, a \gls{reference} vector $\mtx{r}$ can be added to the
-  \gls{state} $\mtx{x}$.
+  If the \gls{system} is controllable, the optimal control policy $\mat{u}^*$
+  that drives all the \glspl{state} to zero is $-\mat{K}\mat{x}$. To converge to
+  nonzero \glspl{state}, a \gls{reference} vector $\mat{r}$ can be added to the
+  \gls{state} $\mat{x}$.
   \begin{equation}
-    \mtx{u} = \mtx{K}(\mtx{r} - \mtx{x})
+    \mat{u} = \mat{K}(\mat{r} - \mat{x})
   \end{equation}
 \end{theorem}
 \index{controller design!linear-quadratic regulator!definition}
@@ -121,13 +121,13 @@ need knowledge of the full \gls{state} of the \gls{system}. That means we either
 have to measure all our \glspl{state} directly or estimate those we do not
 measure.
 
-See appendix \ref{ch:deriv_lqr} for how $\mtx{K}$ is calculated. If the result
+See appendix \ref{ch:deriv_lqr} for how $\mat{K}$ is calculated. If the result
 is finite, the controller is guaranteed to be stable and
 \glslink{robustness}{robust} with a \gls{phase margin} of 60 degrees
 \cite{bib:lqr_phase_margin}.
 \begin{remark}
-  LQR design's $\mtx{Q}$ and $\mtx{R}$ matrices don't need \gls{discretization},
-  but the $\mtx{K}$ calculated for continuous time and discrete time
+  LQR design's $\mat{Q}$ and $\mat{R}$ matrices don't need \gls{discretization},
+  but the $\mat{K}$ calculated for continuous time and discrete time
   \glspl{system} will be different. The discrete time gains approach the
   continuous time gains as the sample period tends to zero.
 \end{remark}
@@ -136,12 +136,12 @@ is finite, the controller is guaranteed to be stable and
 \index{controller design!linear-quadratic regulator!Bryson's rule}
 \index{optimal control!linear-quadratic regulator!Bryson's rule}
 
-The next obvious question is what values to choose for $\mtx{Q}$ and $\mtx{R}$.
+The next obvious question is what values to choose for $\mat{Q}$ and $\mat{R}$.
 While this can be more of an art than a science, Bryson's rule provides a good
-starting point. With Bryson's rule, the diagonals of the $\mtx{Q}$ and $\mtx{R}$
+starting point. With Bryson's rule, the diagonals of the $\mat{Q}$ and $\mat{R}$
 matrices are chosen based on the maximum acceptable value for each \gls{state}
-and actuator. The nondiagonal elements are zero. The balance between $\mtx{Q}$
-and $\mtx{R}$ can be slid along the Pareto boundary using a weighting factor
+and actuator. The nondiagonal elements are zero. The balance between $\mat{Q}$
+and $\mat{R}$ can be slid along the Pareto boundary using a weighting factor
 $\rho$.
 \begin{equation*}
   J = \int\limits_0^\infty \left(\rho \left[
@@ -152,13 +152,13 @@ $\rho$.
 \end{equation*}
 \begin{equation*}
   \begin{array}{cc}
-    \mtx{Q} = \begin{bmatrix}
+    \mat{Q} = \begin{bmatrix}
       \frac{\rho}{x_{1,max}^2} & 0 & \ldots & 0 \\
       0 & \frac{\rho}{x_{2,max}^2} & & \vdots \\
       \vdots & & \ddots & 0 \\
       0 & \ldots & 0 & \frac{\rho}{x_{m,max}^2}
     \end{bmatrix} &
-    \mtx{R} = \begin{bmatrix}
+    \mat{R} = \begin{bmatrix}
       \frac{1}{u_{1,max}^2} & 0 & \ldots & 0 \\
       0 & \frac{1}{u_{2,max}^2} & & \vdots \\
       \vdots & & \ddots & 0 \\
@@ -178,18 +178,18 @@ This example uses the following second-order \gls{model} for a CIM motor (a DC
 brushed motor).
 \begin{align*}
   \begin{array}{cccc}
-    \mtx{A} = \begin{bmatrix}
+    \mat{A} = \begin{bmatrix}
       -\frac{b}{J} & \frac{K_t}{J} \\
       -\frac{K_e}{L} & -\frac{R}{L}
     \end{bmatrix} &
-    \mtx{B} = \begin{bmatrix}
+    \mat{B} = \begin{bmatrix}
       0 \\
       \frac{1}{L}
     \end{bmatrix} &
-    \mtx{C} = \begin{bmatrix}
+    \mat{C} = \begin{bmatrix}
       1 & 0
     \end{bmatrix} &
-    \mtx{D} = \begin{bmatrix}
+    \mat{D} = \begin{bmatrix}
       0
     \end{bmatrix}
   \end{array}
@@ -202,11 +202,11 @@ far (LHP is stable) only apply to continuous systems.} placed at $(0.1, 0)$ and
 $(0.9, 0)$ and LQR with the following cost matrices.
 \begin{align*}
   \begin{array}{cc}
-    \mtx{Q} = \begin{bmatrix}
+    \mat{Q} = \begin{bmatrix}
       \frac{1}{20^2} & 0 \\
       0 & \frac{1}{40^2}
     \end{bmatrix} &
-    \mtx{R} = \begin{bmatrix}
+    \mat{R} = \begin{bmatrix}
       \frac{1}{12^2}
     \end{bmatrix}
   \end{array}

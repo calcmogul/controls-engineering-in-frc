@@ -4,23 +4,23 @@
 
 Given the following stochastic system
 \begin{align*}
-  \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}\mtx{u}_k +
-    \mtx{\Gamma}\mtx{w}_k \\
-  \mtx{y}_k &= \mtx{C}\mtx{x}_k + \mtx{D}\mtx{u}_k + \mtx{v}_k
+  \mat{x}_{k+1} &= \mat{A}\mat{x}_k + \mat{B}\mat{u}_k +
+    \mat{\Gamma}\mat{w}_k \\
+  \mat{y}_k &= \mat{C}\mat{x}_k + \mat{D}\mat{u}_k + \mat{v}_k
 \end{align*}
 
-where $\mtx{w}_k$ is the process noise and $\mtx{v}_k$ is the measurement noise,
+where $\mat{w}_k$ is the process noise and $\mat{v}_k$ is the measurement noise,
 \index{stochastic!process noise} \index{stochastic!measurement noise}
 \begin{align*}
-  E[\mtx{w}_k] &= 0 \\
-  E[\mtx{w}_k\mtx{w}_k^T] &= \mtx{Q}_k \\
-  E[\mtx{v}_k] &= 0 \\
-  E[\mtx{v}_k\mtx{v}_k^T] &= \mtx{R}_k
+  E[\mat{w}_k] &= 0 \\
+  E[\mat{w}_k\mat{w}_k^T] &= \mat{Q}_k \\
+  E[\mat{v}_k] &= 0 \\
+  E[\mat{v}_k\mat{v}_k^T] &= \mat{R}_k
 \end{align*}
 
-where $\mtx{Q}_k$ is the process noise covariance matrix and $\mtx{R}_k$ is the
+where $\mat{Q}_k$ is the process noise covariance matrix and $\mat{R}_k$ is the
 measurement noise covariance matrix. We assume the noise samples are
-independent, so $E[\mtx{w}_k\mtx{w}_j^T] = 0$ and $E[\mtx{v}_k\mtx{v}_k^T] = 0$
+independent, so $E[\mat{w}_k\mat{w}_j^T] = 0$ and $E[\mat{v}_k\mat{v}_k^T] = 0$
 where $k \neq j$. Furthermore, process noise samples are independent from
 measurement noise samples.
 
@@ -32,116 +32,116 @@ which we'll use later for deriving the Kalman filter.
 First, we will compute how the expectation of the \gls{system} \gls{state}
 evolves.
 \begin{align*}
-  E[\mtx{x}_{k+1}] &= E[\mtx{A}\mtx{x}_k + \mtx{B}\mtx{u}_k +
-    \mtx{\Gamma}\mtx{w}_k] \\
-  E[\mtx{x}_{k+1}] &= E[\mtx{A}\mtx{x}_k] + E[\mtx{B}\mtx{u}_k] +
-    E[\mtx{\Gamma}\mtx{w}_k] \\
-  E[\mtx{x}_{k+1}] &= \mtx{A}E[\mtx{x}_k] + \mtx{B}E[\mtx{u}_k] +
-    \mtx{\Gamma}E[\mtx{w}_k] \\
-  E[\mtx{x}_{k+1}] &= \mtx{A}E[\mtx{x}_k] + \mtx{B}\mtx{u}_k + 0 \\
-  \mtxbar{x}_{k+1} &= \mtx{A}\mtxbar{x}_k + \mtx{B}\mtx{u}_k \\
+  E[\mat{x}_{k+1}] &= E[\mat{A}\mat{x}_k + \mat{B}\mat{u}_k +
+    \mat{\Gamma}\mat{w}_k] \\
+  E[\mat{x}_{k+1}] &= E[\mat{A}\mat{x}_k] + E[\mat{B}\mat{u}_k] +
+    E[\mat{\Gamma}\mat{w}_k] \\
+  E[\mat{x}_{k+1}] &= \mat{A}E[\mat{x}_k] + \mat{B}E[\mat{u}_k] +
+    \mat{\Gamma}E[\mat{w}_k] \\
+  E[\mat{x}_{k+1}] &= \mat{A}E[\mat{x}_k] + \mat{B}\mat{u}_k + 0 \\
+  \matbar{x}_{k+1} &= \mat{A}\matbar{x}_k + \mat{B}\mat{u}_k \\
 \end{align*}
 
 \subsection{Error covariance matrix evolution}
 
-Now, we will use this to compute how the \gls{error} covariance matrix $\mtx{P}$
+Now, we will use this to compute how the \gls{error} covariance matrix $\mat{P}$
 evolves.
 \begin{align*}
-  \mtx{x}_{k+1} - \mtxbar{x}_{k+1} &= \mtx{A}\mtx{x}_k +
-    \mtx{B}\mtx{u}_k + \mtx{\Gamma}\mtx{w}_k - (\mtx{A}\mtxbar{x}_k -
-    \mtx{B}\mtx{u}_k) \\
-  \mtx{x}_{k+1} - \mtxbar{x}_{k+1} &=
-    \mtx{A}(\mtx{x}_k - \mtxbar{x}_k) + \mtx{\Gamma}\mtx{w}_k
+  \mat{x}_{k+1} - \matbar{x}_{k+1} &= \mat{A}\mat{x}_k +
+    \mat{B}\mat{u}_k + \mat{\Gamma}\mat{w}_k - (\mat{A}\matbar{x}_k -
+    \mat{B}\mat{u}_k) \\
+  \mat{x}_{k+1} - \matbar{x}_{k+1} &=
+    \mat{A}(\mat{x}_k - \matbar{x}_k) + \mat{\Gamma}\mat{w}_k
 \end{align*}
 \begin{equation*}
-  E[(\mtx{x}_{k+1} - \mtxbar{x}_{k+1})(\mtx{x}_{k+1} - \mtxbar{x}_{k+1})^T] =
-    E[(\mtx{A}(\mtx{x}_k - \mtxbar{x}_k) + \mtx{\Gamma}\mtx{w}_k)
-      (\mtx{A}(\mtx{x}_k - \mtxbar{x}_k) + \mtx{\Gamma}\mtx{w}_k)^T]
+  E[(\mat{x}_{k+1} - \matbar{x}_{k+1})(\mat{x}_{k+1} - \matbar{x}_{k+1})^T] =
+    E[(\mat{A}(\mat{x}_k - \matbar{x}_k) + \mat{\Gamma}\mat{w}_k)
+      (\mat{A}(\mat{x}_k - \matbar{x}_k) + \mat{\Gamma}\mat{w}_k)^T]
 \end{equation*}
 \begin{align*}
-  \mtx{P}_{k+1} &=
-    E[(\mtx{A}(\mtx{x}_k - \mtxbar{x}_k) + \mtx{\Gamma}\mtx{w}_k)
-      (\mtx{A}(\mtx{x}_k - \mtxbar{x}_k) + \mtx{\Gamma}\mtx{w}_k)^T] \\
-  \mtx{P}_{k+1} &=
-    E[(\mtx{A}(\mtx{x}_k - \mtxbar{x}_k)(\mtx{x}_k - \mtxbar{x}_k)^T
-      \mtx{A}^T] +
-    E[\mtx{A}(\mtx{x}_k - \mtxbar{x}_k)\mtx{w}_k^T\mtx{\Gamma}^T] \\
-    &\qquad + E[\mtx{\Gamma}\mtx{w}_k(\mtx{x}_k - \mtxbar{x}_k)^T\mtx{A}^T] +
-    E[\mtx{\Gamma}\mtx{w}_k\mtx{w}_k^T\mtx{\Gamma}^T] \\
-  \mtx{P}_{k+1} &=
-    \mtx{A}E[(\mtx{x}_k - \mtxbar{x}_k)(\mtx{x}_k - \mtxbar{x}_k)^T]
-    \mtx{A}^T +
-    \mtx{A}E[(\mtx{x}_k - \mtxbar{x}_k)\mtx{w}_k^T]\mtx{\Gamma}^T \\
-    &\qquad + \mtx{\Gamma} E[\mtx{w}_k(\mtx{x}_k - \mtxbar{x}_k)^T]\mtx{A}^T +
-    \mtx{\Gamma} E[\mtx{w}_k\mtx{w}_k^T]\mtx{\Gamma}^T \\
-  \mtx{P}_{k+1} &= \mtx{A}\mtx{P}_k\mtx{A}^T +
-    \mtx{A}E[(\mtx{x}_k - \mtxbar{x}_k)\mtx{w}_k^T]\mtx{\Gamma}^T +
-    \mtx{\Gamma} E[\mtx{w}_k(\mtx{x}_k - \mtxbar{x}_k)^T]\mtx{A}^T +
-    \mtx{\Gamma}\mtx{Q}_k\mtx{\Gamma}_k^T
+  \mat{P}_{k+1} &=
+    E[(\mat{A}(\mat{x}_k - \matbar{x}_k) + \mat{\Gamma}\mat{w}_k)
+      (\mat{A}(\mat{x}_k - \matbar{x}_k) + \mat{\Gamma}\mat{w}_k)^T] \\
+  \mat{P}_{k+1} &=
+    E[(\mat{A}(\mat{x}_k - \matbar{x}_k)(\mat{x}_k - \matbar{x}_k)^T
+      \mat{A}^T] +
+    E[\mat{A}(\mat{x}_k - \matbar{x}_k)\mat{w}_k^T\mat{\Gamma}^T] \\
+    &\qquad + E[\mat{\Gamma}\mat{w}_k(\mat{x}_k - \matbar{x}_k)^T\mat{A}^T] +
+    E[\mat{\Gamma}\mat{w}_k\mat{w}_k^T\mat{\Gamma}^T] \\
+  \mat{P}_{k+1} &=
+    \mat{A}E[(\mat{x}_k - \matbar{x}_k)(\mat{x}_k - \matbar{x}_k)^T]
+    \mat{A}^T +
+    \mat{A}E[(\mat{x}_k - \matbar{x}_k)\mat{w}_k^T]\mat{\Gamma}^T \\
+    &\qquad + \mat{\Gamma} E[\mat{w}_k(\mat{x}_k - \matbar{x}_k)^T]\mat{A}^T +
+    \mat{\Gamma} E[\mat{w}_k\mat{w}_k^T]\mat{\Gamma}^T \\
+  \mat{P}_{k+1} &= \mat{A}\mat{P}_k\mat{A}^T +
+    \mat{A}E[(\mat{x}_k - \matbar{x}_k)\mat{w}_k^T]\mat{\Gamma}^T +
+    \mat{\Gamma} E[\mat{w}_k(\mat{x}_k - \matbar{x}_k)^T]\mat{A}^T +
+    \mat{\Gamma}\mat{Q}_k\mat{\Gamma}_k^T
 \end{align*}
 
 Since the error and noise are independent, the cross terms are zero.
 \begin{align*}
-  \mtx{P}_{k+1} &= \mtx{A}\mtx{P}_k\mtx{A}^T +
-    \mtx{A}\underbrace{
-      E[(\mtx{x}_k - \mtxbar{x}_k)\mtx{w}_k^T]}_\mtx{0}\mtx{\Gamma}^T +
-    \mtx{\Gamma}\underbrace{
-      E[\mtx{w}_k(\mtx{x}_k - \mtxbar{x}_k)^T]}_\mtx{0}\mtx{A}^T +
-    \mtx{\Gamma}\mtx{Q}_k\mtx{\Gamma}_k^T \\
-  \mtx{P}_{k+1} &= \mtx{A}\mtx{P}_k\mtx{A}^T +
-    \mtx{\Gamma}\mtx{Q}_k\mtx{\Gamma}^T
+  \mat{P}_{k+1} &= \mat{A}\mat{P}_k\mat{A}^T +
+    \mat{A}\underbrace{
+      E[(\mat{x}_k - \matbar{x}_k)\mat{w}_k^T]}_\mat{0}\mat{\Gamma}^T +
+    \mat{\Gamma}\underbrace{
+      E[\mat{w}_k(\mat{x}_k - \matbar{x}_k)^T]}_\mat{0}\mat{A}^T +
+    \mat{\Gamma}\mat{Q}_k\mat{\Gamma}_k^T \\
+  \mat{P}_{k+1} &= \mat{A}\mat{P}_k\mat{A}^T +
+    \mat{\Gamma}\mat{Q}_k\mat{\Gamma}^T
 \end{align*}
 
 \subsection{Measurement vector expectation}
 
-Next, we will compute the expectation of the \gls{output} $\mtx{y}$.
+Next, we will compute the expectation of the \gls{output} $\mat{y}$.
 \begin{align*}
-  E[\mtx{y}_k] &= E[\mtx{C}\mtx{x}_k + \mtx{D}\mtx{u}_k + \mtx{v}_k] \\
-  E[\mtx{y}_k] &= \mtx{C}E[\mtx{x}_k] + \mtx{D}\mtx{u}_k + 0 \\
-  \mtxbar{y}_k &= \mtx{C}\mtxbar{x}_k + \mtx{D}\mtx{u}_k
+  E[\mat{y}_k] &= E[\mat{C}\mat{x}_k + \mat{D}\mat{u}_k + \mat{v}_k] \\
+  E[\mat{y}_k] &= \mat{C}E[\mat{x}_k] + \mat{D}\mat{u}_k + 0 \\
+  \matbar{y}_k &= \mat{C}\matbar{x}_k + \mat{D}\mat{u}_k
 \end{align*}
 
 \subsection{Measurement covariance matrix}
 
 Now, we will use this to compute how the measurement covariance matrix
-$\mtx{S}$ evolves.
+$\mat{S}$ evolves.
 \begin{align*}
-  \mtx{y}_k - \mtxbar{y}_k &= \mtx{C}\mtx{x}_k + \mtx{D}\mtx{u}_k + \mtx{v}_k -
-    (\mtx{C}\mtxbar{x}_k + \mtx{D}\mtx{u}_k) \\
-  \mtx{y}_k - \mtxbar{y}_k &= \mtx{C}(\mtx{x}_k - \mtxbar{x}_k) + \mtx{v}_k \\
-  E[(\mtx{y}_k - \mtxbar{y}_k)(\mtx{y}_k - \mtxbar{y}_k)^T] &=
-    E[(\mtx{C}(\mtx{x}_k - \mtxbar{x}_k) + \mtx{v}_k)
-      (\mtx{C}(\mtx{x}_k - \mtxbar{x}_k) + \mtx{v}_k)^T]
+  \mat{y}_k - \matbar{y}_k &= \mat{C}\mat{x}_k + \mat{D}\mat{u}_k + \mat{v}_k -
+    (\mat{C}\matbar{x}_k + \mat{D}\mat{u}_k) \\
+  \mat{y}_k - \matbar{y}_k &= \mat{C}(\mat{x}_k - \matbar{x}_k) + \mat{v}_k \\
+  E[(\mat{y}_k - \matbar{y}_k)(\mat{y}_k - \matbar{y}_k)^T] &=
+    E[(\mat{C}(\mat{x}_k - \matbar{x}_k) + \mat{v}_k)
+      (\mat{C}(\mat{x}_k - \matbar{x}_k) + \mat{v}_k)^T]
 \end{align*}
 \begin{align*}
-  \mtx{S}_k &=
-    E[(\mtx{C}(\mtx{x}_k - \mtxbar{x}_k) + \mtx{v}_k)
-      (\mtx{C}(\mtx{x}_k - \mtxbar{x}_k) + \mtx{v}_k)^T] \\
-  \mtx{S}_k &=
-    E[(\mtx{C}(\mtx{x}_k - \mtxbar{x}_k) + \mtx{v}_k)
-      ((\mtx{x}_k - \mtxbar{x}_k)^T\mtx{C}^T + \mtx{v}_k^T)] \\
-  \mtx{S}_k &=
-    E[(\mtx{C}(\mtx{x}_k - \mtxbar{x}_k)(\mtx{x}_k - \mtxbar{x}_k)^T
-      \mtx{C}^T] +
-    E[\mtx{C}(\mtx{x}_k - \mtxbar{x}_k)\mtx{v}_k^T] \\
-    &\qquad + E[\mtx{v}_k(\mtx{x}_k - \mtxbar{x}_k)^T\mtx{C}^T] +
-    E[\mtx{v}_k\mtx{v}_k^T] \\
-  \mtx{S}_k &=
-    \mtx{C}E[(\mtx{x}_k - \mtxbar{x}_k)(\mtx{x}_k - \mtxbar{x}_k)^T]
-    \mtx{C}^T + \mtx{C}E[(\mtx{x}_k - \mtxbar{x}_k)\mtx{v}_k^T] \\
-    &\qquad + E[\mtx{v}_k(\mtx{x}_k - \mtxbar{x}_k)^T]\mtx{C}^T +
-    E[\mtx{v}_k\mtx{v}_k^T] \\
-  \mtx{S}_k &= \mtx{C}\mtx{P}_k\mtx{C}^T +
-    \mtx{C}E[(\mtx{x}_k - \mtxbar{x}_k)\mtx{v}_k^T] +
-    E[\mtx{v}_k(\mtx{x}_k - \mtxbar{x}_k)^T]\mtx{C}^T +
-    \mtx{R}_k
+  \mat{S}_k &=
+    E[(\mat{C}(\mat{x}_k - \matbar{x}_k) + \mat{v}_k)
+      (\mat{C}(\mat{x}_k - \matbar{x}_k) + \mat{v}_k)^T] \\
+  \mat{S}_k &=
+    E[(\mat{C}(\mat{x}_k - \matbar{x}_k) + \mat{v}_k)
+      ((\mat{x}_k - \matbar{x}_k)^T\mat{C}^T + \mat{v}_k^T)] \\
+  \mat{S}_k &=
+    E[(\mat{C}(\mat{x}_k - \matbar{x}_k)(\mat{x}_k - \matbar{x}_k)^T
+      \mat{C}^T] +
+    E[\mat{C}(\mat{x}_k - \matbar{x}_k)\mat{v}_k^T] \\
+    &\qquad + E[\mat{v}_k(\mat{x}_k - \matbar{x}_k)^T\mat{C}^T] +
+    E[\mat{v}_k\mat{v}_k^T] \\
+  \mat{S}_k &=
+    \mat{C}E[(\mat{x}_k - \matbar{x}_k)(\mat{x}_k - \matbar{x}_k)^T]
+    \mat{C}^T + \mat{C}E[(\mat{x}_k - \matbar{x}_k)\mat{v}_k^T] \\
+    &\qquad + E[\mat{v}_k(\mat{x}_k - \matbar{x}_k)^T]\mat{C}^T +
+    E[\mat{v}_k\mat{v}_k^T] \\
+  \mat{S}_k &= \mat{C}\mat{P}_k\mat{C}^T +
+    \mat{C}E[(\mat{x}_k - \matbar{x}_k)\mat{v}_k^T] +
+    E[\mat{v}_k(\mat{x}_k - \matbar{x}_k)^T]\mat{C}^T +
+    \mat{R}_k
 \end{align*}
 
 Since the error and noise are independent, the cross terms are zero.
 \begin{align*}
-  \mtx{S}_k &= \mtx{C}\mtx{P}_k\mtx{C}^T +
-    \mtx{C}\underbrace{E[(\mtx{x}_k - \mtxbar{x}_k)\mtx{v}_k^T]}_\mtx{0} +
+  \mat{S}_k &= \mat{C}\mat{P}_k\mat{C}^T +
+    \mat{C}\underbrace{E[(\mat{x}_k - \matbar{x}_k)\mat{v}_k^T]}_\mat{0} +
     \underbrace{
-      E[\mtx{v}_k(\mtx{x}_k - \mtxbar{x}_k)^T]}_\mtx{0}\mtx{C}^T + \mtx{R}_k \\
-  \mtx{S}_k &= \mtx{C}\mtx{P}_k\mtx{C}^T + \mtx{R}_k
+      E[\mat{v}_k(\mat{x}_k - \matbar{x}_k)^T]}_\mat{0}\mat{C}^T + \mat{R}_k \\
+  \mat{S}_k &= \mat{C}\mat{P}_k\mat{C}^T + \mat{R}_k
 \end{align*}

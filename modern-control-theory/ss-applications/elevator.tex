@@ -67,37 +67,37 @@ The existing rows will have zeroes inserted where $x$ is multiplied in.
 \end{align*}
 \begin{theorem}[Elevator state-space model]
   \begin{align*}
-    \dot{\mtx{x}} &= \mtx{A} \mtx{x} + \mtx{B} \mtx{u} \\
-    \mtx{y} &= \mtx{C} \mtx{x} + \mtx{D} \mtx{u}
+    \dot{\mat{x}} &= \mat{A} \mat{x} + \mat{B} \mat{u} \\
+    \mat{y} &= \mat{C} \mat{x} + \mat{D} \mat{u}
   \end{align*}
   \begin{equation*}
     \begin{array}{ccc}
-      \mtx{x} =
+      \mat{x} =
       \begin{bmatrix}
         x \\
         v
       \end{bmatrix} &
-      \mtx{y} = x &
-      \mtx{u} = V
+      \mat{y} = x &
+      \mat{u} = V
     \end{array}
   \end{equation*}
   \begin{equation}
     \begin{array}{cccc}
-      \mtx{A} =
+      \mat{A} =
       \begin{bmatrix}
         0 & 1 \\
         0 & -\frac{G^2 K_t}{Rr^2 mK_v}
       \end{bmatrix} &
-      \mtx{B} =
+      \mat{B} =
       \begin{bmatrix}
         0 \\
         \frac{GK_t}{Rrm}
       \end{bmatrix} &
-      \mtx{C} =
+      \mat{C} =
       \begin{bmatrix}
         1 & 0
       \end{bmatrix} &
-      \mtx{D} = 0
+      \mat{D} = 0
     \end{array}
   \end{equation}
 \end{theorem}
@@ -115,41 +115,41 @@ a continuous \gls{model} and the \gls{controller} augmentation assumes a
 discrete \gls{controller}.
 \begin{equation*}
   \begin{array}{ccc}
-    \mtx{x}_{aug} =
+    \mat{x}_{aug} =
     \begin{bmatrix}
       x \\
       v \\
       u_{error}
     \end{bmatrix} &
-    \mtx{y} = x &
-    \mtx{u} = V
+    \mat{y} = x &
+    \mat{u} = V
   \end{array}
 \end{equation*}
 \begin{equation}
   \begin{array}{cccc}
-    \mtx{A}_{aug} =
+    \mat{A}_{aug} =
     \begin{bmatrix}
-      \mtx{A} & \mtx{B} \\
-      \mtx{0}_{1 \times 2} & 0
+      \mat{A} & \mat{B} \\
+      \mat{0}_{1 \times 2} & 0
     \end{bmatrix} &
-    \mtx{B}_{aug} =
+    \mat{B}_{aug} =
     \begin{bmatrix}
-      \mtx{B} \\
+      \mat{B} \\
       0
     \end{bmatrix} &
-    \mtx{C}_{aug} = \begin{bmatrix}
-      \mtx{C} & 0
+    \mat{C}_{aug} = \begin{bmatrix}
+      \mat{C} & 0
     \end{bmatrix} &
-    \mtx{D}_{aug} = \mtx{D}
+    \mat{D}_{aug} = \mat{D}
   \end{array}
 \end{equation}
 \begin{equation}
   \begin{array}{cc}
-    \mtx{K}_{aug} = \begin{bmatrix}
-      \mtx{K} & 1
+    \mat{K}_{aug} = \begin{bmatrix}
+      \mat{K} & 1
     \end{bmatrix} &
-    \mtx{r}_{aug} = \begin{bmatrix}
-      \mtx{r} \\
+    \mat{r}_{aug} = \begin{bmatrix}
+      \mat{r} \\
       0
     \end{bmatrix}
   \end{array}
@@ -171,7 +171,7 @@ elevator model contains the acceleration terms.
   Bu_{ff} = -(\text{unmodeled dynamics})
 \end{equation*}
 
-where $B$ is the motor acceleration term from $\mtx{B}$ and $u_{ff}$ is the
+where $B$ is the motor acceleration term from $\mat{B}$ and $u_{ff}$ is the
 voltage feedforward.
 \begin{align*}
   Bu_{ff} &= -(-mg) \\

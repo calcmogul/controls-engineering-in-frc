@@ -49,83 +49,83 @@ sign.
 
 Starting with the continuous \gls{model}
 \begin{equation*}
-  \dot{\mtx{x}}(t) = \mtx{A}\mtx{x}(t) + \mtx{B}\mtx{u}(t)
+  \dot{\mat{x}}(t) = \mat{A}\mat{x}(t) + \mat{B}\mat{u}(t)
 \end{equation*}
 
-by premultiplying the \gls{model} by $e^{-\mtx{A}t}$, we get
+by premultiplying the \gls{model} by $e^{-\mat{A}t}$, we get
 \begin{align*}
-  e^{-\mtx{A}t}\dot{\mtx{x}}(t) &= e^{-\mtx{A}t}\mtx{A}\mtx{x}(t) +
-    e^{-\mtx{A}t}\mtx{B}\mtx{u}(t) \\
-  e^{-\mtx{A}t}\dot{\mtx{x}}(t) - e^{-\mtx{A}t}\mtx{A}\mtx{x}(t) &=
-    e^{-\mtx{A}t}\mtx{B}\mtx{u}(t)
+  e^{-\mat{A}t}\dot{\mat{x}}(t) &= e^{-\mat{A}t}\mat{A}\mat{x}(t) +
+    e^{-\mat{A}t}\mat{B}\mat{u}(t) \\
+  e^{-\mat{A}t}\dot{\mat{x}}(t) - e^{-\mat{A}t}\mat{A}\mat{x}(t) &=
+    e^{-\mat{A}t}\mat{B}\mat{u}(t)
 \end{align*}
 
 The derivative of the matrix exponential is
 \begin{equation*}
-  \frac{d}{dt}e^{\mtx{A}t} = \mtx{A}e^{\mtx{A}t} = e^{\mtx{A}t}\mtx{A}
+  \frac{d}{dt}e^{\mat{A}t} = \mat{A}e^{\mat{A}t} = e^{\mat{A}t}\mat{A}
 \end{equation*}
 
 so we recognize the previous equation as
 \begin{equation*}
-  \frac{d}{dt}\left(e^{-\mtx{A}t}\mtx{x}(t)\right) =
-    e^{-\mtx{A}t}\mtx{B}\mtx{u}(t)
+  \frac{d}{dt}\left(e^{-\mat{A}t}\mat{x}(t)\right) =
+    e^{-\mat{A}t}\mat{B}\mat{u}(t)
 \end{equation*}
 
 By integrating this equation, we get
 \begin{align*}
-  e^{-\mtx{A}t}\mtx{x}(t) - e^0\mtx{x}(0) &=
-    \int_0^t e^{-\mtx{A}\tau}\mtx{B}\mtx{u}(\tau) \,d\tau \\
-  \mtx{x}(t) &= e^{\mtx{A}t}\mtx{x}(0) +
-    \int_0^t e^{\mtx{A}(t - \tau)}\mtx{B}\mtx{u}(\tau) \,d\tau
+  e^{-\mat{A}t}\mat{x}(t) - e^0\mat{x}(0) &=
+    \int_0^t e^{-\mat{A}\tau}\mat{B}\mat{u}(\tau) \,d\tau \\
+  \mat{x}(t) &= e^{\mat{A}t}\mat{x}(0) +
+    \int_0^t e^{\mat{A}(t - \tau)}\mat{B}\mat{u}(\tau) \,d\tau
 \end{align*}
 
 which is an analytical solution to the continuous \gls{model}. Now we want to
 \glslink{discretization}{discretize} it.
 \begin{align*}
-  \mtx{x}_k &\stackrel{def}{=} \mtx{x}(kT) \\
-  \mtx{x}_k &= e^{\mtx{A}kT}\mtx{x}(0) +
-    \int_0^{kT} e^{\mtx{A}(kT - \tau)}\mtx{B}\mtx{u}(\tau) \,d\tau \\
-  \mtx{x}_{k+1} &= e^{\mtx{A}(k + 1)T}\mtx{x}(0) +
-    \int_0^{(k + 1)T} e^{\mtx{A}((k + 1)T - \tau)}\mtx{B}\mtx{u}(\tau) \,d\tau
+  \mat{x}_k &\stackrel{def}{=} \mat{x}(kT) \\
+  \mat{x}_k &= e^{\mat{A}kT}\mat{x}(0) +
+    \int_0^{kT} e^{\mat{A}(kT - \tau)}\mat{B}\mat{u}(\tau) \,d\tau \\
+  \mat{x}_{k+1} &= e^{\mat{A}(k + 1)T}\mat{x}(0) +
+    \int_0^{(k + 1)T} e^{\mat{A}((k + 1)T - \tau)}\mat{B}\mat{u}(\tau) \,d\tau
     \\
-  \mtx{x}_{k+1} &= e^{\mtx{A}(k + 1)T}\mtx{x}(0) +
-    \int_0^{kT} e^{\mtx{A}((k + 1)T - \tau)}\mtx{B}\mtx{u}(\tau) \,d\tau +
-    \int_{kT}^{(k + 1)T} e^{\mtx{A}((k + 1)T - \tau)}\mtx{B}\mtx{u}(\tau)
+  \mat{x}_{k+1} &= e^{\mat{A}(k + 1)T}\mat{x}(0) +
+    \int_0^{kT} e^{\mat{A}((k + 1)T - \tau)}\mat{B}\mat{u}(\tau) \,d\tau +
+    \int_{kT}^{(k + 1)T} e^{\mat{A}((k + 1)T - \tau)}\mat{B}\mat{u}(\tau)
     \,d\tau \\
-  \mtx{x}_{k+1} &= e^{\mtx{A}(k + 1)T}\mtx{x}(0) +
-    \int_0^{kT} e^{\mtx{A}((k + 1)T - \tau)}\mtx{B}\mtx{u}(\tau) \,d\tau +
-    \int_{kT}^{(k + 1)T} e^{\mtx{A}(kT + T - \tau)}\mtx{B}\mtx{u}(\tau) \,d\tau
+  \mat{x}_{k+1} &= e^{\mat{A}(k + 1)T}\mat{x}(0) +
+    \int_0^{kT} e^{\mat{A}((k + 1)T - \tau)}\mat{B}\mat{u}(\tau) \,d\tau +
+    \int_{kT}^{(k + 1)T} e^{\mat{A}(kT + T - \tau)}\mat{B}\mat{u}(\tau) \,d\tau
     \\
-  \mtx{x}_{k+1} &= e^{\mtx{A}T} \underbrace{\left(e^{\mtx{A}kT}\mtx{x}(0) +
-    \int_0^{kT} e^{\mtx{A}(kT - \tau)}\mtx{B}\mtx{u}(\tau)
-    \,d\tau\right)}_{\mtx{x}_k} +
-    \int_{kT}^{(k + 1)T} e^{\mtx{A}(kT + T - \tau)}\mtx{B}\mtx{u}(\tau) \,d\tau
+  \mat{x}_{k+1} &= e^{\mat{A}T} \underbrace{\left(e^{\mat{A}kT}\mat{x}(0) +
+    \int_0^{kT} e^{\mat{A}(kT - \tau)}\mat{B}\mat{u}(\tau)
+    \,d\tau\right)}_{\mat{x}_k} +
+    \int_{kT}^{(k + 1)T} e^{\mat{A}(kT + T - \tau)}\mat{B}\mat{u}(\tau) \,d\tau
 \end{align*}
 
-We assume that $\mtx{u}$ is constant during each timestep, so it can be pulled
+We assume that $\mat{u}$ is constant during each timestep, so it can be pulled
 out of the integral.
 \begin{equation*}
-  \mtx{x}_{k+1} = e^{\mtx{A}T}\mtx{x}_k +
-    \left(\int_{kT}^{(k + 1)T} e^{\mtx{A}(kT + T - \tau)} \,d\tau\right)
-    \mtx{B}\mtx{u}_k
+  \mat{x}_{k+1} = e^{\mat{A}T}\mat{x}_k +
+    \left(\int_{kT}^{(k + 1)T} e^{\mat{A}(kT + T - \tau)} \,d\tau\right)
+    \mat{B}\mat{u}_k
 \end{equation*}
 
 The second term can be simplified by substituting it with the function
 $v(\tau) = kT + T - \tau$. Note that $d\tau = -dv$.
 \begin{align*}
-  \mtx{x}_{k+1} &= e^{\mtx{A}T}\mtx{x}_k -
-    \left(\int_{v(kT)}^{v((k + 1)T)} e^{\mtx{A}v} \,dv\right)
-    \mtx{B}\mtx{u}_k \\
-  \mtx{x}_{k+1} &= e^{\mtx{A}T}\mtx{x}_k -
-    \left(\int_T^0 e^{\mtx{A}v} \,dv\right) \mtx{B}\mtx{u}_k \\
-  \mtx{x}_{k+1} &= e^{\mtx{A}T}\mtx{x}_k +
-    \left(\int_0^T e^{\mtx{A}v} \,dv\right) \mtx{B}\mtx{u}_k \\
-  \mtx{x}_{k+1} &= e^{\mtx{A}T}\mtx{x}_k +
-    \mtx{A}^{-1}e^{\mtx{A}v} \rvert_0^T \mtx{B}\mtx{u}_k \\
-  \mtx{x}_{k+1} &= e^{\mtx{A}T}\mtx{x}_k +
-    \mtx{A}^{-1}(e^{\mtx{A}T} - e^{\mtx{A}0}) \mtx{B}\mtx{u}_k \\
-  \mtx{x}_{k+1} &= e^{\mtx{A}T}\mtx{x}_k +
-    \mtx{A}^{-1}(e^{\mtx{A}T} - \mtx{I}) \mtx{B}\mtx{u}_k
+  \mat{x}_{k+1} &= e^{\mat{A}T}\mat{x}_k -
+    \left(\int_{v(kT)}^{v((k + 1)T)} e^{\mat{A}v} \,dv\right)
+    \mat{B}\mat{u}_k \\
+  \mat{x}_{k+1} &= e^{\mat{A}T}\mat{x}_k -
+    \left(\int_T^0 e^{\mat{A}v} \,dv\right) \mat{B}\mat{u}_k \\
+  \mat{x}_{k+1} &= e^{\mat{A}T}\mat{x}_k +
+    \left(\int_0^T e^{\mat{A}v} \,dv\right) \mat{B}\mat{u}_k \\
+  \mat{x}_{k+1} &= e^{\mat{A}T}\mat{x}_k +
+    \mat{A}^{-1}e^{\mat{A}v} \rvert_0^T \mat{B}\mat{u}_k \\
+  \mat{x}_{k+1} &= e^{\mat{A}T}\mat{x}_k +
+    \mat{A}^{-1}(e^{\mat{A}T} - e^{\mat{A}0}) \mat{B}\mat{u}_k \\
+  \mat{x}_{k+1} &= e^{\mat{A}T}\mat{x}_k +
+    \mat{A}^{-1}(e^{\mat{A}T} - \mat{I}) \mat{B}\mat{u}_k
 \end{align*}
 
 which is an exact solution to the \gls{discretization} problem.
@@ -135,17 +135,17 @@ which is an exact solution to the \gls{discretization} problem.
 
 A Luenberger \gls{observer} is defined as
 \begin{align}
-  \hat{\mtx{x}}_{k+1}^+ &= \mtx{A}\hat{\mtx{x}}_k^- + \mtx{B}\mtx{u}_k + \mtx{L}
-    (\mtx{y}_k - \hat{\mtx{y}}_k) \label{eq:luenberger1} \\
-  \hat{\mtx{y}}_k &= \mtx{C} \hat{\mtx{x}}_k^- \label{eq:luenberger2}
+  \hat{\mat{x}}_{k+1}^+ &= \mat{A}\hat{\mat{x}}_k^- + \mat{B}\mat{u}_k + \mat{L}
+    (\mat{y}_k - \hat{\mat{y}}_k) \label{eq:luenberger1} \\
+  \hat{\mat{y}}_k &= \mat{C} \hat{\mat{x}}_k^- \label{eq:luenberger2}
 \end{align}
 
 where a superscript of minus denotes \textit{a priori} and plus denotes
 \textit{a posteriori} estimate. Combining equation \eqref{eq:luenberger1} and
 equation \eqref{eq:luenberger2} gives
 \begin{equation} \label{eq:luenberger}
-  \hat{\mtx{x}}_{k+1}^+ = \mtx{A}\hat{\mtx{x}}_k^- + \mtx{B}\mtx{u}_k + \mtx{L}
-    (\mtx{y}_k - \mtx{C}\hat{\mtx{x}}_k^-)
+  \hat{\mat{x}}_{k+1}^+ = \mat{A}\hat{\mat{x}}_k^- + \mat{B}\mat{u}_k + \mat{L}
+    (\mat{y}_k - \mat{C}\hat{\mat{x}}_k^-)
 \end{equation}
 
 The following is a Kalman filter that considers the current update step and the
@@ -153,40 +153,40 @@ next predict step together rather than the current predict step and current
 update step.
 \begin{align}
   \text{Update step} \nonumber \\
-  \mtx{K}_k &= \mtx{P}_k^- \mtx{C}^T (\mtx{C}\mtx{P}_k^- \mtx{C}^T +
-    \mtx{R})^{-1} \\
-  \hat{\mtx{x}}_k^+ &= \hat{\mtx{x}}_k^- + \mtx{K}_k(\mtx{y}_k -
-    \mtx{C}\hat{\mtx{x}}_k^-) \label{eq:post2_x} \\
-  \mtx{P}_k^+ &= (\mtx{I} - \mtx{K}_k\mtx{C})\mtx{P}_k^- \\
+  \mat{K}_k &= \mat{P}_k^- \mat{C}^T (\mat{C}\mat{P}_k^- \mat{C}^T +
+    \mat{R})^{-1} \\
+  \hat{\mat{x}}_k^+ &= \hat{\mat{x}}_k^- + \mat{K}_k(\mat{y}_k -
+    \mat{C}\hat{\mat{x}}_k^-) \label{eq:post2_x} \\
+  \mat{P}_k^+ &= (\mat{I} - \mat{K}_k\mat{C})\mat{P}_k^- \\
   \text{Predict step} \nonumber \\
-  \hat{\mtx{x}}_{k+1}^+ &= \mtx{A}\hat{\mtx{x}}_k^+ + \mtx{B}\mtx{u}_k
+  \hat{\mat{x}}_{k+1}^+ &= \mat{A}\hat{\mat{x}}_k^+ + \mat{B}\mat{u}_k
     \label{eq:pre2_x} \\
-  \mtx{P}_{k+1}^- &= \mtx{A} \mtx{P}_k^+ \mtx{A}^T +
-    \mtx{\Gamma}\mtx{Q}\mtx{\Gamma}^T
+  \mat{P}_{k+1}^- &= \mat{A} \mat{P}_k^+ \mat{A}^T +
+    \mat{\Gamma}\mat{Q}\mat{\Gamma}^T
 \end{align}
 
 Substitute equation \eqref{eq:post2_x} into equation \eqref{eq:pre2_x}.
 \begin{align*}
-  \hat{\mtx{x}}_{k+1}^+ &= \mtx{A}(\hat{\mtx{x}}_k^- + \mtx{K}_k(\mtx{y}_k -
-    \mtx{C}\hat{\mtx{x}}_k^-)) + \mtx{B}\mtx{u}_k \\
-  \hat{\mtx{x}}_{k+1}^+ &= \mtx{A}\mtx{x}_k^- + \mtx{A}\mtx{K}_k(\mtx{y}_k -
-    \mtx{C}\hat{\mtx{x}}_k^-) + \mtx{B}\mtx{u}_k \\
-  \hat{\mtx{x}}_{k+1}^+ &= \mtx{A}\hat{\mtx{x}}_k^- + \mtx{B}\mtx{u}_k +
-    \mtx{A}\mtx{K}_k(\mtx{y}_k - \mtx{C}\hat{\mtx{x}}_k^-)
+  \hat{\mat{x}}_{k+1}^+ &= \mat{A}(\hat{\mat{x}}_k^- + \mat{K}_k(\mat{y}_k -
+    \mat{C}\hat{\mat{x}}_k^-)) + \mat{B}\mat{u}_k \\
+  \hat{\mat{x}}_{k+1}^+ &= \mat{A}\mat{x}_k^- + \mat{A}\mat{K}_k(\mat{y}_k -
+    \mat{C}\hat{\mat{x}}_k^-) + \mat{B}\mat{u}_k \\
+  \hat{\mat{x}}_{k+1}^+ &= \mat{A}\hat{\mat{x}}_k^- + \mat{B}\mat{u}_k +
+    \mat{A}\mat{K}_k(\mat{y}_k - \mat{C}\hat{\mat{x}}_k^-)
 \end{align*}
 
-Let $\mtx{L} = \mtx{A} \mtx{K}_k$.
+Let $\mat{L} = \mat{A} \mat{K}_k$.
 \begin{equation}
-  \hat{\mtx{x}}_{k+1}^+ = \mtx{A}\hat{\mtx{x}}_k^- + \mtx{B}\mtx{u}_k + \mtx{L}
-    (\mtx{y}_k - \mtx{C}\hat{\mtx{x}}_k^-)
+  \hat{\mat{x}}_{k+1}^+ = \mat{A}\hat{\mat{x}}_k^- + \mat{B}\mat{u}_k + \mat{L}
+    (\mat{y}_k - \mat{C}\hat{\mat{x}}_k^-)
 \end{equation}
 
 which matches equation \eqref{eq:luenberger}. Therefore, the eigenvalues of the
 Kalman filter \gls{observer} can be obtained by
 \begin{align}
-  &\eig(\mtx{A} - \mtx{L}\mtx{C}) \nonumber \\
-  &\eig(\mtx{A} - (\mtx{A}\mtx{K}_k)(\mtx{C})) \nonumber \\
-  &\eig(\mtx{A}(\mtx{I} - \mtx{K}_k\mtx{C}))
+  &\eig(\mat{A} - \mat{L}\mat{C}) \nonumber \\
+  &\eig(\mat{A} - (\mat{A}\mat{K}_k)(\mat{C})) \nonumber \\
+  &\eig(\mat{A}(\mat{I} - \mat{K}_k\mat{C}))
 \end{align}
 
 \subsection{Luenberger observer with separate prediction and update}
@@ -197,32 +197,32 @@ substitute the relationship between the Luenberger \gls{observer} and Kalman
 filter matrices derived above into the Kalman filter equations.
 
 Appendix \ref{sec:deriv_kalman_luenberger} shows that
-$\mtx{L} = \mtx{A}\mtx{K}_k$. Since $\mtx{L}$ and $\mtx{A}$ are constant, one
-must assume $\mtx{K}_k$ has reached steady-state. Then,
-$\mtx{K} = \mtx{A}^{-1}\mtx{L}$. Substitute this into the Kalman filter update
+$\mat{L} = \mat{A}\mat{K}_k$. Since $\mat{L}$ and $\mat{A}$ are constant, one
+must assume $\mat{K}_k$ has reached steady-state. Then,
+$\mat{K} = \mat{A}^{-1}\mat{L}$. Substitute this into the Kalman filter update
 equation.
 \begin{align*}
-  \hat{\mtx{x}}_{k+1}^+ &= \hat{\mtx{x}}_{k+1}^- + \mtx{K}(\mtx{y}_{k+1} -
-    \mtx{C}\hat{\mtx{x}}_{k+1}^-) \\
-  \hat{\mtx{x}}_{k+1}^+ &= \hat{\mtx{x}}_{k+1}^- + \mtx{A}^{-1}\mtx{L}
-    (\mtx{y}_{k+1} - \mtx{C}\hat{\mtx{x}}_{k+1}^-)
+  \hat{\mat{x}}_{k+1}^+ &= \hat{\mat{x}}_{k+1}^- + \mat{K}(\mat{y}_{k+1} -
+    \mat{C}\hat{\mat{x}}_{k+1}^-) \\
+  \hat{\mat{x}}_{k+1}^+ &= \hat{\mat{x}}_{k+1}^- + \mat{A}^{-1}\mat{L}
+    (\mat{y}_{k+1} - \mat{C}\hat{\mat{x}}_{k+1}^-)
 \end{align*}
 
 Substitute in equation \eqref{eq:z_obsv_y}.
 \begin{equation*}
-  \hat{\mtx{x}}_{k+1}^+ = \hat{\mtx{x}}_{k+1}^- + \mtx{A}^{-1}\mtx{L}
-    (\mtx{y}_{k+1} - \hat{\mtx{y}}_{k+1})
+  \hat{\mat{x}}_{k+1}^+ = \hat{\mat{x}}_{k+1}^- + \mat{A}^{-1}\mat{L}
+    (\mat{y}_{k+1} - \hat{\mat{y}}_{k+1})
 \end{equation*}
 
 The predict step is the same as the Kalman filter's. Therefore, a Luenberger
 \gls{observer} run with prediction and update steps is written as follows.
 \begin{align}
   \text{Predict step} \nonumber \\
-  \hat{\mtx{x}}_{k+1}^- &= \mtx{A}\hat{\mtx{x}}_k^- + \mtx{B}\mtx{u}_k \\
+  \hat{\mat{x}}_{k+1}^- &= \mat{A}\hat{\mat{x}}_k^- + \mat{B}\mat{u}_k \\
   \text{Update step} \nonumber \\
-  \hat{\mtx{x}}_{k+1}^+ &= \hat{\mtx{x}}_{k+1}^- + \mtx{A}^{-1}\mtx{L}
-    (\mtx{y}_{k+1} - \hat{\mtx{y}}_{k+1}) \\
-  \hat{\mtx{y}}_{k+1} &= \mtx{C} \hat{\mtx{x}}_{k+1}^-
+  \hat{\mat{x}}_{k+1}^+ &= \hat{\mat{x}}_{k+1}^- + \mat{A}^{-1}\mat{L}
+    (\mat{y}_{k+1} - \hat{\mat{y}}_{k+1}) \\
+  \hat{\mat{y}}_{k+1} &= \mat{C} \hat{\mat{x}}_{k+1}^-
 \end{align}
 
 \section{Trapezoidal motion profile}

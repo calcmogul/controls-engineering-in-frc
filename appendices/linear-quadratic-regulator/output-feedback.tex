@@ -3,14 +3,14 @@
 
 LQR is normally used for state feedback on
 \begin{align*}
-  \dot{\mtx{x}} &= \mtx{A}\mtx{x} + \mtx{B}\mtx{u} \\
-  \mtx{y} &= \mtx{C}\mtx{x} + \mtx{D}\mtx{u}
+  \dot{\mat{x}} &= \mat{A}\mat{x} + \mat{B}\mat{u} \\
+  \mat{y} &= \mat{C}\mat{x} + \mat{D}\mat{u}
 \end{align*}
 
 with the cost functional
 \begin{equation*}
-  J = \int_0^\infty \left(\mtx{x}^T\mtx{Q}\mtx{x} +
-    \mtx{u}^T\mtx{R}\mtx{u}\right) dt
+  J = \int_0^\infty \left(\mat{x}^T\mat{Q}\mat{x} +
+    \mat{u}^T\mat{R}\mat{u}\right) dt
 \end{equation*}
 
 However, we may not know how to select costs for some of the states, or we don't
@@ -23,108 +23,108 @@ from the behavior of another model.}.
 
 For output feedback, we want to minimize the following cost functional.
 \begin{equation*}
-  J = \int_0^\infty \left(\mtx{y}^T\mtx{Q}\mtx{y} +
-    \mtx{u}^T\mtx{R}\mtx{u}\right) dt
+  J = \int_0^\infty \left(\mat{y}^T\mat{Q}\mat{y} +
+    \mat{u}^T\mat{R}\mat{u}\right) dt
 \end{equation*}
 
-Substitute in the expression for $\mtx{y}$.
+Substitute in the expression for $\mat{y}$.
 \begin{equation*}
-  J = \int_0^\infty \left((\mtx{C}\mtx{x} + \mtx{D}\mtx{u})^T\mtx{Q}
-    (\mtx{C}\mtx{x} + \mtx{D}\mtx{u}) + \mtx{u}^T\mtx{R}\mtx{u}\right) dt
+  J = \int_0^\infty \left((\mat{C}\mat{x} + \mat{D}\mat{u})^T\mat{Q}
+    (\mat{C}\mat{x} + \mat{D}\mat{u}) + \mat{u}^T\mat{R}\mat{u}\right) dt
 \end{equation*}
 
-Apply the transpose to the left-hand side of the $\mtx{Q}$ term.
+Apply the transpose to the left-hand side of the $\mat{Q}$ term.
 \begin{equation*}
-  J = \int_0^\infty \left((\mtx{x}^T\mtx{C}^T + \mtx{u}^T\mtx{D}^T)\mtx{Q}
-    (\mtx{C}\mtx{x} + \mtx{D}\mtx{u}) + \mtx{u}^T\mtx{R}\mtx{u}\right) dt
+  J = \int_0^\infty \left((\mat{x}^T\mat{C}^T + \mat{u}^T\mat{D}^T)\mat{Q}
+    (\mat{C}\mat{x} + \mat{D}\mat{u}) + \mat{u}^T\mat{R}\mat{u}\right) dt
 \end{equation*}
 
-Factor out $\begin{bmatrix}\mtx{x} \\ \mtx{u}\end{bmatrix}^T$ from the left side
-and $\begin{bmatrix}\mtx{x} \\ \mtx{u}\end{bmatrix}$ from the right side of each
+Factor out $\begin{bmatrix}\mat{x} \\ \mat{u}\end{bmatrix}^T$ from the left side
+and $\begin{bmatrix}\mat{x} \\ \mat{u}\end{bmatrix}$ from the right side of each
 term.
 \begin{align*}
   J &= \int_0^\infty \left(
     \begin{bmatrix}
-      \mtx{x} \\
-      \mtx{u}
+      \mat{x} \\
+      \mat{u}
     \end{bmatrix}^T
     \begin{bmatrix}
-      \mtx{C}^T \\
-      \mtx{D}^T
+      \mat{C}^T \\
+      \mat{D}^T
     \end{bmatrix}
-    \mtx{Q}
+    \mat{Q}
     \begin{bmatrix}
-      \mtx{C} &
-      \mtx{D}
+      \mat{C} &
+      \mat{D}
     \end{bmatrix}
     \begin{bmatrix}
-      \mtx{x} \\
-      \mtx{u}
+      \mat{x} \\
+      \mat{u}
     \end{bmatrix} +
     \begin{bmatrix}
-      \mtx{x} \\
-      \mtx{u}
+      \mat{x} \\
+      \mat{u}
     \end{bmatrix}^T
     \begin{bmatrix}
-      \mtx{0} & \mtx{0} \\
-      \mtx{0} & \mtx{R}
+      \mat{0} & \mat{0} \\
+      \mat{0} & \mat{R}
     \end{bmatrix}
     \begin{bmatrix}
-      \mtx{x} \\
-      \mtx{u}
+      \mat{x} \\
+      \mat{u}
     \end{bmatrix}
     \right) dt \\
   J &= \int_0^\infty \left(
     \begin{bmatrix}
-      \mtx{x} \\
-      \mtx{u}
+      \mat{x} \\
+      \mat{u}
     \end{bmatrix}^T
     \left(
     \begin{bmatrix}
-      \mtx{C}^T \\
-      \mtx{D}^T
+      \mat{C}^T \\
+      \mat{D}^T
     \end{bmatrix}
-    \mtx{Q}
+    \mat{Q}
     \begin{bmatrix}
-      \mtx{C} &
-      \mtx{D}
+      \mat{C} &
+      \mat{D}
     \end{bmatrix} +
     \begin{bmatrix}
-      \mtx{0} & \mtx{0} \\
-      \mtx{0} & \mtx{R}
+      \mat{0} & \mat{0} \\
+      \mat{0} & \mat{R}
     \end{bmatrix}
     \right)
     \begin{bmatrix}
-      \mtx{x} \\
-      \mtx{u}
+      \mat{x} \\
+      \mat{u}
     \end{bmatrix}
     \right) dt
 \end{align*}
 
-Multiply in $\mtx{Q}$.
+Multiply in $\mat{Q}$.
 \begin{equation*}
   J = \int_0^\infty \left(
     \begin{bmatrix}
-      \mtx{x} \\
-      \mtx{u}
+      \mat{x} \\
+      \mat{u}
     \end{bmatrix}^T
     \left(
     \begin{bmatrix}
-      \mtx{C}^T\mtx{Q} \\
-      \mtx{D}^T\mtx{Q}
+      \mat{C}^T\mat{Q} \\
+      \mat{D}^T\mat{Q}
     \end{bmatrix}
     \begin{bmatrix}
-      \mtx{C} &
-      \mtx{D}
+      \mat{C} &
+      \mat{D}
     \end{bmatrix} +
     \begin{bmatrix}
-      \mtx{0} & \mtx{0} \\
-      \mtx{0} & \mtx{R}
+      \mat{0} & \mat{0} \\
+      \mat{0} & \mat{R}
     \end{bmatrix}
     \right)
     \begin{bmatrix}
-      \mtx{x} \\
-      \mtx{u}
+      \mat{x} \\
+      \mat{u}
     \end{bmatrix}
     \right) dt
 \end{equation*}
@@ -133,22 +133,22 @@ Multiply matrices in the left term together.
 \begin{equation*}
   J = \int_0^\infty \left(
     \begin{bmatrix}
-      \mtx{x} \\
-      \mtx{u}
+      \mat{x} \\
+      \mat{u}
     \end{bmatrix}^T
     \left(
     \begin{bmatrix}
-      \mtx{C}^T\mtx{Q}\mtx{C} & \mtx{C}^T\mtx{Q}\mtx{D} \\
-      \mtx{D}^T\mtx{Q}\mtx{C} & \mtx{D}^T\mtx{Q}\mtx{D}
+      \mat{C}^T\mat{Q}\mat{C} & \mat{C}^T\mat{Q}\mat{D} \\
+      \mat{D}^T\mat{Q}\mat{C} & \mat{D}^T\mat{Q}\mat{D}
     \end{bmatrix} +
     \begin{bmatrix}
-      \mtx{0} & \mtx{0} \\
-      \mtx{0} & \mtx{R}
+      \mat{0} & \mat{0} \\
+      \mat{0} & \mat{R}
     \end{bmatrix}
     \right)
     \begin{bmatrix}
-      \mtx{x} \\
-      \mtx{u}
+      \mat{x} \\
+      \mat{u}
     \end{bmatrix}
     \right) dt
 \end{equation*}
@@ -157,18 +157,18 @@ Add the terms together.
 \begin{equation}
   J = \int_0^\infty
   \begin{bmatrix}
-    \mtx{x} \\
-    \mtx{u}
+    \mat{x} \\
+    \mat{u}
   \end{bmatrix}^T
   \begin{bmatrix}
-    \underbrace{\mtx{C}^T\mtx{Q}\mtx{C}}_{\mtx{Q}} &
-    \underbrace{\mtx{C}^T\mtx{Q}\mtx{D}}_{\mtx{N}} \\
-    \underbrace{\mtx{D}^T\mtx{Q}\mtx{C}}_{\mtx{N}^T} &
-    \underbrace{\mtx{D}^T\mtx{Q}\mtx{D} + \mtx{R}}_{\mtx{R}}
+    \underbrace{\mat{C}^T\mat{Q}\mat{C}}_{\mat{Q}} &
+    \underbrace{\mat{C}^T\mat{Q}\mat{D}}_{\mat{N}} \\
+    \underbrace{\mat{D}^T\mat{Q}\mat{C}}_{\mat{N}^T} &
+    \underbrace{\mat{D}^T\mat{Q}\mat{D} + \mat{R}}_{\mat{R}}
   \end{bmatrix}
   \begin{bmatrix}
-    \mtx{x} \\
-    \mtx{u}
+    \mat{x} \\
+    \mat{u}
   \end{bmatrix}
   dt
 \end{equation}
@@ -176,47 +176,47 @@ Add the terms together.
 Thus, output feedback can be defined as the following optimization problem.
 \begin{theorem}[Linear-quadratic regulator with output feedback]
   \begin{align}
-    \min_{\mtx{u}} &\int_0^\infty
+    \min_{\mat{u}} &\int_0^\infty
     \begin{bmatrix}
-      \mtx{x} \\
-      \mtx{u}
+      \mat{x} \\
+      \mat{u}
     \end{bmatrix}^T
     \begin{bmatrix}
-      \underbrace{\mtx{C}^T\mtx{Q}\mtx{C}}_{\mtx{Q}} &
-      \underbrace{\mtx{C}^T\mtx{Q}\mtx{D}}_{\mtx{N}} \\
-      \underbrace{\mtx{D}^T\mtx{Q}\mtx{C}}_{\mtx{N}^T} &
-      \underbrace{\mtx{D}^T\mtx{Q}\mtx{D} + \mtx{R}}_{\mtx{R}}
+      \underbrace{\mat{C}^T\mat{Q}\mat{C}}_{\mat{Q}} &
+      \underbrace{\mat{C}^T\mat{Q}\mat{D}}_{\mat{N}} \\
+      \underbrace{\mat{D}^T\mat{Q}\mat{C}}_{\mat{N}^T} &
+      \underbrace{\mat{D}^T\mat{Q}\mat{D} + \mat{R}}_{\mat{R}}
     \end{bmatrix}
     \begin{bmatrix}
-      \mtx{x} \\
-      \mtx{u}
+      \mat{x} \\
+      \mat{u}
     \end{bmatrix}
     dt \nonumber \\
-    \text{subject to } &\dot{\mtx{x}} = \mtx{A}\mtx{x} + \mtx{B}\mtx{u}
+    \text{subject to } &\dot{\mat{x}} = \mat{A}\mat{x} + \mat{B}\mat{u}
   \end{align}
 
-  The optimal control policy $\mtx{u}^*$ is $\mtx{K}(\mtx{r} - \mtx{y})$ where
-  $\mtx{r}$ is the desired output and $\mtx{y}$ is the measured output defined
-  as $\mtx{y} = \mtx{C}\mtx{x} + \mtx{D}\mtx{u}$. $\mtx{K}$ can be computed via
+  The optimal control policy $\mat{u}^*$ is $\mat{K}(\mat{r} - \mat{y})$ where
+  $\mat{r}$ is the desired output and $\mat{y}$ is the measured output defined
+  as $\mat{y} = \mat{C}\mat{x} + \mat{D}\mat{u}$. $\mat{K}$ can be computed via
   the typical LQR equations based on the algebraic Ricatti equation.
 \end{theorem}
 
-If the output is only the whole state vector, then $\mtx{C} = \mtx{I}$,
-$\mtx{D} = \mtx{0}$, and the cost functional simplifies to that of state
+If the output is only the whole state vector, then $\mat{C} = \mat{I}$,
+$\mat{D} = \mat{0}$, and the cost functional simplifies to that of state
 feedback LQR.
 \begin{equation*}
   J = \int_0^\infty
   \begin{bmatrix}
-    \mtx{x} \\
-    \mtx{u}
+    \mat{x} \\
+    \mat{u}
   \end{bmatrix}^T
   \begin{bmatrix}
-    \mtx{Q} & \mtx{0} \\
-    \mtx{0} & \mtx{R}
+    \mat{Q} & \mat{0} \\
+    \mat{0} & \mat{R}
   \end{bmatrix}
   \begin{bmatrix}
-    \mtx{x} \\
-    \mtx{u}
+    \mat{x} \\
+    \mat{u}
   \end{bmatrix}
   dt
 \end{equation*}

@@ -28,7 +28,7 @@ e Mobile per i SErvizi e le TEcnologie").
 
 \subsection{Velocity and turning rate command derivation}
 
-The \gls{state} tracking \gls{error} $\mtx{e}$ in the vehicle's coordinate frame
+The \gls{state} tracking \gls{error} $\mat{e}$ in the vehicle's coordinate frame
 is defined as
 \begin{equation*}
   \begin{bmatrix}
@@ -89,7 +89,7 @@ Substituting the control laws $u_1$ and $u_2$ into these equations gives
   Assuming that $v_d$ and $\omega_d$ are bounded with bounded derivatives, and
   that $v_d(t) \rightarrow 0$ or $\omega_d(t) \rightarrow 0$ when
   $t \rightarrow \infty$, the control laws in equation \eqref{eq:ramsete_u}
-  globally asymptotically stabilize the origin $\mtx{e} = 0$.
+  globally asymptotically stabilize the origin $\mat{e} = 0$.
 
   Proof:
 
@@ -189,19 +189,19 @@ profile and as part of a nonlinear trajectory follower.
 \subsubsection{Left/right velocity reference tracker}
 \begin{equation*}
   \begin{array}{ccc}
-    \mtx{x} =
+    \mat{x} =
     \begin{bmatrix}
       x_l \\
       v_l \\
       x_r \\
       v_r
     \end{bmatrix} &
-    \mtx{y} =
+    \mat{y} =
     \begin{bmatrix}
       x_l \\
       x_r
     \end{bmatrix} &
-    \mtx{u} =
+    \mat{u} =
     \begin{bmatrix}
       V_l \\
       V_r
@@ -210,26 +210,26 @@ profile and as part of a nonlinear trajectory follower.
 \end{equation*}
 \begin{equation*}
   \begin{array}{ll}
-    \mtx{A} =
+    \mat{A} =
     \begin{bmatrix}
       0 & 1 & 0 & 0 \\
       0 & \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_1 & 0 & \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_3 \\
       0 & 0 & 0 & 1 \\
       0 & \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_1 & 0 & \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_3
     \end{bmatrix} &
-    \mtx{B} =
+    \mat{B} =
     \begin{bmatrix}
       0 & 0 \\
       \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_2 & \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_4 \\
       0 & 0 \\
       \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_2 & \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_4
     \end{bmatrix} \\
-    \mtx{C} =
+    \mat{C} =
     \begin{bmatrix}
       1 & 0 & 0 & 0 \\
       0 & 0 & 1 & 0 \\
     \end{bmatrix} &
-    \mtx{D} = \mtx{0}_{2 \times 2}
+    \mat{D} = \mat{0}_{2 \times 2}
   \end{array}
 \end{equation*}
 
@@ -242,17 +242,17 @@ position \glspl{state} from the \gls{model}.
   \label{thm:ramsete_decoupled_ref_tracker}
   \begin{equation*}
     \begin{array}{ccc}
-      \mtx{x} =
+      \mat{x} =
       \begin{bmatrix}
         v_l \\
         v_r
       \end{bmatrix} &
-      \mtx{y} =
+      \mat{y} =
       \begin{bmatrix}
         v_l \\
         v_r
       \end{bmatrix} &
-      \mtx{u} =
+      \mat{u} =
       \begin{bmatrix}
         V_l \\
         V_r
@@ -261,26 +261,26 @@ position \glspl{state} from the \gls{model}.
   \end{equation*}
   \begin{equation}
     \begin{array}{ll}
-      \mtx{A} =
+      \mat{A} =
       \begin{bmatrix}
         \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_1 &
           \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_3 \\
         \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_1 &
           \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_3
       \end{bmatrix} &
-      \mtx{B} =
+      \mat{B} =
       \begin{bmatrix}
         \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_2 &
           \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_4 \\
         \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_2 &
           \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_4
       \end{bmatrix} \\
-      \mtx{C} =
+      \mat{C} =
       \begin{bmatrix}
         1 & 0 \\
         0 & 1 \\
       \end{bmatrix} &
-      \mtx{D} = \mtx{0}_{2 \times 2}
+      \mat{D} = \mat{0}_{2 \times 2}
     \end{array}
   \end{equation}
 
@@ -354,17 +354,17 @@ Now, just convert the two equations to state-space notation.
   \label{thm:ramsete_coupled_ref_tracker}
   \begin{equation*}
     \begin{array}{ccc}
-      \mtx{x} =
+      \mat{x} =
       \begin{bmatrix}
         v \\
         \omega
       \end{bmatrix} &
-      \mtx{y} =
+      \mat{y} =
       \begin{bmatrix}
         v_l \\
         v_r
       \end{bmatrix} &
-      \mtx{u} =
+      \mat{u} =
       \begin{bmatrix}
         V_l \\
         V_r
@@ -373,22 +373,22 @@ Now, just convert the two equations to state-space notation.
   \end{equation*}
   \begin{equation}
     \begin{array}{ll}
-      \mtx{A} =
+      \mat{A} =
       \begin{bmatrix}
         \frac{1}{m}(C_1 + C_3) & \frac{r_b}{m}(-C_1 + C_3) \\
         \frac{r_b}{J}(C_1 - C_3) & \frac{r_b^2}{J}(-C_1 - C_3)
       \end{bmatrix} &
-      \mtx{B} =
+      \mat{B} =
       \begin{bmatrix}
         \frac{1}{m}C_2 & \frac{1}{m}C_4 \\
         \frac{r_b}{J}C_2 & -\frac{r_b}{J}C_4
       \end{bmatrix} \\
-      \mtx{C} =
+      \mat{C} =
       \begin{bmatrix}
         1 & -r_b \\
         1 & r_b
       \end{bmatrix} &
-      \mtx{D} = \mtx{0}_{2 \times 2}
+      \mat{D} = \mat{0}_{2 \times 2}
     \end{array}
   \end{equation}
 

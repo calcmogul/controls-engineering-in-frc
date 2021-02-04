@@ -13,10 +13,10 @@ equations.
 \end{align*}
 
 Here's the model as a vector function where
-$\mtx{x} = \begin{bmatrix} x & y & \theta \end{bmatrix}^T$ and
-$\mtx{u} = \begin{bmatrix} v & \omega \end{bmatrix}^T$.
+$\mat{x} = \begin{bmatrix} x & y & \theta \end{bmatrix}^T$ and
+$\mat{u} = \begin{bmatrix} v & \omega \end{bmatrix}^T$.
 \begin{equation}
-  f(\mtx{x}, \mtx{u}) =
+  f(\mat{x}, \mat{u}) =
   \begin{bmatrix}
     v\cos\theta \\
     v\sin\theta \\
@@ -27,13 +27,13 @@ $\mtx{u} = \begin{bmatrix} v & \omega \end{bmatrix}^T$.
 To create an LQR, we need to linearize this.
 \begin{equation*}
   \begin{array}{ll}
-    \frac{\partial f(\mtx{x}, \mtx{u})}{\partial\mtx{x}} =
+    \frac{\partial f(\mat{x}, \mat{u})}{\partial\mat{x}} =
     \begin{bmatrix}
       0 & 0 & -v\sin\theta \\
       0 & 0 & v\cos\theta \\
       0 & 0 & 0
     \end{bmatrix} &
-    \frac{\partial f(\mtx{x}, \mtx{u})}{\partial\mtx{u}} =
+    \frac{\partial f(\mat{x}, \mat{u})}{\partial\mat{u}} =
     \begin{bmatrix}
       \cos\theta & 0 \\
       \sin\theta & 0 \\
@@ -49,25 +49,25 @@ robot's coordinate frame, the \gls{model} used to compute the LQR should be
 linearized around $\theta = 0$ at all times.
 \begin{equation*}
   \begin{array}{ll}
-    \mtx{A} =
+    \mat{A} =
     \begin{bmatrix}
       0 & 0 & -v\sin 0 \\
       0 & 0 & v\cos 0 \\
       0 & 0 & 0
     \end{bmatrix} &
-    \mtx{B} =
+    \mat{B} =
     \begin{bmatrix}
       \cos 0 & 0 \\
       \sin 0 & 0 \\
       0 & 1
     \end{bmatrix} \\
-    \mtx{A} =
+    \mat{A} =
     \begin{bmatrix}
       0 & 0 & 0 \\
       0 & 0 & v \\
       0 & 0 & 0
     \end{bmatrix} &
-    \mtx{B} =
+    \mat{B} =
     \begin{bmatrix}
       1 & 0 \\
       0 & 0 \\
@@ -81,32 +81,32 @@ Therefore,
   \label{thm:linear_time-varying_unicycle_controller}
 
   Let the unicycle dynamics be
-  $\dot{\mtx{x}} = f(\mtx{x}, \mtx{u}) =
+  $\dot{\mat{x}} = f(\mat{x}, \mat{u}) =
   \begin{bmatrix}
     v\cos\theta &
     v\sin\theta &
     \omega
   \end{bmatrix}^T$ where
-  $\mtx{x} =
+  $\mat{x} =
   \begin{bmatrix}
     x &
     y &
     \theta
   \end{bmatrix}^T$ and
-  $\mtx{u} =
+  $\mat{u} =
   \begin{bmatrix}
     v &
     \omega
   \end{bmatrix}^T$.
   \begin{equation}
     \begin{array}{cc}
-      \mtx{A} = \frac{\partial f(\mtx{x}, \mtx{u})}{\partial\mtx{x}} =
+      \mat{A} = \frac{\partial f(\mat{x}, \mat{u})}{\partial\mat{x}} =
       \begin{bmatrix}
         0 & 0 & 0 \\
         0 & 0 & v \\
         0 & 0 & 0
       \end{bmatrix} &
-      \mtx{B} = \frac{\partial f(\mtx{x}, \mtx{u})}{\partial\mtx{u}} =
+      \mat{B} = \frac{\partial f(\mat{x}, \mat{u})}{\partial\mat{u}} =
       \begin{bmatrix}
         1 & 0 \\
         0 & 0 \\
@@ -116,17 +116,17 @@ Therefore,
   \end{equation}
   The linear time-varying unicycle controller is
   \begin{equation}
-    \mtx{u} = \mtx{K}
+    \mat{u} = \mat{K}
     \begin{bmatrix}
       \cos\theta & \sin\theta & 0 \\
       -\sin\theta & \cos\theta & 0 \\
       0 & 0 & 1
     \end{bmatrix}
-    (\mtx{r} - \mtx{x})
+    (\mat{r} - \mat{x})
   \end{equation}
 
-  At each timestep, the LQR controller gain $\mtx{K}$ is computed for the
-  $(\mtx{A}, \mtx{B})$ pair evaluated at the current input.
+  At each timestep, the LQR controller gain $\mat{K}$ is computed for the
+  $(\mat{A}, \mat{B})$ pair evaluated at the current input.
 \end{theorem}
 
 With the \gls{model} in theorem

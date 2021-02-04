@@ -21,18 +21,18 @@ Below are the continuous and discrete versions of state-space notation.
 \begin{definition}[State-space notation]%
   \index{state-space controllers!open-loop}
   \begin{align}
-    \dot{\mtx{x}} &= \mtx{A}\mtx{x} + \mtx{B}\mtx{u} \label{eq:ss_ctrl_x} \\
-    \mtx{y} &= \mtx{C}\mtx{x} + \mtx{D}\mtx{u} \label{eq:ss_ctrl_y} \\
+    \dot{\mat{x}} &= \mat{A}\mat{x} + \mat{B}\mat{u} \label{eq:ss_ctrl_x} \\
+    \mat{y} &= \mat{C}\mat{x} + \mat{D}\mat{u} \label{eq:ss_ctrl_y} \\
     \nonumber \\
-    \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}\mtx{u}_k \label{eq:ssz_ctrl_x} \\
-    \mtx{y}_k &= \mtx{C}\mtx{x}_k + \mtx{D}\mtx{u}_k \label{eq:ssz_ctrl_y}
+    \mat{x}_{k+1} &= \mat{A}\mat{x}_k + \mat{B}\mat{u}_k \label{eq:ssz_ctrl_x} \\
+    \mat{y}_k &= \mat{C}\mat{x}_k + \mat{D}\mat{u}_k \label{eq:ssz_ctrl_y}
   \end{align}
   \begin{figurekey}
     \begin{tabular}{llll}
-      $\mtx{A}$ & system matrix      & $\mtx{x}$ & state vector \\
-      $\mtx{B}$ & input matrix       & $\mtx{u}$ & input vector \\
-      $\mtx{C}$ & output matrix      & $\mtx{y}$ & output vector \\
-      $\mtx{D}$ & feedthrough matrix &  &  \\
+      $\mat{A}$ & system matrix      & $\mat{x}$ & state vector \\
+      $\mat{B}$ & input matrix       & $\mat{u}$ & input vector \\
+      $\mat{C}$ & output matrix      & $\mat{y}$ & output vector \\
+      $\mat{D}$ & feedthrough matrix &  &  \\
     \end{tabular}
   \end{figurekey}
 \end{definition}
@@ -43,10 +43,10 @@ Below are the continuous and discrete versions of state-space notation.
     \textbf{Matrix} & \textbf{Rows $\times$ Columns} &
     \textbf{Matrix} & \textbf{Rows $\times$ Columns} \\
     \hline
-    $\mtx{A}$ & states $\times$ states & $\mtx{x}$ & states $\times$ 1 \\
-    $\mtx{B}$ & states $\times$ inputs & $\mtx{u}$ & inputs $\times$ 1 \\
-    $\mtx{C}$ & outputs $\times$ states & $\mtx{y}$ & outputs $\times$ 1 \\
-    $\mtx{D}$ & outputs $\times$ inputs &  &  \\
+    $\mat{A}$ & states $\times$ states & $\mat{x}$ & states $\times$ 1 \\
+    $\mat{B}$ & states $\times$ inputs & $\mat{u}$ & inputs $\times$ 1 \\
+    $\mat{C}$ & outputs $\times$ states & $\mat{y}$ & outputs $\times$ 1 \\
+    $\mat{D}$ & outputs $\times$ inputs &  &  \\
     \hline
   \end{tabular}
   \caption{State-space matrix dimensions}
@@ -54,8 +54,8 @@ Below are the continuous and discrete versions of state-space notation.
 
 In the continuous case, the change in \gls{state} and the \gls{output} are
 linear combinations of the \gls{state} vector and the \gls{input} vector. The
-$\mtx{A}$ and $\mtx{B}$ matrices are used to map the \gls{state} vector
-$\mtx{x}$ and the \gls{input} vector $\mtx{u}$ to a change in the \gls{state}
-vector $\dot{\mtx{x}}$. The $\mtx{C}$ and $\mtx{D}$ matrices are used to map the
-\gls{state} vector $\mtx{x}$ and the \gls{input} vector $\mtx{u}$ to an
-\gls{output} vector $\mtx{y}$.
+$\mat{A}$ and $\mat{B}$ matrices are used to map the \gls{state} vector
+$\mat{x}$ and the \gls{input} vector $\mat{u}$ to a change in the \gls{state}
+vector $\dot{\mat{x}}$. The $\mat{C}$ and $\mat{D}$ matrices are used to map the
+\gls{state} vector $\mat{x}$ and the \gls{input} vector $\mat{u}$ to an
+\gls{output} vector $\mat{y}$.

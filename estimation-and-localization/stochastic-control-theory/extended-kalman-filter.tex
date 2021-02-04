@@ -9,24 +9,24 @@ estimator for linear \glspl{system}. It isn't optimal for nonlinear
 accurate.
 
 The extended Kalman filter \glslink{linearization}{linearizes} the matrices used
-during the prediction step. $\mtx{A}$, $\mtx{B}$, $\mtx{C}$, and $\mtx{D}$ are
+during the prediction step. $\mat{A}$, $\mat{B}$, $\mat{C}$, and $\mat{D}$ are
 \glslink{linearization}{linearized} as follows:
 \begin{align*}
-  \mtx{A} &\approx
-    \frac{\partial f(\mtx{x}, \mtx{u})}{\partial \mtx{x}} &
-  \mtx{B} &\approx
-    \frac{\partial f(\mtx{x}, \mtx{u})}{\partial \mtx{u}} &
-  \mtx{C} &\approx
-    \frac{\partial h(\mtx{x}, \mtx{u})}{\partial \mtx{x}} &
-  \mtx{D} &\approx
-    \frac{\partial h(\mtx{x}, \mtx{u})}{\partial \mtx{u}}
+  \mat{A} &\approx
+    \frac{\partial f(\mat{x}, \mat{u})}{\partial \mat{x}} &
+  \mat{B} &\approx
+    \frac{\partial f(\mat{x}, \mat{u})}{\partial \mat{u}} &
+  \mat{C} &\approx
+    \frac{\partial h(\mat{x}, \mat{u})}{\partial \mat{x}} &
+  \mat{D} &\approx
+    \frac{\partial h(\mat{x}, \mat{u})}{\partial \mat{u}}
 \end{align*}
 
 From there, the continuous Kalman filter equations are used like normal to
-compute the error covariance matrix $\mtx{P}$ and Kalman gain matrix. The
-\gls{state} estimate update can still use the function $h(\mtx{x})$ for
+compute the error covariance matrix $\mat{P}$ and Kalman gain matrix. The
+\gls{state} estimate update can still use the function $h(\mat{x})$ for
 accuracy.
 \begin{equation*}
-  \hat{\mtx{x}}_{k+1}^+ = \hat{\mtx{x}}_{k+1}^- +
-    \mtx{K}_{k+1}(\mtx{y}_{k+1} - h(\hat{\mtx{x}}_{k+1}^-))
+  \hat{\mat{x}}_{k+1}^+ = \hat{\mat{x}}_{k+1}^- +
+    \mat{K}_{k+1}(\mat{y}_{k+1} - h(\hat{\mat{x}}_{k+1}^-))
 \end{equation*}

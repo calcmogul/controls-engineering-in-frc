@@ -8,7 +8,7 @@ we can compute the control based on where the system will be after the time
 delay.
 
 We can compensate for the time delay if we know the control law we're applying
-in future timesteps ($\mtx{u} = -\mtx{K}\mtx{x}$) and the duration of the time
+in future timesteps ($\mat{u} = -\mat{K}\mat{x}$) and the duration of the time
 delay. To get the true state at the current time for control purposes, we
 project our delayed state forward by the time delay using our model and the
 aforementioned control law. Figure \ref{fig:elevator_time_delay_comp} shows
@@ -86,26 +86,26 @@ state $L$ seconds in the future given the current state.
 
 The continuous linear system is defined as
 \begin{equation*}
-  \dot{\mtx{x}} = \mtx{A}\mtx{x}(t) + \mtx{B}\mtx{u}(t)
+  \dot{\mat{x}} = \mat{A}\mat{x}(t) + \mat{B}\mat{u}(t)
 \end{equation*}
 
 Let the controller for this system be
 \begin{equation*}
-  \mtx{u}(t) = -\mtx{K}\mtx{x}(t)
+  \mat{u}(t) = -\mat{K}\mat{x}(t)
 \end{equation*}
 
 Substitute this into the continuous model.
 \begin{align*}
-  \dot{\mtx{x}} &= \mtx{A}\mtx{x}(t) + \mtx{B}\mtx{u}(t) \\
-  \dot{\mtx{x}} &= \mtx{A}\mtx{x}(t) + \mtx{B}(-\mtx{K}\mtx{x}(t)) \\
-  \dot{\mtx{x}} &= \mtx{A}\mtx{x}(t) - \mtx{B}\mtx{K}\mtx{x}(t) \\
-  \dot{\mtx{x}} &= (\mtx{A} - \mtx{B}\mtx{K}) \mtx{x}(t)
+  \dot{\mat{x}} &= \mat{A}\mat{x}(t) + \mat{B}\mat{u}(t) \\
+  \dot{\mat{x}} &= \mat{A}\mat{x}(t) + \mat{B}(-\mat{K}\mat{x}(t)) \\
+  \dot{\mat{x}} &= \mat{A}\mat{x}(t) - \mat{B}\mat{K}\mat{x}(t) \\
+  \dot{\mat{x}} &= (\mat{A} - \mat{B}\mat{K}) \mat{x}(t)
 \end{align*}
 
 Let $L$ be the amount of time delay in seconds. Take the matrix exponential from
 the current time $t$ to $L$ in the future.
 \begin{equation}
-  \mtx{x}(t + L) = e^{(\mtx{A} - \mtx{B}\mtx{K})L} \mtx{x}(t)
+  \mat{x}(t + L) = e^{(\mat{A} - \mat{B}\mat{K})L} \mat{x}(t)
     \label{eq:continuous_advance_state_by_delay_post}
 \end{equation}
 
@@ -113,27 +113,27 @@ This works when $t > L$, but when $0 \leq t < L$, the inputs in the time
 interval $[t, L)$ are zero because there's initially no input history. The state
 prediction for that time interval is thus
 \begin{equation*}
-  \mtx{x}(L) = e^{\mtx{A}(L - t)} \mtx{x}(t)
+  \mat{x}(L) = e^{\mat{A}(L - t)} \mat{x}(t)
 \end{equation*}
 
 The time interval $[0, t)$ has nonzero inputs, so it uses the normal control
 law.
 \begin{align}
-  \mtx{x}(t + L) &= e^{(\mtx{A} - \mtx{B}\mtx{K})t} \mtx{x}(L) \nonumber \\
-  \mtx{x}(t + L) &= e^{(\mtx{A} - \mtx{B}\mtx{K})t} e^{\mtx{A}(L - t)}
-    \mtx{x}(t) \label{eq:continuous_advance_state_by_delay_pre}
+  \mat{x}(t + L) &= e^{(\mat{A} - \mat{B}\mat{K})t} \mat{x}(L) \nonumber \\
+  \mat{x}(t + L) &= e^{(\mat{A} - \mat{B}\mat{K})t} e^{\mat{A}(L - t)}
+    \mat{x}(t) \label{eq:continuous_advance_state_by_delay_pre}
 \end{align}
 
 Therefore, equations \eqref{eq:continuous_advance_state_by_delay_post} and
 \eqref{eq:continuous_advance_state_by_delay_pre} give the latency-compensated
 control law for all $t \geq 0$.
 \begin{align}
-  \mtx{u}(t) &= -\mtx{K} \mtx{x}(t + L) \nonumber \\
-  \mtx{u}(t) &=
+  \mat{u}(t) &= -\mat{K} \mat{x}(t + L) \nonumber \\
+  \mat{u}(t) &=
   \begin{cases}
-    -\mtx{K} e^{(\mtx{A} - \mtx{B}\mtx{K})t} e^{\mtx{A}(L - t)} \mtx{x}(t) &
+    -\mat{K} e^{(\mat{A} - \mat{B}\mat{K})t} e^{\mat{A}(L - t)} \mat{x}(t) &
       \text{if } 0 \leq t < L \\
-    -\mtx{K} e^{(\mtx{A} - \mtx{B}\mtx{K})L} \mtx{x}(t) & \text{if } t \geq L
+    -\mat{K} e^{(\mat{A} - \mat{B}\mat{K})L} \mat{x}(t) & \text{if } t \geq L
   \end{cases}
 \end{align}
 
@@ -145,27 +145,27 @@ state $L$ seconds in the future given the current state.
 
 The discrete linear system is defined as
 \begin{equation*}
-  \mtx{x}_{k+1} = \mtx{A}\mtx{x}_k + \mtx{B}\mtx{u}_k
+  \mat{x}_{k+1} = \mat{A}\mat{x}_k + \mat{B}\mat{u}_k
 \end{equation*}
 
 Let the controller for this system be
 \begin{equation*}
-  \mtx{u}_k = -\mtx{K}\mtx{x}_k
+  \mat{u}_k = -\mat{K}\mat{x}_k
 \end{equation*}
 
 Substitute this into the discrete model.
 \begin{align*}
-  \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}\mtx{u}_k \\
-  \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k + \mtx{B}(-\mtx{K}\mtx{x}_k) \\
-  \mtx{x}_{k+1} &= \mtx{A}\mtx{x}_k - \mtx{B}\mtx{K}\mtx{x}_k \\
-  \mtx{x}_{k+1} &= (\mtx{A} - \mtx{B}\mtx{K}) \mtx{x}_k
+  \mat{x}_{k+1} &= \mat{A}\mat{x}_k + \mat{B}\mat{u}_k \\
+  \mat{x}_{k+1} &= \mat{A}\mat{x}_k + \mat{B}(-\mat{K}\mat{x}_k) \\
+  \mat{x}_{k+1} &= \mat{A}\mat{x}_k - \mat{B}\mat{K}\mat{x}_k \\
+  \mat{x}_{k+1} &= (\mat{A} - \mat{B}\mat{K}) \mat{x}_k
 \end{align*}
 
 Let $T$ be the duration between timesteps in seconds and $L$ be the amount of
 time delay in seconds. $\frac{L}{T}$ gives the number of timesteps represented
 by $L$.
 \begin{equation}
-  \mtx{x}_{k+L} = (\mtx{A} - \mtx{B}\mtx{K})^\frac{L}{T} \mtx{x}_k
+  \mat{x}_{k+L} = (\mat{A} - \mat{B}\mat{K})^\frac{L}{T} \mat{x}_k
     \label{eq:discrete_advance_state_by_delay_post}
 \end{equation}
 
@@ -174,16 +174,16 @@ $0 \leq kT < L$, the inputs in the time interval $[kT, L)$ are zero because
 there's initially no input history. The state prediction for that time interval
 is thus
 \begin{align*}
-  \mtx{x}_L &= \mtx{A}^\frac{L - kT}{T} \mtx{x}_k \\
-  \mtx{x}_L &= \mtx{A}^{\frac{L}{T} - k} \mtx{x}_k
+  \mat{x}_L &= \mat{A}^\frac{L - kT}{T} \mat{x}_k \\
+  \mat{x}_L &= \mat{A}^{\frac{L}{T} - k} \mat{x}_k
 \end{align*}
 
 The time interval $[0, kT)$ has nonzero inputs, so it uses the normal control
 law.
 \begin{align}
-  \mtx{x}_{k + L} &= (\mtx{A} - \mtx{B}\mtx{K})^k \mtx{x}_L \nonumber \\
-  \mtx{x}_{k + L} &= (\mtx{A} - \mtx{B}\mtx{K})^k
-    \mtx{A}^{\frac{L}{T} - k} \mtx{x}_k
+  \mat{x}_{k + L} &= (\mat{A} - \mat{B}\mat{K})^k \mat{x}_L \nonumber \\
+  \mat{x}_{k + L} &= (\mat{A} - \mat{B}\mat{K})^k
+    \mat{A}^{\frac{L}{T} - k} \mat{x}_k
     \label{eq:discrete_advance_state_by_delay_pre}
 \end{align}
 
@@ -191,12 +191,12 @@ Therefore, equations \eqref{eq:discrete_advance_state_by_delay_post} and
 \eqref{eq:discrete_advance_state_by_delay_pre} give the latency-compensated
 control law for all $t \geq 0$.
 \begin{align}
-  \mtx{u}_k &= -\mtx{K} \mtx{x}_{k + L} \nonumber \\
-  \mtx{u}_k &=
+  \mat{u}_k &= -\mat{K} \mat{x}_{k + L} \nonumber \\
+  \mat{u}_k &=
   \begin{cases}
-    -\mtx{K} (\mtx{A} - \mtx{B}\mtx{K})^k \mtx{A}^{\frac{L}{T} - k} \mtx{x}_k &
+    -\mat{K} (\mat{A} - \mat{B}\mat{K})^k \mat{A}^{\frac{L}{T} - k} \mat{x}_k &
       \text{if } 0 \leq k < \frac{L}{T} \\
-    -\mtx{K} (\mtx{A} - \mtx{B}\mtx{K})^\frac{L}{T} \mtx{x}_k &
+    -\mat{K} (\mat{A} - \mat{B}\mat{K})^\frac{L}{T} \mat{x}_k &
       \text{if } k \geq \frac{L}{T}
   \end{cases}
   \label{eq:discrete_delay_comp_control_law}
@@ -211,11 +211,11 @@ fractional powers with the free function
 \texttt{scipy.linalg.fractional\_matrix\_power()}. If the language you're using
 doesn't provide such a function, you can try the following approach instead.
 
-Let there be a matrix $\mtx{M}$ raised to a fractional power $n$. If $\mtx{M}$
-is diagonalizable, we can obtain an exact answer for $\mtx{M}^n$ by decomposing
-$\mtx{M}$ into $\mtx{P}\mtx{D}\mtx{P}^{-1}$ where $\mtx{D}$ is a diagonal
-matrix, computing $\mtx{D}^n$ as each diagonal element raised to $n$, then
-recomposing $\mtx{M}^n$ as $\mtx{P}\mtx{D}^n\mtx{P}^{-1}$.
+Let there be a matrix $\mat{M}$ raised to a fractional power $n$. If $\mat{M}$
+is diagonalizable, we can obtain an exact answer for $\mat{M}^n$ by decomposing
+$\mat{M}$ into $\mat{P}\mat{D}\mat{P}^{-1}$ where $\mat{D}$ is a diagonal
+matrix, computing $\mat{D}^n$ as each diagonal element raised to $n$, then
+recomposing $\mat{M}^n$ as $\mat{P}\mat{D}^n\mat{P}^{-1}$.
 
 If a matrix raised to a fractional power in equation
 \eqref{eq:discrete_delay_comp_control_law} isn't diagonalizable, we have to

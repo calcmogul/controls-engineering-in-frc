@@ -29,22 +29,22 @@ Factor out $\omega$ and $V$ into column vectors.
 \end{align*}
 \begin{theorem}[Flywheel state-space model]
   \begin{align*}
-    \dot{\mtx{x}} &= \mtx{A} \mtx{x} + \mtx{B} \mtx{u} \\
-    \mtx{y} &= \mtx{C} \mtx{x} + \mtx{D} \mtx{u}
+    \dot{\mat{x}} &= \mat{A} \mat{x} + \mat{B} \mat{u} \\
+    \mat{y} &= \mat{C} \mat{x} + \mat{D} \mat{u}
   \end{align*}
   \begin{equation*}
     \begin{array}{ccc}
-      \mtx{x} = \omega &
-      \mtx{y} = \omega &
-      \mtx{u} = V
+      \mat{x} = \omega &
+      \mat{y} = \omega &
+      \mat{u} = V
     \end{array}
   \end{equation*}
   \begin{equation}
     \begin{array}{cccc}
-      \mtx{A} = -\frac{G^2 K_t}{K_v RJ} &
-      \mtx{B} = \frac{G K_t}{RJ} &
-      \mtx{C} = 1 &
-      \mtx{D} = 0
+      \mat{A} = -\frac{G^2 K_t}{K_v RJ} &
+      \mat{B} = \frac{G K_t}{RJ} &
+      \mat{C} = 1 &
+      \mat{D} = 0
     \end{array}
   \end{equation}
 \end{theorem}
@@ -62,40 +62,40 @@ a continuous \gls{model} and the \gls{controller} augmentation assumes a
 discrete \gls{controller}.
 \begin{equation*}
   \begin{array}{ccc}
-    \mtx{x} =
+    \mat{x} =
     \begin{bmatrix}
       \omega \\
       u_{error}
     \end{bmatrix} &
-    \mtx{y} = \omega &
-    \mtx{u} = V
+    \mat{y} = \omega &
+    \mat{u} = V
   \end{array}
 \end{equation*}
 \begin{equation}
   \begin{array}{cccc}
-    \mtx{A}_{aug} =
+    \mat{A}_{aug} =
     \begin{bmatrix}
-      \mtx{A} & \mtx{B} \\
+      \mat{A} & \mat{B} \\
       0 & 0
     \end{bmatrix} &
-    \mtx{B}_{aug} =
+    \mat{B}_{aug} =
     \begin{bmatrix}
-      \mtx{B} \\
+      \mat{B} \\
       0
     \end{bmatrix} &
-    \mtx{C}_{aug} = \begin{bmatrix}
-      \mtx{C} & 0
+    \mat{C}_{aug} = \begin{bmatrix}
+      \mat{C} & 0
     \end{bmatrix} &
-    \mtx{D}_{aug} = \mtx{D}
+    \mat{D}_{aug} = \mat{D}
   \end{array}
 \end{equation}
 \begin{equation}
   \begin{array}{cc}
-    \mtx{K}_{aug} = \begin{bmatrix}
-      \mtx{K} & 1
+    \mat{K}_{aug} = \begin{bmatrix}
+      \mat{K} & 1
     \end{bmatrix} &
-    \mtx{r}_{aug} = \begin{bmatrix}
-      \mtx{r} \\
+    \mat{r}_{aug} = \begin{bmatrix}
+      \mat{r} \\
       0
     \end{bmatrix}
   \end{array}
@@ -147,22 +147,22 @@ Next, we'll derive the current $I$ as an output.
 Therefore,
 \begin{theorem}[Flywheel state-space model without encoder]
   \begin{align*}
-    \dot{\mtx{x}} &= \mtx{A} \mtx{x} + \mtx{B} \mtx{u} \\
-    \mtx{y} &= \mtx{C} \mtx{x} + \mtx{D} \mtx{u}
+    \dot{\mat{x}} &= \mat{A} \mat{x} + \mat{B} \mat{u} \\
+    \mat{y} &= \mat{C} \mat{x} + \mat{D} \mat{u}
   \end{align*}
   \begin{equation*}
     \begin{array}{ccc}
-      \mtx{x} = \omega &
-      \mtx{y} = I &
-      \mtx{u} = V
+      \mat{x} = \omega &
+      \mat{y} = I &
+      \mat{u} = V
     \end{array}
   \end{equation*}
   \begin{equation}
     \begin{array}{cccc}
-      \mtx{A} = -\frac{G^2 K_t}{K_v RJ} &
-      \mtx{B} = \frac{G K_t}{RJ} &
-      \mtx{C} = -\frac{1}{K_v R} &
-      \mtx{D} = \frac{1}{R}
+      \mat{A} = -\frac{G^2 K_t}{K_v RJ} &
+      \mat{B} = \frac{G K_t}{RJ} &
+      \mat{C} = -\frac{1}{K_v R} &
+      \mat{D} = \frac{1}{R}
     \end{array}
   \end{equation}
 \end{theorem}

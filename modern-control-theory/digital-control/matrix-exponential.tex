@@ -5,33 +5,33 @@ The matrix exponential (and \gls{system} \gls{discretization} in general) is
 typically solved with a computer. Python Control's \texttt{StateSpace.sample()}
 with the ``zoh" method (the default) does this.
 \begin{definition}[Matrix exponential]
-  Let $\mtx{X}$ be an $n \times n$ matrix. The exponential of $\mtx{X}$ denoted
-  by $e^{\mtx{X}}$ is the $n \times n$ matrix given by the following power
+  Let $\mat{X}$ be an $n \times n$ matrix. The exponential of $\mat{X}$ denoted
+  by $e^{\mat{X}}$ is the $n \times n$ matrix given by the following power
   series.
   \begin{equation}
-    e^{\mtx{X}} = \sum_{k=0}^\infty \frac{1}{k!} \mtx{X}^k \label{eq:mat_exp}
+    e^{\mat{X}} = \sum_{k=0}^\infty \frac{1}{k!} \mat{X}^k \label{eq:mat_exp}
   \end{equation}
 
-  where $\mtx{X}^0$ is defined to be the identity matrix $\mtx{I}$ with the same
-  dimensions as $\mtx{X}$.
+  where $\mat{X}^0$ is defined to be the identity matrix $\mat{I}$ with the same
+  dimensions as $\mat{X}$.
 \end{definition}
 
 To understand why the matrix exponential is used in the \gls{discretization}
 process, consider the set of differential equations
-$\dot{\mtx{x}} = \mtx{A}\mtx{x}$ we use to describe \glspl{system}
-(\glspl{system} also have a $\mtx{B}\mtx{u}$ term, but we'll ignore it for
+$\dot{\mat{x}} = \mat{A}\mat{x}$ we use to describe \glspl{system}
+(\glspl{system} also have a $\mat{B}\mat{u}$ term, but we'll ignore it for
 clarity). The solution to this type of differential equation uses an
 exponential. Since we are using matrices and vectors here, we use the matrix
 exponential.
 \begin{equation*}
-  \mtx{x}(t) = e^{\mtx{A}t} \mtx{x}_0
+  \mat{x}(t) = e^{\mat{A}t} \mat{x}_0
 \end{equation*}
 
-where $\mtx{x}_0$ contains the initial conditions. If the initial \gls{state} is
+where $\mat{x}_0$ contains the initial conditions. If the initial \gls{state} is
 the current system \gls{state}, then we can describe the \gls{system}'s
 \gls{state} over time as
 \begin{equation*}
-  \mtx{x}_{k+1} = e^{\mtx{A}T} \mtx{x}_k
+  \mat{x}_{k+1} = e^{\mat{A}T} \mat{x}_k
 \end{equation*}
 
-where $T$ is the time between samples $\mtx{x}_k$ and $\mtx{x}_{k+1}$.
+where $T$ is the time between samples $\mat{x}_k$ and $\mat{x}_{k+1}$.

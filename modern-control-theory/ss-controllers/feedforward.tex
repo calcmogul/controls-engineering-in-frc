@@ -48,76 +48,76 @@ equation.
 \begin{theorem}
   \label{thm:partial_xax}
 
-  $\frac{\partial \mtx{x}^T\mtx{A}\mtx{x}}{\partial\mtx{x}} =
-    2\mtx{A}\mtx{x}$ where $\mtx{A}$ is symmetric.
+  $\frac{\partial \mat{x}^T\mat{A}\mat{x}}{\partial\mat{x}} =
+    2\mat{A}\mat{x}$ where $\mat{A}$ is symmetric.
 \end{theorem}
 
 \subsubsection{Setup}
 
 Let's start with the equation for the \gls{reference} dynamics
 \begin{equation*}
-  \mtx{r}_{k+1} = \mtx{A}\mtx{r}_k + \mtx{B}\mtx{u}_k
+  \mat{r}_{k+1} = \mat{A}\mat{r}_k + \mat{B}\mat{u}_k
 \end{equation*}
 
-where $\mtx{u}_k$ is the feedforward input. Note that this feedforward equation
+where $\mat{u}_k$ is the feedforward input. Note that this feedforward equation
 does not and should not take into account any feedback terms. We want to find
-the optimal $\mtx{u}_k$ such that we minimize the \gls{tracking} error between
-$\mtx{r}_{k+1}$ and $\mtx{r}_k$.
+the optimal $\mat{u}_k$ such that we minimize the \gls{tracking} error between
+$\mat{r}_{k+1}$ and $\mat{r}_k$.
 \begin{equation*}
-  \mtx{r}_{k+1} - \mtx{A}\mtx{r}_k = \mtx{B}\mtx{u}_k
+  \mat{r}_{k+1} - \mat{A}\mat{r}_k = \mat{B}\mat{u}_k
 \end{equation*}
 
-To solve for $\mtx{u}_k$, we need to take the inverse of the nonsquare matrix
-$\mtx{B}$. This isn't possible, but we can find the pseudoinverse given some
+To solve for $\mat{u}_k$, we need to take the inverse of the nonsquare matrix
+$\mat{B}$. This isn't possible, but we can find the pseudoinverse given some
 constraints on the \gls{state} \gls{tracking} error and \gls{control effort}. To
 find the optimal solution for these sorts of trade-offs, one can define a cost
 function and attempt to minimize it. To do this, we'll first solve the
-expression for $\mtx{0}$.
+expression for $\mat{0}$.
 \begin{equation*}
-  \mtx{0} = \mtx{B}\mtx{u}_k - (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k)
+  \mat{0} = \mat{B}\mat{u}_k - (\mat{r}_{k+1} - \mat{A}\mat{r}_k)
 \end{equation*}
 
 This expression will be the \gls{state} \gls{tracking} cost we use in the
 following cost function as an $H_2$ norm.
 \begin{equation*}
-  \mtx{J} = (\mtx{B}\mtx{u}_k - (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k))^T
-    (\mtx{B}\mtx{u}_k - (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k))
+  \mat{J} = (\mat{B}\mat{u}_k - (\mat{r}_{k+1} - \mat{A}\mat{r}_k))^T
+    (\mat{B}\mat{u}_k - (\mat{r}_{k+1} - \mat{A}\mat{r}_k))
 \end{equation*}
 
 \subsubsection{Minimization}
 
-Given theorem \ref{thm:partial_xax}, find the minimum of $\mtx{J}$ by taking the
-partial derivative with respect to $\mtx{u}_k$ and setting the result to
-$\mtx{0}$.
+Given theorem \ref{thm:partial_xax}, find the minimum of $\mat{J}$ by taking the
+partial derivative with respect to $\mat{u}_k$ and setting the result to
+$\mat{0}$.
 \begin{align*}
-  \frac{\partial\mtx{J}}{\partial\mtx{u}_k} &= 2\mtx{B}^T
-    (\mtx{B}\mtx{u}_k - (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k)) \\
-  \mtx{0} &= 2\mtx{B}^T
-    (\mtx{B}\mtx{u}_k - (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k)) \\
-  \mtx{0} &= 2\mtx{B}^T\mtx{B}\mtx{u}_k -
-    2\mtx{B}^T(\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k) \\
-  2\mtx{B}^T\mtx{B}\mtx{u}_k &=
-    2\mtx{B}^T(\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k) \\
-  \mtx{B}^T\mtx{B}\mtx{u}_k &=
-    \mtx{B}^T(\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k) \\
-  \mtx{u}_k &=
-    (\mtx{B}^T\mtx{B})^{-1} \mtx{B}^T(\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k)
+  \frac{\partial\mat{J}}{\partial\mat{u}_k} &= 2\mat{B}^T
+    (\mat{B}\mat{u}_k - (\mat{r}_{k+1} - \mat{A}\mat{r}_k)) \\
+  \mat{0} &= 2\mat{B}^T
+    (\mat{B}\mat{u}_k - (\mat{r}_{k+1} - \mat{A}\mat{r}_k)) \\
+  \mat{0} &= 2\mat{B}^T\mat{B}\mat{u}_k -
+    2\mat{B}^T(\mat{r}_{k+1} - \mat{A}\mat{r}_k) \\
+  2\mat{B}^T\mat{B}\mat{u}_k &=
+    2\mat{B}^T(\mat{r}_{k+1} - \mat{A}\mat{r}_k) \\
+  \mat{B}^T\mat{B}\mat{u}_k &=
+    \mat{B}^T(\mat{r}_{k+1} - \mat{A}\mat{r}_k) \\
+  \mat{u}_k &=
+    (\mat{B}^T\mat{B})^{-1} \mat{B}^T(\mat{r}_{k+1} - \mat{A}\mat{r}_k)
 \end{align*}
 
-$(\mtx{B}^T\mtx{B})^{-1} \mtx{B}^T$ is the Moore-Penrose pseudoinverse of
-$\mtx{B}$ denoted by $\mtx{B}^\dagger$.
+$(\mat{B}^T\mat{B})^{-1} \mat{B}^T$ is the Moore-Penrose pseudoinverse of
+$\mat{B}$ denoted by $\mat{B}^\dagger$.
 \begin{theorem}[Linear plant inversion]
   \label{thm:linear_plant_inversion}
 
   Given the discrete model
-  $\mtx{x}_{k+1} = \mtx{A}\mtx{x}_k + \mtx{B}\mtx{u}_k$, the plant inversion
+  $\mat{x}_{k+1} = \mat{A}\mat{x}_k + \mat{B}\mat{u}_k$, the plant inversion
   feedforward is
   \begin{equation}
-    \mtx{u}_k = \mtx{B}^\dagger (\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k)
+    \mat{u}_k = \mat{B}^\dagger (\mat{r}_{k+1} - \mat{A}\mat{r}_k)
   \end{equation}
 
-  where $\mtx{B}^\dagger$ is the Moore-Penrose pseudoinverse of $\mtx{B}$,
-  $\mtx{r}_{k+1}$ is the reference at the next timestep, and $\mtx{r}_k$ is the
+  where $\mat{B}^\dagger$ is the Moore-Penrose pseudoinverse of $\mat{B}$,
+  $\mat{r}_{k+1}$ is the reference at the next timestep, and $\mat{r}_k$ is the
   reference at the current timestep.
 \end{theorem}
 \index{feedforward!linear plant inversion}
@@ -129,21 +129,21 @@ Linear \gls{plant} inversion in theorem \ref{thm:linear_plant_inversion}
 compensates for \gls{reference} dynamics that don't follow how the \gls{model}
 inherently behaves. If they do follow the \gls{model}, the feedforward has
 nothing to do as the \gls{model} already behaves in the desired manner. When
-this occurs, $\mtx{r}_{k+1} - \mtx{A}\mtx{r}_k$ will return a zero vector.
+this occurs, $\mat{r}_{k+1} - \mat{A}\mat{r}_k$ will return a zero vector.
 
 For example, a constant \gls{reference} requires a feedforward that opposes
 \gls{system} dynamics that would change the \gls{state} over time. If the
-\gls{system} has no dynamics, then $\mtx{A} = \mtx{I}$ and thus
+\gls{system} has no dynamics, then $\mat{A} = \mat{I}$ and thus
 \begin{align*}
-  \mtx{u}_k &= \mtx{B}_\dagger (\mtx{r}_{k+1} - \mtx{I}\mtx{r}_k) \\
-  \mtx{u}_k &= \mtx{B}_\dagger (\mtx{r}_{k+1} - \mtx{r}_k)
+  \mat{u}_k &= \mat{B}_\dagger (\mat{r}_{k+1} - \mat{I}\mat{r}_k) \\
+  \mat{u}_k &= \mat{B}_\dagger (\mat{r}_{k+1} - \mat{r}_k)
 \end{align*}
 
-For a constant \gls{reference}, $\mtx{r}_{k+1} = \mtx{r}_k$.
+For a constant \gls{reference}, $\mat{r}_{k+1} = \mat{r}_k$.
 \begin{align*}
-  \mtx{u}_k &= \mtx{B}_\dagger (\mtx{r}_k - \mtx{r}_k) \\
-  \mtx{u}_k &= \mtx{B}_\dagger (\mtx{0}) \\
-  \mtx{u}_k &= \mtx{0}
+  \mat{u}_k &= \mat{B}_\dagger (\mat{r}_k - \mat{r}_k) \\
+  \mat{u}_k &= \mat{B}_\dagger (\mat{0}) \\
+  \mat{u}_k &= \mat{0}
 \end{align*}
 
 so no feedforward is required to hold a \gls{system} with no dynamics at a

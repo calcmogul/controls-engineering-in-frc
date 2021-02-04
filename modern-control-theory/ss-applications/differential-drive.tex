@@ -68,22 +68,22 @@ column vector.
 \begin{theorem}[Differential drive velocity state-space model]
   \label{thm:diff_drive_velocity_ss_model}
   \begin{align*}
-    \dot{\mtx{x}} &= \mtx{A} \mtx{x} + \mtx{B} \mtx{u} \\
-    \mtx{y} &= \mtx{C} \mtx{x} + \mtx{D} \mtx{u}
+    \dot{\mat{x}} &= \mat{A} \mat{x} + \mat{B} \mat{u} \\
+    \mat{y} &= \mat{C} \mat{x} + \mat{D} \mat{u}
   \end{align*}
   \begin{equation*}
     \begin{array}{ccc}
-      \mtx{x} =
+      \mat{x} =
       \begin{bmatrix}
         v_l \\
         v_r
       \end{bmatrix} &
-      \mtx{y} =
+      \mat{y} =
       \begin{bmatrix}
         v_l \\
         v_r
       \end{bmatrix} &
-      \mtx{u} =
+      \mat{u} =
       \begin{bmatrix}
         V_l \\
         V_r
@@ -93,22 +93,22 @@ column vector.
   \begin{equation}
     \label{eq:diff_drive_ss_model}
     \begin{array}{ll}
-      \mtx{A} =
+      \mat{A} =
       \begin{bmatrix}
         \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_1 & \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_3 \\
         \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_1 & \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_3
       \end{bmatrix} &
-      \mtx{B} =
+      \mat{B} =
       \begin{bmatrix}
         \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_2 & \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_4 \\
         \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_2 & \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_4
       \end{bmatrix} \\
-      \mtx{C} =
+      \mat{C} =
       \begin{bmatrix}
         1 & 0 \\
         0 & 1 \\
       \end{bmatrix} &
-      \mtx{D} = \mtx{0}_{2 \times 2}
+      \mat{D} = \mat{0}_{2 \times 2}
     \end{array}
   \end{equation}
 
@@ -149,10 +149,10 @@ pose. The change in global pose is defined by these three equations.
 
 Next, we'll augment the linear subspace's state with the global pose $x$, $y$,
 and $\theta$. Here's the model as a vector function where
-$\mtx{x} = \begin{bmatrix} x & y & \theta & v_l & v_r \end{bmatrix}^T$ and
-$\mtx{u} = \begin{bmatrix} V_l & V_r \end{bmatrix}^T$.
+$\mat{x} = \begin{bmatrix} x & y & \theta & v_l & v_r \end{bmatrix}^T$ and
+$\mat{u} = \begin{bmatrix} V_l & V_r \end{bmatrix}^T$.
 \begin{equation}
-  f(\mtx{x}, \mtx{u}) =
+  f(\mat{x}, \mat{u}) =
   \begin{bmatrix}
     \frac{v_r}{2}\cos\theta + \frac{v_l}{2}\cos\theta \\
     \frac{v_r}{2}\sin\theta + \frac{v_l}{2}\sin\theta \\
@@ -182,7 +182,7 @@ also be locally optimal. We'll be taking this approach with a differential
 drive. To create an LQR, we need to linearize equation
 \eqref{eq:ltv_diff_drive_f}.
 \begin{align*}
-  \frac{\partial f(\mtx{x}, \mtx{u})}{\partial\mtx{x}} &=
+  \frac{\partial f(\mat{x}, \mat{u})}{\partial\mat{x}} &=
   \begin{bmatrix}
     0 & 0 & -\frac{v_l + v_r}{2}\sin\theta & \frac{1}{2}\cos\theta &
       \frac{1}{2}\cos\theta \\
@@ -194,7 +194,7 @@ drive. To create an LQR, we need to linearize equation
     0 & 0 & 0 & \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_1 &
       \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_3
   \end{bmatrix} \\
-  \frac{\partial f(\mtx{x}, \mtx{u})}{\partial\mtx{u}} &=
+  \frac{\partial f(\mat{x}, \mat{u})}{\partial\mat{u}} &=
   \begin{bmatrix}
     0 & 0 \\
     0 & 0 \\
@@ -209,20 +209,20 @@ drive. To create an LQR, we need to linearize equation
 Therefore,
 \begin{theorem}[Linear time-varying differential drive state-space model]
   \begin{align*}
-    \dot{\mtx{x}} &= \mtx{A}\mtx{x} + \mtx{B}\mtx{u} \\
-    \mtx{y} &= \mtx{C}\mtx{x} + \mtx{D}\mtx{u}
+    \dot{\mat{x}} &= \mat{A}\mat{x} + \mat{B}\mat{u} \\
+    \mat{y} &= \mat{C}\mat{x} + \mat{D}\mat{u}
   \end{align*}
   \begin{equation*}
     \begin{array}{ccc}
-      \mtx{x} =
+      \mat{x} =
       \begin{bmatrix}
         x & y & \theta & v_l & v_r
       \end{bmatrix}^T &
-      \mtx{y} =
+      \mat{y} =
       \begin{bmatrix}
         \theta & v_l & v_r
       \end{bmatrix}^T &
-      \mtx{u} =
+      \mat{u} =
       \begin{bmatrix}
         V_l & V_r
       \end{bmatrix}^T
@@ -230,7 +230,7 @@ Therefore,
   \end{equation*}
   \begin{equation}
     \begin{array}{ll}
-      \mtx{A} =
+      \mat{A} =
       \begin{bmatrix}
         0 & 0 & -vs & \frac{1}{2}c & \frac{1}{2}c \\
         0 & 0 & vc & \frac{1}{2}s & \frac{1}{2}s \\
@@ -240,7 +240,7 @@ Therefore,
         0 & 0 & 0 & \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_1 &
           \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_3
       \end{bmatrix} &
-      \mtx{B} =
+      \mat{B} =
       \begin{bmatrix}
         0 & 0 \\
         0 & 0 \\
@@ -250,13 +250,13 @@ Therefore,
         \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_2 &
         \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_4
       \end{bmatrix} \\
-      \mtx{C} =
+      \mat{C} =
       \begin{bmatrix}
         0 & 0 & 1 & 0 & 0 \\
         0 & 0 & 0 & 1 & 0 \\
         0 & 0 & 0 & 0 & 1
       \end{bmatrix} &
-      \mtx{D} = \mtx{0}_{3 \times 2}
+      \mat{D} = \mat{0}_{3 \times 2}
     \end{array}
   \end{equation}
 
@@ -268,7 +268,7 @@ Therefore,
 \end{theorem}
 
 We can also use this in an extended Kalman filter as is since the measurement
-model ($\mtx{y} = \mtx{C}\mtx{x} + \mtx{D}\mtx{u}$) is linear.
+model ($\mat{y} = \mat{C}\mat{x} + \mat{D}\mat{u}$) is linear.
 
 \subsection{Improving model accuracy}
 
@@ -290,12 +290,12 @@ tracking behavior of the linearized differential drive controller.
 \end{bookfigure}
 
 The linearized differential drive model doesn't track well because the
-first-order linearization of $\mtx{A}$ doesn't capture the full heading
+first-order linearization of $\mat{A}$ doesn't capture the full heading
 dynamics, making the \gls{model} update inaccurate. This linearization
 inaccuracy is evident in the Hessian matrix (second partial derivative with
 respect to the state vector) being nonzero.
 \begin{equation*}
-  \frac{\partial^2 f(\mtx{x}, \mtx{u})}{\partial\mtx{x}^2} =
+  \frac{\partial^2 f(\mat{x}, \mat{u})}{\partial\mat{x}^2} =
   \begin{bmatrix}
     0 & 0 & -\frac{v_l + v_r}{2}\cos\theta & 0 & 0 \\
     0 & 0 & -\frac{v_l + v_r}{2}\sin\theta & 0 & 0 \\
@@ -305,13 +305,13 @@ respect to the state vector) being nonzero.
   \end{bmatrix}
 \end{equation*}
 
-The second-order Taylor series expansion of the \gls{model} around $\mtx{x}_0$
+The second-order Taylor series expansion of the \gls{model} around $\mat{x}_0$
 would be
 \begin{equation*}
-  f(\mtx{x}, \mtx{u}_0) \approx f(\mtx{x}_0, \mtx{u}_0) +
-    \frac{\partial f(\mtx{x}, \mtx{u})}{\partial\mtx{x}}(\mtx{x} - \mtx{x}_0) +
-    \frac{1}{2}\frac{\partial^2 f(\mtx{x}, \mtx{u})}{\partial\mtx{x}^2}
-    (\mtx{x} - \mtx{x}_0)^2
+  f(\mat{x}, \mat{u}_0) \approx f(\mat{x}_0, \mat{u}_0) +
+    \frac{\partial f(\mat{x}, \mat{u})}{\partial\mat{x}}(\mat{x} - \mat{x}_0) +
+    \frac{1}{2}\frac{\partial^2 f(\mat{x}, \mat{u})}{\partial\mat{x}^2}
+    (\mat{x} - \mat{x}_0)^2
 \end{equation*}
 
 To include higher-order dynamics in the linearized differential drive model
@@ -372,7 +372,7 @@ error. Since the cross-track error is always measured from the robot's
 coordinate frame, the \gls{model} used to compute the LQR should be linearized
 around $\theta = 0$ at all times.
 \begin{align*}
-  \mtx{A} &=
+  \mat{A} &=
   \begin{bmatrix}
     0 & 0 & -\frac{v_l + v_r}{2}\sin 0 & \frac{1}{2}\cos 0 &
       \frac{1}{2}\cos 0 \\
@@ -384,7 +384,7 @@ around $\theta = 0$ at all times.
     0 & 0 & 0 & \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_1 &
       \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_3
   \end{bmatrix} \\
-  \mtx{A} &=
+  \mat{A} &=
   \begin{bmatrix}
     0 & 0 & 0 & \frac{1}{2} & \frac{1}{2} \\
     0 & 0 & \frac{v_l + v_r}{2} & 0 & 0 \\
@@ -399,13 +399,13 @@ around $\theta = 0$ at all times.
   \label{thm:linear_time-varying_diff_drive_controller}
 
   Let the differential drive dynamics be of the form
-  $\dot{\mtx{x}} = f(\mtx{x}) + \mtx{B}\mtx{u}$ where
-  $\mtx{x} = \begin{bmatrix}x & y & \theta & v_l & v_r\end{bmatrix}^T$,
-  $\mtx{u} = \begin{bmatrix}V_l & V_r\end{bmatrix}^T$, and
-  $\mtx{A} = \frac{\partial f(\mtx{x})}{\partial\mtx{x}}$.
+  $\dot{\mat{x}} = f(\mat{x}) + \mat{B}\mat{u}$ where
+  $\mat{x} = \begin{bmatrix}x & y & \theta & v_l & v_r\end{bmatrix}^T$,
+  $\mat{u} = \begin{bmatrix}V_l & V_r\end{bmatrix}^T$, and
+  $\mat{A} = \frac{\partial f(\mat{x})}{\partial\mat{x}}$.
   \begin{equation}
     \begin{array}{ll}
-      \mtx{A} =
+      \mat{A} =
       \begin{bmatrix}
         0 & 0 & 0 & \frac{1}{2} & \frac{1}{2} \\
         0 & 0 & v & 0 & 0 \\
@@ -415,7 +415,7 @@ around $\theta = 0$ at all times.
         0 & 0 & 0 & \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_1 &
           \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_3
       \end{bmatrix} &
-      \mtx{B} =
+      \mat{B} =
       \begin{bmatrix}
         0 & 0 \\
         0 & 0 \\
@@ -435,22 +435,22 @@ around $\theta = 0$ at all times.
 
   The linear time-varying differential drive controller is
   \begin{equation}
-    \mtx{u} = \mtx{K}
+    \mat{u} = \mat{K}
     \left[
       \begin{array}{c|c}
         \begin{array}{cc}
           \cos\theta & \sin\theta \\
           -\sin\theta & \cos\theta
-        \end{array} & \mtx{0}_{2 \times 3} \\
+        \end{array} & \mat{0}_{2 \times 3} \\
         \hline
-        \mtx{0}_{3 \times 2} & \mtx{I}_{3 \times 3}
+        \mat{0}_{3 \times 2} & \mat{I}_{3 \times 3}
       \end{array}
     \right]
-    (\mtx{r} - \mtx{x})
+    (\mat{r} - \mat{x})
   \end{equation}
 
-  At each timestep, the LQR controller gain $\mtx{K}$ is computed for the
-  $(\mtx{A}, \mtx{B})$ pair evaluated at the current state.
+  At each timestep, the LQR controller gain $\mat{K}$ is computed for the
+  $(\mat{A}, \mat{B})$ pair evaluated at the current state.
 \end{theorem}
 
 With the \gls{model} in theorem
@@ -516,10 +516,10 @@ have zeroes inserted where $x_l$ and $x_r$ are multiplied in.
 \end{align*}
 
 This produces the following linear subspace over
-$\mtx{x} = \begin{bmatrix}v_l & v_r & x_l & x_r\end{bmatrix}^T$.
+$\mat{x} = \begin{bmatrix}v_l & v_r & x_l & x_r\end{bmatrix}^T$.
 \begin{equation}
   \begin{array}{ll}
-    \mtx{A} =
+    \mat{A} =
     \begin{bmatrix}
       \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_1 &
         \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_3 & 0 & 0 \\
@@ -528,7 +528,7 @@ $\mtx{x} = \begin{bmatrix}v_l & v_r & x_l & x_r\end{bmatrix}^T$.
       1 & 0 & 0 & 0 \\
       0 & 1 & 0 & 0
     \end{bmatrix} &
-    \mtx{B} =
+    \mat{B} =
     \begin{bmatrix}
       \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_2 &
         \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_4 \\
@@ -542,8 +542,8 @@ $\mtx{x} = \begin{bmatrix}v_l & v_r & x_l & x_r\end{bmatrix}^T$.
 \end{equation}
 
 The measurement model for the complete nonlinear model is now
-$\mtx{y} = \begin{bmatrix}\theta & x_l & x_r\end{bmatrix}^T$ instead of
-$\mtx{y} = \begin{bmatrix}\theta & v_l & v_r\end{bmatrix}^T$.
+$\mat{y} = \begin{bmatrix}\theta & x_l & x_r\end{bmatrix}^T$ instead of
+$\mat{y} = \begin{bmatrix}\theta & v_l & v_r\end{bmatrix}^T$.
 
 \subsubsection{U error estimation}
 
@@ -566,7 +566,7 @@ The heading $u_{error}$ state is the heading error between what the wheel
 positions imply and the gyroscope measurement.
 
 The full state is thus
-$\mtx{x} = \begin{bmatrix}x & y & \theta & v_l & v_r & x_l & x_r & u_{error,l} &
+$\mat{x} = \begin{bmatrix}x & y & \theta & v_l & v_r & x_l & x_r & u_{error,l} &
   u_{error,r} & u_{error,heading}\end{bmatrix}^T$.
 
 The complete nonlinear model is as follows. Let $v = \frac{v_l + v_r}{2}$. The
@@ -586,14 +586,14 @@ dynamics are the same.
 \end{align}
 
 The left and right voltage error states should be mapped to the corresponding
-velocity states, so the system matrix should be augmented with $\mtx{B}$.
+velocity states, so the system matrix should be augmented with $\mat{B}$.
 
 The heading $u_{error}$ is measuring counterclockwise encoder understeer
 relative to the gyroscope heading, so it should add to the left position and
 subtract from the right position for clockwise correction of encoder positions.
 That corresponds to the following input mapping vector.
 \begin{equation*}
-  \mtx{B}_{\theta} = \begin{bmatrix}
+  \mat{B}_{\theta} = \begin{bmatrix}
     0 \\
     0 \\
     1 \\
@@ -611,7 +611,7 @@ $u_{error}$ states.
     x_r
   \end{bmatrix}} =
     \begin{bmatrix}
-      \mtx{A} & \mtx{B} & \mtx{B}_{\theta}
+      \mat{A} & \mat{B} & \mat{B}_{\theta}
     \end{bmatrix}
     \begin{bmatrix}
       v_l \\
@@ -621,10 +621,10 @@ $u_{error}$ states.
       u_{error,l} \\
       u_{error,r} \\
       u_{error,heading}
-    \end{bmatrix} + \mtx{B}\mtx{u}
+    \end{bmatrix} + \mat{B}\mat{u}
 \end{equation}
 
-$\mtx{A}$ and $\mtx{B}$ are the linear subspace from equation
+$\mat{A}$ and $\mat{B}$ are the linear subspace from equation
 \eqref{eq:diff_drive_linear_subspace}.
 
 The $u_{error}$ states have no dynamics. The observer selects them to minimize
@@ -634,22 +634,22 @@ the difference between the expected and actual measurements.
     u_{error,l} \\
     u_{error,r} \\
     u_{error,heading}
-  \end{bmatrix}} = \mtx{0}_{3 \times 1}
+  \end{bmatrix}} = \mat{0}_{3 \times 1}
 \end{equation}
 
 The controller is augmented as follows.
 \begin{equation}
   \begin{array}{ccc}
-    \mtx{K}_{error} =
+    \mat{K}_{error} =
     \begin{bmatrix}
       1 & 0 & 0 \\
       0 & 1 & 0
     \end{bmatrix} &
-    \mtx{K}_{aug} = \begin{bmatrix}
-      \mtx{K} & \mtx{K}_{error}
+    \mat{K}_{aug} = \begin{bmatrix}
+      \mat{K} & \mat{K}_{error}
     \end{bmatrix} &
-    \mtx{r}_{aug} = \begin{bmatrix}
-      \mtx{r} \\
+    \mat{r}_{aug} = \begin{bmatrix}
+      \mat{r} \\
       0 \\
       0 \\
       0

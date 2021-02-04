@@ -1,18 +1,18 @@
 \section{1-DOF mechanism model}
 \begin{equation*}
-  \dot{\mtx{x}} = \mtx{A}\mtx{x} + \mtx{B}\mtx{u}
+  \dot{\mat{x}} = \mat{A}\mat{x} + \mat{B}\mat{u}
 \end{equation*}
 \begin{equation*}
   \begin{array}{ccc}
-    \mtx{x} = \text{velocity} & \dot{\mtx{x}} = \text{acceleration} &
-      \mtx{u} = \text{voltage}
+    \mat{x} = \text{velocity} & \dot{\mat{x}} = \text{acceleration} &
+      \mat{u} = \text{voltage}
   \end{array}
 \end{equation*}
 
-We want to derive what $\mtx{A}$ and $\mtx{B}$ are from the following
+We want to derive what $\mat{A}$ and $\mat{B}$ are from the following
 feedforward model
 \begin{equation*}
-  \mtx{u} = K_v v + K_a a
+  \mat{u} = K_v v + K_a a
 \end{equation*}
 
 where $K_v$ and $K_a$ are constants that should be measured from empirical
@@ -28,64 +28,64 @@ $K_a$ is a proportional constant that describes how much voltage is required to
 induce a given acceleration in the motor shaft. As with $K_v$, the relationship
 between voltage and acceleration (at constant velocity) is linear.
 
-Let $\mtx{u} = K_v v$ be the input that makes the system move at a constant
-velocity $v$. Therefore, $\mtx{x} = v$ and $\dot{\mtx{x}} = \mtx{0}$. Substitute
+Let $\mat{u} = K_v v$ be the input that makes the system move at a constant
+velocity $v$. Therefore, $\mat{x} = v$ and $\dot{\mat{x}} = \mat{0}$. Substitute
 these into the state-space model.
 \begin{equation}
-  0 = \mtx{A}v + \mtx{B}(K_v v) \label{eq:sysid-eq1}
+  0 = \mat{A}v + \mat{B}(K_v v) \label{eq:sysid-eq1}
 \end{equation}
 
-Let $\mtx{u} = K_v v + K_a a$ be the input that accelerates the system by $a$
-from an initial velocity of $v$. Therefore, $\mtx{x} = v$ and
-$\dot{\mtx{x}} = a$. Substitute these into the state-space model.
+Let $\mat{u} = K_v v + K_a a$ be the input that accelerates the system by $a$
+from an initial velocity of $v$. Therefore, $\mat{x} = v$ and
+$\dot{\mat{x}} = a$. Substitute these into the state-space model.
 \begin{equation}
-  a = \mtx{A}v + \mtx{B}(K_v v + K_a a) \label{eq:sysid-eq2}
+  a = \mat{A}v + \mat{B}(K_v v + K_a a) \label{eq:sysid-eq2}
 \end{equation}
 
 Subtract equation \eqref{eq:sysid-eq1} from equation \eqref{eq:sysid-eq2}.
 \begin{align*}
-  a &= \mtx{B} (K_a a) \\
-  1 &= \mtx{B} K_a \\
-  \mtx{B} &= \frac{1}{K_a}
+  a &= \mat{B} (K_a a) \\
+  1 &= \mat{B} K_a \\
+  \mat{B} &= \frac{1}{K_a}
 \end{align*}
 
-Substitute $\mtx{B}$ back into \eqref{eq:sysid-eq1} to obtain $\mtx{A}$.
+Substitute $\mat{B}$ back into \eqref{eq:sysid-eq1} to obtain $\mat{A}$.
 \begin{align*}
-  \mtx{0} &= \mtx{A}v + \left(\frac{1}{K_a}\right)(K_v v) \\
-  \mtx{0} &= \mtx{A}v + \frac{K_v}{K_a} v \\
-  -\frac{K_v}{K_a} v &= \mtx{A}v \\
-  \mtx{A} &= -\frac{K_v}{K_a}
+  \mat{0} &= \mat{A}v + \left(\frac{1}{K_a}\right)(K_v v) \\
+  \mat{0} &= \mat{A}v + \frac{K_v}{K_a} v \\
+  -\frac{K_v}{K_a} v &= \mat{A}v \\
+  \mat{A} &= -\frac{K_v}{K_a}
 \end{align*}
 
 A model with position and velocity states would be
 \begin{theorem}[1-DOF mechanism position model]
   \begin{equation*}
-    \dot{\mtx{x}} = \mtx{A}\mtx{x} + \mtx{B}\mtx{u}
+    \dot{\mat{x}} = \mat{A}\mat{x} + \mat{B}\mat{u}
   \end{equation*}
   \begin{equation*}
     \begin{array}{cc}
-    \mtx{x} =
+    \mat{x} =
       \begin{bmatrix}
         \text{position} \\
         \text{velocity}
       \end{bmatrix} &
-    \mtx{u} =
+    \mat{u} =
       \begin{bmatrix}
         \text{voltage}
       \end{bmatrix}
     \end{array}
   \end{equation*}
   \begin{equation}
-    \dot{\mtx{x}} =
+    \dot{\mat{x}} =
       \begin{bmatrix}
         0 & 1 \\
         0 & -\frac{K_v}{K_a}
       \end{bmatrix}
-      \mtx{x} +
+      \mat{x} +
       \begin{bmatrix}
         0 \\
         \frac{1}{K_a}
       \end{bmatrix}
-      \mtx{u}
+      \mat{u}
   \end{equation}
 \end{theorem}

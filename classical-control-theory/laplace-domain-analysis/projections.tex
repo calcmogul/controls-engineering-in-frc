@@ -20,7 +20,7 @@ Ordinarily, we notate points in this plane by their components in the set of
 basis vectors $\{\hat{i}, \hat{j}\}$, where $\hat{i}$ (pronounced i-hat) is the
 unit vector in the positive $x$ direction and $\hat{j}$ is the unit vector in
 the positive $y$ direction. Figure \ref{fig:basis_vectors_R2} shows an example
-vector $\mtx{v}$ in this basis.
+vector $\mat{v}$ in this basis.
 \begin{bookfigure}
   \begin{tikzpicture}[auto, >=latex']
     %\draw [help lines] (-4,-2) grid (4,4);
@@ -31,7 +31,7 @@ vector $\mtx{v}$ in this basis.
 
     % Draw vector v
     \draw[->,line width=0.4mm] (0,0) -- (2,1.5) node[above,right]
-      {$\mtx{v} = 2\hat{i} + 1.5\hat{j}$};
+      {$\mat{v} = 2\hat{i} + 1.5\hat{j}$};
 
     % Draw basis
     \draw[->,line width=0.4mm] (0,0) -- node[below] {$\hat{i}$} (1,0);
@@ -42,64 +42,64 @@ vector $\mtx{v}$ in this basis.
     \draw[dashed,gray] (2,0) -- node[right] {$1.5$} (2,1.5);
   \end{tikzpicture}
 
-  \caption{$\mtx{v}$ with basis set $\{\hat{i}, \hat{j}\}$}
+  \caption{$\mat{v}$ with basis set $\{\hat{i}, \hat{j}\}$}
   \label{fig:basis_vectors_R2}
 \end{bookfigure}
 
-How do we find the coordinates of $\mtx{v}$ in this basis mathematically? As
+How do we find the coordinates of $\mat{v}$ in this basis mathematically? As
 long as the basis is \textit{orthogonal} (i.e., the basis vectors are at right
 angles to each other), we simply take the \textit{orthogonal projection} of
-$\mtx{v}$ onto $\hat{i}$ and $\hat{j}$. Intuitively, this means finding ``the
-amount of $\mtx{v}$ that points in the direction of $\hat{i}$ or $\hat{j}$".
+$\mat{v}$ onto $\hat{i}$ and $\hat{j}$. Intuitively, this means finding ``the
+amount of $\mat{v}$ that points in the direction of $\hat{i}$ or $\hat{j}$".
 Note that a set of orthogonal vectors have a dot product of zero with respect to
 each other.
 
 More formally, we can calculate projections with the dot product - the
-projection of $\mtx{v}$ onto any other vector $\mtx{w}$ is as follows.
+projection of $\mat{v}$ onto any other vector $\mat{w}$ is as follows.
 \begin{equation*}
-  \text{proj}_\mtx{w} \mtx{v} = \frac{\mtx{v} \cdot \mtx{w}}{|\mtx{w}|}
+  \text{proj}_\mat{w} \mat{v} = \frac{\mat{v} \cdot \mat{w}}{|\mat{w}|}
 \end{equation*}
 
 Since $\hat{i}$ and $\hat{j}$ are \textit{unit vectors}, their magnitudes are
-$1$ so the coordinates of $\mtx{v}$ are $\mtx{v} \cdot \hat{i}$ and
-$\mtx{v} \cdot \hat{j}$.
+$1$ so the coordinates of $\mat{v}$ are $\mat{v} \cdot \hat{i}$ and
+$\mat{v} \cdot \hat{j}$.
 
-We can use this same process to find the coordinates of $\mtx{v}$ in
+We can use this same process to find the coordinates of $\mat{v}$ in
 \textit{any} orthogonal basis. For example, imagine the basis
 $\{\hat{i} + \hat{j}, \hat{i} - \hat{j}\}$ - the coordinates in this basis are
-given by $\frac{\mtx{v} \cdot (\hat{i} + \hat{j})}{\sqrt{2}}$ and
-$\frac{\mtx{v} \cdot (\hat{i} - \hat{j})}{\sqrt{2}}$. Let's ``unwrap" the
+given by $\frac{\mat{v} \cdot (\hat{i} + \hat{j})}{\sqrt{2}}$ and
+$\frac{\mat{v} \cdot (\hat{i} - \hat{j})}{\sqrt{2}}$. Let's ``unwrap" the
 formula for dot product and look a bit more closely.
 \begin{equation*}
-  \frac{\mtx{v} \cdot (\hat{i} + \hat{j})}{\sqrt{2}} =
-    \frac{1}{\sqrt{2}} \sum_{i=0}^n \mtx{v}_i (\hat{i} + \hat{j})_i
+  \frac{\mat{v} \cdot (\hat{i} + \hat{j})}{\sqrt{2}} =
+    \frac{1}{\sqrt{2}} \sum_{i=0}^n \mat{v}_i (\hat{i} + \hat{j})_i
 \end{equation*}
 
 where the subscript $i$ denotes which component of each vector and $n$ is the
-total number of components. To change coordinates, we expanded both $\mtx{v}$
+total number of components. To change coordinates, we expanded both $\mat{v}$
 and $\hat{i} + \hat{j}$ in a basis, multiplied their components, and added them
-up. Here's a more concrete example. Let $\mtx{v} = 2\hat{i} + 1.5\hat{j}$ from
-figure \ref{fig:basis_vectors_R2}. First, we'll project $\mtx{v}$ onto the
+up. Here's a more concrete example. Let $\mat{v} = 2\hat{i} + 1.5\hat{j}$ from
+figure \ref{fig:basis_vectors_R2}. First, we'll project $\mat{v}$ onto the
 $\hat{i} + \hat{j}$ basis vector.
 \begin{align*}
-  \frac{\mtx{v} \cdot (\hat{i} + \hat{j})}{\sqrt{2}} &=
+  \frac{\mat{v} \cdot (\hat{i} + \hat{j})}{\sqrt{2}} &=
     \frac{1}{\sqrt{2}} (2\hat{i} \cdot \hat{i} + 1.5\hat{j} \cdot \hat{j}) \\
-  \frac{\mtx{v} \cdot (\hat{i} + \hat{j})}{\sqrt{2}} &=
+  \frac{\mat{v} \cdot (\hat{i} + \hat{j})}{\sqrt{2}} &=
     \frac{1}{\sqrt{2}} (2 + 1.5) \\
-  \frac{\mtx{v} \cdot (\hat{i} + \hat{j})}{\sqrt{2}} &= \frac{3.5}{\sqrt{2}} \\
-  \frac{\mtx{v} \cdot (\hat{i} + \hat{j})}{\sqrt{2}} &= \frac{3.5\sqrt{2}}{2} \\
-  \frac{\mtx{v} \cdot (\hat{i} + \hat{j})}{\sqrt{2}} &= 1.75\sqrt{2}
+  \frac{\mat{v} \cdot (\hat{i} + \hat{j})}{\sqrt{2}} &= \frac{3.5}{\sqrt{2}} \\
+  \frac{\mat{v} \cdot (\hat{i} + \hat{j})}{\sqrt{2}} &= \frac{3.5\sqrt{2}}{2} \\
+  \frac{\mat{v} \cdot (\hat{i} + \hat{j})}{\sqrt{2}} &= 1.75\sqrt{2}
 \end{align*}
 
-Next, we'll project $\mtx{v}$ onto the $\hat{i} - \hat{j}$ basis vector.
+Next, we'll project $\mat{v}$ onto the $\hat{i} - \hat{j}$ basis vector.
 \begin{align*}
-  \frac{\mtx{v} \cdot (\hat{i} - \hat{j})}{\sqrt{2}} &=
+  \frac{\mat{v} \cdot (\hat{i} - \hat{j})}{\sqrt{2}} &=
     \frac{1}{\sqrt{2}} (2\hat{i} \cdot \hat{i} - 1.5\hat{j} \cdot \hat{j}) \\
-  \frac{\mtx{v} \cdot (\hat{i} - \hat{j})}{\sqrt{2}} &=
+  \frac{\mat{v} \cdot (\hat{i} - \hat{j})}{\sqrt{2}} &=
     \frac{1}{\sqrt{2}} (2 - 1.5) \\
-  \frac{\mtx{v} \cdot (\hat{i} - \hat{j})}{\sqrt{2}} &= \frac{0.5}{\sqrt{2}} \\
-  \frac{\mtx{v} \cdot (\hat{i} - \hat{j})}{\sqrt{2}} &= \frac{0.5\sqrt{2}}{2} \\
-  \frac{\mtx{v} \cdot (\hat{i} - \hat{j})}{\sqrt{2}} &= 0.25\sqrt{2}
+  \frac{\mat{v} \cdot (\hat{i} - \hat{j})}{\sqrt{2}} &= \frac{0.5}{\sqrt{2}} \\
+  \frac{\mat{v} \cdot (\hat{i} - \hat{j})}{\sqrt{2}} &= \frac{0.5\sqrt{2}}{2} \\
+  \frac{\mat{v} \cdot (\hat{i} - \hat{j})}{\sqrt{2}} &= 0.25\sqrt{2}
 \end{align*}
 
 Figure \ref{fig:alternative_basis} shows this result geometrically with respect
@@ -113,7 +113,7 @@ to the basis $\{\hat{i} + \hat{j}, \hat{i} - \hat{j}\}$.
     \draw[<->] (0,-3) -- (0,3) node[right] {\small $y$};
 
     % Draw vector v
-    \draw[->,line width=0.4mm] (0,0) -- (2,1.5) node[above,right] {$\mtx{v}$};
+    \draw[->,line width=0.4mm] (0,0) -- (2,1.5) node[above,right] {$\mat{v}$};
 
     % Draw basis
     \draw[dashed,gray] (0,0) -- (1.75,1.75);
@@ -127,7 +127,7 @@ to the basis $\{\hat{i} + \hat{j}, \hat{i} - \hat{j}\}$.
       {$1.75\sqrt{2}$} (2,1.5);
   \end{tikzpicture}
 
-  \caption{$\mtx{v}$ with basis $\{\hat{i} + \hat{j}, \hat{i} - \hat{j}\}$}
+  \caption{$\mat{v}$ with basis $\{\hat{i} + \hat{j}, \hat{i} - \hat{j}\}$}
   \label{fig:alternative_basis}
 \end{bookfigure}
 

@@ -7,21 +7,21 @@ Then, all the powerful tools that exist for linear controls can be applied. This
 is done by taking the Jacobians of $f$ and $h$.
 \begin{align*}
   \begin{array}{cccc}
-    \mtx{A} = \frac{\partial f(\mtx{x}, \mtx{u}, \mtx{w})}{\partial \mtx{x}} &
-    \mtx{B} = \frac{\partial f(\mtx{x}, \mtx{u}, \mtx{w})}{\partial \mtx{u}} &
-    \mtx{C} = \frac{\partial h(\mtx{x}, \mtx{u}, \mtx{v})}{\partial \mtx{x}} &
-    \mtx{D} = \frac{\partial h(\mtx{x}, \mtx{u}, \mtx{v})}{\partial \mtx{u}}
+    \mat{A} = \frac{\partial f(\mat{x}, \mat{u}, \mat{w})}{\partial \mat{x}} &
+    \mat{B} = \frac{\partial f(\mat{x}, \mat{u}, \mat{w})}{\partial \mat{u}} &
+    \mat{C} = \frac{\partial h(\mat{x}, \mat{u}, \mat{v})}{\partial \mat{x}} &
+    \mat{D} = \frac{\partial h(\mat{x}, \mat{u}, \mat{v})}{\partial \mat{u}}
   \end{array}
 \end{align*}
 
-Let $f(\mtx{x}, \mtx{u})$ be defined as
+Let $f(\mat{x}, \mat{u})$ be defined as
 \begin{equation*}
-  \dot{\mtx{x}} = f(\mtx{x}, \mtx{u}) =
+  \dot{\mat{x}} = f(\mat{x}, \mat{u}) =
   \begin{bmatrix}
-    f_1(\mtx{x}, \mtx{u}) \\
-    f_2(\mtx{x}, \mtx{u}) \\
+    f_1(\mat{x}, \mat{u}) \\
+    f_2(\mat{x}, \mat{u}) \\
     \vdots \\
-    f_m(\mtx{x}, \mtx{u})
+    f_m(\mat{x}, \mat{u})
   \end{bmatrix}
 \end{equation*}
 
@@ -32,45 +32,45 @@ The Jacobian is the partial derivative of a vector-valued function with respect
 to one of the vector arguments. The Jacobian of $f$ has as many rows as $f$, and
 the columns are filled with partial deriviatives of $f$'s rows with respect to
 each of the argument's elements. For example, the Jacobian of $f$ with respect
-to $\mtx{x}$ is
+to $\mat{x}$ is
 \begin{equation*}
-  \mtx{A} = \frac{\partial f(\mtx{x}, \mtx{u})}{\partial \mtx{x}} =
+  \mat{A} = \frac{\partial f(\mat{x}, \mat{u})}{\partial \mat{x}} =
   \begin{bmatrix}
-    \frac{\partial f_1}{\partial \mtx{x}_1} &
-      \frac{\partial f_1}{\partial \mtx{x}_2} & \hdots &
-      \frac{\partial f_1}{\partial \mtx{x}_m} \\
-    \frac{\partial f_2}{\partial \mtx{x}_1} &
-      \frac{\partial f_2}{\partial \mtx{x}_2} & \hdots &
-      \frac{\partial f_2}{\partial \mtx{x}_m} \\
+    \frac{\partial f_1}{\partial \mat{x}_1} &
+      \frac{\partial f_1}{\partial \mat{x}_2} & \hdots &
+      \frac{\partial f_1}{\partial \mat{x}_m} \\
+    \frac{\partial f_2}{\partial \mat{x}_1} &
+      \frac{\partial f_2}{\partial \mat{x}_2} & \hdots &
+      \frac{\partial f_2}{\partial \mat{x}_m} \\
     \vdots & \vdots & \ddots & \vdots \\
-    \frac{\partial f_m}{\partial \mtx{x}_1} &
-      \frac{\partial f_m}{\partial \mtx{x}_2} & \hdots &
-      \frac{\partial f_m}{\partial \mtx{x}_m}
+    \frac{\partial f_m}{\partial \mat{x}_1} &
+      \frac{\partial f_m}{\partial \mat{x}_2} & \hdots &
+      \frac{\partial f_m}{\partial \mat{x}_m}
   \end{bmatrix}
 \end{equation*}
 
-$\frac{\partial f_1}{\partial \mtx{x}_1}$ is the partial derivative of the first
+$\frac{\partial f_1}{\partial \mat{x}_1}$ is the partial derivative of the first
 row of $f$ with respect to the first state, and so on for all rows of $f$ and
 states. This has $n^2$ permutations and thus produces a square matrix.
 
-The Jacobian of $f$ with respect to $\mtx{u}$ is
+The Jacobian of $f$ with respect to $\mat{u}$ is
 \begin{equation*}
-  \mtx{B} = \frac{\partial f(\mtx{x}, \mtx{u})}{\partial \mtx{u}} =
+  \mat{B} = \frac{\partial f(\mat{x}, \mat{u})}{\partial \mat{u}} =
   \begin{bmatrix}
-    \frac{\partial f_1}{\partial \mtx{u}_1} &
-      \frac{\partial f_1}{\partial \mtx{u}_2} & \hdots &
-      \frac{\partial f_1}{\partial \mtx{u}_n} \\
-    \frac{\partial f_2}{\partial \mtx{u}_1} &
-      \frac{\partial f_2}{\partial \mtx{u}_2} & \hdots &
-      \frac{\partial f_2}{\partial \mtx{u}_n} \\
+    \frac{\partial f_1}{\partial \mat{u}_1} &
+      \frac{\partial f_1}{\partial \mat{u}_2} & \hdots &
+      \frac{\partial f_1}{\partial \mat{u}_n} \\
+    \frac{\partial f_2}{\partial \mat{u}_1} &
+      \frac{\partial f_2}{\partial \mat{u}_2} & \hdots &
+      \frac{\partial f_2}{\partial \mat{u}_n} \\
     \vdots & \vdots & \ddots & \vdots \\
-    \frac{\partial f_m}{\partial \mtx{u}_1} &
-      \frac{\partial f_m}{\partial \mtx{u}_2} & \hdots &
-      \frac{\partial f_m}{\partial \mtx{u}_n}
+    \frac{\partial f_m}{\partial \mat{u}_1} &
+      \frac{\partial f_m}{\partial \mat{u}_2} & \hdots &
+      \frac{\partial f_m}{\partial \mat{u}_n}
   \end{bmatrix}
 \end{equation*}
 
-$\frac{\partial f_1}{\partial \mtx{u}_1}$ is the partial derivative of the first
+$\frac{\partial f_1}{\partial \mat{u}_1}$ is the partial derivative of the first
 row of $f$ with respect to the first input, and so on for all rows of $f$ and
 inputs. This has $m \times n$ permutations and can produce a nonsquare matrix if
 $m \neq n$.
@@ -83,7 +83,7 @@ $\cos\theta$ ($\theta$ and $1$ respectively) come from.
 Higher order partial derivatives can be added to better approximate the
 nonlinear dynamics. We typically only \glslink{linearization}{linearize} around
 equilibrium points\footnote{Equilibrium points are points where
-$\dot{\mtx{x}} = \mtx{0}$. At these points, the system is in steady-state.}
+$\dot{\mat{x}} = \mat{0}$. At these points, the system is in steady-state.}
 because we are interested in how the \gls{system} behaves when perturbed from
 equilibrium. An FAQ on this goes into more detail
 \cite{bib:linearize_equilibrium_point}. To be clear though,

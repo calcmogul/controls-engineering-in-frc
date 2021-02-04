@@ -2,122 +2,122 @@
 
 Let a continuous time linear \gls{system} be defined as
 \begin{equation}
-  \dot{\mtx{x}} = \mtx{A}\mtx{x} + \mtx{B}\mtx{u}
+  \dot{\mat{x}} = \mat{A}\mat{x} + \mat{B}\mat{u}
 \end{equation}
 
 with the cost function
 \begin{equation*}
   J = \int\limits_0^\infty
     \begin{bmatrix}
-      \mtx{x} \\
-      \mtx{u}
+      \mat{x} \\
+      \mat{u}
     \end{bmatrix}^T
     \begin{bmatrix}
-      \mtx{Q} & \mtx{N} \\
-      \mtx{N}^T & \mtx{R}
+      \mat{Q} & \mat{N} \\
+      \mat{N}^T & \mat{R}
     \end{bmatrix}
     \begin{bmatrix}
-      \mtx{x} \\
-      \mtx{u}
+      \mat{x} \\
+      \mat{u}
     \end{bmatrix} dt
 \end{equation*}
 
 where $J$ represents a trade-off between \gls{state} excursion and
-\gls{control effort} with the weighting factors $\mtx{Q}$, $\mtx{R}$, and
-$\mtx{N}$. $\mtx{Q}$ is the weight matrix for \gls{error}, $\mtx{R}$ is the
-weight matrix for \gls{control effort}, and $\mtx{N}$ is a cross weight matrix
-between \gls{error} and \gls{control effort}. $\mtx{N}$ is commonly utilized
+\gls{control effort} with the weighting factors $\mat{Q}$, $\mat{R}$, and
+$\mat{N}$. $\mat{Q}$ is the weight matrix for \gls{error}, $\mat{R}$ is the
+weight matrix for \gls{control effort}, and $\mat{N}$ is a cross weight matrix
+between \gls{error} and \gls{control effort}. $\mat{N}$ is commonly utilized
 when penalizing the output in addition to the state and input.
 \begin{align*}
   J &= \int\limits_0^\infty
     \begin{bmatrix}
-      \mtx{x} \\
-      \mtx{u}
+      \mat{x} \\
+      \mat{u}
     \end{bmatrix}^T
     \begin{bmatrix}
-      \mtx{Q}\mtx{x} + \mtx{N}\mtx{u} \\
-      \mtx{N}^T\mtx{x} + \mtx{R}\mtx{u}
+      \mat{Q}\mat{x} + \mat{N}\mat{u} \\
+      \mat{N}^T\mat{x} + \mat{R}\mat{u}
     \end{bmatrix} dt \\
   J &= \int\limits_0^\infty
     \begin{bmatrix}
-      \mtx{x}^T & \mtx{u}^T
+      \mat{x}^T & \mat{u}^T
     \end{bmatrix}
     \begin{bmatrix}
-      \mtx{Q}\mtx{x} + \mtx{N}\mtx{u} \\
-      \mtx{N}^T\mtx{x} + \mtx{R}\mtx{u}
+      \mat{Q}\mat{x} + \mat{N}\mat{u} \\
+      \mat{N}^T\mat{x} + \mat{R}\mat{u}
     \end{bmatrix} dt \\
   J &= \int\limits_0^\infty
-    \left(\mtx{x}^T\left(\mtx{Q}\mtx{x} + \mtx{N}\mtx{u}\right) +
-      \mtx{u}^T\left(\mtx{N}^T\mtx{x} + \mtx{R}\mtx{u}\right)\right) dt \\
+    \left(\mat{x}^T\left(\mat{Q}\mat{x} + \mat{N}\mat{u}\right) +
+      \mat{u}^T\left(\mat{N}^T\mat{x} + \mat{R}\mat{u}\right)\right) dt \\
   J &= \int\limits_0^\infty
-    \left(\mtx{x}^T\mtx{Q}\mtx{x} + \mtx{x}^T\mtx{N}\mtx{u} +
-      \mtx{u}^T\mtx{N}^T\mtx{x} + \mtx{u}^T\mtx{R}\mtx{u}\right) dt \\
+    \left(\mat{x}^T\mat{Q}\mat{x} + \mat{x}^T\mat{N}\mat{u} +
+      \mat{u}^T\mat{N}^T\mat{x} + \mat{u}^T\mat{R}\mat{u}\right) dt \\
   J &= \int\limits_0^\infty
-    \left(\mtx{x}^T\mtx{Q}\mtx{x} + \mtx{x}^T\mtx{N}\mtx{u} +
-      \left(\mtx{x}^T\mtx{N}\mtx{u}\right)^T + \mtx{u}^T\mtx{R}\mtx{u}\right)
+    \left(\mat{x}^T\mat{Q}\mat{x} + \mat{x}^T\mat{N}\mat{u} +
+      \left(\mat{x}^T\mat{N}\mat{u}\right)^T + \mat{u}^T\mat{R}\mat{u}\right)
     dt \\
   J &= \int\limits_0^\infty
-    \left(\mtx{x}^T\mtx{Q}\mtx{x} + 2\mtx{x}^T\mtx{N}\mtx{u} +
-      \mtx{u}^T\mtx{R}\mtx{u}\right) dt \\
+    \left(\mat{x}^T\mat{Q}\mat{x} + 2\mat{x}^T\mat{N}\mat{u} +
+      \mat{u}^T\mat{R}\mat{u}\right) dt \\
   J &= \int\limits_0^\infty
-    \left(\mtx{x}^T\mtx{Q}\mtx{x} + \mtx{u}^T\mtx{R}\mtx{u} +
-      2\mtx{x}^T\mtx{N}\mtx{u}\right) dt
+    \left(\mat{x}^T\mat{Q}\mat{x} + \mat{u}^T\mat{R}\mat{u} +
+      2\mat{x}^T\mat{N}\mat{u}\right) dt
 \end{align*}
 
 The feedback \gls{control law} which minimizes $J$ subject to the constraint
-$\dot{\mtx{x}} = \mtx{A}\mtx{x} + \mtx{B}\mtx{u}$ is
+$\dot{\mat{x}} = \mat{A}\mat{x} + \mat{B}\mat{u}$ is
 \begin{equation*}
-  \mtx{u} = -\mtx{K}\mtx{x}
+  \mat{u} = -\mat{K}\mat{x}
 \end{equation*}
 
-where $\mtx{K}$ is given by
+where $\mat{K}$ is given by
 \begin{equation*}
-  \mtx{K} = \mtx{R}^{-1} \left(\mtx{B}^T\mtx{S} + \mtx{N}^T\right)
+  \mat{K} = \mat{R}^{-1} \left(\mat{B}^T\mat{S} + \mat{N}^T\right)
 \end{equation*}
 
-and $\mtx{S}$ is found by solving the continuous time algebraic Riccati equation
+and $\mat{S}$ is found by solving the continuous time algebraic Riccati equation
 defined as
 \begin{equation*}
-  \mtx{A}^T\mtx{S} + \mtx{S}\mtx{A} - \left(\mtx{S}\mtx{B} +
-    \mtx{N}\right) \mtx{R}^{-1} \left(\mtx{B}^T\mtx{S} + \mtx{N}^T\right) +
-    \mtx{Q} = 0
+  \mat{A}^T\mat{S} + \mat{S}\mat{A} - \left(\mat{S}\mat{B} +
+    \mat{N}\right) \mat{R}^{-1} \left(\mat{B}^T\mat{S} + \mat{N}^T\right) +
+    \mat{Q} = 0
 \end{equation*}
 
 or alternatively
 \begin{equation*}
-  \mathcal{A}^T\mtx{S} + \mtx{S}\mathcal{A} -
-    \mtx{S}\mtx{B}\mtx{R}^{-1}\mtx{B}^T\mtx{S} + \mathcal{Q} = 0
+  \mathcal{A}^T\mat{S} + \mat{S}\mathcal{A} -
+    \mat{S}\mat{B}\mat{R}^{-1}\mat{B}^T\mat{S} + \mathcal{Q} = 0
 \end{equation*}
 
 with
 \begin{align*}
-  \mathcal{A} &= \mtx{A} - \mtx{B}\mtx{R}^{-1}\mtx{N}^T \\
-  \mathcal{Q} &= \mtx{Q} - \mtx{N}\mtx{R}^{-1}\mtx{N}^T
+  \mathcal{A} &= \mat{A} - \mat{B}\mat{R}^{-1}\mat{N}^T \\
+  \mathcal{Q} &= \mat{Q} - \mat{N}\mat{R}^{-1}\mat{N}^T
 \end{align*}
 
 If there is no cross-correlation between \gls{error} and \gls{control effort},
-$\mtx{N}$ is a zero matrix and the cost function simplifies to
+$\mat{N}$ is a zero matrix and the cost function simplifies to
 \begin{equation*}
   J = \int\limits_0^\infty
-    \left(\mtx{x}^T\mtx{Q}\mtx{x} + \mtx{u}^T\mtx{R}\mtx{u}\right) dt
+    \left(\mat{x}^T\mat{Q}\mat{x} + \mat{u}^T\mat{R}\mat{u}\right) dt
 \end{equation*}
 
 The feedback \gls{control law} which minimizes this $J$ subject to
-$\dot{\mtx{x}} = \mtx{A}\mtx{x} + \mtx{B}\mtx{u}$ is
+$\dot{\mat{x}} = \mat{A}\mat{x} + \mat{B}\mat{u}$ is
 \begin{equation*}
-  \mtx{u} = -\mtx{K}\mtx{x}
+  \mat{u} = -\mat{K}\mat{x}
 \end{equation*}
 
-where $\mtx{K}$ is given by
+where $\mat{K}$ is given by
 \begin{equation*}
-  \mtx{K} = \mtx{R}^{-1}\mtx{B}^T\mtx{S}
+  \mat{K} = \mat{R}^{-1}\mat{B}^T\mat{S}
 \end{equation*}
 
-and $\mtx{S}$ is found by solving the continuous time algebraic Riccati equation
+and $\mat{S}$ is found by solving the continuous time algebraic Riccati equation
 defined as
 \begin{equation*}
-  \mtx{A}^T\mtx{S} + \mtx{S}\mtx{A} -
-    \mtx{S}\mtx{B}\mtx{R}^{-1}\mtx{B}^T\mtx{S} + \mtx{Q} = 0
+  \mat{A}^T\mat{S} + \mat{S}\mat{A} -
+    \mat{S}\mat{B}\mat{R}^{-1}\mat{B}^T\mat{S} + \mat{Q} = 0
 \end{equation*}
 
 The discrete time LQR \gls{controller} is computed via a slightly different cost

@@ -1,48 +1,48 @@
 \section{Drivetrain velocity model}
 \begin{equation*}
-  \dot{\mtx{x}} = \mtx{A}\mtx{x} + \mtx{B}\mtx{u}
+  \dot{\mat{x}} = \mat{A}\mat{x} + \mat{B}\mat{u}
 \end{equation*}
 \begin{equation*}
   \begin{array}{ccc}
-    \mtx{x} = \begin{bmatrix}
+    \mat{x} = \begin{bmatrix}
       \text{left velocity} \\
       \text{right velocity}
     \end{bmatrix} &
-    \dot{\mtx{x}} = \begin{bmatrix}
+    \dot{\mat{x}} = \begin{bmatrix}
       \text{left acceleration} \\
       \text{right acceleration}
     \end{bmatrix} &
-    \mtx{u} = \begin{bmatrix}
+    \mat{u} = \begin{bmatrix}
       \text{left voltage} \\
       \text{right voltage}
     \end{bmatrix}
   \end{array}
 \end{equation*}
 
-We want to derive what $\mtx{A}$ and $\mtx{B}$ are from linear and angular
+We want to derive what $\mat{A}$ and $\mat{B}$ are from linear and angular
 feedforward models. Since the left and right dynamics are symmetric, we'll guess
 the model has the form
 \begin{equation*}
   \begin{array}{cc}
-    \mtx{A} = \begin{bmatrix}
+    \mat{A} = \begin{bmatrix}
       A_1 & A_2 \\
       A_2 & A_1
     \end{bmatrix} &
-    \mtx{B} = \begin{bmatrix}
+    \mat{B} = \begin{bmatrix}
       B_1 & B_2 \\
       B_2 & B_1
     \end{bmatrix}
   \end{array}
 \end{equation*}
 
-Let $\mtx{u} =
+Let $\mat{u} =
 \begin{bmatrix}
   K_{v,linear} v & K_{v,linear} v
 \end{bmatrix}^T$ be the input that makes both sides of the drivetrain move at a
-constant velocity $v$. Therefore, $\mtx{x} =
+constant velocity $v$. Therefore, $\mat{x} =
 \begin{bmatrix}
   v & v
-\end{bmatrix}^T$ and $\dot{\mtx{x}} =
+\end{bmatrix}^T$ and $\dot{\mat{x}} =
 \begin{bmatrix}
   0 & 0
 \end{bmatrix}^T$. Substitute these into the state-space model.
@@ -125,14 +125,14 @@ Since the rows are linearly dependent, we can use just one of them.
     \end{bmatrix}
 \end{align*}
 
-Let $\mtx{u} =
+Let $\mat{u} =
 \begin{bmatrix}
   K_{v,linear} v + K_{a,linear} a & K_{v,linear} v + K_{a,linear} a
 \end{bmatrix}^T$ be the input that accelerates both sides of the drivetrain by
-$a$ from an initial velocity of $v$. Therefore, $\mtx{x} =
+$a$ from an initial velocity of $v$. Therefore, $\mat{x} =
 \begin{bmatrix}
   v & v
-\end{bmatrix}^T$ and $\dot{\mtx{x}} =
+\end{bmatrix}^T$ and $\dot{\mat{x}} =
 \begin{bmatrix}
   a & a
 \end{bmatrix}^T$. Substitute these into the state-space model.
@@ -208,14 +208,14 @@ Since the rows are linearly dependent, we can use just one of them.
     \end{bmatrix}
 \end{align*}
 
-Let $\mtx{u} =
+Let $\mat{u} =
 \begin{bmatrix}
   -K_{v,angular} v & K_{v,angular} v
 \end{bmatrix}^T$ be the input that rotates the drivetrain in place where each
-wheel has a constant velocity $v$. Therefore, $\mtx{x} =
+wheel has a constant velocity $v$. Therefore, $\mat{x} =
 \begin{bmatrix}
   -v & v
-\end{bmatrix}^T$ and $\dot{\mtx{x}} =
+\end{bmatrix}^T$ and $\dot{\mat{x}} =
 \begin{bmatrix}
   0 & 0
 \end{bmatrix}^T$.
@@ -339,14 +339,14 @@ Since the rows are linearly dependent, we can use just one of them.
     \end{bmatrix}
 \end{align*}
 
-Let $\mtx{u} =
+Let $\mat{u} =
 \begin{bmatrix}
   -K_{v,angular} v - K_{a,angular} a & K_{v,angular} v + K_{a,angular} a
 \end{bmatrix}^T$ be the input that rotates the drivetrain in place where each
-wheel has an initial speed of $v$ and accelerates by $a$. Therefore, $\mtx{x} =
+wheel has an initial speed of $v$ and accelerates by $a$. Therefore, $\mat{x} =
 \begin{bmatrix}
   -v & v
-\end{bmatrix}^T$ and $\dot{\mtx{x}} =
+\end{bmatrix}^T$ and $\dot{\mat{x}} =
 \begin{bmatrix}
   -a & a
 \end{bmatrix}^T$.
@@ -531,16 +531,16 @@ inverse of {{1, 1, b, b}, {v, v, b v + c a, b v + c a},
 To summarize,
 \begin{theorem}[Drivetrain velocity model]
   \begin{equation*}
-    \dot{\mtx{x}} = \mtx{A}\mtx{x} + \mtx{B}\mtx{u}
+    \dot{\mat{x}} = \mat{A}\mat{x} + \mat{B}\mat{u}
   \end{equation*}
   \begin{equation*}
     \begin{array}{cc}
-    \mtx{x} =
+    \mat{x} =
       \begin{bmatrix}
         \text{left velocity} \\
         \text{right velocity}
       \end{bmatrix} &
-    \mtx{u} =
+    \mat{u} =
       \begin{bmatrix}
         \text{left voltage} \\
         \text{right voltage}
@@ -548,15 +548,15 @@ To summarize,
     \end{array}
   \end{equation*}
   \begin{equation*}
-    \dot{\mtx{x}} =
+    \dot{\mat{x}} =
       \begin{bmatrix}
         A_1 & A_2 \\
         A_2 & A_1
-      \end{bmatrix} \mtx{x} +
+      \end{bmatrix} \mat{x} +
       \begin{bmatrix}
         B_1 & B_2 \\
         B_2 & B_1
-      \end{bmatrix} \mtx{u}
+      \end{bmatrix} \mat{u}
   \end{equation*}
   \begin{equation}
     \begin{bmatrix}

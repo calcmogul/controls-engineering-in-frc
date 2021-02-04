@@ -13,25 +13,25 @@ augmentation, controller augmentation, and \gls{observer} augmentation.
 \index{model augmentation!of plant}
 
 Plant augmentation is the process of adding a state to a model's state vector
-and adding a corresponding row to the $\mtx{A}$ and $\mtx{B}$ matrices.
+and adding a corresponding row to the $\mat{A}$ and $\mat{B}$ matrices.
 
 \subsection{Controller augmentation}
 \index{model augmentation!of controller}
 
 Controller augmentation is the process of adding a column to a controller's
-$\mtx{K}$ matrix. This is often done in combination with \gls{plant}
+$\mat{K}$ matrix. This is often done in combination with \gls{plant}
 augmentation to add controller dynamics relating to a newly added \gls{state}.
 
 \subsection{Observer augmentation}
 \index{model augmentation!of observer}
 
 Observer augmentation is closely related to \gls{plant} augmentation. In
-addition to adding entries to the \gls{observer} matrix $\mtx{L}$, the
+addition to adding entries to the \gls{observer} matrix $\mat{L}$, the
 \gls{observer} is using this augmented \gls{plant} for estimation purposes. This
 is better explained with an example.
 
 By augmenting the \gls{plant} with a bias term with no dynamics (represented by
-zeroes in its rows in $\mtx{A}$ and $\mtx{B}$), the \gls{observer} will attempt
+zeroes in its rows in $\mat{A}$ and $\mat{B}$), the \gls{observer} will attempt
 to estimate a value for this bias term that makes the \gls{model} best reflect
 the measurements taken of the real \gls{system}. Note that we're not collecting
 any data on this bias term directly; it's what's known as a hidden \gls{state}.
@@ -43,38 +43,38 @@ dynamics the term has and the \gls{observer} will estimate it for us.
 \subsection{Output augmentation}
 \index{model augmentation!of output}
 
-Output augmentation is the process of adding rows to the $\mtx{C}$ matrix. This
+Output augmentation is the process of adding rows to the $\mat{C}$ matrix. This
 is done to help the controls designer visualize the behavior of internal states
-or other aspects of the \gls{system} in MATLAB or Python Control. $\mtx{C}$
+or other aspects of the \gls{system} in MATLAB or Python Control. $\mat{C}$
 matrix augmentation doesn't affect \gls{state} feedback, so the designer has a
 lot of freedom here. Noting that the \gls{output} is defined as
-$\mtx{y} = \mtx{C}\mtx{x} + \mtx{D}\mtx{u}$, the following row augmentations of
-$\mtx{C}$ may prove useful. Of course, $\mtx{D}$ needs to be augmented with
+$\mat{y} = \mat{C}\mat{x} + \mat{D}\mat{u}$, the following row augmentations of
+$\mat{C}$ may prove useful. Of course, $\mat{D}$ needs to be augmented with
 zeroes as well in these cases to maintain the correct matrix dimensionality.
 
-Since $\mtx{u} = -\mtx{K}\mtx{x}$, augmenting $\mtx{C}$ with $-\mtx{K}$ makes
-the \gls{observer} estimate the \gls{control input} $\mtx{u}$ applied.
+Since $\mat{u} = -\mat{K}\mat{x}$, augmenting $\mat{C}$ with $-\mat{K}$ makes
+the \gls{observer} estimate the \gls{control input} $\mat{u}$ applied.
 \begin{align*}
-  \mtx{y} &= \mtx{C}\mtx{x} + \mtx{D}\mtx{u} \\
+  \mat{y} &= \mat{C}\mat{x} + \mat{D}\mat{u} \\
   \begin{bmatrix}
-    \mtx{y} \\
-    \mtx{u}
+    \mat{y} \\
+    \mat{u}
   \end{bmatrix} &=
   \begin{bmatrix}
-    \mtx{C} \\
-    -\mtx{K}
+    \mat{C} \\
+    -\mat{K}
   \end{bmatrix}
-  \mtx{x} +
+  \mat{x} +
   \begin{bmatrix}
-    \mtx{D} \\
-    \mtx{0}
+    \mat{D} \\
+    \mat{0}
   \end{bmatrix}
-  \mtx{u}
+  \mat{u}
 \end{align*}
 
-This works because $\mtx{K}$ has the same number of columns as \glspl{state}.
+This works because $\mat{K}$ has the same number of columns as \glspl{state}.
 
-Various \glspl{state} can also be produced in the \gls{output} with $\mtx{I}$
+Various \glspl{state} can also be produced in the \gls{output} with $\mat{I}$
 matrix augmentation.
 
 \subsection{Examples}
@@ -83,8 +83,8 @@ Snippet \ref{lst:augment_concat} shows how one packs together the following
 augmented matrix in Python using concatenation.
 \begin{equation*}
   \begin{bmatrix}
-    \mtx{A} & \mtx{B} \\
-    \mtx{C} & \mtx{D}
+    \mat{A} & \mat{B} \\
+    \mat{C} & \mat{D}
   \end{bmatrix}
 \end{equation*}
 \begin{code}{Python}{snippets/augment_concat.py}
