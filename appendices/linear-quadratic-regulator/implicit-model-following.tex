@@ -10,6 +10,8 @@ limits of the helicopter's actuators, of course).
 
 \subsection{Continuous case}
 
+\subsubsection{Following reference system matrix}
+
 Let the original system dynamics be
 \begin{align*}
   \dot{\mat{x}} &= \mat{A}\mat{x} + \mat{B}\mat{u} \\
@@ -262,7 +264,38 @@ $\mat{C} = \mat{I}$ and the cost functional simplifies to
   dt
 \end{equation}
 
+\subsubsection{Following reference input matrix}
+
+The feedback control law above makes the system behave like $\mat{A}_{ref}$, but
+not it has no effect on $\mat{B}$. Here's how to make the system also behave
+like $\mat{B}_{ref}$. We want to find the $\mat{u}_{imf}$ that makes the real
+model follow the reference model.
+\begin{align*}
+  \dot{\mat{x}} &= \mat{A}\mat{x} + \mat{B}\mat{u}_{imf} \\
+  \dot{\mat{z}} &= \mat{A}_{ref}\mat{z} + \mat{B}_{ref}\mat{u}
+\end{align*}
+
+Let $\mat{x} = \mat{z}$.
+\begin{align*}
+  \dot{\mat{x}} &= \dot{\mat{z}} \\
+  \mat{A}\mat{x} + \mat{B}\mat{u}_{imf} &= \mat{A}_{ref}\mat{x} +
+    \mat{B}_{ref}\mat{u} \\
+  \mat{B}\mat{u}_{imf} &= \mat{A}_{ref}\mat{x} - \mat{A}\mat{x} +
+    \mat{B}_{ref}\mat{u} \\
+  \mat{B}\mat{u}_{imf} &= (\mat{A}_{ref} - \mat{A})\mat{x} +
+    \mat{B}_{ref}\mat{u} \\
+  \mat{u}_{imf} &= \mat{B}^\dagger ((\mat{A}_{ref} - \mat{A})\mat{x} +
+    \mat{B}_{ref}\mat{u}) \\
+  \mat{u}_{imf} &= -\mat{B}^\dagger (\mat{A} - \mat{A}_{ref})\mat{x} +
+    \mat{B}^\dagger \mat{B}_{ref}\mat{u}
+\end{align*}
+
+The first term makes the open-loop poles match that of the reference model, and
+the second term makes the input behave like that of the reference model.
+
 \subsection{Discrete case}
+
+\subsubsection{Following reference system matrix}
 
 Let the original system dynamics be
 \begin{align*}
@@ -518,3 +551,32 @@ $\mat{C} = \mat{I}$ and the cost functional simplifies to
   \end{bmatrix}
   \Delta T
 \end{equation}
+
+\subsubsection{Following reference input matrix}
+
+The feedback control law above makes the system behave like $\mat{A}_{ref}$, but
+not it has no effect on $\mat{B}$. Here's how to make the system also behave
+like $\mat{B}_{ref}$. We want to find the $\mat{u}_{imf,k}$ that makes the real
+model follow the reference model.
+\begin{align*}
+  \mat{x}_{k+1} &= \mat{A}\mat{x}_k + \mat{B}\mat{u}_{imf,k} \\
+  \mat{z}_{k+1} &= \mat{A}_{ref}\mat{z}_k + \mat{B}_{ref}\mat{u}_k
+\end{align*}
+
+Let $\mat{x} = \mat{z}$.
+\begin{align*}
+  \mat{x}_{k+1} &= \mat{z}_{k+1} \\
+  \mat{A}\mat{x}_k + \mat{B}\mat{u}_{imf,k} &= \mat{A}_{ref}\mat{x}_k +
+    \mat{B}_{ref}\mat{u}_k \\
+  \mat{B}\mat{u}_{imf,k} &= \mat{A}_{ref}\mat{x}_k - \mat{A}\mat{x}_k +
+    \mat{B}_{ref}\mat{u}_k \\
+  \mat{B}\mat{u}_{imf,k} &= (\mat{A}_{ref} - \mat{A})\mat{x}_k +
+    \mat{B}_{ref}\mat{u}_k \\
+  \mat{u}_{imf,k} &= \mat{B}^\dagger ((\mat{A}_{ref} - \mat{A})\mat{x}_k +
+    \mat{B}_{ref}\mat{u}_k) \\
+  \mat{u}_{imf,k} &= -\mat{B}^\dagger (\mat{A} - \mat{A}_{ref})\mat{x}_k +
+    \mat{B}^\dagger \mat{B}_{ref}\mat{u}_k
+\end{align*}
+
+The first term makes the open-loop poles match that of the reference model, and
+the second term makes the input behave like that of the reference model.
