@@ -8,6 +8,8 @@ model following}. This is used on the Blackhawk helicopter at NASA Ames research
 center when they want to make it fly like experimental aircraft (within the
 limits of the helicopter's actuators, of course).
 
+\subsection{Continuous case}
+
 Let the original system dynamics be
 \begin{align*}
   \dot{\mat{x}} &= \mat{A}\mat{x} + \mat{B}\mat{u} \\
@@ -26,7 +28,8 @@ and the desired system dynamics be
 
 We want to minimize the following cost functional.
 \begin{equation*}
-  J = \int_0^\infty \left((\dot{\mat{y}} - \dot{\mat{z}})^T \mat{Q} (\dot{\mat{y}} - \dot{\mat{z}}) + \mat{u}^T\mat{R}\mat{u}\right) dt
+  J = \int_0^\infty \left((\dot{\mat{y}} - \dot{\mat{z}})^T \mat{Q}
+    (\dot{\mat{y}} - \dot{\mat{z}}) + \mat{u}^T\mat{R}\mat{u}\right) dt
 \end{equation*}
 
 We'll be measuring the desired system's state, so let $\mat{y} = \mat{z}$.
@@ -257,4 +260,261 @@ $\mat{C} = \mat{I}$ and the cost functional simplifies to
     \mat{u}
   \end{bmatrix}
   dt
+\end{equation}
+
+\subsection{Discrete case}
+
+Let the original system dynamics be
+\begin{align*}
+  \mat{x}_{k+1} &= \mat{A}\mat{x}_k + \mat{B}\mat{u}_k \\
+  \mat{y} &= \mat{C}\mat{x}_k
+\end{align*}
+
+and the desired system dynamics be
+\begin{equation*}
+  \mat{z}_{k+1} = \mat{A}_{ref}\mat{z}_k
+\end{equation*}
+\begin{align*}
+  \mat{y}_{k+1} &= \mat{C}\mat{x}_{k+1} \\
+  \mat{y}_{k+1} &= \mat{C}(\mat{A}\mat{x}_k + \mat{B}\mat{u}_k) \\
+  \mat{y}_{k+1} &= \mat{C}\mat{A}\mat{x}_k + \mat{C}\mat{B}\mat{u}_k
+\end{align*}
+
+We want to minimize the following cost functional.
+\begin{equation*}
+  J = \sum_{k=0}^\infty \left((\mat{y}_{k+1} - \mat{z}_{k+1})^T \mat{Q}
+    (\mat{y}_{k+1} - \mat{z}_{k+1}) + \mat{u}_k^T\mat{R}\mat{u}_k\right)
+    \Delta T
+\end{equation*}
+
+We'll be measuring the desired system's state, so let $\mat{y} = \mat{z}$.
+\begin{align*}
+  \mat{z}_{k+1} &= \mat{A}_{ref}\mat{y}_k \\
+  \mat{z}_{k+1} &= \mat{A}_{ref}\mat{C}\mat{x}_k
+\end{align*}
+
+Therefore,
+\begin{align*}
+  \mat{y}_{k+1} - \mat{z}_{k+1} &=
+    \mat{C}\mat{A}\mat{x}_k + \mat{C}\mat{B}\mat{u}_k -
+    (\mat{A}_{ref}\mat{C}\mat{x}_k) \\
+  \mat{y}_{k+1} - \mat{z}_{k+1} &=
+    (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})\mat{x}_k + \mat{C}\mat{B}\mat{u}_k
+\end{align*}
+
+Substitute this into the cost functional.
+\begin{align*}
+  J &= \sum_{k=0}^\infty \left((\mat{y}_{k+1} - \mat{z}_{k+1})^T \mat{Q}
+    (\mat{y}_{k+1} - \mat{z}_{k+1}) + \mat{u}_k^T\mat{R}\mat{u}_k\right)
+    \Delta T \\
+  J &= \sum_{k=0}^\infty \left(
+    ((\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})\mat{x}_k + \mat{C}\mat{B}\mat{u}_k)^T
+    \mat{Q}
+    ((\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})\mat{x}_k + \mat{C}\mat{B}\mat{u}_k) +
+    \mat{u}_k^T\mat{R}\mat{u}_k\right) \Delta T
+\end{align*}
+
+Apply the transpose to the left-hand side of the $\mat{Q}$ term.
+\begin{equation*}
+  J = \sum_{k=0}^\infty \left(
+    (\mat{x}_k^T(\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})^T + \mat{u}_k^T(\mat{C}\mat{B})^T)
+    \mat{Q}
+    ((\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})\mat{x}_k + \mat{C}\mat{B}\mat{u}_k) +
+    \mat{u}_k^T\mat{R}\mat{u}_k\right) \Delta T
+\end{equation*}
+
+Factor out $\begin{bmatrix}\mat{x}_k \\ \mat{u}_k\end{bmatrix}^T$ from the left
+side and $\begin{bmatrix}\mat{x}_k \\ \mat{u}_k\end{bmatrix}$ from the right
+side of each term.
+\begin{align*}
+  J &= \sum_{k=0}^\infty \left(
+    \begin{bmatrix}
+      \mat{x}_k \\
+      \mat{u}_k
+    \end{bmatrix}^T
+    \begin{bmatrix}
+      (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})^T \\
+      (\mat{C}\mat{B})^T
+    \end{bmatrix}
+    \mat{Q}
+    \begin{bmatrix}
+      \mat{C}\mat{A} - \mat{A}_{ref}\mat{C} &
+      \mat{C}\mat{B}
+    \end{bmatrix}
+    \begin{bmatrix}
+      \mat{x}_k \\
+      \mat{u}_k
+    \end{bmatrix} +
+    \begin{bmatrix}
+      \mat{x}_k \\
+      \mat{u}_k
+    \end{bmatrix}^T
+    \begin{bmatrix}
+      \mat{0} & \mat{0} \\
+      \mat{0} & \mat{R}
+    \end{bmatrix}
+    \begin{bmatrix}
+      \mat{x}_k \\
+      \mat{u}_k
+    \end{bmatrix}
+    \right) \Delta T \\
+  J &= \sum_{k=0}^\infty \left(
+    \begin{bmatrix}
+      \mat{x}_k \\
+      \mat{u}_k
+    \end{bmatrix}^T
+    \left(
+    \begin{bmatrix}
+      (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})^T \\
+      (\mat{C}\mat{B})^T
+    \end{bmatrix}
+    \mat{Q}
+    \begin{bmatrix}
+      \mat{C}\mat{A} - \mat{A}_{ref}\mat{C} &
+      \mat{C}\mat{B}
+    \end{bmatrix} +
+    \begin{bmatrix}
+      \mat{0} & \mat{0} \\
+      \mat{0} & \mat{R}
+    \end{bmatrix}
+    \right)
+    \begin{bmatrix}
+      \mat{x}_k \\
+      \mat{u}_k
+    \end{bmatrix}
+    \right) \Delta T
+\end{align*}
+
+Multiply in $\mat{Q}$.
+\begin{equation*}
+  J = \sum_{k=0}^\infty \left(
+    \begin{bmatrix}
+      \mat{x}_k \\
+      \mat{u}_k
+    \end{bmatrix}^T
+    \left(
+    \begin{bmatrix}
+      (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})^T\mat{Q} \\
+      (\mat{C}\mat{B})^T\mat{Q}
+    \end{bmatrix}
+    \begin{bmatrix}
+      \mat{C}\mat{A} - \mat{A}_{ref}\mat{C} &
+      \mat{C}\mat{B}
+    \end{bmatrix} +
+    \begin{bmatrix}
+      \mat{0} & \mat{0} \\
+      \mat{0} & \mat{R}
+    \end{bmatrix}
+    \right)
+    \begin{bmatrix}
+      \mat{x}_k \\
+      \mat{u}_k
+    \end{bmatrix}
+    \right) \Delta T
+\end{equation*}
+
+Multiply matrices in the left term together.
+\begin{equation*}
+  J = \sum_{k=0}^\infty \left(
+    \begin{bmatrix}
+      \mat{x}_k \\
+      \mat{u}_k
+    \end{bmatrix}^T
+    \left(
+    \begin{bmatrix}
+      (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})^T\mat{Q}(\mat{C}\mat{A} - \mat{A}_{ref}\mat{C}) &
+      (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})^T\mat{Q}(\mat{C}\mat{B}) \\
+      (\mat{C}\mat{B})^T\mat{Q}(\mat{C}\mat{A} - \mat{A}_{ref}\mat{C}) &
+      (\mat{C}\mat{B})^T\mat{Q}(\mat{C}\mat{B})
+    \end{bmatrix} +
+    \begin{bmatrix}
+      \mat{0} & \mat{0} \\
+      \mat{0} & \mat{R}
+    \end{bmatrix}
+    \right)
+    \begin{bmatrix}
+      \mat{x}_k \\
+      \mat{u}_k
+    \end{bmatrix}
+    \right) \Delta T
+\end{equation*}
+
+Add the terms together.
+\begin{equation}
+  J = \sum_{k=0}^\infty
+  \begin{bmatrix}
+    \mat{x}_k \\
+    \mat{u}_k
+  \end{bmatrix}^T
+  \begin{bmatrix}
+    \underbrace{(\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})^T\mat{Q}
+      (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})}_{\mat{Q}} &
+    \underbrace{(\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})^T\mat{Q}
+      (\mat{C}\mat{B})}_{\mat{N}} \\
+    \underbrace{(\mat{C}\mat{B})^T\mat{Q}
+      (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})}_{\mat{N}^T} &
+    \underbrace{(\mat{C}\mat{B})^T\mat{Q}(\mat{C}\mat{B}) + \mat{R}}_{\mat{R}}
+  \end{bmatrix}
+  \begin{bmatrix}
+    \mat{x}_k \\
+    \mat{u}_k
+  \end{bmatrix}
+  \Delta T
+\end{equation}
+
+Thus, implicit model following can be defined as the following optimization
+problem.
+\begin{theorem}[Implicit model following]
+  \begin{align}
+    \min_{\mat{u}_k} &\sum_{k=0}^\infty
+    \begin{bmatrix}
+      \mat{x}_k \\
+      \mat{u}_k
+    \end{bmatrix}^T
+    \begin{bmatrix}
+      \underbrace{(\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})^T\mat{Q}
+        (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})}_{\mat{Q}} &
+      \underbrace{(\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})^T\mat{Q}
+        (\mat{C}\mat{B})}_{\mat{N}} \\
+      \underbrace{(\mat{C}\mat{B})^T\mat{Q}
+        (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})}_{\mat{N}^T} &
+      \underbrace{(\mat{C}\mat{B})^T\mat{Q}(\mat{C}\mat{B}) + \mat{R}}_{\mat{R}}
+    \end{bmatrix}
+    \begin{bmatrix}
+      \mat{x}_k \\
+      \mat{u}_k
+    \end{bmatrix}
+    \Delta T \nonumber \\
+    \text{subject to } &\mat{x}_{k+1} = \mat{A}\mat{x}_k + \mat{B}\mat{u}_k
+  \end{align}
+
+  The optimal control policy $\mat{u}_k^*$ is $-\mat{K}\mat{x}_k$. $\mat{K}$ can
+  be computed via the typical LQR equations based on the algebraic Ricatti
+  equation.
+\end{theorem}
+
+The control law $\mat{u}_{imf,k} = -\mat{K}\mat{x}_k$ makes
+$\mat{x}_{k+1} = \mat{A}\mat{x}_k + \mat{B}\mat{u}_{imf,k}$ match the open-loop
+response of $\mat{z}_{k+1} = \mat{A}_{ref}\mat{z}_k$.
+
+If the original and desired system have the same states, then
+$\mat{C} = \mat{I}$ and the cost functional simplifies to
+\begin{equation}
+  J = \sum_{k=0}^\infty
+  \begin{bmatrix}
+    \mat{x}_k \\
+    \mat{u}_k
+  \end{bmatrix}^T
+  \begin{bmatrix}
+    \underbrace{(\mat{A} - \mat{A}_{ref})^T\mat{Q}
+      (\mat{A} - \mat{A}_{ref})}_{\mat{Q}} &
+    \underbrace{(\mat{A} - \mat{A}_{ref})^T\mat{Q}\mat{B}}_{\mat{N}} \\
+    \underbrace{\mat{B}^T\mat{Q}(\mat{A} - \mat{A}_{ref})}_{\mat{N}^T} &
+    \underbrace{\mat{B}^T\mat{Q}\mat{B} + \mat{R}}_{\mat{R}}
+  \end{bmatrix}
+  \begin{bmatrix}
+    \mat{x}_k \\
+    \mat{u}_k
+  \end{bmatrix}
+  \Delta T
 \end{equation}
