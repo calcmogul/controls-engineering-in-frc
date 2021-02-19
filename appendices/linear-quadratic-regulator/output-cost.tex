@@ -1,5 +1,6 @@
-\section{Output feedback}
-\index{controller design!linear-quadratic regulator!output feedback}
+\section{State feedback with output cost}
+\index{controller design!linear-quadratic regulator!state feedback with output
+  cost}
 
 LQR is normally used for state feedback on
 \begin{align*}
@@ -14,14 +15,16 @@ with the cost functional
 \end{equation*}
 
 However, we may not know how to select costs for some of the states, or we don't
-care what certain internal states are doing. Output feedback can accomodate
-this. Not only can we make our output contain a subset of states, but we can use
-any other cost metric we can think of as long as it's representable as a linear
+care what certain internal states are doing. We can address this by writing the
+cost functional in terms of the output vector instead of the state vector. Not
+only can we make our output contain a subset of states, but we can use any other
+cost metric we can think of as long as it's representable as a linear
 combination of the states and inputs\footnote{We'll see this later on in section
 \ref{sec:implicit_model_following} when we define the cost metric as deviation
 from the behavior of another model.}.
 
-For output feedback, we want to minimize the following cost functional.
+For state feedback with an output cost, we want to minimize the following cost
+functional.
 \begin{equation*}
   J = \int_0^\infty \left(\mat{y}^T\mat{Q}\mat{y} +
     \mat{u}^T\mat{R}\mat{u}\right) dt
@@ -173,8 +176,9 @@ Add the terms together.
   dt
 \end{equation}
 
-Thus, output feedback can be defined as the following optimization problem.
-\begin{theorem}[Linear-quadratic regulator with output feedback]
+Thus, state feedback with an output cost can be defined as the following
+optimization problem.
+\begin{theorem}[Linear-quadratic regulator with output cost]
   \begin{align}
     \min_{\mat{u}} &\int_0^\infty
     \begin{bmatrix}
@@ -195,15 +199,16 @@ Thus, output feedback can be defined as the following optimization problem.
     \text{subject to } &\dot{\mat{x}} = \mat{A}\mat{x} + \mat{B}\mat{u}
   \end{align}
 
-  The optimal control policy $\mat{u}^*$ is $\mat{K}(\mat{r} - \mat{y})$ where
-  $\mat{r}$ is the desired output and $\mat{y}$ is the measured output defined
-  as $\mat{y} = \mat{C}\mat{x} + \mat{D}\mat{u}$. $\mat{K}$ can be computed via
-  the typical LQR equations based on the algebraic Ricatti equation.
+  The optimal control policy $\mat{u}^*$ is $\mat{K}(\mat{r} - \mat{x})$ where
+  $\mat{r}$ is the desired state. Note that the $\mat{Q}$ in
+  $\mat{C}^T\mat{Q}\mat{C}$ is outputs $\times$ outputs instead of states
+  $\times$ states. $\mat{K}$ can be computed via the typical LQR equations based
+  on the algebraic Ricatti equation.
 \end{theorem}
 
-If the output is only the whole state vector, then $\mat{C} = \mat{I}$,
-$\mat{D} = \mat{0}$, and the cost functional simplifies to that of state
-feedback LQR.
+If the output is just the state vector, then $\mat{C} = \mat{I}$,
+$\mat{D} = \mat{0}$, and the cost functional simplifies to that of LQR with a
+state cost.
 \begin{equation*}
   J = \int_0^\infty
   \begin{bmatrix}
