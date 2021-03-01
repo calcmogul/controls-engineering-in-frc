@@ -258,8 +258,7 @@ forward and backward passes for a Kalman smoother at the $k^{th}$ timestep.
   \begin{align}
     \text{Forward predict step} \nonumber \\
     \hat{\mat{x}}_{k+1}^- &= \mat{A}\hat{\mat{x}}_k + \mat{B} \mat{u}_k \\
-    \mat{P}_{k+1}^- &= \mat{A} \mat{P}_k^- \mat{A}^T +
-      \mat{\Gamma}\mat{Q}\mat{\Gamma}^T \\
+    \mat{P}_{k+1}^- &= \mat{A} \mat{P}_k^- \mat{A}^T + \mat{Q} \\
     \text{Forward update step} \nonumber \\
     \mat{K}_{k+1} &=
       \mat{P}_{k+1}^- \mat{C}^T (\mat{C}\mat{P}_{k+1}^- \mat{C}^T +

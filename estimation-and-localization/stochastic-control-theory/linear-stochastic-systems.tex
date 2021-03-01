@@ -4,8 +4,7 @@
 
 Given the following stochastic system
 \begin{align*}
-  \mat{x}_{k+1} &= \mat{A}\mat{x}_k + \mat{B}\mat{u}_k +
-    \mat{\Gamma}\mat{w}_k \\
+  \mat{x}_{k+1} &= \mat{A}\mat{x}_k + \mat{B}\mat{u}_k + \mat{w}_k \\
   \mat{y}_k &= \mat{C}\mat{x}_k + \mat{D}\mat{u}_k + \mat{v}_k
 \end{align*}
 
@@ -32,12 +31,11 @@ which we'll use later for deriving the Kalman filter.
 First, we will compute how the expectation of the \gls{system} \gls{state}
 evolves.
 \begin{align*}
-  E[\mat{x}_{k+1}] &= E[\mat{A}\mat{x}_k + \mat{B}\mat{u}_k +
-    \mat{\Gamma}\mat{w}_k] \\
+  E[\mat{x}_{k+1}] &= E[\mat{A}\mat{x}_k + \mat{B}\mat{u}_k + \mat{w}_k] \\
   E[\mat{x}_{k+1}] &= E[\mat{A}\mat{x}_k] + E[\mat{B}\mat{u}_k] +
-    E[\mat{\Gamma}\mat{w}_k] \\
+    E[\mat{w}_k] \\
   E[\mat{x}_{k+1}] &= \mat{A}E[\mat{x}_k] + \mat{B}E[\mat{u}_k] +
-    \mat{\Gamma}E[\mat{w}_k] \\
+    E[\mat{w}_k] \\
   E[\mat{x}_{k+1}] &= \mat{A}E[\mat{x}_k] + \mat{B}\mat{u}_k + 0 \\
   \matbar{x}_{k+1} &= \mat{A}\matbar{x}_k + \mat{B}\mat{u}_k \\
 \end{align*}
@@ -48,48 +46,44 @@ Now, we will use this to compute how the \gls{error} covariance matrix $\mat{P}$
 evolves.
 \begin{align*}
   \mat{x}_{k+1} - \matbar{x}_{k+1} &= \mat{A}\mat{x}_k +
-    \mat{B}\mat{u}_k + \mat{\Gamma}\mat{w}_k - (\mat{A}\matbar{x}_k -
-    \mat{B}\mat{u}_k) \\
+    \mat{B}\mat{u}_k + \mat{w}_k - (\mat{A}\matbar{x}_k - \mat{B}\mat{u}_k) \\
   \mat{x}_{k+1} - \matbar{x}_{k+1} &=
-    \mat{A}(\mat{x}_k - \matbar{x}_k) + \mat{\Gamma}\mat{w}_k
+    \mat{A}(\mat{x}_k - \matbar{x}_k) + \mat{w}_k
 \end{align*}
 \begin{equation*}
   E[(\mat{x}_{k+1} - \matbar{x}_{k+1})(\mat{x}_{k+1} - \matbar{x}_{k+1})^T] =
-    E[(\mat{A}(\mat{x}_k - \matbar{x}_k) + \mat{\Gamma}\mat{w}_k)
-      (\mat{A}(\mat{x}_k - \matbar{x}_k) + \mat{\Gamma}\mat{w}_k)^T]
+    E[(\mat{A}(\mat{x}_k - \matbar{x}_k) + \mat{w}_k)
+      (\mat{A}(\mat{x}_k - \matbar{x}_k) + \mat{w}_k)^T]
 \end{equation*}
 \begin{align*}
   \mat{P}_{k+1} &=
-    E[(\mat{A}(\mat{x}_k - \matbar{x}_k) + \mat{\Gamma}\mat{w}_k)
-      (\mat{A}(\mat{x}_k - \matbar{x}_k) + \mat{\Gamma}\mat{w}_k)^T] \\
+    E[(\mat{A}(\mat{x}_k - \matbar{x}_k) + \mat{w}_k)
+      (\mat{A}(\mat{x}_k - \matbar{x}_k) + \mat{w}_k)^T] \\
   \mat{P}_{k+1} &=
     E[(\mat{A}(\mat{x}_k - \matbar{x}_k)(\mat{x}_k - \matbar{x}_k)^T
       \mat{A}^T] +
-    E[\mat{A}(\mat{x}_k - \matbar{x}_k)\mat{w}_k^T\mat{\Gamma}^T] \\
-    &\qquad + E[\mat{\Gamma}\mat{w}_k(\mat{x}_k - \matbar{x}_k)^T\mat{A}^T] +
-    E[\mat{\Gamma}\mat{w}_k\mat{w}_k^T\mat{\Gamma}^T] \\
+    E[\mat{A}(\mat{x}_k - \matbar{x}_k)\mat{w}_k^T] \\
+    &\qquad + E[\mat{w}_k(\mat{x}_k - \matbar{x}_k)^T\mat{A}^T] +
+    E[\mat{w}_k\mat{w}_k^T] \\
   \mat{P}_{k+1} &=
     \mat{A}E[(\mat{x}_k - \matbar{x}_k)(\mat{x}_k - \matbar{x}_k)^T]
     \mat{A}^T +
-    \mat{A}E[(\mat{x}_k - \matbar{x}_k)\mat{w}_k^T]\mat{\Gamma}^T \\
-    &\qquad + \mat{\Gamma} E[\mat{w}_k(\mat{x}_k - \matbar{x}_k)^T]\mat{A}^T +
-    \mat{\Gamma} E[\mat{w}_k\mat{w}_k^T]\mat{\Gamma}^T \\
+    \mat{A}E[(\mat{x}_k - \matbar{x}_k)\mat{w}_k^T] \\
+    &\qquad + E[\mat{w}_k(\mat{x}_k - \matbar{x}_k)^T]\mat{A}^T +
+    E[\mat{w}_k\mat{w}_k^T] \\
   \mat{P}_{k+1} &= \mat{A}\mat{P}_k\mat{A}^T +
-    \mat{A}E[(\mat{x}_k - \matbar{x}_k)\mat{w}_k^T]\mat{\Gamma}^T +
-    \mat{\Gamma} E[\mat{w}_k(\mat{x}_k - \matbar{x}_k)^T]\mat{A}^T +
-    \mat{\Gamma}\mat{Q}_k\mat{\Gamma}_k^T
+    \mat{A}E[(\mat{x}_k - \matbar{x}_k)\mat{w}_k^T] +
+    E[\mat{w}_k(\mat{x}_k - \matbar{x}_k)^T]\mat{A}^T + \mat{Q}_k
 \end{align*}
 
 Since the error and noise are independent, the cross terms are zero.
 \begin{align*}
   \mat{P}_{k+1} &= \mat{A}\mat{P}_k\mat{A}^T +
     \mat{A}\underbrace{
-      E[(\mat{x}_k - \matbar{x}_k)\mat{w}_k^T]}_\mat{0}\mat{\Gamma}^T +
-    \mat{\Gamma}\underbrace{
-      E[\mat{w}_k(\mat{x}_k - \matbar{x}_k)^T]}_\mat{0}\mat{A}^T +
-    \mat{\Gamma}\mat{Q}_k\mat{\Gamma}_k^T \\
-  \mat{P}_{k+1} &= \mat{A}\mat{P}_k\mat{A}^T +
-    \mat{\Gamma}\mat{Q}_k\mat{\Gamma}^T
+      E[(\mat{x}_k - \matbar{x}_k)\mat{w}_k^T]}_\mat{0} +
+    \underbrace{
+      E[\mat{w}_k(\mat{x}_k - \matbar{x}_k)^T]}_\mat{0}\mat{A}^T + \mat{Q}_k \\
+  \mat{P}_{k+1} &= \mat{A}\mat{P}_k\mat{A}^T + \mat{Q}_k
 \end{align*}
 
 \subsection{Measurement vector expectation}

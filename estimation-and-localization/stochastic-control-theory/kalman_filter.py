@@ -29,11 +29,8 @@ def main():
     phi = np.array([[1, 1, 0],
                     [0, 0, 0],
                     [0, 0, 1]])
-    gamma = np.array([[0],
-                      [0.1],
-                      [0]])
 
-    Q = np.array([[1]])
+    Q = np.diag(np.square([0, 0.1, 0]))
     R = np.array([[10, 0],
                    [0, 10]])
 
@@ -66,7 +63,7 @@ def main():
         elif k > 1:
             # Predict
             xhat = phi @ xhat + np.array([[0, 0.8, 0]]).T
-            P = phi @ P @ phi.T + gamma @ Q @ gamma.T
+            P = phi @ P @ phi.T + Q
 
             # Update
             K = P @ C.T @ np.linalg.inv(C @ P @ C.T + R)

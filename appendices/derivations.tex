@@ -161,8 +161,7 @@ update step.
   \text{Predict step} \nonumber \\
   \hat{\mat{x}}_{k+1}^+ &= \mat{A}\hat{\mat{x}}_k^+ + \mat{B}\mat{u}_k
     \label{eq:pre2_x} \\
-  \mat{P}_{k+1}^- &= \mat{A} \mat{P}_k^+ \mat{A}^T +
-    \mat{\Gamma}\mat{Q}\mat{\Gamma}^T
+  \mat{P}_{k+1}^- &= \mat{A} \mat{P}_k^+ \mat{A}^T + \mat{Q}
 \end{align}
 
 Substitute equation \eqref{eq:post2_x} into equation \eqref{eq:pre2_x}.

@@ -29,11 +29,8 @@ def main():
     A = np.array([[1, 1, 0],
                   [0, 1, 0],
                   [0, 0, 1]])
-    gamma = np.array([[0],
-                      [0.1],
-                      [0]])
 
-    Q = np.array([[1]])
+    Q = np.diag(np.square([0, 0.1, 0]))
     R = np.array([[10, 0],
                   [0, 10]])
 
@@ -73,7 +70,7 @@ def main():
     for k in range(2, 100):
         # Predict
         xhat = A @ xhat
-        P = A @ P @ A.T + gamma @ Q @ gamma.T
+        P = A @ P @ A.T + Q
 
         xhat_pre_rec[:, :, k] = xhat
         P_pre_rec[:, :, k] = P

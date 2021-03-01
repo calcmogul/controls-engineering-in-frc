@@ -265,8 +265,7 @@ and update steps for a Kalman filter at the $k^{th}$ timestep.
   \begin{align}
     \text{Predict step} \nonumber \\
     \hat{\mat{x}}_{k+1}^- &= \mat{A}\hat{\mat{x}}_k + \mat{B} \mat{u}_k \\
-    \mat{P}_{k+1}^- &= \mat{A} \mat{P}_k^- \mat{A}^T +
-      \mat{\Gamma}\mat{Q}\mat{\Gamma}^T \\
+    \mat{P}_{k+1}^- &= \mat{A} \mat{P}_k^- \mat{A}^T + \mat{Q} \\
     \text{Update step} \nonumber \\
     \mat{K}_{k+1} &=
       \mat{P}_{k+1}^- \mat{C}^T (\mat{C}\mat{P}_{k+1}^- \mat{C}^T +
@@ -281,12 +280,9 @@ and update steps for a Kalman filter at the $k^{th}$ timestep.
       $\mat{A}$ & system matrix & $\hat{\mat{x}}$ & state estimate vector \\
       $\mat{B}$ & input matrix       & $\mat{u}$ & input vector \\
       $\mat{C}$ & output matrix      & $\mat{y}$ & output vector \\
-      $\mat{D}$ & feedthrough matrix & $\mat{\Gamma}$ & process noise intensity
-        vector \\
-      $\mat{P}$ & error covariance matrix & $\mat{Q}$ & process noise covariance
-        matrix \\
-      $\mat{K}$ & Kalman gain matrix & $\mat{R}$ & measurement noise covariance
-        matrix
+      $\mat{D}$ & feedthrough matrix & $\mat{Q}$ & process noise covariance matrix \\
+      $\mat{P}$ & error covariance matrix & $\mat{R}$ & measurement noise covariance matrix \\
+      $\mat{K}$ & Kalman gain matrix & &
     \end{tabular}
   \end{figurekey}
 
@@ -311,9 +307,9 @@ earlier are made constants here.
     $\mat{A}$ & states $\times$ states & $\hat{\mat{x}}$ & states $\times$ 1 \\
     $\mat{B}$ & states $\times$ inputs & $\mat{u}$ & inputs $\times$ 1 \\
     $\mat{C}$ & outputs $\times$ states & $\mat{y}$ & outputs $\times$ 1 \\
-    $\mat{D}$ & outputs $\times$ inputs & $\mat{\Gamma}$ & states $\times$ 1 \\
-    $\mat{P}$ & states $\times$ states & $\mat{Q}$ & states $\times$ states \\
-    $\mat{K}$ & states $\times$ outputs & $\mat{R}$ & outputs $\times$ outputs
+    $\mat{D}$ & outputs $\times$ inputs & $\mat{Q}$ & states $\times$ states \\
+    $\mat{P}$ & states $\times$ states & $\mat{R}$ & outputs $\times$ outputs \\
+    $\mat{K}$ & states $\times$ outputs & &
       \\
     \hline
   \end{tabular}
