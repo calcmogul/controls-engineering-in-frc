@@ -12,7 +12,7 @@
 We want to derive what $\mat{A}$ and $\mat{B}$ are from the following
 feedforward model
 \begin{equation*}
-  \mat{u} = K_v v + K_a a
+  \mat{u} = K_v \mat{x} + K_a \dot{\mat{x}}
 \end{equation*}
 
 where $K_v$ and $K_a$ are constants that should be measured from empirical
@@ -21,39 +21,40 @@ quasistatic velocity tests and acceleration tests.
 $K_v$ is a proportional constant that describes how much voltage is required to
 maintain a given constant velocity by offsetting the electromagnetic resistance
 of the motor and any friction that increases linearly with speed (viscous drag).
-The relationship between speed and voltage (at constant acceleration) is linear
-for permanent-magnet DC motors in the FRC operating regime.
+The relationship between speed and voltage (for a given initial acceleration) is
+linear for permanent-magnet DC motors in the FRC operating regime.
 
 $K_a$ is a proportional constant that describes how much voltage is required to
 induce a given acceleration in the motor shaft. As with $K_v$, the relationship
-between voltage and acceleration (at constant velocity) is linear.
+between voltage and acceleration (for a given initial velocity) is linear.
 
-Let $\mat{u} = K_v v$ be the input that makes the system move at a constant
-velocity $v$. Therefore, $\mat{x} = v$ and $\dot{\mat{x}} = \mat{0}$. Substitute
+Let $\mat{u} = K_v \mat{x}$ be the input that makes the system move at a
+constant velocity $\mat{x}$. Therefore, $\dot{\mat{x}} = \mat{0}$. Substitute
 these into the state-space model.
 \begin{equation}
-  0 = \mat{A}v + \mat{B}(K_v v) \label{eq:sysid-eq1}
+  \mat{0} = \mat{A}\mat{x} + \mat{B}(K_v \mat{x}) \label{eq:sysid-eq1}
 \end{equation}
 
-Let $\mat{u} = K_v v + K_a a$ be the input that accelerates the system by $a$
-from an initial velocity of $v$. Therefore, $\mat{x} = v$ and
-$\dot{\mat{x}} = a$. Substitute these into the state-space model.
+Let $\mat{u} = K_v \mat{x} + K_a \dot{\mat{x}}$ be the input that accelerates
+the system by $\dot{\mat{x}}$ from an initial velocity of $\mat{x}$. Substitute
+this into the state-space model.
 \begin{equation}
-  a = \mat{A}v + \mat{B}(K_v v + K_a a) \label{eq:sysid-eq2}
+  \dot{\mat{x}} = \mat{A}\mat{x} + \mat{B}(K_v \mat{x} + K_a \dot{\mat{x}})
+    \label{eq:sysid-eq2}
 \end{equation}
 
 Subtract equation \eqref{eq:sysid-eq1} from equation \eqref{eq:sysid-eq2}.
 \begin{align*}
-  a &= \mat{B} (K_a a) \\
+  \dot{\mat{x}} &= \mat{B} (K_a \dot{\mat{x}}) \\
   1 &= \mat{B} K_a \\
   \mat{B} &= \frac{1}{K_a}
 \end{align*}
 
 Substitute $\mat{B}$ back into \eqref{eq:sysid-eq1} to obtain $\mat{A}$.
 \begin{align*}
-  \mat{0} &= \mat{A}v + \left(\frac{1}{K_a}\right)(K_v v) \\
-  \mat{0} &= \mat{A}v + \frac{K_v}{K_a} v \\
-  -\frac{K_v}{K_a} v &= \mat{A}v \\
+  \mat{0} &= \mat{A}\mat{x} + \left(\frac{1}{K_a}\right)(K_v \mat{x}) \\
+  \mat{0} &= \mat{A}\mat{x} + \frac{K_v}{K_a}\mat{x} \\
+  -\frac{K_v}{K_a}\mat{x} &= \mat{A}\mat{x} \\
   \mat{A} &= -\frac{K_v}{K_a}
 \end{align*}
 
