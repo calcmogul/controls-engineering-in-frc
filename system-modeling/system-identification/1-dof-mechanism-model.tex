@@ -15,8 +15,10 @@ feedforward model
   \mat{u} = K_v \mat{x} + K_a \dot{\mat{x}}
 \end{equation*}
 
-where $K_v$ and $K_a$ are constants that should be measured from empirical
-quasistatic velocity tests and acceleration tests.
+Since this equation is a linear multiple regression, the constants $K_v$ and
+$K_a$ can be determined by applying ordinary least squares (OLS) to vectors of
+recorded input voltage, velocity, and acceleration data from quasistatic
+velocity tests and acceleration tests.
 
 $K_v$ is a proportional constant that describes how much voltage is required to
 maintain a given constant velocity by offsetting the electromagnetic resistance
@@ -28,37 +30,17 @@ $K_a$ is a proportional constant that describes how much voltage is required to
 induce a given acceleration in the motor shaft. As with $K_v$, the relationship
 between voltage and acceleration (for a given initial velocity) is linear.
 
-Let $\mat{u} = K_v \mat{x}$ be the input that makes the system move at a
-constant velocity $\mat{x}$. Therefore, $\dot{\mat{x}} = \mat{0}$. Substitute
-these into the state-space model.
-\begin{equation}
-  \mat{0} = \mat{A}\mat{x} + \mat{B}(K_v \mat{x}) \label{eq:sysid-eq1}
-\end{equation}
-
-Let $\mat{u} = K_v \mat{x} + K_a \dot{\mat{x}}$ be the input that accelerates
-the system by $\dot{\mat{x}}$ from an initial velocity of $\mat{x}$. Substitute
-this into the state-space model.
-\begin{equation}
-  \dot{\mat{x}} = \mat{A}\mat{x} + \mat{B}(K_v \mat{x} + K_a \dot{\mat{x}})
-    \label{eq:sysid-eq2}
-\end{equation}
-
-Subtract equation \eqref{eq:sysid-eq1} from equation \eqref{eq:sysid-eq2}.
+To convert $\mat{u} = K_v \mat{x} + K_a \dot{\mat{x}}$ to state-space form,
+simply solve for $\dot{\mat{x}}$.
 \begin{align*}
-  \dot{\mat{x}} &= \mat{B} (K_a \dot{\mat{x}}) \\
-  1 &= \mat{B} K_a \\
-  \mat{B} &= \frac{1}{K_a}
+  \mat{u} &= K_v \mat{x} + K_a \dot{\mat{x}} \\
+  K_a \dot{\mat{x}} &= \mat{u} - K_v \mat{x} \\
+  K_a \dot{\mat{x}} &= -K_v \mat{x} + \mat{u} \\
+  \dot{\mat{x}} &= -\frac{K_v}{K_a} \mat{x} + \frac{1}{K_a} \mat{u}
 \end{align*}
 
-Substitute $\mat{B}$ back into \eqref{eq:sysid-eq1} to obtain $\mat{A}$.
-\begin{align*}
-  \mat{0} &= \mat{A}\mat{x} + \left(\frac{1}{K_a}\right)(K_v \mat{x}) \\
-  \mat{0} &= \mat{A}\mat{x} + \frac{K_v}{K_a}\mat{x} \\
-  -\frac{K_v}{K_a}\mat{x} &= \mat{A}\mat{x} \\
-  \mat{A} &= -\frac{K_v}{K_a}
-\end{align*}
-
-A model with position and velocity states would be
+By inspection, $\mat{A} = -\frac{K_v}{K_a}$ and $\mat{B} = \frac{1}{K_a}$. A
+model with position and velocity states would be
 \begin{theorem}[1-DOF mechanism position model]
   \begin{equation*}
     \dot{\mat{x}} = \mat{A}\mat{x} + \mat{B}\mat{u}
