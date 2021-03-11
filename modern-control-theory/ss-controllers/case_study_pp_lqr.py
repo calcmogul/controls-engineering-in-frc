@@ -13,7 +13,6 @@ import control as ct
 import frccontrol as fct
 import matplotlib.pyplot as plt
 import numpy as np
-from numpy import concatenate
 
 plt.rc("text", usetex=True)
 

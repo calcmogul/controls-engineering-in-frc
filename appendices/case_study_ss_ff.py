@@ -13,7 +13,6 @@ import control as ct
 import frccontrol as fct
 import matplotlib.pyplot as plt
 import numpy as np
-from numpy import concatenate
 
 plt.rc("text", usetex=True)
 
@@ -50,16 +49,8 @@ def main():
     K = fct.lqr(sysd, Q, R)
 
     # Steady-state feedforward
-    tmp1 = concatenate(
-        (
-            concatenate((sysd.A - np.eye(sysd.A.shape[0]), sysd.B), axis=1),
-            concatenate((sysd.C, sysd.D), axis=1),
-        ),
-        axis=0,
-    )
-    tmp2 = concatenate(
-        (np.zeros((sysd.A.shape[0], 1)), np.ones((sysd.C.shape[0], 1))), axis=0
-    )
+    tmp1 = np.block([[sysd.A - np.eye(sysd.A.shape[0]), sysd.B], [sysd.C, sysd.D]])
+    tmp2 = np.block([[np.zeros((sysd.A.shape[0], 1))], [np.ones((sysd.C.shape[0], 1))]])
     NxNu = np.linalg.pinv(tmp1) * tmp2
     Nx = NxNu[0 : sysd.A.shape[0], 0]
     Nu = NxNu[sysd.C.shape[0] + 1 :, 0]

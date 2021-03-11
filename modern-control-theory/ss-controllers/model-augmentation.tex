@@ -79,17 +79,17 @@ matrix augmentation.
 
 \subsection{Examples}
 
-Snippet \ref{lst:augment_concat} shows how one packs together the following
-augmented matrix in Python using concatenation.
+Snippet \ref{lst:augment_block} shows how one packs together the following
+augmented matrix in Python using \texttt{np.block()}.
 \begin{equation*}
   \begin{bmatrix}
     \mat{A} & \mat{B} \\
     \mat{C} & \mat{D}
   \end{bmatrix}
 \end{equation*}
-\begin{code}{Python}{snippets/augment_concat.py}
-  \caption{Matrix augmentation example: concatenation}
-  \label{lst:augment_concat}
+\begin{code}{Python}{snippets/augment_block.py}
+  \caption{Matrix augmentation example: block}
+  \label{lst:augment_block}
 \end{code}
 
 Snippet \ref{lst:augment_slices} shows how one packs together the same augmented

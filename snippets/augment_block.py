@@ -9,9 +9,7 @@ def main():
     C = np.array([[7, 8]])
     D = np.array([[9]])
 
-    tmp = np.concatenate(
-        (np.concatenate((A, B), axis=1), np.concatenate((C, D), axis=1)), axis=0
-    )
+    tmp = np.block([[A, B], [C, D]])
 
     print("A =")
     print(A)
