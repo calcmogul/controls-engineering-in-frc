@@ -150,7 +150,8 @@ setup_arch:
 		python \
 		python-black \
 		python-pip \
-		python-requests
+		python-requests \
+		python-wheel
 
 .PHONY: setup_ubuntu
 setup_ubuntu:
@@ -168,6 +169,7 @@ setup_ubuntu:
 		python3 \
 		python3-pip \
 		python3-requests \
-		python3-setuptools
+		python3-setuptools \
+		python3-wheel
 	# The Ubuntu 20.04 package is too old
 	pip3 install --user black

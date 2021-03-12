@@ -70,6 +70,7 @@ These can be installed via `make setup_arch`.
 * texlive-latexextra (for bibtex and makeglossaries)
 * python >= 3.6 (for generating plots)
 * python-pip (for installing required Python packages)
+* python-wheel (for "setup.py bdist_wheel")
 
 #### Ubuntu
 
@@ -87,6 +88,7 @@ These can be installed via `make setup_ubuntu`.
 * texlive-xetex (for xelatex)
 * python3 >= 3.6 (for generating plots)
 * python3-pip (for installing required Python packages)
+* python3-wheel (for "setup.py bdist_wheel")
 
 #### Python packages
 
