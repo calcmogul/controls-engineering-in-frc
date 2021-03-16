@@ -1,0 +1,245 @@
+\section{Swerve drive kinematics}
+
+A swerve drive has an arbitrary number of wheels which can rotate in place
+independent of the chassis. The forces they generate are shown in figure
+\ref{fig:swerve_drive_fbd}.
+\begin{bookfigure}
+  \begin{tikzpicture}[auto, >=latex']
+    %\draw [help lines] (-4,-3) grid (4,3);
+
+    % Coordinate axes
+    \begin{scope}[xshift=2cm,yshift=-2cm]
+      \draw[->] (0,0) -- (-1,0) node[below] {\small +$y$};
+      \draw[->] (0,0) -- (0,1) node[right] {\small +$x$};
+    \end{scope}
+
+    % Chassis
+    \filldraw[draw=black,fill=white] (-1,-1) rectangle (1,1);
+
+    % Front-left wheel
+    \begin{scope}[xshift=-0.75cm,yshift=0.75cm]
+      % Wheel vector
+      \draw[->,thick,rotate around={-45:(0,0)}] (0,0) -- (0,1)
+        node[left] {\small $v_1$};
+
+      % Wheel
+      \draw[black] (0,0) circle (0.25);
+      \filldraw[draw=black,fill=lightgray,rotate around={-45:(0,0)}]
+        (-0.1,-0.2) rectangle (0.1,0.2);
+    \end{scope}
+
+    % Front-right wheel
+    \begin{scope}[xshift=0.75cm,yshift=0.75cm]
+      % Wheel vector
+      \draw[->,thick,rotate around={-135:(0,0)}] (0,0) -- (0,1)
+        node[right] {\small $v_2$};
+
+      % Wheel
+      \draw[black] (0,0) circle (0.25);
+      \filldraw[draw=black,fill=lightgray,rotate around={-135:(0,0)}]
+        (-0.1,-0.2) rectangle (0.1,0.2);
+    \end{scope}
+
+    % Rear-left wheel
+    \begin{scope}[xshift=-0.75cm,yshift=-0.75cm]
+      % Wheel vector
+      \draw[->,thick,rotate around={45:(0,0)}] (0,0) -- (0,1)
+        node[left] {\small $v_3$};
+
+      % Wheel
+      \draw[black] (0,0) circle (0.25);
+      \filldraw[draw=black,fill=lightgray,rotate around={45:(0,0)}]
+        (-0.1,-0.2) rectangle (0.1,0.2);
+    \end{scope}
+
+    % Rear-right wheel
+    \begin{scope}[xshift=0.75cm,yshift=-0.75cm]
+      % Wheel vector
+      \draw[->,thick,rotate around={135:(0,0)}] (0,0) -- (0,1)
+        node[right] {\small $v_4$};
+
+      % Wheel
+      \draw[black] (0,0) circle (0.25);
+      \filldraw[draw=black,fill=lightgray,rotate around={135:(0,0)}]
+        (-0.1,-0.2) rectangle (0.1,0.2);
+    \end{scope}
+  \end{tikzpicture}
+
+  \caption{Swerve drive free body diagram}
+  \label{fig:swerve_drive_fbd}
+\end{bookfigure}
+
+\subsection{Inverse kinematics}
+\begin{align*}
+  \vec{v}_{wheel1} &= \vec{v}_{robot} + \vec{\omega}_{robot} \times
+    \vec{r}_{robot2wheel1} \\
+  \vec{v}_{wheel2} &= \vec{v}_{robot} + \vec{\omega}_{robot} \times
+    \vec{r}_{robot2wheel2} \\
+  \vec{v}_{wheel3} &= \vec{v}_{robot} + \vec{\omega}_{robot} \times
+    \vec{r}_{robot2wheel3} \\
+  \vec{v}_{wheel4} &= \vec{v}_{robot} + \vec{\omega}_{robot} \times
+    \vec{r}_{robot2wheel4}
+\end{align*}
+
+where $\vec{v}_{wheel}$ is the wheel velocity vector, $\vec{v}_{robot}$ is the
+robot velocity vector, $\vec{\omega}_{robot}$ is the robot angular velocity
+vector, $\vec{r}_{robot2wheel}$ is the displacement vector from the robot's
+center of rotation to the wheel\footnote{The robot's center of rotation need not
+coincide with the robot's geometric center.},
+$\vec{v}_{robot} = v_x \hat{i} + v_y \hat{j}$, and
+$\vec{r}_{robot2wheel} = r_x \hat{i} + r_y \hat{j}$. The number suffixes denote
+a specific wheel in figure \ref{fig:swerve_drive_fbd}.
+\begin{align*}
+  \vec{v}_1 &= v_x \hat{i} + v_y \hat{j} + \omega \hat{k} \times
+    (r_{1x} \hat{i} + r_{1y} \hat{j}) \\
+  \vec{v}_2 &= v_x \hat{i} + v_y \hat{j} + \omega \hat{k} \times
+    (r_{2x} \hat{i} + r_{2y} \hat{j}) \\
+  \vec{v}_3 &= v_x \hat{i} + v_y \hat{j} + \omega \hat{k} \times
+    (r_{3x} \hat{i} + r_{3y} \hat{j}) \\
+  \vec{v}_4 &= v_x \hat{i} + v_y \hat{j} + \omega \hat{k} \times
+    (r_{4x} \hat{i} + r_{4y} \hat{j})
+\end{align*}
+\begin{align*}
+  \vec{v}_1 &= v_x \hat{i} + v_y \hat{j} +
+    (\omega r_{1x} \hat{j} - \omega r_{1y} \hat{i}) \\
+  \vec{v}_2 &= v_x \hat{i} + v_y \hat{j} +
+    (\omega r_{2x} \hat{j} - \omega r_{2y} \hat{i}) \\
+  \vec{v}_3 &= v_x \hat{i} + v_y \hat{j} +
+    (\omega r_{3x} \hat{j} - \omega r_{3y} \hat{i}) \\
+  \vec{v}_4 &= v_x \hat{i} + v_y \hat{j} +
+    (\omega r_{4x} \hat{j} - \omega r_{4y} \hat{i})
+\end{align*}
+\begin{align*}
+  \vec{v}_1 &= v_x \hat{i} + v_y \hat{j} +
+    \omega r_{1x} \hat{j} - \omega r_{1y} \hat{i} \\
+  \vec{v}_2 &= v_x \hat{i} + v_y \hat{j} +
+    \omega r_{2x} \hat{j} - \omega r_{2y} \hat{i} \\
+  \vec{v}_3 &= v_x \hat{i} + v_y \hat{j} +
+    \omega r_{3x} \hat{j} - \omega r_{3y} \hat{i} \\
+  \vec{v}_4 &= v_x \hat{i} + v_y \hat{j} +
+    \omega r_{4x} \hat{j} - \omega r_{4y} \hat{i}
+\end{align*}
+\begin{align*}
+  \vec{v}_1 &= v_x \hat{i} - \omega r_{1y} \hat{i} +
+    v_y \hat{j} + \omega r_{1x} \hat{j} \\
+  \vec{v}_2 &= v_x \hat{i} - \omega r_{2y} \hat{i} +
+    v_y \hat{j} + \omega r_{2x} \hat{j} \\
+  \vec{v}_3 &= v_x \hat{i} - \omega r_{3y} \hat{i} +
+    v_y \hat{j} + \omega r_{3x} \hat{j} \\
+  \vec{v}_4 &= v_x \hat{i} - \omega r_{4y} \hat{i} +
+    v_y \hat{j} + \omega r_{4x} \hat{j}
+\end{align*}
+\begin{align*}
+  \vec{v}_1 &= (v_x - \omega r_{1y}) \hat{i} + (v_y + \omega r_{1x}) \hat{j} \\
+  \vec{v}_2 &= (v_x - \omega r_{2y}) \hat{i} + (v_y + \omega r_{2x}) \hat{j} \\
+  \vec{v}_3 &= (v_x - \omega r_{3y}) \hat{i} + (v_y + \omega r_{3x}) \hat{j} \\
+  \vec{v}_4 &= (v_x - \omega r_{4y}) \hat{i} + (v_y + \omega r_{4x}) \hat{j}
+\end{align*}
+
+Separate the i-hat components into independent equations.
+\begin{align*}
+  v_{1x} &= v_x - \omega r_{1y} \\
+  v_{2x} &= v_x - \omega r_{2y} \\
+  v_{3x} &= v_x - \omega r_{3y} \\
+  v_{4x} &= v_x - \omega r_{4y}
+\end{align*}
+
+Separate the j-hat components into independent equations.
+\begin{align*}
+  v_{1y} &= v_y + \omega r_{1x} \\
+  v_{2y} &= v_y + \omega r_{2x} \\
+  v_{3y} &= v_y + \omega r_{3x} \\
+  v_{4y} &= v_y + \omega r_{4x}
+\end{align*}
+
+Now we'll factor them out into matrices.
+\begin{equation*}
+  \begin{bmatrix}
+    v_{1x} \\
+    v_{2x} \\
+    v_{3x} \\
+    v_{4x} \\
+    v_{1y} \\
+    v_{2y} \\
+    v_{3y} \\
+    v_{4y}
+  \end{bmatrix} =
+  \begin{bmatrix}
+    1 & 0 & -r_{1y} \\
+    1 & 0 & -r_{2y} \\
+    1 & 0 & -r_{3y} \\
+    1 & 0 & -r_{4y} \\
+    0 & 1 &  r_{1x} \\
+    0 & 1 &  r_{2x} \\
+    0 & 1 &  r_{3x} \\
+    0 & 1 &  r_{4x}
+  \end{bmatrix}
+  \begin{bmatrix}
+    v_x \\
+    v_y \\
+    \omega
+  \end{bmatrix}
+\end{equation*}
+
+Rearrange the rows so the $x$ and $y$ components are in adjacent rows.
+\begin{equation}
+  \label{eq:swerve_ik}
+  \begin{bmatrix}
+    v_{1x} \\
+    v_{1y} \\
+    v_{2x} \\
+    v_{2y} \\
+    v_{3x} \\
+    v_{3y} \\
+    v_{4x} \\
+    v_{4y}
+  \end{bmatrix} =
+  \begin{bmatrix}
+    1 & 0 & -r_{1y} \\
+    0 & 1 &  r_{1x} \\
+    1 & 0 & -r_{2y} \\
+    0 & 1 &  r_{2x} \\
+    1 & 0 & -r_{3y} \\
+    0 & 1 &  r_{3x} \\
+    1 & 0 & -r_{4y} \\
+    0 & 1 &  r_{4x}
+  \end{bmatrix}
+  \begin{bmatrix}
+    v_x \\
+    v_y \\
+    \omega
+  \end{bmatrix}
+\end{equation}
+
+To convert the swerve module $x$ and $y$ velocity components to a velocity and
+heading, use the Pythagorean theorem and arctangent respectively. Here's an
+example for module 1.
+\begin{align}
+  v_1 &= \sqrt{v_{1x}^2 + v_{1y}^2} \\
+  \theta_1 &= \tan^{-1}\left(\frac{v_{1y}}{v_{1x}}\right)
+\end{align}
+
+\subsection{Forward kinematics}
+
+Let $\mat{M}$ be the $8 \times 3$ inverse kinematics matrix from equation
+\eqref{eq:swerve_ik}. The forward kinematics are
+\begin{equation}
+  \begin{bmatrix}
+    v_x \\
+    v_y \\
+    \omega
+  \end{bmatrix} =
+  \mat{M}^\dagger
+  \begin{bmatrix}
+    v_{1x} \\
+    v_{1y} \\
+    v_{2x} \\
+    v_{2y} \\
+    v_{3x} \\
+    v_{3y} \\
+    v_{4x} \\
+    v_{4y}
+  \end{bmatrix}
+\end{equation}
+
+where $\mat{M}^\dagger$ is the pseudoinverse of $\mat{M}$.

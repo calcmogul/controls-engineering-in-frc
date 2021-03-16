@@ -1,0 +1,298 @@
+\section{Mecanum drive kinematics}
+
+A mecanum drive has four wheels, one on each corner of a rectangular chassis.
+The wheels have rollers offset at $45$ degrees (whether it's clockwise or not
+varies per wheel). The forces they generate when moving forward are shown in
+figure \ref{fig:mecanum_drive_fbd}.
+\begin{bookfigure}
+  \begin{tikzpicture}[auto, >=latex']
+    %\draw [help lines] (-4,-3) grid (4,3);
+
+    % Coordinate axes
+    \begin{scope}[xshift=2cm,yshift=-2cm]
+      \draw[->] (0,0) -- (-1,0) node[below] {\small +$y$};
+      \draw[->] (0,0) -- (0,1) node[right] {\small +$x$};
+    \end{scope}
+
+    % Shared front axle
+    \begin{scope}[xshift=0cm,yshift=0.7cm]
+      \fill[black] (-1.2,-0.1) rectangle (1.2,0.1);
+    \end{scope}
+
+    % Shared rear axle
+    \begin{scope}[xshift=0cm,yshift=-0.7cm]
+      \fill[black] (-1.2,-0.1) rectangle (1.2,0.1);
+    \end{scope}
+
+    % Chassis
+    \filldraw[draw=black,fill=white] (-1,-1) rectangle (1,1);
+
+    % Front-left wheel
+    \begin{scope}[xshift=-1.3cm,yshift=0.7cm]
+      % Wheel vector
+      \draw[->,thick,rotate around={-45:(0,0)}] (0,0) -- (0,1)
+        node[left] {\small $v_{fl}$};
+
+      % Wheel
+      \filldraw[draw=black,fill=lightgray] (-0.2,-0.45) rectangle (0.2,0.45);
+      \begin{scope}[xshift=0cm,yshift=-0.3cm]
+        \filldraw[draw=black,fill=lightgray,rotate around={45:(0,0)}]
+          (-0.1,-0.2) rectangle (0.1,0.2);
+      \end{scope}
+      \filldraw[draw=black,fill=lightgray,rotate around={45:(0,0)}]
+        (-0.1,-0.2) rectangle (0.1,0.2);
+      \begin{scope}[xshift=0cm,yshift=0.3cm]
+        \filldraw[draw=black,fill=lightgray,rotate around={45:(0,0)}]
+          (-0.1,-0.2) rectangle (0.1,0.2);
+      \end{scope}
+    \end{scope}
+
+    % Front-right wheel
+    \begin{scope}[xshift=1.3cm,yshift=0.7cm]
+      % Wheel vector
+      \draw[->,thick,rotate around={45:(0,0)}] (0,0) -- (0,1)
+        node[right] {\small $v_{fr}$};
+
+      % Wheel
+      \filldraw[draw=black,fill=lightgray] (-0.2,-0.45) rectangle (0.2,0.45);
+      \begin{scope}[xshift=0cm,yshift=-0.3cm]
+        \filldraw[draw=black,fill=lightgray,rotate around={-45:(0,0)}]
+          (-0.1,-0.2) rectangle (0.1,0.2);
+      \end{scope}
+      \filldraw[draw=black,fill=lightgray,rotate around={-45:(0,0)}]
+        (-0.1,-0.2) rectangle (0.1,0.2);
+      \begin{scope}[xshift=0cm,yshift=0.3cm]
+        \filldraw[draw=black,fill=lightgray,rotate around={-45:(0,0)}]
+          (-0.1,-0.2) rectangle (0.1,0.2);
+      \end{scope}
+    \end{scope}
+
+    % Rear-left wheel
+    \begin{scope}[xshift=-1.3cm,yshift=-0.7cm]
+      % Wheel vector
+      \draw[->,thick,rotate around={45:(0,0)}] (0,0) -- (0,1)
+        node[left] {\small $v_{rl}$};
+
+      % Wheel
+      \filldraw[draw=black,fill=lightgray] (-0.2,-0.45) rectangle (0.2,0.45);
+      \begin{scope}[xshift=0cm,yshift=-0.3cm]
+        \filldraw[draw=black,fill=lightgray,rotate around={-45:(0,0)}]
+          (-0.1,-0.2) rectangle (0.1,0.2);
+      \end{scope}
+      \filldraw[draw=black,fill=lightgray,rotate around={-45:(0,0)}]
+        (-0.1,-0.2) rectangle (0.1,0.2);
+      \begin{scope}[xshift=0cm,yshift=0.3cm]
+        \filldraw[draw=black,fill=lightgray,rotate around={-45:(0,0)}]
+          (-0.1,-0.2) rectangle (0.1,0.2);
+      \end{scope}
+    \end{scope}
+
+    % Rear-right wheel
+    \begin{scope}[xshift=1.3cm,yshift=-0.7cm]
+      % Wheel vector
+      \draw[->,thick,rotate around={-45:(0,0)}] (0,0) -- (0,1)
+        node[right] {\small $v_{rr}$};
+
+      % Wheel
+      \filldraw[draw=black,fill=lightgray] (-0.2,-0.45) rectangle (0.2,0.45);
+      \begin{scope}[xshift=0cm,yshift=-0.3cm]
+        \filldraw[draw=black,fill=lightgray,rotate around={45:(0,0)}]
+          (-0.1,-0.2) rectangle (0.1,0.2);
+      \end{scope}
+      \filldraw[draw=black,fill=lightgray,rotate around={45:(0,0)}]
+        (-0.1,-0.2) rectangle (0.1,0.2);
+      \begin{scope}[xshift=0cm,yshift=0.3cm]
+        \filldraw[draw=black,fill=lightgray,rotate around={45:(0,0)}]
+          (-0.1,-0.2) rectangle (0.1,0.2);
+      \end{scope}
+    \end{scope}
+  \end{tikzpicture}
+
+  \caption{Mecanum drive free body diagram}
+  \label{fig:mecanum_drive_fbd}
+\end{bookfigure}
+
+Note that the velocity of the wheel is the same as the velocity in the diagram
+for the purposes of feedback control. The rollers on the wheel redirect the
+velocity vector.
+
+\subsection{Inverse kinematics}
+
+First, we'll derive the front-left wheel kinematics.
+\begin{align*}
+  \vec{v}_{fl} &= v_x \hat{i} + v_y \hat{j} +
+    \omega \hat{k} \times (r_{fl_x} \hat{i} + r_{fl_y} \hat{j}) \\
+  \vec{v}_{fl} &= v_x \hat{i} + v_y \hat{j} +
+    \omega r_{fl_x} \hat{j} - \omega r_{fl_y} \hat{i} \\
+  \vec{v}_{fl} &= (v_x - \omega r_{fl_y}) \hat{i} +
+    (v_y + \omega r_{fl_x}) \hat{j}
+\end{align*}
+
+Project the front-left wheel onto its wheel vector.
+\begin{align}
+  v_{fl} &= ((v_x - \omega r_{fl_y}) \hat{i} + (v_y + \omega r_{fl_x}) \hat{j})
+    \cdot \frac{\hat{i} - \hat{j}}{\sqrt{2}} \nonumber \\
+  v_{fl} &= ((v_x - \omega r_{fl_y}) - (v_y + \omega r_{fl_x}))
+    \frac{1}{\sqrt{2}} \nonumber \\
+  v_{fl} &= (v_x - \omega r_{fl_y} - v_y - \omega r_{fl_x})
+    \frac{1}{\sqrt{2}} \nonumber \\
+  v_{fl} &= (v_x - v_y - \omega r_{fl_y} - \omega r_{fl_x})
+    \frac{1}{\sqrt{2}} \nonumber \\
+  v_{fl} &= (v_x - v_y - \omega (r_{fl_x} + r_{fl_y}))
+    \frac{1}{\sqrt{2}} \nonumber \\
+  v_{fl} &= \frac{1}{\sqrt{2}} v_x - \frac{1}{\sqrt{2}} v_y -
+    \frac{1}{\sqrt{2}} \omega (r_{fl_x} + r_{fl_y})
+\end{align}
+
+Next, we'll derive the front-right wheel kinematics.
+\begin{align*}
+  \vec{v}_{fr} &= v_x \hat{i} + v_y \hat{j} +
+    \omega \hat{k} \times (r_{fr_x} \hat{i} + r_{fr_y} \hat{j}) \\
+  \vec{v}_{fr} &= v_x \hat{i} + v_y \hat{j} +
+    \omega r_{fr_x} \hat{j} - \omega r_{fr_y} \hat{i} \\
+  \vec{v}_{fr} &= (v_x - \omega r_{fr_y}) \hat{i} +
+    (v_y + \omega r_{fr_x}) \hat{j}
+\end{align*}
+
+Project the front-right wheel onto its wheel vector.
+\begin{align}
+  v_{fr} &= ((v_x - \omega r_{fr_y}) \hat{i} + (v_y + \omega r_{fr_x}) \hat{j})
+    \cdot (\hat{i} + \hat{j}) \frac{1}{\sqrt{2}} \nonumber \\
+  v_{fr} &= ((v_x - \omega r_{fr_y}) + (v_y + \omega r_{fr_x}))
+    \frac{1}{\sqrt{2}} \nonumber \\
+  v_{fr} &= (v_x - \omega r_{fr_y} + v_y + \omega r_{fr_x})
+    \frac{1}{\sqrt{2}} \nonumber \\
+  v_{fr} &= (v_x + v_y - \omega r_{fr_y} + \omega r_{fr_x})
+    \frac{1}{\sqrt{2}} \nonumber \\
+  v_{fr} &= (v_x + v_y + \omega (r_{fr_x} - r_{fr_y}))
+    \frac{1}{\sqrt{2}} \nonumber \\
+  v_{fr} &= \frac{1}{\sqrt{2}} v_x + \frac{1}{\sqrt{2}} v_y +
+    \frac{1}{\sqrt{2}} \omega (r_{fr_x} - r_{fr_y})
+\end{align}
+
+Next, we'll derive the rear-left wheel kinematics.
+\begin{align*}
+  \vec{v}_{rl} &= v_x \hat{i} + v_y \hat{j} +
+    \omega \hat{k} \times (r_{rl_x} \hat{i} + r_{rl_y} \hat{j}) \\
+  \vec{v}_{rl} &= v_x \hat{i} + v_y \hat{j} +
+    \omega r_{rl_x} \hat{j} - \omega r_{rl_y} \hat{i} \\
+  \vec{v}_{rl} &= (v_x - \omega r_{rl_y}) \hat{i} +
+    (v_y + \omega r_{rl_x}) \hat{j}
+\end{align*}
+
+Project the rear-left wheel onto its wheel vector.
+\begin{align}
+  v_{rl} &= ((v_x - \omega r_{rl_y}) \hat{i} + (v_y + \omega r_{rl_x}) \hat{j})
+    \cdot (\hat{i} + \hat{j}) \frac{1}{\sqrt{2}} \nonumber \\
+  v_{rl} &= ((v_x - \omega r_{rl_y}) + (v_y + \omega r_{rl_x}))
+    \frac{1}{\sqrt{2}} \nonumber \\
+  v_{rl} &= (v_x - \omega r_{rl_y} + v_y + \omega r_{rl_x})
+    \frac{1}{\sqrt{2}} \nonumber \\
+  v_{rl} &= (v_x + v_y - \omega r_{rl_y} + \omega r_{rl_x})
+    \frac{1}{\sqrt{2}} \nonumber \\
+  v_{rl} &= (v_x + v_y + \omega (r_{rl_x} - r_{rl_y}))
+    \frac{1}{\sqrt{2}} \nonumber \\
+  v_{rl} &= \frac{1}{\sqrt{2}} v_x + \frac{1}{\sqrt{2}} v_y +
+    \frac{1}{\sqrt{2}} \omega (r_{rl_x} - r_{rl_y})
+\end{align}
+
+Next, we'll derive the rear-right wheel kinematics.
+\begin{align*}
+  \vec{v}_{rr} &= v_x \hat{i} + v_y \hat{j} +
+    \omega \hat{k} \times (r_{rr_x} \hat{i} + r_{rr_y} \hat{j}) \\
+  \vec{v}_{rr} &= v_x \hat{i} + v_y \hat{j} +
+    \omega r_{rr_x} \hat{j} - \omega r_{rr_y} \hat{i} \\
+  \vec{v}_{rr} &= (v_x - \omega r_{rr_y}) \hat{i} +
+    (v_y + \omega r_{rr_x}) \hat{j}
+\end{align*}
+
+Project the rear-right wheel onto its wheel vector.
+\begin{align}
+  v_{rr} &= ((v_x - \omega r_{rr_y}) \hat{i} + (v_y + \omega r_{rr_x}) \hat{j})
+    \cdot \frac{\hat{i} - \hat{j}}{\sqrt{2}} \nonumber \\
+  v_{rr} &= ((v_x - \omega r_{rr_y}) - (v_y + \omega r_{rr_x}))
+    \frac{1}{\sqrt{2}} \nonumber \\
+  v_{rr} &= (v_x - \omega r_{rr_y} - v_y - \omega r_{rr_x})
+    \frac{1}{\sqrt{2}} \nonumber \\
+  v_{rr} &= (v_x - v_y - \omega r_{rr_y} - \omega r_{rr_x})
+    \frac{1}{\sqrt{2}} \nonumber \\
+  v_{rr} &= (v_x - v_y - \omega (r_{rr_x} + r_{rr_y}))
+    \frac{1}{\sqrt{2}} \nonumber \\
+  v_{rr} &= \frac{1}{\sqrt{2}} v_x - \frac{1}{\sqrt{2}} v_y -
+    \frac{1}{\sqrt{2}} \omega (r_{rr_x} + r_{rr_y})
+\end{align}
+
+This gives the following inverse kinematic equations.
+\begin{align*}
+  v_{fl} &= \frac{1}{\sqrt{2}} v_x - \frac{1}{\sqrt{2}} v_y -
+    \frac{1}{\sqrt{2}} \omega (r_{fl_x} + r_{fl_y}) \\
+  v_{fr} &= \frac{1}{\sqrt{2}} v_x + \frac{1}{\sqrt{2}} v_y +
+    \frac{1}{\sqrt{2}} \omega (r_{fr_x} - r_{fr_y}) \\
+  v_{rl} &= \frac{1}{\sqrt{2}} v_x + \frac{1}{\sqrt{2}} v_y +
+    \frac{1}{\sqrt{2}} \omega (r_{rl_x} - r_{rl_y}) \\
+  v_{rr} &= \frac{1}{\sqrt{2}} v_x - \frac{1}{\sqrt{2}} v_y -
+    \frac{1}{\sqrt{2}} \omega (r_{rr_x} + r_{rr_y})
+\end{align*}
+
+Now we'll factor them out into matrices.
+\begin{align}
+  \begin{bmatrix}
+    v_{fl} \\
+    v_{fr} \\
+    v_{rl} \\
+    v_{rr}
+  \end{bmatrix} &=
+  \begin{bmatrix}
+    \frac{1}{\sqrt{2}} & -\frac{1}{\sqrt{2}} &
+      -\frac{1}{\sqrt{2}}(r_{fl_x} + r_{fl_y}) \\
+    \frac{1}{\sqrt{2}} &  \frac{1}{\sqrt{2}} &
+      \frac{1}{\sqrt{2}}(r_{fr_x} - r_{fr_y}) \\
+    \frac{1}{\sqrt{2}} &  \frac{1}{\sqrt{2}} &
+      \frac{1}{\sqrt{2}}(r_{rl_x} - r_{rl_y}) \\
+    \frac{1}{\sqrt{2}} & -\frac{1}{\sqrt{2}} &
+      -\frac{1}{\sqrt{2}}(r_{rr_x} + r_{rr_y})
+  \end{bmatrix}
+  \begin{bmatrix}
+    v_x \\
+    v_y \\
+    \omega
+  \end{bmatrix} \nonumber \\
+  \begin{bmatrix}
+    v_{fl} \\
+    v_{fr} \\
+    v_{rl} \\
+    v_{rr}
+  \end{bmatrix} &= \frac{1}{\sqrt{2}}
+  \begin{bmatrix}
+    1 & -1  & -(r_{fl_x} + r_{fl_y}) \\
+    1 &  1  &  (r_{fr_x} - r_{fr_y}) \\
+    1 &  1  &  (r_{rl_x} - r_{rl_y}) \\
+    1 & -1  & -(r_{rr_x} + r_{rr_y})
+  \end{bmatrix}
+  \begin{bmatrix}
+    v_x \\
+    v_y \\
+    \omega
+  \end{bmatrix}
+\end{align}
+
+\subsection{Forward kinematics}
+
+Let $\mat{M}$ be the $4 \times 3$ inverse kinematics matrix above including the
+$\frac{1}{\sqrt{2}}$ factor. The forward kinematics are
+\begin{equation}
+  \begin{bmatrix}
+    v_x \\
+    v_y \\
+    \omega
+  \end{bmatrix} =
+  \mat{M}^\dagger
+  \begin{bmatrix}
+    v_{fl} \\
+    v_{fr} \\
+    v_{rl} \\
+    v_{rr}
+  \end{bmatrix}
+\end{equation}
+
+where $\mat{M}^\dagger$ is the pseudoinverse of $\mat{M}$.
