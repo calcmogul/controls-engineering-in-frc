@@ -172,7 +172,7 @@ class DifferentialDrive(fct.System):
             J,
             Gl,
             Gr,
-            np.asarray(states),
+            states,
         )
 
     def relinearize(self, Q_elems, R_elems, states, inputs):
@@ -261,8 +261,8 @@ def main():
     state_rec, ref_rec, u_rec, y_rec = diff_drive.generate_time_responses(t, refs)
 
     plt.figure(1)
-    x_rec = np.squeeze(np.asarray(state_rec[0, :]))
-    y_rec = np.squeeze(np.asarray(state_rec[1, :]))
+    x_rec = np.squeeze(state_rec[0:1, :])
+    y_rec = np.squeeze(state_rec[1:2, :])
     plt.plot(x_rec, y_rec, label="LTV controller")
     plt.plot(ref_rec[0, :], ref_rec[1, :], label="Reference trajectory")
     plt.xlabel("x (m)")

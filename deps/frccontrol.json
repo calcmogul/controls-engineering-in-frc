@@ -1,6 +1,6 @@
 [
     {
-        "commit": "8d1c301c43cdf2b6bf71af160ce626e80cb72738",
+        "commit": "9736ccc2f1c685d742ff586cb3a3079655fea32a",
         "depends": [
             "control"
         ],
@@ -11,7 +11,7 @@
         "repo": "git://github.com/calcmogul/frccontrol"
     },
     {
-        "commit": "319a756eb3e0dc2e31b8ed649404c0645a414dfe",
+        "commit": "0.9.0",
         "depends": [],
         "name": "control",
         "posthooks": [],

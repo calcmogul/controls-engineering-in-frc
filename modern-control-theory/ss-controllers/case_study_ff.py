@@ -71,8 +71,8 @@ def main():
     x_ts2_rec = np.zeros((2, 1, len(t)))
     u_ts2_rec = np.zeros((1, 1, len(t)))
 
-    u_min = np.asarray(-12)
-    u_max = np.asarray(12)
+    u_min = np.array([[-12.0]])
+    u_max = np.array([[12.0]])
 
     for k in range(len(t)):
         r_rec[:, :, k] = r

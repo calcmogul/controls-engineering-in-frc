@@ -153,8 +153,8 @@ def main():
 
     # Run LQR
     state_rec, ref_rec, u_rec, y_rec = drivetrain.generate_time_responses(t, refs)
-    subplot_max = drivetrain.sysd.states + drivetrain.sysd.inputs
-    for i in range(drivetrain.sysd.states):
+    subplot_max = drivetrain.sysd.nstates + drivetrain.sysd.ninputs
+    for i in range(drivetrain.sysd.nstates):
         plt.subplot(subplot_max, 1, i + 1)
         plt.ylabel(
             drivetrain.state_labels[i],
@@ -170,8 +170,8 @@ def main():
         plt.plot(t, drivetrain.extract_row(ref_rec, i), label="Reference")
         plt.legend()
 
-    for i in range(drivetrain.sysd.inputs):
-        plt.subplot(subplot_max, 1, drivetrain.sysd.states + i + 1)
+    for i in range(drivetrain.sysd.ninputs):
+        plt.subplot(subplot_max, 1, drivetrain.sysd.nstates + i + 1)
         plt.ylabel(
             drivetrain.u_labels[i],
             horizontalalignment="right",

@@ -50,7 +50,7 @@ def main():
 
     # Plant inversions
     Kff_ts1 = np.linalg.pinv(sysd.B)
-    Kff_ts2 = np.linalg.inv(sysd.B.T * Q * sysd.B + R) * (sysd.B.T * Q)
+    Kff_ts2 = np.linalg.solve(sysd.B.T @ Q @ sysd.B + R, sysd.B.T @ Q)
 
     t = np.arange(0, tmax, dt)
     r = np.array([[2000 * 0.1047], [0]])
@@ -66,8 +66,8 @@ def main():
     x_ts2_rec = np.zeros((2, 1, len(t)))
     u_ts2_rec = np.zeros((1, 1, len(t)))
 
-    u_min = np.asarray(-12)
-    u_max = np.asarray(12)
+    u_min = np.array([[-12.0]])
+    u_max = np.array([[12.0]])
 
     for k in range(len(t)):
         r_rec[:, :, k] = r

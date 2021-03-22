@@ -26,8 +26,16 @@ def main():
     plt.fill_between(
         x2, [0] * len(x2), norm.pdf(x2, loc=1, scale=2), facecolor=themecolor, alpha=0.5
     )
-    plt.plot([2.0, 2.0], [0.0, norm.pdf([2.0], loc=1, scale=2)], color=themecolor)
-    plt.plot([2.5, 2.5], [0.0, norm.pdf([2.5], loc=1, scale=2)], color=themecolor)
+    plt.plot(
+        [2.0, 2.0],
+        np.insert(norm.pdf(np.array([2.0]), loc=1, scale=2), 0, 0.0, axis=0),
+        color=themecolor,
+    )
+    plt.plot(
+        [2.5, 2.5],
+        np.insert(norm.pdf(np.array([2.5]), loc=1, scale=2), 0, 0.0, axis=0),
+        color=themecolor,
+    )
 
     # Left arrow
     plt.annotate(

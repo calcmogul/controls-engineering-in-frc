@@ -27,10 +27,10 @@ def plot_time_responses(
                       labels (output and setpoint vs state and reference)
     """
     plt.figure()
-    subplot_max = system.sysd.states + system.sysd.inputs
-    for i in range(system.sysd.states):
+    subplot_max = system.sysd.nstates + system.sysd.ninputs
+    for i in range(system.sysd.nstates):
         plt.subplot(subplot_max, 1, i + 1)
-        if system.sysd.states + system.sysd.inputs > 3:
+        if system.sysd.nstates + system.sysd.ninputs > 3:
             plt.ylabel(
                 system.state_labels[i],
                 horizontalalignment="right",
@@ -56,9 +56,9 @@ def plot_time_responses(
         plt.plot(t, system.extract_row(ref_rec, i), label=label)
         plt.legend()
 
-    for i in range(system.sysd.inputs):
-        plt.subplot(subplot_max, 1, system.sysd.states + i + 1)
-        if system.sysd.states + system.sysd.inputs > 3:
+    for i in range(system.sysd.ninputs):
+        plt.subplot(subplot_max, 1, system.sysd.nstates + i + 1)
+        if system.sysd.nstates + system.sysd.ninputs > 3:
             plt.ylabel(
                 system.u_labels[i],
                 horizontalalignment="right",

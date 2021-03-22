@@ -69,8 +69,8 @@ def main():
     x_lqr_rec = np.zeros((2, 1, len(t)))
     u_lqr_rec = np.zeros((1, 1, len(t)))
 
-    u_min = np.asarray(-12)
-    u_max = np.asarray(12)
+    u_min = np.array([[-12.0]])
+    u_max = np.array([[12.0]])
 
     for k in range(len(t)):
         # Pole placement 1
