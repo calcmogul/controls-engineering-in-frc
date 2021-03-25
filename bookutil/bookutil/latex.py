@@ -82,7 +82,7 @@ def convert_svg2pdf(filename):
     import subprocess
 
     inkscape_output = subprocess.check_output(
-        ["inkscape", "--version"], encoding="utf-8"
+        ["inkscape", "--version"], stderr=subprocess.DEVNULL, encoding="utf-8"
     )
     match = re.search(r"(?P<major>[0-9]+)\.(?P<minor>[0-9]+)", inkscape_output)
 

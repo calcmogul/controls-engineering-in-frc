@@ -96,7 +96,7 @@ $(DEPS_STAMP): build/%.stamp: %.json
 	$(ROOT)/deps/pkg.py init
 	$(ROOT)/build/venv/bin/pip3 install -e $(ROOT)/bookutil
 	$(ROOT)/deps/pkg.py install_all
-	touch $@
+	@touch $@
 
 # This rule places CSVs into the build folder so scripts executed from the build
 # folder can use them.
@@ -107,7 +107,7 @@ $(CSV): build/%.csv: %.csv
 $(STAMP): build/%.stamp: %.py $(CSV) $(DEPS_STAMP)
 	@mkdir -p $(@D)
 	cd $(@D) && $(ROOT)/build/venv/bin/python3 $(ROOT)/$< --noninteractive
-	touch $@
+	@touch $@
 
 .PHONY: format
 format:
