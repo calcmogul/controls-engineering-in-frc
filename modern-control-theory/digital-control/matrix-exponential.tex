@@ -1,9 +1,11 @@
 \section{Matrix exponential}
 \index{discretization!matrix exponential}
-
-The matrix exponential (and \gls{system} \gls{discretization} in general) is
-typically solved with a computer. Python Control's \texttt{StateSpace.sample()}
-with the ``zoh" method (the default) does this.
+\begin{remark}
+  Watch the ``How (and why) to raise e to the power of a matrix" video from
+  3Blue1Brown's \textit{Essence of linear algebra} series (27 minutes)
+  \cite{bib:linalg_matrix_exp} for a visual introduction to the matrix
+  exponential.
+\end{remark}
 \begin{definition}[Matrix exponential]
   Let $\mat{X}$ be an $n \times n$ matrix. The exponential of $\mat{X}$ denoted
   by $e^{\mat{X}}$ is the $n \times n$ matrix given by the following power
@@ -17,21 +19,42 @@ with the ``zoh" method (the default) does this.
 \end{definition}
 
 To understand why the matrix exponential is used in the \gls{discretization}
-process, consider the set of differential equations
-$\dot{\mat{x}} = \mat{A}\mat{x}$ we use to describe \glspl{system}
-(\glspl{system} also have a $\mat{B}\mat{u}$ term, but we'll ignore it for
-clarity). The solution to this type of differential equation uses an
-exponential. Since we are using matrices and vectors here, we use the matrix
-exponential.
+process, consider the scalar differential equation $\dot{x} = ax$. The solution
+to this type of differential equation uses an exponential.
+\begin{align*}
+  \dot{x} &= ax \\
+  \frac{dx}{dt} &= ax(t) \\
+  dx &= ax(t) \,dt \\
+  \frac{1}{x(t)} \,dx &= a \,dt \\
+  \int_0^t \frac{1}{x(t)} \,dx &= \int_0^t a \,dt \\
+  \ln(x(t)) \rvert_0^t &= at \rvert_0^t \\
+  \ln(x(t)) - \ln(x(0)) &= at - a \cdot 0 \\
+  \ln(x(t)) - \ln(x_0) &= at \\
+  \ln\left(\frac{x(t)}{x_0}\right) &= at \\
+  \frac{x(t)}{x_0} &= e^{at} \\
+  x(t) &= e^{at} x_0
+\end{align*}
+
+This solution generalizes via the matrix exponential to the set of differential
+equations $\dot{\mat{x}} = \mat{A}\mat{x} + \mat{B}\mat{u}$ we use to describe
+\glspl{system} (see section \ref{sec:deriv_zoh_ss} for a complete derivation).
 \begin{equation*}
-  \mat{x}(t) = e^{\mat{A}t} \mat{x}_0
+  \mat{x}(t) = e^{\mat{A}t} \mat{x}_0 +
+    \mat{A}^{-1}(e^{\mat{A}t} - \mat{I})\mat{B} \mat{u}
 \end{equation*}
 
-where $\mat{x}_0$ contains the initial conditions. If the initial \gls{state} is
-the current system \gls{state}, then we can describe the \gls{system}'s
-\gls{state} over time as
+where $\mat{x}_0$ contains the initial conditions and $\mat{u}$ is the constant
+input from time $0$ to $t$. If the initial \gls{state} is the current system
+\gls{state}, then we can describe the \gls{system}'s \gls{state} over time as
 \begin{equation*}
-  \mat{x}_{k+1} = e^{\mat{A}T} \mat{x}_k
+  \mat{x}_{k+1} = e^{\mat{A}T} \mat{x}_k +
+    \mat{A}^{-1}(e^{\mat{A}T} - \mat{I})\mat{B} \mat{u}_k
 \end{equation*}
 
-where $T$ is the time between samples $\mat{x}_k$ and $\mat{x}_{k+1}$.
+or more compactly,
+\begin{equation*}
+  \mat{x}_{k+1} = \mat{A}_d\mat{x}_k + \mat{B}_d\mat{u}_k
+\end{equation*}
+
+where $T$ is the time between samples $\mat{x}_k$ and $\mat{x}_{k+1}$. Theorem
+\ref{thm:zoh_ss} has more efficient ways to compute $\mat{A}_d$ and $\mat{B}_d$.
