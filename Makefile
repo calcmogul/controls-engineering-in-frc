@@ -137,8 +137,8 @@ clean_tex:
 upload: ebook
 	rsync --progress $(NAME)-ebook.pdf file.tavsys.net:/srv/file/control/$(NAME).pdf
 
-.PHONY: setup_arch
-setup_arch:
+.PHONY: setup_archlinux
+setup_archlinux:
 	sudo pacman -Sy --needed --noconfirm \
 		base-devel \
 		biber \

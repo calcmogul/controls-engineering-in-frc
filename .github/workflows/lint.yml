@@ -1,4 +1,4 @@
-name: CI
+name: Lint
 
 on: [pull_request, push]
 
@@ -22,17 +22,3 @@ jobs:
         pip3 install --user black
     - name: Lint .py and .tex files
       run: make lint
-  build:
-    runs-on: ubuntu-20.04
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: Install system dependencies
-      run: make setup_ubuntu
-    - name: Generate PDF
-      run: make -j$(nproc) ebook
-    - uses: actions/upload-artifact@v2
-      with:
-        name: controls-engineering-in-frc.pdf
-        path: controls-engineering-in-frc-ebook.pdf

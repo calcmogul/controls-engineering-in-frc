@@ -1,0 +1,39 @@
+name: Build
+
+on: [pull_request, push]
+
+jobs:
+  ubuntu:
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Install system dependencies
+      run: make setup_ubuntu
+    - name: Generate PDF
+      run: make -j$(nproc) ebook
+    - uses: actions/upload-artifact@v2
+      with:
+        name: e-book PDF (Ubuntu)
+        path: controls-engineering-in-frc-ebook.pdf
+  archlinux:
+    runs-on: ubuntu-20.04
+    container: archlinux/archlinux:base-devel
+    steps:
+    - name: Install git
+      run: sudo pacman -Sy --needed --noconfirm git
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Install system dependencies
+      run: make setup_archlinux
+    - name: Generate PDF
+      run: |
+        # Add perl modules (biber) to PATH
+        source /etc/profile
+        make -j$(nproc) ebook
+    - uses: actions/upload-artifact@v2
+      with:
+        name: e-book PDF (Arch Linux)
+        path: controls-engineering-in-frc-ebook.pdf

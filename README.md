@@ -58,7 +58,7 @@ To compile the book, the following packages are required.
 
 #### Arch Linux
 
-These can be installed via `make setup_arch`.
+These can be installed via `make setup_archlinux`.
 
 * base-devel (for `make` to run the makefile)
 * biber (for generating bibliography)
