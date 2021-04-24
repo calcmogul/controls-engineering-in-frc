@@ -8,8 +8,7 @@ as a digest of graduate-level control theory aimed at veteran FIRST Robotics
 Competition (FRC) students who know algebra and a bit of physics. As I learned
 the subject of control theory, I found that it wasn't particularly difficult,
 but very few resources exist outside of academia for learning it. This book is
-intended to rectify that situation and provide a lower the barrier to entry to
-the field.
+intended to rectify that situation and lower the barrier to entry to the field.
 
 This book reads a lot like a reference manual on control theory and related
 tools. It teaches the reader how to start designing and implementing control

@@ -96,7 +96,7 @@ Now just evaluate the covariances.
 \subsubsection{Finding the optimal Kalman gain}
 
 The error in the \textit{a posteriori} \gls{state} estimation is
-$\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^-$. We want to minimize the expected value
+$\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^+$. We want to minimize the expected value
 of the square of the magnitude of this vector. This is equivalent to minimizing
 the trace of the a posteriori estimate covariance matrix $\mat{P}_{k+1}^+$.
 
@@ -144,17 +144,24 @@ Expand terms.
 \end{align*}
 
 Factor out $\mat{K}_{k+1}$ and $\mat{K}_{k+1}^T$.
-\begin{align}
+\begin{align*}
   \mat{P}_{k+1}^+ &=
     \mat{P}_{k+1}^- - \mat{P}_{k+1}^-\mat{C}_{k+1}^T\mat{K}_{k+1}^T -
     \mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^- \nonumber \\
     &\qquad + \mat{K}_{k+1}(\mat{C}_{k+1}\mat{P}_{k+1}^-\mat{C}_{k+1}^T +
-    \mat{R}_{k+1})\mat{K}_{k+1}^T \nonumber \\
-  \mat{P}_{k+1}^+ &=
+    \mat{R}_{k+1})\mat{K}_{k+1}^T
+\end{align*}
+
+$\mat{C}_{k+1}\mat{P}_{k+1}^-\mat{C}_{k+1}^T + \mat{R}_{k+1}$ is the innovation
+(measurement residual) covariance at timestep $k + 1$. We'll let this expression
+equal $\mat{S}_{k+1}$. We won't need it in the final theorem, but it makes the
+derivations after this point more concise.
+\begin{equation}
+  \mat{P}_{k+1}^+ =
     \mat{P}_{k+1}^- - \mat{P}_{k+1}^-\mat{C}_{k+1}^T\mat{K}_{k+1}^T -
     \mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^- +
     \mat{K}_{k+1}\mat{S}_{k+1}\mat{K}_{k+1}^T \label{eq:post_p_update}
-\end{align}
+\end{equation}
 
 Now take the trace.
 \begin{equation*}
@@ -222,7 +229,8 @@ derivative with respect to $\mat{K}$ and setting the result to $\mat{0}$.
 
 This is the optimal Kalman gain.
 
-\subsubsection{Simplified \textit{a priori} estimate covariance update equation}
+\subsubsection{Simplified \textit{a posteriori} estimate covariance update
+  equation}
 
 If the optimal Kalman gain is used, the \textit{a posteriori} estimate
 covariance matrix update equation can be simplified. First, we'll manipulate the
