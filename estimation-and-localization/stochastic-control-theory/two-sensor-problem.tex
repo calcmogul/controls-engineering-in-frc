@@ -25,10 +25,10 @@ measurement. The expected value is a reasonable estimator of $x$.
 \end{align}
 
 Note that the weights $w_1$ and $w_2$ sum to $1$. When the prior (i.e., prior
-knowledge of \gls{state}) is uninformative (a large variance)
+knowledge of \gls{state}) is uninformative (a large variance),
 \begin{align}
-  w_1 &= \lim_{\sigma_0^2 \to 0} \frac{\sigma_0^2}{\sigma_0^2 + \sigma^2} = 0 \\
-  w_2 &= \lim_{\sigma_0^2 \to 0} \frac{\sigma^2}{\sigma_0^2 + \sigma^2} = 1
+  w_1 &= \lim_{\sigma_0^2 \to \infty} \frac{\sigma_0^2}{\sigma_0^2 + \sigma^2} = 1 \\
+  w_2 &= \lim_{\sigma_0^2 \to \infty} \frac{\sigma^2}{\sigma_0^2 + \sigma^2} = 0
 \end{align}
 
 and $\hat{x} = z_1$. That is, the weight is on the observations and the estimate
@@ -37,8 +37,8 @@ is equal to the measurement.
 Let us assume we have a \gls{model} providing an almost exact prior for $x$. In
 that case, $\sigma_0^2$ approaches 0 and
 \begin{align}
-  w_1 &= \lim_{\sigma_0^2 \to 0} \frac{\sigma_0^2}{\sigma_0^2 + \sigma^2} = 1 \\
-  w_2 &= \lim_{\sigma_0^2 \to 0} \frac{\sigma^2}{\sigma_0^2 + \sigma^2} = 0
+  w_1 &= \lim_{\sigma_0^2 \to 0} \frac{\sigma_0^2}{\sigma_0^2 + \sigma^2} = 0 \\
+  w_2 &= \lim_{\sigma_0^2 \to 0} \frac{\sigma^2}{\sigma_0^2 + \sigma^2} = 1
 \end{align}
 
 The Kalman filter uses this optimal fusion as the basis for its operation.
