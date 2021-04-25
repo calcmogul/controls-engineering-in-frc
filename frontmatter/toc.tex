@@ -1,5 +1,9 @@
 \chapterimage{toc.jpg}{Tree next to Oakes Circle at UCSC}
-\pagestyle{empty} % No headers
-\tableofcontents % Print the table of contents itself
+
+% \markboth is used explicitly instead of the fancyhdr \chaptermark because the
+% TOC doesn't declare a chapter for itself
+\markboth{\sffamily\normalsize\bfseries\contentsname}
+         {\sffamily\normalsize\bfseries\contentsname}
+
+\tableofcontents
 \cleardoublepage
-\pagestyle{fancy} % Print headers again

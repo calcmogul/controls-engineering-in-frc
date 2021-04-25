@@ -110,7 +110,22 @@
 \input{frontmatter/title}
 \input{frontmatter/copyright}
 \input{frontmatter/toc}
+
+% Frontmatter fancy header
+\renewcommand{\chaptermark}[1]{%
+  \markboth{\sffamily\normalsize\bfseries #1}
+           {\sffamily\normalsize\bfseries #1}}
+\renewcommand{\sectionmark}[1]{%
+  \markright{\sffamily\normalsize\bfseries #1}
+            {\sffamily\normalsize\bfseries #1}}
+
 \input{frontmatter/preface}
+
+% Mainmatter fancy header
+\renewcommand{\chaptermark}[1]{%
+  \markboth{\sffamily\normalsize\bfseries\chaptername\ \thechapter.\ #1}{}}
+\renewcommand{\sectionmark}[1]{%
+  \markright{\sffamily\normalsize\thesection\hspace{5pt}#1}{}}
 
 % Define path commands for redefinition later
 \newcommand*{\partpath}{}
@@ -177,7 +192,14 @@
 \input{\partpath/steady-state-feedforward}
 \input{\partpath/derivations}
 
-\renewcommand{\chaptermark}[1]{\markboth{\sffamily\normalsize\bfseries #1}{}}
+% Backmatter fancy header
+\renewcommand{\chaptermark}[1]{%
+  \markboth{\sffamily\normalsize\bfseries #1}
+           {\sffamily\normalsize\bfseries #1}}
+\renewcommand{\sectionmark}[1]{%
+  \markright{\sffamily\normalsize\bfseries #1}
+            {\sffamily\normalsize\bfseries #1}}
+
 \backmatter
 \chapterimage{backmatter.jpg}{Sunset near Porter Academic building at UCSC}
 \input{backmatter/glossary}
