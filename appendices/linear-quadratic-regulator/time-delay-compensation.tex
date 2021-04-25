@@ -80,21 +80,18 @@ discrete systems.
 
 \subsection{Continuous case}
 
-We can avoid the time delay if we compute the control based on the plant $L$
-seconds in the future. Therefore, we need to derive an equation for the plant's
-state $L$ seconds in the future given the current state.
-
-The continuous linear system is defined as
+The undelayed continuous linear system is defined as
+$\dot{\mat{x}} = \mat{A}\mat{x}(t) + \mat{B}\mat{u}(t)$ with the controller
+$\mat{u}(t) = -\mat{K}\mat{x}(t)$. Let $L$ be the amount of time delay in
+seconds. We can avoid the time delay if we compute the control based on the
+plant $L$ seconds in the future.
 \begin{equation*}
-  \dot{\mat{x}} = \mat{A}\mat{x}(t) + \mat{B}\mat{u}(t)
+  \mat{u}(t) = -\mat{K}\mat{x}(t + L)
 \end{equation*}
 
-Let the controller for this system be
-\begin{equation*}
-  \mat{u}(t) = -\mat{K}\mat{x}(t)
-\end{equation*}
-
-Substitute this into the continuous model.
+We need to find $\mat{x}(t + L)$ given $\mat{x}(t)$. Since we know
+$\mat{u}(t) = -\mat{K}\mat{x}(t)$ will be applied over the time interval
+$[t, t + L)$, substitute it into the continuous model.
 \begin{align*}
   \dot{\mat{x}} &= \mat{A}\mat{x}(t) + \mat{B}\mat{u}(t) \\
   \dot{\mat{x}} &= \mat{A}\mat{x}(t) + \mat{B}(-\mat{K}\mat{x}(t)) \\
@@ -102,22 +99,23 @@ Substitute this into the continuous model.
   \dot{\mat{x}} &= (\mat{A} - \mat{B}\mat{K}) \mat{x}(t)
 \end{align*}
 
-Let $L$ be the amount of time delay in seconds. Take the matrix exponential from
-the current time $t$ to $L$ in the future.
+We now have a differential equation for the closed-loop system dynamics. Take
+the matrix exponential from the current time $t$ to $L$ in the future to obtain
+$\mat{x}(t + L)$.
 \begin{equation}
   \mat{x}(t + L) = e^{(\mat{A} - \mat{B}\mat{K})L} \mat{x}(t)
     \label{eq:continuous_advance_state_by_delay_post}
 \end{equation}
 
-This works when $t > L$, but when $0 \leq t < L$, the inputs in the time
-interval $[t, L)$ are zero because there's initially no input history. The state
-prediction for that time interval is thus
+This works for $t \geq L$, but if $t < L$, we have no input history for the time
+interval $[t, L)$. If we assume the inputs for $[t, L)$ are zero, the state
+prediction for that interval is
 \begin{equation*}
   \mat{x}(L) = e^{\mat{A}(L - t)} \mat{x}(t)
 \end{equation*}
 
-The time interval $[0, t)$ has nonzero inputs, so it uses the normal control
-law.
+The time interval $[0, t)$ has nonzero inputs since it's in the past and was
+using the normal control law.
 \begin{align}
   \mat{x}(t + L) &= e^{(\mat{A} - \mat{B}\mat{K})t} \mat{x}(L) \nonumber \\
   \mat{x}(t + L) &= e^{(\mat{A} - \mat{B}\mat{K})t} e^{\mat{A}(L - t)}
@@ -139,21 +137,18 @@ control law for all $t \geq 0$.
 
 \subsection{Discrete case}
 
+The undelayed discrete linear system is defined as
+$\mat{x}_{k+1} = \mat{A}\mat{x}_k + \mat{B}\mat{u}_k$ with the controller
+$\mat{u}_k = -\mat{K}\mat{x}_k$. Let $L$ be the amount of time delay in seconds.
 We can avoid the time delay if we compute the control based on the plant $L$
-seconds in the future. Therefore, we need to derive an equation for the plant's
-state $L$ seconds in the future given the current state.
-
-The discrete linear system is defined as
+seconds in the future.
 \begin{equation*}
-  \mat{x}_{k+1} = \mat{A}\mat{x}_k + \mat{B}\mat{u}_k
+  \mat{u}_k = -\mat{K}\mat{x}_{k + L/T}
 \end{equation*}
 
-Let the controller for this system be
-\begin{equation*}
-  \mat{u}_k = -\mat{K}\mat{x}_k
-\end{equation*}
-
-Substitute this into the discrete model.
+We need to find $\mat{x}_{k + L/T}$ given $\mat{x}_k$. Since we know
+$\mat{u}_k = -\mat{K}\mat{x}_k$ will be applied for the timesteps $k$ through
+$k + \frac{L}{T}$, substitute it into the discrete model.
 \begin{align*}
   \mat{x}_{k+1} &= \mat{A}\mat{x}_k + \mat{B}\mat{u}_k \\
   \mat{x}_{k+1} &= \mat{A}\mat{x}_k + \mat{B}(-\mat{K}\mat{x}_k) \\
@@ -165,24 +160,23 @@ Let $T$ be the duration between timesteps in seconds and $L$ be the amount of
 time delay in seconds. $\frac{L}{T}$ gives the number of timesteps represented
 by $L$.
 \begin{equation}
-  \mat{x}_{k+L} = (\mat{A} - \mat{B}\mat{K})^\frac{L}{T} \mat{x}_k
+  \mat{x}_{k + L/T} = (\mat{A} - \mat{B}\mat{K})^\frac{L}{T} \mat{x}_k
     \label{eq:discrete_advance_state_by_delay_post}
 \end{equation}
 
-This works when the current time $kT$ is greater than or equal to $L$, but when
-$0 \leq kT < L$, the inputs in the time interval $[kT, L)$ are zero because
-there's initially no input history. The state prediction for that time interval
-is thus
+This works for $kT \geq L$ where $kT$ is the current time, but if $kT < L$, we
+have no input history for the time interval $[kT, L)$. If we assume the inputs
+for $[kT, L)$ are zero, the state prediction for that interval is
 \begin{align*}
-  \mat{x}_L &= \mat{A}^\frac{L - kT}{T} \mat{x}_k \\
-  \mat{x}_L &= \mat{A}^{\frac{L}{T} - k} \mat{x}_k
+  \mat{x}_{L/T} &= \mat{A}^\frac{L - kT}{T} \mat{x}_k \\
+  \mat{x}_{L/T} &= \mat{A}^{\frac{L}{T} - k} \mat{x}_k
 \end{align*}
 
-The time interval $[0, kT)$ has nonzero inputs, so it uses the normal control
-law.
+The time interval $[0, kT)$ has nonzero inputs since it's in the past and was
+using the normal control law.
 \begin{align}
-  \mat{x}_{k + L} &= (\mat{A} - \mat{B}\mat{K})^k \mat{x}_L \nonumber \\
-  \mat{x}_{k + L} &= (\mat{A} - \mat{B}\mat{K})^k
+  \mat{x}_{k + L/T} &= (\mat{A} - \mat{B}\mat{K})^k \mat{x}_{L/T} \nonumber \\
+  \mat{x}_{k + L/T} &= (\mat{A} - \mat{B}\mat{K})^k
     \mat{A}^{\frac{L}{T} - k} \mat{x}_k
     \label{eq:discrete_advance_state_by_delay_pre}
 \end{align}
@@ -191,7 +185,7 @@ Therefore, equations \eqref{eq:discrete_advance_state_by_delay_post} and
 \eqref{eq:discrete_advance_state_by_delay_pre} give the latency-compensated
 control law for all $t \geq 0$.
 \begin{align}
-  \mat{u}_k &= -\mat{K} \mat{x}_{k + L} \nonumber \\
+  \mat{u}_k &= -\mat{K} \mat{x}_{k + L/T} \nonumber \\
   \mat{u}_k &=
   \begin{cases}
     -\mat{K} (\mat{A} - \mat{B}\mat{K})^k \mat{A}^{\frac{L}{T} - k} \mat{x}_k &
