@@ -525,6 +525,50 @@ inverse of {{1, 1, b, b}, {v, v, b v + c a, b v + c a},
     K_{a,linear} K_{v,angular} - K_{v,linear} K_{a,angular} \\
     K_{a,linear} + K_{a,angular} \\
     K_{a,angular} - K_{a,linear}
+  \end{bmatrix} \\
+  \begin{bmatrix}
+    A_1 \\
+    A_2 \\
+    B_1 \\
+    B_2
+  \end{bmatrix} &= \frac{1}{2}
+  \begin{bmatrix}
+    -\frac{K_{a,linear} K_{v,angular}}{K_{a,linear} K_{a,angular}} -
+      \frac{K_{v,linear} K_{a,angular}}{K_{a,linear} K_{a,angular}} \\
+    \frac{K_{a,linear} K_{v,angular}}{K_{a,linear} K_{a,angular}} -
+      \frac{K_{v,linear} K_{a,angular}}{K_{a,linear} K_{a,angular}} \\
+    \frac{K_{a,linear}}{K_{a,linear} K_{a,angular}} +
+      \frac{K_{a,angular}}{K_{a,linear} K_{a,angular}} \\
+    \frac{K_{a,angular}}{K_{a,linear} K_{a,angular}} -
+      \frac{K_{a,linear}}{K_{a,linear} K_{a,angular}}
+  \end{bmatrix} \\
+  \begin{bmatrix}
+    A_1 \\
+    A_2 \\
+    B_1 \\
+    B_2
+  \end{bmatrix} &= \frac{1}{2}
+  \begin{bmatrix}
+    -\frac{K_{v,angular}}{K_{a,angular}} -
+      \frac{K_{v,linear}}{K_{a,linear}} \\
+    \frac{K_{v,angular}}{K_{a,angular}} -
+      \frac{K_{v,linear}}{K_{a,linear}} \\
+    \frac{1}{K_{a,angular}} + \frac{1}{K_{a,linear}} \\
+    \frac{1}{K_{a,linear}} - \frac{1}{K_{a,angular}}
+  \end{bmatrix} \\
+  \begin{bmatrix}
+    A_1 \\
+    A_2 \\
+    B_1 \\
+    B_2
+  \end{bmatrix} &= \frac{1}{2}
+  \begin{bmatrix}
+    -\left(\frac{K_{v,linear}}{K_{a,linear}} +
+      \frac{K_{v,angular}}{K_{a,angular}}\right) \\
+    -\left(\frac{K_{v,linear}}{K_{a,linear}} -
+      \frac{K_{v,angular}}{K_{a,angular}}\right) \\
+    \frac{1}{K_{a,linear}} + \frac{1}{K_{a,angular}} \\
+    \frac{1}{K_{a,linear}} - \frac{1}{K_{a,angular}}
   \end{bmatrix}
 \end{align*}
 
@@ -564,13 +608,15 @@ To summarize,
       A_2 \\
       B_1 \\
       B_2
-    \end{bmatrix} = \frac{1}{2 K_{a,linear} K_{a,angular}}
-      \begin{bmatrix}
-        -K_{a,linear} K_{v,angular} - K_{v,linear} K_{a,angular} \\
-        K_{a,linear} K_{v,angular} - K_{v,linear} K_{a,angular} \\
-        K_{a,linear} + K_{a,angular} \\
-        K_{a,angular} - K_{a,linear}
-      \end{bmatrix}
+    \end{bmatrix} = \frac{1}{2}
+    \begin{bmatrix}
+      -\left(\frac{K_{v,linear}}{K_{a,linear}} +
+        \frac{K_{v,angular}}{K_{a,angular}}\right) \\
+      -\left(\frac{K_{v,linear}}{K_{a,linear}} -
+        \frac{K_{v,angular}}{K_{a,angular}}\right) \\
+      \frac{1}{K_{a,linear}} + \frac{1}{K_{a,angular}} \\
+      \frac{1}{K_{a,linear}} - \frac{1}{K_{a,angular}}
+    \end{bmatrix}
   \end{equation}
 \end{theorem}
 
@@ -581,35 +627,35 @@ If $K_v$ and $K_a$ are the same for both the linear and angular cases, it devolv
     A_2 \\
     B_1 \\
     B_2
-  \end{bmatrix} &= \frac{1}{2 K_a K_a}
-    \begin{bmatrix}
-      -K_a K_v - K_v K_a \\
-      K_a K_v - K_v K_a \\
-      K_a + K_a \\
-      K_a - K_a
-    \end{bmatrix} \\
+  \end{bmatrix} &= \frac{1}{2}
+  \begin{bmatrix}
+    -\left(\frac{K_v}{K_a} + \frac{K_v}{K_a}\right) \\
+    -\left(\frac{K_v}{K_a} - \frac{K_v}{K_a}\right) \\
+    \frac{1}{K_a} + \frac{1}{K_a} \\
+    \frac{1}{K_a} - \frac{1}{K_a}
+  \end{bmatrix} \\
   \begin{bmatrix}
     A_1 \\
     A_2 \\
     B_1 \\
     B_2
-  \end{bmatrix} &= \frac{1}{2 K_a K_a}
-    \begin{bmatrix}
-      -2K_v K_a \\
-      0 \\
-      2 K_a \\
-      0
-    \end{bmatrix} \\
+  \end{bmatrix} &= \frac{1}{2}
+  \begin{bmatrix}
+    -2\frac{K_v}{K_a} \\
+    0 \\
+    \frac{2}{K_a} \\
+    0
+  \end{bmatrix} \\
   \begin{bmatrix}
     A_1 \\
     A_2 \\
     B_1 \\
     B_2
   \end{bmatrix} &=
-    \begin{bmatrix}
-      -\frac{K_v}{K_a} \\
-      0 \\
-      \frac{1}{K_a} \\
-      0
-    \end{bmatrix}
+  \begin{bmatrix}
+    -\frac{K_v}{K_a} \\
+    0 \\
+    \frac{1}{K_a} \\
+    0
+  \end{bmatrix}
 \end{align*}
