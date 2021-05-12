@@ -97,8 +97,32 @@ Now just evaluate the covariances.
 
 The error in the \textit{a posteriori} \gls{state} estimation is
 $\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^+$. We want to minimize the expected value
-of the square of the magnitude of this vector. This is equivalent to minimizing
-the trace of the a posteriori estimate covariance matrix $\mat{P}_{k+1}^+$.
+of the square of the magnitude of this vector, which can be written as
+$E[(\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^+)(\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^+)^T]$.
+By definition, this expected value is the \textit{a posteriori} error covariance
+$\mat{P}_{k+1}^+$. Remember that the eigenvectors of a matrix are the
+fundamental transformation directions of that matrix, and the eigenvalues are
+the magnitudes of those transformations. By minimizing the eigenvalues, we
+minimize the error variance (the uncertainty in the state estimate) for each
+state.
+
+$\mat{P}_{k+1}^+$ is positive definite, so we know all the eigenvalues are
+positive. Therefore, a reasonable quantity to minimize with our choice of Kalman
+gain is the sum of the eigenvalues. We don't have direct access to the
+eigenvalues, but we can use the fact that the sum of the eigenvalues is equal to
+the trace of $\mat{P}_{k+1}^+$ and minimize that instead.\footnote{By
+definition, the characteristic polynomial of an $n \times n$ matrix $\mat{P}$ is
+given by
+\begin{equation*}
+  p(t) = \det(t\mat{I} - \mat{P}) = t^n - \tr(\mat{P}) t^{n-1} + \cdots +
+    (-1)^n \det(\mat{P})
+\end{equation*}
+
+as well as $p(t) = (t - \lambda_1) \ldots (t - \lambda_n)$ where
+$\lambda_1, \ldots, \lambda_n$ are the eigenvalues of $\mat{P}$. The coefficient
+for $t^{n-1}$ in the second polynomial's expansion is
+$-(\lambda_1 + \cdots + \lambda_n)$. Therefore, by matching coefficients for
+$t^{n-1}$, we get $\tr(\mat{P}) = \lambda_1 + \cdots + \lambda_n$.}
 
 We'll start with the equation for $\mat{P}_{k+1}^+$.
 \begin{equation*}
