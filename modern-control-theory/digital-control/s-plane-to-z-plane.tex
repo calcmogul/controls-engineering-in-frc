@@ -80,21 +80,22 @@ To completely reconstruct a signal, the Nyquist-Shannon sampling theorem states
 that it must be sampled at a frequency at least twice the maximum frequency it
 contains. The highest frequency a given sample rate can capture is called the
 Nyquist frequency, which is half the sample frequency. This is why recorded
-audio is sampled at $44.1k\,Hz$. The maximum frequency a typical human can hear
-is about $20\,kHz$, so the Nyquist frequency is $40\,kHz$. ($44.1kHz$ in
-particular was chosen for unrelated historical reasons.)
+audio is sampled at $44.1$ kHz. The maximum frequency a typical human can hear
+is about $20$ kHz, so the Nyquist frequency is $20$ kHz and the minimum sampling
+frequency is $40$ kHz. ($44.1$ kHz in particular was chosen for unrelated
+historical reasons.)
 
 Frequencies above the Nyquist frequency are folded down across it. The higher
 frequency and the folded down lower frequency are said to alias each
 other\footnote{The aliases of a frequency $f$ can be expressed as
-$f_{alias}(N) \stackrel{def}{=} |f - Nf_s|$. For example, if a $200\,Hz$ sine
-wave is sampled at $150\,Hz$, the \gls{observer} will see a $50\,Hz$ signal
-instead of a $200\,Hz$ one.}. Figure \ref{fig:nyquist} demonstrates aliasing.
-\begin{svg}{build/\chapterpath/nyquist}
-  \caption{The samples of two sine waves can be identical when at least one of
-    them is at a frequency above half the sample rate. In this case, the $2\,Hz$
-    sine wave is above the Nyquist frequency $1.5\,Hz$.}
-  \label{fig:nyquist}
+$f_{alias}(N) \stackrel{def}{=} |f - Nf_s|$. For example, if a $200$ Hz sine
+wave is sampled at $150$ Hz, the \gls{observer} will see a $50$ Hz signal
+instead of a $200$ Hz one.}. Figure \ref{fig:aliasing} demonstrates aliasing.
+\begin{svg}{build/\chapterpath/aliasing}
+  \caption{The original signal is a $1.5$ Hz sine wave, which means its Nyquist
+    frequency is $1.5$ Hz. The signal is being sampled at $2$ Hz, so the aliased
+    signal is a $0.5$ Hz sine wave.}
+    \label{fig:aliasing}
 \end{svg}
 
 The effect of these high-frequency aliases can be reduced with a low-pass filter
