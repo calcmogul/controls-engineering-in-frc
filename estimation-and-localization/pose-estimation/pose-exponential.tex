@@ -462,11 +462,11 @@ coordinates over time for the simpler odometry method compared to the method
 using twists (uses the Ramsete controller from subsection
 \ref{sec:ramsete_unicycle_controller}).
 \begin{svg}{build/\chapterpath/ramsete_twist_odometry_error}
-  \caption{Odometry error compared to method using twists ($dt = 0.05s$)}
+  \caption{Odometry error compared to method using twists ($dt = 0.05$ s)}
   \label{fig:ramsete_twist_odometry_error}
 \end{svg}
 
-The highest error is $4cm$ in $x$ over a $10m$ path starting with a $2m$
+The highest error is $4$ cm in $x$ over a $10$ m path starting with a $2$ m
 displacement. The difference would be even more noticeable for paths with higher
 curvatures and longer durations. One mitigation is using a smaller update
 period. However, there are bigger sources of error like turning scrub on skid
