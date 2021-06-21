@@ -126,6 +126,9 @@ tag. Links to online static resources like PDFs should use the `@online` tag.
 Book content should answer the question _why_ something works the way it does
 and how and when to use it to solve problems.
 
+Adhere to [SI unit rules and style
+conventions](https://physics.nist.gov/cuu/Units/checklist.html).
+
 ## Future improvements
 
 See [TODO.md](TODO.md).
