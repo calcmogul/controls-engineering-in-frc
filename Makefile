@@ -173,3 +173,34 @@ setup_ubuntu:
 		texlive-xetex
 	# The Ubuntu 20.04 package is too old
 	pip3 install --user black
+
+.PHONY: setup_macos
+setup_macos:
+	brew install \
+		basictex \
+		ghostscript \
+		inkscape
+	sudo /Library/TeX/texbin/tlmgr update --self
+	sudo /Library/TeX/texbin/tlmgr install \
+		biber \
+		biblatex \
+		cm-super \
+		csquotes \
+		datatool \
+		enumitem \
+		footmisc \
+		glossaries \
+		glossaries-english \
+		imakeidx \
+		latexmk \
+		mdframed \
+		mfirstuc \
+		needspace \
+		placeins \
+		titlesec \
+		tracklang \
+		type1cm \
+		was \
+		xfor \
+		zref
+	pip3 install --user black requests wheel

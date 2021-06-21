@@ -97,6 +97,41 @@ These can be installed via `make setup_ubuntu`.
 * Python packages (via "pip3 install --user")
   * black (to format Python source code)
 
+#### macOS
+
+These can be installed via `make setup_macos`.
+
+* brew packages (via "brew install")
+  * basictex (for xelatex)
+  * ghostscript (to reduce size of final PDF for publishing)
+  * inkscape (to convert SVGs to PDFs)
+  * python@3.9 (for generating plots)
+* Python packages (via "pip3 install --user")
+  * black (to format Python source code)
+* tlmgr packages (via "sudo tlmgr install")
+  * biber (for generating bibliography)
+  * biblatex (for generating bibliography)
+  * cm-super (for type1ec.sty)
+  * csquotes (used by textcomp package)
+  * datatool (used by xfor package)
+  * enumitem (customize lists)
+  * footmisc (used by gensymb)
+  * glossaries (for makeglossaries command)
+  * glossaries-english (english language module for glossaries package)
+  * imakeidx (used by listings package)
+  * latexmk
+  * mdframed (for creating the theorem, definition, exercise, and corollary
+    boxes)
+  * mfirstuc (used by glossaries package)
+  * needspace (used by zref package)
+  * placeins (used by subcaption package)
+  * titlesec (for titletoc package)
+  * tracklang (used by glossaries package)
+  * type1cm (for type1cm.sty)
+  * was (for gensymb package)
+  * xfor (used by textcase package)
+  * zref (used by mdframed package)
+
 #### Python packages
 
 These packages are installed via pip3 (e.g., `pip3 install --user frccontrol`).
