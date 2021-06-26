@@ -1,27 +1,39 @@
 #!/usr/bin/env python3
 
-import multiprocessing as mp
 import os
 
 
-root = os.getcwd()
-ENV_PYTHON = os.path.join(root, "build/venv/bin/python3")
-ENV_PIP = os.path.join(root, "build/venv/bin/pip3")
+def proc_init(python_exec_copy):
+    global python_exec
+    python_exec = python_exec_copy
 
 
 def run(name):
     import bookutil.latex as latex
     import subprocess
 
-    subprocess.run([ENV_PYTHON, name, "--noninteractive"])
+    subprocess.run([python_exec, name, "--noninteractive"])
     filename = os.path.splitext(os.path.basename(name))[0] + "_response"
     latex.convert_svg2pdf(filename)
 
 
-# Run frccontrol examples
-os.chdir("build/frccontrol/examples")
-files = [
-    os.path.join(dp, f) for dp, dn, fn in os.walk(".") for f in fn if f.endswith(".py")
-]
-with mp.Pool(mp.cpu_count()) as pool:
-    pool.map(run, files)
+def main():
+    import multiprocessing as mp
+
+    # Run frccontrol examples
+    old_cwd = os.getcwd()
+    python_exec = os.path.join(old_cwd, "build/venv/bin/python3")
+    os.chdir("build/frccontrol/examples")
+    files = [
+        os.path.join(dp, f)
+        for dp, dn, fn in os.walk(".")
+        for f in fn
+        if f.endswith(".py")
+    ]
+    with mp.Pool(mp.cpu_count(), proc_init, (python_exec,)) as pool:
+        pool.map(run, files)
+    os.chdir(old_cwd)
+
+
+if __name__ == "__main__":
+    main()
