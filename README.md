@@ -60,34 +60,42 @@ To compile the book, the following packages are required.
 
 These can be installed via `make setup_archlinux`.
 
-* base-devel (for `make` to run the makefile)
-* biber (for generating bibliography)
-* ghostscript (to reduce size of final PDF for publishing)
-* inkscape (to convert SVGs to PDFs)
-* texlive-bibtexextra (for additional BibTeX styles and bibliography databases)
-* texlive-core (for latexmk and xelatex)
-* texlive-latexextra (for bibtex and makeglossaries)
-* python >= 3.6 (for generating plots)
-* python-pip (for installing required Python packages)
-* python-wheel (for "setup.py bdist_wheel")
+* pacman packages (via "sudo pacman -Sy")
+  * base-devel (for `make` to run the makefile)
+  * biber (for generating bibliography)
+  * ghostscript (to reduce size of final PDF for publishing)
+  * inkscape (to convert SVGs to PDFs)
+  * python >= 3.6 (for generating plots)
+  * python-black (to format Python source code)
+  * python-pip (for installing required Python packages)
+  * python-requests (for .tex HTTP link checker)
+  * python-wheel (for "setup.py bdist_wheel")
+  * texlive-bibtexextra (for additional BibTeX styles and bibliography databases)
+  * texlive-core (for latexmk and xelatex)
+  * texlive-latexextra (for bibtex and makeglossaries)
 
 #### Ubuntu
 
 These can be installed via `make setup_ubuntu`.
 
-* biber (for generating bibliography)
-* build-essential (for `make` to run the makefile)
-* cm-super (for type1ec.sty)
-* ghostscript (to reduce size of final PDF for publishing)
-* inkscape (to convert SVGs to PDFs)
-* latexmk
-* texlive-bibtex-extra (for additional BibTeX styles and bibliography databases)
-* texlive-generic-extra (for miscellaneous LaTeX .sty files)
-* texlive-latex-extra (for bibtex and makeglossaries)
-* texlive-xetex (for xelatex)
-* python3 >= 3.6 (for generating plots)
-* python3-pip (for installing required Python packages)
-* python3-wheel (for "setup.py bdist_wheel")
+* apt packages (via "sudo apt install")
+  * biber (for generating bibliography)
+  * build-essential (for `make` to run the makefile)
+  * cm-super (for type1ec.sty)
+  * ghostscript (to reduce size of final PDF for publishing)
+  * inkscape (to convert SVGs to PDFs)
+  * latexmk
+  * python3 >= 3.6 (for generating plots)
+  * python3-pip (for installing required Python packages)
+  * python3-requests (for .tex HTTP link checker)
+  * python3-setuptools (for dependencies of setup.py)
+  * python3-wheel (for "setup.py bdist_wheel")
+  * texlive-bibtex-extra (for additional BibTeX styles and bibliography databases)
+  * texlive-generic-extra (for miscellaneous LaTeX .sty files)
+  * texlive-latex-extra (for bibtex and makeglossaries)
+  * texlive-xetex (for xelatex)
+* Python packages (via "pip3 install --user")
+  * black (to format Python source code)
 
 #### Python packages
 
@@ -99,11 +107,6 @@ These packages are installed via pip3 (e.g., `pip3 install --user frccontrol`).
 The book's build process automatically sets these up in a venv so they don't
 have to be installed manually. Modifications to the Python package folders in
 `build` will be reflected in any scripts which use the venv.
-
-The following packages are optional because the book can compile without them.
-
-* black (to format Python source code)
-* requests (for .tex HTTP link checker)
 
 ### Style guide
 

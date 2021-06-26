@@ -144,14 +144,14 @@ setup_archlinux:
 		biber \
 		ghostscript \
 		inkscape \
-		texlive-bibtexextra \
-		texlive-core \
-		texlive-latexextra \
 		python \
 		python-black \
 		python-pip \
 		python-requests \
-		python-wheel
+		python-wheel \
+		texlive-bibtexextra \
+		texlive-core \
+		texlive-latexextra
 
 .PHONY: setup_ubuntu
 setup_ubuntu:
@@ -163,13 +163,13 @@ setup_ubuntu:
 		ghostscript \
 		inkscape \
 		latexmk \
-		texlive-bibtex-extra \
-		texlive-latex-extra \
-		texlive-xetex \
 		python3 \
 		python3-pip \
 		python3-requests \
 		python3-setuptools \
-		python3-wheel
+		python3-wheel \
+		texlive-bibtex-extra \
+		texlive-latex-extra \
+		texlive-xetex
 	# The Ubuntu 20.04 package is too old
 	pip3 install --user black
