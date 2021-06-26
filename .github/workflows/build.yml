@@ -5,6 +5,7 @@ on: [pull_request, push]
 jobs:
   ubuntu:
     runs-on: ubuntu-20.04
+    timeout-minutes: 10
     steps:
     - uses: actions/checkout@v2
       with:
@@ -20,6 +21,7 @@ jobs:
   archlinux:
     runs-on: ubuntu-20.04
     container: archlinux/archlinux:base-devel
+    timeout-minutes: 10
     steps:
     - name: Install git
       run: sudo pacman -Sy --needed --noconfirm git
