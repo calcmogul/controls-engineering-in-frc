@@ -36,7 +36,7 @@ def verify_url(filename, line_number, url):
             print(f"[{filename}:{line_number}]\n    {url}\n    {r.status_code}")
             return False
     except requests.ConnectionError as ex:
-        print(f"[{filename}:{line_number}]\n    {url}\n    {str(ex)}")
+        print(f"[{filename}:{line_number}]\n    {url}\n    {ex}")
         return False
     return True
 

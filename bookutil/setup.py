@@ -26,7 +26,7 @@ if exists(git_dir):
             "--count",
             # Includes previous year's commits in case one was merged after the
             # year incremented. Otherwise, the version wouldn't increment.
-            '--after="main@{' + str(date.today().year - 1) + '-01-01}"',
+            f'--after="main@{{{date.today().year - 1}-01-01}}"',
             "main",
         ],
         stdout=subprocess.PIPE,
@@ -36,10 +36,10 @@ if exists(git_dir):
     if proc.returncode:
         commit_count = "0"
     else:
-        commit_count = proc.stdout.decode("utf-8")
+        commit_count = proc.stdout.decode("utf-8").rstrip()
 
     # Version number: <year>.<# commits on main>
-    version = str(date.today().year) + "." + commit_count.strip()
+    version = f"{date.today().year}.{commit_count}"
 
     # Create the version.py file
     with open(version_file, "w") as fp:

@@ -32,7 +32,7 @@ def main():
         rpm, [i_stall - i_stall / rpm_free * x for x in rpm], "b", label="Current (A)"
     )
     ax_left.annotate(
-        "Stall current: " + str(i_stall) + " A",
+        f"Stall current: {i_stall} A",
         xy=(0, i_stall),
         xytext=(0, 160),
         arrowprops=dict(arrowstyle="->"),
@@ -47,13 +47,7 @@ def main():
         label="Output power (W)",
     )
     ax_left.annotate(
-        "Peak power: "
-        + str(p_max)
-        + " W"
-        + os.linesep
-        + "(at "
-        + str(rpm_free / 2.0)
-        + " RPM)",
+        f"Peak power: {p_max} W\n(at {rpm_free / 2.0} RPM)",
         xy=(rpm_free / 2.0, p_max),
         xytext=(7000, 365),
         arrowprops=dict(arrowstyle="->"),
@@ -67,19 +61,13 @@ def main():
         rpm, [t_stall - t_stall / rpm_free * x for x in rpm], "y", label="Torque (N-m)"
     )
     ax_right.annotate(
-        "Stall torque: " + str(t_stall) + " N-m",
+        f"Stall torque: {t_stall} N-m",
         xy=(0, t_stall),
         xytext=(0, 0.75),
         arrowprops=dict(arrowstyle="->"),
     )
     ax_right.annotate(
-        "Free speed: "
-        + str(rpm_free)
-        + " RPM"
-        + os.linesep
-        + "Free current: "
-        + str(i_free)
-        + " A",
+        f"Free speed: {rpm_free} RPM\nFree current: {i_free} A",
         xy=(rpm_free, 0),
         xytext=(11000, 0.3),
         arrowprops=dict(arrowstyle="->"),

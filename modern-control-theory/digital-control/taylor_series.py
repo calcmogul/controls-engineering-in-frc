@@ -45,7 +45,7 @@ def main():
         plt.plot(
             xs,
             [taylor_exp(x, i) for x in xs],
-            label="Taylor series of $e^t$ ($n = " + str(i) + "$)",
+            label=f"Taylor series of $e^t$ ($n = {i}$)",
         )
     plt.xlabel("$t$")
     plt.ylabel("$f(t)$")
