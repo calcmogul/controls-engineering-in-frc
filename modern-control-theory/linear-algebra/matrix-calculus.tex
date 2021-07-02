@@ -1,0 +1,117 @@
+\section{Matrix calculus}
+\label{sec:matrix_calculus}
+
+Matrix calculus uses partial derivatives. See subsection
+\ref{subsec:partial_derivatives} for how they work.
+
+We'll need a vector-valued function to demonstrate some common operations in
+matrix calculus. Let $\mat{f}(\mat{x}, \mat{u})$ be a vector-valued function
+defined as
+\begin{equation*}
+  \mat{f}(\mat{x}, \mat{u}) =
+  \begin{bmatrix}
+    f_1(\mat{x}, \mat{u}) \\
+    \vdots \\
+    f_m(\mat{x}, \mat{u})
+  \end{bmatrix}
+  \text{where }
+  \mat{x} =
+  \begin{bmatrix}
+    x_1 \\
+    \vdots \\
+    x_m
+  \end{bmatrix}
+  \text{and }
+  \mat{u} =
+  \begin{bmatrix}
+    u_1 \\
+    \vdots \\
+    u_n
+  \end{bmatrix}
+\end{equation*}
+
+\subsection{Jacobian}
+\index{matrices!Jacobian}
+
+The Jacobian is the first-order partial derivative of a vector-valued function
+with respect to one of its vector arguments. The columns of the Jacobian of
+$\mat{f}$ are filled with partial derivatives of $\mat{f}$'s rows with respect
+to each of the argument's elements. For example, the Jacobian of $\mat{f}$ with
+respect to $\mat{x}$ is
+\begin{equation*}
+  \frac{\partial \mat{f}(\mat{x}, \mat{u})}{\partial \mat{x}} =
+  \begin{bmatrix}
+    \frac{\partial \mat{f}(\mat{x}, \mat{u})}{\partial x_1} & \hdots &
+      \frac{\partial \mat{f}(\mat{x}, \mat{u})}{\partial x_m}
+  \end{bmatrix} =
+  \begin{bmatrix}
+    \frac{\partial f_1}{\partial x_1} & \hdots &
+      \frac{\partial f_1}{\partial x_m} \\
+    \vdots & \ddots & \vdots \\
+    \frac{\partial f_m}{\partial x_1} & \hdots &
+      \frac{\partial f_m}{\partial x_m}
+  \end{bmatrix}
+\end{equation*}
+
+$\frac{\partial f_1}{\partial x_1}$ is the partial derivative of the first row
+of $\mat{f}$ with respect to the first row of $\mat{x}$, and so on for all rows
+of $\mat{f}$ and $\mat{x}$. This has $m^2$ permutations and thus produces a
+square matrix.
+
+The Jacobian of $\mat{f}$ with respect to $\mat{u}$ is
+\begin{equation*}
+  \frac{\partial \mat{f}(\mat{x}, \mat{u})}{\partial \mat{u}} =
+  \begin{bmatrix}
+    \frac{\partial \mat{f}(\mat{x}, \mat{u})}{\partial u_1} & \hdots &
+      \frac{\partial \mat{f}(\mat{x}, \mat{u})}{\partial u_n}
+  \end{bmatrix} =
+  \begin{bmatrix}
+    \frac{\partial f_1}{\partial u_1} & \hdots &
+      \frac{\partial f_1}{\partial u_n} \\
+    \vdots & \ddots & \vdots \\
+    \frac{\partial f_m}{\partial u_1} & \hdots &
+      \frac{\partial f_m}{\partial u_n}
+  \end{bmatrix}
+\end{equation*}
+
+$\frac{\partial f_1}{\partial u_1}$ is the partial derivative of the first row
+of $\mat{f}$ with respect to the first row of $\mat{u}$, and so on for all rows
+of $\mat{f}$ and $\mat{u}$. This has $m \times n$ permutations and can produce a
+nonsquare matrix if $m \neq n$.
+
+\subsection{Hessian}
+\index{matrices!Hessian}
+
+The Hessian is the second-order partial derivative of a vector-valued function
+with respect to one of its vector arguments. For example, the Hessian of
+$\mat{f}$ with respect to $\mat{x}$ is
+\begin{equation*}
+  \frac{\partial^2 \mat{f}(\mat{x}, \mat{u})}{\partial \mat{x}^2} =
+  \begin{bmatrix}
+    \frac{\partial^2 \mat{f}(\mat{x}, \mat{u})}{\partial x_1^2} & \hdots &
+      \frac{\partial^2 \mat{f}(\mat{x}, \mat{u})}{\partial x_m^2}
+  \end{bmatrix} =
+  \begin{bmatrix}
+    \frac{\partial^2 f_1}{\partial x_1^2} & \hdots &
+      \frac{\partial^2 f_1}{\partial x_m^2} \\
+    \vdots & \ddots & \vdots \\
+    \frac{\partial^2 f_m}{\partial x_1^2} & \hdots &
+      \frac{\partial^2 f_m}{\partial x_m^2}
+  \end{bmatrix}
+\end{equation*}
+
+and the Hessian of $\mat{f}$ with respect to $\mat{u}$ is
+\begin{equation*}
+  \frac{\partial^2 \mat{f}(\mat{x}, \mat{u})}{\partial \mat{u}^2} =
+  \begin{bmatrix}
+    \frac{\partial^2 \mat{f}(\mat{x}, \mat{u})}{\partial u_1^2} & \hdots &
+      \frac{\partial^2 \mat{f}(\mat{x}, \mat{u})}{\partial u_n^2}
+  \end{bmatrix} =
+  \begin{bmatrix}
+    \frac{\partial^2 f_1}{\partial u_1^2} & \hdots &
+      \frac{\partial^2 f_1}{\partial u_n^2} \\
+    \vdots & \ddots & \vdots \\
+    \frac{\partial^2 f_m}{\partial u_1^2} & \hdots &
+      \frac{\partial^2 f_m}{\partial u_n^2}
+  \end{bmatrix}
+\end{equation*}

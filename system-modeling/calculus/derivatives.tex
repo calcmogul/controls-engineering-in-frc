@@ -50,3 +50,23 @@ For example
   h'(x) &= 5\left(3x + 2\right)^4 \cdot \left(3\right) \\
   h'(x) &= 15\left(3x + 2\right)^4
 \end{align*}
+
+\subsection{Partial derivatives}
+\label{subsec:partial_derivatives}
+
+A partial derivative of a function of several variables is its derivative with
+respect to one of those variables, with the others held constant (as opposed to
+the total derivative, in which all variables are allowed to vary). Partial
+derivatives use $\partial$ instead of $d$ in Leibniz notation.
+
+For example, let $h(x, y) = 3xy + 2x$. For the partial derivative with respect
+to $x$, $y$ is treated as a constant.
+\begin{equation*}
+  \frac{\partial h(x, y)}{\partial x} = 3y + 2
+\end{equation*}
+
+For the partial derivative with respect to $y$, $x$ is treated as a constant, so
+the second term becomes zero.
+\begin{equation*}
+  \frac{\partial h(x, y)}{\partial y} = 3x
+\end{equation*}
