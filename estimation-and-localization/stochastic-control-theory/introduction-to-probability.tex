@@ -243,25 +243,23 @@ each element has a PDF.
 \begin{equation*}
   \mat{x} = \begin{bmatrix}
     x_1 \\
-    x_2 \\
-    \ldots \\
+    \vdots \\
     x_n
   \end{bmatrix}
 \end{equation*}
 
 The elements of $\mat{x}$ are scalar variables jointly distributed with a joint
-density $p(x_1, x_2, \ldots, x_n)$. The expectation is
+density $p(x_1, \ldots, x_n)$. The expectation is
 \begin{align*}
   E[\mat{x}] &= \matbar{x} = \int_{-\infty}^\infty \mat{x} \,p(\mat{x})
     \,d\mat{x} \\
   E[\mat{x}] &= \begin{bmatrix}
     E[x_1] \\
-    E[x_2] \\
     \vdots \\
     E[x_n]
   \end{bmatrix} \\
   E[x_i] &= \int_{-\infty}^\infty \ldots \int_{-\infty}^\infty x_i
-    \,p(x_1, x_2, \ldots, x_n) \,dx_1 \ldots dx_n \\
+    \,p(x_1, \ldots, x_n) \,dx_1 \ldots dx_n \\
   E[f(\mat{x})] &= \int_{-\infty}^\infty f(\mat{x}) \,p(\mat{x}) \,d\mat{x}
 \end{align*}
 
@@ -273,10 +271,9 @@ The covariance matrix for a random vector $\mat{x} \in \mathbb{R}^n$ is
   \mat{\Sigma} &= \cov(\mat{x}, \mat{x}) = E[(\mat{x} - \matbar{x})
     (\mat{x} - \matbar{x})^T] \\
   \mat{\Sigma} &= \begin{bmatrix}
-    \cov(x_1, x_1) & \cov(x_1, x_2) & \ldots & \cov(x_1, x_n) \\
-    \cov(x_2, x_1) & \cov(x_2, x_2) & \ldots & \cov(x_1, x_n) \\
-    \vdots         & \vdots         & \ddots & \vdots \\
-    \cov(x_n, x_1) & \cov(x_n, x_2) & \ldots & \cov(x_n, x_n) \\
+    \cov(x_1, x_1) & \ldots & \cov(x_1, x_n) \\
+    \vdots         & \ddots & \vdots \\
+    \cov(x_n, x_1) & \ldots & \cov(x_n, x_n) \\
   \end{bmatrix}
 \end{align*}
 
