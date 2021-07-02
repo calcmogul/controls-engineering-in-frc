@@ -70,8 +70,8 @@ design uses a quadratic function for the cost-to-go defined as the sum of the
 \gls{error} and \gls{control effort} over time for the linear \gls{system}
 $\dot{\mat{x}} = \mat{A}\mat{x} + \mat{B}\mat{u}$.
 \begin{equation*}
-  J = \int\limits_0^\infty \left(\mat{x}^T\mat{Q}\mat{x} +
-    \mat{u}^T\mat{R}\mat{u}\right) dt
+  J = \int\limits_0^\infty \left(\mat{x}\T\mat{Q}\mat{x} +
+    \mat{u}\T\mat{R}\mat{u}\right) dt
 \end{equation*}
 
 where $J$ represents a trade-off between \gls{state} excursion and
@@ -99,8 +99,8 @@ The feedback \gls{control law} that minimizes $J$ is shown in theorem
 \begin{theorem}[Linear-quadratic regulator]
   \label{thm:linear-quadratic_regulator}
   \begin{align}
-    \min_{\mat{u}} &\int\limits_0^\infty \left(\mat{x}^T\mat{Q}\mat{x} +
-      \mat{u}^T\mat{R}\mat{u}\right) dt \nonumber \\
+    \min_{\mat{u}} &\int\limits_0^\infty \left(\mat{x}\T\mat{Q}\mat{x} +
+      \mat{u}\T\mat{R}\mat{u}\right) dt \nonumber \\
     \text{subject to } &\dot{\mat{x}} = \mat{A}\mat{x} + \mat{B}\mat{u}
   \end{align}
 

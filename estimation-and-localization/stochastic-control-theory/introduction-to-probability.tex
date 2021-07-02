@@ -269,7 +269,7 @@ density $p(x_1, \ldots, x_n)$. The expectation is
 The covariance matrix for a random vector $\mat{x} \in \mathbb{R}^n$ is
 \begin{align*}
   \mat{\Sigma} &= \cov(\mat{x}, \mat{x}) = E[(\mat{x} - \matbar{x})
-    (\mat{x} - \matbar{x})^T] \\
+    (\mat{x} - \matbar{x})\T] \\
   \mat{\Sigma} &= \begin{bmatrix}
     \cov(x_1, x_1) & \ldots & \cov(x_1, x_n) \\
     \vdots         & \ddots & \vdots \\
@@ -280,7 +280,7 @@ The covariance matrix for a random vector $\mat{x} \in \mathbb{R}^n$ is
 This $n \times n$ matrix is symmetric and positive semidefinite. A positive
 semidefinite matrix satisfies the relation that for any
 $\mat{v} \in \mathbb{R}^n$ for which $\mat{v} \neq 0$,
-$\mat{v}^T \mat{\Sigma} \mat{v} \geq 0$. In other words, the eigenvalues of
+$\mat{v}\T \mat{\Sigma} \mat{v} \geq 0$. In other words, the eigenvalues of
 $\mat{\Sigma}$ are all greater than or equal to zero.
 
 \subsection{Relations for independent random vectors}
@@ -296,43 +296,43 @@ Second, independent vectors being uncorrelated means their covariance is zero.
 \begin{align}
   \mat{\Sigma}_{\mat{x}\mat{y}} &= \cov(\mat{x}, \mat{y}) \nonumber \\
   \mat{\Sigma}_{\mat{x}\mat{y}} &= E[(\mat{x} - \matbar{x})
-    (\mat{y} - \matbar{y})^T] \nonumber \\
-  \mat{\Sigma}_{\mat{x}\mat{y}} &= E[\mat{x}\mat{y}^T] -
-    E[\mat{x}\matbar{y}^T] - E[\matbar{x}\mat{y}^T] +
-    E[\matbar{x}\matbar{y}^T] \nonumber \\
-  \mat{\Sigma}_{\mat{x}\mat{y}} &= E[\mat{x}\mat{y}^T] -
-    E[\mat{x}]\matbar{y}^T - \matbar{x}E[\mat{y}^T] +
-    \matbar{x}\matbar{y}^T \nonumber \\
-  \mat{\Sigma}_{\mat{x}\mat{y}} &= E[\mat{x}\mat{y}^T] -
-    \matbar{x}\matbar{y}^T - \matbar{x}\matbar{y}^T +
-    \matbar{x}\matbar{y}^T \nonumber \\
-  \mat{\Sigma}_{\mat{x}\mat{y}} &= E[\mat{x}\mat{y}^T] -
-    \matbar{x}\matbar{y}^T \label{eq:prb_sigma}
+    (\mat{y} - \matbar{y})\T] \nonumber \\
+  \mat{\Sigma}_{\mat{x}\mat{y}} &= E[\mat{x}\mat{y}\T] -
+    E[\mat{x}\matbar{y}\T] - E[\matbar{x}\mat{y}\T] +
+    E[\matbar{x}\matbar{y}\T] \nonumber \\
+  \mat{\Sigma}_{\mat{x}\mat{y}} &= E[\mat{x}\mat{y}\T] -
+    E[\mat{x}]\matbar{y}\T - \matbar{x}E[\mat{y}\T] +
+    \matbar{x}\matbar{y}\T \nonumber \\
+  \mat{\Sigma}_{\mat{x}\mat{y}} &= E[\mat{x}\mat{y}\T] -
+    \matbar{x}\matbar{y}\T - \matbar{x}\matbar{y}\T +
+    \matbar{x}\matbar{y}\T \nonumber \\
+  \mat{\Sigma}_{\mat{x}\mat{y}} &= E[\mat{x}\mat{y}\T] -
+    \matbar{x}\matbar{y}\T \label{eq:prb_sigma}
 \end{align}
 
-Now, compute $E[\mat{x}\mat{y}^T]$.
+Now, compute $E[\mat{x}\mat{y}\T]$.
 \begin{equation*}
-  E[\mat{x}\mat{y}^T] = \int_X \int_Y \mat{x}\mat{y}^T \,p(\mat{x})
-    \,p(\mat{y}) \,d\mat{x} \,d\mat{y}^T
+  E[\mat{x}\mat{y}\T] = \int_X \int_Y \mat{x}\mat{y}\T \,p(\mat{x})
+    \,p(\mat{y}) \,d\mat{x} \,d\mat{y}\T
 \end{equation*}
 
 Factor out constants from the inner integral. This includes variables which are
 held constant for each inner integral evaluation.
 \begin{equation*}
-  E[\mat{x}\mat{y}^T] = \int_X p(\mat{x}) \,\mat{x} \,d\mat{x}
-    \int_Y p(\mat{y}) \,\mat{y}^T \,d\mat{y}^T
+  E[\mat{x}\mat{y}\T] = \int_X p(\mat{x}) \,\mat{x} \,d\mat{x}
+    \int_Y p(\mat{y}) \,\mat{y}\T \,d\mat{y}\T
 \end{equation*}
 
 Each of these integrals is just the expected value of their respective
 integration variable.
 \begin{align}
-  E[\mat{x}\mat{y}^T] &= \matbar{x}\matbar{y}^T \label{eq:prb_exyt}
+  E[\mat{x}\mat{y}\T] &= \matbar{x}\matbar{y}\T \label{eq:prb_exyt}
 \end{align}
 
 Substitute equation \eqref{eq:prb_exyt} into equation \eqref{eq:prb_sigma}.
 \begin{align*}
-  \mat{\Sigma}_{\mat{x}\mat{y}} &= (\matbar{x}\matbar{y}^T) -
-    \matbar{x}\matbar{y}^T \\
+  \mat{\Sigma}_{\mat{x}\mat{y}} &= (\matbar{x}\matbar{y}\T) -
+    \matbar{x}\matbar{y}\T \\
   \mat{\Sigma}_{\mat{x}\mat{y}} &= 0
 \end{align*}
 
@@ -340,43 +340,43 @@ Using these results, we can compute the covariance of
 $\mat{z} = \mat{A}\mat{x} + \mat{B}\mat{y}$.
 \begin{align*}
   \Sigma_z &= \cov(\mat{z}, \mat{z}) \\
-  \Sigma_z &= E[(\mat{z} - \matbar{z})(\mat{z} - \matbar{z})^T] \\
+  \Sigma_z &= E[(\mat{z} - \matbar{z})(\mat{z} - \matbar{z})\T] \\
   \Sigma_z &= E[(\mat{A}\mat{x} + \mat{B}\mat{y} - \mat{A}\matbar{x} -
     \mat{B}\matbar{y})(\mat{A}\mat{x} + \mat{B}\mat{y} -
-    \mat{A}\matbar{x} - \mat{B}\matbar{y})^T] \\
+    \mat{A}\matbar{x} - \mat{B}\matbar{y})\T] \\
   \Sigma_z &= E[(\mat{A}(\mat{x} - \matbar{x}) +
     \mat{B}(\mat{y} - \matbar{y}))
     (\mat{A}(\mat{x} - \matbar{x}) +
-     \mat{B}(\mat{y} - \matbar{y}))^T] \\
+     \mat{B}(\mat{y} - \matbar{y}))\T] \\
   \Sigma_z &= E[(\mat{A}(\mat{x} - \matbar{x}) +
     \mat{B}(\mat{y} - \matbar{y}))
-    ((\mat{x} - \matbar{x})^T\mat{A}^T +
-     (\mat{y} - \matbar{y})^T\mat{B}^T)] \\
+    ((\mat{x} - \matbar{x})\T\mat{A}\T +
+     (\mat{y} - \matbar{y})\T\mat{B}\T)] \\
   \Sigma_z &= E[
-    \mat{A}(\mat{x} - \matbar{x})(\mat{x} - \matbar{x})^T\mat{A}^T +
-    \mat{A}(\mat{x} - \matbar{x})(\mat{y} - \matbar{y})^T\mat{B}^T \\
-    &\qquad + \mat{B}(\mat{y} - \matbar{y})(\mat{x} - \matbar{x})^T\mat{A}^T +
-    \mat{B}(\mat{y} - \matbar{y})(\mat{y} - \matbar{y})^T\mat{B}^T]
+    \mat{A}(\mat{x} - \matbar{x})(\mat{x} - \matbar{x})\T\mat{A}\T +
+    \mat{A}(\mat{x} - \matbar{x})(\mat{y} - \matbar{y})\T\mat{B}\T \\
+    &\qquad + \mat{B}(\mat{y} - \matbar{y})(\mat{x} - \matbar{x})\T\mat{A}\T +
+    \mat{B}(\mat{y} - \matbar{y})(\mat{y} - \matbar{y})\T\mat{B}\T]
 \end{align*}
 
 Since $\mat{x}$ and $\mat{y}$ are independent, $\Sigma_{xy} = 0$ and the cross
 terms cancel out.
 \begin{align*}
   \Sigma_z &= E[
-    \mat{A}(\mat{x} - \matbar{x})(\mat{x} - \matbar{x})^T\mat{A}^T + 0 + 0 +
-    \mat{B}(\mat{y} - \matbar{y})(\mat{y} - \matbar{y})^T\mat{B}^T] \\
+    \mat{A}(\mat{x} - \matbar{x})(\mat{x} - \matbar{x})\T\mat{A}\T + 0 + 0 +
+    \mat{B}(\mat{y} - \matbar{y})(\mat{y} - \matbar{y})\T\mat{B}\T] \\
   \Sigma_z &=
-    E[\mat{A}(\mat{x} - \matbar{x})(\mat{x} - \matbar{x})^T\mat{A}^T] +
-    E[\mat{B}(\mat{y} - \matbar{y})(\mat{y} - \matbar{y})^T\mat{B}^T] \\
+    E[\mat{A}(\mat{x} - \matbar{x})(\mat{x} - \matbar{x})\T\mat{A}\T] +
+    E[\mat{B}(\mat{y} - \matbar{y})(\mat{y} - \matbar{y})\T\mat{B}\T] \\
   \Sigma_z &=
-    \mat{A}E[(\mat{x} - \matbar{x})(\mat{x} - \matbar{x})^T]\mat{A}^T +
-    \mat{B}E[(\mat{y} - \matbar{y})(\mat{y} - \matbar{y})^T]\mat{B}^T
+    \mat{A}E[(\mat{x} - \matbar{x})(\mat{x} - \matbar{x})\T]\mat{A}\T +
+    \mat{B}E[(\mat{y} - \matbar{y})(\mat{y} - \matbar{y})\T]\mat{B}\T
 \end{align*}
 
 Recall that $\Sigma_x = \cov(\mat{x}, \mat{x})$ and
 $\Sigma_y = \cov(\mat{y}, \mat{y})$.
 \begin{equation*}
-  \Sigma_z = \mat{A}\Sigma_x\mat{A}^T + \mat{B}\Sigma_y\mat{B}^T
+  \Sigma_z = \mat{A}\Sigma_x\mat{A}\T + \mat{B}\Sigma_y\mat{B}\T
 \end{equation*}
 
 \subsection{Gaussian random variables}

@@ -12,14 +12,14 @@ where $\mat{w}_k$ is the process noise and $\mat{v}_k$ is the measurement noise,
 \index{stochastic!process noise} \index{stochastic!measurement noise}
 \begin{align*}
   E[\mat{w}_k] &= 0 \\
-  E[\mat{w}_k\mat{w}_k^T] &= \mat{Q}_k \\
+  E[\mat{w}_k\mat{w}_k\T] &= \mat{Q}_k \\
   E[\mat{v}_k] &= 0 \\
-  E[\mat{v}_k\mat{v}_k^T] &= \mat{R}_k
+  E[\mat{v}_k\mat{v}_k\T] &= \mat{R}_k
 \end{align*}
 
 where $\mat{Q}_k$ is the process noise covariance matrix and $\mat{R}_k$ is the
 measurement noise covariance matrix. We assume the noise samples are
-independent, so $E[\mat{w}_k\mat{w}_j^T] = 0$ and $E[\mat{v}_k\mat{v}_j^T] = 0$
+independent, so $E[\mat{w}_k\mat{w}_j\T] = 0$ and $E[\mat{v}_k\mat{v}_j\T] = 0$
 where $k \neq j$. Furthermore, process noise samples are independent from
 measurement noise samples.
 
@@ -51,39 +51,39 @@ evolves.
     \mat{A}(\mat{x}_k - \matbar{x}_k) + \mat{w}_k
 \end{align*}
 \begin{equation*}
-  E[(\mat{x}_{k+1} - \matbar{x}_{k+1})(\mat{x}_{k+1} - \matbar{x}_{k+1})^T] =
+  E[(\mat{x}_{k+1} - \matbar{x}_{k+1})(\mat{x}_{k+1} - \matbar{x}_{k+1})\T] =
     E[(\mat{A}(\mat{x}_k - \matbar{x}_k) + \mat{w}_k)
-      (\mat{A}(\mat{x}_k - \matbar{x}_k) + \mat{w}_k)^T]
+      (\mat{A}(\mat{x}_k - \matbar{x}_k) + \mat{w}_k)\T]
 \end{equation*}
 \begin{align*}
   \mat{P}_{k+1} &=
     E[(\mat{A}(\mat{x}_k - \matbar{x}_k) + \mat{w}_k)
-      (\mat{A}(\mat{x}_k - \matbar{x}_k) + \mat{w}_k)^T] \\
+      (\mat{A}(\mat{x}_k - \matbar{x}_k) + \mat{w}_k)\T] \\
   \mat{P}_{k+1} &=
-    E[(\mat{A}(\mat{x}_k - \matbar{x}_k)(\mat{x}_k - \matbar{x}_k)^T
-      \mat{A}^T] +
-    E[\mat{A}(\mat{x}_k - \matbar{x}_k)\mat{w}_k^T] \\
-    &\qquad + E[\mat{w}_k(\mat{x}_k - \matbar{x}_k)^T\mat{A}^T] +
-    E[\mat{w}_k\mat{w}_k^T] \\
+    E[(\mat{A}(\mat{x}_k - \matbar{x}_k)(\mat{x}_k - \matbar{x}_k)\T
+      \mat{A}\T] +
+    E[\mat{A}(\mat{x}_k - \matbar{x}_k)\mat{w}_k\T] \\
+    &\qquad + E[\mat{w}_k(\mat{x}_k - \matbar{x}_k)\T\mat{A}\T] +
+    E[\mat{w}_k\mat{w}_k\T] \\
   \mat{P}_{k+1} &=
-    \mat{A}E[(\mat{x}_k - \matbar{x}_k)(\mat{x}_k - \matbar{x}_k)^T]
-    \mat{A}^T +
-    \mat{A}E[(\mat{x}_k - \matbar{x}_k)\mat{w}_k^T] \\
-    &\qquad + E[\mat{w}_k(\mat{x}_k - \matbar{x}_k)^T]\mat{A}^T +
-    E[\mat{w}_k\mat{w}_k^T] \\
-  \mat{P}_{k+1} &= \mat{A}\mat{P}_k\mat{A}^T +
-    \mat{A}E[(\mat{x}_k - \matbar{x}_k)\mat{w}_k^T] +
-    E[\mat{w}_k(\mat{x}_k - \matbar{x}_k)^T]\mat{A}^T + \mat{Q}_k
+    \mat{A}E[(\mat{x}_k - \matbar{x}_k)(\mat{x}_k - \matbar{x}_k)\T]
+    \mat{A}\T +
+    \mat{A}E[(\mat{x}_k - \matbar{x}_k)\mat{w}_k\T] \\
+    &\qquad + E[\mat{w}_k(\mat{x}_k - \matbar{x}_k)\T]\mat{A}\T +
+    E[\mat{w}_k\mat{w}_k\T] \\
+  \mat{P}_{k+1} &= \mat{A}\mat{P}_k\mat{A}\T +
+    \mat{A}E[(\mat{x}_k - \matbar{x}_k)\mat{w}_k\T] +
+    E[\mat{w}_k(\mat{x}_k - \matbar{x}_k)\T]\mat{A}\T + \mat{Q}_k
 \end{align*}
 
 Since the error and noise are independent, the cross terms are zero.
 \begin{align*}
-  \mat{P}_{k+1} &= \mat{A}\mat{P}_k\mat{A}^T +
+  \mat{P}_{k+1} &= \mat{A}\mat{P}_k\mat{A}\T +
     \mat{A}\underbrace{
-      E[(\mat{x}_k - \matbar{x}_k)\mat{w}_k^T]}_\mat{0} +
+      E[(\mat{x}_k - \matbar{x}_k)\mat{w}_k\T]}_\mat{0} +
     \underbrace{
-      E[\mat{w}_k(\mat{x}_k - \matbar{x}_k)^T]}_\mat{0}\mat{A}^T + \mat{Q}_k \\
-  \mat{P}_{k+1} &= \mat{A}\mat{P}_k\mat{A}^T + \mat{Q}_k
+      E[\mat{w}_k(\mat{x}_k - \matbar{x}_k)\T]}_\mat{0}\mat{A}\T + \mat{Q}_k \\
+  \mat{P}_{k+1} &= \mat{A}\mat{P}_k\mat{A}\T + \mat{Q}_k
 \end{align*}
 
 \subsection{Measurement vector expectation}
@@ -103,39 +103,39 @@ $\mat{S}$ evolves.
   \mat{y}_k - \matbar{y}_k &= \mat{C}\mat{x}_k + \mat{D}\mat{u}_k + \mat{v}_k -
     (\mat{C}\matbar{x}_k + \mat{D}\mat{u}_k) \\
   \mat{y}_k - \matbar{y}_k &= \mat{C}(\mat{x}_k - \matbar{x}_k) + \mat{v}_k \\
-  E[(\mat{y}_k - \matbar{y}_k)(\mat{y}_k - \matbar{y}_k)^T] &=
+  E[(\mat{y}_k - \matbar{y}_k)(\mat{y}_k - \matbar{y}_k)\T] &=
     E[(\mat{C}(\mat{x}_k - \matbar{x}_k) + \mat{v}_k)
-      (\mat{C}(\mat{x}_k - \matbar{x}_k) + \mat{v}_k)^T]
+      (\mat{C}(\mat{x}_k - \matbar{x}_k) + \mat{v}_k)\T]
 \end{align*}
 \begin{align*}
   \mat{S}_k &=
     E[(\mat{C}(\mat{x}_k - \matbar{x}_k) + \mat{v}_k)
-      (\mat{C}(\mat{x}_k - \matbar{x}_k) + \mat{v}_k)^T] \\
+      (\mat{C}(\mat{x}_k - \matbar{x}_k) + \mat{v}_k)\T] \\
   \mat{S}_k &=
     E[(\mat{C}(\mat{x}_k - \matbar{x}_k) + \mat{v}_k)
-      ((\mat{x}_k - \matbar{x}_k)^T\mat{C}^T + \mat{v}_k^T)] \\
+      ((\mat{x}_k - \matbar{x}_k)\T\mat{C}\T + \mat{v}_k\T)] \\
   \mat{S}_k &=
-    E[(\mat{C}(\mat{x}_k - \matbar{x}_k)(\mat{x}_k - \matbar{x}_k)^T
-      \mat{C}^T] +
-    E[\mat{C}(\mat{x}_k - \matbar{x}_k)\mat{v}_k^T] \\
-    &\qquad + E[\mat{v}_k(\mat{x}_k - \matbar{x}_k)^T\mat{C}^T] +
-    E[\mat{v}_k\mat{v}_k^T] \\
+    E[(\mat{C}(\mat{x}_k - \matbar{x}_k)(\mat{x}_k - \matbar{x}_k)\T
+      \mat{C}\T] +
+    E[\mat{C}(\mat{x}_k - \matbar{x}_k)\mat{v}_k\T] \\
+    &\qquad + E[\mat{v}_k(\mat{x}_k - \matbar{x}_k)\T\mat{C}\T] +
+    E[\mat{v}_k\mat{v}_k\T] \\
   \mat{S}_k &=
-    \mat{C}E[(\mat{x}_k - \matbar{x}_k)(\mat{x}_k - \matbar{x}_k)^T]
-    \mat{C}^T + \mat{C}E[(\mat{x}_k - \matbar{x}_k)\mat{v}_k^T] \\
-    &\qquad + E[\mat{v}_k(\mat{x}_k - \matbar{x}_k)^T]\mat{C}^T +
-    E[\mat{v}_k\mat{v}_k^T] \\
-  \mat{S}_k &= \mat{C}\mat{P}_k\mat{C}^T +
-    \mat{C}E[(\mat{x}_k - \matbar{x}_k)\mat{v}_k^T] +
-    E[\mat{v}_k(\mat{x}_k - \matbar{x}_k)^T]\mat{C}^T +
+    \mat{C}E[(\mat{x}_k - \matbar{x}_k)(\mat{x}_k - \matbar{x}_k)\T]
+    \mat{C}\T + \mat{C}E[(\mat{x}_k - \matbar{x}_k)\mat{v}_k\T] \\
+    &\qquad + E[\mat{v}_k(\mat{x}_k - \matbar{x}_k)\T]\mat{C}\T +
+    E[\mat{v}_k\mat{v}_k\T] \\
+  \mat{S}_k &= \mat{C}\mat{P}_k\mat{C}\T +
+    \mat{C}E[(\mat{x}_k - \matbar{x}_k)\mat{v}_k\T] +
+    E[\mat{v}_k(\mat{x}_k - \matbar{x}_k)\T]\mat{C}\T +
     \mat{R}_k
 \end{align*}
 
 Since the error and noise are independent, the cross terms are zero.
 \begin{align*}
-  \mat{S}_k &= \mat{C}\mat{P}_k\mat{C}^T +
-    \mat{C}\underbrace{E[(\mat{x}_k - \matbar{x}_k)\mat{v}_k^T]}_\mat{0} +
+  \mat{S}_k &= \mat{C}\mat{P}_k\mat{C}\T +
+    \mat{C}\underbrace{E[(\mat{x}_k - \matbar{x}_k)\mat{v}_k\T]}_\mat{0} +
     \underbrace{
-      E[\mat{v}_k(\mat{x}_k - \matbar{x}_k)^T]}_\mat{0}\mat{C}^T + \mat{R}_k \\
-  \mat{S}_k &= \mat{C}\mat{P}_k\mat{C}^T + \mat{R}_k
+      E[\mat{v}_k(\mat{x}_k - \matbar{x}_k)\T]}_\mat{0}\mat{C}\T + \mat{R}_k \\
+  \mat{S}_k &= \mat{C}\mat{P}_k\mat{C}\T + \mat{R}_k
 \end{align*}

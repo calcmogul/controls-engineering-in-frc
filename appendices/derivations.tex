@@ -153,7 +153,7 @@ next predict step together rather than the current predict step and current
 update step.
 \begin{align}
   \text{Update step} \nonumber \\
-  \mat{K}_k &= \mat{P}_k^- \mat{C}^T (\mat{C}\mat{P}_k^- \mat{C}^T +
+  \mat{K}_k &= \mat{P}_k^- \mat{C}\T (\mat{C}\mat{P}_k^- \mat{C}\T +
     \mat{R})^{-1} \\
   \hat{\mat{x}}_k^+ &= \hat{\mat{x}}_k^- + \mat{K}_k(\mat{y}_k -
     \mat{C}\hat{\mat{x}}_k^-) \label{eq:post2_x} \\
@@ -161,7 +161,7 @@ update step.
   \text{Predict step} \nonumber \\
   \hat{\mat{x}}_{k+1}^+ &= \mat{A}\hat{\mat{x}}_k^+ + \mat{B}\mat{u}_k
     \label{eq:pre2_x} \\
-  \mat{P}_{k+1}^- &= \mat{A} \mat{P}_k^+ \mat{A}^T + \mat{Q}
+  \mat{P}_{k+1}^- &= \mat{A} \mat{P}_k^+ \mat{A}\T + \mat{Q}
 \end{align}
 
 Substitute equation \eqref{eq:post2_x} into equation \eqref{eq:pre2_x}.

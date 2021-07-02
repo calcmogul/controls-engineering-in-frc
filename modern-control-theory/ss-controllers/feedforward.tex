@@ -48,7 +48,7 @@ equation.
 \begin{theorem}
   \label{thm:partial_xax}
 
-  $\frac{\partial \mat{x}^T\mat{A}\mat{x}}{\partial\mat{x}} =
+  $\frac{\partial \mat{x}\T\mat{A}\mat{x}}{\partial\mat{x}} =
     2\mat{A}\mat{x}$ where $\mat{A}$ is symmetric.
 \end{theorem}
 
@@ -80,7 +80,7 @@ expression for $\mat{0}$.
 This expression will be the \gls{state} \gls{tracking} cost we use in the
 following cost function as an $H_2$ norm.
 \begin{equation*}
-  \mat{J} = (\mat{B}\mat{u}_k - (\mat{r}_{k+1} - \mat{A}\mat{r}_k))^T
+  \mat{J} = (\mat{B}\mat{u}_k - (\mat{r}_{k+1} - \mat{A}\mat{r}_k))\T
     (\mat{B}\mat{u}_k - (\mat{r}_{k+1} - \mat{A}\mat{r}_k))
 \end{equation*}
 
@@ -90,21 +90,21 @@ Given theorem \ref{thm:partial_xax}, find the minimum of $\mat{J}$ by taking the
 partial derivative with respect to $\mat{u}_k$ and setting the result to
 $\mat{0}$.
 \begin{align*}
-  \frac{\partial\mat{J}}{\partial\mat{u}_k} &= 2\mat{B}^T
+  \frac{\partial\mat{J}}{\partial\mat{u}_k} &= 2\mat{B}\T
     (\mat{B}\mat{u}_k - (\mat{r}_{k+1} - \mat{A}\mat{r}_k)) \\
-  \mat{0} &= 2\mat{B}^T
+  \mat{0} &= 2\mat{B}\T
     (\mat{B}\mat{u}_k - (\mat{r}_{k+1} - \mat{A}\mat{r}_k)) \\
-  \mat{0} &= 2\mat{B}^T\mat{B}\mat{u}_k -
-    2\mat{B}^T(\mat{r}_{k+1} - \mat{A}\mat{r}_k) \\
-  2\mat{B}^T\mat{B}\mat{u}_k &=
-    2\mat{B}^T(\mat{r}_{k+1} - \mat{A}\mat{r}_k) \\
-  \mat{B}^T\mat{B}\mat{u}_k &=
-    \mat{B}^T(\mat{r}_{k+1} - \mat{A}\mat{r}_k) \\
+  \mat{0} &= 2\mat{B}\T\mat{B}\mat{u}_k -
+    2\mat{B}\T(\mat{r}_{k+1} - \mat{A}\mat{r}_k) \\
+  2\mat{B}\T\mat{B}\mat{u}_k &=
+    2\mat{B}\T(\mat{r}_{k+1} - \mat{A}\mat{r}_k) \\
+  \mat{B}\T\mat{B}\mat{u}_k &=
+    \mat{B}\T(\mat{r}_{k+1} - \mat{A}\mat{r}_k) \\
   \mat{u}_k &=
-    (\mat{B}^T\mat{B})^{-1} \mat{B}^T(\mat{r}_{k+1} - \mat{A}\mat{r}_k)
+    (\mat{B}\T\mat{B})^{-1} \mat{B}\T(\mat{r}_{k+1} - \mat{A}\mat{r}_k)
 \end{align*}
 
-$(\mat{B}^T\mat{B})^{-1} \mat{B}^T$ is the Moore-Penrose pseudoinverse of
+$(\mat{B}\T\mat{B})^{-1} \mat{B}\T$ is the Moore-Penrose pseudoinverse of
 $\mat{B}$ denoted by $\mat{B}^\dagger$.
 \begin{theorem}[Linear plant inversion]
   \label{thm:linear_plant_inversion}

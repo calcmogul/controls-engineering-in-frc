@@ -62,8 +62,8 @@ $\mat{A}' = \mat{I} - \mat{A}$, so
 
 Next, find the error covariance.
 \begin{equation}
-  \mat{P}(t|T) = \mat{A}\mat{P}(t)\mat{A}^T +
-    (\mat{I} - \mat{A})\mat{P}_b(t)(\mat{I} - \mat{A})^T
+  \mat{P}(t|T) = \mat{A}\mat{P}(t)\mat{A}\T +
+    (\mat{I} - \mat{A})\mat{P}_b(t)(\mat{I} - \mat{A})\T
     \label{eq:ks_error_cov_a}
 \end{equation}
 
@@ -91,33 +91,33 @@ dropped from covariance matrices for clarity).
   \mat{I} - \mat{A} &= \mat{P}(\mat{P} + \mat{P}_b)^{-1}
 \end{align}
 \begin{align*}
-  \mat{A}^T &= (\mat{P}_b(\mat{P} + \mat{P}_b)^{-1})^T \\
-  \mat{A}^T &= ((\mat{P} + \mat{P}_b)^{-1})^T\mat{P}_b^T \\
-  \mat{A}^T &= ((\mat{P} + \mat{P}_b)^T)^{-1}\mat{P}_b^T \\
-  \mat{A}^T &= (\mat{P}^T + \mat{P}_b^T)^{-1}\mat{P}_b^T
+  \mat{A}\T &= (\mat{P}_b(\mat{P} + \mat{P}_b)^{-1})\T \\
+  \mat{A}\T &= ((\mat{P} + \mat{P}_b)^{-1})\T\mat{P}_b\T \\
+  \mat{A}\T &= ((\mat{P} + \mat{P}_b)\T)^{-1}\mat{P}_b\T \\
+  \mat{A}\T &= (\mat{P}\T + \mat{P}_b\T)^{-1}\mat{P}_b\T
 \end{align*}
 
 Covariance matrices are symmetric, so
 \begin{equation}
-  \mat{A}^T = (\mat{P} + \mat{P}_b)^{-1}\mat{P}_b
+  \mat{A}\T = (\mat{P} + \mat{P}_b)^{-1}\mat{P}_b
 \end{equation}
 \begin{align*}
-  (\mat{I} - \mat{A})^T &= (\mat{P}(\mat{P} + \mat{P}_b)^{-1})^T \\
-  (\mat{I} - \mat{A})^T &= ((\mat{P} + \mat{P}_b)^{-1})^T\mat{P}^T \\
-  (\mat{I} - \mat{A})^T &= ((\mat{P} + \mat{P}_b)^T)^{-1}\mat{P}^T \\
-  (\mat{I} - \mat{A})^T &= (\mat{P}^T + \mat{P}_b^T)^{-1}\mat{P}^T
+  (\mat{I} - \mat{A})\T &= (\mat{P}(\mat{P} + \mat{P}_b)^{-1})\T \\
+  (\mat{I} - \mat{A})\T &= ((\mat{P} + \mat{P}_b)^{-1})\T\mat{P}\T \\
+  (\mat{I} - \mat{A})\T &= ((\mat{P} + \mat{P}_b)\T)^{-1}\mat{P}\T \\
+  (\mat{I} - \mat{A})\T &= (\mat{P}\T + \mat{P}_b\T)^{-1}\mat{P}\T
 \end{align*}
 
 Covariance matrices are symmetric, so
 \begin{equation}
-  (\mat{I} - \mat{A})^T = (\mat{P} + \mat{P}_b)^{-1}\mat{P} \label{eq:ks_a4}
+  (\mat{I} - \mat{A})\T = (\mat{P} + \mat{P}_b)^{-1}\mat{P} \label{eq:ks_a4}
 \end{equation}
 
 Now starting from equation \eqref{eq:ks_error_cov_a}, substitute in equations
 \eqref{eq:ks_a1} through \eqref{eq:ks_a4}.
 \begin{align*}
   \mat{P}(t|T) &=
-    \mat{A}\mat{P}\mat{A}^T + (\mat{I} - \mat{A})\mat{P}_b(\mat{I} - \mat{A})^T
+    \mat{A}\mat{P}\mat{A}\T + (\mat{I} - \mat{A})\mat{P}_b(\mat{I} - \mat{A})\T
     \\
   \mat{P}(t|T) &=
     (\mat{P}_b(\mat{P} + \mat{P}_b)^{-1})\mat{P}
@@ -258,21 +258,21 @@ forward and backward passes for a Kalman smoother at the $k^{th}$ timestep.
   \begin{align}
     \text{Forward predict step} \nonumber \\
     \hat{\mat{x}}_{k+1}^- &= \mat{A}\hat{\mat{x}}_k + \mat{B} \mat{u}_k \\
-    \mat{P}_{k+1}^- &= \mat{A} \mat{P}_k^- \mat{A}^T + \mat{Q} \\
+    \mat{P}_{k+1}^- &= \mat{A} \mat{P}_k^- \mat{A}\T + \mat{Q} \\
     \text{Forward update step} \nonumber \\
     \mat{K}_{k+1} &=
-      \mat{P}_{k+1}^- \mat{C}^T (\mat{C}\mat{P}_{k+1}^- \mat{C}^T +
+      \mat{P}_{k+1}^- \mat{C}\T (\mat{C}\mat{P}_{k+1}^- \mat{C}\T +
       \mat{R})^{-1} \\
     \hat{\mat{x}}_{k+1}^+ &=
       \hat{\mat{x}}_{k+1}^- + \mat{K}_{k+1}(\mat{y}_{k+1} -
       \mat{C} \hat{\mat{x}}_{k+1}^- - \mat{D}\mat{u}_{k+1}) \\
     \mat{P}_{k+1}^+ &= (\mat{I} - \mat{K}_{k+1}\mat{C})\mat{P}_{k+1}^- \\
     \text{Backward update step} \nonumber \\
-    \mat{K}_k &= \mat{P}_k^+ \mat{A}_k^T (\mat{P}_{k+1}^-)^{-1} \\
+    \mat{K}_k &= \mat{P}_k^+ \mat{A}_k\T (\mat{P}_{k+1}^-)^{-1} \\
     \hat{\mat{x}}_{k|N} &= \hat{\mat{x}}_k^+ +
       \mat{K}_k(\hat{\mat{x}}_{k+1|N} - \hat{\mat{x}}_{k+1}^-) \\
     \mat{P}_{k|N} &=
-      \mat{P}_k^+ + \mat{K}_k(\mat{P}_{k+1|N} - \mat{P}_{k+1}^-)\mat{K}_k^T \\
+      \mat{P}_k^+ + \mat{K}_k(\mat{P}_{k+1|N} - \mat{P}_{k+1}^-)\mat{K}_k\T \\
     \text{Backward initial conditions} \nonumber \\
     \hat{\mat{x}}_{N|N} &= \hat{\mat{x}}_N^+ \\
     \mat{P}_{N|N} &= \mat{P}_N^+

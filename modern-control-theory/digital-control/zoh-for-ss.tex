@@ -36,7 +36,7 @@ with covariances
     \mat{C}_d &= \mat{C}_c \\
     \mat{D}_d &= \mat{D}_c \\
     \mat{Q}_d &= \int_{\tau = 0}^{T} e^{\mat{A}_c\tau} \mat{Q}_c
-      e^{\mat{A}_c^T\tau} d\tau \\
+      e^{\mat{A}_c\T\tau} d\tau \\
     \mat{R}_d &= \frac{1}{T}\mat{R}_c
   \end{align}
 
@@ -63,24 +63,24 @@ with covariances
     \Phi = e^{
     \begin{bmatrix}
       -\mat{A}_c & \mat{Q}_c \\
-      \mat{0} & \mat{A}_c^T
+      \mat{0} & \mat{A}_c\T
     \end{bmatrix}T} =
     \begin{bmatrix}
       -\mat{A}_d & \mat{A}_d^{-1} \mat{Q}_d \\
-      \mat{0} & \mat{A}_d^T
+      \mat{0} & \mat{A}_d\T
     \end{bmatrix}
   \end{equation*}
 
-  where $\mat{Q}_d = \Phi_{2,2}^T \Phi_{1,2}$ \cite{bib:integral_matrix_exp}.
+  where $\mat{Q}_d = \Phi_{2,2}\T \Phi_{1,2}$ \cite{bib:integral_matrix_exp}.
 \end{theorem}
 
 See appendix \ref{sec:deriv_zoh_ss} for derivations.
 
 To see why $\mat{R}_c$ is being divided by $T$, consider the discrete white
 noise sequence $\mat{v}_k$ and the (non-physically realizable) continuous white
-noise process $\mat{v}$. Whereas $\mat{R}_{d,k} = E[\mat{v}_k \mat{v}_k^T]$ is a
+noise process $\mat{v}$. Whereas $\mat{R}_{d,k} = E[\mat{v}_k \mat{v}_k\T]$ is a
 covariance matrix, $\mat{R}_c(t)$ defined by
-$E[\mat{v}(t) \mat{v}^T(\tau)] = \mat{R}_c(t)\delta(t - \tau)$ is a spectral
+$E[\mat{v}(t) \mat{v}\T(\tau)] = \mat{R}_c(t)\delta(t - \tau)$ is a spectral
 density matrix (the Dirac function $\delta(t - \tau)$ has units of
 $1/\text{sec}$). The covariance matrix $\mat{R}_c(t)\delta(t - \tau)$ has
 infinite-valued elements. The discrete white noise sequence can be made to

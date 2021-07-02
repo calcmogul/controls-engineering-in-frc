@@ -38,14 +38,14 @@ the model has the form
 Let $\mat{u} =
 \begin{bmatrix}
   K_{v,linear} v & K_{v,linear} v
-\end{bmatrix}^T$ be the input that makes both sides of the drivetrain move at a
+\end{bmatrix}\T$ be the input that makes both sides of the drivetrain move at a
 constant velocity $v$. Therefore, $\mat{x} =
 \begin{bmatrix}
   v & v
-\end{bmatrix}^T$ and $\dot{\mat{x}} =
+\end{bmatrix}\T$ and $\dot{\mat{x}} =
 \begin{bmatrix}
   0 & 0
-\end{bmatrix}^T$. Substitute these into the state-space model.
+\end{bmatrix}\T$. Substitute these into the state-space model.
 \begin{equation*}
   \begin{bmatrix}
     0 \\
@@ -128,14 +128,14 @@ Since the rows are linearly dependent, we can use just one of them.
 Let $\mat{u} =
 \begin{bmatrix}
   K_{v,linear} v + K_{a,linear} a & K_{v,linear} v + K_{a,linear} a
-\end{bmatrix}^T$ be the input that accelerates both sides of the drivetrain by
+\end{bmatrix}\T$ be the input that accelerates both sides of the drivetrain by
 $a$ from an initial velocity of $v$. Therefore, $\mat{x} =
 \begin{bmatrix}
   v & v
-\end{bmatrix}^T$ and $\dot{\mat{x}} =
+\end{bmatrix}\T$ and $\dot{\mat{x}} =
 \begin{bmatrix}
   a & a
-\end{bmatrix}^T$. Substitute these into the state-space model.
+\end{bmatrix}\T$. Substitute these into the state-space model.
 \begin{equation*}
   \begin{bmatrix}
     a \\
@@ -211,14 +211,14 @@ Since the rows are linearly dependent, we can use just one of them.
 Let $\mat{u} =
 \begin{bmatrix}
   -K_{v,angular} v & K_{v,angular} v
-\end{bmatrix}^T$ be the input that rotates the drivetrain in place where each
+\end{bmatrix}\T$ be the input that rotates the drivetrain in place where each
 wheel has a constant velocity $v$. Therefore, $\mat{x} =
 \begin{bmatrix}
   -v & v
-\end{bmatrix}^T$ and $\dot{\mat{x}} =
+\end{bmatrix}\T$ and $\dot{\mat{x}} =
 \begin{bmatrix}
   0 & 0
-\end{bmatrix}^T$.
+\end{bmatrix}\T$.
 \begin{align*}
   \begin{bmatrix}
     0 \\
@@ -342,14 +342,14 @@ Since the rows are linearly dependent, we can use just one of them.
 Let $\mat{u} =
 \begin{bmatrix}
   -K_{v,angular} v - K_{a,angular} a & K_{v,angular} v + K_{a,angular} a
-\end{bmatrix}^T$ be the input that rotates the drivetrain in place where each
+\end{bmatrix}\T$ be the input that rotates the drivetrain in place where each
 wheel has an initial speed of $v$ and accelerates by $a$. Therefore, $\mat{x} =
 \begin{bmatrix}
   -v & v
-\end{bmatrix}^T$ and $\dot{\mat{x}} =
+\end{bmatrix}\T$ and $\dot{\mat{x}} =
 \begin{bmatrix}
   -a & a
-\end{bmatrix}^T$.
+\end{bmatrix}\T$.
 \begin{align*}
   \begin{bmatrix}
     -a \\

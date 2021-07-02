@@ -30,8 +30,8 @@ and the desired system dynamics be
 
 We want to minimize the following cost functional.
 \begin{equation*}
-  J = \int_0^\infty \left((\dot{\mat{y}} - \dot{\mat{z}})^T \mat{Q}
-    (\dot{\mat{y}} - \dot{\mat{z}}) + \mat{u}^T\mat{R}\mat{u}\right) dt
+  J = \int_0^\infty \left((\dot{\mat{y}} - \dot{\mat{z}})\T \mat{Q}
+    (\dot{\mat{y}} - \dot{\mat{z}}) + \mat{u}\T\mat{R}\mat{u}\right) dt
 \end{equation*}
 
 We'll be measuring the desired system's state, so let $\mat{y} = \mat{z}$.
@@ -51,24 +51,24 @@ Therefore,
 
 Substitute this into the cost functional.
 \begin{align*}
-  J &= \int_0^\infty \left((\dot{\mat{y}} - \dot{\mat{z}})^T \mat{Q} (\dot{\mat{y}} - \dot{\mat{z}}) + \mat{u}^T\mat{R}\mat{u}\right) dt \\
+  J &= \int_0^\infty \left((\dot{\mat{y}} - \dot{\mat{z}})\T \mat{Q} (\dot{\mat{y}} - \dot{\mat{z}}) + \mat{u}\T\mat{R}\mat{u}\right) dt \\
   J &= \int_0^\infty \left(
-    ((\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})\mat{x} + \mat{C}\mat{B}\mat{u})^T
+    ((\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})\mat{x} + \mat{C}\mat{B}\mat{u})\T
     \mat{Q}
     ((\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})\mat{x} + \mat{C}\mat{B}\mat{u}) +
-    \mat{u}^T\mat{R}\mat{u}\right) dt
+    \mat{u}\T\mat{R}\mat{u}\right) dt
 \end{align*}
 
 Apply the transpose to the left-hand side of the $\mat{Q}$ term.
 \begin{equation*}
   J = \int_0^\infty \left(
-    (\mat{x}^T(\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})^T + \mat{u}^T(\mat{C}\mat{B})^T)
+    (\mat{x}\T(\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})\T + \mat{u}\T(\mat{C}\mat{B})\T)
     \mat{Q}
     ((\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})\mat{x} + \mat{C}\mat{B}\mat{u}) +
-    \mat{u}^T\mat{R}\mat{u}\right) dt
+    \mat{u}\T\mat{R}\mat{u}\right) dt
 \end{equation*}
 
-Factor out $\begin{bmatrix}\mat{x} \\ \mat{u}\end{bmatrix}^T$ from the left side
+Factor out $\begin{bmatrix}\mat{x} \\ \mat{u}\end{bmatrix}\T$ from the left side
 and $\begin{bmatrix}\mat{x} \\ \mat{u}\end{bmatrix}$ from the right side of each
 term.
 \begin{align*}
@@ -76,10 +76,10 @@ term.
     \begin{bmatrix}
       \mat{x} \\
       \mat{u}
-    \end{bmatrix}^T
+    \end{bmatrix}\T
     \begin{bmatrix}
-      (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})^T \\
-      (\mat{C}\mat{B})^T
+      (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})\T \\
+      (\mat{C}\mat{B})\T
     \end{bmatrix}
     \mat{Q}
     \begin{bmatrix}
@@ -93,7 +93,7 @@ term.
     \begin{bmatrix}
       \mat{x} \\
       \mat{u}
-    \end{bmatrix}^T
+    \end{bmatrix}\T
     \begin{bmatrix}
       \mat{0} & \mat{0} \\
       \mat{0} & \mat{R}
@@ -107,11 +107,11 @@ term.
     \begin{bmatrix}
       \mat{x} \\
       \mat{u}
-    \end{bmatrix}^T
+    \end{bmatrix}\T
     \left(
     \begin{bmatrix}
-      (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})^T \\
-      (\mat{C}\mat{B})^T
+      (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})\T \\
+      (\mat{C}\mat{B})\T
     \end{bmatrix}
     \mat{Q}
     \begin{bmatrix}
@@ -136,11 +136,11 @@ Multiply in $\mat{Q}$.
     \begin{bmatrix}
       \mat{x} \\
       \mat{u}
-    \end{bmatrix}^T
+    \end{bmatrix}\T
     \left(
     \begin{bmatrix}
-      (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})^T\mat{Q} \\
-      (\mat{C}\mat{B})^T\mat{Q}
+      (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})\T\mat{Q} \\
+      (\mat{C}\mat{B})\T\mat{Q}
     \end{bmatrix}
     \begin{bmatrix}
       \mat{C}\mat{A} - \mat{A}_{ref}\mat{C} &
@@ -164,13 +164,13 @@ Multiply matrices in the left term together.
     \begin{bmatrix}
       \mat{x} \\
       \mat{u}
-    \end{bmatrix}^T
+    \end{bmatrix}\T
     \left(
     \begin{bmatrix}
-      (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})^T\mat{Q}(\mat{C}\mat{A} - \mat{A}_{ref}\mat{C}) &
-      (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})^T\mat{Q}(\mat{C}\mat{B}) \\
-      (\mat{C}\mat{B})^T\mat{Q}(\mat{C}\mat{A} - \mat{A}_{ref}\mat{C}) &
-      (\mat{C}\mat{B})^T\mat{Q}(\mat{C}\mat{B})
+      (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})\T\mat{Q}(\mat{C}\mat{A} - \mat{A}_{ref}\mat{C}) &
+      (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})\T\mat{Q}(\mat{C}\mat{B}) \\
+      (\mat{C}\mat{B})\T\mat{Q}(\mat{C}\mat{A} - \mat{A}_{ref}\mat{C}) &
+      (\mat{C}\mat{B})\T\mat{Q}(\mat{C}\mat{B})
     \end{bmatrix} +
     \begin{bmatrix}
       \mat{0} & \mat{0} \\
@@ -190,15 +190,15 @@ Add the terms together.
   \begin{bmatrix}
     \mat{x} \\
     \mat{u}
-  \end{bmatrix}^T
+  \end{bmatrix}\T
   \begin{bmatrix}
-    \underbrace{(\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})^T\mat{Q}
+    \underbrace{(\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})\T\mat{Q}
       (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})}_{\mat{Q}} &
-    \underbrace{(\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})^T\mat{Q}
+    \underbrace{(\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})\T\mat{Q}
       (\mat{C}\mat{B})}_{\mat{N}} \\
-    \underbrace{(\mat{C}\mat{B})^T\mat{Q}
-      (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})}_{\mat{N}^T} &
-    \underbrace{(\mat{C}\mat{B})^T\mat{Q}(\mat{C}\mat{B}) + \mat{R}}_{\mat{R}}
+    \underbrace{(\mat{C}\mat{B})\T\mat{Q}
+      (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})}_{\mat{N}\T} &
+    \underbrace{(\mat{C}\mat{B})\T\mat{Q}(\mat{C}\mat{B}) + \mat{R}}_{\mat{R}}
   \end{bmatrix}
   \begin{bmatrix}
     \mat{x} \\
@@ -215,15 +215,15 @@ problem.
     \begin{bmatrix}
       \mat{x} \\
       \mat{u}
-    \end{bmatrix}^T
+    \end{bmatrix}\T
     \begin{bmatrix}
-      \underbrace{(\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})^T\mat{Q}
+      \underbrace{(\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})\T\mat{Q}
         (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})}_{\mat{Q}} &
-      \underbrace{(\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})^T\mat{Q}
+      \underbrace{(\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})\T\mat{Q}
         (\mat{C}\mat{B})}_{\mat{N}} \\
-      \underbrace{(\mat{C}\mat{B})^T\mat{Q}
-        (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})}_{\mat{N}^T} &
-      \underbrace{(\mat{C}\mat{B})^T\mat{Q}(\mat{C}\mat{B}) + \mat{R}}_{\mat{R}}
+      \underbrace{(\mat{C}\mat{B})\T\mat{Q}
+        (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})}_{\mat{N}\T} &
+      \underbrace{(\mat{C}\mat{B})\T\mat{Q}(\mat{C}\mat{B}) + \mat{R}}_{\mat{R}}
     \end{bmatrix}
     \begin{bmatrix}
       \mat{x} \\
@@ -249,13 +249,13 @@ $\mat{C} = \mat{I}$ and the cost functional simplifies to
   \begin{bmatrix}
     \mat{x} \\
     \mat{u}
-  \end{bmatrix}^T
+  \end{bmatrix}\T
   \begin{bmatrix}
-    \underbrace{(\mat{A} - \mat{A}_{ref})^T\mat{Q}
+    \underbrace{(\mat{A} - \mat{A}_{ref})\T\mat{Q}
       (\mat{A} - \mat{A}_{ref})}_{\mat{Q}} &
-    \underbrace{(\mat{A} - \mat{A}_{ref})^T\mat{Q}\mat{B}}_{\mat{N}} \\
-    \underbrace{\mat{B}^T\mat{Q}(\mat{A} - \mat{A}_{ref})}_{\mat{N}^T} &
-    \underbrace{\mat{B}^T\mat{Q}\mat{B} + \mat{R}}_{\mat{R}}
+    \underbrace{(\mat{A} - \mat{A}_{ref})\T\mat{Q}\mat{B}}_{\mat{N}} \\
+    \underbrace{\mat{B}\T\mat{Q}(\mat{A} - \mat{A}_{ref})}_{\mat{N}\T} &
+    \underbrace{\mat{B}\T\mat{Q}\mat{B} + \mat{R}}_{\mat{R}}
   \end{bmatrix}
   \begin{bmatrix}
     \mat{x} \\
@@ -315,8 +315,8 @@ and the desired system dynamics be
 
 We want to minimize the following cost functional.
 \begin{equation*}
-  J = \sum_{k=0}^\infty \left((\mat{y}_{k+1} - \mat{z}_{k+1})^T \mat{Q}
-    (\mat{y}_{k+1} - \mat{z}_{k+1}) + \mat{u}_k^T\mat{R}\mat{u}_k\right)
+  J = \sum_{k=0}^\infty \left((\mat{y}_{k+1} - \mat{z}_{k+1})\T \mat{Q}
+    (\mat{y}_{k+1} - \mat{z}_{k+1}) + \mat{u}_k\T\mat{R}\mat{u}_k\right)
     \Delta T
 \end{equation*}
 
@@ -337,26 +337,26 @@ Therefore,
 
 Substitute this into the cost functional.
 \begin{align*}
-  J &= \sum_{k=0}^\infty \left((\mat{y}_{k+1} - \mat{z}_{k+1})^T \mat{Q}
-    (\mat{y}_{k+1} - \mat{z}_{k+1}) + \mat{u}_k^T\mat{R}\mat{u}_k\right)
+  J &= \sum_{k=0}^\infty \left((\mat{y}_{k+1} - \mat{z}_{k+1})\T \mat{Q}
+    (\mat{y}_{k+1} - \mat{z}_{k+1}) + \mat{u}_k\T\mat{R}\mat{u}_k\right)
     \Delta T \\
   J &= \sum_{k=0}^\infty \left(
-    ((\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})\mat{x}_k + \mat{C}\mat{B}\mat{u}_k)^T
+    ((\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})\mat{x}_k + \mat{C}\mat{B}\mat{u}_k)\T
     \mat{Q}
     ((\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})\mat{x}_k + \mat{C}\mat{B}\mat{u}_k) +
-    \mat{u}_k^T\mat{R}\mat{u}_k\right) \Delta T
+    \mat{u}_k\T\mat{R}\mat{u}_k\right) \Delta T
 \end{align*}
 
 Apply the transpose to the left-hand side of the $\mat{Q}$ term.
 \begin{equation*}
   J = \sum_{k=0}^\infty \left(
-    (\mat{x}_k^T(\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})^T + \mat{u}_k^T(\mat{C}\mat{B})^T)
+    (\mat{x}_k\T(\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})\T + \mat{u}_k\T(\mat{C}\mat{B})\T)
     \mat{Q}
     ((\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})\mat{x}_k + \mat{C}\mat{B}\mat{u}_k) +
-    \mat{u}_k^T\mat{R}\mat{u}_k\right) \Delta T
+    \mat{u}_k\T\mat{R}\mat{u}_k\right) \Delta T
 \end{equation*}
 
-Factor out $\begin{bmatrix}\mat{x}_k \\ \mat{u}_k\end{bmatrix}^T$ from the left
+Factor out $\begin{bmatrix}\mat{x}_k \\ \mat{u}_k\end{bmatrix}\T$ from the left
 side and $\begin{bmatrix}\mat{x}_k \\ \mat{u}_k\end{bmatrix}$ from the right
 side of each term.
 \begin{align*}
@@ -364,10 +364,10 @@ side of each term.
     \begin{bmatrix}
       \mat{x}_k \\
       \mat{u}_k
-    \end{bmatrix}^T
+    \end{bmatrix}\T
     \begin{bmatrix}
-      (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})^T \\
-      (\mat{C}\mat{B})^T
+      (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})\T \\
+      (\mat{C}\mat{B})\T
     \end{bmatrix}
     \mat{Q}
     \begin{bmatrix}
@@ -381,7 +381,7 @@ side of each term.
     \begin{bmatrix}
       \mat{x}_k \\
       \mat{u}_k
-    \end{bmatrix}^T
+    \end{bmatrix}\T
     \begin{bmatrix}
       \mat{0} & \mat{0} \\
       \mat{0} & \mat{R}
@@ -395,11 +395,11 @@ side of each term.
     \begin{bmatrix}
       \mat{x}_k \\
       \mat{u}_k
-    \end{bmatrix}^T
+    \end{bmatrix}\T
     \left(
     \begin{bmatrix}
-      (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})^T \\
-      (\mat{C}\mat{B})^T
+      (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})\T \\
+      (\mat{C}\mat{B})\T
     \end{bmatrix}
     \mat{Q}
     \begin{bmatrix}
@@ -424,11 +424,11 @@ Multiply in $\mat{Q}$.
     \begin{bmatrix}
       \mat{x}_k \\
       \mat{u}_k
-    \end{bmatrix}^T
+    \end{bmatrix}\T
     \left(
     \begin{bmatrix}
-      (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})^T\mat{Q} \\
-      (\mat{C}\mat{B})^T\mat{Q}
+      (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})\T\mat{Q} \\
+      (\mat{C}\mat{B})\T\mat{Q}
     \end{bmatrix}
     \begin{bmatrix}
       \mat{C}\mat{A} - \mat{A}_{ref}\mat{C} &
@@ -452,13 +452,13 @@ Multiply matrices in the left term together.
     \begin{bmatrix}
       \mat{x}_k \\
       \mat{u}_k
-    \end{bmatrix}^T
+    \end{bmatrix}\T
     \left(
     \begin{bmatrix}
-      (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})^T\mat{Q}(\mat{C}\mat{A} - \mat{A}_{ref}\mat{C}) &
-      (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})^T\mat{Q}(\mat{C}\mat{B}) \\
-      (\mat{C}\mat{B})^T\mat{Q}(\mat{C}\mat{A} - \mat{A}_{ref}\mat{C}) &
-      (\mat{C}\mat{B})^T\mat{Q}(\mat{C}\mat{B})
+      (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})\T\mat{Q}(\mat{C}\mat{A} - \mat{A}_{ref}\mat{C}) &
+      (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})\T\mat{Q}(\mat{C}\mat{B}) \\
+      (\mat{C}\mat{B})\T\mat{Q}(\mat{C}\mat{A} - \mat{A}_{ref}\mat{C}) &
+      (\mat{C}\mat{B})\T\mat{Q}(\mat{C}\mat{B})
     \end{bmatrix} +
     \begin{bmatrix}
       \mat{0} & \mat{0} \\
@@ -478,15 +478,15 @@ Add the terms together.
   \begin{bmatrix}
     \mat{x}_k \\
     \mat{u}_k
-  \end{bmatrix}^T
+  \end{bmatrix}\T
   \begin{bmatrix}
-    \underbrace{(\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})^T\mat{Q}
+    \underbrace{(\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})\T\mat{Q}
       (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})}_{\mat{Q}} &
-    \underbrace{(\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})^T\mat{Q}
+    \underbrace{(\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})\T\mat{Q}
       (\mat{C}\mat{B})}_{\mat{N}} \\
-    \underbrace{(\mat{C}\mat{B})^T\mat{Q}
-      (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})}_{\mat{N}^T} &
-    \underbrace{(\mat{C}\mat{B})^T\mat{Q}(\mat{C}\mat{B}) + \mat{R}}_{\mat{R}}
+    \underbrace{(\mat{C}\mat{B})\T\mat{Q}
+      (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})}_{\mat{N}\T} &
+    \underbrace{(\mat{C}\mat{B})\T\mat{Q}(\mat{C}\mat{B}) + \mat{R}}_{\mat{R}}
   \end{bmatrix}
   \begin{bmatrix}
     \mat{x}_k \\
@@ -503,15 +503,15 @@ problem.
     \begin{bmatrix}
       \mat{x}_k \\
       \mat{u}_k
-    \end{bmatrix}^T
+    \end{bmatrix}\T
     \begin{bmatrix}
-      \underbrace{(\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})^T\mat{Q}
+      \underbrace{(\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})\T\mat{Q}
         (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})}_{\mat{Q}} &
-      \underbrace{(\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})^T\mat{Q}
+      \underbrace{(\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})\T\mat{Q}
         (\mat{C}\mat{B})}_{\mat{N}} \\
-      \underbrace{(\mat{C}\mat{B})^T\mat{Q}
-        (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})}_{\mat{N}^T} &
-      \underbrace{(\mat{C}\mat{B})^T\mat{Q}(\mat{C}\mat{B}) + \mat{R}}_{\mat{R}}
+      \underbrace{(\mat{C}\mat{B})\T\mat{Q}
+        (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})}_{\mat{N}\T} &
+      \underbrace{(\mat{C}\mat{B})\T\mat{Q}(\mat{C}\mat{B}) + \mat{R}}_{\mat{R}}
     \end{bmatrix}
     \begin{bmatrix}
       \mat{x}_k \\
@@ -537,13 +537,13 @@ $\mat{C} = \mat{I}$ and the cost functional simplifies to
   \begin{bmatrix}
     \mat{x}_k \\
     \mat{u}_k
-  \end{bmatrix}^T
+  \end{bmatrix}\T
   \begin{bmatrix}
-    \underbrace{(\mat{A} - \mat{A}_{ref})^T\mat{Q}
+    \underbrace{(\mat{A} - \mat{A}_{ref})\T\mat{Q}
       (\mat{A} - \mat{A}_{ref})}_{\mat{Q}} &
-    \underbrace{(\mat{A} - \mat{A}_{ref})^T\mat{Q}\mat{B}}_{\mat{N}} \\
-    \underbrace{\mat{B}^T\mat{Q}(\mat{A} - \mat{A}_{ref})}_{\mat{N}^T} &
-    \underbrace{\mat{B}^T\mat{Q}\mat{B} + \mat{R}}_{\mat{R}}
+    \underbrace{(\mat{A} - \mat{A}_{ref})\T\mat{Q}\mat{B}}_{\mat{N}} \\
+    \underbrace{\mat{B}\T\mat{Q}(\mat{A} - \mat{A}_{ref})}_{\mat{N}\T} &
+    \underbrace{\mat{B}\T\mat{Q}\mat{B} + \mat{R}}_{\mat{R}}
   \end{bmatrix}
   \begin{bmatrix}
     \mat{x}_k \\

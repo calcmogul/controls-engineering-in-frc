@@ -10,8 +10,8 @@ LQR is normally used for state feedback on
 
 with the cost functional
 \begin{equation*}
-  J = \int_0^\infty \left(\mat{x}^T\mat{Q}\mat{x} +
-    \mat{u}^T\mat{R}\mat{u}\right) dt
+  J = \int_0^\infty \left(\mat{x}\T\mat{Q}\mat{x} +
+    \mat{u}\T\mat{R}\mat{u}\right) dt
 \end{equation*}
 
 However, we may not know how to select costs for some of the states, or we don't
@@ -26,23 +26,23 @@ from the behavior of another model.}.
 For state feedback with an output cost, we want to minimize the following cost
 functional.
 \begin{equation*}
-  J = \int_0^\infty \left(\mat{y}^T\mat{Q}\mat{y} +
-    \mat{u}^T\mat{R}\mat{u}\right) dt
+  J = \int_0^\infty \left(\mat{y}\T\mat{Q}\mat{y} +
+    \mat{u}\T\mat{R}\mat{u}\right) dt
 \end{equation*}
 
 Substitute in the expression for $\mat{y}$.
 \begin{equation*}
-  J = \int_0^\infty \left((\mat{C}\mat{x} + \mat{D}\mat{u})^T\mat{Q}
-    (\mat{C}\mat{x} + \mat{D}\mat{u}) + \mat{u}^T\mat{R}\mat{u}\right) dt
+  J = \int_0^\infty \left((\mat{C}\mat{x} + \mat{D}\mat{u})\T\mat{Q}
+    (\mat{C}\mat{x} + \mat{D}\mat{u}) + \mat{u}\T\mat{R}\mat{u}\right) dt
 \end{equation*}
 
 Apply the transpose to the left-hand side of the $\mat{Q}$ term.
 \begin{equation*}
-  J = \int_0^\infty \left((\mat{x}^T\mat{C}^T + \mat{u}^T\mat{D}^T)\mat{Q}
-    (\mat{C}\mat{x} + \mat{D}\mat{u}) + \mat{u}^T\mat{R}\mat{u}\right) dt
+  J = \int_0^\infty \left((\mat{x}\T\mat{C}\T + \mat{u}\T\mat{D}\T)\mat{Q}
+    (\mat{C}\mat{x} + \mat{D}\mat{u}) + \mat{u}\T\mat{R}\mat{u}\right) dt
 \end{equation*}
 
-Factor out $\begin{bmatrix}\mat{x} \\ \mat{u}\end{bmatrix}^T$ from the left side
+Factor out $\begin{bmatrix}\mat{x} \\ \mat{u}\end{bmatrix}\T$ from the left side
 and $\begin{bmatrix}\mat{x} \\ \mat{u}\end{bmatrix}$ from the right side of each
 term.
 \begin{align*}
@@ -50,10 +50,10 @@ term.
     \begin{bmatrix}
       \mat{x} \\
       \mat{u}
-    \end{bmatrix}^T
+    \end{bmatrix}\T
     \begin{bmatrix}
-      \mat{C}^T \\
-      \mat{D}^T
+      \mat{C}\T \\
+      \mat{D}\T
     \end{bmatrix}
     \mat{Q}
     \begin{bmatrix}
@@ -67,7 +67,7 @@ term.
     \begin{bmatrix}
       \mat{x} \\
       \mat{u}
-    \end{bmatrix}^T
+    \end{bmatrix}\T
     \begin{bmatrix}
       \mat{0} & \mat{0} \\
       \mat{0} & \mat{R}
@@ -81,11 +81,11 @@ term.
     \begin{bmatrix}
       \mat{x} \\
       \mat{u}
-    \end{bmatrix}^T
+    \end{bmatrix}\T
     \left(
     \begin{bmatrix}
-      \mat{C}^T \\
-      \mat{D}^T
+      \mat{C}\T \\
+      \mat{D}\T
     \end{bmatrix}
     \mat{Q}
     \begin{bmatrix}
@@ -110,11 +110,11 @@ Multiply in $\mat{Q}$.
     \begin{bmatrix}
       \mat{x} \\
       \mat{u}
-    \end{bmatrix}^T
+    \end{bmatrix}\T
     \left(
     \begin{bmatrix}
-      \mat{C}^T\mat{Q} \\
-      \mat{D}^T\mat{Q}
+      \mat{C}\T\mat{Q} \\
+      \mat{D}\T\mat{Q}
     \end{bmatrix}
     \begin{bmatrix}
       \mat{C} &
@@ -138,11 +138,11 @@ Multiply matrices in the left term together.
     \begin{bmatrix}
       \mat{x} \\
       \mat{u}
-    \end{bmatrix}^T
+    \end{bmatrix}\T
     \left(
     \begin{bmatrix}
-      \mat{C}^T\mat{Q}\mat{C} & \mat{C}^T\mat{Q}\mat{D} \\
-      \mat{D}^T\mat{Q}\mat{C} & \mat{D}^T\mat{Q}\mat{D}
+      \mat{C}\T\mat{Q}\mat{C} & \mat{C}\T\mat{Q}\mat{D} \\
+      \mat{D}\T\mat{Q}\mat{C} & \mat{D}\T\mat{Q}\mat{D}
     \end{bmatrix} +
     \begin{bmatrix}
       \mat{0} & \mat{0} \\
@@ -162,12 +162,12 @@ Add the terms together.
   \begin{bmatrix}
     \mat{x} \\
     \mat{u}
-  \end{bmatrix}^T
+  \end{bmatrix}\T
   \begin{bmatrix}
-    \underbrace{\mat{C}^T\mat{Q}\mat{C}}_{\mat{Q}} &
-    \underbrace{\mat{C}^T\mat{Q}\mat{D}}_{\mat{N}} \\
-    \underbrace{\mat{D}^T\mat{Q}\mat{C}}_{\mat{N}^T} &
-    \underbrace{\mat{D}^T\mat{Q}\mat{D} + \mat{R}}_{\mat{R}}
+    \underbrace{\mat{C}\T\mat{Q}\mat{C}}_{\mat{Q}} &
+    \underbrace{\mat{C}\T\mat{Q}\mat{D}}_{\mat{N}} \\
+    \underbrace{\mat{D}\T\mat{Q}\mat{C}}_{\mat{N}\T} &
+    \underbrace{\mat{D}\T\mat{Q}\mat{D} + \mat{R}}_{\mat{R}}
   \end{bmatrix}
   \begin{bmatrix}
     \mat{x} \\
@@ -184,12 +184,12 @@ optimization problem.
     \begin{bmatrix}
       \mat{x} \\
       \mat{u}
-    \end{bmatrix}^T
+    \end{bmatrix}\T
     \begin{bmatrix}
-      \underbrace{\mat{C}^T\mat{Q}\mat{C}}_{\mat{Q}} &
-      \underbrace{\mat{C}^T\mat{Q}\mat{D}}_{\mat{N}} \\
-      \underbrace{\mat{D}^T\mat{Q}\mat{C}}_{\mat{N}^T} &
-      \underbrace{\mat{D}^T\mat{Q}\mat{D} + \mat{R}}_{\mat{R}}
+      \underbrace{\mat{C}\T\mat{Q}\mat{C}}_{\mat{Q}} &
+      \underbrace{\mat{C}\T\mat{Q}\mat{D}}_{\mat{N}} \\
+      \underbrace{\mat{D}\T\mat{Q}\mat{C}}_{\mat{N}\T} &
+      \underbrace{\mat{D}\T\mat{Q}\mat{D} + \mat{R}}_{\mat{R}}
     \end{bmatrix}
     \begin{bmatrix}
       \mat{x} \\
@@ -201,7 +201,7 @@ optimization problem.
 
   The optimal control policy $\mat{u}^*$ is $\mat{K}(\mat{r} - \mat{x})$ where
   $\mat{r}$ is the desired state. Note that the $\mat{Q}$ in
-  $\mat{C}^T\mat{Q}\mat{C}$ is outputs $\times$ outputs instead of states
+  $\mat{C}\T\mat{Q}\mat{C}$ is outputs $\times$ outputs instead of states
   $\times$ states. $\mat{K}$ can be computed via the typical LQR equations based
   on the algebraic Ricatti equation.
 \end{theorem}
@@ -214,7 +214,7 @@ state cost.
   \begin{bmatrix}
     \mat{x} \\
     \mat{u}
-  \end{bmatrix}^T
+  \end{bmatrix}\T
   \begin{bmatrix}
     \mat{Q} & \mat{0} \\
     \mat{0} & \mat{R}

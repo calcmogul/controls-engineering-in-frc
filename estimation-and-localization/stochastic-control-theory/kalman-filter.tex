@@ -86,11 +86,11 @@ Now just evaluate the covariances.
 \begin{align*}
   \mat{P}_{k+1}^+ &= (\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})
     \cov(\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^-)
-    (\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})^T + \mat{K}_{k+1}cov(\mat{v}_{k+1})
-    \mat{K}_{k+1}^T \\
+    (\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})\T + \mat{K}_{k+1}cov(\mat{v}_{k+1})
+    \mat{K}_{k+1}\T \\
   \mat{P}_{k+1}^+ &= (\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})\mat{P}_{k+1}^-
-    (\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})^T + \mat{K}_{k+1}\mat{R}_{k+1}
-    \mat{K}_{k+1}^T
+    (\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})\T + \mat{K}_{k+1}\mat{R}_{k+1}
+    \mat{K}_{k+1}\T
 \end{align*}
 
 \subsubsection{Finding the optimal Kalman gain}
@@ -98,7 +98,7 @@ Now just evaluate the covariances.
 The error in the \textit{a posteriori} \gls{state} estimation is
 $\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^+$. We want to minimize the expected value
 of the square of the magnitude of this vector, which can be written as
-$E[(\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^+)(\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^+)^T]$.
+$E[(\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^+)(\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^+)\T]$.
 By definition, this expected value is the \textit{a posteriori} error covariance
 $\mat{P}_{k+1}^+$. Remember that the eigenvectors of a matrix are the
 fundamental transformation directions of that matrix, and the eigenvalues are
@@ -127,8 +127,8 @@ $t^{n-1}$, we get $\tr(\mat{P}) = \lambda_1 + \cdots + \lambda_n$.}
 We'll start with the equation for $\mat{P}_{k+1}^+$.
 \begin{equation*}
   \mat{P}_{k+1}^+ = (\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})\mat{P}_{k+1}^-
-    (\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})^T + \mat{K}_{k+1}\mat{R}_{k+1}
-    \mat{K}_{k+1}^T
+    (\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})\T + \mat{K}_{k+1}\mat{R}_{k+1}
+    \mat{K}_{k+1}\T
 \end{equation*}
 
 We're going to expand the equation for $\mat{P}_{k+1}^+$ and collect terms.
@@ -136,8 +136,8 @@ First, multiply in $\mat{P}_{k+1}^-$.
 \begin{equation*}
   \mat{P}_{k+1}^+ =
     (\mat{P}_{k+1}^- - \mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^-)
-    (\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})^T + \mat{K}_{k+1}\mat{R}_{k+1}
-    \mat{K}_{k+1}^T
+    (\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})\T + \mat{K}_{k+1}\mat{R}_{k+1}
+    \mat{K}_{k+1}\T
 \end{equation*}
 
 Tranpose each term in $\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1}$. $\mat{I}$ is
@@ -145,70 +145,70 @@ symmetric, so its transpose is dropped.
 \begin{equation*}
   \mat{P}_{k+1}^+ =
     (\mat{P}_{k+1}^- - \mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^-)
-    (\mat{I} - \mat{C}_{k+1}^T\mat{K}_{k+1}^T) +
-    \mat{K}_{k+1}\mat{R}_{k+1} \mat{K}_{k+1}^T
+    (\mat{I} - \mat{C}_{k+1}\T\mat{K}_{k+1}\T) +
+    \mat{K}_{k+1}\mat{R}_{k+1} \mat{K}_{k+1}\T
 \end{equation*}
 
-Multiply in $\mat{I} - \mat{C}_{k+1}^T\mat{K}_{k+1}^T$.
+Multiply in $\mat{I} - \mat{C}_{k+1}\T\mat{K}_{k+1}\T$.
 \begin{equation*}
   \mat{P}_{k+1}^+ =
-    \mat{P}_{k+1}^-(\mat{I} - \mat{C}_{k+1}^T\mat{K}_{k+1}^T) -
+    \mat{P}_{k+1}^-(\mat{I} - \mat{C}_{k+1}\T\mat{K}_{k+1}\T) -
     \mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^-
-    (\mat{I} - \mat{C}_{k+1}^T\mat{K}_{k+1}^T) +
-    \mat{K}_{k+1}\mat{R}_{k+1} \mat{K}_{k+1}^T
+    (\mat{I} - \mat{C}_{k+1}\T\mat{K}_{k+1}\T) +
+    \mat{K}_{k+1}\mat{R}_{k+1} \mat{K}_{k+1}\T
 \end{equation*}
 
 Expand terms.
 \begin{align*}
   \mat{P}_{k+1}^+ &=
-    \mat{P}_{k+1}^- - \mat{P}_{k+1}^-\mat{C}_{k+1}^T\mat{K}_{k+1}^T -
+    \mat{P}_{k+1}^- - \mat{P}_{k+1}^-\mat{C}_{k+1}\T\mat{K}_{k+1}\T -
     \mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^- +
-    \mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^-\mat{C}_{k+1}^T\mat{K}_{k+1}^T \\
-    &\qquad + \mat{K}_{k+1}\mat{R}_{k+1} \mat{K}_{k+1}^T
+    \mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^-\mat{C}_{k+1}\T\mat{K}_{k+1}\T \\
+    &\qquad + \mat{K}_{k+1}\mat{R}_{k+1} \mat{K}_{k+1}\T
 \end{align*}
 
-Factor out $\mat{K}_{k+1}$ and $\mat{K}_{k+1}^T$.
+Factor out $\mat{K}_{k+1}$ and $\mat{K}_{k+1}\T$.
 \begin{align*}
   \mat{P}_{k+1}^+ &=
-    \mat{P}_{k+1}^- - \mat{P}_{k+1}^-\mat{C}_{k+1}^T\mat{K}_{k+1}^T -
+    \mat{P}_{k+1}^- - \mat{P}_{k+1}^-\mat{C}_{k+1}\T\mat{K}_{k+1}\T -
     \mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^- \nonumber \\
-    &\qquad + \mat{K}_{k+1}(\mat{C}_{k+1}\mat{P}_{k+1}^-\mat{C}_{k+1}^T +
-    \mat{R}_{k+1})\mat{K}_{k+1}^T
+    &\qquad + \mat{K}_{k+1}(\mat{C}_{k+1}\mat{P}_{k+1}^-\mat{C}_{k+1}\T +
+    \mat{R}_{k+1})\mat{K}_{k+1}\T
 \end{align*}
 
-$\mat{C}_{k+1}\mat{P}_{k+1}^-\mat{C}_{k+1}^T + \mat{R}_{k+1}$ is the innovation
+$\mat{C}_{k+1}\mat{P}_{k+1}^-\mat{C}_{k+1}\T + \mat{R}_{k+1}$ is the innovation
 (measurement residual) covariance at timestep $k + 1$. We'll let this expression
 equal $\mat{S}_{k+1}$. We won't need it in the final theorem, but it makes the
 derivations after this point more concise.
 \begin{equation}
   \mat{P}_{k+1}^+ =
-    \mat{P}_{k+1}^- - \mat{P}_{k+1}^-\mat{C}_{k+1}^T\mat{K}_{k+1}^T -
+    \mat{P}_{k+1}^- - \mat{P}_{k+1}^-\mat{C}_{k+1}\T\mat{K}_{k+1}\T -
     \mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^- +
-    \mat{K}_{k+1}\mat{S}_{k+1}\mat{K}_{k+1}^T \label{eq:post_p_update}
+    \mat{K}_{k+1}\mat{S}_{k+1}\mat{K}_{k+1}\T \label{eq:post_p_update}
 \end{equation}
 
 Now take the trace.
 \begin{equation*}
   \tr(\mat{P}_{k+1}^+) =
-    \tr(\mat{P}_{k+1}^-) - \tr(\mat{P}_{k+1}^-\mat{C}_{k+1}^T\mat{K}_{k+1}^T) -
+    \tr(\mat{P}_{k+1}^-) - \tr(\mat{P}_{k+1}^-\mat{C}_{k+1}\T\mat{K}_{k+1}\T) -
     \tr(\mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^-) +
-    \tr(\mat{K}_{k+1}\mat{S}_{k+1}\mat{K}_{k+1}^T)
+    \tr(\mat{K}_{k+1}\mat{S}_{k+1}\mat{K}_{k+1}\T)
 \end{equation*}
 
 Transpose one of the terms twice.
 \begin{equation*}
   \tr(\mat{P}_{k+1}^+) = \tr(\mat{P}_{k+1}^-) -
-    \tr((\mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^{-T})^T) -
+    \tr((\mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^{-T})\T) -
     \tr(\mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^-) +
-    \tr(\mat{K}_{k+1}\mat{S}_{k+1}\mat{K}_{k+1}^T)
+    \tr(\mat{K}_{k+1}\mat{S}_{k+1}\mat{K}_{k+1}\T)
 \end{equation*}
 
 $\mat{P}_{k+1}^-$ is symmetric, so we can drop the transpose.
 \begin{equation*}
   \tr(\mat{P}_{k+1}^+) = \tr(\mat{P}_{k+1}^-) -
-    \tr((\mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^-)^T) -
+    \tr((\mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^-)\T) -
     \tr(\mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^-) +
-    \tr(\mat{K}_{k+1}\mat{S}_{k+1}\mat{K}_{k+1}^T)
+    \tr(\mat{K}_{k+1}\mat{S}_{k+1}\mat{K}_{k+1}\T)
 \end{equation*}
 
 The trace of a matrix is equal to the trace of its transpose since the elements
@@ -217,38 +217,38 @@ used in the trace are on the diagonal.
   \tr(\mat{P}_{k+1}^+) &= \tr(\mat{P}_{k+1}^-) -
     \tr(\mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^-) -
     \tr(\mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^-) +
-    \tr(\mat{K}_{k+1}\mat{S}_{k+1}\mat{K}_{k+1}^T) \\
+    \tr(\mat{K}_{k+1}\mat{S}_{k+1}\mat{K}_{k+1}\T) \\
   \tr(\mat{P}_{k+1}^+) &= \tr(\mat{P}_{k+1}^-) -
     2\tr(\mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^-) +
-    \tr(\mat{K}_{k+1}\mat{S}_{k+1}\mat{K}_{k+1}^T)
+    \tr(\mat{K}_{k+1}\mat{S}_{k+1}\mat{K}_{k+1}\T)
 \end{align*}
 
 Given theorems \ref{thm:partial_tr_aba} and \ref{thm:partial_tr_ac}
 \begin{theorem}
   \label{thm:partial_tr_aba}
 
-  $\frac{\partial}{\partial\mat{A}}\tr(\mat{A}\mat{B}\mat{A}^T) =
+  $\frac{\partial}{\partial\mat{A}}\tr(\mat{A}\mat{B}\mat{A}\T) =
     2\mat{A}\mat{B}$ where $\mat{B}$ is symmetric.
 \end{theorem}
 \begin{theorem}
   \label{thm:partial_tr_ac}
 
-  $\frac{\partial}{\partial\mat{A}}\tr(\mat{A}\mat{C}) = \mat{C}^T$
+  $\frac{\partial}{\partial\mat{A}}\tr(\mat{A}\mat{C}) = \mat{C}\T$
 \end{theorem}
 
 find the minimum of the trace of $\mat{P}_{k+1}^+$ by taking the partial
 derivative with respect to $\mat{K}$ and setting the result to $\mat{0}$.
 \begin{align*}
   \frac{\partial\tr(\mat{P}_{k+1}^+)}{\partial\mat{K}} &=
-    \mat{0} - 2(\mat{C}_{k+1}\mat{P}_{k+1}^-)^T + 2\mat{K}_{k+1}\mat{S}_{k+1} \\
+    \mat{0} - 2(\mat{C}_{k+1}\mat{P}_{k+1}^-)\T + 2\mat{K}_{k+1}\mat{S}_{k+1} \\
   \frac{\partial\tr(\mat{P}_{k+1}^+)}{\partial\mat{K}} &=
-    -2\mat{P}_{k+1}^{-T}\mat{C}_{k+1}^T + 2\mat{K}_{k+1}\mat{S}_{k+1} \\
+    -2\mat{P}_{k+1}^{-T}\mat{C}_{k+1}\T + 2\mat{K}_{k+1}\mat{S}_{k+1} \\
   \frac{\partial\tr(\mat{P}_{k+1}^+)}{\partial\mat{K}} &=
-    -2\mat{P}_{k+1}^-\mat{C}_{k+1}^T + 2\mat{K}_{k+1}\mat{S}_{k+1} \\
-  \mat{0} &= -2\mat{P}_{k+1}^-\mat{C}_{k+1}^T + 2\mat{K}_{k+1}\mat{S}_{k+1} \\
-  2\mat{K}_{k+1}\mat{S}_{k+1} &= 2\mat{P}_{k+1}^-\mat{C}_{k+1}^T \\
-  \mat{K}_{k+1}\mat{S}_{k+1} &= \mat{P}_{k+1}^-\mat{C}_{k+1}^T \\
-  \mat{K}_{k+1} &= \mat{P}_{k+1}^-\mat{C}_{k+1}^T\mat{S}_{k+1}^{-1}
+    -2\mat{P}_{k+1}^-\mat{C}_{k+1}\T + 2\mat{K}_{k+1}\mat{S}_{k+1} \\
+  \mat{0} &= -2\mat{P}_{k+1}^-\mat{C}_{k+1}\T + 2\mat{K}_{k+1}\mat{S}_{k+1} \\
+  2\mat{K}_{k+1}\mat{S}_{k+1} &= 2\mat{P}_{k+1}^-\mat{C}_{k+1}\T \\
+  \mat{K}_{k+1}\mat{S}_{k+1} &= \mat{P}_{k+1}^-\mat{C}_{k+1}\T \\
+  \mat{K}_{k+1} &= \mat{P}_{k+1}^-\mat{C}_{k+1}\T\mat{S}_{k+1}^{-1}
 \end{align*}
 
 This is the optimal Kalman gain.
@@ -260,22 +260,22 @@ If the optimal Kalman gain is used, the \textit{a posteriori} estimate
 covariance matrix update equation can be simplified. First, we'll manipulate the
 equation for the optimal Kalman gain.
 \begin{align*}
-  \mat{K}_{k+1} &= \mat{P}_{k+1}^-\mat{C}_{k+1}^T\mat{S}_{k+1}^{-1} \\
-  \mat{K}_{k+1}\mat{S}_{k+1} &= \mat{P}_{k+1}^-\mat{C}_{k+1}^T \\
-  \mat{K}_{k+1}\mat{S}_{k+1}\mat{K}_{k+1}^T &=
-    \mat{P}_{k+1}^-\mat{C}_{k+1}^T\mat{K}_{k+1}^T
+  \mat{K}_{k+1} &= \mat{P}_{k+1}^-\mat{C}_{k+1}\T\mat{S}_{k+1}^{-1} \\
+  \mat{K}_{k+1}\mat{S}_{k+1} &= \mat{P}_{k+1}^-\mat{C}_{k+1}\T \\
+  \mat{K}_{k+1}\mat{S}_{k+1}\mat{K}_{k+1}\T &=
+    \mat{P}_{k+1}^-\mat{C}_{k+1}\T\mat{K}_{k+1}\T
 \end{align*}
 
 Now we'll substitute it into equation \eqref{eq:post_p_update}.
 \begin{align*}
   \mat{P}_{k+1}^+ &=
-    \mat{P}_{k+1}^- - \mat{P}_{k+1}^-\mat{C}_{k+1}^T\mat{K}_{k+1}^T -
+    \mat{P}_{k+1}^- - \mat{P}_{k+1}^-\mat{C}_{k+1}\T\mat{K}_{k+1}\T -
     \mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^- +
-    \mat{K}_{k+1}\mat{S}_{k+1}\mat{K}_{k+1}^T \\
+    \mat{K}_{k+1}\mat{S}_{k+1}\mat{K}_{k+1}\T \\
   \mat{P}_{k+1}^+ &=
-    \mat{P}_{k+1}^- - \mat{P}_{k+1}^-\mat{C}_{k+1}^T\mat{K}_{k+1}^T -
+    \mat{P}_{k+1}^- - \mat{P}_{k+1}^-\mat{C}_{k+1}\T\mat{K}_{k+1}\T -
     \mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^- +
-    (\mat{P}_{k+1}^-\mat{C}_{k+1}^T\mat{K}_{k+1}^T) \\
+    (\mat{P}_{k+1}^-\mat{C}_{k+1}\T\mat{K}_{k+1}\T) \\
   \mat{P}_{k+1}^+ &=
     \mat{P}_{k+1}^- - \mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^-
 \end{align*}
@@ -297,10 +297,10 @@ and update steps for a Kalman filter at the $k^{th}$ timestep.
   \begin{align}
     \text{Predict step} \nonumber \\
     \hat{\mat{x}}_{k+1}^- &= \mat{A}\hat{\mat{x}}_k + \mat{B} \mat{u}_k \\
-    \mat{P}_{k+1}^- &= \mat{A} \mat{P}_k^- \mat{A}^T + \mat{Q} \\
+    \mat{P}_{k+1}^- &= \mat{A} \mat{P}_k^- \mat{A}\T + \mat{Q} \\
     \text{Update step} \nonumber \\
     \mat{K}_{k+1} &=
-      \mat{P}_{k+1}^- \mat{C}^T (\mat{C}\mat{P}_{k+1}^- \mat{C}^T +
+      \mat{P}_{k+1}^- \mat{C}\T (\mat{C}\mat{P}_{k+1}^- \mat{C}\T +
       \mat{R})^{-1} \\
     \hat{\mat{x}}_{k+1}^+ &=
       \hat{\mat{x}}_{k+1}^- + \mat{K}_{k+1}(\mat{y}_{k+1} -

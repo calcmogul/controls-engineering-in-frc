@@ -149,8 +149,8 @@ pose. The change in global pose is defined by these three equations.
 
 Next, we'll augment the linear subspace's state with the global pose $x$, $y$,
 and $\theta$. Here's the model as a vector function where
-$\mat{x} = \begin{bmatrix} x & y & \theta & v_l & v_r \end{bmatrix}^T$ and
-$\mat{u} = \begin{bmatrix} V_l & V_r \end{bmatrix}^T$.
+$\mat{x} = \begin{bmatrix} x & y & \theta & v_l & v_r \end{bmatrix}\T$ and
+$\mat{u} = \begin{bmatrix} V_l & V_r \end{bmatrix}\T$.
 \begin{equation}
   f(\mat{x}, \mat{u}) =
   \begin{bmatrix}
@@ -217,15 +217,15 @@ Therefore,
       \mat{x} =
       \begin{bmatrix}
         x & y & \theta & v_l & v_r
-      \end{bmatrix}^T &
+      \end{bmatrix}\T &
       \mat{y} =
       \begin{bmatrix}
         \theta & v_l & v_r
-      \end{bmatrix}^T &
+      \end{bmatrix}\T &
       \mat{u} =
       \begin{bmatrix}
         V_l & V_r
-      \end{bmatrix}^T
+      \end{bmatrix}\T
     \end{array}
   \end{equation*}
   \begin{equation}
@@ -400,8 +400,8 @@ around $\theta = 0$ at all times.
 
   Let the differential drive dynamics be of the form
   $\dot{\mat{x}} = f(\mat{x}) + \mat{B}\mat{u}$ where
-  $\mat{x} = \begin{bmatrix}x & y & \theta & v_l & v_r\end{bmatrix}^T$,
-  $\mat{u} = \begin{bmatrix}V_l & V_r\end{bmatrix}^T$, and
+  $\mat{x} = \begin{bmatrix}x & y & \theta & v_l & v_r\end{bmatrix}\T$,
+  $\mat{u} = \begin{bmatrix}V_l & V_r\end{bmatrix}\T$, and
   $\mat{A} = \frac{\partial f(\mat{x})}{\partial\mat{x}}$.
   \begin{equation}
     \begin{array}{ll}
@@ -516,7 +516,7 @@ have zeroes inserted where $x_l$ and $x_r$ are multiplied in.
 \end{align*}
 
 This produces the following linear subspace over
-$\mat{x} = \begin{bmatrix}v_l & v_r & x_l & x_r\end{bmatrix}^T$.
+$\mat{x} = \begin{bmatrix}v_l & v_r & x_l & x_r\end{bmatrix}\T$.
 \begin{equation}
   \begin{array}{ll}
     \mat{A} =
@@ -542,8 +542,8 @@ $\mat{x} = \begin{bmatrix}v_l & v_r & x_l & x_r\end{bmatrix}^T$.
 \end{equation}
 
 The measurement model for the complete nonlinear model is now
-$\mat{y} = \begin{bmatrix}\theta & x_l & x_r\end{bmatrix}^T$ instead of
-$\mat{y} = \begin{bmatrix}\theta & v_l & v_r\end{bmatrix}^T$.
+$\mat{y} = \begin{bmatrix}\theta & x_l & x_r\end{bmatrix}\T$ instead of
+$\mat{y} = \begin{bmatrix}\theta & v_l & v_r\end{bmatrix}\T$.
 
 \subsubsection{U error estimation}
 
@@ -567,7 +567,7 @@ positions imply and the gyroscope measurement.
 
 The full state is thus
 $\mat{x} = \begin{bmatrix}x & y & \theta & v_l & v_r & x_l & x_r & u_{error,l} &
-  u_{error,r} & u_{error,heading}\end{bmatrix}^T$.
+  u_{error,r} & u_{error,heading}\end{bmatrix}\T$.
 
 The complete nonlinear model is as follows. Let $v = \frac{v_l + v_r}{2}$. The
 three $u_{error}$ states augment the linear subspace, so the nonlinear pose

@@ -7,37 +7,37 @@
 The following theorem and corollary will be needed to derive the QR-weighted
 linear plant inversion equation.
 \begin{theorem}
-  $\frac{\partial (\mat{A}\mat{x} + \mat{b})^T\mat{C}
+  $\frac{\partial (\mat{A}\mat{x} + \mat{b})\T\mat{C}
     (\mat{D}\mat{x} + \mat{e})}{\partial\mat{x}} =
-    \mat{A}^T\mat{C}(\mat{D}\mat{x} + \mat{e}) + \mat{D}^T\mat{C}^T
+    \mat{A}\T\mat{C}(\mat{D}\mat{x} + \mat{e}) + \mat{D}\T\mat{C}\T
     (\mat{A}\mat{x} + \mat{b})$
 \end{theorem}
 \begin{corollary}
   \label{cor:partial_ax_b}
 
-  $\frac{\partial (\mat{A}\mat{x} + \mat{b})^T\mat{C}
+  $\frac{\partial (\mat{A}\mat{x} + \mat{b})\T\mat{C}
     (\mat{A}\mat{x} + \mat{b})}{\partial\mat{x}} =
-    2\mat{A}^T\mat{C}(\mat{A}\mat{x} + \mat{b})$ where $\mat{C}$ is symmetric.
+    2\mat{A}\T\mat{C}(\mat{A}\mat{x} + \mat{b})$ where $\mat{C}$ is symmetric.
 
   Proof:
   \begin{align*}
-    \frac{\partial (\mat{A}\mat{x} + \mat{b})^T\mat{C}
+    \frac{\partial (\mat{A}\mat{x} + \mat{b})\T\mat{C}
       (\mat{A}\mat{x} + \mat{b})}{\partial\mat{x}} &=
-      \mat{A}^T\mat{C}(\mat{A}\mat{x} + \mat{b}) + \mat{A}^T\mat{C}^T
+      \mat{A}\T\mat{C}(\mat{A}\mat{x} + \mat{b}) + \mat{A}\T\mat{C}\T
       (\mat{A}\mat{x} + \mat{b}) \\
-    \frac{\partial (\mat{A}\mat{x} + \mat{b})^T\mat{C}
+    \frac{\partial (\mat{A}\mat{x} + \mat{b})\T\mat{C}
       (\mat{A}\mat{x} + \mat{b})}{\partial\mat{x}} &=
-      (\mat{A}^T\mat{C} + \mat{A}^T\mat{C}^T)(\mat{A}\mat{x} + \mat{b})
+      (\mat{A}\T\mat{C} + \mat{A}\T\mat{C}\T)(\mat{A}\mat{x} + \mat{b})
   \end{align*}
 
   $\mat{C}$ is symmetric, so
   \begin{align*}
-    \frac{\partial (\mat{A}\mat{x} + \mat{b})^T\mat{C}
+    \frac{\partial (\mat{A}\mat{x} + \mat{b})\T\mat{C}
       (\mat{A}\mat{x} + \mat{b})}{\partial\mat{x}} &=
-      (\mat{A}^T\mat{C} + \mat{A}^T\mat{C})(\mat{A}\mat{x} + \mat{b}) \\
-    \frac{\partial (\mat{A}\mat{x} + \mat{b})^T\mat{C}
+      (\mat{A}\T\mat{C} + \mat{A}\T\mat{C})(\mat{A}\mat{x} + \mat{b}) \\
+    \frac{\partial (\mat{A}\mat{x} + \mat{b})\T\mat{C}
       (\mat{A}\mat{x} + \mat{b})}{\partial\mat{x}} &=
-      2\mat{A}^T\mat{C}(\mat{A}\mat{x} + \mat{b})
+      2\mat{A}\T\mat{C}(\mat{A}\mat{x} + \mat{b})
   \end{align*}
 \end{corollary}
 
@@ -73,9 +73,9 @@ Our cost function will use an $H_2$ norm with $\mat{Q}$ as the \gls{state} cost
 matrix with dimensionality $states \times states$ and $\mat{R}$ as the
 \gls{control input} cost matrix with dimensionality $inputs \times inputs$.
 \begin{equation*}
-  \mat{J} = (\mat{B}\mat{u}_k - (\mat{r}_{k+1} - \mat{A}\mat{r}_k))^T \mat{Q}
+  \mat{J} = (\mat{B}\mat{u}_k - (\mat{r}_{k+1} - \mat{A}\mat{r}_k))\T \mat{Q}
     (\mat{B}\mat{u}_k - (\mat{r}_{k+1} - \mat{A}\mat{r}_k)) +
-    \mat{u}_k^T\mat{R}\mat{u}_k
+    \mat{u}_k\T\mat{R}\mat{u}_k
 \end{equation*}
 
 \section{Minimization}
@@ -84,23 +84,23 @@ Given theorem \ref{thm:partial_xax} and corollary \ref{cor:partial_ax_b}, find
 the minimum of $\mat{J}$ by taking the partial derivative with respect to
 $\mat{u}_k$ and setting the result to $\mat{0}$.
 \begin{align*}
-  \frac{\partial\mat{J}}{\partial\mat{u}_k} &= 2\mat{B}^T\mat{Q}
+  \frac{\partial\mat{J}}{\partial\mat{u}_k} &= 2\mat{B}\T\mat{Q}
     (\mat{B}\mat{u}_k - (\mat{r}_{k+1} - \mat{A}\mat{r}_k)) +
     2\mat{R}\mat{u}_k \\
-  \mat{0} &= 2\mat{B}^T\mat{Q}
+  \mat{0} &= 2\mat{B}\T\mat{Q}
     (\mat{B}\mat{u}_k - (\mat{r}_{k+1} - \mat{A}\mat{r}_k)) +
     2\mat{R}\mat{u}_k \\
-  \mat{0} &= \mat{B}^T\mat{Q}
+  \mat{0} &= \mat{B}\T\mat{Q}
     (\mat{B}\mat{u}_k - (\mat{r}_{k+1} - \mat{A}\mat{r}_k)) +
     \mat{R}\mat{u}_k \\
-  \mat{0} &= \mat{B}^T\mat{Q}\mat{B}\mat{u}_k -
-    \mat{B}^T\mat{Q}(\mat{r}_{k+1} - \mat{A}\mat{r}_k) + \mat{R}\mat{u}_k \\
-  \mat{B}^T\mat{Q}\mat{B}\mat{u}_k + \mat{R}\mat{u}_k &=
-    \mat{B}^T\mat{Q}(\mat{r}_{k+1} - \mat{A}\mat{r}_k) \\
-  (\mat{B}^T\mat{Q}\mat{B} + \mat{R})\mat{u}_k &=
-    \mat{B}^T\mat{Q}(\mat{r}_{k+1} - \mat{A}\mat{r}_k) \\
-  \mat{u}_k &= (\mat{B}^T\mat{Q}\mat{B} + \mat{R})^{-1}
-    \mat{B}^T\mat{Q}(\mat{r}_{k+1} - \mat{A}\mat{r}_k)
+  \mat{0} &= \mat{B}\T\mat{Q}\mat{B}\mat{u}_k -
+    \mat{B}\T\mat{Q}(\mat{r}_{k+1} - \mat{A}\mat{r}_k) + \mat{R}\mat{u}_k \\
+  \mat{B}\T\mat{Q}\mat{B}\mat{u}_k + \mat{R}\mat{u}_k &=
+    \mat{B}\T\mat{Q}(\mat{r}_{k+1} - \mat{A}\mat{r}_k) \\
+  (\mat{B}\T\mat{Q}\mat{B} + \mat{R})\mat{u}_k &=
+    \mat{B}\T\mat{Q}(\mat{r}_{k+1} - \mat{A}\mat{r}_k) \\
+  \mat{u}_k &= (\mat{B}\T\mat{Q}\mat{B} + \mat{R})^{-1}
+    \mat{B}\T\mat{Q}(\mat{r}_{k+1} - \mat{A}\mat{r}_k)
 \end{align*}
 \begin{theorem}[QR-weighted linear plant inversion]
   Given the discrete model
@@ -111,7 +111,7 @@ $\mat{u}_k$ and setting the result to $\mat{0}$.
   \end{equation*}
 
   where
-  $\mat{K}_{ff} = (\mat{B}^T\mat{Q}\mat{B} + \mat{R})^{-1}\mat{B}^T\mat{Q}$,
+  $\mat{K}_{ff} = (\mat{B}\T\mat{Q}\mat{B} + \mat{R})^{-1}\mat{B}\T\mat{Q}$,
   $\mat{r}_{k+1}$ is the reference at the next timestep, and $\mat{r}_k$ is the
   reference at the current timestep.
 \end{theorem}

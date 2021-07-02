@@ -11,10 +11,10 @@ with the cost function
     \begin{bmatrix}
       \mat{x} \\
       \mat{u}
-    \end{bmatrix}^T
+    \end{bmatrix}\T
     \begin{bmatrix}
       \mat{Q} & \mat{N} \\
-      \mat{N}^T & \mat{R}
+      \mat{N}\T & \mat{R}
     \end{bmatrix}
     \begin{bmatrix}
       \mat{x} \\
@@ -33,35 +33,35 @@ when penalizing the output in addition to the state and input.
     \begin{bmatrix}
       \mat{x} \\
       \mat{u}
-    \end{bmatrix}^T
+    \end{bmatrix}\T
     \begin{bmatrix}
       \mat{Q}\mat{x} + \mat{N}\mat{u} \\
-      \mat{N}^T\mat{x} + \mat{R}\mat{u}
+      \mat{N}\T\mat{x} + \mat{R}\mat{u}
     \end{bmatrix} dt \\
   J &= \int\limits_0^\infty
     \begin{bmatrix}
-      \mat{x}^T & \mat{u}^T
+      \mat{x}\T & \mat{u}\T
     \end{bmatrix}
     \begin{bmatrix}
       \mat{Q}\mat{x} + \mat{N}\mat{u} \\
-      \mat{N}^T\mat{x} + \mat{R}\mat{u}
+      \mat{N}\T\mat{x} + \mat{R}\mat{u}
     \end{bmatrix} dt \\
   J &= \int\limits_0^\infty
-    \left(\mat{x}^T\left(\mat{Q}\mat{x} + \mat{N}\mat{u}\right) +
-      \mat{u}^T\left(\mat{N}^T\mat{x} + \mat{R}\mat{u}\right)\right) dt \\
+    \left(\mat{x}\T\left(\mat{Q}\mat{x} + \mat{N}\mat{u}\right) +
+      \mat{u}\T\left(\mat{N}\T\mat{x} + \mat{R}\mat{u}\right)\right) dt \\
   J &= \int\limits_0^\infty
-    \left(\mat{x}^T\mat{Q}\mat{x} + \mat{x}^T\mat{N}\mat{u} +
-      \mat{u}^T\mat{N}^T\mat{x} + \mat{u}^T\mat{R}\mat{u}\right) dt \\
+    \left(\mat{x}\T\mat{Q}\mat{x} + \mat{x}\T\mat{N}\mat{u} +
+      \mat{u}\T\mat{N}\T\mat{x} + \mat{u}\T\mat{R}\mat{u}\right) dt \\
   J &= \int\limits_0^\infty
-    \left(\mat{x}^T\mat{Q}\mat{x} + \mat{x}^T\mat{N}\mat{u} +
-      \left(\mat{x}^T\mat{N}\mat{u}\right)^T + \mat{u}^T\mat{R}\mat{u}\right)
+    \left(\mat{x}\T\mat{Q}\mat{x} + \mat{x}\T\mat{N}\mat{u} +
+      \left(\mat{x}\T\mat{N}\mat{u}\right)\T + \mat{u}\T\mat{R}\mat{u}\right)
     dt \\
   J &= \int\limits_0^\infty
-    \left(\mat{x}^T\mat{Q}\mat{x} + 2\mat{x}^T\mat{N}\mat{u} +
-      \mat{u}^T\mat{R}\mat{u}\right) dt \\
+    \left(\mat{x}\T\mat{Q}\mat{x} + 2\mat{x}\T\mat{N}\mat{u} +
+      \mat{u}\T\mat{R}\mat{u}\right) dt \\
   J &= \int\limits_0^\infty
-    \left(\mat{x}^T\mat{Q}\mat{x} + \mat{u}^T\mat{R}\mat{u} +
-      2\mat{x}^T\mat{N}\mat{u}\right) dt
+    \left(\mat{x}\T\mat{Q}\mat{x} + \mat{u}\T\mat{R}\mat{u} +
+      2\mat{x}\T\mat{N}\mat{u}\right) dt
 \end{align*}
 
 The feedback \gls{control law} which minimizes $J$ subject to the constraint
@@ -72,34 +72,34 @@ $\dot{\mat{x}} = \mat{A}\mat{x} + \mat{B}\mat{u}$ is
 
 where $\mat{K}$ is given by
 \begin{equation*}
-  \mat{K} = \mat{R}^{-1} \left(\mat{B}^T\mat{S} + \mat{N}^T\right)
+  \mat{K} = \mat{R}^{-1} \left(\mat{B}\T\mat{S} + \mat{N}\T\right)
 \end{equation*}
 
 and $\mat{S}$ is found by solving the continuous time algebraic Riccati equation
 defined as
 \begin{equation*}
-  \mat{A}^T\mat{S} + \mat{S}\mat{A} - \left(\mat{S}\mat{B} +
-    \mat{N}\right) \mat{R}^{-1} \left(\mat{B}^T\mat{S} + \mat{N}^T\right) +
+  \mat{A}\T\mat{S} + \mat{S}\mat{A} - \left(\mat{S}\mat{B} +
+    \mat{N}\right) \mat{R}^{-1} \left(\mat{B}\T\mat{S} + \mat{N}\T\right) +
     \mat{Q} = 0
 \end{equation*}
 
 or alternatively
 \begin{equation*}
-  \mathcal{A}^T\mat{S} + \mat{S}\mathcal{A} -
-    \mat{S}\mat{B}\mat{R}^{-1}\mat{B}^T\mat{S} + \mathcal{Q} = 0
+  \mathcal{A}\T\mat{S} + \mat{S}\mathcal{A} -
+    \mat{S}\mat{B}\mat{R}^{-1}\mat{B}\T\mat{S} + \mathcal{Q} = 0
 \end{equation*}
 
 with
 \begin{align*}
-  \mathcal{A} &= \mat{A} - \mat{B}\mat{R}^{-1}\mat{N}^T \\
-  \mathcal{Q} &= \mat{Q} - \mat{N}\mat{R}^{-1}\mat{N}^T
+  \mathcal{A} &= \mat{A} - \mat{B}\mat{R}^{-1}\mat{N}\T \\
+  \mathcal{Q} &= \mat{Q} - \mat{N}\mat{R}^{-1}\mat{N}\T
 \end{align*}
 
 If there is no cross-correlation between \gls{error} and \gls{control effort},
 $\mat{N}$ is a zero matrix and the cost function simplifies to
 \begin{equation*}
   J = \int\limits_0^\infty
-    \left(\mat{x}^T\mat{Q}\mat{x} + \mat{u}^T\mat{R}\mat{u}\right) dt
+    \left(\mat{x}\T\mat{Q}\mat{x} + \mat{u}\T\mat{R}\mat{u}\right) dt
 \end{equation*}
 
 The feedback \gls{control law} which minimizes this $J$ subject to
@@ -110,14 +110,14 @@ $\dot{\mat{x}} = \mat{A}\mat{x} + \mat{B}\mat{u}$ is
 
 where $\mat{K}$ is given by
 \begin{equation*}
-  \mat{K} = \mat{R}^{-1}\mat{B}^T\mat{S}
+  \mat{K} = \mat{R}^{-1}\mat{B}\T\mat{S}
 \end{equation*}
 
 and $\mat{S}$ is found by solving the continuous time algebraic Riccati equation
 defined as
 \begin{equation*}
-  \mat{A}^T\mat{S} + \mat{S}\mat{A} -
-    \mat{S}\mat{B}\mat{R}^{-1}\mat{B}^T\mat{S} + \mat{Q} = 0
+  \mat{A}\T\mat{S} + \mat{S}\mat{A} -
+    \mat{S}\mat{B}\mat{R}^{-1}\mat{B}\T\mat{S} + \mat{Q} = 0
 \end{equation*}
 
 The discrete time LQR \gls{controller} is computed via a slightly different cost
