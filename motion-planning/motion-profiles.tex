@@ -123,6 +123,8 @@ negligible, one can use the simpler trapezoid profile.
 
 \subsection{Profile equations}
 
+\subsubsection{Trapezoidal motion profile}
+
 The trapezoid profile uses the following equations.
 \begin{align*}
   x(t) &= x_0 + v_0t + \frac{1}{2}at^2 \\
@@ -130,8 +132,17 @@ The trapezoid profile uses the following equations.
 \end{align*}
 
 where $x(t)$ is the position at time $t$, $x_0$ is the initial position, $v_0$
-is the initial velocity, and $a$ is the acceleration at time $t$. The S-curve
-profile equations also include jerk.
+is the initial velocity, and $a$ is the acceleration at time $t$.
+
+Snippet \ref{lst:trapezoidal_motion_profile} shows a Python implementation.
+\begin{codesubset}{Python}{build/frccontrol/frccontrol/profiles.py}{4}{58}
+  \caption{Trapezoidal motion profile implementation in Python}
+  \label{lst:trapezoidal_motion_profile}
+\end{codesubset}
+
+\subsubsection{S-curve motion profile}
+
+The S-curve profile equations also include jerk.
 \begin{align*}
   x(t) &= x_0 + v_0t + \frac{1}{2}at^2 + \frac{1}{6}jt^3 \\
   v(t) &= v_0 + at + \frac{1}{2}jt^2 \\
@@ -141,11 +152,11 @@ profile equations also include jerk.
 where $j$ is the jerk at time $t$, $a(t)$ is the acceleration at time $t$, and
 $a_0$ is the initial acceleration.
 
-More derivations are required to determine when to start and stop the different
-profile phases. The derivations for a trapezoid profile are in appendix
-\ref{sec:deriv_trapezoid_profile}. We're omitting an S-curve profile derivation
-because the continuous acceleration over time that S-curves provide isn't
-required for FRC mechanisms.
+Snippet \ref{lst:s-curve_motion_profile} shows a Python implementation.
+\begin{codesubset}{Python}{build/frccontrol/frccontrol/profiles.py}{61}{141}
+  \caption{S-curve motion profile implementation in Python}
+  \label{lst:s-curve_motion_profile}
+\end{codesubset}
 
 \subsection{Other profile types}
 

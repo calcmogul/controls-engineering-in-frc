@@ -87,13 +87,6 @@ Add stubs for missing chapters, missing sections, and todo items.
 * Derive the two-sensor problem from first principles. The two-sensor problem
   uses p(x) and p(z_1|x).
 
-### Motion planning
-
-* Add derivations for trapezoid and S-curve profiles to derivations appendix
-
-Any other results that are good for background but are unnecessary should be
-included in an appendix.
-
 ## Miscellaneous fixes
 
 ### State-space controllers
