@@ -60,8 +60,7 @@ Add stubs for missing chapters, missing sections, and todo items.
     * See [this post](https://studywolf.wordpress.com/2013/09/07/robot-control-3-accounting-for-mass-and-gravity/)
       and previous post on Jacobians
 * Add troubleshooting advice for models/impls.
-* Add "Partial derivative" to calculus methods appendix.
-* Finish chapters on calculus and dynamics.
+* Finish chapter on dynamics.
 
 ## Supplementary background
 
