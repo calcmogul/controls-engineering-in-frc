@@ -10,10 +10,11 @@ if "--noninteractive" in sys.argv:
 import bookutil.latex as latex
 
 import control as ct
-import frccontrol as fct
 import matplotlib.pyplot as plt
 import numpy as np
 import scipy as sp
+
+from bookutil.systems import Flywheel
 
 plt.rc("text", usetex=True)
 
@@ -21,9 +22,9 @@ DT = 0.001
 DELAY = 0.08
 
 
-class FlywheelVelocitySystem(fct.System):
+class FlywheelTimeDelay(Flywheel):
     def __init__(self, dt, latency_comp=False):
-        """FlywheelVelocitySystem subsystem.
+        """Flywheel subsystem.
 
         Keyword arguments:
         dt -- time between model/controller updates
@@ -31,18 +32,7 @@ class FlywheelVelocitySystem(fct.System):
         """
         self.latency_comp = latency_comp
 
-        state_labels = [("Angular velocity", "rad/s")]
-        u_labels = [("Voltage", "V")]
-        self.set_plot_labels(state_labels, u_labels)
-
-        fct.System.__init__(
-            self,
-            np.array([[-12.0]]),
-            np.array([[12.0]]),
-            dt,
-            np.zeros((1, 1)),
-            np.zeros((1, 1)),
-        )
+        Flywheel.__init__(self, dt)
 
     def create_model(self, states, inputs):
         Kv = 0.011
@@ -104,13 +94,13 @@ def main():
             r = np.array([[0]])
         refs.append(r)
 
-    flywheel = FlywheelVelocitySystem(DT)
+    flywheel = FlywheelTimeDelay(DT)
     x_rec, ref_rec, u_rec, y_rec = flywheel.generate_time_responses(t, refs)
     latex.plot_time_responses(flywheel, t, x_rec, ref_rec, u_rec, 2)
     if "--noninteractive" in sys.argv:
         latex.savefig("flywheel_time_delay_no_comp")
 
-    flywheel = FlywheelVelocitySystem(DT, latency_comp=True)
+    flywheel = FlywheelTimeDelay(DT, latency_comp=True)
     x_rec, ref_rec, u_rec, y_rec = flywheel.generate_time_responses(t, refs)
     latex.plot_time_responses(flywheel, t, x_rec, ref_rec, u_rec, 8)
     if "--noninteractive" in sys.argv:

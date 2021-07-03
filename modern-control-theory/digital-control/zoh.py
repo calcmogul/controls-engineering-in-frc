@@ -9,55 +9,12 @@ if "--noninteractive" in sys.argv:
     mpl.use("svg")
     import bookutil.latex as latex
 
-import frccontrol as fct
 import matplotlib.pyplot as plt
 import numpy as np
 
+from bookutil.systems import Elevator
+
 plt.rc("text", usetex=True)
-
-
-class Elevator(fct.System):
-    def __init__(self, dt):
-        """Elevator subsystem.
-
-        Keyword arguments:
-        dt -- time between model/controller updates
-        """
-        state_labels = [("Position", "m"), ("Velocity", "m/s")]
-        u_labels = [("Voltage", "V")]
-        self.set_plot_labels(state_labels, u_labels)
-
-        fct.System.__init__(
-            self,
-            np.array([[-12.0]]),
-            np.array([[12.0]]),
-            dt,
-            np.zeros((2, 1)),
-            np.zeros((1, 1)),
-        )
-
-    def create_model(self, states, inputs):
-        # Number of motors
-        num_motors = 2.0
-        # Elevator carriage mass in kg
-        m = 6.803886
-        # Radius of pulley in meters
-        r = 0.02762679089
-        # Gear ratio
-        G = 42.0 / 12.0 * 40.0 / 14.0
-
-        return fct.models.elevator(fct.models.MOTOR_CIM, num_motors, m, r, G)
-
-    def design_controller_observer(self):
-        q = [0.02, 0.4]
-        r = [12.0]
-        self.design_lqr(q, r)
-        self.design_two_state_feedforward(q, r)
-
-        q_pos = 0.05
-        q_vel = 1.0
-        r_pos = 0.0001
-        self.design_kalman_filter([q_pos, q_vel], [r_pos])
 
 
 def generate_zoh(data, dt, sample_period):
@@ -81,7 +38,7 @@ def generate_zoh(data, dt, sample_period):
 
 
 def main():
-    dt = 0.00505
+    dt = 0.005
     sample_period = 0.1
     elevator = Elevator(dt)
 

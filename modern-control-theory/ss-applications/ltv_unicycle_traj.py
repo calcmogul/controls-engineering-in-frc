@@ -19,6 +19,7 @@ import numpy as np
 
 from bookutil.drivetrain import drivetrain_decoupled, get_diff_vels
 from bookutil.pose2d import Pose2d
+from bookutil.systems import DrivetrainDecoupledVelocity
 
 
 class LTVUnicycle:
@@ -49,68 +50,13 @@ class LTVUnicycle:
         return v_desired + u[0, 0], omega_desired + u[1, 0]
 
 
-class Drivetrain(fct.System):
+class Drivetrain(DrivetrainDecoupledVelocity):
     def __init__(self, dt):
         """Drivetrain subsystem.
         Keyword arguments:
         dt -- time between model/controller updates
         """
-        state_labels = [("Left velocity", "m/s"), ("Right velocity", "m/s")]
-        u_labels = [("Left voltage", "V"), ("Right voltage", "V")]
-        self.set_plot_labels(state_labels, u_labels)
-
-        u_min = np.array([[-12.0], [-12.0]])
-        u_max = np.array([[12.0], [12.0]])
-        fct.System.__init__(self, u_min, u_max, dt, np.zeros((2, 1)), np.zeros((2, 1)))
-
-    def create_model(self, states, inputs):
-        self.in_low_gear = False
-
-        # Number of motors per side
-        num_motors = 3.0
-
-        # High and low gear ratios of drivetrain
-        Glow = 60.0 / 11.0
-        Ghigh = 60.0 / 11.0
-
-        # Drivetrain mass in kg
-        m = 52
-        # Radius of wheels in meters
-        r = 0.08255 / 2.0
-        # Radius of robot in meters
-        self.rb = 0.59055 / 2.0
-        # Moment of inertia of the drivetrain in kg-m^2
-        J = 6.0
-
-        # Gear ratios of left and right sides of drivetrain respectively
-        if self.in_low_gear:
-            Gl = Glow
-            Gr = Glow
-        else:
-            Gl = Ghigh
-            Gr = Ghigh
-
-        return drivetrain_decoupled(
-            fct.models.MOTOR_CIM, num_motors, m, r, self.rb, J, Gl, Gr
-        )
-
-    def design_controller_observer(self):
-        if self.in_low_gear:
-            q_vel = 1.0
-        else:
-            q_vel = 0.95
-
-        q = [q_vel, q_vel]
-        r = [12.0, 12.0]
-        self.design_lqr(q, r)
-
-        self.design_two_state_feedforward()
-
-        q_vel = 1.0
-        r_vel = 0.01
-        self.design_kalman_filter([q_vel, q_vel], [r_vel, r_vel])
-
-        print("ctrb cond =", np.linalg.cond(ct.ctrb(self.sysd.A, self.sysd.B)))
+        DrivetrainDecoupledVelocity.__init__(self, dt)
 
     def update_controller(self, next_r):
         u = self.K @ (self.r - self.x_hat)
@@ -131,6 +77,7 @@ def main():
 
     ltv_unicycle = LTVUnicycle([0.0625, 0.125, 2.5], [0.95, 0.95])
     drivetrain = Drivetrain(dt)
+    print("ctrb cond =", np.linalg.cond(ct.ctrb(drivetrain.sysd.A, drivetrain.sysd.B)))
 
     data = np.genfromtxt("ramsete_traj.csv", delimiter=",")
     t = data[1:, 0].T

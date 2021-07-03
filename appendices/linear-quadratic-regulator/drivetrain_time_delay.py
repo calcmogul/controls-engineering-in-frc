@@ -21,9 +21,9 @@ DT = 0.001
 DELAY = 0.04
 
 
-class DrivetrainVelocitySystem(fct.System):
+class DrivetrainTimeDelay(fct.System):
     def __init__(self, dt, latency_comp=False):
-        """DrivetrainVelocitySystem subsystem.
+        """Drivetrain subsystem.
 
         Keyword arguments:
         dt -- time between model/controller updates
@@ -104,15 +104,15 @@ def main():
             r = np.array([[0]])
         refs.append(r)
 
-    flywheel = DrivetrainVelocitySystem(DT)
-    x_rec, ref_rec, u_rec, y_rec = flywheel.generate_time_responses(t, refs)
-    latex.plot_time_responses(flywheel, t, x_rec, ref_rec, u_rec, 2)
+    drivetrain = DrivetrainTimeDelay(DT)
+    x_rec, ref_rec, u_rec, y_rec = drivetrain.generate_time_responses(t, refs)
+    latex.plot_time_responses(drivetrain, t, x_rec, ref_rec, u_rec, 2)
     if "--noninteractive" in sys.argv:
         latex.savefig("drivetrain_time_delay_no_comp")
 
-    flywheel = DrivetrainVelocitySystem(DT, latency_comp=True)
-    x_rec, ref_rec, u_rec, y_rec = flywheel.generate_time_responses(t, refs)
-    latex.plot_time_responses(flywheel, t, x_rec, ref_rec, u_rec, 8)
+    drivetrain = DrivetrainTimeDelay(DT, latency_comp=True)
+    x_rec, ref_rec, u_rec, y_rec = drivetrain.generate_time_responses(t, refs)
+    latex.plot_time_responses(drivetrain, t, x_rec, ref_rec, u_rec, 8)
     if "--noninteractive" in sys.argv:
         latex.savefig("drivetrain_time_delay_comp")
     else:

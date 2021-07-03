@@ -14,51 +14,13 @@ import math
 import matplotlib.pyplot as plt
 import numpy as np
 
+from bookutil.systems import Flywheel
+
 plt.rc("text", usetex=True)
 
 
-class Flywheel(fct.System):
-    def __init__(self, dt):
-        """Flywheel subsystem.
-
-        Keyword arguments:
-        dt -- time between model/controller updates
-        """
-        state_labels = [("Angular velocity", "rad/s")]
-        u_labels = [("Voltage", "V")]
-        self.set_plot_labels(state_labels, u_labels)
-
-        fct.System.__init__(
-            self,
-            np.array([[-12.0]]),
-            np.array([[12.0]]),
-            dt,
-            np.zeros((1, 1)),
-            np.zeros((1, 1)),
-        )
-
-    def create_model(self, states, inputs):
-        # Number of motors
-        num_motors = 1.0
-        # Flywheel moment of inertia in kg-m^2
-        J = 0.00032
-        # Gear ratio
-        G = 12.0 / 18.0
-
-        return fct.models.flywheel(fct.models.MOTOR_775PRO, num_motors, J, G)
-
-    def design_controller_observer(self):
-        q = [200.0]
-        r = [12.0]
-        self.design_lqr(q, r)
-
-        q_vel = 1.0
-        r_vel = 0.01
-        self.design_kalman_filter([q_vel], [r_vel])
-
-
 def main():
-    dt = 0.00505
+    dt = 0.005
     flywheel = Flywheel(dt)
 
     # Set up graphing
