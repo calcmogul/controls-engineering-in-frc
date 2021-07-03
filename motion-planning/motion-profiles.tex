@@ -123,7 +123,7 @@ negligible, one can use the simpler trapezoid profile.
 
 \subsection{Profile equations}
 
-\subsubsection{Trapezoidal motion profile}
+\subsubsection{Trapezoid profile}
 
 The trapezoid profile uses the following equations.
 \begin{align*}
@@ -134,13 +134,13 @@ The trapezoid profile uses the following equations.
 where $x(t)$ is the position at time $t$, $x_0$ is the initial position, $v_0$
 is the initial velocity, and $a$ is the acceleration at time $t$.
 
-Snippet \ref{lst:trapezoidal_motion_profile} shows a Python implementation.
+Snippet \ref{lst:trapezoid_profile} shows a Python implementation.
 \begin{codesubset}{Python}{build/frccontrol/frccontrol/profiles.py}{4}{58}
-  \caption{Trapezoidal motion profile implementation in Python}
-  \label{lst:trapezoidal_motion_profile}
+  \caption{Trapezoid profile implementation in Python}
+  \label{lst:trapezoid_profile}
 \end{codesubset}
 
-\subsubsection{S-curve motion profile}
+\subsubsection{S-curve profile}
 
 The S-curve profile equations also include jerk.
 \begin{align*}
@@ -152,10 +152,10 @@ The S-curve profile equations also include jerk.
 where $j$ is the jerk at time $t$, $a(t)$ is the acceleration at time $t$, and
 $a_0$ is the initial acceleration.
 
-Snippet \ref{lst:s-curve_motion_profile} shows a Python implementation.
+Snippet \ref{lst:s-curve_profile} shows a Python implementation.
 \begin{codesubset}{Python}{build/frccontrol/frccontrol/profiles.py}{61}{141}
-  \caption{S-curve motion profile implementation in Python}
-  \label{lst:s-curve_motion_profile}
+  \caption{S-curve profile implementation in Python}
+  \label{lst:s-curve_profile}
 \end{codesubset}
 
 \subsection{Other profile types}
