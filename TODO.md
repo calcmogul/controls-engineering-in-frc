@@ -84,8 +84,6 @@ Add stubs for missing chapters, missing sections, and todo items.
 * Add an appendix on Ito calculus to explain where the Wiener process comes from?
 * Add KF examples for nonlinear drivetrain pose estimation
   * EKF, UKF, and comparison of the two
-* Derive the two-sensor problem from first principles. The two-sensor problem
-  uses p(x) and p(z_1|x).
 
 ## Miscellaneous fixes
 
