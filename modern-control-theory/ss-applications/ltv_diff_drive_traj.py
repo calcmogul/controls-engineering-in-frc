@@ -17,80 +17,12 @@ import math
 import matplotlib.pyplot as plt
 import numpy as np
 
-
-def differential_drive(motor, num_motors, m, r, rb, J, Gl, Gr, states):
-    """Returns the state-space model for a differential drive.
-
-    States: [[x], [y], [theta], [left velocity], [right velocity]]
-    Inputs: [[left voltage], [right voltage]]
-    Outputs: [[theta], [left velocity], [right velocity]]
-
-    Keyword arguments:
-    motor -- instance of DcBrushedMotor
-    num_motors -- number of motors driving the mechanism
-    m -- mass of robot in kg
-    r -- radius of wheels in meters
-    rb -- radius of robot in meters
-    J -- moment of inertia of the differential drive in kg-m^2
-    Gl -- gear ratio of left side of differential drive
-    Gr -- gear ratio of right side of differential drive
-    states -- state vector around which to linearize model
-
-    Returns:
-    StateSpace instance containing continuous model
-    """
-    motor = fct.models.gearbox(motor, num_motors)
-
-    C1 = -(Gl ** 2) * motor.Kt / (motor.Kv * motor.R * r ** 2)
-    C2 = Gl * motor.Kt / (motor.R * r)
-    C3 = -(Gr ** 2) * motor.Kt / (motor.Kv * motor.R * r ** 2)
-    C4 = Gr * motor.Kt / (motor.R * r)
-    x = states[0, 0]
-    y = states[1, 0]
-    theta = states[2, 0]
-    vl = states[3, 0]
-    vr = states[4, 0]
-    v = (vr + vl) / 2.0
-    if abs(v) < 1e-9:
-        vl = 1e-9
-        vr = 1e-9
-        v = 1e-9
-    # fmt: off
-    A = np.array([[0, 0, 0, 0.5, 0.5],
-                  [0, 0, v, 0, 0],
-                  [0, 0, 0, -0.5 / rb, 0.5 / rb],
-                  [0, 0, 0, (1 / m + rb**2 / J) * C1, (1 / m - rb**2 / J) * C3],
-                  [0, 0, 0, (1 / m - rb**2 / J) * C1, (1 / m + rb**2 / J) * C3]])
-    B = np.array([[0, 0],
-                  [0, 0],
-                  [0, 0],
-                  [(1 / m + rb**2 / J) * C2, (1 / m - rb**2 / J) * C4],
-                  [(1 / m - rb**2 / J) * C2, (1 / m + rb**2 / J) * C4]])
-    C = np.array([[0, 0, 1, 0, 0],
-                  [0, 0, 0, 1, 0],
-                  [0, 0, 0, 0, 1]])
-    D = np.array([[0, 0],
-                  [0, 0],
-                  [0, 0]])
-    # fmt: on
-
-    return ct.StateSpace(A, B, C, D, remove_useless=False)
-
-
-def get_diff_vels(v, omega, d):
-    """Returns left and right wheel velocities given a central velocity and
-    turning rate.
-    Keyword arguments:
-    v -- center velocity
-    omega -- center turning rate
-    d -- trackwidth
-    """
-    return v - omega * d / 2.0, v + omega * d / 2.0
+from bookutil.drivetrain import get_diff_vels, differential_drive
 
 
 class DifferentialDrive(fct.System):
     def __init__(self, dt, states):
-        """Drivetrain subsystem.
+        """Differential drive subsystem.
 
         Keyword arguments:
         dt -- time between model/controller updates
