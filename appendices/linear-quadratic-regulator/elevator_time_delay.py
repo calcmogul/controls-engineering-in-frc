@@ -56,10 +56,8 @@ class Elevator(fct.System):
         return fct.models.elevator(fct.models.MOTOR_CIM, num_motors, m, r, G)
 
     def design_controller_observer(self):
-        q = [0.02, 0.4]
-        r = [12.0]
-        self.design_lqr(q, r)
         self.design_two_state_feedforward()
+        self.design_lqr([0.02, 0.4], [12.0])
 
         q_pos = 0.05
         q_vel = 1.0

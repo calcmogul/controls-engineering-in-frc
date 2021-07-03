@@ -42,9 +42,8 @@ def main():
     sysd = sysc.sample(dt)
 
     # fmt: off
-    Q = np.array([[1 / 20**2, 0],
-                  [0, 1 / 40**2]])
-    R = np.array([[1 / 12**2]])
+    Q = np.diag(1.0 / np.square([20, 40]))
+    R = np.diag(1.0 / np.square([12]))
     # fmt: on
     K = fct.lqr(sysd, Q, R)
 
