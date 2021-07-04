@@ -92,10 +92,6 @@ Add stubs for missing chapters, missing sections, and todo items.
 * Modify pareto_boundary.py to find and plot real Pareto boundary for LQR
   instead of using a hand-wavey approximation
 
-### Nonlinear control
-
-* Make ramsete_traj.py use frccontrol's update_plant() and update_controller()
-
 ### System modeling
 
 * Double check drivetrain J calculation. It doesn't include robot radius, which
