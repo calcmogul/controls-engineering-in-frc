@@ -26,51 +26,39 @@ backward pass based on samples $T$ to $t$.
 \end{equation}
 
 where $\mat{A}$ and $\mat{A}'$ are weighting factors.
-\begin{equation*}
-  \hat{\mat{x}}(t|T) = \mat{A}\mat{x}(t) + \mat{A}\widetilde{\mat{x}}(t) +
-    \mat{A}'\mat{x}(t) + \mat{A}'\widetilde{\mat{x}}_b(t)
-\end{equation*}
-
-where $\widetilde{\mat{x}}(t)$ represents the error in the forward state
-estimate and $\widetilde{\mat{x}}_b(t)$ represents the error in the backward
-state estimate.
 \begin{align*}
+  \hat{\mat{x}}(t|T) &= \mat{A}\mat{x}(t) + \mat{A}\widetilde{\mat{x}}(t) +
+    \mat{A}'\mat{x}(t) + \mat{A}'\widetilde{\mat{x}}_b(t)
+  \intertext{where $\widetilde{\mat{x}}(t)$ represents the error in the forward
+    state estimate and $\widetilde{\mat{x}}_b(t)$ represents the error in the
+    backward state estimate.}
   \mat{x}(t) + \widetilde{\mat{x}}(t|T) &= \mat{A}\mat{x}(t) +
     \mat{A}\widetilde{\mat{x}}(t) + \mat{A}'\mat{x}(t) +
     \mat{A}'\widetilde{\mat{x}}_b(t) \\
   \widetilde{\mat{x}}(t|T) &= \mat{A}\mat{x}(t) - \mat{x}(t) +
     \mat{A}\widetilde{\mat{x}}(t) + \mat{A}'\mat{x}(t) +
     \mat{A}'\widetilde{\mat{x}}_b(t)
-\end{align*}
-
-Factor out $\mat{x}(t)$.
-\begin{equation*}
-  \widetilde{\mat{x}}(t|T) = (\mat{A} + \mat{A}' - \mat{I})\mat{x}(t) +
+  \intertext{Factor out $\mat{x}(t)$.}
+  \widetilde{\mat{x}}(t|T) &= (\mat{A} + \mat{A}' - \mat{I})\mat{x}(t) +
     \mat{A}\widetilde{\mat{x}}(t) + \mat{A}'\widetilde{\mat{x}}_b(t)
-\end{equation*}
-
-For unbiased filtering errors such as $\widetilde{\mat{x}}(t)$ and
-$\widetilde{\mat{x}}_b(t)$, we want to have an unbiased smoothing error.
-Therefore, we set $\mat{A} + \mat{A}' - \mat{I}$ to zero. This yields
-$\mat{A}' = \mat{I} - \mat{A}$, so
-\begin{equation*}
-  \widetilde{\mat{x}}(t|T) = \mat{A}\widetilde{\mat{x}}(t) +
+  \intertext{For unbiased filtering errors such as $\widetilde{\mat{x}}(t)$ and
+    $\widetilde{\mat{x}}_b(t)$, we want to have an unbiased smoothing error.
+    Therefore, we set $\mat{A} + \mat{A}' - \mat{I}$ to zero. This yields
+    $\mat{A}' = \mat{I} - \mat{A}$, so}
+  \widetilde{\mat{x}}(t|T) &= \mat{A}\widetilde{\mat{x}}(t) +
     (\mat{I} - \mat{A})\widetilde{\mat{x}}_b(t)
-\end{equation*}
+\end{align*}
 
 \subsection{Error covariance equation}
 
 Next, find the error covariance.
-\begin{equation}
-  \mat{P}(t|T) = \mat{A}\mat{P}(t)\mat{A}\T +
+\begin{align}
+  \mat{P}(t|T) &= \mat{A}\mat{P}(t)\mat{A}\T +
     (\mat{I} - \mat{A})\mat{P}_b(t)(\mat{I} - \mat{A})\T
     \label{eq:ks_error_cov_a}
-\end{equation}
-
-Find the minimum of the trace of $\mat{P}(t|T)$ by taking the partial derivaitve
-with respect to $\mat{A}$ and setting the result to $\mat{0}$ ($(t)$ has been
-dropped from covariance matrices for clarity).
-\begin{align}
+  \intertext{Find the minimum of the trace of $\mat{P}(t|T)$ by taking the
+    partial derivaitve with respect to $\mat{A}$ and setting the result to
+    $\mat{0}$ ($(t)$ has been dropped from covariance matrices for clarity).}
   \mat{0} &= 2\mat{A}\mat{P} + 2(\mat{I} - \mat{A})\mat{P}_b(-\mat{I}) \nonumber
     \\
   \mat{0} &= 2\mat{A}\mat{P} - 2(\mat{I} - \mat{A})\mat{P}_b \nonumber \\
@@ -79,39 +67,27 @@ dropped from covariance matrices for clarity).
   \mat{0} &= \mat{A}\mat{P} - \mat{P}_b + \mat{A}\mat{P}_b \nonumber \\
   \mat{0} &= \mat{A}(\mat{P} + \mat{P}_b) - \mat{P}_b \nonumber \\
   \mat{A}(\mat{P} + \mat{P}_b) &= \mat{P}_b \nonumber \\
-  \mat{A} &= \mat{P}_b(\mat{P} + \mat{P}_b)^{-1} \label{eq:ks_a1}
-\end{align}
-\begin{align}
+  \mat{A} &= \mat{P}_b(\mat{P} + \mat{P}_b)^{-1} \label{eq:ks_a1} \\
   \mat{I} - \mat{A} &= \mat{I} - \mat{P}_b(\mat{P} + \mat{P}_b)^{-1} \nonumber
     \\
   \mat{I} - \mat{A} &= (\mat{P} + \mat{P}_b)(\mat{P} + \mat{P}_b)^{-1} -
     \mat{P}_b(\mat{P} + \mat{P}_b)^{-1} \nonumber \\
   \mat{I} - \mat{A} &= (\mat{P} + \mat{P}_b - \mat{P}_b)
     (\mat{P} + \mat{P}_b)^{-1} \nonumber \\
-  \mat{I} - \mat{A} &= \mat{P}(\mat{P} + \mat{P}_b)^{-1}
+  \mat{I} - \mat{A} &= \mat{P}(\mat{P} + \mat{P}_b)^{-1} \\
+  \mat{A}\T &= (\mat{P}_b(\mat{P} + \mat{P}_b)^{-1})\T \nonumber \\
+  \mat{A}\T &= ((\mat{P} + \mat{P}_b)^{-1})\T\mat{P}_b\T \nonumber \\
+  \mat{A}\T &= ((\mat{P} + \mat{P}_b)\T)^{-1}\mat{P}_b\T \nonumber \\
+  \mat{A}\T &= (\mat{P}\T + \mat{P}_b\T)^{-1}\mat{P}_b\T \nonumber
+  \intertext{Covariance matrices are symmetric, so}
+  \mat{A}\T &= (\mat{P} + \mat{P}_b)^{-1}\mat{P}_b \\
+  (\mat{I} - \mat{A})\T &= (\mat{P}(\mat{P} + \mat{P}_b)^{-1})\T \nonumber \\
+  (\mat{I} - \mat{A})\T &= ((\mat{P} + \mat{P}_b)^{-1})\T\mat{P}\T \nonumber \\
+  (\mat{I} - \mat{A})\T &= ((\mat{P} + \mat{P}_b)\T)^{-1}\mat{P}\T \nonumber \\
+  (\mat{I} - \mat{A})\T &= (\mat{P}\T + \mat{P}_b\T)^{-1}\mat{P}\T \nonumber
+  \intertext{Covariance matrices are symmetric, so}
+  (\mat{I} - \mat{A})\T &= (\mat{P} + \mat{P}_b)^{-1}\mat{P} \label{eq:ks_a4}
 \end{align}
-\begin{align*}
-  \mat{A}\T &= (\mat{P}_b(\mat{P} + \mat{P}_b)^{-1})\T \\
-  \mat{A}\T &= ((\mat{P} + \mat{P}_b)^{-1})\T\mat{P}_b\T \\
-  \mat{A}\T &= ((\mat{P} + \mat{P}_b)\T)^{-1}\mat{P}_b\T \\
-  \mat{A}\T &= (\mat{P}\T + \mat{P}_b\T)^{-1}\mat{P}_b\T
-\end{align*}
-
-Covariance matrices are symmetric, so
-\begin{equation}
-  \mat{A}\T = (\mat{P} + \mat{P}_b)^{-1}\mat{P}_b
-\end{equation}
-\begin{align*}
-  (\mat{I} - \mat{A})\T &= (\mat{P}(\mat{P} + \mat{P}_b)^{-1})\T \\
-  (\mat{I} - \mat{A})\T &= ((\mat{P} + \mat{P}_b)^{-1})\T\mat{P}\T \\
-  (\mat{I} - \mat{A})\T &= ((\mat{P} + \mat{P}_b)\T)^{-1}\mat{P}\T \\
-  (\mat{I} - \mat{A})\T &= (\mat{P}\T + \mat{P}_b\T)^{-1}\mat{P}\T
-\end{align*}
-
-Covariance matrices are symmetric, so
-\begin{equation}
-  (\mat{I} - \mat{A})\T = (\mat{P} + \mat{P}_b)^{-1}\mat{P} \label{eq:ks_a4}
-\end{equation}
 
 Now starting from equation \eqref{eq:ks_error_cov_a}, substitute in equations
 \eqref{eq:ks_a1} through \eqref{eq:ks_a4}.
@@ -121,12 +97,14 @@ Now starting from equation \eqref{eq:ks_error_cov_a}, substitute in equations
     \\
   \mat{P}(t|T) &=
     (\mat{P}_b(\mat{P} + \mat{P}_b)^{-1})\mat{P}
-      ((\mat{P} + \mat{P}_b)^{-1}\mat{P}_b) +
+      ((\mat{P} + \mat{P}_b)^{-1}\mat{P}_b) \\
+    &\qquad +
     (\mat{P}(\mat{P} + \mat{P}_b)^{-1})\mat{P}_b
       ((\mat{P} + \mat{P}_b)^{-1}\mat{P}) \\
   \mat{P}(t|T) &=
     \mat{P}_b(\mat{P} + \mat{P}_b)^{-1}\mat{P}
-    (\mat{P} + \mat{P}_b)^{-1}\mat{P}_b + \mat{P}
+    (\mat{P} + \mat{P}_b)^{-1}\mat{P}_b \\
+    &\qquad + \mat{P}
       (\mat{P} + \mat{P}_b)^{-1}\mat{P}_b
       (\mat{P} + \mat{P}_b)^{-1}\mat{P}
 \end{align*}
@@ -138,42 +116,41 @@ them.
 
   $\mat{A}\mat{B} = (\mat{B}^{-1}\mat{A}^{-1})^{-1}$
 \end{theorem}
-\begin{align*}
+\begin{align}
   \mat{P}(t|T) &=
     \mat{P}_b(\mat{P} + \mat{P}_b)^{-1}\mat{P}
-      (\mat{P}_b^{-1}(\mat{P} + \mat{P}_b))^{-1} +
+      (\mat{P}_b^{-1}(\mat{P} + \mat{P}_b))^{-1} \\
+    &\qquad +
     \mat{P}(\mat{P} + \mat{P}_b)^{-1}\mat{P}_b
-      (\mat{P}^{-1}(\mat{P} + \mat{P}_b))^{-1} \\
+      (\mat{P}^{-1}(\mat{P} + \mat{P}_b))^{-1} \nonumber \\
   \mat{P}(t|T) &= \mat{P}_b(\mat{P} + \mat{P}_b)^{-1}\mat{P}
-      (\mat{P}_b^{-1}\mat{P} + \mat{I})^{-1} +
+      (\mat{P}_b^{-1}\mat{P} + \mat{I})^{-1} \\
+    &\qquad +
     \mat{P}(\mat{P} + \mat{P}_b)^{-1}\mat{P}_b
-      (\mat{I} + \mat{P}^{-1}\mat{P}_b)^{-1}
-\end{align*}
-
-Apply theorem \ref{thm:2mat_inv} to the right sides of each term again.
-\begin{align*}
+      (\mat{I} + \mat{P}^{-1}\mat{P}_b)^{-1} \nonumber
+  \intertext{Apply theorem \ref{thm:2mat_inv} to the right sides of each term
+    again.}
   \mat{P}(t|T) &=
     \mat{P}_b(\mat{P} + \mat{P}_b)^{-1}
-      ((\mat{P}_b^{-1}\mat{P} + \mat{I})\mat{P}^{-1})^{-1} +
+      ((\mat{P}_b^{-1}\mat{P} + \mat{I})\mat{P}^{-1})^{-1} \\
+    &\qquad +
     \mat{P}(\mat{P} + \mat{P}_b)^{-1}
-      ((\mat{I} + \mat{P}^{-1}\mat{P}_b)\mat{P}_b^{-1})^{-1} \\
+      ((\mat{I} + \mat{P}^{-1}\mat{P}_b)\mat{P}_b^{-1})^{-1} \nonumber \\
   \mat{P}(t|T) &=
-    \mat{P}_b(\mat{P} + \mat{P}_b)^{-1}(\mat{P}_b^{-1} + \mat{P}^{-1})^{-1} +
-    \mat{P}(\mat{P} + \mat{P}_b)^{-1}(\mat{P}_b^{-1} + \mat{P}^{-1})^{-1} \\
+    \mat{P}_b(\mat{P} + \mat{P}_b)^{-1}(\mat{P}_b^{-1} + \mat{P}^{-1})^{-1} \\
+    &\qquad +
+    \mat{P}(\mat{P} + \mat{P}_b)^{-1}(\mat{P}_b^{-1} + \mat{P}^{-1})^{-1}
+    \nonumber \\
   \mat{P}(t|T) &= \mat{P}_b(\mat{P} + \mat{P}_b)^{-1}
-    (\mat{P}^{-1} + \mat{P}_b^{-1})^{-1} +
+    (\mat{P}^{-1} + \mat{P}_b^{-1})^{-1} \\
+    &\qquad +
     \mat{P}(\mat{P} + \mat{P}_b)^{-1}(\mat{P}^{-1} + \mat{P}_b^{-1})^{-1}
-\end{align*}
-
-Factor out $(\mat{P}^{-1} + \mat{P}_b^{-1})^{-1}$ to the right.
-\begin{equation*}
-  \mat{P}(t|T) =
+    \nonumber
+  \intertext{Factor out $(\mat{P}^{-1} + \mat{P}_b^{-1})^{-1}$ to the right.}
+  \mat{P}(t|T) &=
     (\mat{P}_b(\mat{P} + \mat{P}_b)^{-1} + \mat{P}(\mat{P} + \mat{P}_b)^{-1})
-    (\mat{P}^{-1} + \mat{P}_b^{-1})^{-1}
-\end{equation*}
-
-Factor out $(\mat{P} + \mat{P}_b)^{-1}$ to the right.
-\begin{align}
+    (\mat{P}^{-1} + \mat{P}_b^{-1})^{-1} \nonumber
+  \intertext{Factor out $(\mat{P} + \mat{P}_b)^{-1}$ to the right.}
   \mat{P}(t|T) &=
     (\mat{P}_b + \mat{P})(\mat{P} + \mat{P}_b)^{-1}
     (\mat{P}^{-1} + \mat{P}_b^{-1})^{-1} \nonumber \\
@@ -189,53 +166,44 @@ Factor out $(\mat{P} + \mat{P}_b)^{-1}$ to the right.
 
 Now find the optimal estimate $\hat{\mat{x}}(t|T)$ starting from equation
 \eqref{eq:ks_xhat}.
-\begin{align*}
-  \hat{\mat{x}}(t|T) &= \mat{A}\hat{\mat{x}}(t) + \mat{A}'\hat{\mat{x}}_b(t) \\
+\begin{align}
+  \hat{\mat{x}}(t|T) &= \mat{A}\hat{\mat{x}}(t) + \mat{A}'\hat{\mat{x}}_b(t)
+    \nonumber \\
   \hat{\mat{x}}(t|T) &= \mat{A}\hat{\mat{x}}(t) +
-    (\mat{I} - \mat{A})\hat{\mat{x}}_b(t) \\
+    (\mat{I} - \mat{A})\hat{\mat{x}}_b(t) \nonumber \\
   \hat{\mat{x}}(t|T) &=
     \mat{P}_b(\mat{P} + \mat{P}_b)^{-1}\hat{\mat{x}}(t) +
-    \mat{P}(\mat{P} + \mat{P}_b)^{-1}\hat{\mat{x}}_b(t) \\
+    \mat{P}(\mat{P} + \mat{P}_b)^{-1}\hat{\mat{x}}_b(t) \nonumber \\
   \hat{\mat{x}}(t|T) &=
     \mat{P}_b(\mat{P} + \mat{P}_b)^{-1}\mat{P}\mat{P}^{-1}\hat{\mat{x}}(t) +
     \mat{P}(\mat{P} + \mat{P}_b)^{-1}\mat{P}_b\mat{P}_b^{-1}\hat{\mat{x}}_b(t)
-\end{align*}
-
-Apply theorem \ref{thm:2mat_inv}.
-\begin{align*}
+    \nonumber
+  \intertext{Apply theorem \ref{thm:2mat_inv}.}
   \hat{\mat{x}}(t|T) &=
     \mat{P}_b(\mat{P}^{-1}(\mat{P} + \mat{P}_b))^{-1}
       \mat{P}^{-1}\hat{\mat{x}}(t) +
     \mat{P}(\mat{P}_b^{-1}(\mat{P} + \mat{P}_b))^{-1}
-      \mat{P}_b^{-1}\hat{\mat{x}}_b(t) \\
+      \mat{P}_b^{-1}\hat{\mat{x}}_b(t) \nonumber \\
   \hat{\mat{x}}(t|T) &=
     \mat{P}_b(\mat{I} + \mat{P}^{-1}\mat{P}_b)^{-1}
       \mat{P}^{-1}\hat{\mat{x}}(t) +
     \mat{P}(\mat{P}_b^{-1}\mat{P} + \mat{I})^{-1}
-      \mat{P}_b^{-1}\hat{\mat{x}}_b(t)
-\end{align*}
-
-Apply theorem \ref{thm:2mat_inv} again.
-\begin{align*}
+      \mat{P}_b^{-1}\hat{\mat{x}}_b(t) \nonumber
+  \intertext{Apply theorem \ref{thm:2mat_inv} again.}
   \hat{\mat{x}}(t|T) &=
     ((\mat{I} + \mat{P}^{-1}\mat{P}_b)\mat{P}_b^{-1})^{-1}
       \mat{P}^{-1}\hat{\mat{x}}(t) +
     ((\mat{P}_b^{-1}\mat{P} + \mat{I})\mat{P}^{-1})^{-1}
-      \mat{P}_b^{-1}\hat{\mat{x}}_b(t) \\
+      \mat{P}_b^{-1}\hat{\mat{x}}_b(t) \nonumber \\
   \hat{\mat{x}}(t|T) &=
     (\mat{P}_b^{-1} + \mat{P}^{-1})^{-1}\mat{P}^{-1}\hat{\mat{x}}(t) +
     (\mat{P}_b^{-1} + \mat{P}^{-1})^{-1}\mat{P}_b^{-1}\hat{\mat{x}}_b(t)
-\end{align*}
-
-Factor out $(\mat{P}_b^{-1} + \mat{P}^{-1})^{-1}$ to the left.
-\begin{equation*}
-  \hat{\mat{x}}(t|T) =
+    \nonumber
+  \intertext{Factor out $(\mat{P}_b^{-1} + \mat{P}^{-1})^{-1}$ to the left.}
+  \hat{\mat{x}}(t|T) &=
     (\mat{P}_b^{-1} + \mat{P}^{-1})^{-1}
-    (\mat{P}^{-1}\hat{\mat{x}}(t) + \mat{P}_b^{-1}\hat{\mat{x}}_b(t))
-\end{equation*}
-
-Substitute in equation \eqref{eq:ks_error_cov}.
-\begin{align}
+    (\mat{P}^{-1}\hat{\mat{x}}(t) + \mat{P}_b^{-1}\hat{\mat{x}}_b(t)) \nonumber
+  \intertext{Substitute in equation \eqref{eq:ks_error_cov}.}
   \hat{\mat{x}}(t|T) &= \mat{P}(t|T)
     (\mat{P}^{-1}\hat{\mat{x}}(t) + \mat{P}_b^{-1}\hat{\mat{x}}_b(t)) \nonumber
     \\

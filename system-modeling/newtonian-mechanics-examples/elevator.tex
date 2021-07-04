@@ -161,15 +161,13 @@ torque produced by the pulley.
 where $r$ is the radius of the pulley. Substitute equation
 \eqref{eq:elevator_tau_m_ratio} into $\tau_m$ in the DC brushed motor equation
 \eqref{eq:motor_tau_V}.
-\begin{align*}
-  V &= \frac{\frac{\tau_p}{G}}{K_t} R + \frac{\omega_m}{K_v} \\
-  V &= \frac{\tau_p}{GK_t} R + \frac{\omega_m}{K_v}
-\end{align*}
-
-Substitute in equation \eqref{eq:elevator_torque_pulley} for $\tau_p$.
-\begin{equation}
-  V = \frac{rF_m}{GK_t} R + \frac{\omega_m}{K_v} \label{eq:elevator_Vinter1}
-\end{equation}
+\begin{align}
+  V &= \frac{\frac{\tau_p}{G}}{K_t} R + \frac{\omega_m}{K_v} \nonumber \\
+  V &= \frac{\tau_p}{GK_t} R + \frac{\omega_m}{K_v} \nonumber
+  \intertext{Substitute in equation \eqref{eq:elevator_torque_pulley} for
+    $\tau_p$.}
+  V &= \frac{rF_m}{GK_t} R + \frac{\omega_m}{K_v} \label{eq:elevator_Vinter1}
+\end{align}
 
 The angular velocity of the motor armature $\omega_m$ is
 \begin{equation}
@@ -193,17 +191,16 @@ Substitute equation \eqref{eq:elevator_omega_p} into equation
 
 Substitute equation \eqref{eq:elevator_omega_m} into equation
 \eqref{eq:elevator_Vinter1} for $\omega_m$.
-\begin{align*}
-  V &= \frac{rF_m}{GK_t} R + \frac{G \frac{v}{r}}{K_v} \\
-  V &= \frac{RrF_m}{GK_t} + \frac{G}{rK_v} v
-\end{align*}
-
-Solve for $F_m$.
 \begin{align}
+  V &= \frac{rF_m}{GK_t} R + \frac{G \frac{v}{r}}{K_v} \nonumber \\
+  V &= \frac{RrF_m}{GK_t} + \frac{G}{rK_v} v \nonumber
+  \intertext{Solve for $F_m$.}
   \frac{RrF_m}{GK_t} &= V - \frac{G}{rK_v} v \nonumber \\
   F_m &= \left(V - \frac{G}{rK_v} v\right) \frac{GK_t}{Rr} \nonumber \\
   F_m &= \frac{GK_t}{Rr} V - \frac{G^2K_t}{Rr^2 K_v} v
 \end{align}
+
+We need to find the acceleration of the elevator carriage. Note that
 \begin{equation}
   \sum F = ma
 \end{equation}
@@ -211,17 +208,15 @@ Solve for $F_m$.
 where $\sum F$ is the sum of forces applied to the elevator carriage, $m$ is the
 mass of the elevator carriage in kilograms, and $a$ is the acceleration of the
 elevator carriage.
-\begin{equation*}
-  ma = F_m
-\end{equation*}
+\begin{align}
+  ma &= F_m \nonumber \\
+  ma &= \left(\frac{GK_t}{Rr} V - \frac{G^2K_t}{Rr^2 K_v} v\right) \nonumber \\
+  a &= \frac{GK_t}{Rrm} V - \frac{G^2K_t}{Rr^2 mK_v} v \label{eq:elevator_accel}
+\end{align}
 \begin{remark}
   Gravity is not part of the modeled dynamics because it complicates the
   state-space \gls{model} and the controller will behave well enough without it.
 \end{remark}
-\begin{align}
-  ma &= \left(\frac{GK_t}{Rr} V - \frac{G^2K_t}{Rr^2 K_v} v\right) \nonumber \\
-  a &= \frac{GK_t}{Rrm} V - \frac{G^2K_t}{Rr^2 mK_v} v \label{eq:elevator_accel}
-\end{align}
 
 This model will be converted to state-space notation in section
 \ref{sec:ss_model_elevator}.

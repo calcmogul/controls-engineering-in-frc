@@ -25,69 +25,54 @@ matrix.
 Substitute in the \textit{a posteriori} update equation and expand the
 measurement equations.
 \begin{align*}
-  \mat{P}_{k+1}^+ = \cov(&\mat{x}_{k+1} - (\hat{\mat{x}}_{k+1}^- +
+  \mat{P}_{k+1}^+ &= \cov(\mat{x}_{k+1} - (\hat{\mat{x}}_{k+1}^- +
     \mat{K}_{k+1}(\mat{y}_{k+1} - \hat{\mat{y}}_{k+1}))) \\
-  \mat{P}_{k+1}^+ = \cov(&\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^- -
+  \mat{P}_{k+1}^+ &= \cov(\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^- -
     \mat{K}_{k+1}(\mat{y}_{k+1} - \hat{\mat{y}}_{k+1})) \\
-  \mat{P}_{k+1}^+ = \cov(&\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^- - \\
-    &\mat{K}_{k+1}((\mat{C}_{k+1} \mat{x}_{k+1} + \mat{D}_{k+1} \mat{u}_{k+1} +
-      \mat{v}_{k+1}) - (\mat{C}_{k+1} \hat{\mat{x}}_{k+1}^- +
-      \mat{D}_{k+1}\mat{u}_{k+1}))) \\
-  \mat{P}_{k+1}^+ = \cov(&\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^- - \\
-    &\mat{K}_{k+1}(\mat{C}_{k+1} \mat{x}_{k+1} + \mat{D}_{k+1} \mat{u}_{k+1} +
-      \mat{v}_{k+1} - \mat{C}_{k+1} \hat{\mat{x}}_{k+1}^- -
-      \mat{D}_{k+1}\mat{u}_{k+1}))
-\end{align*}
-
-Reorder terms.
-\begin{align*}
-  \mat{P}_{k+1}^+ = \cov(&\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^- - \\
-    &\mat{K}_{k+1}(\mat{C}_{k+1} \mat{x}_{k+1} -
-      \mat{C}_{k+1} \hat{\mat{x}}_{k+1}^- + \mat{D}_{k+1} \mat{u}_{k+1} -
-      \mat{D}_{k+1}\mat{u}_{k+1} + \mat{v}_{k+1}))
-\end{align*}
-
-The $\mat{D}_{k+1}\mat{u}_{k+1}$ terms cancel.
-\begin{equation*}
-  \mat{P}_{k+1}^+ = \cov(\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^- -
+  \mat{P}_{k+1}^+ &= \cov(\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^- -
+    \mat{K}_{k+1}( \\
+      &\qquad (\mat{C}_{k+1} \mat{x}_{k+1} + \mat{D}_{k+1} \mat{u}_{k+1} +
+        \mat{v}_{k+1}) \\
+      &\qquad - (\mat{C}_{k+1} \hat{\mat{x}}_{k+1}^- +
+        \mat{D}_{k+1}\mat{u}_{k+1}))) \\
+  \mat{P}_{k+1}^+ &= \cov(\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^- -
+    \mat{K}_{k+1}( \\
+      &\qquad \mat{C}_{k+1} \mat{x}_{k+1} + \mat{D}_{k+1} \mat{u}_{k+1} +
+        \mat{v}_{k+1} \\
+      &\qquad - \mat{C}_{k+1} \hat{\mat{x}}_{k+1}^- -
+        \mat{D}_{k+1}\mat{u}_{k+1}))
+  \intertext{Reorder terms.}
+  \mat{P}_{k+1}^+ &= \cov(\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^- -
+    \mat{K}_{k+1}( \\
+      &\qquad\mat{C}_{k+1} \mat{x}_{k+1} -
+        \mat{C}_{k+1} \hat{\mat{x}}_{k+1}^- \\
+      &\qquad + \mat{D}_{k+1} \mat{u}_{k+1} - \mat{D}_{k+1}\mat{u}_{k+1} +
+        \mat{v}_{k+1}))
+  \intertext{The $\mat{D}_{k+1}\mat{u}_{k+1}$ terms cancel.}
+  \mat{P}_{k+1}^+ &= \cov(\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^- -
     \mat{K}_{k+1}(\mat{C}_{k+1}\mat{x}_{k+1} -
     \mat{C}_{k+1} \hat{\mat{x}}_{k+1}^- + \mat{v}_{k+1}))
-\end{equation*}
-
-Distribute $\mat{K}_{k+1}$ to $\mat{v}_{k+1}$.
-\begin{equation*}
-  \mat{P}_{k+1}^+ = \cov(\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^- -
+  \intertext{Distribute $\mat{K}_{k+1}$ to $\mat{v}_{k+1}$.}
+  \mat{P}_{k+1}^+ &= \cov(\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^- -
     \mat{K}_{k+1}(\mat{C}_{k+1}\mat{x}_{k+1} -
     \mat{C}_{k+1} \hat{\mat{x}}_{k+1}^-) - \mat{K}_{k+1}\mat{v}_{k+1})
-\end{equation*}
-
-Factor out $\mat{C}_{k+1}$.
-\begin{equation*}
-  \mat{P}_{k+1}^+ = \cov(\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^- -
+  \intertext{Factor out $\mat{C}_{k+1}$.}
+  \mat{P}_{k+1}^+ &= \cov(\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^- -
     \mat{K}_{k+1}\mat{C}_{k+1}(\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^-) -
     \mat{K}_{k+1}\mat{v}_{k+1})
-\end{equation*}
-
-Factor out $\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^-$ to the right.
-\begin{equation*}
-  \mat{P}_{k+1}^+ = \cov((\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})
+  \intertext{Factor out $\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^-$ to the right.}
+  \mat{P}_{k+1}^+ &= \cov((\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})
     (\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^-) - \mat{K}_{k+1}\mat{v}_{k+1})
-\end{equation*}
-
-Covariance is a linear operator, so it can be applied to each term separately.
-Covariance squares terms internally, so the negative sign on
-$\mat{K}_{k+1}\mat{v}_{k+1}$ is removed.
-\begin{equation*}
-  \mat{P}_{k+1}^+ = \cov((\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})
+  \intertext{Covariance is a linear operator, so it can be applied to each term
+    separately. Covariance squares terms internally, so the negative sign on
+    $\mat{K}_{k+1}\mat{v}_{k+1}$ is removed.}
+  \mat{P}_{k+1}^+ &= \cov((\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})
     (\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^-)) + \cov(\mat{K}_{k+1}\mat{v}_{k+1})
-\end{equation*}
-
-Now just evaluate the covariances.
-\begin{align*}
+  \intertext{Now just evaluate the covariances.}
   \mat{P}_{k+1}^+ &= (\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})
     \cov(\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^-)
-    (\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})\T + \mat{K}_{k+1}cov(\mat{v}_{k+1})
-    \mat{K}_{k+1}\T \\
+    (\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})\T \\
+      &\qquad + \mat{K}_{k+1}cov(\mat{v}_{k+1})\mat{K}_{k+1}\T \\
   \mat{P}_{k+1}^+ &= (\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})\mat{P}_{k+1}^-
     (\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})\T + \mat{K}_{k+1}\mat{R}_{k+1}
     \mat{K}_{k+1}\T
@@ -125,55 +110,40 @@ $-(\lambda_1 + \cdots + \lambda_n)$. Therefore, by matching coefficients for
 $t^{n-1}$, we get $\tr(\mat{P}) = \lambda_1 + \cdots + \lambda_n$.}
 
 We'll start with the equation for $\mat{P}_{k+1}^+$.
-\begin{equation*}
-  \mat{P}_{k+1}^+ = (\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})\mat{P}_{k+1}^-
+\begin{align*}
+  \mat{P}_{k+1}^+ &= (\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})\mat{P}_{k+1}^-
     (\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})\T + \mat{K}_{k+1}\mat{R}_{k+1}
     \mat{K}_{k+1}\T
-\end{equation*}
-
-We're going to expand the equation for $\mat{P}_{k+1}^+$ and collect terms.
-First, multiply in $\mat{P}_{k+1}^-$.
-\begin{equation*}
-  \mat{P}_{k+1}^+ =
+  \intertext{We're going to expand the equation for $\mat{P}_{k+1}^+$ and
+    collect terms. First, multiply in $\mat{P}_{k+1}^-$.}
+  \mat{P}_{k+1}^+ &=
     (\mat{P}_{k+1}^- - \mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^-)
     (\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})\T + \mat{K}_{k+1}\mat{R}_{k+1}
     \mat{K}_{k+1}\T
-\end{equation*}
-
-Tranpose each term in $\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1}$. $\mat{I}$ is
-symmetric, so its transpose is dropped.
-\begin{equation*}
-  \mat{P}_{k+1}^+ =
+  \intertext{Tranpose each term in $\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1}$.
+    $\mat{I}$ is symmetric, so its transpose is dropped.}
+  \mat{P}_{k+1}^+ &=
     (\mat{P}_{k+1}^- - \mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^-)
     (\mat{I} - \mat{C}_{k+1}\T\mat{K}_{k+1}\T) +
     \mat{K}_{k+1}\mat{R}_{k+1} \mat{K}_{k+1}\T
-\end{equation*}
-
-Multiply in $\mat{I} - \mat{C}_{k+1}\T\mat{K}_{k+1}\T$.
-\begin{equation*}
-  \mat{P}_{k+1}^+ =
+  \intertext{Multiply in $\mat{I} - \mat{C}_{k+1}\T\mat{K}_{k+1}\T$.}
+  \mat{P}_{k+1}^+ &=
     \mat{P}_{k+1}^-(\mat{I} - \mat{C}_{k+1}\T\mat{K}_{k+1}\T) -
     \mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^-
-    (\mat{I} - \mat{C}_{k+1}\T\mat{K}_{k+1}\T) +
-    \mat{K}_{k+1}\mat{R}_{k+1} \mat{K}_{k+1}\T
-\end{equation*}
-
-Expand terms.
-\begin{align*}
+    (\mat{I} - \mat{C}_{k+1}\T\mat{K}_{k+1}\T) \\
+      &\qquad + \mat{K}_{k+1}\mat{R}_{k+1} \mat{K}_{k+1}\T
+  \intertext{Expand terms.}
   \mat{P}_{k+1}^+ &=
     \mat{P}_{k+1}^- - \mat{P}_{k+1}^-\mat{C}_{k+1}\T\mat{K}_{k+1}\T -
-    \mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^- +
-    \mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^-\mat{C}_{k+1}\T\mat{K}_{k+1}\T \\
-    &\qquad + \mat{K}_{k+1}\mat{R}_{k+1} \mat{K}_{k+1}\T
-\end{align*}
-
-Factor out $\mat{K}_{k+1}$ and $\mat{K}_{k+1}\T$.
-\begin{align*}
+    \mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^- \\
+      &\qquad + \mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^-\mat{C}_{k+1}\T\mat{K}_{k+1}\T +
+        \mat{K}_{k+1}\mat{R}_{k+1} \mat{K}_{k+1}\T
+  \intertext{Factor out $\mat{K}_{k+1}$ and $\mat{K}_{k+1}\T$.}
   \mat{P}_{k+1}^+ &=
     \mat{P}_{k+1}^- - \mat{P}_{k+1}^-\mat{C}_{k+1}\T\mat{K}_{k+1}\T -
     \mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^- \nonumber \\
-    &\qquad + \mat{K}_{k+1}(\mat{C}_{k+1}\mat{P}_{k+1}^-\mat{C}_{k+1}\T +
-    \mat{R}_{k+1})\mat{K}_{k+1}\T
+      &\qquad + \mat{K}_{k+1}(\mat{C}_{k+1}\mat{P}_{k+1}^-\mat{C}_{k+1}\T +
+        \mat{R}_{k+1})\mat{K}_{k+1}\T
 \end{align*}
 
 $\mat{C}_{k+1}\mat{P}_{k+1}^-\mat{C}_{k+1}\T + \mat{R}_{k+1}$ is the innovation
@@ -188,36 +158,27 @@ derivations after this point more concise.
 \end{equation}
 
 Now take the trace.
-\begin{equation*}
-  \tr(\mat{P}_{k+1}^+) =
-    \tr(\mat{P}_{k+1}^-) - \tr(\mat{P}_{k+1}^-\mat{C}_{k+1}\T\mat{K}_{k+1}\T) -
-    \tr(\mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^-) +
-    \tr(\mat{K}_{k+1}\mat{S}_{k+1}\mat{K}_{k+1}\T)
-\end{equation*}
-
-Transpose one of the terms twice.
-\begin{equation*}
-  \tr(\mat{P}_{k+1}^+) = \tr(\mat{P}_{k+1}^-) -
-    \tr((\mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^{-T})\T) -
-    \tr(\mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^-) +
-    \tr(\mat{K}_{k+1}\mat{S}_{k+1}\mat{K}_{k+1}\T)
-\end{equation*}
-
-$\mat{P}_{k+1}^-$ is symmetric, so we can drop the transpose.
-\begin{equation*}
-  \tr(\mat{P}_{k+1}^+) = \tr(\mat{P}_{k+1}^-) -
-    \tr((\mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^-)\T) -
-    \tr(\mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^-) +
-    \tr(\mat{K}_{k+1}\mat{S}_{k+1}\mat{K}_{k+1}\T)
-\end{equation*}
-
-The trace of a matrix is equal to the trace of its transpose since the elements
-used in the trace are on the diagonal.
 \begin{align*}
+  \tr(\mat{P}_{k+1}^+) &=
+    \tr(\mat{P}_{k+1}^-) - \tr(\mat{P}_{k+1}^-\mat{C}_{k+1}\T\mat{K}_{k+1}\T) -
+    \tr(\mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^-) \\
+    &\qquad + \tr(\mat{K}_{k+1}\mat{S}_{k+1}\mat{K}_{k+1}\T)
+  \intertext{Transpose one of the terms twice.}
+  \tr(\mat{P}_{k+1}^+) &= \tr(\mat{P}_{k+1}^-) -
+    \tr((\mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^{-T})\T) -
+    \tr(\mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^-) \\
+    &\qquad + \tr(\mat{K}_{k+1}\mat{S}_{k+1}\mat{K}_{k+1}\T)
+  \intertext{$\mat{P}_{k+1}^-$ is symmetric, so we can drop the transpose.}
+  \tr(\mat{P}_{k+1}^+) &= \tr(\mat{P}_{k+1}^-) -
+    \tr((\mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^-)\T) -
+    \tr(\mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^-) \\
+    &\qquad + \tr(\mat{K}_{k+1}\mat{S}_{k+1}\mat{K}_{k+1}\T)
+  \intertext{The trace of a matrix is equal to the trace of its transpose since
+    the elements used in the trace are on the diagonal.}
   \tr(\mat{P}_{k+1}^+) &= \tr(\mat{P}_{k+1}^-) -
     \tr(\mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^-) -
-    \tr(\mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^-) +
-    \tr(\mat{K}_{k+1}\mat{S}_{k+1}\mat{K}_{k+1}\T) \\
+    \tr(\mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^-) \\
+    &\qquad + \tr(\mat{K}_{k+1}\mat{S}_{k+1}\mat{K}_{k+1}\T) \\
   \tr(\mat{P}_{k+1}^+) &= \tr(\mat{P}_{k+1}^-) -
     2\tr(\mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^-) +
     \tr(\mat{K}_{k+1}\mat{S}_{k+1}\mat{K}_{k+1}\T)
@@ -278,12 +239,9 @@ Now we'll substitute it into equation \eqref{eq:post_p_update}.
     (\mat{P}_{k+1}^-\mat{C}_{k+1}\T\mat{K}_{k+1}\T) \\
   \mat{P}_{k+1}^+ &=
     \mat{P}_{k+1}^- - \mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^-
+  \intertext{Factor out $\mat{P}_{k+1}^-$ to the right.}
+  \mat{P}_{k+1}^+ &= (\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})\mat{P}_{k+1}^-
 \end{align*}
-
-Factor out $\mat{P}_{k+1}^-$ to the right.
-\begin{equation*}
-  \mat{P}_{k+1}^+ = (\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})\mat{P}_{k+1}^-
-\end{equation*}
 
 \subsection{Predict and update equations}
 

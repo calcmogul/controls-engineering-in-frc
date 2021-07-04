@@ -98,8 +98,7 @@ a specific wheel in figure \ref{fig:swerve_drive_fbd}.
     (r_{3x} \hat{i} + r_{3y} \hat{j}) \\
   \vec{v}_4 &= v_x \hat{i} + v_y \hat{j} + \omega \hat{k} \times
     (r_{4x} \hat{i} + r_{4y} \hat{j})
-\end{align*}
-\begin{align*}
+  \shortintertext{}
   \vec{v}_1 &= v_x \hat{i} + v_y \hat{j} +
     (\omega r_{1x} \hat{j} - \omega r_{1y} \hat{i}) \\
   \vec{v}_2 &= v_x \hat{i} + v_y \hat{j} +
@@ -108,8 +107,7 @@ a specific wheel in figure \ref{fig:swerve_drive_fbd}.
     (\omega r_{3x} \hat{j} - \omega r_{3y} \hat{i}) \\
   \vec{v}_4 &= v_x \hat{i} + v_y \hat{j} +
     (\omega r_{4x} \hat{j} - \omega r_{4y} \hat{i})
-\end{align*}
-\begin{align*}
+  \shortintertext{}
   \vec{v}_1 &= v_x \hat{i} + v_y \hat{j} +
     \omega r_{1x} \hat{j} - \omega r_{1y} \hat{i} \\
   \vec{v}_2 &= v_x \hat{i} + v_y \hat{j} +
@@ -118,8 +116,7 @@ a specific wheel in figure \ref{fig:swerve_drive_fbd}.
     \omega r_{3x} \hat{j} - \omega r_{3y} \hat{i} \\
   \vec{v}_4 &= v_x \hat{i} + v_y \hat{j} +
     \omega r_{4x} \hat{j} - \omega r_{4y} \hat{i}
-\end{align*}
-\begin{align*}
+  \shortintertext{}
   \vec{v}_1 &= v_x \hat{i} - \omega r_{1y} \hat{i} +
     v_y \hat{j} + \omega r_{1x} \hat{j} \\
   \vec{v}_2 &= v_x \hat{i} - \omega r_{2y} \hat{i} +
@@ -128,8 +125,7 @@ a specific wheel in figure \ref{fig:swerve_drive_fbd}.
     v_y \hat{j} + \omega r_{3x} \hat{j} \\
   \vec{v}_4 &= v_x \hat{i} - \omega r_{4y} \hat{i} +
     v_y \hat{j} + \omega r_{4x} \hat{j}
-\end{align*}
-\begin{align*}
+  \shortintertext{}
   \vec{v}_1 &= (v_x - \omega r_{1y}) \hat{i} + (v_y + \omega r_{1x}) \hat{j} \\
   \vec{v}_2 &= (v_x - \omega r_{2y}) \hat{i} + (v_y + \omega r_{2x}) \hat{j} \\
   \vec{v}_3 &= (v_x - \omega r_{3y}) \hat{i} + (v_y + \omega r_{3x}) \hat{j} \\
@@ -137,23 +133,17 @@ a specific wheel in figure \ref{fig:swerve_drive_fbd}.
 \end{align*}
 
 Separate the i-hat components into independent equations.
-\begin{align*}
-  v_{1x} &= v_x - \omega r_{1y} \\
-  v_{2x} &= v_x - \omega r_{2y} \\
-  v_{3x} &= v_x - \omega r_{3y} \\
-  v_{4x} &= v_x - \omega r_{4y}
-\end{align*}
-
-Separate the j-hat components into independent equations.
-\begin{align*}
-  v_{1y} &= v_y + \omega r_{1x} \\
-  v_{2y} &= v_y + \omega r_{2x} \\
-  v_{3y} &= v_y + \omega r_{3x} \\
-  v_{4y} &= v_y + \omega r_{4x}
-\end{align*}
-
-Now we'll factor them out into matrices.
-\begin{equation*}
+\begin{align}
+  v_{1x} &= v_x - \omega r_{1y} \nonumber \\
+  v_{2x} &= v_x - \omega r_{2y} \nonumber \\
+  v_{3x} &= v_x - \omega r_{3y} \nonumber \\
+  v_{4x} &= v_x - \omega r_{4y} \nonumber
+  \intertext{Separate the j-hat components into independent equations.}
+  v_{1y} &= v_y + \omega r_{1x} \nonumber  \\
+  v_{2y} &= v_y + \omega r_{2x} \nonumber  \\
+  v_{3y} &= v_y + \omega r_{3x} \nonumber  \\
+  v_{4y} &= v_y + \omega r_{4x} \nonumber
+  \intertext{Now we'll factor them out into matrices.}
   \begin{bmatrix}
     v_{1x} \\
     v_{2x} \\
@@ -163,7 +153,7 @@ Now we'll factor them out into matrices.
     v_{2y} \\
     v_{3y} \\
     v_{4y}
-  \end{bmatrix} =
+  \end{bmatrix} &=
   \begin{bmatrix}
     1 & 0 & -r_{1y} \\
     1 & 0 & -r_{2y} \\
@@ -178,11 +168,9 @@ Now we'll factor them out into matrices.
     v_x \\
     v_y \\
     \omega
-  \end{bmatrix}
-\end{equation*}
-
-Rearrange the rows so the $x$ and $y$ components are in adjacent rows.
-\begin{equation}
+  \end{bmatrix} \nonumber
+  \intertext{Rearrange the rows so the $x$ and $y$ components are in adjacent
+    rows.}
   \label{eq:swerve_ik}
   \begin{bmatrix}
     v_{1x} \\
@@ -193,7 +181,7 @@ Rearrange the rows so the $x$ and $y$ components are in adjacent rows.
     v_{3y} \\
     v_{4x} \\
     v_{4y}
-  \end{bmatrix} =
+  \end{bmatrix} &=
   \begin{bmatrix}
     1 & 0 & -r_{1y} \\
     0 & 1 &  r_{1x} \\
@@ -209,7 +197,7 @@ Rearrange the rows so the $x$ and $y$ components are in adjacent rows.
     v_y \\
     \omega
   \end{bmatrix}
-\end{equation}
+\end{align}
 
 To convert the swerve module $x$ and $y$ velocity components to a velocity and
 heading, use the Pythagorean theorem and arctangent respectively. Here's an

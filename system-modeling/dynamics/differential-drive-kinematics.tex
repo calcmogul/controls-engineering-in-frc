@@ -55,39 +55,29 @@ Once we have the vector equation representing the wheel's velocity, we'll
 project it onto the wheel direction vector using the dot product.
 
 First, we'll derive $v_l$.
-\begin{align*}
-  \vec{v}_l &= v_c \hat{i} + \omega \hat{k} \times r_b \hat{j} \\
-  \vec{v}_l &= v_c \hat{i} - \omega r_b \hat{i} \\
-  \vec{v}_l &= (v_c - \omega r_b) \hat{i}
-\end{align*}
-
-Now, project this vector onto the left wheel, which is pointed in the $\hat{i}$
-direction.
-\begin{equation*}
-  v_l = (v_c - \omega r_b) \hat{i} \cdot \frac{\hat{i}}{\norm{\hat{i}}}
-\end{equation*}
-
-The magnitude of $\hat{i}$ is $1$, so the denominator cancels.
 \begin{align}
+  \vec{v}_l &= v_c \hat{i} + \omega \hat{k} \times r_b \hat{j} \nonumber \\
+  \vec{v}_l &= v_c \hat{i} - \omega r_b \hat{i} \nonumber \\
+  \vec{v}_l &= (v_c - \omega r_b) \hat{i} \nonumber
+  \intertext{Now, project this vector onto the left wheel, which is pointed in
+    the $\hat{i}$ direction.}
+  v_l &= (v_c - \omega r_b) \hat{i} \cdot \frac{\hat{i}}{\norm{\hat{i}}}
+    \nonumber
+  \intertext{The magnitude of $\hat{i}$ is $1$, so the denominator cancels.}
   v_l &= (v_c - \omega r_b) \hat{i} \cdot \hat{i} \nonumber \\
   v_l &= v_c - \omega r_b \label{eq:diff_vl}
 \end{align}
 
 Next, we'll derive $v_r$.
-\begin{align*}
-  \vec{v}_r &= v_c \hat{i} + \omega \hat{k} \times r_b \hat{j} \\
-  \vec{v}_r &= v_c \hat{i} + \omega r_b \hat{i} \\
-  \vec{v}_r &= (v_c + \omega r_b) \hat{i}
-\end{align*}
-
-Now, project this vector onto the right wheel, which is pointed in the $\hat{i}$
-direction.
-\begin{equation*}
-  v_r = (v_c + \omega r_b) \hat{i} \cdot \frac{\hat{i}}{\norm{\hat{i}}}
-\end{equation*}
-
-The magnitude of $\hat{i}$ is $1$, so the denominator cancels.
 \begin{align}
+  \vec{v}_r &= v_c \hat{i} + \omega \hat{k} \times r_b \hat{j} \nonumber \\
+  \vec{v}_r &= v_c \hat{i} + \omega r_b \hat{i} \nonumber \\
+  \vec{v}_r &= (v_c + \omega r_b) \hat{i} \nonumber
+  \intertext{Now, project this vector onto the right wheel, which is pointed in
+    the $\hat{i}$ direction.}
+  v_r &= (v_c + \omega r_b) \hat{i} \cdot \frac{\hat{i}}{\norm{\hat{i}}}
+    \nonumber
+  \intertext{The magnitude of $\hat{i}$ is $1$, so the denominator cancels.}
   v_r &= (v_c + \omega r_b) \hat{i} \cdot \hat{i} \nonumber \\
   v_r &= v_c + \omega r_b \label{eq:diff_vr}
 \end{align}

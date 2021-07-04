@@ -91,14 +91,11 @@ motor, $R$ is the resistance of the motor, and $K_v$ is the angular velocity
 constant. Since $\tau = rF$ and $\omega = \frac{v}{r}$ where $v$ is the velocity
 of a given drive side along the ground and $r$ is the drive wheel radius
 \begin{align*}
-  (rF) = \frac{GK_t}{R} V - \frac{G^2K_t}{K_v R} \left(\frac{v}{r}\right) \\
-  rF = \frac{GK_t}{R} V - \frac{G^2K_t}{K_v Rr} v \\
-  F = \frac{GK_t}{Rr} V - \frac{G^2K_t}{K_v Rr^2} v \\
-  F = -\frac{G^2K_t}{K_v Rr^2} v + \frac{GK_t}{Rr} V
-\end{align*}
-
-Therefore, for each side of the robot
-\begin{align*}
+  (rF) &= \frac{GK_t}{R} V - \frac{G^2K_t}{K_v R} \left(\frac{v}{r}\right) \\
+  rF &= \frac{GK_t}{R} V - \frac{G^2K_t}{K_v Rr} v \\
+  F &= \frac{GK_t}{Rr} V - \frac{G^2K_t}{K_v Rr^2} v \\
+  F &= -\frac{G^2K_t}{K_v Rr^2} v + \frac{GK_t}{Rr} V
+  \intertext{Therefore, for each side of the robot,}
   F_l &= -\frac{G_l^2 K_t}{K_v R r^2} v_l + \frac{G_l K_t}{Rr} V_l \\
   F_r &= -\frac{G_r^2 K_t}{K_v R r^2} v_r + \frac{G_r K_t}{Rr} V_r
 \end{align*}
@@ -199,28 +196,20 @@ This model will be converted to state-space notation in section
 We'll use empirical measurements of linear and angular velocity to determine
 $J$. First, we'll derive the equation required to perform a linear regression
 using velocity test data.
-\begin{align*}
-  \tau_1 &= \mat{r} \times \mat{F} \\
-  \tau_1 &= rma
-\end{align*}
-
-where $\tau_1$ is the torque applied by a drive motor during only linear
-acceleration, $r$ is the wheel radius, $m$ is the robot mass, and $a$ is the
-linear acceleration.
-\begin{equation*}
-  \tau_2 = I \alpha
-\end{equation*}
-
-where $\tau_2$ is the torque applied by a drive motor during only angular
-acceleration, $I$ is the moment of inertia (same as $J$), and $\alpha$ is the
-angular acceleration. If a constant voltage is applied during both the linear
-and angular acceleration tests, $\tau_1 = \tau_2$. Therefore,
-\begin{equation*}
-  rma = I \alpha
-\end{equation*}
-
-Integrate with respect to time.
 \begin{align}
+  \tau_1 &= \mat{r} \times \mat{F} \nonumber \\
+  \tau_1 &= rma \nonumber
+  \intertext{where $\tau_1$ is the torque applied by a drive motor during only
+    linear acceleration, $r$ is the wheel radius, $m$ is the robot mass, and $a$
+    is the linear acceleration.}
+  \tau_2 &= I \alpha \nonumber
+  \intertext{where $\tau_2$ is the torque applied by a drive motor during only
+    angular acceleration, $I$ is the moment of inertia (same as $J$), and
+    $\alpha$ is the angular acceleration. If a constant voltage is applied
+    during both the linear and angular acceleration tests, $\tau_1 = \tau_2$.
+    Therefore,}
+  rma &= I \alpha \nonumber
+  \intertext{Integrate with respect to time.}
   rmv + C_1 &= I \omega + C_2 \nonumber \\
   rmv &= I \omega + C_3 \nonumber \\
   v &= \frac{I}{rm} \omega + C_3 \label{eq:diff_drive_J_regression}

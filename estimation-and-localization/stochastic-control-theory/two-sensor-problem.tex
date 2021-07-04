@@ -73,35 +73,24 @@ $z_1$, $x_0$, $\sigma^2$, and $\sigma_0^2$ are given.
       \left(\frac{z_1 - x}{\sigma}\right)^2}
     \frac{1}{\sigma_0 \sqrt{2\pi}} e^{-\frac{1}{2}
       \left(\frac{x - x_0}{\sigma_0}\right)^2}
-\end{align*}
-
-Absorb the leading coefficients of the two probability distributions into a new
-constant $C_1$.
-\begin{equation*}
-  p(x|z_1) = \frac{1}{C_1}
+  \intertext{Absorb the leading coefficients of the two probability
+    distributions into a new constant $C_1$.}
+  p(x|z_1) &= \frac{1}{C_1}
     e^{-\frac{1}{2} \left(\frac{z_1 - x}{\sigma}\right)^2}
     e^{-\frac{1}{2} \left(\frac{x - x_0}{\sigma_0}\right)^2}
-\end{equation*}
-
-Combine the exponents.
-\begin{equation*}
-  p(x|z_1) = \frac{1}{C_1} e^{-\frac{1}{2} \left(
+  \intertext{Combine the exponents.}
+  p(x|z_1) &= \frac{1}{C_1} e^{-\frac{1}{2} \left(
       \frac{(z_1 - x)^2}{\sigma^2} + \frac{(x - x_0)^2}{\sigma_0^2}
     \right)}
-\end{equation*}
-
-Expand the exponent into separate terms.
-\begin{equation*}
-  p(x|z_1) = \frac{1}{C_1} e^{-\frac{1}{2} \left(
+  \intertext{Expand the exponent into separate terms.}
+  p(x|z_1) &= \frac{1}{C_1} e^{-\frac{1}{2} \left(
       \frac{z_1^2}{\sigma^2} - \frac{2z_1 x}{\sigma^2} + \frac{x^2}{\sigma^2} +
       \frac{x^2}{\sigma_0^2} - \frac{2xx_0}{\sigma_0^2} + \frac{x_0^2}{\sigma_0^2}
     \right)}
-\end{equation*}
-
-Multiply in $\frac{\sigma^2}{\sigma^2}$ or $\frac{\sigma_0^2}{\sigma_0^2}$ as
-appropriate to give all terms a denominator of $\sigma^2 \sigma_0^2$.
-\begin{equation*}
-  p(x|z_1) = \frac{1}{C_1} e^{-\frac{1}{2} \left(
+  \intertext{Multiply in
+    $\frac{\sigma^2}{\sigma^2}$ or $\frac{\sigma_0^2}{\sigma_0^2}$ as
+    appropriate to give all terms a denominator of $\sigma^2 \sigma_0^2$.}
+  p(x|z_1) &= \frac{1}{C_1} e^{-\frac{1}{2} \left(
       \frac{\sigma_0^2 z_1^2}{\sigma^2 \sigma_0^2}
       - 2\frac{\sigma_0^2 z_1}{\sigma^2 \sigma_0^2} x
       + \frac{\sigma_0^2}{\sigma^2 \sigma_0^2} x^2
@@ -109,11 +98,8 @@ appropriate to give all terms a denominator of $\sigma^2 \sigma_0^2$.
       - 2\frac{\sigma^2 x_0}{\sigma^2 \sigma_0^2} x
       + \frac{\sigma^2 x_0^2}{\sigma^2 \sigma_0^2}
     \right)}
-\end{equation*}
-
-Reorder terms in the exponent.
-\begin{equation*}
-  p(x|z_1) = \frac{1}{C_1} e^{-\frac{1}{2} \left(
+  \intertext{Reorder terms in the exponent.}
+  p(x|z_1) &= \frac{1}{C_1} e^{-\frac{1}{2} \left(
       \frac{\sigma_0^2}{\sigma^2 \sigma_0^2} x^2
       + \frac{\sigma^2}{\sigma^2 \sigma_0^2} x^2
       - 2\frac{\sigma_0^2 z_1}{\sigma^2 \sigma_0^2} x
@@ -121,19 +107,13 @@ Reorder terms in the exponent.
       + \frac{\sigma_0^2 z_1^2}{\sigma^2 \sigma_0^2}
       + \frac{\sigma^2 x_0^2}{\sigma^2 \sigma_0^2}
     \right)}
-\end{equation*}
-
-Combine like terms.
-\begin{equation*}
-  p(x|z_1) = \frac{1}{C_1} e^{-\frac{1}{2} \left(
+  \intertext{Combine like terms.}
+  p(x|z_1) &= \frac{1}{C_1} e^{-\frac{1}{2} \left(
       \frac{\sigma_0^2 + \sigma^2}{\sigma^2\sigma_0^2} x^2 -
       2\frac{\sigma_0^2 z_1 + \sigma^2 x_0}{\sigma^2 \sigma_0^2} x +
       \frac{\sigma_0^2 z_1^2 + \sigma^2 x_0^2}{\sigma^2 \sigma_0^2}
     \right)}
-\end{equation*}
-
-Factor out $\frac{\sigma_0^2 + \sigma^2}{\sigma^2 \sigma_0^2}$.
-\begin{align*}
+  \intertext{Factor out $\frac{\sigma_0^2 + \sigma^2}{\sigma^2 \sigma_0^2}$.}
   p(x|z_1) &= \frac{1}{C_1} e^{-\frac{1}{2}
     \frac{\sigma_0^2 + \sigma^2}{\sigma^2 \sigma_0^2} \left(
       x^2 - 2\frac{\sigma_0^2 z_1 + \sigma^2 x_0}{\sigma_0^2 + \sigma^2} x +
@@ -147,21 +127,15 @@ Factor out $\frac{\sigma_0^2 + \sigma^2}{\sigma^2 \sigma_0^2}$.
       \right) x +
       \frac{\sigma_0^2 z_1^2 + \sigma^2 x_0^2}{\sigma_0^2 + \sigma^2}
     \right)}
-\end{align*}
-
-$\frac{\sigma_0^2}{\sigma^2 + \sigma_0^2} z_1 + \frac{\sigma^2}{\sigma_0^2 + \sigma^2} x_0$
-is the mean of the combined probability distribution, which we'll denote as
-$\mu$.
-\begin{equation*}
-  p(x|z_1) = \frac{1}{C_1} e^{-\frac{1}{2}
+  \intertext{$\frac{\sigma_0^2}{\sigma^2 + \sigma_0^2} z_1 + \frac{\sigma^2}{\sigma_0^2 + \sigma^2} x_0$
+    is the mean of the combined probability distribution, which we'll denote as
+    $\mu$.}
+  p(x|z_1) &= \frac{1}{C_1} e^{-\frac{1}{2}
     \frac{\sigma^2 + \sigma_0^2}{\sigma^2 \sigma_0^2} \left(
       x^2 - 2\mu x +
       \frac{\sigma_0^2 z_1^2 + \sigma^2 x_0^2}{\sigma_0^2 + \sigma^2}
     \right)}
-\end{equation*}
-
-Add in $\mu^2 - \mu^2$ to perform some factoring.
-\begin{align*}
+  \intertext{Add in $\mu^2 - \mu^2$ to perform some factoring.}
   p(x|z_1) &= \frac{1}{C_1} e^{-\frac{1}{2}
     \frac{\sigma_0^2 + \sigma^2}{\sigma^2 \sigma_0^2} \left(
       x^2 - 2\mu x + \mu^2 - \mu^2 +
@@ -172,15 +146,12 @@ Add in $\mu^2 - \mu^2$ to perform some factoring.
       (x - \mu)^2 - \mu^2 +
       \frac{\sigma_0^2 z_1^2 + \sigma^2 x_0^2}{\sigma_0^2 + \sigma^2}
     \right)}
-\end{align*}
-
-Pull out all constant terms in the exponent and combine them with $C_1$ to make
-a new constant $C_2$. We're basically doing
-$c_1 e^{x + a} \rightarrow c_1 e^a e^x \rightarrow c_2 e^x$.
-\begin{equation*}
-  p(x|z_1) = \frac{1}{C_2} e^{-\frac{1}{2}
+  \intertext{Pull out all constant terms in the exponent and combine them with
+    $C_1$ to make a new constant $C_2$. We're basically doing
+    $c_1 e^{x + a} \rightarrow c_1 e^a e^x \rightarrow c_2 e^x$.}
+  p(x|z_1) &= \frac{1}{C_2} e^{-\frac{1}{2}
     \frac{\sigma_0^2 + \sigma^2}{\sigma^2 \sigma_0^2} (x - \mu)^2}
-\end{equation*}
+\end{align*}
 
 This means that if we're given an initial estimate $x_0$ and a measurement $z_1$
 with associated means and variances represented by Gaussian distributions, this

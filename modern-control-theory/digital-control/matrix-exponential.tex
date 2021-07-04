@@ -46,15 +46,12 @@ equations $\dot{\mat{x}} = \mat{A}\mat{x} + \mat{B}\mat{u}$ we use to describe
 where $\mat{x}_0$ contains the initial conditions and $\mat{u}$ is the constant
 input from time $0$ to $t$. If the initial \gls{state} is the current system
 \gls{state}, then we can describe the \gls{system}'s \gls{state} over time as
-\begin{equation*}
-  \mat{x}_{k+1} = e^{\mat{A}T} \mat{x}_k +
+\begin{align*}
+  \mat{x}_{k+1} &= e^{\mat{A}T} \mat{x}_k +
     \mat{A}^{-1}(e^{\mat{A}T} - \mat{I})\mat{B} \mat{u}_k
-\end{equation*}
-
-or more compactly,
-\begin{equation*}
-  \mat{x}_{k+1} = \mat{A}_d\mat{x}_k + \mat{B}_d\mat{u}_k
-\end{equation*}
+  \intertext{or more compactly,}
+  \mat{x}_{k+1} &= \mat{A}_d\mat{x}_k + \mat{B}_d\mat{u}_k
+\end{align*}
 
 where $T$ is the time between samples $\mat{x}_k$ and $\mat{x}_{k+1}$. Theorem
 \ref{thm:zoh_ss} has more efficient ways to compute $\mat{A}_d$ and $\mat{B}_d$.

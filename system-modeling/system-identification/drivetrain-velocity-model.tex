@@ -45,11 +45,11 @@ constant velocity $v$. Therefore, $\mat{x} =
 \begin{bmatrix}
   0 & 0
 \end{bmatrix}\T$. Substitute these into the state-space model.
-\begin{equation*}
+\begin{align*}
   \begin{bmatrix}
     0 \\
     0
-  \end{bmatrix} =
+  \end{bmatrix} &=
   \begin{bmatrix}
     A_1 & A_2 \\
     A_2 & A_1
@@ -66,15 +66,12 @@ constant velocity $v$. Therefore, $\mat{x} =
     K_{v,linear} v \\
     K_{v,linear} v
   \end{bmatrix}
-\end{equation*}
-
-Since the column vectors contain the same element, the elements in the second
-row can be rearranged.
-\begin{equation*}
+  \intertext{Since the column vectors contain the same element, the elements in
+    the second row can be rearranged.}
   \begin{bmatrix}
     0 \\
     0
-  \end{bmatrix} =
+  \end{bmatrix} &=
   \begin{bmatrix}
     A_1 & A_2 \\
     A_1 & A_2
@@ -91,10 +88,8 @@ row can be rearranged.
     K_{v,linear} v \\
     K_{v,linear} v
   \end{bmatrix}
-\end{equation*}
-
-Since the rows are linearly dependent, we can use just one of them.
-\begin{align*}
+  \intertext{Since the rows are linearly dependent, we can use just one of
+    them.}
   0 &=
     \begin{bmatrix}
       A_1 & A_2
@@ -135,11 +130,11 @@ $a$ from an initial velocity of $v$. Therefore, $\mat{x} =
 \begin{bmatrix}
   a & a
 \end{bmatrix}\T$. Substitute these into the state-space model.
-\begin{equation*}
+\begin{align*}
   \begin{bmatrix}
     a \\
     a
-  \end{bmatrix} =
+  \end{bmatrix} &=
   \begin{bmatrix}
     A_1 & A_2 \\
     A_2 & A_1
@@ -156,15 +151,12 @@ $a$ from an initial velocity of $v$. Therefore, $\mat{x} =
     K_{v,linear} v + K_{a,linear} a \\
     K_{v,linear} v + K_{a,linear} a
   \end{bmatrix}
-\end{equation*}
-
-Since the column vectors contain the same element, the elements in the second
-row can be rearranged.
-\begin{equation*}
+  \intertext{Since the column vectors contain the same element, the elements in
+    the second row can be rearranged.}
   \begin{bmatrix}
     a \\
     a
-  \end{bmatrix} =
+  \end{bmatrix} &=
   \begin{bmatrix}
     A_1 & A_2 \\
     A_1 & A_2
@@ -181,10 +173,8 @@ row can be rearranged.
     K_{v,linear} v + K_{a,linear} a \\
     K_{v,linear} v + K_{a,linear} a
   \end{bmatrix}
-\end{equation*}
-
-Since the rows are linearly dependent, we can use just one of them.
-\begin{align*}
+  \intertext{Since the rows are linearly dependent, we can use just one of
+    them.}
   a &=
     \begin{bmatrix}
       A_1 & A_2
@@ -279,15 +269,12 @@ wheel has a constant velocity $v$. Therefore, $\mat{x} =
       K_{v,angular} v \\
       K_{v,angular} v
     \end{bmatrix}
-\end{align*}
-
-Since the column vectors contain the same element, the elements in the second
-row can be rearranged.
-\begin{equation*}
+  \intertext{Since the column vectors contain the same element, the elements in
+    the second row can be rearranged.}
   \begin{bmatrix}
     0 \\
     0
-  \end{bmatrix} =
+  \end{bmatrix} &=
   \begin{bmatrix}
     -A_1 & A_2 \\
     -A_1 & A_2
@@ -304,10 +291,8 @@ row can be rearranged.
     K_{v,angular} v \\
     K_{v,angular} v
   \end{bmatrix}
-\end{equation*}
-
-Since the rows are linearly dependent, we can use just one of them.
-\begin{align*}
+  \intertext{Since the rows are linearly dependent, we can use just one of
+    them.}
   0 &=
     \begin{bmatrix}
       -A_1 & A_2
@@ -410,15 +395,12 @@ wheel has an initial speed of $v$ and accelerates by $a$. Therefore, $\mat{x} =
       K_{v,angular} v + K_{a,angular} a \\
       K_{v,angular} v + K_{a,angular} a
     \end{bmatrix}
-\end{align*}
-
-Since the column vectors contain the same element, the elements in the second
-row can be rearranged.
-\begin{equation*}
+  \intertext{Since the column vectors contain the same element, the elements in
+    the second row can be rearranged.}
   \begin{bmatrix}
     -a \\
     -a
-  \end{bmatrix} =
+  \end{bmatrix} &=
   \begin{bmatrix}
     -A_1 & A_2 \\
     -A_1 & A_2
@@ -435,7 +417,7 @@ row can be rearranged.
     K_{v,angular} v + K_{a,angular} a \\
     K_{v,angular} v + K_{a,angular} a
   \end{bmatrix}
-\end{equation*}
+\end{align*}
 
 Since the rows are linearly dependent, we can use just one of them.
 \begin{align*}

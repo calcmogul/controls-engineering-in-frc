@@ -98,54 +98,37 @@ arm angular velocity and angle.
 
 We will start with the equation derived earlier for a DC brushed motor, equation
 \eqref{eq:motor_tau_V}.
-\begin{equation*}
-  V = \frac{\tau_m}{K_t} R + \frac{\omega_m}{K_v}
-\end{equation*}
-
-Solve for the angular acceleration. First, we'll rearrange the terms because
-from inspection, $V$ is the \gls{model} \gls{input}, $\omega_m$ is the
-\gls{state}, and $\tau_m$ contains the angular acceleration.
-\begin{equation*}
-  V = \frac{R}{K_t} \tau_m + \frac{1}{K_v} \omega_m
-\end{equation*}
-
-Solve for $\tau_m$.
-\begin{align*}
-  V &= \frac{R}{K_t} \tau_m + \frac{1}{K_v} \omega_m \\
-  \frac{R}{K_t} \tau_m &= V - \frac{1}{K_v} \omega_m \\
-  \tau_m &= \frac{K_t}{R} V - \frac{K_t}{K_v R} \omega_m
-\end{align*}
-
-Since $\tau_m G = \tau_{arm}$ and $\omega_m = G \omega_{arm}$
 \begin{align}
+  V &= \frac{\tau_m}{K_t} R + \frac{\omega_m}{K_v} \nonumber
+  \intertext{Solve for the angular acceleration. First, we'll rearrange the
+    terms because from inspection, $V$ is the \gls{model} \gls{input},
+    $\omega_m$ is the \gls{state}, and $\tau_m$ contains the angular
+    acceleration.}
+  V &= \frac{R}{K_t} \tau_m + \frac{1}{K_v} \omega_m \nonumber
+  \intertext{Solve for $\tau_m$.}
+  V &= \frac{R}{K_t} \tau_m + \frac{1}{K_v} \omega_m \nonumber \\
+  \frac{R}{K_t} \tau_m &= V - \frac{1}{K_v} \omega_m \nonumber \\
+  \tau_m &= \frac{K_t}{R} V - \frac{K_t}{K_v R} \omega_m
+  \intertext{Since $\tau_m G = \tau_{arm}$ and $\omega_m = G \omega_{arm}$,}
   \left(\frac{\tau_{arm}}{G}\right) &= \frac{K_t}{R} V -
     \frac{K_t}{K_v R} (G \omega_{arm}) \nonumber \\
   \frac{\tau_{arm}}{G} &= \frac{K_t}{R} V - \frac{G K_t}{K_v R} \omega_{arm}
     \nonumber \\
   \tau_{arm} &= \frac{G K_t}{R} V - \frac{G^2 K_t}{K_v R} \omega_{arm}
     \label{eq:tau_arm}
-\end{align}
-
-The torque applied to the arm is defined as
-\begin{equation}
-  \tau_{arm} = J \dot{\omega}_{arm} \label{eq:tau_arm_def}
-\end{equation}
-
-where $J$ is the moment of inertia of the arm and $\dot{\omega}_{arm}$ is the
-angular acceleration. Substitute equation \eqref{eq:tau_arm_def} into equation
-\eqref{eq:tau_arm}.
-\begin{align*}
+  \intertext{The torque applied to the arm is defined as}
+  \tau_{arm} &= J \dot{\omega}_{arm} \label{eq:tau_arm_def}
+  \intertext{where $J$ is the moment of inertia of the arm and
+    $\dot{\omega}_{arm}$ is the angular acceleration. Substitute equation
+    \eqref{eq:tau_arm_def} into equation \eqref{eq:tau_arm}.}
   (J \dot{\omega}_{arm}) &= \frac{G K_t}{R} V - \frac{G^2 K_t}{K_v R}
     \omega_{arm} \nonumber \\
   \dot{\omega}_{arm} &= -\frac{G^2 K_t}{K_v RJ} \omega_{arm} +
-    \frac{G K_t}{RJ} V
-\end{align*}
-
-We'll relabel $\omega_{arm}$ as $\omega$ for convenience.
-\begin{equation}
-  \dot{\omega} = -\frac{G^2 K_t}{K_v RJ} \omega + \frac{G K_t}{RJ} V
+    \frac{G K_t}{RJ} V \nonumber
+  \intertext{We'll relabel $\omega_{arm}$ as $\omega$ for convenience.}
+  \dot{\omega} &= -\frac{G^2 K_t}{K_v RJ} \omega + \frac{G K_t}{RJ} V
     \label{eq:dot_omega_arm}
-\end{equation}
+\end{align}
 
 This model will be converted to state-space notation in section
 \ref{sec:ss_model_single-jointed_arm}.
@@ -166,13 +149,11 @@ procedure for measuring it experimentally is presented below.
 
 First, rearrange equation \eqref{eq:dot_omega_arm} into the form $y = mx + b$
 such that $J$ is in the numerator of $m$.
-\begin{align*}
-  \dot{\omega} &= -\frac{G^2 K_t}{K_v RJ} \omega + \frac{G K_t}{RJ} V \\
-  J\dot{\omega} &= -\frac{G^2 K_t}{K_v R} \omega + \frac{G K_t}{R} V
-\end{align*}
-
-Multiply by $\frac{K_v R}{G^2 K_t}$ on both sides.
 \begin{align}
+  \dot{\omega} &= -\frac{G^2 K_t}{K_v RJ} \omega + \frac{G K_t}{RJ} V \nonumber
+    \\
+  J\dot{\omega} &= -\frac{G^2 K_t}{K_v R} \omega + \frac{G K_t}{R} V \nonumber
+  \intertext{Multiply by $\frac{K_v R}{G^2 K_t}$ on both sides.}
   \frac{J K_v R}{G^2 K_t} \dot{\omega} &= -\omega + \frac{G K_t}{R} \cdot
     \frac{K_v R}{G^2 K_t} V \nonumber \\
   \frac{J K_v R}{G^2 K_t} \dot{\omega} &= -\omega + \frac{K_v}{G} V \nonumber \\

@@ -135,28 +135,22 @@ length of the pendulum.
   s &= l\theta \label{eq:arc_length} \\
   v &= \frac{ds}{dt} = l\frac{d\theta}{dt} \nonumber \\
   a &= \frac{d^2s}{dt^2} = l\frac{d^2\theta}{dt^2} \nonumber
+  \intertext{Therefore,}
+  l\frac{d^2\theta}{dt^2} &= -g\sin\theta \nonumber \\
+  \frac{d^2\theta}{dt^2} &= -\frac{g}{l}\sin\theta \nonumber \\
+  \ddot{\theta} &= -\frac{g}{l}\sin\theta \nonumber
 \end{align}
-
-Therefore
-\begin{align*}
-  l\frac{d^2\theta}{dt^2} &= -g\sin\theta \\
-  \frac{d^2\theta}{dt^2} &= -\frac{g}{l}\sin\theta \\
-  \ddot{\theta} &= -\frac{g}{l}\sin\theta
-\end{align*}
 
 \subsection{Torque derivation}
 \index{physics!sum of torques}
 
 The equation can be obtained using two definitions for torque.
-\begin{equation*}
-  \mat{\tau} = \mat{r} \times \mat{F}
-\end{equation*}
-
-First start by defining the torque on the pendulum bob using the force due to
-gravity.
-\begin{equation*}
-  \mat{\tau} = \mat{l} \times \mat{F}_g
-\end{equation*}
+\begin{align*}
+  \mat{\tau} &= \mat{r} \times \mat{F}
+  \intertext{First start by defining the torque on the pendulum bob using the
+    force due to gravity.}
+  \mat{\tau} &= \mat{l} \times \mat{F}_g
+\end{align*}
 
 where $\mat{l}$ is the length vector of the pendulum and $\mat{F}_g$ is the
 force due to gravity.
@@ -181,10 +175,8 @@ Again just consider the magnitude of the angular momentum.
   \lvert\mat{L}\rvert &= mr^2\omega \\
   \lvert\mat{L}\rvert &= ml^2 \frac{d\theta}{dt} \\
   \frac{d}{dt}\lvert\mat{L}\rvert &= ml^2 \frac{d^2\theta}{dt^2}
-\end{align*}
-
-According to $\tau = \frac{d\mat{L}}{dt}$, we can just compare the magnitudes.
-\begin{align*}
+  \intertext{According to $\tau = \frac{d\mat{L}}{dt}$, we can just compare the
+    magnitudes.}
   -mgl\sin\theta &= ml^2\frac{d^2\theta}{dt^2} \\
   -\frac{g}{l}\sin\theta &= \frac{d^2\theta}{dt^2} \\
   \ddot{\theta} &= -\frac{g}{l}\sin\theta
@@ -200,28 +192,18 @@ principle: any object falling a vertical distance $h$ would acquire kinetic
 energy equal to that which it lost to the fall. In other words, gravitational
 potential energy is converted into kinetic energy. Change in potential energy is
 given by
-\begin{equation*}
-  \Delta U = mgh
-\end{equation*}
-
-The change in kinetic energy (body started from rest) is given by
-\begin{equation*}
-  \Delta K = \frac{1}{2}mv^2
-\end{equation*}
-
-Since no energy is lost, the gain in one must be equal to the loss in the other
-\begin{equation*}
-  \frac{1}{2}mv^2 = mgh
-\end{equation*}
-
-The change in velocity for a given change in height can be expressed as
-\begin{equation*}
-  v = \sqrt{2gh}
-\end{equation*}
-
-Using equation \eqref{eq:arc_length}, this equation can be rewritten in terms of
-$\frac{d\theta}{dt}$.
 \begin{align}
+  \Delta U &= mgh \nonumber
+  \intertext{The change in kinetic energy (body started from rest) is given by}
+  \Delta K &= \frac{1}{2}mv^2 \nonumber
+  \intertext{Since no energy is lost, the gain in one must be equal to the loss
+    in the other}
+  \frac{1}{2}mv^2 &= mgh \nonumber
+  \intertext{The change in velocity for a given change in height can be
+  expressed as}
+  v &= \sqrt{2gh} \nonumber
+  \intertext{Using equation \eqref{eq:arc_length}, this equation can be
+    rewritten in terms of $\frac{d\theta}{dt}$.}
   v = l\frac{d\theta}{dt} &= \sqrt{2gh} \nonumber \\
   \frac{d\theta}{dt} &= \frac{2gh}{l} \label{eq:energy_dtheta}
 \end{align}
@@ -229,41 +211,31 @@ $\frac{d\theta}{dt}$.
 where $h$ is the vertical distance the pendulum fell. Look at figure \ref{subfig:trig_pendulum}, which presents the trigonometry of a pendulum. If the pendulum
 starts its swing from some initial angle $\theta_0$, then $y_0$, the vertical
 distance from the pivot point, is given by
-\begin{equation*}
-  y_0 = l\cos\theta_0
-\end{equation*}
-
-Similarly for $y_1$, we have
-\begin{equation*}
-  y_1 = l\cos\theta
-\end{equation*}
-
-Then $h$ is the difference of the two
-\begin{equation*}
-  h = l(\cos\theta - \cos\theta_0)
-\end{equation*}
-
-Substituting this into equation \eqref{eq:energy_dtheta} gives
-\begin{equation*}
-  \frac{d\theta}{dt} = \sqrt{\frac{2g}{l}(\cos\theta - \cos\theta_0)}
-\end{equation*}
-
-This equation is known as the first integral of motion. It gives the velocity in
-terms of the location and includes an integration constant related to the
-initial displacement ($\theta_0$). We can differentiate by applying the chain
-rule with respect to time. Doing so gives the acceleration.
-\begin{align*}
+\begin{align}
+  y_0 &= l\cos\theta_0 \nonumber
+  \intertext{Similarly for $y_1$, we have}
+  y_1 &= l\cos\theta \nonumber
+  \intertext{Then $h$ is the difference of the two}
+  h &= l(\cos\theta - \cos\theta_0) \nonumber
+  \intertext{Substituting this into equation \eqref{eq:energy_dtheta} gives}
+  \frac{d\theta}{dt} &= \sqrt{\frac{2g}{l}(\cos\theta - \cos\theta_0)} \nonumber
+  \intertext{This equation is known as the first integral of motion. It gives
+    the velocity in terms of the location and includes an integration constant
+    related to the initial displacement ($\theta_0$). We can differentiate by
+    applying the chain rule with respect to time. Doing so gives the
+    acceleration.}
   \frac{d}{dt}\frac{d\theta}{dt} &=
-    \frac{d}{dt}\sqrt{\frac{2g}{l}(\cos\theta - \cos\theta_0)} \\
+    \frac{d}{dt}\sqrt{\frac{2g}{l}(\cos\theta - \cos\theta_0)} \nonumber \\
   \frac{d^2\theta}{dt^2} &= \frac{1}{2}\frac
     {-\frac{2g}{l}\sin\theta}
-    {\sqrt{\frac{2g}{l}(\cos\theta - \cos\theta_0)}}\frac{d\theta}{dt} \\
+    {\sqrt{\frac{2g}{l}(\cos\theta - \cos\theta_0)}}\frac{d\theta}{dt} \nonumber
+    \\
   \frac{d^2\theta}{dt^2} &= \frac{1}{2}\frac
     {-\frac{2g}{l}\sin\theta}
     {\sqrt{\frac{2g}{l}(\cos\theta - \cos\theta_0)}}
-    \sqrt{\frac{2g}{l}(\cos\theta - \cos\theta_0)} \\
-  \frac{d^2\theta}{dt^2} &= -\frac{g}{l}\sin\theta \\
-  \ddot{\theta} &= -\frac{g}{l}\sin\theta
-\end{align*}
+    \sqrt{\frac{2g}{l}(\cos\theta - \cos\theta_0)} \nonumber \\
+  \frac{d^2\theta}{dt^2} &= -\frac{g}{l}\sin\theta \nonumber \\
+  \ddot{\theta} &= -\frac{g}{l}\sin\theta \nonumber
+\end{align}
 
 which is the same result from force analysis.

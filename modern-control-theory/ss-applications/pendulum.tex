@@ -14,25 +14,20 @@ Since state-space representation requires that only single derivatives be used,
 they should be broken up as separate \glspl{state}. We'll reassign
 $\dot{\theta}$ to be $\omega$ so the derivatives are easier to keep straight for
 state-space representation.
-\begin{equation*}
-  \dot{\omega} = -\frac{g}{l}\sin\theta
-\end{equation*}
-
-Now separate the \glspl{state}.
 \begin{align*}
+  \dot{\omega} &= -\frac{g}{l}\sin\theta
+  \intertext{Now separate the \glspl{state}.}
   \dot{\theta} &= \omega \\
   \dot{\omega} &= -\frac{g}{l} \sin\theta
-\end{align*}
-
-This makes our state vector $\begin{bmatrix}\theta & \omega\end{bmatrix}\T$ and
-our nonlinear model
-\begin{equation*}
-  f(\mat{x}, \mat{u}) =
+  \intertext{This makes our state vector
+    $\begin{bmatrix}\theta & \omega\end{bmatrix}\T$ and our nonlinear model the
+    following.}
+  f(\mat{x}, \mat{u}) &=
   \begin{bmatrix}
     \omega \\
     -\frac{g}{l}\sin\theta
   \end{bmatrix}
-\end{equation*}
+\end{align*}
 
 \subsubsection{Linearization around $\theta = 0$}
 
@@ -49,25 +44,20 @@ functions with polynomials, so we can use it for linearization.
 The taylor series expansion for $\sin\theta$ around $\theta = 0$ is
 $\theta - \frac{1}{6} \theta^3 + \frac{1}{120} \theta^5 - \ldots$. We'll take
 just the first-order term $\theta$ to obtain a linear function.
-\begin{align*}
-  \dot{\theta} &= \omega \\
-  \dot{\omega} &= -\frac{g}{l} \theta
-\end{align*}
-
-Now write the \gls{model} in state-space representation. We'll write out the
-system of equations with the zeroed variables included to assist with this.
-\begin{align*}
-  \dot{\theta} &= \;\;\;\,0 \theta + 1 \omega \\
-  \dot{\omega} &= -\frac{g}{l} \theta + 0 \omega
-\end{align*}
-
-Factor out $\theta$ and $\omega$ into a column vector.
 \begin{align}
+  \dot{\theta} &= \omega \nonumber \\
+  \dot{\omega} &= -\frac{g}{l} \theta \nonumber
+  \intertext{Now write the \gls{model} in state-space representation. We'll
+    write out the system of equations with the zeroed variables included to
+    assist with this.}
+  \dot{\theta} &= \;\;\;\,0 \theta + 1 \omega \nonumber \\
+  \dot{\omega} &= -\frac{g}{l} \theta + 0 \omega \nonumber
+  \intertext{Factor out $\theta$ and $\omega$ into a column vector.}
   \dot{
   \begin{bmatrix}
     \theta \\
     \omega
-  \end{bmatrix}} =
+  \end{bmatrix}} &=
   \begin{bmatrix}
     0 & 1 \\
     -\frac{g}{l} & 0
@@ -81,23 +71,20 @@ Factor out $\theta$ and $\omega$ into a column vector.
 \subsubsection{Linearization with the Jacobian}
 
 Here's the original nonlinear model in state-space representation.
-\begin{equation*}
-  f(\mat{x}, \mat{u}) =
+\begin{align*}
+  f(\mat{x}, \mat{u}) &=
   \begin{bmatrix}
     \omega \\
     -\frac{g}{l}\sin\theta
   \end{bmatrix}
-\end{equation*}
-
-If we want to linearize around an arbitrary point, we can take the Jacobian with
-respect to $\mat{x}$.
-\begin{equation*}
-  \frac{\partial f(\mat{x}, \mat{u})}{\partial\mat{x}} =
+  \intertext{If we want to linearize around an arbitrary point, we can take the
+    Jacobian with respect to $\mat{x}$.}
+  \frac{\partial f(\mat{x}, \mat{u})}{\partial\mat{x}} &=
   \begin{bmatrix}
     0 & 1 \\
     -\frac{g}{l}\cos\theta & 0
   \end{bmatrix}
-\end{equation*}
+\end{align*}
 
 For full \gls{state} feedback, knowledge of all \glspl{state} is required. If
 not all \glspl{state} are measured directly, an estimator can be used to
@@ -106,14 +93,11 @@ supplement them.
 We may only be measuring $\theta$ in the pendulum example, not $\dot{\theta}$,
 so we'll need to estimate the latter. The $\mat{C}$ matrix the \gls{observer}
 would use in this case is
-\begin{equation*}
-  \mat{C} = \begin{bmatrix}
+\begin{align*}
+  \mat{C} &= \begin{bmatrix}
     1 & 0 \\
   \end{bmatrix}
-\end{equation*}
-
-Therefore, the measurement vector is
-\begin{align*}
+  \intertext{Therefore, the measurement vector is}
   \mat{y} &= \mat{C}\mat{x} \\
   \mat{y} &= \begin{bmatrix}
     1 & 0

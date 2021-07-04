@@ -76,10 +76,8 @@ nonlinear transformation of the inputs.
 \begin{align*}
   v &= v_d\cos e_\theta - u_1 \\
   \omega &= \omega_d - u_2
-\end{align*}
-
-Substituting the control laws $u_1$ and $u_2$ into these equations gives
-\begin{align*}
+  \intertext{Substituting the control laws $u_1$ and $u_2$ into these equations
+    gives}
   v &= v_d\cos{e_\theta} + k_1 e_x \\
   \omega &= k_3 e_\theta + \omega_d + k_2 v_d \sinc(e_\theta) e_y
 \end{align*}
@@ -331,11 +329,8 @@ equation \eqref{eq:diff_vc_l} to equation \eqref{eq:diff_vc_r}.
     \frac{1}{m} C_4 V_r \\
   \dot{v}_c &= \frac{1}{m} (C_1 + C_3) v_c + \frac{r_b}{m} (-C_1 + C_3) \omega +
     \frac{1}{m} C_2 V_l + \frac{1}{m} C_4 V_r
-\end{align*}
-
-Next, we'll subtract equation \eqref{eq:diff_vc_r} from equation
-\eqref{eq:diff_vc_l}.
-\begin{align*}
+  \intertext{Next, we'll subtract equation \eqref{eq:diff_vc_r} from equation
+    \eqref{eq:diff_vc_l}.}
   2\dot{\omega} r_b &= \frac{2r_b^2}{J}
     \left(C_1(v_c - \omega r_b) + C_2 V_l\right) -
     \frac{2r_b^2}{J} \left(C_3(v_c + \omega r_b) + C_4 V_r\right) \\

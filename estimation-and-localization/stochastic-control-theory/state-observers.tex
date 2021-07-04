@@ -111,10 +111,7 @@ Plugging equation \eqref{eq:z_obsv_y} into equation \eqref{eq:z_obsv_x} gives
     \mat{L} (\mat{y}_k - (\mat{C}\hat{\mat{x}}_k + \mat{D}\mat{u}_k)) \\
   \hat{\mat{x}}_{k+1} &= \mat{A}\hat{\mat{x}}_k + \mat{B}\mat{u}_k +
     \mat{L} (\mat{y}_k - \mat{C}\hat{\mat{x}}_k - \mat{D}\mat{u}_k)
-\end{align*}
-
-Plugging in equation \eqref{eq:ssz_ctrl_y} gives
-\begin{align*}
+  \intertext{Plugging in equation \eqref{eq:ssz_ctrl_y} gives}
   \hat{\mat{x}}_{k+1} &= \mat{A}\hat{\mat{x}}_k + \mat{B}\mat{u}_k +
     \mat{L}((\mat{C}\mat{x}_k + \mat{D}\mat{u}_k) - \mat{C}\hat{\mat{x}}_k -
     \mat{D}\mat{u}_k) \\
@@ -125,14 +122,11 @@ Plugging in equation \eqref{eq:ssz_ctrl_y} gives
     \mat{L}(\mat{C}\mat{x}_k - \mat{C}\hat{\mat{x}}_k) \\
   \hat{\mat{x}}_{k+1} &= \mat{A}\hat{\mat{x}}_k + \mat{B}\mat{u}_k +
     \mat{L}\mat{C}(\mat{x}_k - \hat{\mat{x}}_k)
-\end{align*}
-
-Let $E_k = \mat{x}_k - \hat{\mat{x}}_k$ be the \gls{error} in the estimate
-$\hat{\mat{x}}_k$.
-\begin{equation*}
-  \hat{\mat{x}}_{k+1} = \mat{A}\hat{\mat{x}}_k + \mat{B}\mat{u}_k +
+  \intertext{Let $E_k = \mat{x}_k - \hat{\mat{x}}_k$ be the \gls{error} in the
+    estimate $\hat{\mat{x}}_k$.}
+  \hat{\mat{x}}_{k+1} &= \mat{A}\hat{\mat{x}}_k + \mat{B}\mat{u}_k +
     \mat{L}\mat{C}\mat{E}_k
-\end{equation*}
+\end{align*}
 
 Subtracting this from equation \eqref{eq:ssz_ctrl_x} gives
 \begin{align}
@@ -166,13 +160,11 @@ and a controller with perfect \gls{tracking}.
 
 The effect of noise can be seen if it is modeled
 \glslink{stochastic process}{stochastically} as
-\begin{equation*}
-  \hat{\mat{x}}_{k+1} = \mat{A}\hat{\mat{x}}_k + \mat{B}\mat{u}_k +
-    \mat{L} ((\mat{y}_k + \mat{\nu}_k) - \hat{\mat{y}}_k) \\
-\end{equation*}
-
-where $\mat{\nu}_k$ is the measurement noise. Rearranging this equation yields
 \begin{align*}
+  \hat{\mat{x}}_{k+1} &= \mat{A}\hat{\mat{x}}_k + \mat{B}\mat{u}_k +
+    \mat{L} ((\mat{y}_k + \mat{\nu}_k) - \hat{\mat{y}}_k) \\
+  \intertext{where $\mat{\nu}_k$ is the measurement noise. Rearranging this
+    equation yields}
   \hat{\mat{x}}_{k+1} &= \mat{A}\hat{\mat{x}}_k + \mat{B}\mat{u}_k +
     \mat{L} (\mat{y}_k - \hat{\mat{y}}_k + \mat{\nu}_k) \\
   \hat{\mat{x}}_{k+1} &= \mat{A}\hat{\mat{x}}_k + \mat{B}\mat{u}_k +

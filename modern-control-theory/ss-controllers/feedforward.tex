@@ -137,10 +137,7 @@ For example, a constant \gls{reference} requires a feedforward that opposes
 \begin{align*}
   \mat{u}_k &= \mat{B}_\dagger (\mat{r}_{k+1} - \mat{I}\mat{r}_k) \\
   \mat{u}_k &= \mat{B}_\dagger (\mat{r}_{k+1} - \mat{r}_k)
-\end{align*}
-
-For a constant \gls{reference}, $\mat{r}_{k+1} = \mat{r}_k$.
-\begin{align*}
+  \intertext{For a constant \gls{reference}, $\mat{r}_{k+1} = \mat{r}_k$.}
   \mat{u}_k &= \mat{B}_\dagger (\mat{r}_k - \mat{r}_k) \\
   \mat{u}_k &= \mat{B}_\dagger (\mat{0}) \\
   \mat{u}_k &= \mat{0}
@@ -164,15 +161,13 @@ dynamics. Consider an elevator model which doesn't include gravity. A constant
 voltage offset can be used compensate for this. The feedforward takes the form
 of a voltage constant because voltage is proportional to force applied, and the
 force is acting in only one direction at all times.
-\begin{equation}
-  u_k = V_{app}
-\end{equation}
-
-where $V_{app}$ is a constant. Another feedforward holds a single-jointed arm
-steady in the presence of gravity. It has the following form.
-\begin{equation}
-  u_k = V_{app} \cos\theta
-\end{equation}
+\begin{align}
+  u_k &= V_{app}
+  \intertext{where $V_{app}$ is a constant. Another feedforward holds a
+    single-jointed arm steady in the presence of gravity. It has the following
+    form.}
+  u_k &= V_{app} \cos\theta
+\end{align}
 
 where $V_{app}$ is the voltage required to keep the single-jointed arm level
 with the ground, and $\theta$ is the angle of the arm relative to the ground.

@@ -120,20 +120,15 @@ First, we'll consider the one-dimensional case. Let $u_{error}$ be the
 difference between the \gls{input} actually applied to a \gls{system} and the
 desired \gls{input}. The $u_{error}$ term is then added to the \gls{system} as
 follows.
-\begin{equation*}
-  \dot{x} = Ax + B\left(u + u_{error}\right)
-\end{equation*}
-
-$u + u_{error}$ is the hypothetical \gls{input} actually applied to the
-\gls{system}.
-\begin{equation*}
-  \dot{x} = Ax + Bu + Bu_{error}
-\end{equation*}
-
-The following equation generalizes this to a multiple-input \gls{system}.
-\begin{equation*}
-  \dot{\mat{x}} = \mat{A}\mat{x} + \mat{B}\mat{u} + \mat{B}_{error}u_{error}
-\end{equation*}
+\begin{align*}
+  \dot{x} &= Ax + B\left(u + u_{error}\right)
+  \intertext{$u + u_{error}$ is the hypothetical \gls{input} actually applied to
+    the \gls{system}.}
+  \dot{x} &= Ax + Bu + Bu_{error}
+  \intertext{The following equation generalizes this to a multiple-input
+    \gls{system}.}
+  \dot{\mat{x}} &= \mat{A}\mat{x} + \mat{B}\mat{u} + \mat{B}_{error}u_{error}
+\end{align*}
 
 where $\mat{B}_{error}$ is a column vector that maps $u_{error}$ to changes in
 the rest of the \gls{state} the same way $\mat{B}$ does for $\mat{u}$.

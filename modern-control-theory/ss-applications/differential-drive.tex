@@ -13,10 +13,8 @@ By equations \eqref{eq:diff_drive_model_right} and
   \dot{v}_r &= \left(\frac{1}{m} - \frac{r_b^2}{J}\right)
     \left(C_1 v_l + C_2 V_l\right) +
     \left(\frac{1}{m} + \frac{r_b^2}{J}\right) \left(C_3 v_r + C_4 V_r\right)
-\end{align*}
-
-Regroup the terms into states $v_l$ and $v_r$ and inputs $V_l$ and $V_r$.
-\begin{align*}
+  \intertext{Regroup the terms into states $v_l$ and $v_r$ and inputs $V_l$ and
+    $V_r$.}
   \dot{v}_l &= \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_1 v_l +
     \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_2 V_l +
     \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_3 v_r +
@@ -25,8 +23,7 @@ Regroup the terms into states $v_l$ and $v_r$ and inputs $V_l$ and $V_r$.
     \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_2 V_l +
     \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_3 v_r +
     \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_4 V_r
-\end{align*}
-\begin{align*}
+  \shortintertext{}
   \dot{v}_l &= \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_1 v_l +
     \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_3 v_r +
     \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_2 V_l +
@@ -35,11 +32,8 @@ Regroup the terms into states $v_l$ and $v_r$ and inputs $V_l$ and $V_r$.
     \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_3 v_r +
     \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_2 V_l +
     \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_4 V_r
-\end{align*}
-
-Factor out $v_l$ and $v_r$ into a column vector and $V_l$ and $V_r$ into a
-column vector.
-\begin{align*}
+  \intertext{Factor out $v_l$ and $v_r$ into a column vector and $V_l$ and $V_r$
+    into a column vector.}
   \dot{\begin{bmatrix}
     v_l \\
     v_r
@@ -491,11 +485,11 @@ will be $1$, and the others will be $0$ since they don't appear, so
 $\dot{x}_l = 1v_l + 0v_r + 0x_l + 0x_r + 0V_l + 0V_r$ and
 $\dot{x}_r = 0v_l + 1v_r + 0x_l + 0x_r + 0V_l + 0V_r$. The existing rows will
 have zeroes inserted where $x_l$ and $x_r$ are multiplied in.
-\begin{align*}
+\begin{equation*}
   \dot{\begin{bmatrix}
     x_l \\
     x_r
-  \end{bmatrix}} &=
+  \end{bmatrix}} =
   \begin{bmatrix}
     1 & 0 \\
     0 & 1
@@ -512,7 +506,7 @@ have zeroes inserted where $x_l$ and $x_r$ are multiplied in.
     V_l \\
     V_r
   \end{bmatrix}
-\end{align*}
+\end{equation*}
 
 This produces the following linear subspace over
 $\mat{x} = \begin{bmatrix}v_l & v_r & x_l & x_r\end{bmatrix}\T$.

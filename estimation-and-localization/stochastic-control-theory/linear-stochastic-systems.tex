@@ -74,10 +74,8 @@ evolves.
   \mat{P}_{k+1} &= \mat{A}\mat{P}_k\mat{A}\T +
     \mat{A}E[(\mat{x}_k - \matbar{x}_k)\mat{w}_k\T] +
     E[\mat{w}_k(\mat{x}_k - \matbar{x}_k)\T]\mat{A}\T + \mat{Q}_k
-\end{align*}
-
-Since the error and noise are independent, the cross terms are zero.
-\begin{align*}
+  \intertext{Since the error and noise are independent, the cross terms are
+    zero.}
   \mat{P}_{k+1} &= \mat{A}\mat{P}_k\mat{A}\T +
     \mat{A}\underbrace{
       E[(\mat{x}_k - \matbar{x}_k)\mat{w}_k\T]}_\mat{0} +
@@ -129,10 +127,8 @@ $\mat{S}$ evolves.
     \mat{C}E[(\mat{x}_k - \matbar{x}_k)\mat{v}_k\T] +
     E[\mat{v}_k(\mat{x}_k - \matbar{x}_k)\T]\mat{C}\T +
     \mat{R}_k
-\end{align*}
-
-Since the error and noise are independent, the cross terms are zero.
-\begin{align*}
+  \intertext{Since the error and noise are independent, the cross terms are
+    zero.}
   \mat{S}_k &= \mat{C}\mat{P}_k\mat{C}\T +
     \mat{C}\underbrace{E[(\mat{x}_k - \matbar{x}_k)\mat{v}_k\T]}_\mat{0} +
     \underbrace{

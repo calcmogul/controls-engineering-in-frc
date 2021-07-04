@@ -165,20 +165,17 @@ update step.
 \end{align}
 
 Substitute equation \eqref{eq:post2_x} into equation \eqref{eq:pre2_x}.
-\begin{align*}
+\begin{align}
   \hat{\mat{x}}_{k+1}^+ &= \mat{A}(\hat{\mat{x}}_k^- + \mat{K}_k(\mat{y}_k -
-    \mat{C}\hat{\mat{x}}_k^-)) + \mat{B}\mat{u}_k \\
+    \mat{C}\hat{\mat{x}}_k^-)) + \mat{B}\mat{u}_k \nonumber \\
   \hat{\mat{x}}_{k+1}^+ &= \mat{A}\mat{x}_k^- + \mat{A}\mat{K}_k(\mat{y}_k -
-    \mat{C}\hat{\mat{x}}_k^-) + \mat{B}\mat{u}_k \\
+    \mat{C}\hat{\mat{x}}_k^-) + \mat{B}\mat{u}_k \nonumber \\
   \hat{\mat{x}}_{k+1}^+ &= \mat{A}\hat{\mat{x}}_k^- + \mat{B}\mat{u}_k +
-    \mat{A}\mat{K}_k(\mat{y}_k - \mat{C}\hat{\mat{x}}_k^-)
-\end{align*}
-
-Let $\mat{L} = \mat{A} \mat{K}_k$.
-\begin{equation}
-  \hat{\mat{x}}_{k+1}^+ = \mat{A}\hat{\mat{x}}_k^- + \mat{B}\mat{u}_k + \mat{L}
+    \mat{A}\mat{K}_k(\mat{y}_k - \mat{C}\hat{\mat{x}}_k^-) \nonumber
+  \intertext{Let $\mat{L} = \mat{A} \mat{K}_k$.}
+  \hat{\mat{x}}_{k+1}^+ &= \mat{A}\hat{\mat{x}}_k^- + \mat{B}\mat{u}_k + \mat{L}
     (\mat{y}_k - \mat{C}\hat{\mat{x}}_k^-)
-\end{equation}
+\end{align}
 
 which matches equation \eqref{eq:luenberger}. Therefore, the eigenvalues of the
 Kalman filter \gls{observer} can be obtained by
@@ -205,13 +202,10 @@ equation.
     \mat{C}\hat{\mat{x}}_{k+1}^-) \\
   \hat{\mat{x}}_{k+1}^+ &= \hat{\mat{x}}_{k+1}^- + \mat{A}^{-1}\mat{L}
     (\mat{y}_{k+1} - \mat{C}\hat{\mat{x}}_{k+1}^-)
-\end{align*}
-
-Substitute in equation \eqref{eq:z_obsv_y}.
-\begin{equation*}
-  \hat{\mat{x}}_{k+1}^+ = \hat{\mat{x}}_{k+1}^- + \mat{A}^{-1}\mat{L}
+  \intertext{Substitute in equation \eqref{eq:z_obsv_y}.}
+  \hat{\mat{x}}_{k+1}^+ &= \hat{\mat{x}}_{k+1}^- + \mat{A}^{-1}\mat{L}
     (\mat{y}_{k+1} - \hat{\mat{y}}_{k+1})
-\end{equation*}
+\end{align*}
 
 The predict step is the same as the Kalman filter's. Therefore, a Luenberger
 \gls{observer} run with prediction and update steps is written as follows.

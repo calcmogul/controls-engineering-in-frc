@@ -5,12 +5,9 @@
 \index{FRC models!flywheel equations}
 
 By equation \eqref{eq:dot_omega_flywheel}
-\begin{equation*}
-  \dot{\omega} = -\frac{G^2 K_t}{K_v RJ} \omega + \frac{G K_t}{RJ} V
-\end{equation*}
-
-Factor out $\omega$ and $V$ into column vectors.
 \begin{align*}
+  \dot{\omega} &= -\frac{G^2 K_t}{K_v RJ} \omega + \frac{G K_t}{RJ} V
+  \intertext{Factor out $\omega$ and $V$ into column vectors.}
   \dot{\begin{bmatrix}
     \omega
   \end{bmatrix}} &=
@@ -136,10 +133,7 @@ the flywheel model derived earlier as equation \eqref{eq:dot_omega_flywheel}.
 \begin{align*}
   \dot{\omega} &= \frac{G K_t}{RJ} V - \frac{G^2 K_t}{K_v RJ} \omega \\
   \dot{\omega} &= -\frac{G^2 K_t}{K_v RJ} \omega + \frac{G K_t}{RJ} V
-\end{align*}
-
-Next, we'll derive the current $I$ as an output.
-\begin{align*}
+  \intertext{Next, we'll derive the current $I$ as an output.}
   V &= IR + \frac{\omega}{K_v} \\
   IR &= V - \frac{\omega}{K_v} \\
   I &= -\frac{1}{K_v R} \omega + \frac{1}{R} V

@@ -119,17 +119,14 @@ velocity vector.
 \subsection{Inverse kinematics}
 
 First, we'll derive the front-left wheel kinematics.
-\begin{align*}
-  \vec{v}_{fl} &= v_x \hat{i} + v_y \hat{j} +
-    \omega \hat{k} \times (r_{fl_x} \hat{i} + r_{fl_y} \hat{j}) \\
-  \vec{v}_{fl} &= v_x \hat{i} + v_y \hat{j} +
-    \omega r_{fl_x} \hat{j} - \omega r_{fl_y} \hat{i} \\
-  \vec{v}_{fl} &= (v_x - \omega r_{fl_y}) \hat{i} +
-    (v_y + \omega r_{fl_x}) \hat{j}
-\end{align*}
-
-Project the front-left wheel onto its wheel vector.
 \begin{align}
+  \vec{v}_{fl} &= v_x \hat{i} + v_y \hat{j} +
+    \omega \hat{k} \times (r_{fl_x} \hat{i} + r_{fl_y} \hat{j}) \nonumber \\
+  \vec{v}_{fl} &= v_x \hat{i} + v_y \hat{j} +
+    \omega r_{fl_x} \hat{j} - \omega r_{fl_y} \hat{i} \nonumber \\
+  \vec{v}_{fl} &= (v_x - \omega r_{fl_y}) \hat{i} +
+    (v_y + \omega r_{fl_x}) \hat{j} \nonumber
+  \intertext{Project the front-left wheel onto its wheel vector.}
   v_{fl} &= ((v_x - \omega r_{fl_y}) \hat{i} + (v_y + \omega r_{fl_x}) \hat{j})
     \cdot \frac{\hat{i} - \hat{j}}{\sqrt{2}} \nonumber \\
   v_{fl} &= ((v_x - \omega r_{fl_y}) - (v_y + \omega r_{fl_x}))
@@ -145,17 +142,14 @@ Project the front-left wheel onto its wheel vector.
 \end{align}
 
 Next, we'll derive the front-right wheel kinematics.
-\begin{align*}
-  \vec{v}_{fr} &= v_x \hat{i} + v_y \hat{j} +
-    \omega \hat{k} \times (r_{fr_x} \hat{i} + r_{fr_y} \hat{j}) \\
-  \vec{v}_{fr} &= v_x \hat{i} + v_y \hat{j} +
-    \omega r_{fr_x} \hat{j} - \omega r_{fr_y} \hat{i} \\
-  \vec{v}_{fr} &= (v_x - \omega r_{fr_y}) \hat{i} +
-    (v_y + \omega r_{fr_x}) \hat{j}
-\end{align*}
-
-Project the front-right wheel onto its wheel vector.
 \begin{align}
+  \vec{v}_{fr} &= v_x \hat{i} + v_y \hat{j} +
+    \omega \hat{k} \times (r_{fr_x} \hat{i} + r_{fr_y} \hat{j}) \nonumber \\
+  \vec{v}_{fr} &= v_x \hat{i} + v_y \hat{j} +
+    \omega r_{fr_x} \hat{j} - \omega r_{fr_y} \hat{i} \nonumber \\
+  \vec{v}_{fr} &= (v_x - \omega r_{fr_y}) \hat{i} +
+    (v_y + \omega r_{fr_x}) \hat{j} \nonumber
+  \intertext{Project the front-right wheel onto its wheel vector.}
   v_{fr} &= ((v_x - \omega r_{fr_y}) \hat{i} + (v_y + \omega r_{fr_x}) \hat{j})
     \cdot (\hat{i} + \hat{j}) \frac{1}{\sqrt{2}} \nonumber \\
   v_{fr} &= ((v_x - \omega r_{fr_y}) + (v_y + \omega r_{fr_x}))
@@ -171,17 +165,14 @@ Project the front-right wheel onto its wheel vector.
 \end{align}
 
 Next, we'll derive the rear-left wheel kinematics.
-\begin{align*}
-  \vec{v}_{rl} &= v_x \hat{i} + v_y \hat{j} +
-    \omega \hat{k} \times (r_{rl_x} \hat{i} + r_{rl_y} \hat{j}) \\
-  \vec{v}_{rl} &= v_x \hat{i} + v_y \hat{j} +
-    \omega r_{rl_x} \hat{j} - \omega r_{rl_y} \hat{i} \\
-  \vec{v}_{rl} &= (v_x - \omega r_{rl_y}) \hat{i} +
-    (v_y + \omega r_{rl_x}) \hat{j}
-\end{align*}
-
-Project the rear-left wheel onto its wheel vector.
 \begin{align}
+  \vec{v}_{rl} &= v_x \hat{i} + v_y \hat{j} +
+    \omega \hat{k} \times (r_{rl_x} \hat{i} + r_{rl_y} \hat{j}) \nonumber \\
+  \vec{v}_{rl} &= v_x \hat{i} + v_y \hat{j} +
+    \omega r_{rl_x} \hat{j} - \omega r_{rl_y} \hat{i} \nonumber \\
+  \vec{v}_{rl} &= (v_x - \omega r_{rl_y}) \hat{i} +
+    (v_y + \omega r_{rl_x}) \hat{j} \nonumber
+  \intertext{Project the rear-left wheel onto its wheel vector.}
   v_{rl} &= ((v_x - \omega r_{rl_y}) \hat{i} + (v_y + \omega r_{rl_x}) \hat{j})
     \cdot (\hat{i} + \hat{j}) \frac{1}{\sqrt{2}} \nonumber \\
   v_{rl} &= ((v_x - \omega r_{rl_y}) + (v_y + \omega r_{rl_x}))
@@ -197,17 +188,14 @@ Project the rear-left wheel onto its wheel vector.
 \end{align}
 
 Next, we'll derive the rear-right wheel kinematics.
-\begin{align*}
-  \vec{v}_{rr} &= v_x \hat{i} + v_y \hat{j} +
-    \omega \hat{k} \times (r_{rr_x} \hat{i} + r_{rr_y} \hat{j}) \\
-  \vec{v}_{rr} &= v_x \hat{i} + v_y \hat{j} +
-    \omega r_{rr_x} \hat{j} - \omega r_{rr_y} \hat{i} \\
-  \vec{v}_{rr} &= (v_x - \omega r_{rr_y}) \hat{i} +
-    (v_y + \omega r_{rr_x}) \hat{j}
-\end{align*}
-
-Project the rear-right wheel onto its wheel vector.
 \begin{align}
+  \vec{v}_{rr} &= v_x \hat{i} + v_y \hat{j} +
+    \omega \hat{k} \times (r_{rr_x} \hat{i} + r_{rr_y} \hat{j}) \nonumber \\
+  \vec{v}_{rr} &= v_x \hat{i} + v_y \hat{j} +
+    \omega r_{rr_x} \hat{j} - \omega r_{rr_y} \hat{i} \nonumber \\
+  \vec{v}_{rr} &= (v_x - \omega r_{rr_y}) \hat{i} +
+    (v_y + \omega r_{rr_x}) \hat{j} \nonumber
+  \intertext{Project the rear-right wheel onto its wheel vector.}
   v_{rr} &= ((v_x - \omega r_{rr_y}) \hat{i} + (v_y + \omega r_{rr_x}) \hat{j})
     \cdot \frac{\hat{i} - \hat{j}}{\sqrt{2}} \nonumber \\
   v_{rr} &= ((v_x - \omega r_{rr_y}) - (v_y + \omega r_{rr_x}))
@@ -223,19 +211,16 @@ Project the rear-right wheel onto its wheel vector.
 \end{align}
 
 This gives the following inverse kinematic equations.
-\begin{align*}
-  v_{fl} &= \frac{1}{\sqrt{2}} v_x - \frac{1}{\sqrt{2}} v_y -
-    \frac{1}{\sqrt{2}} \omega (r_{fl_x} + r_{fl_y}) \\
-  v_{fr} &= \frac{1}{\sqrt{2}} v_x + \frac{1}{\sqrt{2}} v_y +
-    \frac{1}{\sqrt{2}} \omega (r_{fr_x} - r_{fr_y}) \\
-  v_{rl} &= \frac{1}{\sqrt{2}} v_x + \frac{1}{\sqrt{2}} v_y +
-    \frac{1}{\sqrt{2}} \omega (r_{rl_x} - r_{rl_y}) \\
-  v_{rr} &= \frac{1}{\sqrt{2}} v_x - \frac{1}{\sqrt{2}} v_y -
-    \frac{1}{\sqrt{2}} \omega (r_{rr_x} + r_{rr_y})
-\end{align*}
-
-Now we'll factor them out into matrices.
 \begin{align}
+  v_{fl} &= \frac{1}{\sqrt{2}} v_x - \frac{1}{\sqrt{2}} v_y -
+    \frac{1}{\sqrt{2}} \omega (r_{fl_x} + r_{fl_y}) \nonumber \\
+  v_{fr} &= \frac{1}{\sqrt{2}} v_x + \frac{1}{\sqrt{2}} v_y +
+    \frac{1}{\sqrt{2}} \omega (r_{fr_x} - r_{fr_y}) \nonumber \\
+  v_{rl} &= \frac{1}{\sqrt{2}} v_x + \frac{1}{\sqrt{2}} v_y +
+    \frac{1}{\sqrt{2}} \omega (r_{rl_x} - r_{rl_y}) \nonumber \\
+  v_{rr} &= \frac{1}{\sqrt{2}} v_x - \frac{1}{\sqrt{2}} v_y -
+    \frac{1}{\sqrt{2}} \omega (r_{rr_x} + r_{rr_y}) \nonumber
+  \intertext{Now we'll factor them out into matrices.}
   \begin{bmatrix}
     v_{fl} \\
     v_{fr} \\

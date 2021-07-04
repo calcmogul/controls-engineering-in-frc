@@ -40,15 +40,9 @@ Substitute equation \eqref{eq:cs_flywheel_2} into equation
 \begin{align*}
   V &= IR + \frac{\omega}{K_v} \\
   V &= \left(\frac{\tau}{K_t}\right) R + \frac{\omega}{K_v}
-\end{align*}
-
-Substitute in equation \eqref{eq:cs_flywheel_3}.
-\begin{align*}
+  \intertext{Substitute in equation \eqref{eq:cs_flywheel_3}.}
   V &= \frac{\left(J \frac{d\omega}{dt}\right)}{K_t} R + \frac{\omega}{K_v} \\
-\end{align*}
-
-Solve for $\frac{d\omega}{dt}$.
-\begin{align*}
+  \intertext{Solve for $\frac{d\omega}{dt}$.}
   V &= \frac{J \frac{d\omega}{dt}}{K_t} R + \frac{\omega}{K_v} \\
   V - \frac{\omega}{K_v} &= \frac{J \frac{d\omega}{dt}}{K_t} R \\
   \frac{d\omega}{dt} &= \frac{K_t}{JR} \left(V - \frac{\omega}{K_v}\right) \\
@@ -60,17 +54,14 @@ operator, we can take the Laplace transform of each term individually. Based on
 table \ref{tab:common_laplace_transforms}, $\frac{d\omega}{dt}$ becomes
 $s\omega$ and $\omega(t)$ and $V(t)$ become $\omega(s)$ and $V(s)$ respectively
 (the parenthetical notation has been dropped for clarity).
-\begin{equation}
-  s \omega = -\frac{K_t}{JRK_v} \omega + \frac{K_t}{JR} V
+\begin{align}
+  s \omega &= -\frac{K_t}{JRK_v} \omega + \frac{K_t}{JR} V
   \label{eq:cs_motor_tf}
-\end{equation}
-
-Solve for the transfer function $H(s) = \frac{\omega}{V}$.
-\begin{align*}
-  s \omega &= -\frac{K_t}{JRK_v} \omega + \frac{K_t}{JR} V \\
-  \left(s + \frac{K_t}{JRK_v}\right) \omega &= \frac{K_t}{JR} V \\
-  \frac{\omega}{V} &= \frac{\frac{K_t}{JR}}{s + \frac{K_t}{JRK_v}} \\
-\end{align*}
+  \intertext{Solve for the transfer function $H(s) = \frac{\omega}{V}$.}
+  s \omega &= -\frac{K_t}{JRK_v} \omega + \frac{K_t}{JR} V \nonumber \\
+  \left(s + \frac{K_t}{JRK_v}\right) \omega &= \frac{K_t}{JR} V \nonumber \\
+  \frac{\omega}{V} &= \frac{\frac{K_t}{JR}}{s + \frac{K_t}{JRK_v}} \nonumber
+\end{align}
 
 That gives us a pole at $-\frac{K_t}{JRK_v}$, which is actually stable. Notice
 that there is only one pole.
@@ -81,13 +72,11 @@ First, we'll use a simple P loop.
 \end{equation*}
 
 Substitute this controller into equation \eqref{eq:cs_motor_tf}.
-\begin{equation*}
-  s \omega = -\frac{K_t}{JRK_v} \omega + \frac{K_t}{JR} K_p (\omega_{goal} -
-    \omega)
-\end{equation*}
-
-Solve for the transfer function $H(s) = \frac{\omega}{\omega_{goal}}$.
 \begin{align*}
+  s \omega &= -\frac{K_t}{JRK_v} \omega + \frac{K_t}{JR} K_p (\omega_{goal} -
+    \omega)
+  \intertext{Solve for the transfer function
+    $H(s) = \frac{\omega}{\omega_{goal}}$.}
   s \omega &= -\frac{K_t}{JRK_v} \omega + \frac{K_t K_p}{JR} (\omega_{goal} -
     \omega) \\
   s \omega &= -\frac{K_t}{JRK_v} \omega + \frac{K_t K_p}{JR} \omega_{goal} -

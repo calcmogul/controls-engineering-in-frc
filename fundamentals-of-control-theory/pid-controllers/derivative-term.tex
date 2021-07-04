@@ -56,14 +56,12 @@ implicitly provided by how the position \gls{setpoint} changes over time. Figure
 
 To prove a PD controller is just two proportional controllers, we will rearrange
 the equation for a PD controller.
-\begin{equation*}
-  u_k = K_p e_k + K_d \frac{e_k - e_{k-1}}{dt}
-\end{equation*}
-
-where $u_k$ is the \gls{control input} at timestep $k$ and $e_k$ is the
-\gls{error} at timestep $k$. $e_k$ is defined as $e_k = r_k - x_k$ where $r_k$
-is the \gls{setpoint} and $x_k$ is the current \gls{state} at timestep $k$.
 \begin{align*}
+  u_k &= K_p e_k + K_d \frac{e_k - e_{k-1}}{dt}
+  \intertext{where $u_k$ is the \gls{control input} at timestep $k$ and $e_k$ is
+    the \gls{error} at timestep $k$. $e_k$ is defined as $e_k = r_k - x_k$ where
+    $r_k$ is the \gls{setpoint} and $x_k$ is the current \gls{state} at timestep
+    $k$.}
   u_k &= K_p (r_k - x_k) + K_d \frac{(r_k - x_k) - (r_{k-1} - x_{k-1})}{dt} \\
   u_k &= K_p (r_k - x_k) + K_d \frac{r_k - x_k - r_{k-1} + x_{k-1}}{dt} \\
   u_k &= K_p (r_k - x_k) + K_d \frac{r_k - r_{k-1} - x_k + x_{k-1}}{dt} \\

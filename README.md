@@ -150,6 +150,9 @@ represent spaces between words instead of hyphens. Hyphens should only be used
 where the character being written is already a hyphen. `.tex` file names should
 use hyphens and `.py` file names should use underscores.
 
+When including linebreaks in equations, insert the linebreak and a `\qquad`
+before the next operator.
+
 Glossary entries in [glossary-entries.tex](glossary-entries.tex) should be
 lexographically sorted by entry key. The entry key should be the same as the
 name. The words in the name should be lowercase, and the description should

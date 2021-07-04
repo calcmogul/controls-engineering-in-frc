@@ -116,12 +116,9 @@ rotation matrix where $\theta$ changes over time.
     v_y \\
     \omega
   \end{bmatrix}} dt
-\end{align*}
-
-Now, integrate the matrix equation (matrices are integrated element-wise). This
-derivation heavily utilizes the integration method described in section
-\ref{subsec:calculus_change_of_vars}.
-\begin{align*}
+  \intertext{Now, integrate the matrix equation (matrices are integrated
+    element-wise). This derivation heavily utilizes the integration method
+    described in section \ref{subsec:calculus_change_of_vars}.}
   \crdfrm{G}{\begin{bmatrix}
     \Delta x \\
     \Delta y \\
@@ -298,11 +295,8 @@ these with Taylor series expansions.
   \frac{\cos\omega t - 1}{\omega} &\sim -\frac{t^2 \omega}{2} \\
   \frac{1 - \cos\omega t}{\omega} &= \frac{t^2 \omega}{2} - \frac{t^4 \omega^3}{4} + \ldots \\
   \frac{1 - \cos\omega t}{\omega} &\sim \frac{t^2 \omega}{2}
-\end{align*}
-
-If we let $\omega = 0$, we should get the standard kinematic equations like
-$x = vt$ with a rotation applied to them.
-\begin{align*}
+  \intertext{If we let $\omega = 0$, we should get the standard kinematic
+    equations like $x = vt$ with a rotation applied to them.}
   \frac{\sin\omega t}{\omega} &\sim t - \frac{t^3 \cdot 0^2}{6} = t \\
   \frac{\cos\omega t - 1}{\omega} &\sim -\frac{t^2 \cdot 0}{2} = 0 \\
   \frac{1 - \cos\omega t}{\omega} &\sim \frac{t^2 \cdot 0}{2} = 0
@@ -380,12 +374,12 @@ of the current heading, which is along the x-axis. Therefore,
   \end{bmatrix}
 \end{align*}
 \begin{theorem}[Pose exponential]
-  \begin{equation}
+  \begin{align}
     \crdfrm{G}{\begin{bmatrix}
       \Delta x \\
       \Delta y \\
       \Delta \theta
-    \end{bmatrix}} =
+    \end{bmatrix}} &=
     \begin{bmatrix}
       \cos\theta & -\sin\theta & 0 \\
       \sin\theta &  \cos\theta & 0 \\
@@ -402,15 +396,12 @@ of the current heading, which is along the x-axis. Therefore,
       \omega
     \end{bmatrix}}
     \label{eq:pose_exponential}
-  \end{equation}
-
-  or
-  \begin{equation}
+    \intertext{or}
     \crdfrm{G}{\begin{bmatrix}
       \Delta x \\
       \Delta y \\
       \Delta \theta
-    \end{bmatrix}} =
+    \end{bmatrix}} &=
     \begin{bmatrix}
       \cos\theta & -\sin\theta & 0 \\
       \sin\theta &  \cos\theta & 0 \\
@@ -428,7 +419,7 @@ of the current heading, which is along the x-axis. Therefore,
       \Delta y \\
       \Delta\theta
     \end{bmatrix}}
-  \end{equation}
+  \end{align}
 
   where $G$ denotes global coordinate frame and $R$ denotes robot's coordinate
   frame.

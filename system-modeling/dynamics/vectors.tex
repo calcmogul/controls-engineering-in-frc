@@ -27,21 +27,15 @@ We can also write the vector $\vec{a}$ in terms of these basis vectors.
 
 We will now show this is equivalent to the original notation through some vector
 mathematics. First, we'll substitute in the values for the basis vectors.
-\begin{equation*}
-  \vec{a} = 1\langle 1, 0, 0 \rangle + 2\langle 0, 1, 0 \rangle +
+\begin{align*}
+  \vec{a} &= 1\langle 1, 0, 0 \rangle + 2\langle 0, 1, 0 \rangle +
     3\langle 0, 0, 1 \rangle
-\end{equation*}
-
-Scalars are multiplied component-wise with vectors.
-\begin{equation*}
-  \vec{a} = \langle 1, 0, 0 \rangle + \langle 0, 2, 0 \rangle +
+  \intertext{Scalars are multiplied component-wise with vectors.}
+  \vec{a} &= \langle 1, 0, 0 \rangle + \langle 0, 2, 0 \rangle +
     \langle 0, 0, 3 \rangle \\
-\end{equation*}
-
-Vectors are added by summing each of their components.
-\begin{equation*}
-  \vec{a} = \langle 1, 2, 3 \rangle
-\end{equation*}
+  \intertext{Vectors are added by summing each of their components.}
+  \vec{a} &= \langle 1, 2, 3 \rangle
+\end{align*}
 
 \subsection{Cross product}
 
@@ -68,18 +62,18 @@ $\vec{u} = a\hat{i} + b\hat{j} + c\hat{k}$ and
 $\vec{v} = d\hat{i} + e\hat{j} + f\hat{k}$, $\vec{u} \times \vec{v}$ is computed
 using the distributive property.
 \begin{align*}
-  \vec{u} \times \vec{v} =&~(a\hat{i} + b\hat{j} + c\hat{k}) \times
+  \vec{u} \times \vec{v} &= (a\hat{i} + b\hat{j} + c\hat{k}) \times
     (d\hat{i} + e\hat{j} + f\hat{k}) \\
-  \vec{u} \times \vec{v} =&~ad(\hat{i} \times \hat{i}) + ae(\hat{i} \times
-    \hat{j}) + af(\hat{i} \times \hat{k}) + \\
-    &~bd(\hat{j} \times \hat{i}) + be(\hat{j} \times \hat{j}) +
-    bf(\hat{j} \times \hat{k}) + \\
-    &~cd(\hat{k} \times \hat{i}) + ce(\hat{k} \times \hat{j}) +
+  \vec{u} \times \vec{v} &= ad(\hat{i} \times \hat{i}) + ae(\hat{i} \times
+    \hat{j}) + af(\hat{i} \times \hat{k}) \\
+      &\qquad + bd(\hat{j} \times \hat{i}) + be(\hat{j} \times \hat{j}) \\
+      &\qquad + bf(\hat{j} \times \hat{k}) \\
+      &\qquad + cd(\hat{k} \times \hat{i}) + ce(\hat{k} \times \hat{j}) +
     cf(\hat{k} \times \hat{k}) \\
-  \vec{u} \times \vec{v} =&~ae\hat{k} + af(-\hat{j}) + bd(-\hat{k}) +
+  \vec{u} \times \vec{v} &= ae\hat{k} + af(-\hat{j}) + bd(-\hat{k}) +
     bf\hat{i} + cd\hat{j} + ce(-\hat{i}) \\
-  \vec{u} \times \vec{v} =&~ae\hat{k} - af\hat{j} - bd\hat{k} + bf\hat{i} +
+  \vec{u} \times \vec{v} &= ae\hat{k} - af\hat{j} - bd\hat{k} + bf\hat{i} +
     cd\hat{j} - ce\hat{i} \\
-  \vec{u} \times \vec{v} =&~(bf - ce)\hat{i} + (cd - af)\hat{j} +
+  \vec{u} \times \vec{v} &= (bf - ce)\hat{i} + (cd - af)\hat{j} +
     (ae - bd)\hat{k}
 \end{align*}

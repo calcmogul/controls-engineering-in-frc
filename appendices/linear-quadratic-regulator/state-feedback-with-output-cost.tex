@@ -25,27 +25,18 @@ from the behavior of another model.}.
 
 For state feedback with an output cost, we want to minimize the following cost
 functional.
-\begin{equation*}
-  J = \int_0^\infty \left(\mat{y}\T\mat{Q}\mat{y} +
-    \mat{u}\T\mat{R}\mat{u}\right) dt
-\end{equation*}
-
-Substitute in the expression for $\mat{y}$.
-\begin{equation*}
-  J = \int_0^\infty \left((\mat{C}\mat{x} + \mat{D}\mat{u})\T\mat{Q}
-    (\mat{C}\mat{x} + \mat{D}\mat{u}) + \mat{u}\T\mat{R}\mat{u}\right) dt
-\end{equation*}
-
-Apply the transpose to the left-hand side of the $\mat{Q}$ term.
-\begin{equation*}
-  J = \int_0^\infty \left((\mat{x}\T\mat{C}\T + \mat{u}\T\mat{D}\T)\mat{Q}
-    (\mat{C}\mat{x} + \mat{D}\mat{u}) + \mat{u}\T\mat{R}\mat{u}\right) dt
-\end{equation*}
-
-Factor out $\begin{bmatrix}\mat{x} \\ \mat{u}\end{bmatrix}\T$ from the left side
-and $\begin{bmatrix}\mat{x} \\ \mat{u}\end{bmatrix}$ from the right side of each
-term.
 \begin{align*}
+  J &= \int_0^\infty \left(\mat{y}\T\mat{Q}\mat{y} +
+    \mat{u}\T\mat{R}\mat{u}\right) dt
+  \intertext{Substitute in the expression for $\mat{y}$.}
+  J &= \int_0^\infty \left((\mat{C}\mat{x} + \mat{D}\mat{u})\T\mat{Q}
+    (\mat{C}\mat{x} + \mat{D}\mat{u}) + \mat{u}\T\mat{R}\mat{u}\right) dt
+  \intertext{Apply the transpose to the left-hand side of the $\mat{Q}$ term.}
+  J &= \int_0^\infty \left((\mat{x}\T\mat{C}\T + \mat{u}\T\mat{D}\T)\mat{Q}
+    (\mat{C}\mat{x} + \mat{D}\mat{u}) + \mat{u}\T\mat{R}\mat{u}\right) dt
+  \intertext{Factor out $\begin{bmatrix}\mat{x} \\ \mat{u}\end{bmatrix}\T$ from
+    the left side and $\begin{bmatrix}\mat{x} \\ \mat{u}\end{bmatrix}$ from the
+    right side of each term.}
   J &= \int_0^\infty \left(
     \begin{bmatrix}
       \mat{x} \\
@@ -102,11 +93,8 @@ term.
       \mat{u}
     \end{bmatrix}
     \right) dt
-\end{align*}
-
-Multiply in $\mat{Q}$.
-\begin{equation*}
-  J = \int_0^\infty \left(
+  \intertext{Multiply in $\mat{Q}$.}
+  J &= \int_0^\infty \left(
     \begin{bmatrix}
       \mat{x} \\
       \mat{u}
@@ -130,11 +118,8 @@ Multiply in $\mat{Q}$.
       \mat{u}
     \end{bmatrix}
     \right) dt
-\end{equation*}
-
-Multiply matrices in the left term together.
-\begin{equation*}
-  J = \int_0^\infty \left(
+  \intertext{Multiply matrices in the left term together.}
+  J &= \int_0^\infty \left(
     \begin{bmatrix}
       \mat{x} \\
       \mat{u}
@@ -154,7 +139,7 @@ Multiply matrices in the left term together.
       \mat{u}
     \end{bmatrix}
     \right) dt
-\end{equation*}
+\end{align*}
 
 Add the terms together.
 \begin{equation}

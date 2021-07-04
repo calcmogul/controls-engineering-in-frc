@@ -357,11 +357,8 @@ $\mat{z} = \mat{A}\mat{x} + \mat{B}\mat{y}$.
     \mat{A}(\mat{x} - \matbar{x})(\mat{y} - \matbar{y})\T\mat{B}\T \\
     &\qquad + \mat{B}(\mat{y} - \matbar{y})(\mat{x} - \matbar{x})\T\mat{A}\T +
     \mat{B}(\mat{y} - \matbar{y})(\mat{y} - \matbar{y})\T\mat{B}\T]
-\end{align*}
-
-Since $\mat{x}$ and $\mat{y}$ are independent, $\Sigma_{xy} = 0$ and the cross
-terms cancel out.
-\begin{align*}
+  \intertext{Since $\mat{x}$ and $\mat{y}$ are independent, $\Sigma_{xy} = 0$
+    and the cross terms cancel out.}
   \Sigma_z &= E[
     \mat{A}(\mat{x} - \matbar{x})(\mat{x} - \matbar{x})\T\mat{A}\T + 0 + 0 +
     \mat{B}(\mat{y} - \matbar{y})(\mat{y} - \matbar{y})\T\mat{B}\T] \\
@@ -371,13 +368,10 @@ terms cancel out.
   \Sigma_z &=
     \mat{A}E[(\mat{x} - \matbar{x})(\mat{x} - \matbar{x})\T]\mat{A}\T +
     \mat{B}E[(\mat{y} - \matbar{y})(\mat{y} - \matbar{y})\T]\mat{B}\T
+  \intertext{Recall that $\Sigma_x = \cov(\mat{x}, \mat{x})$ and
+    $\Sigma_y = \cov(\mat{y}, \mat{y})$.}
+  \Sigma_z &= \mat{A}\Sigma_x\mat{A}\T + \mat{B}\Sigma_y\mat{B}\T
 \end{align*}
-
-Recall that $\Sigma_x = \cov(\mat{x}, \mat{x})$ and
-$\Sigma_y = \cov(\mat{y}, \mat{y})$.
-\begin{equation*}
-  \Sigma_z = \mat{A}\Sigma_x\mat{A}\T + \mat{B}\Sigma_y\mat{B}\T
-\end{equation*}
 
 \subsection{Gaussian random variables}
 

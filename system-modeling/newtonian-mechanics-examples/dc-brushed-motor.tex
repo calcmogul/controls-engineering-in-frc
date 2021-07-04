@@ -89,12 +89,9 @@ the motor from its datasheet.
 \subsubsection{Resistance $R$}
 
 Recall equation \eqref{eq:motor_V}.
-\begin{equation*}
-  V = IR + \frac{\omega}{K_v}
-\end{equation*}
-
-When the motor is stalled, $\omega = 0$.
 \begin{align}
+  V &= IR + \frac{\omega}{K_v} \nonumber
+  \intertext{When the motor is stalled, $\omega = 0$.}
   V &= I_{stall} R \nonumber \\
   R &= \frac{V}{I_{stall}}
 \end{align}
@@ -105,14 +102,11 @@ applied to the motor at stall.
 \subsubsection{Angular velocity constant $K_v$}
 
 Recall equation \eqref{eq:motor_V}.
-\begin{align*}
-  V &= IR + \frac{\omega}{K_v} \\
-  V - IR &= \frac{\omega}{K_v} \\
-  K_v &= \frac{\omega}{V - IR}
-\end{align*}
-
-When the motor is spinning under no load
 \begin{align}
+  V &= IR + \frac{\omega}{K_v} \nonumber \\
+  V - IR &= \frac{\omega}{K_v} \nonumber \\
+  K_v &= \frac{\omega}{V - IR} \nonumber
+  \intertext{When the motor is spinning under no load,}
   K_v &= \frac{\omega_{free}}{V - I_{free}R}
 \end{align}
 
