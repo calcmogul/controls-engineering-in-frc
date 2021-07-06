@@ -85,6 +85,10 @@ Add stubs for missing chapters, missing sections, and todo items.
 * Add an appendix on Ito calculus to explain where the Wiener process comes from?
 * Add KF examples for nonlinear drivetrain pose estimation
   * EKF, UKF, and comparison of the two
+  * "For a constant period between updates and running the predict and correct steps in a loop (as opposed to sporadically skipping correct steps), the error covariance matrix P approaches a steady-state value (assuming the AT and CT matrix pair are stabilizable). Intuitively, the predict step projects the error covariance forward in an increasing parabolic shape because you become less certain in your state estimate as you go longer since a measurement. In your state-space (think like 3D space but each state is an axis), the error ellipsoid grows over time."
+  * "Minimizing eigenvalues minimizes error variances and thus dimensions of uncertainty ellipsoid."
+  * "The correct step reduces the error covariance again by injecting new information. The input has no effect on this because it has no noise associated with it. In fact, input cancels out in the Kalman filter expectation and covariance update equation derivations."
+  * "This steady-state P can be used to compute the steady-state Kalman gain. This is just off the top of my head, so let me know if you want me to elaborate on anything."
 
 ## Miscellaneous fixes
 
