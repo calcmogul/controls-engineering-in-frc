@@ -151,20 +151,19 @@ $\rho$.
     \left(\frac{u_n}{u_{n,max}}\right)^2\right]\right) dt
 \end{equation*}
 \begin{equation*}
-  \begin{array}{cc}
-    \mat{Q} = \begin{bmatrix}
-      \frac{\rho}{x_{1,max}^2} & 0 & \ldots & 0 \\
-      0 & \frac{\rho}{x_{2,max}^2} & & \vdots \\
-      \vdots & & \ddots & 0 \\
-      0 & \ldots & 0 & \frac{\rho}{x_{m,max}^2}
-    \end{bmatrix} &
-    \mat{R} = \begin{bmatrix}
-      \frac{1}{u_{1,max}^2} & 0 & \ldots & 0 \\
-      0 & \frac{1}{u_{2,max}^2} & & \vdots \\
-      \vdots & & \ddots & 0 \\
-      0 & \ldots & 0 & \frac{1}{u_{n,max}^2}
-    \end{bmatrix}
-  \end{array}
+  \mat{Q} = \begin{bmatrix}
+    \frac{\rho}{x_{1,max}^2} & 0 & \ldots & 0 \\
+    0 & \frac{\rho}{x_{2,max}^2} & & \vdots \\
+    \vdots & & \ddots & 0 \\
+    0 & \ldots & 0 & \frac{\rho}{x_{m,max}^2}
+  \end{bmatrix}
+  \quad
+  \mat{R} = \begin{bmatrix}
+    \frac{1}{u_{1,max}^2} & 0 & \ldots & 0 \\
+    0 & \frac{1}{u_{2,max}^2} & & \vdots \\
+    \vdots & & \ddots & 0 \\
+    0 & \ldots & 0 & \frac{1}{u_{n,max}^2}
+  \end{bmatrix}
 \end{equation*}
 
 Small values of $\rho$ penalize \gls{control effort} while large values of
@@ -177,22 +176,23 @@ use small values to conserve their limited fuel supply.
 This example uses the following second-order \gls{model} for a CIM motor (a DC
 brushed motor).
 \begin{align*}
-  \begin{array}{cccc}
-    \mat{A} = \begin{bmatrix}
-      -\frac{b}{J} & \frac{K_t}{J} \\
-      -\frac{K_e}{L} & -\frac{R}{L}
-    \end{bmatrix} &
-    \mat{B} = \begin{bmatrix}
-      0 \\
-      \frac{1}{L}
-    \end{bmatrix} &
-    \mat{C} = \begin{bmatrix}
-      1 & 0
-    \end{bmatrix} &
-    \mat{D} = \begin{bmatrix}
-      0
-    \end{bmatrix}
-  \end{array}
+  \mat{A} = \begin{bmatrix}
+    -\frac{b}{J} & \frac{K_t}{J} \\
+    -\frac{K_e}{L} & -\frac{R}{L}
+  \end{bmatrix}
+  \quad
+  \mat{B} = \begin{bmatrix}
+    0 \\
+    \frac{1}{L}
+  \end{bmatrix}
+  \quad
+  \mat{C} = \begin{bmatrix}
+    1 & 0
+  \end{bmatrix}
+  \quad
+  \mat{D} = \begin{bmatrix}
+    0
+  \end{bmatrix}
 \end{align*}
 
 Figure \ref{fig:case_study_pp_lqr} shows the response using discrete
@@ -201,15 +201,14 @@ discrete systems (inside unit circle is stable). The pole mappings mentioned so
 far (LHP is stable) only apply to continuous systems.} placed at $(0.1, 0)$ and
 $(0.9, 0)$ and LQR with the following cost matrices.
 \begin{align*}
-  \begin{array}{cc}
-    \mat{Q} = \begin{bmatrix}
-      \frac{1}{20^2} & 0 \\
-      0 & \frac{1}{40^2}
-    \end{bmatrix} &
-    \mat{R} = \begin{bmatrix}
-      \frac{1}{12^2}
-    \end{bmatrix}
-  \end{array}
+  \mat{Q} = \begin{bmatrix}
+    \frac{1}{20^2} & 0 \\
+    0 & \frac{1}{40^2}
+  \end{bmatrix}
+  \quad
+  \mat{R} = \begin{bmatrix}
+    \frac{1}{12^2}
+  \end{bmatrix}
 \end{align*}
 \begin{svg}{build/\chapterpath/case_study_pp_lqr}
   \caption{Second-order CIM motor response with pole placement and LQR}

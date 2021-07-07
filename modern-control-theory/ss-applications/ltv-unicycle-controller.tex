@@ -26,20 +26,19 @@ $\mat{u} = \begin{bmatrix} v & \omega \end{bmatrix}\T$.
 
 To create an LQR, we need to linearize this.
 \begin{equation*}
-  \begin{array}{ll}
-    \frac{\partial f(\mat{x}, \mat{u})}{\partial\mat{x}} =
-    \begin{bmatrix}
-      0 & 0 & -v\sin\theta \\
-      0 & 0 & v\cos\theta \\
-      0 & 0 & 0
-    \end{bmatrix} &
-    \frac{\partial f(\mat{x}, \mat{u})}{\partial\mat{u}} =
-    \begin{bmatrix}
-      \cos\theta & 0 \\
-      \sin\theta & 0 \\
-      0 & 1
-    \end{bmatrix}
-  \end{array}
+  \frac{\partial f(\mat{x}, \mat{u})}{\partial\mat{x}} =
+  \begin{bmatrix}
+    0 & 0 & -v\sin\theta \\
+    0 & 0 & v\cos\theta \\
+    0 & 0 & 0
+  \end{bmatrix}
+  \quad
+  \frac{\partial f(\mat{x}, \mat{u})}{\partial\mat{u}} =
+  \begin{bmatrix}
+    \cos\theta & 0 \\
+    \sin\theta & 0 \\
+    0 & 1
+  \end{bmatrix}
 \end{equation*}
 
 We're going to make a cross-track error controller, so we'll apply a clockwise
@@ -99,20 +98,19 @@ Therefore,
     \omega
   \end{bmatrix}\T$.
   \begin{equation}
-    \begin{array}{cc}
-      \mat{A} = \frac{\partial f(\mat{x}, \mat{u})}{\partial\mat{x}} =
-      \begin{bmatrix}
-        0 & 0 & 0 \\
-        0 & 0 & v \\
-        0 & 0 & 0
-      \end{bmatrix} &
-      \mat{B} = \frac{\partial f(\mat{x}, \mat{u})}{\partial\mat{u}} =
-      \begin{bmatrix}
-        1 & 0 \\
-        0 & 0 \\
-        0 & 1
-      \end{bmatrix}
-    \end{array}
+    \mat{A} = \frac{\partial f(\mat{x}, \mat{u})}{\partial\mat{x}} =
+    \begin{bmatrix}
+      0 & 0 & 0 \\
+      0 & 0 & v \\
+      0 & 0 & 0
+    \end{bmatrix}
+    \quad
+    \mat{B} = \frac{\partial f(\mat{x}, \mat{u})}{\partial\mat{u}} =
+    \begin{bmatrix}
+      1 & 0 \\
+      0 & 0 \\
+      0 & 1
+    \end{bmatrix}
   \end{equation}
   The linear time-varying unicycle controller is
   \begin{equation}

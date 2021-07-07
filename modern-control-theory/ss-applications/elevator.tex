@@ -71,34 +71,35 @@ The existing rows will have zeroes inserted where $x$ is multiplied in.
     \mat{y} &= \mat{C} \mat{x} + \mat{D} \mat{u}
   \end{align*}
   \begin{equation*}
-    \begin{array}{ccc}
-      \mat{x} =
-      \begin{bmatrix}
-        x \\
-        v
-      \end{bmatrix} &
-      \mat{y} = x &
-      \mat{u} = V
-    \end{array}
+    \mat{x} =
+    \begin{bmatrix}
+      x \\
+      v
+    \end{bmatrix}
+    \quad
+    \mat{y} = x
+    \quad
+    \mat{u} = V
   \end{equation*}
   \begin{equation}
-    \begin{array}{cccc}
-      \mat{A} =
-      \begin{bmatrix}
-        0 & 1 \\
-        0 & -\frac{G^2 K_t}{Rr^2 mK_v}
-      \end{bmatrix} &
-      \mat{B} =
-      \begin{bmatrix}
-        0 \\
-        \frac{GK_t}{Rrm}
-      \end{bmatrix} &
-      \mat{C} =
-      \begin{bmatrix}
-        1 & 0
-      \end{bmatrix} &
-      \mat{D} = 0
-    \end{array}
+    \mat{A} =
+    \begin{bmatrix}
+      0 & 1 \\
+      0 & -\frac{G^2 K_t}{Rr^2 mK_v}
+    \end{bmatrix}
+    \quad
+    \mat{B} =
+    \begin{bmatrix}
+      0 \\
+      \frac{GK_t}{Rrm}
+    \end{bmatrix}
+    \quad
+    \mat{C} =
+    \begin{bmatrix}
+      1 & 0
+    \end{bmatrix}
+    \quad
+    \mat{D} = 0
   \end{equation}
 \end{theorem}
 
@@ -114,45 +115,45 @@ be augmented. Therefore, the \gls{plant} and \gls{observer} augmentations assume
 a continuous \gls{model} and the \gls{controller} augmentation assumes a
 discrete \gls{controller}.
 \begin{equation*}
-  \begin{array}{ccc}
-    \mat{x}_{aug} =
-    \begin{bmatrix}
-      x \\
-      v \\
-      u_{error}
-    \end{bmatrix} &
-    \mat{y} = x &
-    \mat{u} = V
-  \end{array}
+  \mat{x}_{aug} =
+  \begin{bmatrix}
+    x \\
+    v \\
+    u_{error}
+  \end{bmatrix}
+  \quad
+  \mat{y} = x
+  \quad
+  \mat{u} = V
 \end{equation*}
 \begin{equation}
-  \begin{array}{cccc}
-    \mat{A}_{aug} =
-    \begin{bmatrix}
-      \mat{A} & \mat{B} \\
-      \mat{0}_{1 \times 2} & 0
-    \end{bmatrix} &
-    \mat{B}_{aug} =
-    \begin{bmatrix}
-      \mat{B} \\
-      0
-    \end{bmatrix} &
-    \mat{C}_{aug} = \begin{bmatrix}
-      \mat{C} & 0
-    \end{bmatrix} &
-    \mat{D}_{aug} = \mat{D}
-  \end{array}
+  \mat{A}_{aug} =
+  \begin{bmatrix}
+    \mat{A} & \mat{B} \\
+    \mat{0}_{1 \times 2} & 0
+  \end{bmatrix}
+  \quad
+  \mat{B}_{aug} =
+  \begin{bmatrix}
+    \mat{B} \\
+    0
+  \end{bmatrix}
+  \quad
+  \mat{C}_{aug} = \begin{bmatrix}
+    \mat{C} & 0
+  \end{bmatrix}
+  \quad
+  \mat{D}_{aug} = \mat{D}
 \end{equation}
 \begin{equation}
-  \begin{array}{cc}
-    \mat{K}_{aug} = \begin{bmatrix}
-      \mat{K} & 1
-    \end{bmatrix} &
-    \mat{r}_{aug} = \begin{bmatrix}
-      \mat{r} \\
-      0
-    \end{bmatrix}
-  \end{array}
+  \mat{K}_{aug} = \begin{bmatrix}
+    \mat{K} & 1
+  \end{bmatrix}
+  \quad
+  \mat{r}_{aug} = \begin{bmatrix}
+    \mat{r} \\
+    0
+  \end{bmatrix}
 \end{equation}
 
 This will compensate for unmodeled dynamics such as gravity. However, using a

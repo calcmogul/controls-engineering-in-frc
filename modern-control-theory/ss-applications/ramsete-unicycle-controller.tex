@@ -188,25 +188,25 @@ profile and as part of a nonlinear trajectory follower.
 
 \subsubsection{Left/right velocity reference tracker}
 \begin{equation*}
-  \begin{array}{ccc}
-    \mat{x} =
-    \begin{bmatrix}
-      x_l \\
-      v_l \\
-      x_r \\
-      v_r
-    \end{bmatrix} &
-    \mat{y} =
-    \begin{bmatrix}
-      x_l \\
-      x_r
-    \end{bmatrix} &
-    \mat{u} =
-    \begin{bmatrix}
-      V_l \\
-      V_r
-    \end{bmatrix}
-  \end{array}
+  \mat{x} =
+  \begin{bmatrix}
+    x_l \\
+    v_l \\
+    x_r \\
+    v_r
+  \end{bmatrix}
+  \quad
+  \mat{y} =
+  \begin{bmatrix}
+    x_l \\
+    x_r
+  \end{bmatrix}
+  \quad
+  \mat{u} =
+  \begin{bmatrix}
+    V_l \\
+    V_r
+  \end{bmatrix}
 \end{equation*}
 \begin{equation*}
   \begin{array}{ll}
@@ -241,23 +241,23 @@ position \glspl{state} from the \gls{model}.
 \begin{theorem}[Left/right velocity reference tracker]
   \label{thm:ramsete_decoupled_ref_tracker}
   \begin{equation*}
-    \begin{array}{ccc}
-      \mat{x} =
-      \begin{bmatrix}
-        v_l \\
-        v_r
-      \end{bmatrix} &
-      \mat{y} =
-      \begin{bmatrix}
-        v_l \\
-        v_r
-      \end{bmatrix} &
-      \mat{u} =
-      \begin{bmatrix}
-        V_l \\
-        V_r
-      \end{bmatrix}
-    \end{array}
+    \mat{x} =
+    \begin{bmatrix}
+      v_l \\
+      v_r
+    \end{bmatrix}
+    \quad
+    \mat{y} =
+    \begin{bmatrix}
+      v_l \\
+      v_r
+    \end{bmatrix}
+    \quad
+    \mat{u} =
+    \begin{bmatrix}
+      V_l \\
+      V_r
+    \end{bmatrix}
   \end{equation*}
   \begin{equation}
     \begin{array}{ll}
@@ -353,23 +353,23 @@ Now, just convert the two equations to state-space notation.
 \begin{theorem}[Linear/angular velocity reference tracker]
   \label{thm:ramsete_coupled_ref_tracker}
   \begin{equation*}
-    \begin{array}{ccc}
-      \mat{x} =
-      \begin{bmatrix}
-        v \\
-        \omega
-      \end{bmatrix} &
-      \mat{y} =
-      \begin{bmatrix}
-        v_l \\
-        v_r
-      \end{bmatrix} &
-      \mat{u} =
-      \begin{bmatrix}
-        V_l \\
-        V_r
-      \end{bmatrix}
-    \end{array}
+    \mat{x} =
+    \begin{bmatrix}
+      v \\
+      \omega
+    \end{bmatrix}
+    \quad
+    \mat{y} =
+    \begin{bmatrix}
+      v_l \\
+      v_r
+    \end{bmatrix}
+    \quad
+    \mat{u} =
+    \begin{bmatrix}
+      V_l \\
+      V_r
+    \end{bmatrix}
   \end{equation*}
   \begin{equation}
     \begin{array}{ll}

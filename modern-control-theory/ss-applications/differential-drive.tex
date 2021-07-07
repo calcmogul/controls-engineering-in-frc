@@ -72,23 +72,23 @@ column vector.
     \mat{y} &= \mat{C} \mat{x} + \mat{D} \mat{u}
   \end{align*}
   \begin{equation*}
-    \begin{array}{ccc}
-      \mat{x} =
-      \begin{bmatrix}
-        v_l \\
-        v_r
-      \end{bmatrix} &
-      \mat{y} =
-      \begin{bmatrix}
-        v_l \\
-        v_r
-      \end{bmatrix} &
-      \mat{u} =
-      \begin{bmatrix}
-        V_l \\
-        V_r
-      \end{bmatrix}
-    \end{array}
+    \mat{x} =
+    \begin{bmatrix}
+      v_l \\
+      v_r
+    \end{bmatrix}
+    \quad
+    \mat{y} =
+    \begin{bmatrix}
+      v_l \\
+      v_r
+    \end{bmatrix}
+    \quad
+    \mat{u} =
+    \begin{bmatrix}
+      V_l \\
+      V_r
+    \end{bmatrix}
   \end{equation*}
   \begin{equation}
     \label{eq:diff_drive_ss_model}
@@ -213,20 +213,20 @@ Therefore,
     \mat{y} &= \mat{C}\mat{x} + \mat{D}\mat{u}
   \end{align*}
   \begin{equation*}
-    \begin{array}{ccc}
-      \mat{x} =
-      \begin{bmatrix}
-        x & y & \theta & v_l & v_r
-      \end{bmatrix}\T &
-      \mat{y} =
-      \begin{bmatrix}
-        \theta & v_l & v_r
-      \end{bmatrix}\T &
-      \mat{u} =
-      \begin{bmatrix}
-        V_l & V_r
-      \end{bmatrix}\T
-    \end{array}
+    \mat{x} =
+    \begin{bmatrix}
+      x & y & \theta & v_l & v_r
+    \end{bmatrix}\T
+    \quad
+    \mat{y} =
+    \begin{bmatrix}
+      \theta & v_l & v_r
+    \end{bmatrix}\T
+    \quad
+    \mat{u} =
+    \begin{bmatrix}
+      V_l & V_r
+    \end{bmatrix}\T
   \end{equation*}
   \begin{equation}
     \begin{array}{ll}
@@ -404,28 +404,27 @@ around $\theta = 0$ at all times.
   $\mat{u} = \begin{bmatrix}V_l & V_r\end{bmatrix}\T$, and
   $\mat{A} = \frac{\partial f(\mat{x})}{\partial\mat{x}}$.
   \begin{equation}
-    \begin{array}{ll}
-      \mat{A} =
-      \begin{bmatrix}
-        0 & 0 & 0 & \frac{1}{2} & \frac{1}{2} \\
-        0 & 0 & v & 0 & 0 \\
-        0 & 0 & 0 & -\frac{1}{2r_b} & \frac{1}{2r_b} \\
-        0 & 0 & 0 & \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_1 &
-          \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_3 \\
-        0 & 0 & 0 & \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_1 &
-          \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_3
-      \end{bmatrix} &
-      \mat{B} =
-      \begin{bmatrix}
-        0 & 0 \\
-        0 & 0 \\
-        0 & 0 \\
-        \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_2 &
-        \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_4 \\
-        \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_2 &
-        \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_4
-      \end{bmatrix}
-    \end{array}
+    \mat{A} =
+    \begin{bmatrix}
+      0 & 0 & 0 & \frac{1}{2} & \frac{1}{2} \\
+      0 & 0 & v & 0 & 0 \\
+      0 & 0 & 0 & -\frac{1}{2r_b} & \frac{1}{2r_b} \\
+      0 & 0 & 0 & \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_1 &
+        \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_3 \\
+      0 & 0 & 0 & \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_1 &
+        \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_3
+    \end{bmatrix}
+    \quad
+    \mat{B} =
+    \begin{bmatrix}
+      0 & 0 \\
+      0 & 0 \\
+      0 & 0 \\
+      \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_2 &
+      \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_4 \\
+      \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_2 &
+      \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_4
+    \end{bmatrix}
   \end{equation}
 
   where $v = \frac{v_l + v_r}{2}$, $C_1 = -\frac{G_l^2 K_t}{K_v R r^2}$,
@@ -518,27 +517,26 @@ have zeroes inserted where $x_l$ and $x_r$ are multiplied in.
 This produces the following linear subspace over
 $\mat{x} = \begin{bmatrix}v_l & v_r & x_l & x_r\end{bmatrix}\T$.
 \begin{equation}
-  \begin{array}{ll}
-    \mat{A} =
-    \begin{bmatrix}
-      \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_1 &
-        \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_3 & 0 & 0 \\
-      \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_1 &
-        \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_3 & 0 & 0 \\
-      1 & 0 & 0 & 0 \\
-      0 & 1 & 0 & 0
-    \end{bmatrix} &
-    \mat{B} =
-    \begin{bmatrix}
-      \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_2 &
-        \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_4 \\
-      \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_2 &
-        \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_4 \\
-      0 & 0 \\
-      0 & 0
-    \end{bmatrix}
-    \label{eq:diff_drive_linear_subspace}
-  \end{array}
+  \mat{A} =
+  \begin{bmatrix}
+    \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_1 &
+      \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_3 & 0 & 0 \\
+    \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_1 &
+      \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_3 & 0 & 0 \\
+    1 & 0 & 0 & 0 \\
+    0 & 1 & 0 & 0
+  \end{bmatrix}
+  \quad
+  \mat{B} =
+  \begin{bmatrix}
+    \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_2 &
+      \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_4 \\
+    \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_2 &
+      \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_4 \\
+    0 & 0 \\
+    0 & 0
+  \end{bmatrix}
+  \label{eq:diff_drive_linear_subspace}
 \end{equation}
 
 The measurement model for the complete nonlinear model is now
@@ -639,22 +637,22 @@ the difference between the expected and actual measurements.
 
 The controller is augmented as follows.
 \begin{equation}
-  \begin{array}{ccc}
-    \mat{K}_{error} =
-    \begin{bmatrix}
-      1 & 0 & 0 \\
-      0 & 1 & 0
-    \end{bmatrix} &
-    \mat{K}_{aug} = \begin{bmatrix}
-      \mat{K} & \mat{K}_{error}
-    \end{bmatrix} &
-    \mat{r}_{aug} = \begin{bmatrix}
-      \mat{r} \\
-      0 \\
-      0 \\
-      0
-    \end{bmatrix}
-  \end{array}
+  \mat{K}_{error} =
+  \begin{bmatrix}
+    1 & 0 & 0 \\
+    0 & 1 & 0
+  \end{bmatrix}
+  \quad
+  \mat{K}_{aug} = \begin{bmatrix}
+    \mat{K} & \mat{K}_{error}
+  \end{bmatrix}
+  \quad
+  \mat{r}_{aug} = \begin{bmatrix}
+    \mat{r} \\
+    0 \\
+    0 \\
+    0
+  \end{bmatrix}
 \end{equation}
 
 This controller augmentation compensates for unmodeled dynamics like:

@@ -3,36 +3,35 @@
   \dot{\mat{x}} = \mat{A}\mat{x} + \mat{B}\mat{u}
 \end{equation*}
 \begin{equation*}
-  \begin{array}{ccc}
-    \mat{x} = \begin{bmatrix}
-      \text{left velocity} \\
-      \text{right velocity}
-    \end{bmatrix} &
-    \dot{\mat{x}} = \begin{bmatrix}
-      \text{left acceleration} \\
-      \text{right acceleration}
-    \end{bmatrix} &
-    \mat{u} = \begin{bmatrix}
-      \text{left voltage} \\
-      \text{right voltage}
-    \end{bmatrix}
-  \end{array}
+  \mat{x} = \begin{bmatrix}
+    \text{left velocity} \\
+    \text{right velocity}
+  \end{bmatrix}
+  \quad
+  \dot{\mat{x}} = \begin{bmatrix}
+    \text{left acceleration} \\
+    \text{right acceleration}
+  \end{bmatrix}
+  \quad
+  \mat{u} = \begin{bmatrix}
+    \text{left voltage} \\
+    \text{right voltage}
+  \end{bmatrix}
 \end{equation*}
 
 We want to derive what $\mat{A}$ and $\mat{B}$ are from linear and angular
 feedforward models. Since the left and right dynamics are symmetric, we'll guess
 the model has the form
 \begin{equation*}
-  \begin{array}{cc}
-    \mat{A} = \begin{bmatrix}
-      A_1 & A_2 \\
-      A_2 & A_1
-    \end{bmatrix} &
-    \mat{B} = \begin{bmatrix}
-      B_1 & B_2 \\
-      B_2 & B_1
-    \end{bmatrix}
-  \end{array}
+  \mat{A} = \begin{bmatrix}
+    A_1 & A_2 \\
+    A_2 & A_1
+  \end{bmatrix}
+  \quad
+  \mat{B} = \begin{bmatrix}
+    B_1 & B_2 \\
+    B_2 & B_1
+  \end{bmatrix}
 \end{equation*}
 
 Let $\mat{u} =
@@ -578,29 +577,28 @@ To summarize,
     \dot{\mat{x}} = \mat{A}\mat{x} + \mat{B}\mat{u}
   \end{equation*}
   \begin{equation*}
-    \begin{array}{cc}
     \mat{x} =
-      \begin{bmatrix}
-        \text{left velocity} \\
-        \text{right velocity}
-      \end{bmatrix} &
+    \begin{bmatrix}
+      \text{left velocity} \\
+      \text{right velocity}
+    \end{bmatrix}
+    \quad
     \mat{u} =
-      \begin{bmatrix}
-        \text{left voltage} \\
-        \text{right voltage}
-      \end{bmatrix}
-    \end{array}
+    \begin{bmatrix}
+      \text{left voltage} \\
+      \text{right voltage}
+    \end{bmatrix}
   \end{equation*}
   \begin{equation*}
     \dot{\mat{x}} =
-      \begin{bmatrix}
-        A_1 & A_2 \\
-        A_2 & A_1
-      \end{bmatrix} \mat{x} +
-      \begin{bmatrix}
-        B_1 & B_2 \\
-        B_2 & B_1
-      \end{bmatrix} \mat{u}
+    \begin{bmatrix}
+      A_1 & A_2 \\
+      A_2 & A_1
+    \end{bmatrix} \mat{x} +
+    \begin{bmatrix}
+      B_1 & B_2 \\
+      B_2 & B_1
+    \end{bmatrix} \mat{u}
   \end{equation*}
   \begin{equation}
     \begin{bmatrix}

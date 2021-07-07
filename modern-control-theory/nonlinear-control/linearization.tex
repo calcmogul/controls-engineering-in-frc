@@ -6,14 +6,15 @@ One way to control nonlinear \glspl{system} is to
 Then, all the powerful tools that exist for linear controls can be applied. This
 is done by taking the Jacobians of $f$ and $h$ with respect to the state and
 input vectors. See section \ref{sec:matrix_calculus} for more on Jacobians.
-\begin{align*}
-  \begin{array}{cccc}
-    \mat{A} = \frac{\partial f(\mat{x}, \mat{u}, \mat{w})}{\partial \mat{x}} &
-    \mat{B} = \frac{\partial f(\mat{x}, \mat{u}, \mat{w})}{\partial \mat{u}} &
-    \mat{C} = \frac{\partial h(\mat{x}, \mat{u}, \mat{v})}{\partial \mat{x}} &
-    \mat{D} = \frac{\partial h(\mat{x}, \mat{u}, \mat{v})}{\partial \mat{u}}
-  \end{array}
-\end{align*}
+\begin{equation*}
+  \mat{A} = \frac{\partial f(\mat{x}, \mat{u}, \mat{w})}{\partial \mat{x}}
+  \quad
+  \mat{B} = \frac{\partial f(\mat{x}, \mat{u}, \mat{w})}{\partial \mat{u}}
+  \quad
+  \mat{C} = \frac{\partial h(\mat{x}, \mat{u}, \mat{v})}{\partial \mat{x}}
+  \quad
+  \mat{D} = \frac{\partial h(\mat{x}, \mat{u}, \mat{v})}{\partial \mat{u}}
+\end{equation*}
 
 Linearization of a nonlinear equation is a Taylor series expansion to only the
 first-order terms (that is, terms whose variables have exponents on the order of

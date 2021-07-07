@@ -3,10 +3,11 @@
   \dot{\mat{x}} = \mat{A}\mat{x} + \mat{B}\mat{u}
 \end{equation*}
 \begin{equation*}
-  \begin{array}{ccc}
-    \mat{x} = \text{velocity} & \dot{\mat{x}} = \text{acceleration} &
-      \mat{u} = \text{voltage}
-  \end{array}
+  \mat{x} = \text{velocity}
+  \quad
+  \dot{\mat{x}} = \text{acceleration}
+  \quad
+  \mat{u} = \text{voltage}
 \end{equation*}
 
 We want to derive what $\mat{A}$ and $\mat{B}$ are from the following
@@ -46,29 +47,28 @@ model with position and velocity states would be
     \dot{\mat{x}} = \mat{A}\mat{x} + \mat{B}\mat{u}
   \end{equation*}
   \begin{equation*}
-    \begin{array}{cc}
     \mat{x} =
-      \begin{bmatrix}
-        \text{position} \\
-        \text{velocity}
-      \end{bmatrix} &
+    \begin{bmatrix}
+      \text{position} \\
+      \text{velocity}
+    \end{bmatrix}
+    \quad
     \mat{u} =
-      \begin{bmatrix}
-        \text{voltage}
-      \end{bmatrix}
-    \end{array}
+    \begin{bmatrix}
+      \text{voltage}
+    \end{bmatrix}
   \end{equation*}
   \begin{equation}
     \dot{\mat{x}} =
-      \begin{bmatrix}
-        0 & 1 \\
-        0 & -\frac{K_v}{K_a}
-      \end{bmatrix}
-      \mat{x} +
-      \begin{bmatrix}
-        0 \\
-        \frac{1}{K_a}
-      \end{bmatrix}
-      \mat{u}
+    \begin{bmatrix}
+      0 & 1 \\
+      0 & -\frac{K_v}{K_a}
+    \end{bmatrix}
+    \mat{x} +
+    \begin{bmatrix}
+      0 \\
+      \frac{1}{K_a}
+    \end{bmatrix}
+    \mat{u}
   \end{equation}
 \end{theorem}
