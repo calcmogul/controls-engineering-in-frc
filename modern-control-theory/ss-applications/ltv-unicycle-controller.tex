@@ -98,14 +98,18 @@ Therefore,
     \omega
   \end{bmatrix}\T$.
   \begin{equation}
-    \mat{A} = \frac{\partial f(\mat{x}, \mat{u})}{\partial\mat{x}} =
+    \mat{A} = \left.
+      \frac{\partial f(\mat{x}, \mat{u})}{\partial\mat{x}}
+    \right|_{\theta = 0} =
     \begin{bmatrix}
       0 & 0 & 0 \\
       0 & 0 & v \\
       0 & 0 & 0
     \end{bmatrix}
     \quad
-    \mat{B} = \frac{\partial f(\mat{x}, \mat{u})}{\partial\mat{u}} =
+    \mat{B} = \left.
+      \frac{\partial f(\mat{x}, \mat{u})}{\partial\mat{u}}
+    \right|_{\theta = 0} =
     \begin{bmatrix}
       1 & 0 \\
       0 & 0 \\
