@@ -138,13 +138,20 @@ Collect the common terms on separate sides and refactor.
   s \omega + \frac{K_t K_d s}{JR} \omega + \frac{K_t}{JRK_v} \omega +
     \frac{K_t K_p}{JR} \omega &= \frac{K_t K_p}{JR} \omega_{goal} +
     \frac{K_t K_d s}{JR} \omega_{goal} \\
+  \left(s + \frac{K_t K_d s}{JR} + \frac{K_t}{JRK_v} +
+    \frac{K_t K_p}{JR}\right) \omega &= \left(\frac{K_t K_p}{JR} +
+    \frac{K_t K_d s}{JR}\right) \omega_{goal} \\
   \left(s \left(1 + \frac{K_t K_d}{JR}\right) + \frac{K_t}{JRK_v} +
     \frac{K_t K_p}{JR}\right) \omega &= \frac{K_t}{JR}
-    \left(K_p + K_d s\right) \omega_{goal} \\
-  \frac{\omega}{\omega_{goal}} &= \frac{\frac{K_t}{JR}
-    \left(K_p + K_d s\right)}{\left(s \left(1 + \frac{K_t K_d}{JR}\right) +
-    \frac{K_t}{JRK_v} + \frac{K_t K_p}{JR}\right)} \\
+    \left(K_p + K_d s\right) \omega_{goal}
 \end{align*}
+
+Solve for $\frac{\omega}{\omega_{goal}}$.
+\begin{equation*}
+  \frac{\omega}{\omega_{goal}} = \frac{\frac{K_t}{JR}\left(K_p + K_d s\right)}
+    {s \left(1 + \frac{K_t K_d}{JR}\right) +
+      \frac{K_t}{JRK_v} + \frac{K_t K_p}{JR}} \\
+\end{equation*}
 
 So, we added a zero at $-\frac{K_p}{K_d}$ and moved our pole to
 $-\frac{\frac{K_t}{JRK_v} + \frac{K_t K_p}{JR}}{1 + \frac{K_t K_d}{JR}}$. This
