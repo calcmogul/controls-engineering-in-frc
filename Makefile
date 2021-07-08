@@ -112,6 +112,7 @@ $(STAMP): build/%.stamp: %.py $(CSV) $(DEPS_STAMP)
 .PHONY: format
 format:
 	./lint/format_bibliography.py
+	./lint/format_eol.py
 	./lint/format_json.py
 	./lint/format_paragraph_breaks.py
 	python3 -m black -q .
