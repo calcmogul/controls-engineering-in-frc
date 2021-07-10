@@ -127,6 +127,22 @@ threshold is exceeded. Reactive current limiting uses an actual current
 measurement, so the voltage is reduced after the current threshold is exceeded.
 
 The following pseudocode demonstrates each type of current limiting.
-\begin{code}{Python}{snippets/current_limit.py}
+\begin{code}
+  \begin{lstlisting}[style=customPython]
+# Normal feedback control
+V = K @ (r - x)
+
+# Calculations for predictive current limiting
+omega = angular_velocity_measurement
+I = V / R - omega / (Kv * R)
+
+# Calculations for reactive current limiting
+I = current_measurement
+omega = Kv * V - I * R * Kv  # or can be angular velocity measurement
+
+# If predicted/actual current above max, limit current by reducing voltage
+if I > I_max:
+    V = I_max * R + omega / Kv
+  \end{lstlisting}
   \caption{Limits current of DC motor to $I_{max}$}
 \end{code}

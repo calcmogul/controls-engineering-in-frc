@@ -87,14 +87,38 @@ augmented matrix in Python using \texttt{np.block()}.
     \mat{C} & \mat{D}
   \end{bmatrix}
 \end{equation*}
-\begin{code}{Python}{snippets/augment_block.py}
+\begin{code}
+  \begin{lstlisting}[style=customPython]
+import numpy as np
+
+A = np.array([[1, 2], [3, 4]])
+B = np.array([[5], [6]])
+C = np.array([[7, 8]])
+D = np.array([[9]])
+
+tmp = np.block([[A, B], [C, D]])
+  \end{lstlisting}
   \caption{Matrix augmentation example: block}
   \label{lst:augment_block}
 \end{code}
 
 Snippet \ref{lst:augment_slices} shows how one packs together the same augmented
 matrix in Python using array slices.
-\begin{code}{Python}{snippets/augment_slices.py}
+\begin{code}
+  \begin{lstlisting}[style=customPython]
+import numpy as np
+
+A = np.array([[1, 2], [3, 4]])
+B = np.array([[5], [6]])
+C = np.array([[7, 8]])
+D = np.array([[9]])
+
+tmp = np.zeros((3, 3))
+tmp[:2, :2] = A  # tmp[0:2, 0:2] = A
+tmp[:2, 2:] = B  # tmp[0:2, 2:3] = B
+tmp[2:, :2] = C  # tmp[2:3, 0:2] = C
+tmp[2:, 2:] = D  # tmp[2:3, 2:3] = D
+  \end{lstlisting}
   \caption{Matrix augmentation example: array slices}
   \label{lst:augment_slices}
 \end{code}

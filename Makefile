@@ -8,7 +8,7 @@ DEPS_STAMP := $(addprefix build/,$(DEPS_STAMP))
 rwildcard=$(wildcard $1$2) $(foreach dir,$(wildcard $1*),$(call rwildcard,$(dir)/,$2))
 
 # Python files that generate SVG files
-PY := $(filter-out ./bookutil/% ./build/% ./deps/% ./lint/% ./snippets/%,$(call rwildcard,./,*.py))
+PY := $(filter-out ./bookutil/% ./build/% ./deps/% ./lint/%,$(call rwildcard,./,*.py))
 STAMP := $(PY:.py=.stamp)
 STAMP := $(addprefix build/,$(STAMP))
 
@@ -16,7 +16,7 @@ TEX := $(call rwildcard,./,*.tex)
 BIB := $(wildcard *.bib)
 FIGS := $(wildcard figs/*)
 
-CSV := $(filter-out ./bookutil/% ./build/% ./deps/% ./lint/% ./snippets/%,$(call rwildcard,./,*.csv))
+CSV := $(filter-out ./bookutil/% ./build/% ./deps/% ./lint/%,$(call rwildcard,./,*.csv))
 CSV := $(addprefix build/,$(CSV))
 
 ROOT := $(shell pwd)

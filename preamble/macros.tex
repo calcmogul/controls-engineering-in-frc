@@ -1,11 +1,17 @@
-\newenvironment{code}[2]%
+\newenvironment{code}%
+  {\FloatBarrier
+   \begin{snippet}}%
+ {\end{snippet}
+   \FloatBarrier}
+
+\newenvironment{coderemote}[2]%
   {\FloatBarrier
    \begin{snippet}
      \lstinputlisting[escapechar=, style=custom#1]{#2}}%
  {\end{snippet}
    \FloatBarrier}
 
-\newenvironment{codesubset}[4]%
+\newenvironment{coderemotesubset}[4]%
   {\FloatBarrier
    \begin{snippet}
      \lstinputlisting[escapechar=, style=custom#1, firstline=#3, lastline=#4]{#2}}%
