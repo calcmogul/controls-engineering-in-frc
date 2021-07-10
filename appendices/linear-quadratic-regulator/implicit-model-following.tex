@@ -156,8 +156,8 @@ Multiply in $\mat{Q}$.
 \end{equation*}
 
 Multiply matrices in the left term together.
-\begin{equation*}
-  J = \int_0^\infty \left(
+\begin{align*}
+  J &= \int_0^\infty \left(
     \begin{bmatrix}
       \mat{x} \\
       \mat{u}
@@ -168,7 +168,8 @@ Multiply matrices in the left term together.
       (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})\T\mat{Q}(\mat{C}\mat{B}) \\
       (\mat{C}\mat{B})\T\mat{Q}(\mat{C}\mat{A} - \mat{A}_{ref}\mat{C}) &
       (\mat{C}\mat{B})\T\mat{Q}(\mat{C}\mat{B})
-    \end{bmatrix} +
+    \end{bmatrix} \right.\right. \\
+  &\qquad \left.\left. +
     \begin{bmatrix}
       \mat{0} & \mat{0} \\
       \mat{0} & \mat{R}
@@ -179,7 +180,7 @@ Multiply matrices in the left term together.
       \mat{u}
     \end{bmatrix}
     \right) dt
-\end{equation*}
+\end{align*}
 
 Add the terms together.
 \begin{equation}
@@ -371,7 +372,8 @@ side of each term.
     \begin{bmatrix}
       \mat{x}_k \\
       \mat{u}_k
-    \end{bmatrix} +
+    \end{bmatrix} \right. \\
+  &\qquad \left. +
     \begin{bmatrix}
       \mat{x}_k \\
       \mat{u}_k
@@ -441,8 +443,8 @@ Multiply in $\mat{Q}$.
 \end{equation*}
 
 Multiply matrices in the left term together.
-\begin{equation*}
-  J = \sum_{k=0}^\infty \left(
+\begin{align*}
+  J &= \sum_{k=0}^\infty \left(
     \begin{bmatrix}
       \mat{x}_k \\
       \mat{u}_k
@@ -453,7 +455,8 @@ Multiply matrices in the left term together.
       (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})\T\mat{Q}(\mat{C}\mat{B}) \\
       (\mat{C}\mat{B})\T\mat{Q}(\mat{C}\mat{A} - \mat{A}_{ref}\mat{C}) &
       (\mat{C}\mat{B})\T\mat{Q}(\mat{C}\mat{B})
-    \end{bmatrix} +
+    \end{bmatrix} \right.\right. \\
+  &\qquad \left.\left. +
     \begin{bmatrix}
       \mat{0} & \mat{0} \\
       \mat{0} & \mat{R}
@@ -464,7 +467,7 @@ Multiply matrices in the left term together.
       \mat{u}_k
     \end{bmatrix}
     \right) \Delta T
-\end{equation*}
+\end{align*}
 
 Add the terms together.
 \begin{equation}
