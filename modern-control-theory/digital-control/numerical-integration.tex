@@ -64,14 +64,44 @@ relative to the amount of floating point operations (FLOPs) it requires.
 
 Runge-Kutta-Fehlberg (RKF45) is a fourth-order method like Runge-Kutta, but it
 uses an adaptive stepsize to enforce an upper bound on the integration error.
-See the Wikipedia page on RKF45 for an implementation guide
-\cite{bib:wiki_rkf45}.
+\begin{theorem}[Runge-Kutta-Fehlberg integration]
+  Given the differential equation $\dot{\mat{x}} = f(\mat{x}_k, \mat{u}_k)$,
+  this method solves for $\mat{x}_{k+1}$ at $dt$ seconds in the future.
+  $\mat{u}$ is assumed to be held constant between timesteps. It has the
+  following Butcher tableau.
+  \begin{equation*}
+    \renewcommand\arraystretch{1.2}
+    \begin{array}{c|ccccccc}
+      0 \\
+      \frac{1}{4} & \frac{1}{4} \\
+      \frac{3}{8} & \frac{3}{32} & \frac{9}{32} \\
+      \frac{12}{13} & \frac{1932}{2197} & -\frac{7200}{2197} & \frac{7296}{2197}
+        \\
+      1 & \frac{439}{216} & -8 & \frac{3680}{513} & -\frac{845}{4104} \\
+      \frac{1}{2} & -\frac{8}{27} & 2 & -\frac{3544}{2565} & \frac{1859}{4104} &
+        -\frac{11}{40} \\
+      \hline
+      & \frac{16}{135} & 0 & \frac{6656}{12825} & \frac{28561}{56430} &
+        -\frac{9}{50} & \frac{2}{55} \\
+      & \frac{25}{216} & 0 & \frac{1408}{2565} & \frac{2197}{4104} &
+        -\frac{1}{5} & 0
+    \end{array}
+  \end{equation*}
+  The first row of coefficients below the table divider gives the fifth-order
+  accurate solution. The second row gives an alternative solution which,
+  when subtracted from the first solution, gives the error estimate.
+\end{theorem}
+
+Here's a reference implementation.
+\begin{coderemote}{cpp}{snippets/RKF45.cpp}
+  \caption{RKF45 implementation in C++}
+\end{coderemote}
 
 \subsection{Dormand-Prince method}
 \index{numerical integration!Dormand-Prince}
 
-Dormand-Prince (RKDP45) is similar to RKF45, but it has higher precision per
-unit work.
+Dormand-Prince (RKDP) is similar to RKF45, but it has higher precision per unit
+work.
 \begin{theorem}[Dormand-Prince integration]
   Given the differential equation $\dot{\mat{x}} = f(\mat{x}_k, \mat{u}_k)$,
   this method solves for $\mat{x}_{k+1}$ at $dt$ seconds in the future.
@@ -101,3 +131,8 @@ unit work.
   accurate solution. The second row gives an alternative solution which,
   when subtracted from the first solution, gives the error estimate.
 \end{theorem}
+
+Here's a reference implementation.
+\begin{coderemote}{cpp}{snippets/RKDP.cpp}
+  \caption{RKDP implementation in C++}
+\end{coderemote}
