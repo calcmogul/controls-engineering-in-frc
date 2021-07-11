@@ -63,6 +63,7 @@ These can be installed via `make setup_archlinux`.
 * pacman packages (via "sudo pacman -Sy")
   * base-devel (for `make` to run the makefile)
   * biber (for generating bibliography)
+  * clang (for clang-format to format C++ code snippets)
   * ghostscript (to reduce size of final PDF for publishing)
   * inkscape (to convert SVGs to PDFs)
   * python >= 3.6 (for generating plots)
@@ -82,6 +83,7 @@ These can be installed via `make setup_ubuntu`.
   * biber (for generating bibliography)
   * build-essential (for `make` to run the makefile)
   * cm-super (for type1ec.sty)
+  * clang-format (to format C++ code snippets)
   * ghostscript (to reduce size of final PDF for publishing)
   * inkscape (to convert SVGs to PDFs)
   * latexmk
@@ -103,6 +105,7 @@ These can be installed via `make setup_macos`.
 
 * brew packages (via "brew install")
   * basictex (for xelatex)
+  * clang-format (to format C++ code snippets)
   * ghostscript (to reduce size of final PDF for publishing)
   * inkscape (to convert SVGs to PDFs)
   * python@3.9 (for generating plots)
