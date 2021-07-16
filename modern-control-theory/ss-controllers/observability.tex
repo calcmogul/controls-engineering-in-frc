@@ -31,11 +31,11 @@ all \glspl{state} are mapped to a linear combination in the \gls{output}.
 Therefore, the \glspl{output} alone are insufficient to estimate all the
 \glspl{state}.
 
-The condition number of the observability matrix $\mathbb{O}$ is defined as
-$\frac{\sigma_{max}(\mathbb{O})}{\sigma_{min}(\mathbb{O})}$ where $\sigma_{max}$
-is the maximum singular value\footref{footn:singular_val} and $\sigma_{min}$ is
-the minimum singular value. As this number approaches infinity, one or more of
-the \glspl{state} becomes unobservable. This number can also be used to tell us
-which sensors are better than others for the given \gls{system}; a lower
-condition number means the \glspl{output} produced by the sensors are better
-indicators of the \gls{system} \gls{state}.
+The condition number of the observability matrix $\mathcal{O}$ is defined as
+$\frac{\sigma_{max}(\mathcal{O})}{\sigma_{min}(\mathcal{O})}$ where
+$\sigma_{max}$ is the maximum singular value\footref{footn:singular_val} and
+$\sigma_{min}$ is the minimum singular value. As this number approaches
+infinity, one or more of the \glspl{state} becomes unobservable. This number can
+also be used to tell us which sensors are better than others for the given
+\gls{system}; a lower condition number means the \glspl{output} produced by the
+sensors are better indicators of the \gls{system} \gls{state}.
