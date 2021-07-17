@@ -34,6 +34,8 @@ def verify_url(filename, line_number, url):
         r = requests.head(url)
         if r.status_code != 200:
             print(f"[{filename}:{line_number}]\n    {url}\n    {r.status_code}")
+            if url != r.url:
+                print(f"    redirected to {r.url}")
             return False
     except requests.ConnectionError as ex:
         print(f"[{filename}:{line_number}]\n    {url}\n    {ex}")
