@@ -250,6 +250,29 @@ Now that we've derived all the pieces we need, we can finally write all the
 equations for a Kalman filter. Theorem \ref{thm:kalman_filter} shows the predict
 and update steps for a Kalman filter at the $k^{th}$ timestep.
 
+Intuitively, the predict step projects the error covariance forward in an
+increasing parabolic shape because you become less certain in your state
+estimate as you go longer since a measurement. In your state-space (think like
+3D space but each state is an axis), the error ellipsoid grows over time.
+
+The correct step decreases the error covariance again by injecting new
+information. The input has no effect on this because it has no noise associated
+with it. In fact, input cancels out in the Kalman filter expectation and
+covariance update equation derivations.
+
+A Kalman filter chooses the Kalman gain $\mat{K}_{k+1}$ in the correct equation
+$\hat{\mat{x}}_{k+1}^+ = \hat{\mat{x}}_{k+1}^- + \mat{K}_{k+1}(\mat{y}_{k+1} -
+\hat{\mat{y}}_{k+1})$ such that the eigenvalues of $\mat{P}$ are minimized. This
+minimizes the error variances and thus the dimensions of the uncertainty
+ellipsoid over time.
+
+For a constant period between updates and running the predict and correct steps
+in a loop (as opposed to sporadically skipping correct steps), the error
+covariance matrix $\mat{P}$ approaches a steady-state value (assuming the
+$\mat{A}\T$ and $\mat{C}\T$ matrix pair are stabilizable). This steady-state
+$\mat{P}$ results in a steady-state Kalman gain that can be used instead of the
+error covariance update equations to conserve computational resources.
+
 \index{state-space observers!Kalman filter!equations}
 \begin{theorem}[Kalman filter]
   \label{thm:kalman_filter}
