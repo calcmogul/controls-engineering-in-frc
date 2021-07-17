@@ -9,82 +9,16 @@ frequency. Figure \ref{fig:impulse_response_eig} shows the \glspl{impulse
 response} in the time domain for \glspl{system} with various pole locations.
 They all have an initial condition of $1$.
 \begin{bookfigure}
-  \begin{tikzpicture}[auto, >=latex']
-    % \draw [help lines] (-4,-2) grid (4,4);
-
-    % Draw main axes
-    \draw[->] (-4,0) -- (4,0) node[below] {\small Re($\sigma$)};
-    \draw[->] (0,-2) -- (0,4) node[right] {\small Im($j\omega$)};
-
-    % Stable: e^-1.75t * cos(1.75wt) (80/3*w for readability)
-    \drawtimeplot{-2.125cm}{2.5cm}{0.125cm}{0.44375cm}{
-      exp(-1.75 * \x) * cos(80/3 * 1.75 * deg(\x))}
-    \drawpole{-1.75cm}{1.75cm}
-
-    % Stable: e^-2.5t
-    \drawtimeplot{-2.25cm}{0.75cm}{0.125cm}{0.125cm}{exp(-2 * \x)}
-    \drawpole{-2cm}{0cm}
-
-    % Stable: e^-t
-    \drawtimeplot{-1.125cm}{-0.75cm}{0.125cm}{0.125cm}{exp(-\x)}
-    \drawpole{-1cm}{0cm}
-
-    % Marginally stable: cos(wt) (80/3*w for readability)
-    \drawtimeplot{-0.75cm}{1.125cm}{0.125cm}{0.44375cm}{cos(80/3 * deg(\x))}
-    \drawpole{0cm}{1cm}
-
-    % Marginally stable cos(2wt) (80/3*w for readability)
-    \drawtimeplot{0cm}{2.75cm}{0.125cm}{0.44375cm}{cos(80/3 * 2 * deg(\x))}
-    \drawpole{0cm}{2cm}
-
-    % Integrator
-    \drawtimeplot{0.25cm}{-0.75cm}{0.125cm}{0.125cm}{1}
-    \drawpole{0cm}{0cm}
-
-    % Unstable: e^t
-    \drawtimeplot{1.125cm}{0.75cm}{0.125cm}{0.125cm}{exp(\x)}
-    \drawpole{1cm}{0cm}
-
-    % Unstable: e^2t
-    \drawtimeplot{2.25cm}{-0.75cm}{0.125cm}{0.125cm}{exp(2 * \x)}
-    \drawpole{2cm}{0cm}
-
-    % Unstable: e^0.75t * cos(1.75wt) (80/3*w for readability)
-    \drawtimeplot{1.5cm}{2.25cm}{0.125cm}{0.44375cm}{
-      exp(0.75 * \x) * cos(80/3 * 1.75 * deg(\x))}
-    \drawpole{0.75cm}{1.75cm}
-
-    % LHP and RHP labels
-    \draw (-3.5,1.5) node {LHP};
-    \draw (3.5,1.5) node {RHP};
-
-    % Stable and unstable labels
-    \draw (-2.5,3.5) node {\small Stable};
-    \draw (2.5,3.5) node {\small Unstable};
-  \end{tikzpicture}
-
+  \include{figs/impulse-response-vs-pole-location}
   \caption{Impulse response vs pole location}
   \label{fig:impulse_response_eig}
 \end{bookfigure}
-\begin{booktable}
-  \begin{tabular}{|ll|}
-    \hline
-    \rowcolor{headingbg}
-    \textbf{Location} & \textbf{Stability} \\
-    \hline
-    Left Half-plane (LHP) & Stable \\
-    Imaginary axis & Marginally stable \\
-    Right Half-plane (RHP) & Unstable \\
-    \hline
-  \end{tabular}
 
-  \caption{Pole location and stability}
-\end{booktable}
-
-When a \gls{system} is stable, its output may oscillate but it converges to
-steady-state. When a \gls{system} is marginally stable, its output oscillates at
-a constant amplitude forever. When a \gls{system} is unstable, its output grows
-without bound.
+Poles in the left half-plane (LHP) are stable; the \gls{system}'s output may
+oscillate but it converges to steady-state. Poles on the imaginary axis are
+marginally stable; the \gls{system}'s output oscillates at a constant amplitude
+forever. Poles in the right half-plane (RHP) are unstable; the \gls{system}'s
+output grows without bound.
 \begin{remark}
   Imaginary poles always come in complex conjugate pairs (e.g., $-2 + 3i$,
   $-2 - 3i$).

@@ -14,7 +14,7 @@ STAMP := $(addprefix build/,$(STAMP))
 
 TEX := $(call rwildcard,./,*.tex)
 BIB := $(wildcard *.bib)
-FIGS := $(wildcard figs/*)
+IMGS := $(wildcard imgs/*)
 
 CSV := $(filter-out ./bookutil/% ./build/% ./deps/% ./lint/% ./snippets/%,$(call rwildcard,./,*.csv))
 CSV := $(addprefix build/,$(CSV))
@@ -33,7 +33,7 @@ printer: $(NAME)-printer.pdf
 .PHONY: prepress
 prepress: $(NAME)-prepress.pdf
 
-$(NAME).pdf: $(TEX) $(STAMP) $(BIB) $(FIGS) \
+$(NAME).pdf: $(TEX) $(STAMP) $(BIB) $(IMGS) \
 		build/commit-date.tex build/commit-year.tex build/commit-hash.tex
 	latexmk -interaction=nonstopmode -xelatex $(NAME)
 
