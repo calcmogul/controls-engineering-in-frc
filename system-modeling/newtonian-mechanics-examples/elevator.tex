@@ -1,146 +1,17 @@
 \section{Elevator}
 
-\subsection{Equations of motion}
-
 This elevator consists of a DC brushed motor attached to a pulley that drives a
 mass up or down.
 \begin{bookfigure}
-  \begin{tikzpicture}[auto, >=latex', circuit ee IEC,
-                      set resistor graphic=var resistor IEC graphic]
-    % \draw [help lines] (-1,-3) grid (7,4);
-
-    % Electrical equivalent circuit
-    \draw (0,2) to [voltage source={direction info'={->}, info'=$V$}] (0,0);
-    \draw (0,2) to [current direction={info=$I$}] (0,3);
-    \draw (0,3) -- (0.5,3);
-    \draw (0.5,3) to [resistor={info={$R$}}] (2,3);
-
-    \draw (2,3) -- (2.5,3);
-    \draw (2.5,3) to [voltage source={direction info'={->}, info'=$V_{emf}$}]
-      (2.5,0);
-    \draw (0,0) -- (2.5,0);
-
-    % Motor
-    \begin{scope}[xshift=2.4cm,yshift=1.05cm]
-      \draw[fill=black] (0,0) rectangle (0.2,0.9);
-      \draw[fill=white] (0.1,0.45) ellipse (0.3 and 0.3);
-    \end{scope}
-
-    % Transmission gear one
-    \begin{scope}[xshift=3.75cm,yshift=1.17cm]
-      \draw[fill=black!50] (0.2,0.33) ellipse (0.08 and 0.33);
-      \draw[fill=black!50, color=black!50] (0,0) rectangle (0.2,0.66);
-      \draw[fill=white] (0,0.33) ellipse (0.08 and 0.33);
-      \draw (0,0.66) -- (0.2,0.66);
-      \draw (0,0) -- (0.2,0) node[pos=0.5,below] {$G$};
-    \end{scope}
-
-    % Output shaft of motor
-    \begin{scope}[xshift=2.8cm,yshift=1.45cm]
-      \draw[fill=black!50] (0,0) rectangle (0.95,0.1);
-    \end{scope}
-
-    % Angular velocity arrow of drive -> transmission
-    \draw[line width=0.7pt,<-] (3.2,1) arc (-30:30:1) node[above] {$\omega_m$};
-
-    % Transmission gear two
-    \begin{scope}[xshift=3.75cm,yshift=1.83cm]
-      \draw[fill=black!50] (0.2,0.68) ellipse (0.13 and 0.67);
-      \draw[fill=black!50, color=black!50] (0,0) rectangle (0.2,1.35);
-      \draw[fill=white] (0,0.68) ellipse (0.13 and 0.67);
-      \draw (0,1.35) -- (0.2,1.35);
-      \draw (0,0) -- (0.2,0);
-    \end{scope}
-
-    % Pulley rear chain
-    \begin{scope}[xshift=5.03cm,yshift=0.32cm]
-      \draw[fill=black!70, color=black!70] (0.01,2.17) rectangle (0.09,0);
-      \draw (0,2.17) -- (0,0);
-      \draw (0.1,2.17) -- (0.1,0);
-    \end{scope}
-
-    % Upper pulley
-    \begin{scope}[xshift=5.05cm,yshift=2.09cm]
-      \draw[fill=black!50] (0.2,0.4) ellipse (0.13 and 0.4);
-      \draw[fill=black!70] (0.15,0.4) ellipse (0.13 and 0.4);
-      \draw[fill=black!50, color=black!50] (0,0) rectangle (0.1,0.8);
-      \draw[fill=black!70, color=black!70] (0.1,0) rectangle (0.15,0.8);
-      \draw[fill=black!50] (0.05,0.4) ellipse (0.13 and 0.4);
-      \draw[fill=black!50, color=black!50] (0,0) rectangle (0.05,0.8);
-      \draw[fill=white] (0,0.4) ellipse (0.13 and 0.4);
-      \draw (0,0) -- (0.2,0);
-      \draw (0,0.8) -- (0.2,0.8);
-    \end{scope}
-
-    % Lower pulley
-    \begin{scope}[xshift=5.05cm,yshift=-0.05cm]
-      \draw[fill=black!50] (0.2,0.4) ellipse (0.13 and 0.4);
-      \draw[fill=black!70] (0.15,0.4) ellipse (0.13 and 0.4);
-      \draw[fill=black!50, color=black!50] (0,0) rectangle (0.1,0.8);
-      \draw[fill=black!70, color=black!70] (0.1,0) rectangle (0.15,0.8);
-      \draw[fill=black!50] (0.05,0.4) ellipse (0.13 and 0.4);
-      \draw[fill=black!50, color=black!50] (0,0) rectangle (0.05,0.8);
-      \draw[fill=white] (0,0.4) ellipse (0.13 and 0.4);
-      \draw (0,0) -- (0.2,0);
-      \draw (0,0.8) -- (0.2,0.8);
-    \end{scope}
-
-    % Transmission shaft from gear two to pulley
-    \begin{scope}[xshift=4.09cm,yshift=2.42cm]
-      \draw[fill=black!50] (0,0) rectangle (0.96,0.1);
-    \end{scope}
-
-    % Angular velocity arrow between transmission and pulley
-    \draw[line width=0.7pt,->] (4.54,1.97) arc (-30:30:1) node[above]
-      {$\omega_p$};
-
-    % Pulley front chain
-    \begin{scope}[xshift=5.23cm,yshift=0.32cm]
-      \draw[fill=black!70, color=black!70] (0.01,2.17) rectangle (0.09,0);
-      \draw (0,2.17) -- (0,0);
-      \draw (0.1,2.17) -- (0.1,0);
-    \end{scope}
-
-    % Pulley radius arrow
-    \begin{scope}[xshift=5.54cm,yshift=2.49]
-      \draw[line width=0.7pt,<->] (0,-0.15) -- node[right] {$r$} (0,0.35);
-    \end{scope}
-
-    % Mass
-    \begin{scope}[xshift=4.89cm,yshift=0.82cm]
-      \fill[fill=white] (0,0.8) -- (0,0.2) -- (0.2,0) -- (0.2,0.2)
-        -- (0.98,0.2) -- (0.78,0.8) -- cycle;
-      \draw (0,0.8) -- (0.78,0.8);
-      \draw (0,0.8) -- (0,0.2);
-      \draw (0,0.2) -- (0.2,0);
-      \draw (0,0.8) -- (0.2,0.6);
-      \draw (0.78,0.8) -- (0.98,0.6);
-      \draw[fill=white] (0.2,0.6) rectangle (0.98,0);
-    \end{scope}
-
-    % Mass velocity arrow
-    \begin{scope}[xshift=6.04cm,yshift=0.95cm]
-      \draw[line width=0.7pt,<-] (0,0.4) -- node {$v$} (0,0);
-    \end{scope}
-
-    % Descriptions inside graphic
-    \draw (5.48,1.12) node {$m$};
-
-    % Descriptions of subsystems under graphic
-    \begin{scope}[xshift=-0.5cm,yshift=-0.28cm]
-      \draw[decorate,decoration={brace,amplitude=10pt}]
-        (3.5,0) -- (0,0) node[midway,yshift=-20pt] {circuit};
-      \draw[decorate,decoration={brace,amplitude=10pt}]
-        (7.05,0) -- (3.75,0) node[midway,yshift=-20pt] {mechanics};
-    \end{scope}
-  \end{tikzpicture}
-
+  \input{figs/elevator-system-diagram}
   \caption{Elevator system diagram}
   \label{fig:elevator}
 \end{bookfigure}
 
 Gear ratios are written as output over input, so $G$ is greater than one in
 figure \ref{fig:elevator}.
+
+\subsection{Equations of motion}
 
 We want to derive an equation for the carriage acceleration $a$ (derivative of
 $v$) given an input voltage $V$, which we can integrate to get carriage velocity
