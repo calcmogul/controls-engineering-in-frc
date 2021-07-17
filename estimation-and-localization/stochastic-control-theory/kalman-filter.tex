@@ -165,7 +165,7 @@ Now take the trace.
     &\qquad + \tr(\mat{K}_{k+1}\mat{S}_{k+1}\mat{K}_{k+1}\T)
   \intertext{Transpose one of the terms twice.}
   \tr(\mat{P}_{k+1}^+) &= \tr(\mat{P}_{k+1}^-) -
-    \tr((\mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^{-T})\T) -
+    \tr((\mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^{-\mathsf{T}})\T) -
     \tr(\mat{K}_{k+1}\mat{C}_{k+1}\mat{P}_{k+1}^-) \\
     &\qquad + \tr(\mat{K}_{k+1}\mat{S}_{k+1}\mat{K}_{k+1}\T)
   \intertext{$\mat{P}_{k+1}^-$ is symmetric, so we can drop the transpose.}
@@ -203,7 +203,8 @@ derivative with respect to $\mat{K}$ and setting the result to $\mat{0}$.
   \frac{\partial\tr(\mat{P}_{k+1}^+)}{\partial\mat{K}} &=
     \mat{0} - 2(\mat{C}_{k+1}\mat{P}_{k+1}^-)\T + 2\mat{K}_{k+1}\mat{S}_{k+1} \\
   \frac{\partial\tr(\mat{P}_{k+1}^+)}{\partial\mat{K}} &=
-    -2\mat{P}_{k+1}^{-T}\mat{C}_{k+1}\T + 2\mat{K}_{k+1}\mat{S}_{k+1} \\
+    -2\mat{P}_{k+1}^{-\mathsf{T}}\mat{C}_{k+1}\T + 2\mat{K}_{k+1}\mat{S}_{k+1}
+    \\
   \frac{\partial\tr(\mat{P}_{k+1}^+)}{\partial\mat{K}} &=
     -2\mat{P}_{k+1}^-\mat{C}_{k+1}\T + 2\mat{K}_{k+1}\mat{S}_{k+1} \\
   \mat{0} &= -2\mat{P}_{k+1}^-\mat{C}_{k+1}\T + 2\mat{K}_{k+1}\mat{S}_{k+1} \\
