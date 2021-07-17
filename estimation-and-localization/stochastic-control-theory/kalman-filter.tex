@@ -345,7 +345,7 @@ The following example \gls{system} will be used to describe how to define and
 initialize the matrices for a Kalman filter.
 
 A robot is between two parallel walls. It starts driving from one wall to the
-other at a velocity of $0.8 cm/s$ and uses ultrasonic sensors to provide noisy
+other at a velocity of $0.8$ cm/s and uses ultrasonic sensors to provide noisy
 measurements of the distances to the walls in front of and behind it. To
 estimate the distance between the walls, we will define three \glspl{state}:
 robot position, robot velocity, and distance between the walls.
@@ -394,7 +394,7 @@ $1$. The observation \gls{model} is
 \end{equation}
 
 where the covariance matrix of Gaussian measurement noise $\theta$ is a
-$2 \times 2$ matrix with both diagonals $10 cm^2$.
+$2 \times 2$ matrix with both diagonals $10$ cm$^2$.
 
 The \gls{state} vector is usually initialized using the first measurement or
 two. The covariance matrix entries are assigned by calculating the covariance of
