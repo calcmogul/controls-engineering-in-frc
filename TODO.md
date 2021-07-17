@@ -97,3 +97,4 @@ Add stubs for missing chapters, missing sections, and todo items.
 
 * Double check drivetrain J calculation. It doesn't include robot radius, which
   seems suspicious.
+* Fill out Lagrangian mechanics stubs for pendulum and cartpole
