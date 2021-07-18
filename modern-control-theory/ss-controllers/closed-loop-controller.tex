@@ -1,4 +1,5 @@
 \section{Closed-loop controller}
+\index{state-space controllers!closed-loop}
 
 With the \gls{control law} $\mat{u} = \mat{K}(\mat{r} - \mat{x})$, we can derive
 the closed-loop state-space equations. We'll discuss where this
@@ -12,78 +13,55 @@ equation \eqref{eq:ss_ctrl_x}.
   \dot{\mat{x}} &= \mat{A}\mat{x} + \mat{B}\mat{K}\mat{r} -
     \mat{B}\mat{K}\mat{x} \nonumber \\
   \dot{\mat{x}} &= (\mat{A} - \mat{B}\mat{K})\mat{x} + \mat{B}\mat{K}\mat{r}
-\end{align}
-
-Now for the \gls{output} equation. Substitute the \gls{control law} into
-equation \eqref{eq:ss_ctrl_y}.
-\begin{align}
+    \label{eq:s_ref_ctrl_x}
+  \intertext{Now for the \gls{output} equation. Substitute the \gls{control law}
+    into equation \eqref{eq:ss_ctrl_y}.}
   \mat{y} &= \mat{C}\mat{x} + \mat{D}(\mat{K}(\mat{r} - \mat{x})) \nonumber \\
   \mat{y} &= \mat{C}\mat{x} + \mat{D}\mat{K}\mat{r} - \mat{D}\mat{K}\mat{x}
     \nonumber \\
   \mat{y} &= (\mat{C} - \mat{D}\mat{K})\mat{x} + \mat{D}\mat{K}\mat{r}
 \end{align}
 
-Now, we'll do the same for the discrete \gls{system}.
-\begin{align*}
-  \mat{x}_{k+1} &= \mat{A}\mat{x}_k + \mat{B}\mat{u}_k \\
-  \mat{x}_{k+1} &= \mat{A}\mat{x}_k + \mat{B}(\mat{K}(\mat{r}_k - \mat{x}_k)) \\
-  \mat{x}_{k+1} &= \mat{A}\mat{x}_k + \mat{B}\mat{K}\mat{r}_k -
-    \mat{B}\mat{K}\mat{x}_k \\
-  \mat{x}_{k+1} &= \mat{A}\mat{x}_k - \mat{B}\mat{K}\mat{x}_k +
-    \mat{B}\mat{K}\mat{r}_k \\
-  \mat{x}_{k+1} &= (\mat{A} - \mat{B}\mat{K})\mat{x}_k + \mat{B}\mat{K}\mat{r}_k
-\end{align*}
-\begin{theorem}[Closed-loop state-space controller]
-  \index{state-space controllers!closed-loop}
-  \begin{align}
-    \intertext{Continuous:}
-    \dot{\mat{x}} &= (\mat{A} - \mat{B}\mat{K})\mat{x} + \mat{B}\mat{K}\mat{r}
-      \label{eq:s_ref_ctrl_x} \\
-    \mat{y} &= (\mat{C} - \mat{D}\mat{K})\mat{x} + \mat{D}\mat{K}\mat{r}
-    \intertext{Discrete:}
-    \mat{x}_{k+1} &= (\mat{A} - \mat{B}\mat{K})\mat{x}_k +
-      \mat{B}\mat{K}\mat{r}_k \label{eq:z_ref_ctrl_x} \\
-    \mat{y}_k &= (\mat{C} - \mat{D}\mat{K})\mat{x}_k + \mat{D}\mat{K}\mat{r}_k
-  \end{align}
-  \begin{figurekey}
-    \begin{tabular}{llll}
-      $\mat{A}$ & system matrix      & $\mat{K}$ & controller gain matrix \\
-      $\mat{B}$ & input matrix       & $\mat{r}$ & \gls{reference} vector \\
-      $\mat{C}$ & output matrix      & $\mat{x}$ & state vector \\
-      $\mat{D}$ & feedthrough matrix & $\mat{y}$ & output vector \\
-    \end{tabular}
-  \end{figurekey}
-\end{theorem}
-\begin{booktable}
-  \begin{tabular}{|ll|ll|}
-    \hline
-    \rowcolor{headingbg}
-    \textbf{Matrix} & \textbf{Rows $\times$ Columns} &
-    \textbf{Matrix} & \textbf{Rows $\times$ Columns} \\
-    \hline
-    $\mat{A}$ & states $\times$ states & $\mat{r}$ & states $\times$ 1 \\
-    $\mat{B}$ & states $\times$ inputs & $\mat{x}$ & states $\times$ 1 \\
-    $\mat{C}$ & outputs $\times$ states & $\mat{u}$ & inputs $\times$ 1 \\
-    $\mat{D}$ & outputs $\times$ inputs & $\mat{y}$ & outputs $\times$ 1 \\
-    $\mat{K}$ & inputs $\times$ states &  &  \\
-    \hline
-  \end{tabular}
-  \caption{Controller matrix dimensions}
-\end{booktable}
-
-\index{stability!eigenvalues}
+\index{stability!continuous system eigenvalues}
 Instead of commanding the \gls{system} to a \gls{state} using the vector
 $\mat{u}$ directly, we can now specify a vector of desired \glspl{state} through
 $\mat{r}$ and the \gls{controller} will choose values of $\mat{u}$ for us over
-time to make the \gls{system} converge to the \gls{reference}. For equation
-\eqref{eq:s_ref_ctrl_x} to reach steady-state, the eigenvalues of
-$\mat{A} - \mat{B}\mat{K}$ must be in the left-half plane. For equation
-\eqref{eq:z_ref_ctrl_x} to have a bounded output, the eigenvalues of
-$\mat{A} - \mat{B}\mat{K}$ must be within the unit circle.
+time to make the \gls{system} converge to the \gls{reference}.
 
 The eigenvalues of $\mat{A} - \mat{B}\mat{K}$ are the poles of the closed-loop
 \gls{system}. Therefore, the rate of convergence and stability of the
 closed-loop \gls{system} can be changed by moving the poles via the eigenvalues
 of $\mat{A} - \mat{B}\mat{K}$. $\mat{A}$ and $\mat{B}$ are inherent to the
 \gls{system}, but $\mat{K}$ can be chosen arbitrarily by the controller
-designer.
+designer. For equation \eqref{eq:s_ref_ctrl_x} to reach steady-state, the
+eigenvalues of $\mat{A} - \mat{B}\mat{K}$ must be in the left-half plane.
+
+The discrete closed-loop equations look similar to the continuous ones.
+\begin{align}
+  \mat{x}_{k+1} &= (\mat{A} - \mat{B}\mat{K})\mat{x}_k +
+    \mat{B}\mat{K}\mat{r}_k \label{eq:z_ref_ctrl_x} \\
+  \mat{y}_k &= (\mat{C} - \mat{D}\mat{K})\mat{x}_k + \mat{D}\mat{K}\mat{r}_k
+\end{align}
+
+\index{stability!discrete system eigenvalues}
+For equation \eqref{eq:z_ref_ctrl_x} to have a bounded output, the eigenvalues
+of $\mat{A} - \mat{B}\mat{K}$ must be within the unit circle.
+\begin{booktable}
+  \begin{tabular}{|lll|}
+    \hline
+    \rowcolor{headingbg}
+    \textbf{Symbol} & \textbf{Name} & \textbf{Rows $\times$ Columns} \\
+    \hline
+    $\mat{A}$ & system matrix & states $\times$ states \\
+    $\mat{B}$ & input matrix & states $\times$ inputs \\
+    $\mat{C}$ & output matrix & outputs $\times$ states \\
+    $\mat{D}$ & feedthrough matrix & outputs $\times$ inputs \\
+    $\mat{K}$ & controller gain matrix & inputs $\times$ states \\
+    $\mat{r}$ & \gls{reference} vector & states $\times$ 1 \\
+    $\mat{x}$ & state vector & states $\times$ 1 \\
+    $\mat{u}$ & input vector & inputs $\times$ 1 \\
+    $\mat{y}$ & output vector & outputs $\times$ 1 \\
+    \hline
+  \end{tabular}
+  \caption{Controller matrix dimensions}
+\end{booktable}
