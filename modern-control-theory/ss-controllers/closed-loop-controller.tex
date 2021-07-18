@@ -51,8 +51,8 @@ the \gls{system} defined by equation \eqref{eq:ssz_ctrl_x} operating with the
   \begin{figurekey}
     \begin{tabular}{llll}
       $\mat{A}$ & system matrix      & $\mat{K}$ & controller gain matrix \\
-      $\mat{B}$ & input matrix       & $\mat{x}$ & state vector \\
-      $\mat{C}$ & output matrix      & $\mat{r}$ & \gls{reference} vector \\
+      $\mat{B}$ & input matrix       & $\mat{r}$ & \gls{reference} vector \\
+      $\mat{C}$ & output matrix      & $\mat{x}$ & state vector \\
       $\mat{D}$ & feedthrough matrix & $\mat{y}$ & output vector \\
     \end{tabular}
   \end{figurekey}
@@ -64,10 +64,10 @@ the \gls{system} defined by equation \eqref{eq:ssz_ctrl_x} operating with the
     \textbf{Matrix} & \textbf{Rows $\times$ Columns} &
     \textbf{Matrix} & \textbf{Rows $\times$ Columns} \\
     \hline
-    $\mat{A}$ & states $\times$ states & $\mat{x}$ & states $\times$ 1 \\
-    $\mat{B}$ & states $\times$ inputs & $\mat{u}$ & inputs $\times$ 1 \\
-    $\mat{C}$ & outputs $\times$ states & $\mat{y}$ & outputs $\times$ 1 \\
-    $\mat{D}$ & outputs $\times$ inputs & $\mat{r}$ & states $\times$ 1 \\
+    $\mat{A}$ & states $\times$ states & $\mat{r}$ & states $\times$ 1 \\
+    $\mat{B}$ & states $\times$ inputs & $\mat{x}$ & states $\times$ 1 \\
+    $\mat{C}$ & outputs $\times$ states & $\mat{u}$ & inputs $\times$ 1 \\
+    $\mat{D}$ & outputs $\times$ inputs & $\mat{y}$ & outputs $\times$ 1 \\
     $\mat{K}$ & inputs $\times$ states &  &  \\
     \hline
   \end{tabular}
