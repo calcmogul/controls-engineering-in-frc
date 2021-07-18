@@ -109,6 +109,7 @@ $(STAMP): build/%.stamp: %.py $(CSV) $(DEPS_STAMP)
 	cd $(@D) && $(ROOT)/build/venv/bin/python3 $(ROOT)/$< --noninteractive
 	@touch $@
 
+# Run formatters
 .PHONY: format
 format:
 	./lint/format_bibliography.py
@@ -117,14 +118,20 @@ format:
 	./lint/format_paragraph_breaks.py
 	cd snippets && clang-format -i *.cpp
 	python3 -m black -q .
+	git --no-pager diff --exit-code HEAD  # Ensure formatters made no changes
 
-.PHONY: lint
-lint: format build/commit-date.tex build/commit-year.tex build/commit-hash.tex
+# Run formatters and all linters except link checker. The commit metadata files
+# are dependencies because check_tex_includes.py will fail if they're missing.
+.PHONY: lint_no_linkcheck
+lint_no_linkcheck: format build/commit-date.tex build/commit-year.tex build/commit-hash.tex
 	./lint/check_filenames.py
 	./lint/check_tex_includes.py
 	./lint/check_tex_labels.py
+
+# Run formatters and linters
+.PHONY: lint
+lint: lint_no_linkcheck
 	./lint/check_links.py
-	git --no-pager diff --exit-code HEAD  # Ensure formatter made no changes
 
 .PHONY: clean
 clean: clean_tex
