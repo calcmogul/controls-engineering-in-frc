@@ -21,9 +21,10 @@ Below are the continuous and discrete versions of state-space notation.
 \begin{definition}[State-space notation]%
   \index{state-space controllers!open-loop}
   \begin{align}
+    \intertext{Continuous:}
     \dot{\mat{x}} &= \mat{A}\mat{x} + \mat{B}\mat{u} \label{eq:ss_ctrl_x} \\
-    \mat{y} &= \mat{C}\mat{x} + \mat{D}\mat{u} \label{eq:ss_ctrl_y} \\
-    \nonumber \\
+    \mat{y} &= \mat{C}\mat{x} + \mat{D}\mat{u} \label{eq:ss_ctrl_y}
+    \intertext{Discrete:}
     \mat{x}_{k+1} &= \mat{A}\mat{x}_k + \mat{B}\mat{u}_k \label{eq:ssz_ctrl_x} \\
     \mat{y}_k &= \mat{C}\mat{x}_k + \mat{D}\mat{u}_k \label{eq:ssz_ctrl_y}
   \end{align}

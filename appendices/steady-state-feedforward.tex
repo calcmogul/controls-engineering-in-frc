@@ -160,19 +160,13 @@ $\mat{u}_{ff}$. Let's start with equation \eqref{eq:x_ss}.
 \begin{align*}
   \mat{x}_{ss} &= \mat{N}_x \mat{y}_{ss} \\
   \mat{N}_x^\dagger \mat{x}_{ss} &= \mat{y}_{ss}
-\end{align*}
-
-Now substitute this into equation \eqref{eq:u_ss}.
-\begin{align*}
+  \intertext{Now substitute this into equation \eqref{eq:u_ss}.}
   \mat{u}_{ss} &= \mat{N}_u \mat{y}_{ss} \\
   \mat{u}_{ss} &= \mat{N}_u (\mat{N}_x^\dagger \mat{x}_{ss}) \\
   \mat{u}_{ss} &= \mat{N}_u \mat{N}_x^\dagger \mat{x}_{ss}
-\end{align*}
-
-$\mat{u}_{ss}$ and $\mat{x}_{ss}$ are also known as $\mat{u}_{ff}$ and $\mat{r}$
-respectively.
-\begin{align*}
-  \mat{u}_{ff} = \mat{N}_u \mat{N}_x^\dagger \mat{r}
+  \intertext{$\mat{u}_{ss}$ and $\mat{x}_{ss}$ are also known as $\mat{u}_{ff}$
+    and $\mat{r}$ respectively.}
+  \mat{u}_{ff} &= \mat{N}_u \mat{N}_x^\dagger \mat{r}
 \end{align*}
 
 So all together, we get theorem \ref{thm:steady-state_ff}.
@@ -181,11 +175,11 @@ So all together, we get theorem \ref{thm:steady-state_ff}.
 \begin{theorem}[Steady-state feedforward]
   \label{thm:steady-state_ff}
   \begin{align}
-    &\text{Continuous:} \nonumber \\
-    &\begin{bmatrix}
+    \intertext{Continuous:}
+    \begin{bmatrix}
       \mat{N}_x \\
       \mat{N}_u
-    \end{bmatrix} =
+    \end{bmatrix} &=
     \begin{bmatrix}
       \mat{A} & \mat{B} \\
       \mat{C} & \mat{D}
@@ -194,11 +188,12 @@ So all together, we get theorem \ref{thm:steady-state_ff}.
       \mat{0} \\
       \mat{1}
     \end{bmatrix} \\
-    &\text{Discrete:} \nonumber \\
-    &\begin{bmatrix}
+    \mat{u}_{ff} &= \mat{N}_u \mat{N}_x^\dagger \mat{r}
+    \intertext{Discrete:}
+    \begin{bmatrix}
       \mat{N}_x \\
       \mat{N}_u
-    \end{bmatrix} =
+    \end{bmatrix} &=
     \begin{bmatrix}
       \mat{A} - \mat{I} & \mat{B} \\
       \mat{C} & \mat{D}
@@ -206,11 +201,9 @@ So all together, we get theorem \ref{thm:steady-state_ff}.
     \begin{bmatrix}
       \mat{0} \\
       \mat{1}
-    \end{bmatrix}
+    \end{bmatrix} \\
+    \mat{u}_{ff,k} &= \mat{N}_u \mat{N}_x^\dagger \mat{r}_k
   \end{align}
-  \begin{equation}
-    \mat{u}_{ff} = \mat{N}_u \mat{N}_x^\dagger \mat{r}
-  \end{equation}
 
   In the augmented matrix, $\mat{B}$ should contain one column corresponding to
   an actuator and $\mat{C}$ should contain one row whose \gls{output} will be

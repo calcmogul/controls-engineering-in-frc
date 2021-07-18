@@ -23,10 +23,7 @@ equation \eqref{eq:ss_ctrl_y}.
   \mat{y} &= (\mat{C} - \mat{D}\mat{K})\mat{x} + \mat{D}\mat{K}\mat{r}
 \end{align}
 
-Now, we'll do the same for the discrete \gls{system}. We'd like to know whether
-the \gls{system} defined by equation \eqref{eq:ssz_ctrl_x} operating with the
-\gls{control law} $\mat{u}_k = \mat{K}(\mat{r}_k - \mat{x}_k)$ converges to the
-\gls{reference} $\mat{r}_k$.
+Now, we'll do the same for the discrete \gls{system}.
 \begin{align*}
   \mat{x}_{k+1} &= \mat{A}\mat{x}_k + \mat{B}\mat{u}_k \\
   \mat{x}_{k+1} &= \mat{A}\mat{x}_k + \mat{B}(\mat{K}(\mat{r}_k - \mat{x}_k)) \\
@@ -39,11 +36,11 @@ the \gls{system} defined by equation \eqref{eq:ssz_ctrl_x} operating with the
 \begin{theorem}[Closed-loop state-space controller]
   \index{state-space controllers!closed-loop}
   \begin{align}
+    \intertext{Continuous:}
     \dot{\mat{x}} &= (\mat{A} - \mat{B}\mat{K})\mat{x} + \mat{B}\mat{K}\mat{r}
       \label{eq:s_ref_ctrl_x} \\
     \mat{y} &= (\mat{C} - \mat{D}\mat{K})\mat{x} + \mat{D}\mat{K}\mat{r}
-  \end{align}
-  \begin{align}
+    \intertext{Discrete:}
     \mat{x}_{k+1} &= (\mat{A} - \mat{B}\mat{K})\mat{x}_k +
       \mat{B}\mat{K}\mat{r}_k \label{eq:z_ref_ctrl_x} \\
     \mat{y}_k &= (\mat{C} - \mat{D}\mat{K})\mat{x}_k + \mat{D}\mat{K}\mat{r}_k
