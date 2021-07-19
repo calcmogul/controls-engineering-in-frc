@@ -111,7 +111,8 @@ Plugging equation \eqref{eq:z_obsv_y} into equation \eqref{eq:z_obsv_x} gives
     \mat{L} (\mat{y}_k - (\mat{C}\hat{\mat{x}}_k + \mat{D}\mat{u}_k)) \\
   \hat{\mat{x}}_{k+1} &= \mat{A}\hat{\mat{x}}_k + \mat{B}\mat{u}_k +
     \mat{L} (\mat{y}_k - \mat{C}\hat{\mat{x}}_k - \mat{D}\mat{u}_k)
-  \intertext{Plugging in equation \eqref{eq:ssz_ctrl_y} gives}
+  \intertext{Plugging in $\mat{y}_k = \mat{C}\mat{x}_k + \mat{D}\mat{u}_k$
+    gives}
   \hat{\mat{x}}_{k+1} &= \mat{A}\hat{\mat{x}}_k + \mat{B}\mat{u}_k +
     \mat{L}((\mat{C}\mat{x}_k + \mat{D}\mat{u}_k) - \mat{C}\hat{\mat{x}}_k -
     \mat{D}\mat{u}_k) \\
@@ -128,7 +129,8 @@ Plugging equation \eqref{eq:z_obsv_y} into equation \eqref{eq:z_obsv_x} gives
     \mat{L}\mat{C}\mat{E}_k
 \end{align*}
 
-Subtracting this from equation \eqref{eq:ssz_ctrl_x} gives
+Subtracting this from $\mat{x}_{k+1} = \mat{A}\mat{x}_k + \mat{B}\mat{u}_k$
+gives
 \begin{align}
   \mat{x}_{k+1} - \hat{\mat{x}}_{k+1} &= \mat{A}\mat{x}_k + \mat{B}\mat{u}_k -
     (\mat{A}\hat{\mat{x}}_k + \mat{B}\mat{u}_k +
