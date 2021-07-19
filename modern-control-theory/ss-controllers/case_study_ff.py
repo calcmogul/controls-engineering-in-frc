@@ -10,6 +10,7 @@ if "--noninteractive" in sys.argv:
     import bookutil.latex as latex
 
 import control as ct
+from cycler import cycler
 import frccontrol as fct
 import matplotlib.pyplot as plt
 import numpy as np
@@ -108,6 +109,8 @@ def main():
     plt.legend()
 
     plt.subplot(3, 1, 3)
+    colors = plt.rcParams["axes.prop_cycle"].by_key()["color"]
+    plt.gca().set_prop_cycle(cycler("color", colors[1:]))
     plt.plot(t, u_rec[0, 0, :], label="No feedforward")
     plt.plot(t, u_ts1_rec[0, 0, :], label="Plant inversion")
     plt.legend()
