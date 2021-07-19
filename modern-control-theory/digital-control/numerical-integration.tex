@@ -55,6 +55,11 @@ These sums are the $\mat{k}$ coefficients in the first argument of
 $f(\mat{x}, \mat{u})$. The bottom row contains the $\mat{k}$ coefficients for
 the $\mat{x}_{k+1}$ equation.
 
+Here's a reference implementation.
+\begin{coderemote}{cpp}{snippets/RK4.cpp}
+  \caption{RK4 implementation in C++}
+\end{coderemote}
+
 Other methods of Runge-Kutta integration exist with various properties
 \cite{bib:wiki_rk4}, but the one presented here is popular for its high accuracy
 relative to the amount of floating point operations (FLOPs) it requires.
