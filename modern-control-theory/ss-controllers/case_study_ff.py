@@ -36,14 +36,14 @@ def main():
 
     sysc = ct.StateSpace(A, B, C, D)
 
-    dt = 0.0001
+    dt = 0.001
     tmax = 0.025
 
     sysd = sysc.sample(dt)
 
     # fmt: off
     Q = np.array([[1 / 20**2, 0],
-                  [0, 1 / 40**2]])
+                  [        0, 0]])
     R = np.array([[1 / 12**2]])
     # fmt: on
     K = fct.lqr(sysd, Q, R)

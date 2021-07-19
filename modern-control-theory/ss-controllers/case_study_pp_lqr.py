@@ -10,9 +10,11 @@ if "--noninteractive" in sys.argv:
     import bookutil.latex as latex
 
 import control as ct
+from cycler import cycler
 import frccontrol as fct
 import matplotlib.pyplot as plt
 import numpy as np
+import scipy as sp
 
 plt.rc("text", usetex=True)
 
@@ -36,19 +38,28 @@ def main():
 
     sysc = ct.StateSpace(A, B, C, D)
 
-    dt = 0.0001
+    dt = 0.001
     tmax = 0.025
 
     sysd = sysc.sample(dt)
 
     # fmt: off
     Q = np.array([[1 / 20**2, 0],
-                  [0, 1 / 40**2]])
+                  [        0, 0]])
     R = np.array([[1 / 12**2]])
     # fmt: on
-    K_pp1 = ct.place(sysd.A, sysd.B, [0.1, 0.9])
-    K_pp2 = ct.place(sysd.A, sysd.B, [0.1, 0.8])
+    K_pp1 = ct.place(sysd.A, sysd.B, [0.1, 0.5])
+    K_pp2 = ct.place(sysd.A, sysd.B, [0.1, 0.4])
     K_lqr = fct.lqr(sysd, Q, R)
+
+    poles = sp.linalg.eig(sysd.A - sysd.B @ K_pp1)[0]
+    poles_pp1 = f"{np.round(poles[0], 3)} and {np.round(poles[1], 3)}"
+
+    poles = sp.linalg.eig(sysd.A - sysd.B @ K_pp2)[0]
+    poles_pp2 = f"{np.round(poles[0], 3)} and {np.round(poles[1], 3)}"
+
+    poles = sp.linalg.eig(sysd.A - sysd.B @ K_lqr)[0]
+    poles_lqr = f"{np.round(poles[0], 3)} and {np.round(poles[1], 3)}"
 
     t = np.arange(0, tmax, dt)
     r = np.array([[2000 * 0.1047], [0]])
@@ -102,23 +113,25 @@ def main():
     plt.subplot(3, 1, 1)
     plt.plot(t, r_rec[0, 0, :], label="Reference")
     plt.ylabel("$\omega$ (rad/s)")
-    plt.plot(t, x_pp1_rec[0, 0, :], label="Pole placement at $(0.1, 0)$ and $(0.9, 0)$")
-    plt.plot(t, x_pp2_rec[0, 0, :], label="Pole placement at $(0.1, 0)$ and $(0.8, 0)$")
-    plt.plot(t, x_lqr_rec[0, 0, :], label="LQR")
+    plt.plot(t, x_pp1_rec[0, 0, :], label=f"Pole placement at {poles_pp1}")
+    plt.plot(t, x_pp2_rec[0, 0, :], label=f"Pole placement at {poles_pp2}")
+    plt.plot(t, x_lqr_rec[0, 0, :], label=f"LQR at {poles_lqr}")
     plt.legend()
 
     plt.subplot(3, 1, 2)
     plt.plot(t, r_rec[1, 0, :], label="Reference")
     plt.ylabel("Current (A)")
-    plt.plot(t, x_pp1_rec[1, 0, :], label="Pole placement at $(0.1, 0)$ and $(0.9, 0)$")
-    plt.plot(t, x_pp2_rec[1, 0, :], label="Pole placement at $(0.1, 0)$ and $(0.8, 0)$")
-    plt.plot(t, x_lqr_rec[1, 0, :], label="LQR")
+    plt.plot(t, x_pp1_rec[1, 0, :], label=f"Pole placement at {poles_pp1}")
+    plt.plot(t, x_pp2_rec[1, 0, :], label=f"Pole placement at {poles_pp2}")
+    plt.plot(t, x_lqr_rec[1, 0, :], label=f"LQR at {poles_lqr}")
     plt.legend()
 
     plt.subplot(3, 1, 3)
-    plt.plot(t, u_pp1_rec[0, 0, :], label="Pole placement at $(0.1, 0)$ and $(0.9, 0)$")
-    plt.plot(t, u_pp2_rec[0, 0, :], label="Pole placement at $(0.1, 0)$ and $(0.8, 0)$")
-    plt.plot(t, u_lqr_rec[0, 0, :], label="LQR")
+    colors = plt.rcParams["axes.prop_cycle"].by_key()["color"]
+    plt.gca().set_prop_cycle(cycler("color", colors[1:]))
+    plt.plot(t, u_pp1_rec[0, 0, :], label=f"Pole placement at {poles_pp1}")
+    plt.plot(t, u_pp2_rec[0, 0, :], label=f"Pole placement at {poles_pp2}")
+    plt.plot(t, u_lqr_rec[0, 0, :], label=f"LQR at {poles_lqr}")
     plt.legend()
     plt.ylabel("Control effort (V)")
     plt.xlabel("Time (s)")
