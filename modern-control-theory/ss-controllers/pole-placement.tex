@@ -3,6 +3,20 @@
 
 This is the practice of placing the poles of a closed-loop \gls{system} directly
 to produce a desired response. Python Control offers several pole placement
-algorithms for generating controller or observer gains from a set of poles. In
-general, pole placement should only be used if you know what you're doing. It's
-much easier to let LQR place the poles for you, which we'll discuss next.
+algorithms for generating controller or observer gains from a set of poles.
+
+Since all our applications will be discrete \glspl{system}, we'll place poles in
+the discrete domain (the z-plane). The s-plane's LHP maps to the inside of a
+unit circle (see figure \ref{fig:s2z_mapping_pp}).
+\begin{bookfigure}
+  \begin{minisvg}{2}{build/modern-control-theory/digital-control/s_plane}
+  \end{minisvg}
+  \hfill
+  \begin{minisvg}{2}{build/modern-control-theory/digital-control/z_plane}
+  \end{minisvg}
+  \caption{Mapping of axes from s-plane (left) to z-plane (right)}
+  \label{fig:s2z_mapping_pp}
+\end{bookfigure}
+
+Pole placement should only be used if you know what you're doing. It's much
+easier to let LQR place the poles for you, which we'll discuss next.
