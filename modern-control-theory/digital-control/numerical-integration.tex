@@ -4,11 +4,126 @@ Most systems don't have linear dynamics and their differential equations can't
 be solved analytically. Instead, we'll have to approximate their solutions with
 numerical integration.
 
-\subsection{Runge-Kutta method}
-\index{numerical integration!Runge-Kutta}
+\subsection{Butcher tableaus}
 
-The first and most common method we'll cover is fourth-order Runge-Kutta (RK4).
-It's simple and accurate for most systems we'll see in FRC.
+Butcher tableaus are a more succinct representation for explicit Runge-Kutta
+numerical integration methods. Here's the general structure.
+\begin{equation*}
+  \renewcommand\arraystretch{1.2}
+  \begin{array}{c|cccc}
+    0 \\
+    c_2    & a_{2,1} \\
+    \vdots & \vdots & \ddots \\
+    c_s    & a_{s,1} & \hdots & a_{s,s-1} \\
+    \hline
+           & b_1    & \hdots & \hdots    & b_s
+  \end{array}
+\end{equation*}
+
+where $s$ is the number of stages in the method, the matrix $[a_{i,j}]$ is the
+Runge-Kutta matrix, $b_1, \ldots, b_s$ are the weights, and $c_1, \ldots, c_s$
+are the nodes. The top-left quadrant contains the sums of the rows in the
+top-right quadrant. Each column in the right half corresponds to a $\mat{k}$
+coefficient from $\mat{k}_1$ to $\mat{k}_s$.
+
+The family of solutions to $\dot{\mat{x}} = f(t, \mat{x})$ is given by
+\begin{align*}
+  \mat{k}_1 &= f(t_k, \mat{x}_k) \\
+  \mat{k}_2 &= f(t_k + c_2 h, \mat{x}_k + h (a_{2,1} \mat{k}_1)) \\
+  &\ \ \vdots \\
+  \mat{k}_s &= f(t_k + c_s h, \mat{x}_k +
+    h (a_{s,1} \mat{k}_1 + \ldots + a_{s,s-1} \mat{k}_{s-1})) \\
+  \mat{x}_{k+1} &= \mat{x}_k + h \sum_{i=1}^s b_i \mat{k}_i
+\end{align*}
+
+where $h$ is the timestep duration.
+
+\subsection{Runge-Kutta fourth-order method}
+\index{numerical integration!Runge-Kutta fourth-order}
+
+The first and most common method we'll cover is Runge-Kutta fourth-order (RK4).
+It's simple and accurate for most systems we'll see in FRC. To demonstrate how
+to translate a Butcher tableau into equations, we'll be integrating
+$\dot{\mat{x}} = f(t, \mat{x})$ from $0$ to $h$.
+\begin{center}
+  \begin{minipage}{0.35\linewidth}
+    \centering
+    \begin{alignat*}{7}
+      \mat{k}_1 &= f(t +
+        && {\color{blue}0} h,
+        && \mat{x}_k)
+        &&
+        &&
+        &&
+        && \\
+      \mat{k}_2 &= f(t +
+        && {\color{blue}\frac{1}{2}} h,
+        && \mat{x}_k + h (
+        && {\color{deeporange}\frac{1}{2}} \mat{k}_1))
+        &&
+        &&
+        && \\
+      \mat{k}_3 &= f(t +
+        && {\color{blue}\frac{1}{2}} h,
+        && \mat{x}_k + h (
+        && {\color{deeporange}0} \mat{k}_1 +
+        && {\color{deeporange}\frac{1}{2}} \mat{k}_2))
+        &&
+        && \\
+      \mat{k}_4 &= f(t +
+        && {\color{blue}1} h,
+        && \mat{x}_k + h (
+        && {\color{deeporange}0} \mat{k}_1 +
+        && {\color{deeporange}0} \mat{k}_2 +
+        && {\color{deeporange}1} \mat{k}_3))
+        && \\
+      \mat{x}_{k+1} &=
+        &&
+        && \mat{x}_k + h (
+        && {\color{deepgreen}\frac{1}{6}} \mat{k}_1 +
+        && {\color{deepgreen}\frac{1}{3}} \mat{k}_2 +
+        && {\color{deepgreen}\frac{1}{3}} \mat{k}_3 +
+        && {\color{deepgreen}\frac{1}{6}} \mat{k}_4)
+    \end{alignat*}
+  \end{minipage}
+  \quad
+  \begin{minipage}{0.35\linewidth}
+    \centering
+    \begin{equation*}
+      \renewcommand\arraystretch{1.2}
+      \begin{array}{c|cccc}
+        {\color{blue}0} \\
+        {\color{blue}\frac{1}{2}} & {\color{deeporange}\frac{1}{2}} \\
+        {\color{blue}\frac{1}{2}} & {\color{deeporange}0}           & {\color{deeporange}\frac{1}{2}} \\
+        {\color{blue}1}           & {\color{deeporange}0}           & {\color{deeporange}0}           & {\color{deeporange}1} \\
+        \hline
+                                  & {\color{deepgreen}\frac{1}{6}}  & {\color{deepgreen}\frac{1}{3}}  & {\color{deepgreen}\frac{1}{3}} & {\color{deepgreen}\frac{1}{6}}
+      \end{array}
+    \end{equation*}
+  \end{minipage}
+\end{center}
+
+Removing zeroed out terms gives
+\begin{align*}
+  \mat{k}_1 &= f(t, \mat{x}_k) \\
+  \mat{k}_2 &= f(t + \frac{1}{2} h, \mat{x}_k + h \frac{1}{2} \mat{k}_1) \\
+  \mat{k}_3 &= f(t + \frac{1}{2} h, \mat{x}_k + h \frac{1}{2} \mat{k}_2) \\
+  \mat{k}_4 &= f(t + h, \mat{x}_k + h \mat{k}_3) \\
+  \mat{x}_{k+1} &= \mat{x}_k + h \left(
+    \frac{1}{6} \mat{k}_1 +
+    \frac{1}{3} \mat{k}_2 +
+    \frac{1}{3} \mat{k}_3 +
+    \frac{1}{6} \mat{k}_4\right)
+  \intertext{$\frac{1}{6}$ is usually factored out of the last equation to
+    reduce the number of floating point operations.}
+  \mat{x}_{k+1} &= \mat{x}_k + h \frac{1}{6} (
+    \mat{k}_1 + 2\mat{k}_2 + 2\mat{k}_3 + \mat{k}_4)
+\end{align*}
+
+In FRC, our differential equations are of the form
+$\dot{\mat{x}} = f(\mat{x}, \mat{u})$ where $\mat{u}$ is held constant between
+timesteps. Since it's time-invariant, we can ignore the time argument of the
+integration method. This gives theorem \ref{thm:rk4}.
 \begin{theorem}[Fourth-order Runge-Kutta integration]
   \label{thm:rk4}
 
@@ -20,10 +135,10 @@ It's simple and accurate for most systems we'll see in FRC.
       \centering
       \begin{align*}
         \mat{k}_1 &= f(\mat{x}_k, \mat{u}_k) \\
-        \mat{k}_2 &= f(\mat{x}_k + \frac{1}{2} dt \mat{k}_1, \mat{u}_k) \\
-        \mat{k}_3 &= f(\mat{x}_k + \frac{1}{2} dt \mat{k}_2, \mat{u}_k) \\
+        \mat{k}_2 &= f(\mat{x}_k + dt \frac{1}{2}\mat{k}_1, \mat{u}_k) \\
+        \mat{k}_3 &= f(\mat{x}_k + dt \frac{1}{2}\mat{k}_2, \mat{u}_k) \\
         \mat{k}_4 &= f(\mat{x}_k + dt \mat{k}_3, \mat{u}_k) \\
-        \mat{x}_{k+1} &= \mat{x}_k + \frac{1}{6} dt (\mat{k}_1 + 2\mat{k}_2 +
+        \mat{x}_{k+1} &= \mat{x}_k + dt \frac{1}{6} (\mat{k}_1 + 2\mat{k}_2 +
           2\mat{k}_3 + \mat{k}_4)
       \end{align*}
     \end{minipage}
@@ -44,16 +159,6 @@ It's simple and accurate for most systems we'll see in FRC.
     \end{minipage}
   \end{center}
 \end{theorem}
-
-The Butcher tableau on the right in theorem \ref{thm:rk4} is a more succinct
-representation of the equations on the left. Each row in the tableau corresponds
-to one of the equations, and each column in the right half corresponds to a
-$\mat{k}$ coefficient from $\mat{k}_1$ to $\mat{k}_4$.
-
-The top-left quadrant contains the sums of each row in the top-right quadrant.
-These sums are the $\mat{k}$ coefficients in the first argument of
-$f(\mat{x}, \mat{u})$. The bottom row contains the $\mat{k}$ coefficients for
-the $\mat{x}_{k+1}$ equation.
 
 Here's a reference implementation.
 \begin{coderemote}{cpp}{snippets/RK4.cpp}
