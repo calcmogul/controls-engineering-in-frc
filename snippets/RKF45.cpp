@@ -24,12 +24,8 @@ T RKF45(F&& f, T x, U u, units::second_t dt, double maxError = 1e-6) {
   // for the Butcher tableau the following arrays came from.
   constexpr int kDim = 6;
 
-  // This is used for time-varying integration
-  // constexpr std::array<double, kDim - 1> A{
-  //     1.0 / 4.0, 3.0 / 8.0, 12.0 / 13.0, 1.0, 1.0 / 2.0};
-
   // clang-format off
-  constexpr double B[kDim - 1][kDim - 1]{
+  constexpr double A[kDim - 1][kDim - 1]{
       {     1.0 / 4.0},
       {     3.0 / 32.0,       9.0 / 32.0},
       {1932.0 / 2197.0, -7200.0 / 2197.0,  7296.0 / 2197.0},
@@ -37,10 +33,10 @@ T RKF45(F&& f, T x, U u, units::second_t dt, double maxError = 1e-6) {
       {    -8.0 / 27.0,              2.0, -3544.0 / 2565.0, 1859.0 / 4104.0, -11.0 / 40.0}};
   // clang-format on
 
-  constexpr std::array<double, kDim> C1{16.0 / 135.0,     0.0,
+  constexpr std::array<double, kDim> b1{16.0 / 135.0,     0.0,
                                         6656.0 / 12825.0, 28561.0 / 56430.0,
                                         -9.0 / 50.0,      2.0 / 55.0};
-  constexpr std::array<double, kDim> C2{
+  constexpr std::array<double, kDim> b2{
       25.0 / 216.0, 0.0, 1408.0 / 2565.0, 2197.0 / 4104.0, -1.0 / 5.0, 0.0};
 
   T newX;
@@ -58,22 +54,22 @@ T RKF45(F&& f, T x, U u, units::second_t dt, double maxError = 1e-6) {
       // Notice how the derivative in the Wikipedia notation is dy/dx.
       // That means their y is our x and their x is our t
       // clang-format off
-      T k1 = f(x, u) * h;
-      T k2 = f(x + k1 * B[0][0], u) * h;
-      T k3 = f(x + k1 * B[1][0] + k2 * B[1][1], u) * h;
-      T k4 = f(x + k1 * B[2][0] + k2 * B[2][1] + k3 * B[2][2], u) * h;
-      T k5 = f(x + k1 * B[3][0] + k2 * B[3][1] + k3 * B[3][2] + k4 * B[3][3], u) * h;
-      T k6 = f(x + k1 * B[4][0] + k2 * B[4][1] + k3 * B[4][2] + k4 * B[4][3] + k5 * B[4][4], u) * h;
+      T k1 = f(x, u);
+      T k2 = f(x + h * (A[0][0] * k1), u);
+      T k3 = f(x + h * (A[1][0] * k1 + A[1][1] * k2), u);
+      T k4 = f(x + h * (A[2][0] * k1 + A[2][1] * k2 + A[2][2] * k3), u);
+      T k5 = f(x + h * (A[3][0] * k1 + A[3][1] * k2 + A[3][2] * k3 + A[3][3] * k4), u);
+      T k6 = f(x + h * (A[4][0] * k1 + A[4][1] * k2 + A[4][2] * k3 + A[4][3] * k4 + A[4][4] * k5), u);
       // clang-format on
 
-      newX = x + k1 * C1[0] + k2 * C1[1] + k3 * C1[2] + k4 * C1[3] +
-             k5 * C1[4] + k6 * C1[5];
-      truncationError =
-          (k1 * (C1[0] - C2[0]) + k2 * (C1[1] - C2[1]) + k3 * (C1[2] - C2[2]) +
-           k4 * (C1[3] - C2[3]) + k5 * (C1[4] - C2[4]) + k6 * (C1[5] - C2[5]))
-              .norm();
+      newX = x + h * (b1[0] * k1 + b1[1] * k2 + b1[2] * k3 + b1[3] * k4 +
+                      b1[4] * k5 + b1[5] * k6);
+      truncationError = (h * ((b1[0] - b2[0]) * k1 + (b1[1] - b2[1]) * k2 +
+                              (b1[2] - b2[2]) * k3 + (b1[3] - b2[3]) * k4 +
+                              (b1[4] - b2[4]) * k5 + (b1[5] - b2[5]) * k6))
+                            .norm();
 
-      h = 0.9 * h * std::pow(maxError / truncationError, 1.0 / 5.0);
+      h *= 0.9 * std::pow(maxError / truncationError, 1.0 / 5.0);
     } while (truncationError > maxError);
 
     dtElapsed += h;
