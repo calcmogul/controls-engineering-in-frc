@@ -2,9 +2,12 @@
 
 \chapter{System identification}
 
-For now, this chapter just covers how to obtain state-space models for common
-mechanisms from a feedforward model derived from performance data.
+First, we'll cover a system identification procedure for generating a velocity
+system feedforward model from performance data. Then, we'll use that feedforward
+model to create state-space models for several common mechanisms.
 
 \renewcommand*{\chapterpath}{\partpath/system-identification}
-\input{\chapterpath/1-dof-mechanism-model}
-\input{\chapterpath/drivetrain-velocity-model}
+\input{\chapterpath/ordinary-least-squares}
+\input{\chapterpath/1-dof-mechanism-feedforward-model}
+\input{\chapterpath/1-dof-mechanism-state-space-model}
+\input{\chapterpath/drivetrain-velocity-state-space-model}

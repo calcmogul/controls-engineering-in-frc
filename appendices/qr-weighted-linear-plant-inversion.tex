@@ -2,45 +2,6 @@
 
 \chapter{QR-weighted linear plant inversion}
 
-\section{Necessary theorems}
-
-The following theorem and corollary will be needed to derive the QR-weighted
-linear plant inversion equation.
-\begin{theorem}
-  $\frac{\partial (\mat{A}\mat{x} + \mat{b})\T\mat{C}
-    (\mat{D}\mat{x} + \mat{e})}{\partial\mat{x}} =
-    \mat{A}\T\mat{C}(\mat{D}\mat{x} + \mat{e}) + \mat{D}\T\mat{C}\T
-    (\mat{A}\mat{x} + \mat{b})$
-\end{theorem}
-\begin{corollary}
-  \label{cor:partial_ax_b}
-
-  $\frac{\partial (\mat{A}\mat{x} + \mat{b})\T\mat{C}
-    (\mat{A}\mat{x} + \mat{b})}{\partial\mat{x}} =
-    2\mat{A}\T\mat{C}(\mat{A}\mat{x} + \mat{b})$ where $\mat{C}$ is symmetric.
-
-  Proof:
-  \begin{align*}
-    \frac{\partial (\mat{A}\mat{x} + \mat{b})\T\mat{C}
-      (\mat{A}\mat{x} + \mat{b})}{\partial\mat{x}} &=
-      \mat{A}\T\mat{C}(\mat{A}\mat{x} + \mat{b}) + \mat{A}\T\mat{C}\T
-      (\mat{A}\mat{x} + \mat{b}) \\
-    \frac{\partial (\mat{A}\mat{x} + \mat{b})\T\mat{C}
-      (\mat{A}\mat{x} + \mat{b})}{\partial\mat{x}} &=
-      (\mat{A}\T\mat{C} + \mat{A}\T\mat{C}\T)(\mat{A}\mat{x} + \mat{b})
-  \end{align*}
-
-  $\mat{C}$ is symmetric, so
-  \begin{align*}
-    \frac{\partial (\mat{A}\mat{x} + \mat{b})\T\mat{C}
-      (\mat{A}\mat{x} + \mat{b})}{\partial\mat{x}} &=
-      (\mat{A}\T\mat{C} + \mat{A}\T\mat{C})(\mat{A}\mat{x} + \mat{b}) \\
-    \frac{\partial (\mat{A}\mat{x} + \mat{b})\T\mat{C}
-      (\mat{A}\mat{x} + \mat{b})}{\partial\mat{x}} &=
-      2\mat{A}\T\mat{C}(\mat{A}\mat{x} + \mat{b})
-  \end{align*}
-\end{corollary}
-
 \section{Setup}
 
 Let's start with the equation for the \gls{reference} dynamics
