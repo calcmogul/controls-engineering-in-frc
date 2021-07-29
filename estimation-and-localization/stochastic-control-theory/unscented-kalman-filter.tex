@@ -8,15 +8,18 @@ estimator for linear \glspl{system}. It isn't optimal for nonlinear
 \glspl{system}, but several extensions to it have been developed to make it more
 accurate.
 
-The unscented Kalman filter propagates carefully chosen points called sigma
-points through the nonlinear state and measurement models to obtain estimates of
-the true covariances (as opposed to linearized versions of them). We recommend
-reading Roger Labbe's book \textit{Kalman and Bayesian Filters in Python} for
-more on unscented Kalman
-filters\footnote{\url{https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python/blob/master/10-Unscented-Kalman-Filter.ipynb}}.
+The unscented Kalman filter (UKF) propagates carefully chosen points called
+sigma points through the nonlinear state and measurement models to obtain
+estimates of the true covariances (as opposed to linearized versions of them).
+We recommend reading Roger Labbe's book \textit{Kalman and Bayesian Filters in
+Python} for more on
+UKFs\footnote{\url{https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python/blob/master/10-Unscented-Kalman-Filter.ipynb}}.
 
-The original paper on the unscented Kalman filter is also an option
-\cite{bib:unscented_kalman_filter}. The equations for van der Merwe's sigma
-point algorithm are in \cite{bib:unscented_kalman_filter_2}. Here's a paper on a
+The original paper on the UKF is also an option
+\cite{bib:unscented_kalman_filter}. See also the equations for van der Merwe's
+sigma point algorithm \cite{bib:unscented_kalman_filter_2}. Here's a paper on a
 quaternion-based Unscented Kalman filter for orientation tracking
 \cite{bib:ukf_state_tracking}.
+
+Here's an interview about the origin of the UKF with its creator
+\cite{bib:first-hand_the_ut}.
