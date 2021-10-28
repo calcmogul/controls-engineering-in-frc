@@ -1,13 +1,13 @@
 \section{Observability}
 \index{controller design!observability}
 
-Observability is a measure for how well internal \glspl{state} of a \gls{system}
-can be inferred by knowledge of its external \glspl{output}. The observability
-and controllability of a \gls{system} are mathematical duals (i.e., as
-controllability proves that an \gls{input} is available that brings any initial
-\gls{state} to any desired final \gls{state}, observability proves that knowing
-enough \gls{output} values provides enough information to predict the initial
-\gls{state} of the \gls{system}).
+A \gls{system} is observable if the \gls{state}, whatever it may be, can be
+inferred from a finite sequence of \glspl{output}.
+
+Observability and controllability are mathematical duals; controllability proves
+that a sequence of \glspl{input} exists that drives the \gls{system} to any
+\gls{state}, and observability proves that a sequence of \glspl{output} exists
+that drives the \gls{state} estimate to any true \gls{state}.
 \begin{theorem}[Observability]
   A continuous \gls{time-invariant} linear state-space \gls{model} is observable
   if and only if
