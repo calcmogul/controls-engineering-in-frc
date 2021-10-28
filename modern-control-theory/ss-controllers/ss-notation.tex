@@ -10,14 +10,16 @@ variable, and we represent locations within it the same way we do for 2D space:
 with a list of numbers in a vector. Each element in the vector corresponds to a
 \gls{state} of the \gls{system}.
 
-In addition to the \gls{state}, \glspl{input} and \glspl{output} are represented
-as vectors. Since the mapping from the current \glspl{state} and \glspl{input}
-to the change in \gls{state} is a system of equations, it's natural to write it
-in matrix form.
+In state-space notation, there are also \gls{input} and \gls{output} vectors
+with corresponding \gls{input} and \gls{output} spaces. \Glspl{input} drive the
+\gls{system} to other points in the state space, and \glspl{output} are sensor
+measurements that have a linear relationship to the \gls{state} and \gls{input}.
+Since the mapping from \gls{state} and \gls{input} to change in \gls{state} is a
+system of equations, it's natural to write it in matrix form.
 
 \subsection{Definition}
 
-Below are the continuous and discrete versions of state-space notation.
+Below is the continuous version of state-space notation.
 \begin{definition}[State-space notation]%
   \index{state-space controllers!open-loop}
   \begin{align}
@@ -49,10 +51,10 @@ Below are the continuous and discrete versions of state-space notation.
   \caption{State-space matrix dimensions}
 \end{booktable}
 
-In the continuous case, the change in \gls{state} and the \gls{output} are
-linear combinations of the \gls{state} vector and the \gls{input} vector. The
-$\mat{A}$ and $\mat{B}$ matrices are used to map the \gls{state} vector
-$\mat{x}$ and the \gls{input} vector $\mat{u}$ to a change in the \gls{state}
-vector $\dot{\mat{x}}$. The $\mat{C}$ and $\mat{D}$ matrices are used to map the
-\gls{state} vector $\mat{x}$ and the \gls{input} vector $\mat{u}$ to an
-\gls{output} vector $\mat{y}$.
+The change in \gls{state} and the \gls{output} are linear combinations of the
+\gls{state} vector and the \gls{input} vector. The $\mat{A}$ and $\mat{B}$
+matrices are used to map the \gls{state} vector $\mat{x}$ and the \gls{input}
+vector $\mat{u}$ to a change in the \gls{state} vector $\dot{\mat{x}}$. The
+$\mat{C}$ and $\mat{D}$ matrices are used to map the \gls{state} vector
+$\mat{x}$ and the \gls{input} vector $\mat{u}$ to an \gls{output} vector
+$\mat{y}$.
