@@ -1,0 +1,43 @@
+\section{Common control theory matrix equations}
+
+Here's some common matrix equations from control theory we'll use later on.
+Solvers for them exist in \href{https://github.com/RobotLocomotion/drake}{Drake}
+(C++) and \href{https://github.com/scipy/scipy}{SciPy} (Python).
+
+\subsection{Continuous algebraic Riccati equation (CARE)}
+\index{algebraic Riccati equation!continuous}
+
+The continuous algebraic Riccati equation (DARE) appears in the solution to the
+continuous time LQ problem.
+\begin{equation}
+  \mat{A}\mat{X} + \mat{X}\mat{A} - \mat{X}\mat{B}\mat{R}^{-1}\mat{B}\T\mat{X} +
+    \mat{Q} = 0
+\end{equation}
+
+\subsection{Discrete algebraic Riccati equation (DARE)}
+\index{algebraic Riccati equation!discrete}
+
+The discrete algebraic Riccati equation (CARE) appears in the solution to the
+discrete time LQ problem.
+\begin{equation}
+  \mat{X} = \mat{A}\T\mat{X}\mat{A} - (\mat{A}\T\mat{X}\mat{B})(\mat{R} +
+    \mat{B}\T\mat{X}\mat{B})^{-1} \mat{B}\T\mat{X}\mat{A} + \mat{Q}
+\end{equation}
+
+\subsection{Continuous Lyapunov equation}
+\index{Lyapunov equation!continuous}
+
+The continuous Lyapunov equation appears in controllability/observability
+analysis of continuous time systems.
+\begin{equation}
+  \mat{A}\mat{X} + \mat{X}\mat{A}\T + \mat{Q} = 0
+\end{equation}
+
+\subsection{Discrete Lyapunov equation}
+\index{Lyapunov equation!discrete}
+
+The discrete Lyapunov equation appears in controllability/observability analysis
+of discrete time systems.
+\begin{equation}
+  \mat{A}\mat{X}\mat{A}\T - \mat{X} + \mat{Q} = 0
+\end{equation}

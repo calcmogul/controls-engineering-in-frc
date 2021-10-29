@@ -1,5 +1,5 @@
 \section{Observability}
-\index{controller design!observability}
+\index{observer design!observability}
 
 A \gls{system} is observable if the \gls{state}, whatever it may be, can be
 inferred from a finite sequence of \glspl{output}.
@@ -8,6 +8,10 @@ Observability and controllability are mathematical duals; controllability proves
 that a sequence of \glspl{input} exists that drives the \gls{system} to any
 \gls{state}, and observability proves that a sequence of \glspl{output} exists
 that drives the \gls{state} estimate to any true \gls{state}.
+
+\subsection{Observability matrix}
+
+The observability matrix can be used to determine if a system is observable.
 \begin{theorem}[Observability]
   A continuous \gls{time-invariant} linear state-space \gls{model} is observable
   if and only if
@@ -22,14 +26,14 @@ that drives the \gls{state} estimate to any true \gls{state}.
   \end{equation}
 
   where rank is the number of linearly independent rows in a matrix and $n$ is
-  the number of \gls{state} variables.
+  the number of \glspl{state}.
 \end{theorem}
 
-The matrix in equation \eqref{eq:obsv_rank} being rank-deficient means the
-\glspl{output} do not contain contributions from every \gls{state}. That is, not
-all \glspl{state} are mapped to a linear combination in the \gls{output}.
-Therefore, the \glspl{output} alone are insufficient to estimate all the
-\glspl{state}.
+The observability matrix in equation \eqref{eq:obsv_rank} being rank-deficient
+means the \glspl{output} do not contain contributions from every \gls{state}.
+That is, not all \glspl{state} are mapped to a linear combination in the
+\gls{output}. Therefore, the \glspl{output} alone are insufficient to estimate
+all the \glspl{state}.
 
 The condition number of the observability matrix $\mathcal{O}$ is defined as
 $\frac{\sigma_{max}(\mathcal{O})}{\sigma_{min}(\mathcal{O})}$ where
@@ -39,3 +43,51 @@ infinity, one or more of the \glspl{state} becomes unobservable. This number can
 also be used to tell us which sensors are better than others for the given
 \gls{system}; a lower condition number means the \glspl{output} produced by the
 sensors are better indicators of the \gls{system} \gls{state}.
+
+\subsection{Observability Gramian}
+\index{observer design!observability Gramian}
+
+While the rank of the observability matrix can tell us whether the system is
+observable, it won't tell us which specific states are observable or how
+observable. The observability Gramian can be used to determine these things.
+
+If $\mat{A}$ is stable, the observability Gramian $\mat{W}_o$ is the unique
+solution to the following continuous Lyapunov equation.
+\begin{equation}
+  \mat{A}\T\mat{W}_o + \mat{W}_o\mat{A} + \mat{C}\T\mat{C} = 0
+\end{equation}
+
+Alternatively,
+\begin{equation}
+  \mat{W}_o =
+    \int_0^\infty e^{\mat{A}\T\tau} \mat{C}\T\mat{C} e^{\mat{A}\tau} \,d\tau
+\end{equation}
+
+If the solution is positive definite, the system is observable. The eigenvalues
+of $\mat{W}_o$ represent how observable their respective states are (larger
+means more observable).
+
+\subsection{Observability of specific states}
+
+If you want to know if a specific state is observable, first find its
+corresponding eigenvalue $\lambda$ in $\mat{A}$. Then, that state is
+observable if
+\begin{equation}
+  \rank\left(
+  \begin{bmatrix}
+    \mat{A} - \lambda\mat{I} \\
+    \mat{C}
+  \end{bmatrix}\right) = n
+\end{equation}
+
+where $n$ is the number of \glspl{state}.
+
+\subsection{Detectability}
+\index{observer design!detectability}
+
+Detectability is a weaker form of observability. A system is considered
+detectable if one of the following conditions is true:
+\begin{enumerate}
+  \item All unobservable states are stable
+  \item All unstable states are observable
+\end{enumerate}

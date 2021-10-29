@@ -3,6 +3,10 @@
 
 A \gls{system} is controllable if it can be steered from any \gls{state} to any
 \gls{state} by a finite sequence of admissible \glspl{input}.
+
+\subsection{Controllability matrix}
+
+The controllability matrix can be used to determine if a system is controllable.
 \begin{theorem}[Controllability]
   A continuous \gls{time-invariant} linear state-space \gls{model} is
   controllable if and only if
@@ -16,12 +20,13 @@ A \gls{system} is controllable if it can be steered from any \gls{state} to any
   \end{equation}
 
   where rank is the number of linearly independent rows in a matrix and $n$ is
-  the number of \gls{state} variables.
+  the number of \glspl{state}.
 \end{theorem}
 
-The matrix in equation \eqref{eq:ctrl_rank} being rank-deficient means the
-\glspl{input} cannot apply transforms along all axes in the state-space; the
-transformation the matrix represents is collapsed into a lower dimension.
+The controllability matrix in equation \eqref{eq:ctrl_rank} being rank-deficient
+means the \glspl{input} cannot apply transforms along all axes in the
+state-space; the transformation the matrix represents is collapsed into a lower
+dimension.
 
 The condition number of the controllability matrix $\mathcal{C}$ is defined as
 $\frac{\sigma_{max}(\mathcal{C})}{\sigma_{min}(\mathcal{C})}$ where
@@ -32,3 +37,50 @@ value. As this number approaches infinity, one or more of the \glspl{state}
 becomes uncontrollable. This number can also be used to tell us which actuators
 are better than others for the given \gls{system}; a lower condition number
 means that the actuators have more control authority.
+
+\subsection{Controllability Gramian}
+\index{controller design!controllability Gramian}
+
+While the rank of the observability matrix can tell us whether the system is
+controllable, it won't tell us which specific states are controllable or how
+controllable. The controllability Gramian can be used to determine these things.
+
+If $\mat{A}$ is stable, the controllability Gramian $\mat{W}_c$ is the unique
+solution to the following continuous Lyapunov equation.
+\begin{equation}
+  \mat{A}\mat{W}_c + \mat{W}_c\mat{A}\T + \mat{B}\mat{B}\T = 0
+\end{equation}
+
+Alternatively,
+\begin{equation}
+  \mat{W}_c =
+    \int_0^\infty e^{\mat{A}\tau} \mat{B}\mat{B}\T e^{\mat{A}\T\tau} \,d\tau
+\end{equation}
+
+If the solution is positive definite, the system is controllable. The
+eigenvalues of $\mat{W}_c$ represent how controllable their respective states
+are (larger means more controllable).
+
+\subsection{Controllability of specific states}
+
+If you want to know if a specific state is controllable, first find its
+corresponding eigenvalue $\lambda$ in $\mat{A}$. Then, that state is
+controllable if
+\begin{equation}
+  \rank\left(
+  \begin{bmatrix}
+    \mat{A} - \lambda\mat{I} & \mat{B}
+  \end{bmatrix}\right) = n
+\end{equation}
+
+where $n$ is the number of \glspl{state}.
+
+\subsection{Stabilizability}
+\index{controller design!stabilizability}
+
+Stabilizability is a weaker form of controllability. A system is considered
+stabilizable if one of the following conditions is true:
+\begin{enumerate}
+  \item All uncontrollable states can be stabilized
+  \item All unstable states are controllable
+\end{enumerate}
