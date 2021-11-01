@@ -29,7 +29,9 @@ jobs:
       with:
         fetch-depth: 0
     - name: Install system dependencies
-      run: make setup_archlinux
+      run: |
+        sudo pacman -Syu --noconfirm
+        make setup_archlinux
     - name: Generate PDF
       run: |
         # Add perl modules (biber) to PATH
