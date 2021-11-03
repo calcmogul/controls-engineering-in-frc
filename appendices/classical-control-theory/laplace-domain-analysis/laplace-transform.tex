@@ -1,4 +1,4 @@
-\section{Laplace transform}
+\subsection{Laplace transform}
 
 The Laplace domain is a generalization of the frequency domain that has the
 frequency ($j\omega$) on the imaginary y-axis and a real number on the x-axis,
@@ -30,7 +30,7 @@ If we move the component frequencies in the Fmajor4 chord example parallel to
 the real axis to $\sigma = -25$, the resulting time domain response attenuates
 according to the decaying exponential $e^{-25t}$ (see figure
 \ref{fig:laplace_chord_attenuating}).
-\begin{svg}{build/\chapterpath/laplace_chord_attenuating}
+\begin{svg}{build/\sectionpath/laplace_chord_attenuating}
   \caption{Fmajor4 chord at $\sigma = 0$ and $\sigma = -25$}
   \label{fig:laplace_chord_attenuating}
 \end{svg}
@@ -45,7 +45,7 @@ is a real number) instead of a delta function. This function is nonzero at
 points that aren't actually frequencies present in the time domain. Figure
 \ref{fig:laplace_chord_3d} demonstrates this, which shows the Laplace transform
 of the Fmajor4 chord plotted in 3D.
-\begin{svg}{build/\chapterpath/laplace_chord_3d}
+\begin{svg}{build/\sectionpath/laplace_chord_3d}
   \caption{Laplace transform of Fmajor4 chord plotted in 3D}
   \label{fig:laplace_chord_3d}
 \end{svg}
@@ -53,4 +53,3 @@ of the Fmajor4 chord plotted in 3D.
 Notice how the values of the function around each component frequency decrease
 according to $\frac{1}{\sqrt{x^2 + y^2}}$ in the $x$ and $y$ directions (in just
 the $x$ direction, it would be $\frac{1}{x}$).
-

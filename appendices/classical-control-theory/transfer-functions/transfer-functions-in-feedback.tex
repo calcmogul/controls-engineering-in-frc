@@ -1,4 +1,4 @@
-\section{Transfer functions in feedback}
+\subsection{Transfer functions in feedback}
 
 For \glspl{controller} to \glslink{regulator}{regulate} a \gls{system} or
 \glslink{tracking}{track} a reference, they must be placed in positive or
@@ -53,8 +53,8 @@ derivation). As another example, the transfer function from the input to the
 The roots of the denominator of $G_{cl}(s)$ are different from those of the
 open-loop transfer function $KG(s)$. These are called the closed-loop poles.
 
-\subsection{Root locus}
-\label{subsec:root_locus}
+\subsubsection{Root locus}
+\label{subsubsec:root_locus}
 \index{stability!root locus}
 
 In closed-loop, the poles can be moved around by adjusting the controller gain,
@@ -66,17 +66,17 @@ then split toward asymptotes (figure \ref{fig:rlocus_asymptotes}), or move
 toward zeroes (figure \ref{fig:rlocus_zeroes}). The \gls{system} in figure
 \ref{fig:rlocus_zeroes} becomes unstable as the gain is increased.
 \begin{bookfigure}
-  \begin{minisvg}{2}{build/\chapterpath/rlocus_infty}
+  \begin{minisvg}{2}{build/\sectionpath/rlocus_infty}
     \caption{Root locus showing pole moving toward negative infinity}
     \label{fig:rlocus_infty}
   \end{minisvg}
   \hfill
-  \begin{minisvg}{2}{build/\chapterpath/rlocus_asymptotes}
+  \begin{minisvg}{2}{build/\sectionpath/rlocus_asymptotes}
     \caption{Root locus showing poles moving toward asymptotes}
     \label{fig:rlocus_asymptotes}
   \end{minisvg}
   \hfill
-  \begin{minisvg}{2}{build/\chapterpath/rlocus_zeroes}
+  \begin{minisvg}{2}{build/\sectionpath/rlocus_zeroes}
     \caption{Root locus of equation \eqref{eq:transfer_func} showing poles
       moving toward zeroes.}
     \label{fig:rlocus_zeroes}
@@ -124,26 +124,26 @@ fast \glspl{system response}. In other words, the \glspl{system response} of the
 second-order model and its first-order approximation are similar for low
 frequency operating regimes.
 \begin{bookfigure}
-  \begin{minisvg}{2}{build/\chapterpath/highfreq_unstable_rlocus}
+  \begin{minisvg}{2}{build/\sectionpath/highfreq_unstable_rlocus}
     \caption{Root locus of second-order DC brushed motor plant augmented with
       position}
     \label{fig:highfreq_unstable_rlocus}
   \end{minisvg}
   \hfill
-  \begin{minisvg}{2}{build/\chapterpath/highfreq_stable_rlocus}
+  \begin{minisvg}{2}{build/\sectionpath/highfreq_stable_rlocus}
     \caption{Root locus of first-order DC brushed motor plant augmented with
       position}
     \label{fig:highfreq_stable_rlocus}
   \end{minisvg}
 \end{bookfigure}
 \begin{bookfigure}
-  \begin{minisvg}{2}{build/\chapterpath/highfreq_unstable_step}
+  \begin{minisvg}{2}{build/\sectionpath/highfreq_unstable_step}
     \caption{Step response of second-order DC brushed motor plant augmented with
       position}
     \label{fig:highfreq_unstable_step}
   \end{minisvg}
   \hfill
-  \begin{minisvg}{2}{build/\chapterpath/highfreq_stable_step}
+  \begin{minisvg}{2}{build/\sectionpath/highfreq_stable_step}
     \caption{Step response of first-order DC brushed motor plant augmented with
       position}
     \label{fig:highfreq_stable_step}

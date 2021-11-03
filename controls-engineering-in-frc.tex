@@ -132,6 +132,7 @@
 % Define path commands for redefinition later
 \newcommand*{\partpath}{}
 \newcommand*{\chapterpath}{}
+\newcommand*{\sectionpath}{}
 
 \mainmatter
 \setcounter{chapter}{-1}
@@ -177,12 +178,6 @@
 \input{\partpath/configuration-spaces}
 \input{\partpath/trajectory-optimization}
 
-\part{Classical control theory}
-\label{part:classical_control_theory}
-\renewcommand*{\partpath}{classical-control-theory}
-\input{\partpath/transfer-functions}
-\input{\partpath/laplace-domain-analysis}
-
 \part{Appendices}
 \renewcommand{\chaptermark}[1]{\markboth{\sffamily\normalsize\bfseries\appendixname\ \thechapter.\ #1}{}}
 \appendix
@@ -193,6 +188,7 @@
 \input{\partpath/qr-weighted-linear-plant-inversion}
 \input{\partpath/steady-state-feedforward}
 \input{\partpath/derivations}
+\input{\partpath/classical-control-theory}
 
 % Backmatter fancy header
 \renewcommand{\chaptermark}[1]{%

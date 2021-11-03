@@ -1,0 +1,26 @@
+\chapterimage{appendices.jpg}{Sunset in an airplane over New Mexico}
+
+\chapter{Classical control theory}
+
+This appendix is provided for those who are curious about a lower-level
+interpretation of control systems. It describes what a transfer function is and
+shows how they can be used to analyze dynamical systems. Emphasis is placed on
+the geometric intuition of this analysis rather than the frequency domain math.
+Many tools exclusive to classical control theory (root locus, Bode plots,
+Nyquist plots, etc.) aren't useful for or relevant to the examples presented in
+the main chapters, so they would serve only to complicate the learning process.
+
+Classical control theory is interesting in that one can perform stability and
+robustness analyses and design reasonable controllers for systems on the back of
+a napkin. It's also useful for controlling systems which don't have a model. One
+can generate a Bode plot of a system by feeding in sine waves of increasing
+frequency and recording the amplitude of the output oscillations. This data can
+be used to create a transfer function or lead and lag compensators can be
+applied directly based on the Bode plot. However, computing power is much more
+plentiful nowadays; we should take advantage of this in the design phase and use
+the more modern tools that enables when it makes sense.
+
+\renewcommand*{\chapterpath}{\partpath/classical-control-theory}
+\input{\chapterpath/classical-vs-modern-control-theory}
+\input{\chapterpath/transfer-functions}
+\input{\chapterpath/laplace-domain-analysis}

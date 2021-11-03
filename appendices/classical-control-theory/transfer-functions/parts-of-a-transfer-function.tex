@@ -1,4 +1,4 @@
-\section{Parts of a transfer function}
+\subsection{Parts of a transfer function}
 
 A transfer function maps an input coordinate to an output coordinate in the
 Laplace domain. These can be obtained by applying the Laplace transform to a
@@ -10,7 +10,7 @@ of a transfer function.
     {\underbrace{s(s+10)}_{poles}}
 \end{equation}
 
-\subsection{Poles and zeroes}
+\subsubsection{Poles and zeroes}
 
 The roots of factors in the numerator of a transfer function are called
 \textit{zeroes} because they make the transfer function approach zero. Likewise,
@@ -29,7 +29,7 @@ exponential\footnote{We are handwaving Laplace transform derivations because
 they are complicated and neither relevant nor useful.}. That means the time
 domain responses of \glspl{system} comprise decaying exponentials (e.g.,
 $y = e^{-t}$).
-\begin{svg}{build/\chapterpath/tf_3d}
+\begin{svg}{build/\sectionpath/tf_3d}
   \caption{Equation \eqref{eq:transfer_func} plotted in 3D}
   \label{fig:tf_3d}
 \end{svg}
@@ -57,7 +57,7 @@ marginally stable; the \gls{system}'s output oscillates at a constant amplitude
 forever. Poles in the right half-plane (RHP) are unstable; the \gls{system}'s
 output grows without bound.
 
-\subsection{Nonminimum phase zeroes}
+\subsubsection{Nonminimum phase zeroes}
 
 While poles in the RHP are unstable, the same is not true for zeroes. They can
 be characterized by the \gls{system} initially moving in the wrong direction
@@ -80,8 +80,8 @@ it reaches the target distance. At that point, the Segway increases its forward
 speed to pitch backward and slow itself down. To come to a stop, the Segway
 rolls backward again to level itself out.
 
-\subsection{Pole-zero cancellation}
-\label{subsec:pole-zero_cancellation}
+\subsubsection{Pole-zero cancellation}
+\label{subsubsec:pole-zero_cancellation}
 
 Pole-zero cancellation occurs when a pole and zero are located at the same place
 in the s-plane. This effectively eliminates the contribution of each to the

@@ -32,6 +32,10 @@ error_occurred = False
 def visit(filename):
     nodes[filename].visited = True
 
+    # Ignore files that break parsing
+    if "preamble/" in filename:
+        return
+
     # Get file contents
     with open(filename, "r") as f:
         contents = f.read()
