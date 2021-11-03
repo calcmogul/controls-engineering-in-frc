@@ -5,6 +5,50 @@ For \glspl{controller} to \glslink{regulator}{regulate} a \gls{system} or
 negative feedback with the \gls{plant} (whether to use positive or negative
 depends on the \gls{plant} in question). Stable feedback loops attempt to make
 the \gls{output} equal the \gls{reference}.
+
+\subsubsection{Derivation}
+
+Given the feedback network in figure \ref{fig:closed_loop_deriv}, find an
+expression for $Y(s)$.
+\begin{bookfigure}
+  \begin{tikzpicture}[auto, >=latex']
+    % Place the blocks
+    \node [name=input] {$X(s)$};
+    \node [sum, right=of input] (sum) {};
+    \node [block, right=of sum] (G) {$G(s)$};
+    \node [right=of G] (output) {$Y(s)$};
+    \node [block, below=of G] (measurements) {$H(s)$};
+
+    % Connect the nodes
+    \draw [arrow] (input) -- node[pos=0.85] {$+$} (sum);
+    \draw [arrow] (sum) -- node {$Z(s)$} (G);
+    \draw [arrow] (G) -- node [name=y] {} (output);
+    \draw [arrow] (y) |- (measurements);
+    \draw [arrow] (measurements) -| node[pos=0.99, right] {$-$} (sum);
+  \end{tikzpicture}
+
+  \caption{Closed-loop block diagram}
+  \label{fig:closed_loop_deriv}
+\end{bookfigure}
+\begin{align}
+  Y(s) &= Z(s) G(s) \nonumber \\
+  Z(s) &= X(s) - Y(s) H(s) \nonumber \\
+  X(s) &= Z(s) + Y(s) H(s) \nonumber \\
+  X(s) &= Z(s) + Z(s) G(s) H(s) \nonumber \\
+  \frac{Y(s)}{X(s)} &= \frac{Z(s) G(s)}{Z(s) + Z(s) G(s) H(s)} \nonumber \\
+  \frac{Y(s)}{X(s)} &= \frac{G(s)}{1 + G(s) H(s)}
+\end{align}
+
+A more general form is
+\begin{equation}
+  \frac{Y(s)}{X(s)} = \frac{G(s)}{1 \mp G(s) H(s)}
+    \label{eq:tf_in_feedback}
+\end{equation}
+
+where positive feedback uses the top sign and negative feedback uses the bottom
+sign.
+
+\subsubsection{Control system with feedback}
 \begin{bookfigure}
   \begin{tikzpicture}[auto, >=latex']
     % Place the blocks
@@ -35,17 +79,17 @@ the \gls{output} equal the \gls{reference}.
   \end{figurekey}
 \end{bookfigure}
 
-The transfer function of figure \ref{fig:feedback_controller_block_diagram}, a
-\gls{control system} diagram with feedback, from input to output is
+Following equation \eqref{eq:tf_in_feedback}, the transfer function of figure
+\ref{fig:feedback_controller_block_diagram}, a \gls{control system} diagram with
+negative feedback, from input to output is
 \begin{equation}
   G_{cl}(s) = \frac{Y(s)}{X(s)} = \frac{KG}{1 + KGH}
 \end{equation}
 
 The numerator is the \gls{open-loop gain} and the denominator is one plus the
 gain around the feedback loop, which may include parts of the
-\gls{open-loop gain} (see appendix \ref{sec:deriv_tf_feedback} for a
-derivation). As another example, the transfer function from the input to the
-\gls{error} is
+\gls{open-loop gain}. As another example, the transfer function from the input
+to the \gls{error} is
 \begin{equation}
   G_{cl}(s) = \frac{E(s)}{X(s)} = \frac{1}{1 + KGH}
 \end{equation}
