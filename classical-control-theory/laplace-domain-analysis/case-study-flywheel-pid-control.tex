@@ -1,5 +1,5 @@
 \section{Case study: flywheel PID control}
-\index{PID control}
+\index{PID control!flywheel (classical control)}
 
 PID controllers typically control voltage to a motor in FRC independent of the
 equations of motion of that motor. For position PID control, large values of
@@ -25,9 +25,11 @@ discrete time. This is all assuming a velocity controller.
 
 Our simple motor model hooked up to a mass is
 \begin{align}
-  V &= IR + \frac{\omega}{K_v} \label{eq:cs_flywheel_1} \\
-  \tau &= I K_t \label{eq:cs_flywheel_2} \\
-  \tau &= J \frac{d\omega}{dt} \label{eq:cs_flywheel_3}
+  V &= IR + \frac{\omega}{K_v}
+    \label{eq:steady-state_error_classical_flywheel_1} \\
+  \tau &= I K_t \label{eq:steady-state_error_classical_flywheel_2} \\
+  \tau &= J \frac{d\omega}{dt}
+    \label{eq:steady-state_error_classical_flywheel_3}
 \end{align}
 
 For an explanation of where these equations come from, read section
@@ -35,12 +37,13 @@ For an explanation of where these equations come from, read section
 
 First, we'll solve for $\frac{d\omega}{dt}$ in terms of $V$.
 
-Substitute equation \eqref{eq:cs_flywheel_2} into equation
-\eqref{eq:cs_flywheel_1}.
+Substitute equation \eqref{eq:steady-state_error_classical_flywheel_2} into
+equation \eqref{eq:steady-state_error_classical_flywheel_1}.
 \begin{align*}
   V &= IR + \frac{\omega}{K_v} \\
   V &= \left(\frac{\tau}{K_t}\right) R + \frac{\omega}{K_v}
-  \intertext{Substitute in equation \eqref{eq:cs_flywheel_3}.}
+  \intertext{Substitute in equation
+    \eqref{eq:steady-state_error_classical_flywheel_3}.}
   V &= \frac{\left(J \frac{d\omega}{dt}\right)}{K_t} R + \frac{\omega}{K_v} \\
   \intertext{Solve for $\frac{d\omega}{dt}$.}
   V &= \frac{J \frac{d\omega}{dt}}{K_t} R + \frac{\omega}{K_v} \\
@@ -56,7 +59,7 @@ $s\omega$ and $\omega(t)$ and $V(t)$ become $\omega(s)$ and $V(s)$ respectively
 (the parenthetical notation has been dropped for clarity).
 \begin{align}
   s \omega &= -\frac{K_t}{JRK_v} \omega + \frac{K_t}{JR} V
-  \label{eq:cs_motor_tf}
+  \label{eq:steady-state_error_classical_motor_tf}
   \intertext{Solve for the transfer function $H(s) = \frac{\omega}{V}$.}
   s \omega &= -\frac{K_t}{JRK_v} \omega + \frac{K_t}{JR} V \nonumber \\
   \left(s + \frac{K_t}{JRK_v}\right) \omega &= \frac{K_t}{JR} V \nonumber \\
@@ -66,12 +69,13 @@ $s\omega$ and $\omega(t)$ and $V(t)$ become $\omega(s)$ and $V(s)$ respectively
 That gives us a pole at $-\frac{K_t}{JRK_v}$, which is actually stable. Notice
 that there is only one pole.
 
-First, we'll use a simple P loop.
+First, we'll use a simple P controller.
 \begin{equation*}
   V = K_p (\omega_{goal} - \omega)
 \end{equation*}
 
-Substitute this controller into equation \eqref{eq:cs_motor_tf}.
+Substitute this controller into equation
+\eqref{eq:steady-state_error_classical_motor_tf}.
 \begin{align*}
   s \omega &= -\frac{K_t}{JRK_v} \omega + \frac{K_t}{JR} K_p (\omega_{goal} -
     \omega)
@@ -93,7 +97,7 @@ corresponds to a time constant of
 $\frac{1}{\frac{K_t}{JRK_v} + \frac{K_t K_p}{JR}}$.
 
 As can be seen above, a flywheel has a single pole. It therefore only needs a
-single pole controller to place all of its poles anywhere.
+single pole controller to place that pole anywhere on the real axis.
 \begin{remark}
   This analysis assumes that the motor is well coupled to the mass and that the
   time constant of the inductor is small enough that it doesn't factor into the
@@ -110,7 +114,8 @@ modeling the derivative.)
   V = K_p (\omega_{goal} - \omega) + K_d s (\omega_{goal} - \omega)
 \end{equation*}
 
-Substitute this controller into equation \eqref{eq:cs_motor_tf}.
+Substitute this controller into equation
+\eqref{eq:steady-state_error_classical_motor_tf}.
 \begin{align*}
   s \omega &= -\frac{K_t}{JRK_v} \omega + \frac{K_t}{JR}
     \left(K_p (\omega_{goal} - \omega) + K_d s (\omega_{goal} - \omega)\right)
@@ -147,8 +152,8 @@ $-\frac{\frac{K_t}{JRK_v} + \frac{K_t K_p}{JR}}{1 + \frac{K_t K_d}{JR}}$. This
 isn't progress. We've added more complexity to our \gls{system} and, practically
 speaking, gotten nothing good in return. Zeroes should be avoided if at all
 possible because they amplify unwanted high frequency modes of the \gls{system}
-and are noisier the faster the \gls{system} is sampled. At least this is a stable
-zero, but it's still undesirable.
+and are noisier the faster the \gls{system} is sampled. At least this is a
+stable zero, but it's still undesirable.
 
 In summary, derivative doesn't help on an ideal flywheel. $K_d$ may compensate
 for unmodeled dynamics such as accelerating projectiles slowing the flywheel

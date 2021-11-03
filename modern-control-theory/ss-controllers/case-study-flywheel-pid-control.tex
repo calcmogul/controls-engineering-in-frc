@@ -1,0 +1,95 @@
+\section{Case study: flywheel PID control}
+\index{PID control!flywheel (modern control)}
+
+PID controllers typically control voltage to a motor in FRC independent of the
+equations of motion of that motor. For position PID control, large values of
+$K_p$ can lead to overshoot and $K_d$ is commonly used to reduce overshoots.
+Let's consider a flywheel controlled with a standard PID controller. Why
+wouldn't $K_d$ provide damping for velocity overshoots in this case?
+
+PID control is designed to control second-order and first-order \glspl{system}
+well. It can be used to control a lot of things, but struggles when given higher
+order \glspl{system}. It has three degrees of freedom. Two are used to place the
+two poles of the \gls{system}, and the third is used to remove steady-state
+error. With higher order \glspl{system} like a one input, seven \gls{state}
+\gls{system}, there aren't enough degrees of freedom to place the \gls{system}'s
+poles in desired locations. This will result in poor control.
+
+The math for PID doesn't assume voltage, a motor, etc. It defines an output
+based on derivatives and integrals of its input. We happen to use it for motors
+because it actually works pretty well for it because motors are second-order
+\glspl{system}.
+
+The following math will be in continuous time, but the same ideas apply to
+discrete time. This is all assuming a velocity controller.
+
+Our simple motor model hooked up to a mass is
+\begin{align}
+  V &= IR + \frac{\omega}{K_v} \label{eq:steady-state_error_ss_flywheel_1} \\
+  \tau &= I K_t \label{eq:steady-state_error_ss_flywheel_2} \\
+  \tau &= J \frac{d\omega}{dt} \label{eq:steady-state_error_ss_flywheel_3}
+\end{align}
+
+For an explanation of where these equations come from, read section
+\ref{sec:dc_brushed_motor}.
+
+First, we'll solve for $\frac{d\omega}{dt}$ in terms of $V$.
+
+Substitute equation \eqref{eq:steady-state_error_ss_flywheel_2} into equation
+\eqref{eq:steady-state_error_ss_flywheel_1}.
+\begin{align}
+  V &= IR + \frac{\omega}{K_v} \nonumber \\
+  V &= \left(\frac{\tau}{K_t}\right) R + \frac{\omega}{K_v} \nonumber
+  \intertext{Substitute in equation
+    \eqref{eq:steady-state_error_ss_flywheel_3}.}
+  V &= \frac{\left(J \frac{d\omega}{dt}\right)}{K_t} R + \frac{\omega}{K_v}
+    \nonumber \\
+  \intertext{Solve for $\frac{d\omega}{dt}$.}
+  V &= \frac{J \frac{d\omega}{dt}}{K_t} R + \frac{\omega}{K_v} \nonumber \\
+  V - \frac{\omega}{K_v} &= \frac{J \frac{d\omega}{dt}}{K_t} R \nonumber \\
+  \frac{d\omega}{dt} &= \frac{K_t}{JR} \left(V - \frac{\omega}{K_v}\right)
+    \nonumber \\
+  \underbrace{\frac{d\omega}{dt}}_{\dot{\mat{x}}} &=
+    \underbrace{-\frac{K_t}{JRK_v}}_{\mat{A}} \underbrace{\omega}_{\mat{x}} +
+    \underbrace{\frac{K_t}{JR}}_{\mat{B}} \underbrace{V}_{\mat{u}}
+\end{align}
+
+There's one stable open-loop pole at $-\frac{K_t}{JRK_v}$. Let's try a simple P
+controller.
+\begin{align*}
+  \mat{u} &= \mat{K} (\mat{r} - \mat{x}) \\
+  V &= K_p (\omega_{goal} - \omega)
+\end{align*}
+
+Closed-loop models have the form
+$\dot{\mat{x}} = (\mat{A} - \mat{B}\mat{K})\mat{x} + \mat{B}\mat{K}\mat{r}$.
+Therefore, the closed-loop poles are the eigenvalues of
+$\mat{A} - \mat{B}\mat{K}$.
+\begin{align*}
+  \dot{\mat{x}} &= (\mat{A} - \mat{B}\mat{K})\mat{x} + \mat{B}\mat{K}\mat{r}
+    \\
+  \dot{\omega} &= \left(\left(-\frac{K_t}{JRK_v}\right) -
+    \left(\frac{K_t}{JR}\right)(K_p)\right)\omega +
+    \left(\frac{K_t}{JR}\right)(K_p)(\omega_{goal}) \\
+  \dot{\omega} &= -\left(\frac{K_t}{JRK_v} + \frac{K_t K_p}{JR}\right)\omega +
+    \frac{K_t K_p}{JR}\omega_{goal}
+\end{align*}
+
+This closed-loop flywheel model has one pole at
+$-\left(\frac{K_t}{JRK_v} + \frac{K_t K_p}{JR}\right)$. It therefore only needs
+one P controller to place that pole anywhere on the real axis. A derivative
+term is unnecessary on an ideal flywheel. It may compensate for unmodeled
+dynamics such as accelerating projectiles slowing the flywheel down, but that
+effect may also increase recovery time; $K_d$ drives the acceleration to zero in
+the undesired case of negative acceleration as well as well as the actually
+desired case of positive acceleration.
+\begin{remark}
+  This analysis assumes that the motor is well coupled to the mass and that the
+  time constant of the inductor is small enough that it doesn't factor into the
+  motor equations. In Austin Schuh's experience with 971's robots, these are
+  pretty good assumptions.
+\end{remark}
+
+Subsection \ref{subsec:input_error_estimation} covers a superior compensation
+method that avoids zeroes in the \gls{controller}, doesn't act against the
+desired control action, and facilitates better \gls{tracking}.
