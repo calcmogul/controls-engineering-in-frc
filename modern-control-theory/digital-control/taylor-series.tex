@@ -43,26 +43,24 @@ formula which we won't present here.
     \hline
     \rowcolor{headingbg}
     \multicolumn{1}{|c}{\textbf{Method}} &
-      \multicolumn{1}{c}{\textbf{Conversion}} &
+      \multicolumn{1}{c}{\textbf{Conversion to $\mat{A}_d$}} &
       \multicolumn{1}{c|}{\textbf{Taylor series expansion}} \\
     \hline
     Zero-order hold &
-      $\mat{A}_d = e^{\mat{A}_c T}$ &
-      $\mat{A}_d = \mat{I} + \mat{A}_c T + \frac{1}{2}\mat{A}_c^2T^2 +
+      $e^{\mat{A}_c T}$ &
+      $\mat{I} + \mat{A}_c T + \frac{1}{2}\mat{A}_c^2T^2 +
         \frac{1}{6}\mat{A}_c^3T^3 + \ldots$ \\
     Bilinear &
-      $\mat{A}_d =
-        \left(\mat{I} + \frac{1}{2}\mat{A}_c T\right)
+      $\left(\mat{I} + \frac{1}{2}\mat{A}_c T\right)
         \left(\mat{I} - \frac{1}{2}\mat{A}_c T\right)^{-1}$ &
-      $\mat{A}_d = \mat{I} + \mat{A}_c T + \frac{1}{2}\mat{A}_c^2T^2 +
+      $\mat{I} + \mat{A}_c T + \frac{1}{2}\mat{A}_c^2T^2 +
         \frac{1}{4}\mat{A}_c^3T^3 + \ldots$ \\
     Forward Euler &
-      $\mat{A}_d = \mat{I} + \mat{A}_c T$ &
-      $\mat{A}_d = \mat{I} + \mat{A}_c T$ \\
+      $\mat{I} + \mat{A}_c T$ &
+      $\mat{I} + \mat{A}_c T$ \\
     Reverse Euler &
-      $\mat{A}_d = \left(\mat{I} - \mat{A}_c T\right)^{-1}$ &
-      $\mat{A}_d =
-        \mat{I} + \mat{A}_c T + \mat{A}_c^2T^2 + \mat{A}_c^3T^3 + \ldots$ \\
+      $\left(\mat{I} - \mat{A}_c T\right)^{-1}$ &
+      $\mat{I} + \mat{A}_c T + \mat{A}_c^2T^2 + \mat{A}_c^3T^3 + \ldots$ \\
     \hline
   \end{tabular}
   \caption{Taylor series expansions of discretization methods (matrix case).

@@ -59,21 +59,21 @@ remaining higher order terms as well.
     \hline
     \rowcolor{headingbg}
     \multicolumn{1}{|c}{\textbf{Method}} &
-      \multicolumn{1}{c}{\textbf{Conversion}} &
+      \multicolumn{1}{c}{\textbf{Conversion to z}} &
       \multicolumn{1}{c|}{\textbf{Taylor series expansion}} \\
     \hline
     Zero-order hold &
-      $z = e^{Ts}$ &
-      $z = 1 + Ts + \frac{1}{2}T^2s^2 + \frac{1}{6}T^3s^3 + \ldots$ \\
+      $e^{Ts}$ &
+      $1 + Ts + \frac{1}{2}T^2s^2 + \frac{1}{6}T^3s^3 + \ldots$ \\
     Bilinear &
-      $z = \frac{1 + \frac{1}{2}Ts}{1 - \frac{1}{2}Ts}$ &
-      $z = 1 + Ts + \frac{1}{2}T^2s^2 + \frac{1}{4}T^3s^3 + \ldots$ \\
+      $\frac{1 + \frac{1}{2}Ts}{1 - \frac{1}{2}Ts}$ &
+      $1 + Ts + \frac{1}{2}T^2s^2 + \frac{1}{4}T^3s^3 + \ldots$ \\
     Forward Euler &
-      $z = 1 + Ts$ &
-      $z = 1 + Ts$ \\
+      $1 + Ts$ &
+      $1 + Ts$ \\
     Reverse Euler &
-      $z = \frac{1}{1 - Ts}$ &
-      $z = 1 + Ts + T^2s^2 + T^3s^3 + \ldots$ \\
+      $\frac{1}{1 - Ts}$ &
+      $1 + Ts + T^2s^2 + T^3s^3 + \ldots$ \\
     \hline
   \end{tabular}
   \caption{Taylor series expansions of discretization methods (scalar case). The
