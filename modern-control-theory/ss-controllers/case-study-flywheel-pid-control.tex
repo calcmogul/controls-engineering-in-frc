@@ -83,12 +83,26 @@ dynamics such as accelerating projectiles slowing the flywheel down, but that
 effect may also increase recovery time; $K_d$ drives the acceleration to zero in
 the undesired case of negative acceleration as well as well as the actually
 desired case of positive acceleration.
-\begin{remark}
-  This analysis assumes that the motor is well coupled to the mass and that the
-  time constant of the inductor is small enough that it doesn't factor into the
-  motor equations. In Austin Schuh's experience with 971's robots, these are
-  pretty good assumptions.
-\end{remark}
+
+This analysis assumes that the motor is well coupled to the mass and that the
+time constant of the inductor is small enough that it doesn't factor into the
+motor equations. The latter is a pretty good assumption, as shown by the slight
+wiggle in figure \ref{fig:cs_ss_highfreq_unstable_step} compared to figure
+\ref{fig:cs_ss_highfreq_stable_step}. If more mass is added to the motor
+armature, the response timescales increase and the inductance matters even less.
+\begin{bookfigure}
+  \begin{minisvg}{2}{build/figs/highfreq_unstable_step}
+    \caption{Step response of second-order DC brushed motor plant augmented with
+      position ($L = 230$ μH)}
+    \label{fig:cs_ss_highfreq_unstable_step}
+  \end{minisvg}
+  \hfill
+  \begin{minisvg}{2}{build/figs/highfreq_stable_step}
+    \caption{Step response of first-order DC brushed motor plant augmented with
+      position}
+    \label{fig:cs_ss_highfreq_stable_step}
+  \end{minisvg}
+\end{bookfigure}
 
 Subsection \ref{subsec:input_error_estimation} covers a superior compensation
 method that avoids zeroes in the \gls{controller}, doesn't act against the
