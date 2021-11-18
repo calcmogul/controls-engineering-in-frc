@@ -24,8 +24,8 @@ def main():
     J = 3.2284e-6  # kg-m²
     b = 3.5077e-6  # N-m-s
     Ke = 0.0181  # V/rad/s
-    Kt = 0.0181  # N-m/Amp
-    R = 0.0902  # Ohms
+    Kt = 0.0181  # N-m/A
+    R = 0.0902  # Ω
     L = 230e-6  # H
 
     # Transfer function
