@@ -34,7 +34,7 @@ def linearized_differential_drive(motor, num_motors, m, r, rb, J, Gl, Gr, states
     m -- mass of robot in kg
     r -- radius of wheels in meters
     rb -- radius of robot in meters
-    J -- moment of inertia of the differential drive in kg-m^2
+    J -- moment of inertia of the differential drive in kg-m²
     Gl -- gear ratio of left side of differential drive
     Gr -- gear ratio of right side of differential drive
     states -- state vector around which to linearize model
@@ -112,7 +112,7 @@ class DifferentialDrive(LTVDifferentialDrive):
         r = 0.08255 / 2.0
         # Radius of robot in meters
         self.rb = 0.59055 / 2.0
-        # Moment of inertia of the differential drive in kg-m^2
+        # Moment of inertia of the differential drive in kg-m²
         J = 6.0
 
         return linearized_differential_drive(

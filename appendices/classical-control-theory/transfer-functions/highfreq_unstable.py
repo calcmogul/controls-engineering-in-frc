@@ -41,7 +41,7 @@ def main():
     T = np.arange(0, 0.25, dt)
 
     # Make plant
-    J = 3.2284e-6  # kg-m^2
+    J = 3.2284e-6  # kg-m²
     b = 3.5077e-6  # N-m-s
     Ke = 0.0181  # V/rad/s
     Kt = 0.0181  # N-m/Amp
@@ -50,10 +50,10 @@ def main():
     L = 230e-6  # H
 
     # Unstable plant
-    # s((Js + b)(Ls + R) + K^2)
-    # s(JLs^2 + JRs + bLs + bR + K^2)
-    # JLs^3 + JRs^2 + bLs^2 + bRs + K^2s
-    # JLs^3 + (JR + bL)s^2 + (bR + K^2)s
+    # s((Js + b)(Ls + R) + K²)
+    # s(JLs² + JRs + bLs + bR + K²)
+    # JLs³ + JRs² + bLs² + bRs + K²s
+    # JLs³ + (JR + bL)s² + (bR + K²)s
     G = ct.TransferFunction(K, [J * L, J * R + b * L, b * R + K ** 2, 0])
     ct.root_locus(G, grid=True)
     plt.xlabel("Real Axis (seconds$^{-1}$)")

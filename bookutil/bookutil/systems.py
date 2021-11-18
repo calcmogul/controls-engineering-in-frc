@@ -28,7 +28,7 @@ class Flywheel(fct.System):
     def create_model(self, states, inputs):
         # Number of motors
         num_motors = 1.0
-        # Flywheel moment of inertia in kg-m^2
+        # Flywheel moment of inertia in kg-m²
         J = 0.00032
         # Gear ratio
         G = 12.0 / 18.0
@@ -113,7 +113,7 @@ class DrivetrainDecoupledVelocity(fct.System):
         r = 0.08255 / 2.0
         # Radius of robot in meters
         self.rb = 0.59055 / 2.0
-        # Moment of inertia of the drivetrain in kg-m^2
+        # Moment of inertia of the drivetrain in kg-m²
         J = 6.0
 
         return drivetrain_decoupled(
@@ -157,7 +157,7 @@ class DrivetrainCoupledVelocity(fct.System):
         r = 0.08255 / 2.0
         # Radius of robot in meters
         self.rb = 0.59055 / 2.0
-        # Moment of inertia of the drivetrain in kg-m^2
+        # Moment of inertia of the drivetrain in kg-m²
         J = 6.0
 
         return drivetrain_coupled(
@@ -233,7 +233,7 @@ class LTVDifferentialDrive(fct.System):
         r = 0.08255 / 2.0
         # Radius of robot in meters
         self.rb = 0.59055 / 2.0
-        # Moment of inertia of the differential drive in kg-m^2
+        # Moment of inertia of the differential drive in kg-m²
         J = 6.0
 
         return differential_drive(
