@@ -38,10 +38,10 @@ notation in a feedback configuration.
 \begin{bookfigure}
   \begin{tikzpicture}[auto, >=latex']
     % Place the blocks
-    \node [name=input] {$X(s)$};
+    \node [name=input] {$X$};
     \node [sum, right=of input] (sum) {};
     \node [block, right=of sum] (P1) {$P_1$};
-    \node [right=of P1] (output) {$Y(s)$};
+    \node [right=of P1] (output) {$Y$};
     \node [block, below=of P1] (P2) {$P_2$};
 
     % Connect the nodes

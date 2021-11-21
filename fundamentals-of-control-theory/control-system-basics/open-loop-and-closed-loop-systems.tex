@@ -1,0 +1,110 @@
+\section{Open-loop and closed-loop systems}
+
+The \gls{system} or collection of actuators being controlled by a
+\gls{control system} is called the \gls{plant}. A \gls{controller} is used to
+drive the plant from its current state to some desired state (the
+\gls{reference}). We'll be using the following notation for relevant quantities
+in block diagrams.
+\begin{figurekey}
+  \begin{tabular}{llll}
+    $r(t)$ & \gls{reference} & $u(t)$ & \gls{control input} \\
+    $e(t)$ & \gls{error} & $y(t)$ & \gls{output} \\
+  \end{tabular}
+\end{figurekey}
+
+Controllers which don't include information measured from the plant's
+\gls{output} are called \textit{open-loop} or \textit{feedforward} controllers.
+Figure \ref{fig:open-loop_control_system} shows a plant with a feedforward
+controller.
+\begin{bookfigure}
+  \begin{tikzpicture}[auto, >=latex']
+    \fontsize{9pt}{10pt}
+
+    % Place the blocks
+    \node [name=input] {$r(t)$};
+    \node [block, right=1.0cm of input, align=center] (controller)
+      {Feedforward\\controller};
+    \node [block, right=1.0cm of controller] (plant) {Plant};
+    \node [right=1.0cm of plant] (output) {$y(t)$};
+    \node [coordinate, below=1.0cm of controller] (measurements) {};
+
+    % Connect the nodes
+    \draw [arrow] (input) -- (controller);
+    \draw [arrow] (controller) -- node {$u(t)$} (plant);
+    \draw [arrow] (plant) -- (output);
+  \end{tikzpicture}
+
+  \caption{Open-loop control system}
+  \label{fig:open-loop_control_system}
+\end{bookfigure}
+
+Controllers which incorporate information fed back from the plant's output are
+called \textit{closed-loop} or \textit{feedback} controllers. Figure
+\ref{fig:closed-loop_control_system} shows a plant with a feedback controller.
+\begin{bookfigure}
+  \begin{tikzpicture}[auto, >=latex']
+    \fontsize{9pt}{10pt}
+
+    % Place the blocks
+    \node [name=input] {$r(t)$};
+    \node [sum, right=0.5cm of input] (errorsum) {};
+    \node [block, right=1.0cm of errorsum, align=center] (controller)
+      {Feedback\\controller};
+    \node [block, right=1.0cm of controller] (plant) {Plant};
+    \node [right=1.0cm of plant] (output) {};
+    \node [coordinate, below=1.0cm of controller] (measurements) {};
+
+    % Connect the nodes
+    \draw [arrow] (input) -- node[pos=0.9] {$+$} (errorsum);
+    \draw [-] (errorsum) -- node {$e(t)$} (controller);
+    \draw [arrow] (errorsum) -- (controller);
+    \draw [arrow] (controller) -- node {$u(t)$} (plant);
+    \draw [arrow] (plant) -- node [name=y] {$y(t)$} (output);
+    \draw [-] (y) |- (measurements);
+    \draw [arrow] (measurements) -| node[pos=0.99, right] {$-$} (errorsum);
+  \end{tikzpicture}
+
+  \caption{Closed-loop control system}
+  \label{fig:closed-loop_control_system}
+\end{bookfigure}
+
+Note that the \gls{input} and \gls{output} of a \gls{system} are defined from
+the plant's point of view. The negative feedback controller shown is driving the
+difference between the \gls{reference} and \gls{output}, also known as the
+\gls{error}, to zero.
+
+Figure \ref{fig:feedforward_and_feedback_control_system} shows a plant with
+feedforward and feedback controllers.
+\begin{bookfigure}
+  \begin{tikzpicture}[auto, >=latex']
+    \fontsize{9pt}{10pt}
+
+    % Place the blocks
+    \node [name=input] {$r(t)$};
+    \node [coordinate, right=0.5cm of input] (ffsplit) {};
+    \node [sum, right=0.5cm of ffsplit] (errorsum) {};
+    \node [block, right=1.0cm of errorsum, align=center] (feedback)
+      {Feedback\\controller};
+    \node [block, above=1.0cm of feedback, align=center] (feedforward)
+      {Feedforward\\controller};
+    \node [sum, right=1.0cm of feedback] (controllersum) {};
+    \node [block, right=1.0cm of controllersum] (plant) {Plant};
+    \node [right=1.0cm of plant] (output) {};
+    \node [coordinate, below=1.0cm of feedback] (measurements) {};
+
+    % Connect the nodes
+    \draw [arrow] (input) -- node[pos=0.9] {$+$} (errorsum);
+    \draw [arrow] (ffsplit) |- (feedforward);
+    \draw [-] (errorsum) -- node {$e(t)$} (feedback);
+    \draw [arrow] (errorsum) -- (feedback);
+    \draw [arrow] (feedforward) -| node[pos=0.95, left] {$+$} (controllersum);
+    \draw [arrow] (feedback) -- node[pos=0.9, below] {$+$} (controllersum);
+    \draw [arrow] (controllersum) -- node {$u(t)$} (plant);
+    \draw [arrow] (plant) -- node [name=y] {$y(t)$} (output);
+    \draw [-] (y) |- (measurements);
+    \draw [arrow] (measurements) -| node[pos=0.99, right] {$-$} (errorsum);
+  \end{tikzpicture}
+
+  \caption{Control system with feedforward and feedback}
+  \label{fig:feedforward_and_feedback_control_system}
+\end{bookfigure}

@@ -10,10 +10,10 @@
 \begin{nofloatfigure}
   \begin{tikzpicture}[auto, >=latex']
     % Place the blocks
-    \node {$X(s)$} (input);
+    \node {$X$} (input);
     \node [block, right=of input] (P1) {$P_1$};
     \node [block, right=of P1] (P2) {$P_2$};
-    \node [right=of P2] (output) {$Y(s)$};
+    \node [right=of P2] (output) {$Y$};
 
     % Connect the nodes
     \draw [arrow] (input) -- (P1);
@@ -26,9 +26,9 @@
 \begin{nofloatfigure}
   \begin{tikzpicture}[auto, >=latex']
     % Place the blocks
-    \node {$X(s)$} (input);
+    \node {$X$} (input);
     \node [block, right=of input] (P1P2) {$P_1 P_2$};
-    \node [right=of P1P2] (output) {$Y(s)$};
+    \node [right=of P1P2] (output) {$Y$};
 
     % Connect the nodes
     \draw [arrow] (input) -- (P1P2);
@@ -45,11 +45,11 @@
 \begin{nofloatfigure}
   \begin{tikzpicture}[auto, >=latex']
     % Place the blocks
-    \node {$X(s)$} (input);
+    \node {$X$} (input);
     \coordinate [right=of input] (afterin);
     \node [block, right=of afterin] (P1) {$P_1$};
     \node [sum, right=of P1] (sum) {};
-    \node [right=of sum] (output) {$Y(s)$};
+    \node [right=of sum] (output) {$Y$};
     \node [block, below=of P1] (P2) {$P_2$};
 
     % Connect the nodes
@@ -65,9 +65,9 @@
 \begin{nofloatfigure}
   \begin{tikzpicture}[auto, >=latex']
     % Place the blocks
-    \node {$X(s)$} (input);
+    \node {$X$} (input);
     \node [block, right=of input] (P1P2) {$P_1 \pm P_2$};
-    \node [right=of P1P2] (output) {$Y(s)$};
+    \node [right=of P1P2] (output) {$Y$};
 
     % Connect the nodes
     \draw [arrow] (input) -- (P1P2);
@@ -84,11 +84,11 @@
 \begin{nofloatfigure}
   \begin{tikzpicture}[auto, >=latex']
     % Place the blocks
-    \node {$X(s)$} (input);
+    \node {$X$} (input);
     \coordinate [right=of input] (afterin);
     \node [block, right=of afterin] (P1) {$P_1$};
     \node [sum, right=of P1] (sum) {};
-    \node [right=of sum] (output) {$Y(s)$};
+    \node [right=of sum] (output) {$Y$};
     \node [block, below=of P1] (P2) {$P_2$};
 
     % Connect the nodes
@@ -104,12 +104,12 @@
 \begin{nofloatfigure}
   \begin{tikzpicture}[auto, >=latex']
     % Place the blocks
-    \node {$X(s)$} (input);
+    \node {$X$} (input);
     \node [block, right=of input] (P2) {$P_2$};
     \coordinate [right=of P2] (afterin);
     \node [block, right=of afterin] (P1P2) {$\frac{P_1}{P_2}$};
     \node [sum, right=of P1P2] (sum) {};
-    \node [right=of sum] (output) {$Y(s)$};
+    \node [right=of sum] (output) {$Y$};
     \coordinate [below=of P1P2] (ff);
 
     % Connect the nodes
@@ -131,10 +131,10 @@
 \begin{nofloatfigure}
   \begin{tikzpicture}[auto, >=latex']
     % Place the blocks
-    \node {$X(s)$} (input);
+    \node {$X$} (input);
     \node [sum, right=of input] (sum) {};
     \node [block, right=of sum] (P1) {$P_1$};
-    \node [right=of P1] (output) {$Y(s)$};
+    \node [right=of P1] (output) {$Y$};
     \node [block, below=of P1] (P2) {$P_2$};
 
     % Connect the nodes
@@ -150,9 +150,9 @@
 \begin{nofloatfigure}
   \begin{tikzpicture}[auto, >=latex']
     % Place the blocks
-    \node {$X(s)$} (input);
+    \node {$X$} (input);
     \node [block, right=of input] (P1P2) {$\frac{P_1}{1 \pm P_1 P2}$};
-    \node [right=of P1P2] (output) {$Y(s)$};
+    \node [right=of P1P2] (output) {$Y$};
 
     % Connect the nodes
     \draw [arrow] (input) -- (P1P2);
@@ -169,10 +169,10 @@
 \begin{nofloatfigure}
   \begin{tikzpicture}[auto, >=latex']
     % Place the blocks
-    \node {$X(s)$} (input);
+    \node {$X$} (input);
     \node [sum, right=of input] (sum) {};
     \node [block, right=of sum] (P1) {$P_1$};
-    \node [right=of P1] (output) {$Y(s)$};
+    \node [right=of P1] (output) {$Y$};
     \node [block, below=of P1] (P2) {$P_2$};
 
     % Connect the nodes
@@ -188,11 +188,11 @@
 \begin{nofloatfigure}
   \begin{tikzpicture}[auto, >=latex']
     % Place the blocks
-    \node {$X(s)$} (input);
+    \node {$X$} (input);
     \node [block, right= of input] (P2) {$\frac{1}{P_2}$};
     \node [sum, right=of P2] (sum) {};
     \node [block, right=of sum] (P1P2) {$P_1 P_2$};
-    \node [right=of P1P2] (output) {$Y(s)$};
+    \node [right=of P1P2] (output) {$Y$};
     \coordinate [below=of P1P2] (fb);
 
     % Connect the nodes

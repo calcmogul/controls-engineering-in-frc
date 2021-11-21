@@ -15,14 +15,14 @@ input and output. Since the output is twice the amplitude of the input, the
 
     % Input
     \drawtimeplot{-2.5cm}{0cm}{0.125cm}{0.44375cm}{0.6 * cos(40 * deg(\x))}
-    \draw (-2.5,1) node {\small Input};
+    \draw (-2.5,1) node {\small input};
 
     \node [block] (sys) {K};
-    \draw (0,1) node {\small System};
+    \draw (0,1) node {\small system};
 
     % Output
     \drawtimeplot{2.5cm}{0cm}{0.125cm}{0.44375cm}{1.2 * cos(40* deg(\x))}
-    \draw (2.5,1) node {\small Output};
+    \draw (2.5,1) node {\small output};
 
     % Arrows between input/output and system
     \draw[->] (-2,0) -- (sys);
