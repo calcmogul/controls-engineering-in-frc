@@ -312,7 +312,6 @@ We want to minimize the following cost functional.
 \begin{equation*}
   J = \sum_{k=0}^\infty \left((\mat{y}_{k+1} - \mat{z}_{k+1})\T \mat{Q}
     (\mat{y}_{k+1} - \mat{z}_{k+1}) + \mat{u}_k\T\mat{R}\mat{u}_k\right)
-    \Delta T
 \end{equation*}
 
 We'll be measuring the desired system's state, so let $\mat{y} = \mat{z}$.
@@ -333,13 +332,12 @@ Therefore,
 Substitute this into the cost functional.
 \begin{align*}
   J &= \sum_{k=0}^\infty \left((\mat{y}_{k+1} - \mat{z}_{k+1})\T \mat{Q}
-    (\mat{y}_{k+1} - \mat{z}_{k+1}) + \mat{u}_k\T\mat{R}\mat{u}_k\right)
-    \Delta T \\
+    (\mat{y}_{k+1} - \mat{z}_{k+1}) + \mat{u}_k\T\mat{R}\mat{u}_k\right) \\
   J &= \sum_{k=0}^\infty \left(
     ((\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})\mat{x}_k + \mat{C}\mat{B}\mat{u}_k)\T
     \mat{Q}
     ((\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})\mat{x}_k + \mat{C}\mat{B}\mat{u}_k) +
-    \mat{u}_k\T\mat{R}\mat{u}_k\right) \Delta T
+    \mat{u}_k\T\mat{R}\mat{u}_k\right)
 \end{align*}
 
 Apply the transpose to the left-hand side of the $\mat{Q}$ term.
@@ -348,7 +346,7 @@ Apply the transpose to the left-hand side of the $\mat{Q}$ term.
     (\mat{x}_k\T(\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})\T + \mat{u}_k\T(\mat{C}\mat{B})\T)
     \mat{Q}
     ((\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})\mat{x}_k + \mat{C}\mat{B}\mat{u}_k) +
-    \mat{u}_k\T\mat{R}\mat{u}_k\right) \Delta T
+    \mat{u}_k\T\mat{R}\mat{u}_k\right)
 \end{equation*}
 
 Factor out $\begin{bmatrix}\mat{x}_k \\ \mat{u}_k\end{bmatrix}\T$ from the left
@@ -386,7 +384,7 @@ side of each term.
       \mat{x}_k \\
       \mat{u}_k
     \end{bmatrix}
-    \right) \Delta T \\
+    \right) \\
   J &= \sum_{k=0}^\infty \left(
     \begin{bmatrix}
       \mat{x}_k \\
@@ -411,7 +409,7 @@ side of each term.
       \mat{x}_k \\
       \mat{u}_k
     \end{bmatrix}
-    \right) \Delta T
+    \right)
 \end{align*}
 
 Multiply in $\mat{Q}$.
@@ -439,7 +437,7 @@ Multiply in $\mat{Q}$.
       \mat{x}_k \\
       \mat{u}_k
     \end{bmatrix}
-    \right) \Delta T
+    \right)
 \end{equation*}
 
 Multiply matrices in the left term together.
@@ -466,7 +464,7 @@ Multiply matrices in the left term together.
       \mat{x}_k \\
       \mat{u}_k
     \end{bmatrix}
-    \right) \Delta T
+    \right)
 \end{align*}
 
 Add the terms together.
@@ -489,7 +487,6 @@ Add the terms together.
     \mat{x}_k \\
     \mat{u}_k
   \end{bmatrix}
-  \Delta T
 \end{equation}
 
 Thus, implicit model following can be defined as the following optimization
@@ -514,7 +511,7 @@ problem.
       \mat{x}_k \\
       \mat{u}_k
     \end{bmatrix}
-    \Delta T \nonumber \\
+    \nonumber \\
     \text{subject to } &\mat{x}_{k+1} = \mat{A}\mat{x}_k + \mat{B}\mat{u}_k
   \end{align}
 
@@ -546,7 +543,6 @@ $\mat{C} = \mat{I}$ and the cost functional simplifies to
     \mat{x}_k \\
     \mat{u}_k
   \end{bmatrix}
-  \Delta T
 \end{equation}
 
 \subsubsection{Following reference input matrix}
