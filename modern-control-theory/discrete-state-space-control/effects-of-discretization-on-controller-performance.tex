@@ -47,36 +47,3 @@ transform is a significant improvement due to it being a second-order
 approximation, but zero-order hold performs best due to the matrix exponential
 including much higher orders (we'll cover the matrix exponential in the next
 section).
-
-Table \ref{tab:disc_approx_scalar} compares the Taylor series expansions of the
-discretization methods presented so far (these are found using polynomial
-division). The bilinear transform does best with accuracy trailing off after the
-third-order term. Forward Euler has no second-order or higher terms, so it
-undershoots. Backward Euler has twice the second-order term and overshoots the
-remaining higher order terms as well.
-\begin{booktable}
-  \begin{tabular}{|cll|}
-    \hline
-    \rowcolor{headingbg}
-    \multicolumn{1}{|c}{\textbf{Method}} &
-      \multicolumn{1}{c}{\textbf{Conversion to z}} &
-      \multicolumn{1}{c|}{\textbf{Taylor series expansion}} \\
-    \hline
-    Zero-order hold &
-      $e^{Ts}$ &
-      $1 + Ts + \frac{1}{2}T^2s^2 + \frac{1}{6}T^3s^3 + \ldots$ \\
-    Bilinear &
-      $\frac{1 + \frac{1}{2}Ts}{1 - \frac{1}{2}Ts}$ &
-      $1 + Ts + \frac{1}{2}T^2s^2 + \frac{1}{4}T^3s^3 + \ldots$ \\
-    Forward Euler &
-      $1 + Ts$ &
-      $1 + Ts$ \\
-    Reverse Euler &
-      $\frac{1}{1 - Ts}$ &
-      $1 + Ts + T^2s^2 + T^3s^3 + \ldots$ \\
-    \hline
-  \end{tabular}
-  \caption{Taylor series expansions of discretization methods (scalar case). The
-    zero-order hold discretization method is exact.}
-  \label{tab:disc_approx_scalar}
-\end{booktable}
