@@ -1,0 +1,18 @@
+\section{Discrete state-space notation}
+
+Below is the discrete version of state-space notation.
+\begin{definition}[Discrete state-space notation]%
+  \index{state-space controllers!discrete open-loop}
+  \begin{align}
+    \mat{x}_{k+1} &= \mat{A}\mat{x}_k + \mat{B}\mat{u}_k \\
+    \mat{y}_k &= \mat{C}\mat{x}_k + \mat{D}\mat{u}_k
+  \end{align}
+  \begin{figurekey}
+    \begin{tabular}{llll}
+      $\mat{A}$ & system matrix      & $\mat{x}$ & state vector \\
+      $\mat{B}$ & input matrix       & $\mat{u}$ & input vector \\
+      $\mat{C}$ & output matrix      & $\mat{y}$ & output vector \\
+      $\mat{D}$ & feedthrough matrix &  &  \\
+    \end{tabular}
+  \end{figurekey}
+\end{definition}
