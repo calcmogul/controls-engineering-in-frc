@@ -1,6 +1,7 @@
-\chapterimage{digital-control.jpg}{Chaparral by Merril Apartments at UCSC}
+\chapterimage{discrete-state-space-control.jpg}{Chaparral by Merril Apartments at UCSC}
 
-\chapter{Digital control} \label{ch:digital_control}
+\chapter{Discrete state-space control}
+\label{ch:discrete_state-space_control}
 
 The complex plane discussed so far deals with continuous \glspl{system}. In
 decades past, \glspl{plant} and controllers were implemented using analog
@@ -29,12 +30,12 @@ While higher order terms of a differential equation are derivatives of the
 equation are delayed copies of the \gls{state} variable (e.g., $x_{k-1}$ with
 respect to $x_k$ in equation \eqref{eq:difference_equ_example}).
 
-\renewcommand*{\chapterpath}{\partpath/digital-control}
+\renewcommand*{\chapterpath}{\partpath/discrete-state-space-control}
 \input{\chapterpath/continuous-to-discrete-pole-mapping}
 \input{\chapterpath/discretization-methods}
 \input{\chapterpath/sample-delay}
 \input{\chapterpath/effects-of-discretization-on-controller-performance}
 \input{\chapterpath/taylor-series}
 \input{\chapterpath/matrix-exponential}
-\input{\chapterpath/zoh-for-ss}
+\input{\chapterpath/zoh-for-state-space}
 \input{\chapterpath/numerical-integration}

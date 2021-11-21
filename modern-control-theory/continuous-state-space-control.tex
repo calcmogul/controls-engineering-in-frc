@@ -1,11 +1,6 @@
-\chapterimage{ss-controllers.jpg}{Night sky above Dufour Street in Santa Cruz, CA}
+\chapterimage{continuous-state-space-control.jpg}{Night sky above Dufour Street in Santa Cruz, CA}
 
-\chapter{State-space controllers}
-\begin{remark}
-  Chapters from here on use the \texttt{frccontrol} Python package to
-  demonstrate the concepts discussed and perform the complex math required. See
-  appendix \ref{ch:installing_python_packages} for how to install it.
-\end{remark}
+\chapter{Continuous state-space control}
 
 When we want to command a \gls{system} to a set of \glspl{state}, we design a
 controller with certain \glspl{control law} to do it. PID controllers use the
@@ -19,10 +14,10 @@ systems. State-space representation models \glspl{system} as a set of
 differential equations that describe how the \gls{system}'s \gls{state} changes
 over time given the current \glspl{state} and \glspl{input}.
 
-\renewcommand*{\chapterpath}{\partpath/ss-controllers}
+\renewcommand*{\chapterpath}{\partpath/continuous-state-space-control}
 \input{\chapterpath/from-pid-control-to-model-based-control}
 \input{\chapterpath/what-is-a-dynamical-system}
-\input{\chapterpath/ss-notation}
+\input{\chapterpath/state-space-notation}
 \input{\chapterpath/eigenvalues-and-stability}
 \input{\chapterpath/controllability-and-observability}
 \input{\chapterpath/closed-loop-controller}
