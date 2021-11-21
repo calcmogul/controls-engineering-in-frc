@@ -1,0 +1,37 @@
+\section{Change of variables}
+\label{sec:calculus_change_of_variables}
+
+Change of variables is a technique for simlifying problems in which expressions
+are replaced with new variables to make the problem more tractible. This can
+mean either the problem is more straightforward or it matches a common form for
+which tools for finding solutions are readily available. Here's an example of
+integration which utilizes it.
+\begin{equation*}
+  \int \cos\omega t \,dt
+\end{equation*}
+
+Let $u = \omega t$.
+\begin{align*}
+  du &= \omega \,dt \\
+  dt &= \frac{1}{\omega} \,du
+\end{align*}
+
+Now substitute the expressions for $u$ and $dt$ in.
+\begin{align*}
+  &\int \cos u \,\frac{1}{\omega} \,du \\
+  &\frac{1}{\omega} \int \cos u \,du \\
+  &\frac{1}{\omega} \sin u + C \\
+  &\frac{1}{\omega} \sin\omega t + C
+\end{align*}
+
+Another example, which will be relevant when we actually cover state-space
+notation ($\dot{\mat{x}} = \mat{A}\mat{x} + \mat{B}\mat{u}$), is a closed-loop
+state-space system.
+\begin{align*}
+  \dot{\mat{x}} &= (\mat{A} - \mat{B}\mat{K})\mat{x} + \mat{B}\mat{K}\mat{r} \\
+  \dot{\mat{x}} &= \mat{A}_{cl}\mat{x} + \mat{B}_{cl}\mat{u}_{cl}
+\end{align*}
+
+where $\mat{A}_{cl} = \mat{A} - \mat{B}\mat{K}$, $\mat{B}_{cl} = \mat{B}\mat{K}$,
+and $\mat{u}_{cl} = \mat{r}$. Since it matches the form of the open-loop system,
+all the same analysis tools will work with it.
