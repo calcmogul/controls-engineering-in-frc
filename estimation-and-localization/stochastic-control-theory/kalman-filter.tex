@@ -266,12 +266,12 @@ $\hat{\mat{x}}_{k+1}^+ = \hat{\mat{x}}_{k+1}^- + \mat{K}_{k+1}(\mat{y}_{k+1} -
 minimizes the error variances and thus the dimensions of the uncertainty
 ellipsoid over time.
 
-For a constant period between updates and running the predict and correct steps
-in a loop (as opposed to sporadically skipping correct steps), the error
-covariance matrix $\mat{P}$ approaches a steady-state value (assuming the
-$\mat{A}\T$ and $\mat{C}\T$ matrix pair are stabilizable). This steady-state
-$\mat{P}$ results in a steady-state Kalman gain that can be used instead of the
-error covariance update equations to conserve computational resources.
+If the update period is constant, the predict and correct steps are run in a
+loop as opposed to sporadically skipping correct steps, and the
+$(\mat{A}, \mat{C})$ pair is detectable, the error covariance matrix $\mat{P}$
+willl approach a steady-state. This steady-state $\mat{P}$ results in a
+steady-state Kalman gain that can be used instead of the error covariance update
+equations to conserve computational resources.
 
 \index{state-space observers!Kalman filter!equations}
 \begin{theorem}[Kalman filter]
