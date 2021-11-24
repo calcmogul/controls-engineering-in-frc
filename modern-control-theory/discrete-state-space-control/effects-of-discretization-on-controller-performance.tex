@@ -39,30 +39,3 @@ account the response time of your \gls{system}. Some \glspl{system} like heaters
 have \glspl{output} that change on the order of minutes. Running a control loop
 at $1$ kHz doesn't make sense for this because the \gls{plant} \gls{input} the
 controller computes won't change much, if at all, in $1$ ms.
-
-Figures \ref{fig:sampling_simulation_0.1}, \ref{fig:sampling_simulation_0.05},
-and \ref{fig:sampling_simulation_0.01} show simulations of the same controller
-for different sampling methods and sample rates, which have varying levels of
-fidelity to the real \gls{system}.
-\begin{bookfigure}
-  \begin{minisvg}{2}{build/\chapterpath/sampling_simulation_010}
-    \caption{Sampling methods for system simulation with $T = 0.1$ s}
-    \label{fig:sampling_simulation_0.1}
-  \end{minisvg}
-  \hfill
-  \begin{minisvg}{2}{build/\chapterpath/sampling_simulation_005}
-    \caption{Sampling methods for system simulation with $T = 0.05$ s}
-    \label{fig:sampling_simulation_0.05}
-  \end{minisvg}
-  \hfill
-  \begin{minisvg}{2}{build/\chapterpath/sampling_simulation_004}
-    \caption{Sampling methods for system simulation with $T = 0.01$ s}
-    \label{fig:sampling_simulation_0.01}
-  \end{minisvg}
-\end{bookfigure}
-
-Forward Euler is numerically unstable for low sample rates. The bilinear
-transform is a significant improvement due to it being a second-order
-approximation, but zero-order hold performs best due to the matrix exponential
-including much higher orders (we'll cover the matrix exponential in the next
-section).
