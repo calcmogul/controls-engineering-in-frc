@@ -1,7 +1,7 @@
 \section{Zero-order hold for state-space}
 \index{discretization!zero-order hold}
 
-Given the following continuous time state space model
+We're going to discretize the following continuous time state-space model
 \begin{align*}
   \dot{\mat{x}} &= \mat{A}_c\mat{x} + \mat{B}_c\mat{u} + \mat{w} \\
   \mat{y} &= \mat{C}_c\mat{x} + \mat{D}_c\mat{u} + \mat{v}
@@ -15,6 +15,139 @@ distributed random variables.
   \mat{w} &\sim N(0, \mat{Q}_c) \\
   \mat{v} &\sim N(0, \mat{R}_c)
 \end{align*}
+
+\subsection{Taylor series}
+\index{discretization!Taylor series}
+\begin{remark}
+  Watch the ``Taylor series" video from 3Blue1Brown's \textit{Essence of
+  calculus} series (22 minutes) \cite{bib:calculus_taylor_series} for an
+  explanation of how the Taylor series expansion works.
+\end{remark}
+
+The definition for the matrix exponential and the approximations below all use
+the \textit{Taylor series expansion}. The Taylor series is a method of
+approximating a function like $e^t$ via the summation of weighted polynomial
+terms like $t^k$. $e^t$ has the following Taylor series around $t = 0$.
+\begin{equation*}
+  e^t = \sum_{n = 0}^\infty \frac{t^n}{n!}
+\end{equation*}
+
+where a finite upper bound on the number of terms produces an approximation of
+$e^t$. As $n$ increases, the polynomial terms increase in power and the weights
+by which they are multiplied decrease. For $e^t$ and some other functions, the
+Taylor series expansion equals the original function for all values of $t$ as
+the number of terms approaches infinity\footnote{Functions for which their
+Taylor series expansion converges to and also equals it are called analytic
+functions.}. Figure \ref{fig:taylor_series} shows the Taylor series expansion of
+$e^t$ around $t = 0$ for a varying number of terms.
+\begin{svg}{build/\chapterpath/taylor_series}
+  \caption{Taylor series expansions of $e^t$ around $t = 0$ for $n$ terms}
+  \label{fig:taylor_series}
+\end{svg}
+
+We'll expand the first few terms of the Taylor series expansion in equation
+\eqref{eq:mat_exp} for $\mat{X} = \mat{A}T$ so we can compare it with other
+methods.
+\begin{equation*}
+  \sum_{k=0}^3 \frac{1}{k!} (\mat{A}T)^k = \mat{I} + \mat{A}T +
+    \frac{1}{2}\mat{A}^2T^2 + \frac{1}{6}\mat{A}^3T^3
+\end{equation*}
+
+Table \ref{tab:disc_approx_matrix} compares the Taylor series expansions of the
+\gls{discretization} methods for the matrix case. These use a more complex
+formula which we won't present here.
+\begin{booktable}
+  \begin{tabular}{|cll|}
+    \hline
+    \rowcolor{headingbg}
+    \multicolumn{1}{|c}{\textbf{Method}} &
+      \multicolumn{1}{c}{\textbf{Conversion to $\mat{A}_d$}} &
+      \multicolumn{1}{c|}{\textbf{Taylor series expansion}} \\
+    \hline
+    Zero-order hold &
+      $e^{\mat{A}_c T}$ &
+      $\mat{I} + \mat{A}_c T + \frac{1}{2}\mat{A}_c^2T^2 +
+        \frac{1}{6}\mat{A}_c^3T^3 + \ldots$ \\
+    Bilinear &
+      $\left(\mat{I} + \frac{1}{2}\mat{A}_c T\right)
+        \left(\mat{I} - \frac{1}{2}\mat{A}_c T\right)^{-1}$ &
+      $\mat{I} + \mat{A}_c T + \frac{1}{2}\mat{A}_c^2T^2 +
+        \frac{1}{4}\mat{A}_c^3T^3 + \ldots$ \\
+    Forward Euler &
+      $\mat{I} + \mat{A}_c T$ &
+      $\mat{I} + \mat{A}_c T$ \\
+    Reverse Euler &
+      $\left(\mat{I} - \mat{A}_c T\right)^{-1}$ &
+      $\mat{I} + \mat{A}_c T + \mat{A}_c^2T^2 + \mat{A}_c^3T^3 + \ldots$ \\
+    \hline
+  \end{tabular}
+  \caption{Taylor series expansions of discretization methods (matrix case).
+    The zero-order hold discretization method is exact.}
+  \label{tab:disc_approx_matrix}
+\end{booktable}
+
+Each of them has different stability properties. The bilinear transform
+preserves the (in)stability of the continuous time \gls{system}.
+
+\subsection{Matrix exponential}
+\index{discretization!matrix exponential}
+\begin{remark}
+  Watch the ``How (and why) to raise e to the power of a matrix" video from
+  3Blue1Brown's \textit{Essence of linear algebra} series (27 minutes)
+  \cite{bib:linalg_matrix_exp} for a visual introduction to the matrix
+  exponential.
+\end{remark}
+\begin{definition}[Matrix exponential]
+  Let $\mat{X}$ be an $n \times n$ matrix. The exponential of $\mat{X}$ denoted
+  by $e^{\mat{X}}$ is the $n \times n$ matrix given by the following power
+  series.
+  \begin{equation}
+    e^{\mat{X}} = \sum_{k=0}^\infty \frac{1}{k!} \mat{X}^k \label{eq:mat_exp}
+  \end{equation}
+
+  where $\mat{X}^0$ is defined to be the identity matrix $\mat{I}$ with the same
+  dimensions as $\mat{X}$.
+\end{definition}
+
+To understand why the matrix exponential is used in the \gls{discretization}
+process, consider the scalar differential equation $\dot{x} = ax$. The solution
+to this type of differential equation uses an exponential.
+\begin{align*}
+  \dot{x} &= ax \\
+  \frac{dx}{dt} &= ax(t) \\
+  dx &= ax(t) \,dt \\
+  \frac{1}{x(t)} \,dx &= a \,dt \\
+  \int_0^t \frac{1}{x(t)} \,dx &= \int_0^t a \,dt \\
+  \ln(x(t)) \rvert_0^t &= at \rvert_0^t \\
+  \ln(x(t)) - \ln(x(0)) &= at - a \cdot 0 \\
+  \ln(x(t)) - \ln(x_0) &= at \\
+  \ln\left(\frac{x(t)}{x_0}\right) &= at \\
+  \frac{x(t)}{x_0} &= e^{at} \\
+  x(t) &= e^{at} x_0
+\end{align*}
+
+This solution generalizes via the matrix exponential to the set of differential
+equations $\dot{\mat{x}} = \mat{A}\mat{x} + \mat{B}\mat{u}$ we use to describe
+\glspl{system} (see section \ref{sec:deriv_zoh_ss} for a complete derivation).
+\begin{equation*}
+  \mat{x}(t) = e^{\mat{A}t} \mat{x}_0 +
+    \mat{A}^{-1}(e^{\mat{A}t} - \mat{I})\mat{B} \mat{u}
+\end{equation*}
+
+where $\mat{x}_0$ contains the initial conditions and $\mat{u}$ is the constant
+input from time $0$ to $t$. If the initial \gls{state} is the current system
+\gls{state}, then we can describe the \gls{system}'s \gls{state} over time as
+\begin{align*}
+  \mat{x}_{k+1} &= e^{\mat{A}T} \mat{x}_k +
+    \mat{A}^{-1}(e^{\mat{A}T} - \mat{I})\mat{B} \mat{u}_k
+  \intertext{or more compactly,}
+  \mat{x}_{k+1} &= \mat{A}_d\mat{x}_k + \mat{B}_d\mat{u}_k
+\end{align*}
+
+where $T$ is the time between samples $\mat{x}_k$ and $\mat{x}_{k+1}$. Theorem
+\ref{thm:zoh_ss} has more efficient ways to compute $\mat{A}_d$ and $\mat{B}_d$.
+
+\subsection{Definition}
 
 The model can be \glslink{discretization}{discretized} as follows
 \begin{align*}
