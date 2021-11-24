@@ -34,3 +34,27 @@ approximation of an inverse in the least squares sense.
 $\tr(\mat{A})$ denotes the trace of the square matrix $\mat{A}$, which is
 defined as the sum of the elements on the main diagonal (top-left to
 bottom-right).
+
+A matrix $\mat{M}$ is positive definite if the real number
+$\mat{z}\T\mat{M}\mat{z}$ is positive for every nonzero column vector $\mat{z}$.
+This is true if the eigenvalues of $\mat{M}$ are all greater than zero. Table
+\ref{tab:conds_for_matrix_definiteness} describes additional definiteness
+configurations.
+\begin{booktable}
+  \begin{tabular}{|ccc|}
+    \hline
+    \rowcolor{headingbg}
+    \textbf{Type} & \textbf{Conditions} & \textbf{Notation} \\
+    \hline
+    Negative definite & All eigenvalues less than zero & $\mat{M} < \mat{0}$ \\
+    Negative semidefinite & All eigenvalues less than or equal to zero &
+      $\mat{M} \leq \mat{0}$ \\
+    Positive semidefinite & All eigenvalues greater than or equal to zero &
+      $\mat{M} \geq \mat{0}$ \\
+    Positive definite & All eigenvalues greater than zero &
+      $\mat{M} > \mat{0}$ \\
+    \hline
+  \end{tabular}
+  \caption{Conditions for matrix definiteness}
+  \label{tab:conds_for_matrix_definiteness}
+\end{booktable}

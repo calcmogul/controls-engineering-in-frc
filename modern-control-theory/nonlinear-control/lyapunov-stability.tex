@@ -18,8 +18,49 @@ arbitrarily close to the origin by starting sufficiently close to it. Lyapunov's
 direct method uses a function consisting of the energy in a \gls{system} or
 derivatives of the \gls{system}'s \gls{state} to prove stability around an
 equilibrium point. This is done by showing that the function, and thus its
-inputs, decay to some ground state.
+inputs, decay to some ground state. More rigorously, the value function
+$V(\mat{x})$ must be positive definite and equal zero at the equilibrium point
+\begin{align*}
+  V(\mat{x}) > 0 \\
+  V(\mat{0}) = 0
+\end{align*}
+
+and its derivative $\dot{V}(\mat{x})$ must be negative definite.
+\begin{equation*}
+  \dot{V}(\mat{x}) = \frac{dV}{dt} =
+    \frac{\partial V}{\partial \mat{x}} \frac{d\mat{x}}{dt} \leq 0
+\end{equation*}
 
 More than one Lyapunov function can prove stability, and if one function doesn't
 prove it, another candidate should be tried. For this reason, we refer to these
 functions as \textit{Lyapunov candidate functions}.
+
+\subsection{Lyapunov stability for linear systems}
+
+We're going to find stability criteria for the linear system
+$\dot{\mat{x}} = \mat{A}\mat{x}$ using Lyapunov theory. Let's use the following
+Lyapunov candidate function.
+\begin{equation*}
+  V(\mat{x}) = \mat{x}\T\mat{P}\mat{x} \text{ where }
+    \mat{P} = \mat{P}\T > \mat{0}
+\end{equation*}
+
+This function is positive definite by definition. Its derivative is
+\begin{align*}
+  \dot{V}(\mat{x}) &= \dot{\mat{x}}\T\mat{P}\mat{x} +
+    \mat{x}\T\dot{\mat{P}}\mat{x} + \mat{x}\T\dot{\mat{P}}\dot{\mat{x}} \\
+  \dot{V}(\mat{x}) &= \dot{\mat{x}}\T\mat{P}\mat{x} +
+    \mat{x}\T\mat{0}\mat{x} + \mat{x}\T\dot{\mat{P}}\dot{\mat{x}} \\
+  \dot{V}(\mat{x}) &= \dot{\mat{x}}\T\mat{P}\mat{x} +
+    \mat{x}\T\mat{P}\dot{\mat{x}} \\
+  \dot{V}(\mat{x}) &= (\mat{A}\mat{x})\T\mat{P}\mat{x} +
+    \mat{x}\T\mat{P}(\mat{A}\mat{x}) \\
+  \dot{V}(\mat{x}) &= \mat{x}\T\mat{A}\T\mat{P}\mat{x} +
+    \mat{x}\T\mat{P}\mat{A}\mat{x} \\
+  \dot{V}(\mat{x}) &= \mat{x}\T(\mat{A}\T\mat{P} + \mat{P}\mat{A})\mat{x}
+\end{align*}
+
+For this function to be negative definite, $\mat{A}\T\mat{P} + \mat{P}\mat{A}$
+must be negative definite. Since $\mat{P}$ is positive definite, the only way to
+satisfy that condition is if $\mat{A}$ is negative definite (i.e., $\mat{A}$ is
+stable).
