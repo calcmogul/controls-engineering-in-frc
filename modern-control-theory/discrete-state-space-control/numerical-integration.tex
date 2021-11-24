@@ -6,8 +6,9 @@ numerical integration.
 
 \subsection{Butcher tableaus}
 
-Butcher tableaus are a more succinct representation for explicit Runge-Kutta
-numerical integration methods. Here's the general structure.
+Butcher tableaus are a more succinct representation for explicit and implicit
+Runge-Kutta numerical integration methods. Here's the general structure for
+explicit methods.
 \begin{equation*}
   \renewcommand\arraystretch{1.2}
   \begin{array}{c|cccc}
@@ -38,12 +39,87 @@ The family of solutions to $\dot{\mat{x}} = f(t, \mat{x})$ is given by
 
 where $h$ is the timestep duration.
 
+\subsection{Forward Euler method}
+\index{numerical integration!Forward Euler}
+
+The simplest explicit Runge-Kutta integration method is forward Euler
+integration. We don't recommend using it because it suffers from numerical
+stability issues. We'll demonstrate how to translate its Butcher tableau into
+equations that integrate $\dot{\mat{x}} = f(t, \mat{x})$ from $0$ to $h$.
+\begin{center}
+  \begin{minipage}{0.35\linewidth}
+    \centering
+    \begin{alignat*}{7}
+      \mat{k}_1 &= f(t +
+        && {\color{blue}0} h,
+        && \mat{x}_k)
+        && \\
+      \mat{x}_{k+1} &=
+        &&
+        && \mat{x}_k + h (
+        && {\color{deepgreen}1} \mat{k}_1)
+    \end{alignat*}
+  \end{minipage}
+  \quad
+  \begin{minipage}{0.35\linewidth}
+    \centering
+    \begin{equation*}
+      \renewcommand\arraystretch{1.2}
+      \begin{array}{c|c}
+        {\color{blue}0} \\
+        \hline
+        & {\color{deepgreen}1}
+      \end{array}
+    \end{equation*}
+  \end{minipage}
+\end{center}
+
+Remove zeroed out terms.
+\begin{align*}
+  \mat{k}_1 &= f(t, \mat{x}_k) \\
+  \mat{x}_{k+1} &= \mat{x}_k + h \mat{k}_1
+  \intertext{Simplify.}
+  \mat{x}_{k+1} &= \mat{x}_k + h f(t, \mat{x}_k)
+\end{align*}
+
+In FRC, our differential equations are of the form
+$\dot{\mat{x}} = f(\mat{x}, \mat{u})$ where $\mat{u}$ is held constant between
+timesteps. Since it's time-invariant, we can ignore the time argument of the
+integration method. This gives theorem \ref{thm:forward_euler}.
+\begin{theorem}[Forward Euler integration]
+  \label{thm:forward_euler}
+
+  Given the differential equation $\dot{\mat{x}} = f(\mat{x}_k, \mat{u}_k)$,
+  this method solves for $\mat{x}_{k+1}$ at $h$ seconds in the future.
+  $\mat{u}$ is assumed to be held constant between timesteps.
+  \begin{center}
+    \begin{minipage}{0.35\linewidth}
+      \centering
+      \begin{equation*}
+        \mat{x}_{k+1} = \mat{x}_k + h f(\mat{x}_k, \mat{u}_k)
+      \end{equation*}
+    \end{minipage}
+    \quad
+    \begin{minipage}{0.35\linewidth}
+      \centering
+      \begin{equation*}
+        \renewcommand\arraystretch{1.2}
+        \begin{array}{c|c}
+          0 \\
+          \hline
+          & 1
+        \end{array}
+      \end{equation*}
+    \end{minipage}
+  \end{center}
+\end{theorem}
+
 \subsection{Runge-Kutta fourth-order method}
 \index{numerical integration!Runge-Kutta fourth-order}
 
-The first and most common method we'll cover is Runge-Kutta fourth-order (RK4).
-It's simple and accurate for most systems we'll see in FRC. To demonstrate how
-to translate a Butcher tableau into equations, we'll be integrating
+The most common method we'll cover is Runge-Kutta fourth-order (RK4). It's
+simple and accurate for most systems we'll see in FRC. We'll demonstrate how to
+translate its Butcher tableau into equations that integrate
 $\dot{\mat{x}} = f(t, \mat{x})$ from $0$ to $h$.
 \begin{center}
   \begin{minipage}{0.35\linewidth}
@@ -103,7 +179,7 @@ $\dot{\mat{x}} = f(t, \mat{x})$ from $0$ to $h$.
   \end{minipage}
 \end{center}
 
-Removing zeroed out terms gives
+Remove zeroed out terms.
 \begin{align*}
   \mat{k}_1 &= f(t, \mat{x}_k) \\
   \mat{k}_2 &= f(t + \frac{1}{2} h, \mat{x}_k + h \frac{1}{2} \mat{k}_1) \\
@@ -128,17 +204,17 @@ integration method. This gives theorem \ref{thm:rk4}.
   \label{thm:rk4}
 
   Given the differential equation $\dot{\mat{x}} = f(\mat{x}_k, \mat{u}_k)$,
-  this method solves for $\mat{x}_{k+1}$ at $dt$ seconds in the future.
+  this method solves for $\mat{x}_{k+1}$ at $h$ seconds in the future.
   $\mat{u}$ is assumed to be held constant between timesteps.
   \begin{center}
     \begin{minipage}{0.35\linewidth}
       \centering
       \begin{align*}
         \mat{k}_1 &= f(\mat{x}_k, \mat{u}_k) \\
-        \mat{k}_2 &= f(\mat{x}_k + dt \frac{1}{2}\mat{k}_1, \mat{u}_k) \\
-        \mat{k}_3 &= f(\mat{x}_k + dt \frac{1}{2}\mat{k}_2, \mat{u}_k) \\
-        \mat{k}_4 &= f(\mat{x}_k + dt \mat{k}_3, \mat{u}_k) \\
-        \mat{x}_{k+1} &= \mat{x}_k + dt \frac{1}{6} (\mat{k}_1 + 2\mat{k}_2 +
+        \mat{k}_2 &= f(\mat{x}_k + h \frac{1}{2}\mat{k}_1, \mat{u}_k) \\
+        \mat{k}_3 &= f(\mat{x}_k + h \frac{1}{2}\mat{k}_2, \mat{u}_k) \\
+        \mat{k}_4 &= f(\mat{x}_k + h \mat{k}_3, \mat{u}_k) \\
+        \mat{x}_{k+1} &= \mat{x}_k + h \frac{1}{6} (\mat{k}_1 + 2\mat{k}_2 +
           2\mat{k}_3 + \mat{k}_4)
       \end{align*}
     \end{minipage}
@@ -176,7 +252,7 @@ Runge-Kutta-Fehlberg (RKF45) is a fourth-order method like Runge-Kutta, but it
 uses an adaptive stepsize to enforce an upper bound on the integration error.
 \begin{theorem}[Runge-Kutta-Fehlberg integration]
   Given the differential equation $\dot{\mat{x}} = f(\mat{x}_k, \mat{u}_k)$,
-  this method solves for $\mat{x}_{k+1}$ at $dt$ seconds in the future.
+  this method solves for $\mat{x}_{k+1}$ at $h$ seconds in the future.
   $\mat{u}$ is assumed to be held constant between timesteps. It has the
   following Butcher tableau.
   \begin{equation*}
@@ -214,7 +290,7 @@ Dormand-Prince (RKDP) is similar to RKF45, but it has higher precision per unit
 work.
 \begin{theorem}[Dormand-Prince integration]
   Given the differential equation $\dot{\mat{x}} = f(\mat{x}_k, \mat{u}_k)$,
-  this method solves for $\mat{x}_{k+1}$ at $dt$ seconds in the future.
+  this method solves for $\mat{x}_{k+1}$ at $h$ seconds in the future.
   $\mat{u}$ is assumed to be held constant between timesteps. It has the
   following Butcher tableau.
   \begin{equation*}
