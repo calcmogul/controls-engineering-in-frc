@@ -1,0 +1,42 @@
+\section{Double integrator}
+
+The double integrator has two states (position and velocity) and one input
+(acceleration). Their relationship can be expressed by the following system of
+differential equations, where $x$ is position, $v$ is velocity, and $a$ is
+acceleration.
+\begin{align*}
+  \dot{x} &= v \\
+  \dot{v} &= a
+\end{align*}
+
+We want to put these into the form
+$\dot{\mat{x}} = \mat{A}\mat{x} + \mat{B}\mat{u}$. Let
+$\mat{x} = \begin{bmatrix}x & v\end{bmatrix}\T$ and
+$\mat{u} = \begin{bmatrix}a\end{bmatrix}\T$. First, add missing terms so that
+all equations have the same states and inputs. Then, sort them by states
+followed by inputs.
+\begin{align*}
+  \dot{x} &= 0x + 1v + 0a \\
+  \dot{v} &= 0x + 0v + 1a
+  \intertext{Now, factor out the constants into matrices.}
+  \dot{\begin{bmatrix}
+    x \\
+    v
+  \end{bmatrix}} &=
+  \begin{bmatrix}
+    0 & 1 \\
+    0 & 0
+  \end{bmatrix}
+  \begin{bmatrix}
+    x \\
+    v
+  \end{bmatrix} +
+  \begin{bmatrix}
+    0 \\
+    1
+  \end{bmatrix}
+  \begin{bmatrix}
+    a
+  \end{bmatrix} \\
+  \dot{\mat{x}} &= \mat{A}\mat{x} + \mat{B}\mat{u}
+\end{align*}
