@@ -1,13 +1,70 @@
 \section{Eigenvalues and stability}
 
+If a system is stable, its output will tend toward equilibrium (steady-state)
+over time. For a general system $\dot{\mat{x}} = f(\mat{x}, \mat{u})$,
+equilibrium points are points where $\dot{\mat{x}} = \mat{0}$. If we let
+$\mat{x} = \mat{0}$ and $\mat{u} = \mat{0}$ in
+$\dot{\mat{x}} = \mat{A}\mat{x} + \mat{B}\mat{u}$, we can see that
+$\dot{\mat{x}} = \mat{0}$, so $\mat{x} = \mat{0}$ is an equilibrium point.
+
+We'd like to know whether all possible unforced system trajectories
+($\mat{u} = \mat{0}$) move toward or away from the equilibrium point. If we
+solve the system of linear differential equations
+$\dot{\mat{x}} = \mat{A}\mat{x}$, we get
+$\mat{x}(t) = e^{\mat{A}t} \mat{x}_0$.\footnote{See appendix
+\ref{sec:deriv_zoh_ss} for a derivation.} $e^{\mat{A}t}$ is the superposition of
+$e^{\lambda_j t}$ terms where $\{\lambda_j\}$ is the set of $\mat{A}$'s
+eigenvalues.\footnote{We're handwaving why this is the case, but it's a
+consequence of $e^{\mat{A}t}$ being diagonalizable.}
+
+For now, let's consider when all the eigenvalues are real numbers.
+\begin{equation*}
+  \begin{cases}
+    \lambda_j < 0, & e^{\lambda_j t} \text{ decays to zero (stable)}
+      \\
+    \lambda_j = 0, & e^{\lambda_j t} = 1 \text{ (marginally stable)} \\
+    \lambda_j > 0, & e^{\lambda_j t} \text{ grows to infinity (unstable)}
+  \end{cases}
+\end{equation*}
+
+So the system tends toward the equilibrium point (i.e., it's stable) if
+$\lambda_j < 0$ for all $j$.
+
+Now let's consider when the eigenvalues are complex numbers. What does that mean
+for the system response? Let $\lambda_j = a_j + b_j i$. Each of the exponential
+terms in the solution can be written as
+\begin{equation*}
+  e^{\lambda_j t} = e^{(a_j + b_j i)t} = e^{a_j t} e^{i b_j t}
+\end{equation*}
+
+The complex exponential can be rewritten using Euler's formula.\footnote{Euler's
+formula may seem surprising at first, but it's rooted in the fact that complex
+exponentials are rotations in the complex plane around the origin. If you can
+imagine walking around the unit circle traced by that rotation, you'll notice
+the real part of your position oscillates between $-1$ and $1$ over time. That
+is, complex exponentials manifest as oscillations in real life. Watch the ``What
+is Euler's formula actually saying? | Ep. 4" video from 3Blue1Brown's
+\textit{Lockdown live math} series \cite{bib:eulers_formula} for a more in-depth
+explanation of Euler's formula.}
+\begin{equation*}
+  e^{i b_j t} = \cos(b_j t) + i \sin(b_j t)
+\end{equation*}
+
+Therefore,
+\begin{equation*}
+  e^{\lambda_j t} = e^{a_j t} (\cos(b_j t) + i \sin(b_j t))
+\end{equation*}
+
+When the eigenvalue's imaginary part $b_j \neq 0$, it contributes oscillation to
+the real part's response.
+
 \index{stability!poles}
-The eigenvalues of $\mat{A}$ are called \textit{poles}. The locations of the
-closed-loop poles in the complex plane determine the stability of the
-\gls{system}. Each pole represents a frequency mode of the \gls{system}, and
-their location determines how much of each response is induced for a given input
-frequency. Figure \ref{fig:impulse_response_eig} shows the \glspl{impulse
-response} in the time domain for \glspl{system} with various pole locations.
-They all have an initial condition of $1$.
+The eigenvalues of $\mat{A}$ are called \textit{poles}.\footnote{This name comes
+from classical control theory. See subsection \ref{subsec:poles_and_zeroes} for
+more.} Figure \ref{fig:impulse_response_eig} shows the \glspl{impulse response}
+in the time domain for \glspl{system} with various pole locations in the complex
+plane (real numbers on the x-axis and imaginary numbers on the y-axis). Each
+response has an initial condition of $1$.
 \begin{bookfigure}
   \input{figs/impulse-response-vs-pole-location}
   \caption{Impulse response vs pole location}
