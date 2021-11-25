@@ -128,7 +128,8 @@ to this type of differential equation uses an exponential.
 
 This solution generalizes via the matrix exponential to the set of differential
 equations $\dot{\mat{x}} = \mat{A}\mat{x} + \mat{B}\mat{u}$ we use to describe
-\glspl{system} (see section \ref{sec:deriv_zoh_ss} for a complete derivation).
+\glspl{system}.\footnote{See section \ref{sec:deriv_zoh_ss} for a complete
+derivation of the state-space zero-order hold.}
 \begin{equation*}
   \mat{x}(t) = e^{\mat{A}t} \mat{x}_0 +
     \mat{A}^{-1}(e^{\mat{A}t} - \mat{I})\mat{B} \mat{u}
