@@ -11,11 +11,12 @@ We'd like to know whether all possible unforced system trajectories
 ($\mat{u} = \mat{0}$) move toward or away from the equilibrium point. If we
 solve the system of linear differential equations
 $\dot{\mat{x}} = \mat{A}\mat{x}$, we get
-$\mat{x}(t) = e^{\mat{A}t} \mat{x}_0$.\footnote{See appendix
-\ref{sec:deriv_state-space_zoh} for a derivation.} $e^{\mat{A}t}$ is the
-superposition of $e^{\lambda_j t}$ terms where $\{\lambda_j\}$ is the set of
-$\mat{A}$'s eigenvalues.\footnote{We're handwaving why this is the case, but
-it's a consequence of $e^{\mat{A}t}$ being diagonalizable.}
+$\mat{x}(t) = e^{\mat{A}t} \mat{x}_0$.\footnote{Section
+\ref{sec:state-space_zoh} will explain why the matrix exponential $e^{\mat{A}t}$
+shows up here.} $e^{\mat{A}t}$ is the superposition of $e^{\lambda_j t}$ terms
+where $\{\lambda_j\}$ is the set of $\mat{A}$'s eigenvalues.\footnote{We're
+handwaving why this is the case, but it's a consequence of $e^{\mat{A}t}$ being
+diagonalizable.}
 
 For now, let's consider when all the eigenvalues are real numbers.
 \begin{equation*}
