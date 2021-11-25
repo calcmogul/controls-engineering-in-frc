@@ -29,7 +29,10 @@
 \usepackage{csquotes} % Suppress warning from babel about missing csquotes
 \usepackage{fancyhdr} % For the headers
 \usepackage{float} % For preventing figure floating
-\usepackage[bottom]{footmisc} % For putting footnotes at the bottom of the page
+
+\usepackage[bottom]{footmisc} % Put footnotes at bottom of the page
+\renewcommand{\thefootnote}{[\arabic{footnote}]} % "[]" around footnote markers
+
 \usepackage{textcomp,gensymb} % For degree symbol
 \usepackage[top=3cm,
             bottom=3cm,
