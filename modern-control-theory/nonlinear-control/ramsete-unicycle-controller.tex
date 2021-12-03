@@ -132,9 +132,10 @@ $k = k_1(v_d, \omega_d) = k_3(v_d, \omega_d) = 2\zeta\sqrt{\omega_d^2 + bv_d^2}$
       y_d - y \\
       \theta_d - \theta
     \end{bmatrix} \\
-    v &= v_d \cos{e_\theta} + k e_x \\
-    \omega &= \omega_d + k e_\theta + b v_d \sinc(e_\theta) e_y \\
-    k &= 2\zeta\sqrt{\omega_d^2 + bv_d^2} \\
+    v &= v_d \cos{e_\theta} + k e_x \label{eq:ramsete_eq1} \\
+    \omega &= \omega_d + k e_\theta + b v_d \sinc(e_\theta) e_y
+      \label{eq:ramsete_eq2} \\
+    k &= 2\zeta\sqrt{\omega_d^2 + bv_d^2} \label{eq:ramsete_eq3} \\
     \sinc(e_\theta) &= \frac{\sin{e_\theta}}{e_\theta}
   \end{align}
   \begin{figurekey}
@@ -150,9 +151,11 @@ $k = k_1(v_d, \omega_d) = k_3(v_d, \omega_d) = 2\zeta\sqrt{\omega_d^2 + bv_d^2}$
     \end{tabular}
   \end{figurekey}
 
-  $b$ and $\zeta$ are tuning parameters where $b > 0$ and $\zeta \in (0, 1)$.
-  Larger values of $b$ make convergence more aggressive (like a proportional
-  term), and larger values of $\zeta$ provide more damping.
+  $b$ and $\zeta$ are tuning parameters where
+  $b > 0~\frac{\text{rad}^2}{\text{m}^2}$ and
+  $\zeta \in (0, 1)~\text{rad}^{-1}$. Larger values of $b$ make convergence more
+  aggressive (like a proportional term), and larger values of $\zeta$ provide
+  more damping.
 \end{theorem}
 
 $v$ and $\omega$ should be the \glspl{reference} for a \gls{reference} tracker
@@ -175,6 +178,115 @@ tracking performance of Ramsete for a given trajectory.
     \label{fig:ramsete_traj_response}
   \end{minisvg}
 \end{bookfigure}
+
+\subsection{Dimensional analysis}
+
+$[v]$ denotes the dimension of $v$. $A$ means angle units, $L$ means length
+units, and $T$ means time units.
+
+\subsubsection{Units of $\sinc(e_\theta)$}
+
+First, we'll find the units of $\sinc(e_\theta)$ for later use.
+\begin{align*}
+  \sinc(e_\theta) &= \frac{\sin(e_\theta)}{e_\theta} \\
+  [\sinc(e_\theta)] &= \frac{1}{A} \\
+  [\sinc(e_\theta)] &= A^{-1}
+\end{align*}
+
+\subsubsection{Ramsete velocity command equation}
+
+Start from equation \eqref{eq:ramsete_eq1}.
+\begin{align*}
+  v &= v_d \cos e_\theta + k e_x \\
+  [v] &= [v_d] [\cos e_\theta] + [k] [e_x] \\
+  L T^{-1} &= L T^{-1} \cdot 1 + [k] L \\
+  L T^{-1} &= L T^{-1} + [k] L \\
+  L T^{-1} &= [k] L \\
+  T^{-1} &= [k] \\
+  [k] &= T^{-1}
+\end{align*}
+
+Therefore, the units of $k$ are $T^{-1}$.
+
+\subsubsection{Ramsete angular velocity command equation}
+
+Start from equation \eqref{eq:ramsete_eq2}.
+\begin{align}
+  \omega &= \omega_d + ke_\theta + bv_d \sinc(e_\theta) e_y \nonumber \\
+  [\omega] &= [\omega_d] + [k][e_\theta] + [b][v_d] [\sinc(e_\theta)] [e_y]
+    \nonumber \\
+  [\omega] &= [\omega_d] + [k][e_\theta] + [b][v_d] [\sinc(e_\theta)] [e_y]
+    \nonumber \\
+  A T^{-1} &= A T^{-1} + [k] A + [b] L T^{-1} \cdot A^{-1} \cdot L \nonumber \\
+  A T^{-1} &= A T^{-1} + [k] A + [b] A^{-1} L^{2} T \nonumber \\
+  A T^{-1} &= [k] A + [b] A^{-1} L^{2} T
+    \label{eq:ramsete_eq2_intermediate_units}
+\end{align}
+
+First, we'll find the units of $k$.
+
+The left-hand side and first term of equation
+\eqref{eq:ramsete_eq2_intermediate_units} must have equivalent units.
+\begin{align*}
+  A T^{-1} &= [k] A \\
+  T^{-1} &= [k] \\
+  [k] &= T^{-1}
+\end{align*}
+
+This is consistent with the result from the Ramsete velocity command equation.
+
+Next, we'll find the units of $b$.
+
+The left-hand side and second term of equation
+\eqref{eq:ramsete_eq2_intermediate_units} must have equivalent units.
+\begin{align*}
+  A T^{-1} &= [b] A^{-1} L^{2} T^{-1} \\
+  A^{2} L^{-2} &= [b] \\
+  [b] &= A^{2} L^{-2}
+\end{align*}
+
+\subsubsection{Ramsete $k$ equation}
+
+Start from equation \eqref{eq:ramsete_eq3}.
+\begin{align}
+  k &= 2\zeta \sqrt{\omega_d^{2} + bv_d^{2}} \nonumber \\
+  [k] &= [\zeta] \sqrt{[\omega_d]^{2} + [b][v_d]^{2}} \nonumber \\
+  T^{-1} &= [\zeta] \sqrt{(A T^{-1})^{2} + [b] (L T^{-1})^{2}} \nonumber \\
+  T^{-1} &= [\zeta] \sqrt{A^{2} T^{-2} + [b] L^{2} T^{-2}}
+    \label{eq:ramsete_eq3_intermediate_units}
+\end{align}
+
+First, we'll find the units of $b$.
+
+The additive terms under the square root must have equivalent units.
+\begin{align*}
+  (A T^{-1})^{2} &= [b] (L T^{-1})^{2} \\
+  A^{2} T^{-2} &= [b] L^{2} T^{-2} \\
+  A^{2} L^{-2} &= [b] \\
+  [b] &= A^{2} L^{-2}
+\end{align*}
+
+This is consistent with the result from the angular velocity command equation,
+so we can use it when determining the units of $\zeta$.
+
+Next, we'll find the units of $\zeta$.
+
+Substitute $[b]$ into equation \eqref{eq:ramsete_eq3_intermediate_units}.
+\begin{align*}
+  T^{-1} &= [\zeta] \sqrt{A^{2} T^{-2} + [b] L^{2} T^{-2}} \\
+  T^{-1} &= [\zeta] \sqrt{A^{2} T^{-2} + A^{2} L^{-2} \cdot L^{2} T^{-2}} \\
+  T^{-1} &= [\zeta] \sqrt{A^{2} T^{-2} + A^{2} T^{-2}} \\
+  T^{-1} &= [\zeta] \sqrt{A^{2} T^{-2}} \\
+  T^{-1} &= [\zeta] A T^{-1} \\
+  A^{-1} &= [\zeta] \\
+  [\zeta] &= A^{-1}
+\end{align*}
+
+\subsubsection{Units of tunable parameters $b$ and $\zeta$}
+\begin{align}
+  [b] &= A^{2} L^{-2} \\
+  [\zeta] &= A^{-1}
+\end{align}
 
 \subsection{Linear reference tracker}
 \label{subsec:linear_reference_tracker}
