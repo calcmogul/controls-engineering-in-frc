@@ -35,10 +35,3 @@ Add stubs for missing chapters, missing sections, and todo items.
 * Ramsete improvements
   * Add diagram to Ramsete that shows global and vehicle coordinate frames to
     help explain what the pose represents.
-
-## Miscellaneous fixes
-
-### State-space controllers
-
-* Modify pareto_boundary.py to find and plot real Pareto boundary for LQR
-  instead of using a hand-wavey approximation
