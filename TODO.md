@@ -39,7 +39,6 @@ Add stubs for missing chapters, missing sections, and todo items.
 * Add information on controllability and observability Grammians
   * Link to controllability Grammian video by Steve Brunton
 * Add links to implementations
-* Mention https://en.wikipedia.org/wiki/Separation_principle
 
 ### State-space model examples
 

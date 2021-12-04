@@ -123,10 +123,10 @@ Plugging equation \eqref{eq:z_obsv_y} into equation \eqref{eq:z_obsv_x} gives
     \mat{L}(\mat{C}\mat{x}_k - \mat{C}\hat{\mat{x}}_k) \\
   \hat{\mat{x}}_{k+1} &= \mat{A}\hat{\mat{x}}_k + \mat{B}\mat{u}_k +
     \mat{L}\mat{C}(\mat{x}_k - \hat{\mat{x}}_k)
-  \intertext{Let $E_k = \mat{x}_k - \hat{\mat{x}}_k$ be the \gls{error} in the
-    estimate $\hat{\mat{x}}_k$.}
+  \intertext{Let $\mat{e}_k = \mat{x}_k - \hat{\mat{x}}_k$ be the \gls{error} in
+    the estimate $\hat{\mat{x}}_k$.}
   \hat{\mat{x}}_{k+1} &= \mat{A}\hat{\mat{x}}_k + \mat{B}\mat{u}_k +
-    \mat{L}\mat{C}\mat{E}_k
+    \mat{L}\mat{C}\mat{e}_k
 \end{align*}
 
 Subtracting this from $\mat{x}_{k+1} = \mat{A}\mat{x}_k + \mat{B}\mat{u}_k$
@@ -134,19 +134,19 @@ gives
 \begin{align}
   \mat{x}_{k+1} - \hat{\mat{x}}_{k+1} &= \mat{A}\mat{x}_k + \mat{B}\mat{u}_k -
     (\mat{A}\hat{\mat{x}}_k + \mat{B}\mat{u}_k +
-     \mat{L}\mat{C}\mat{E}_k) \nonumber \\
-  \mat{E}_{k+1} &= \mat{A}\mat{x}_k + \mat{B}\mat{u}_k -
-    (\mat{A}\hat{\mat{x}}_k + \mat{B}\mat{u}_k + \mat{L}\mat{C}\mat{E}_k)
+     \mat{L}\mat{C}\mat{e}_k) \nonumber \\
+  \mat{e}_{k+1} &= \mat{A}\mat{x}_k + \mat{B}\mat{u}_k -
+    (\mat{A}\hat{\mat{x}}_k + \mat{B}\mat{u}_k + \mat{L}\mat{C}\mat{e}_k)
     \nonumber \\
-  \mat{E}_{k+1} &= \mat{A}\mat{x}_k + \mat{B}\mat{u}_k -
-    \mat{A}\hat{\mat{x}}_k - \mat{B}\mat{u}_k - \mat{L}\mat{C}\mat{E}_k
+  \mat{e}_{k+1} &= \mat{A}\mat{x}_k + \mat{B}\mat{u}_k -
+    \mat{A}\hat{\mat{x}}_k - \mat{B}\mat{u}_k - \mat{L}\mat{C}\mat{e}_k
     \nonumber \\
-  \mat{E}_{k+1} &= \mat{A}\mat{x}_k - \mat{A}\hat{\mat{x}}_k -
-    \mat{L}\mat{C}\mat{E}_k \nonumber \\
-  \mat{E}_{k+1} &= \mat{A}(\mat{x}_k - \hat{\mat{x}}_k) -
-    \mat{L}\mat{C}\mat{E}_k \nonumber \\
-  \mat{E}_{k+1} &= \mat{A}\mat{E}_k - \mat{L}\mat{C}\mat{E}_k \nonumber \\
-  \mat{E}_{k+1} &= (\mat{A} - \mat{L}\mat{C})\mat{E}_k \label{eq:obsv_eig_calc}
+  \mat{e}_{k+1} &= \mat{A}\mat{x}_k - \mat{A}\hat{\mat{x}}_k -
+    \mat{L}\mat{C}\mat{e}_k \nonumber \\
+  \mat{e}_{k+1} &= \mat{A}(\mat{x}_k - \hat{\mat{x}}_k) -
+    \mat{L}\mat{C}\mat{e}_k \nonumber \\
+  \mat{e}_{k+1} &= \mat{A}\mat{e}_k - \mat{L}\mat{C}\mat{e}_k \nonumber \\
+  \mat{e}_{k+1} &= (\mat{A} - \mat{L}\mat{C})\mat{e}_k \label{eq:obsv_eig_calc}
 \end{align}
 
 For equation \eqref{eq:obsv_eig_calc} to have a bounded output, the eigenvalues
@@ -154,11 +154,6 @@ of $\mat{A} - \mat{L}\mat{C}$ must be within the unit circle. These eigenvalues
 represent how fast the estimator converges to the true \gls{state} of the given
 \gls{model}. A fast estimator converges quickly while a slow estimator avoids
 amplifying noise in the measurements used to produce a \gls{state} estimate.
-
-As stated before, the controller and estimator are dual problems. Controller
-gains can be found assuming perfect estimator (i.e., perfect knowledge of all
-\glspl{state}). Estimator gains can be found assuming an accurate \gls{model}
-and a controller with perfect \gls{tracking}.
 
 The effect of noise can be seen if it is modeled
 \glslink{stochastic process}{stochastically} as
@@ -174,3 +169,64 @@ The effect of noise can be seen if it is modeled
 \end{align*}
 
 As $\mat{L}$ increases, the measurement noise is amplified.
+
+\subsection{Separation principle}
+
+The separation principle for linear stochastic systems states that the optimal
+controller and optimal observer for the stochastic system can be designed
+independently, and the combination of a stable controller and a stable observer
+is itself stable.
+
+This means that designing the optimal feedback controller for the stochastic
+system can be decomposed into designing the optimal state observer, then feeding
+that into the optimal controller for the deterministic system.
+
+Consider the following state-space model.
+\begin{align*}
+  \mat{x}_{k+1} &= \mat{A}\mat{x}_k + \mat{B}\mat{u}_k \\
+  \mat{y}_k &= \mat{C}\mat{x}_k + \mat{D}\mat{u}_k
+\end{align*}
+
+We'll use the following controller for state feedback.
+\begin{equation*}
+  \mat{u}_k = -\mat{K}\hat{\mat{x}}_k
+\end{equation*}
+
+With the estimation error defined as $\mat{e}_k = \mat{x}_k - \hat{\mat{x}}_k$,
+we get the observer dynamics derived in equation \eqref{eq:obsv_eig_calc}.
+\begin{equation*}
+  \mat{e}_{k+1} = (\mat{A} - \mat{L}\mat{C})\mat{e}_k
+\end{equation*}
+
+Also, after rearranging the error equation to be
+$\hat{\mat{x}}_k = \mat{x}_k - \mat{e}_k$, the controller can be rewritten as
+\begin{equation*}
+  \mat{u}_k = -\mat{K}(\mat{x}_k - \mat{e}_k)
+\end{equation*}
+
+Substitute this into the model.
+\begin{align*}
+  \mat{x}_{k+1} &= \mat{A}\mat{x}_k + \mat{B}\mat{u}_k \\
+  \mat{x}_{k+1} &= \mat{A}\mat{x}_k - \mat{B}\mat{K}(\mat{x}_k - \mat{e}_k) \\
+  \mat{x}_{k+1} &= (\mat{A} - \mat{B}\mat{K})\mat{x}_k + \mat{B}\mat{K}\mat{e}_k
+\end{align*}
+
+Now, we can write the closed-loop dynamics as
+\begin{equation*}
+  \begin{bmatrix}
+    \mat{x}_{k+1} \\
+    \mat{e}_{k+1}
+  \end{bmatrix} =
+  \begin{bmatrix}
+    \mat{A} - \mat{B}\mat{K} & \mat{B}\mat{K} \\
+    \mat{0} & \mat{A} - \mat{L}\mat{C}
+  \end{bmatrix}
+  \begin{bmatrix}
+    \mat{x}_k \\
+    \mat{e}_k
+  \end{bmatrix}
+\end{equation*}
+
+Since the closed-loop system matrix is triangular, the eigenvalues are those of
+$\mat{A} - \mat{B}\mat{K}$ and $\mat{A} - \mat{L}\mat{C}$. Therefore, the
+stability of the feedback controller and observer are independent.
