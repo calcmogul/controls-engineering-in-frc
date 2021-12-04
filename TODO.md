@@ -30,59 +30,11 @@ Add stubs for missing chapters, missing sections, and todo items.
     chapter teaches it sufficiently.
   * Basically like implicit learning outcomes?
 
-### State-space controllers
-
-* Add test of P vs PD controller for flywheel
-  * Simulate flywheel with stochastic force applied to slow it down (simulates
-    shots)
-  * Try P controller, PD controller, P + FF, PD + FF, and P + FF + u_error
-* Add information on controllability and observability Grammians
-  * Link to controllability Grammian video by Steve Brunton
-* Add links to implementations
-
-### State-space model examples
-
-* Add examples of input error state-space models to frccontrol and reference
-  them in the book. Also do C++ examples.
-
 ### Nonlinear control
 
 * Ramsete improvements
   * Add diagram to Ramsete that shows global and vehicle coordinate frames to
     help explain what the pose represents.
-
-### System modeling
-
-* Manipulator equations and Jacobians
-  * Try deriving all models using Lagrangian mechanics instead and introduce
-    manipulator equations
-    * See [this post](https://studywolf.wordpress.com/2013/09/07/robot-control-3-accounting-for-mass-and-gravity/)
-      and previous post on Jacobians
-* Add troubleshooting advice for models/impls.
-* Finish chapter on dynamics.
-
-## Supplementary background
-
-### State-space controllers
-
-* Add section on controllability/observability Grammian for determining which
-  states are uncontrollable/unobservable or which states are more/less
-  controllable/observable.
-* Finish implicit model following
-  * Add implicit model following simulation
-* Add a section on polytopes for convex optimization? So far, I've seen it used
-  for handling saturated control inputs to prioritize tracking some states over
-  others using the limited control input.
-  * See 971/y2017/control_loops/python/polydrivetrain.py
-  * Start with how to turn a set of constraints into a matrix equation of the
-    proper form for a polytope, then how to leverage the polytope libs for
-    enforcing those constraints.
-
-### Stochastic control theory
-
-* Add an appendix on Ito calculus to explain where the Wiener process comes from?
-* Add KF examples for nonlinear drivetrain pose estimation
-  * EKF, UKF, and comparison of the two
 
 ## Miscellaneous fixes
 
@@ -90,8 +42,3 @@ Add stubs for missing chapters, missing sections, and todo items.
 
 * Modify pareto_boundary.py to find and plot real Pareto boundary for LQR
   instead of using a hand-wavey approximation
-
-### System modeling
-
-* Double check drivetrain J calculation. It doesn't include robot radius, which
-  seems suspicious.
