@@ -80,7 +80,7 @@ $\mat{x}_{k+1} = \mat{A}\mat{x}_k + \mat{B}\mat{u}_k$.
 
 where $J$ represents a trade-off between \gls{state} excursion and
 \gls{control effort} with the weighting factors $\mat{Q}$ and $\mat{R}$. LQR is
-a \gls{control law} $\mat{u}$ that minimizes the cost function. $\mat{Q}$ and
+a \gls{control law} $\mat{u}$ that minimizes the cost functional. $\mat{Q}$ and
 $\mat{R}$ slide the cost along a Pareto boundary between state tracking and
 \gls{control effort} (see figure \ref{fig:pareto_boundary}). Pareto optimality
 for this problem means that an improvement in state \gls{tracking} cannot be
@@ -94,8 +94,8 @@ boundary).
   \label{fig:pareto_boundary}
 \end{svg}
 
-The minimum of LQR's cost function is found by setting the derivative of the
-cost function to zero and solving for the \gls{control law} $\mat{u}_k$.
+The minimum of LQR's cost functional is found by setting the derivative of the
+cost functional to zero and solving for the \gls{control law} $\mat{u}_k$.
 However, matrix calculus is used instead of normal calculus to take the
 derivative.
 

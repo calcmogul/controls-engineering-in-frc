@@ -1,25 +1,25 @@
 \section{Derivation}
 
-Let a continuous time linear \gls{system} be defined as
+Let there be a discrete time linear \gls{system} defined as
 \begin{equation}
-  \dot{\mat{x}} = \mat{A}\mat{x} + \mat{B}\mat{u}
+  \mat{x}_{k+1} = \mat{A}\mat{x}_k + \mat{B}\mat{u}_k
 \end{equation}
 
-with the cost function
+with the cost functional
 \begin{equation*}
-  J = \int\limits_0^\infty
+  J = \sum_{k=0}^\infty
     \begin{bmatrix}
-      \mat{x} \\
-      \mat{u}
+      \mat{x}_k \\
+      \mat{u}_k
     \end{bmatrix}\T
     \begin{bmatrix}
       \mat{Q} & \mat{N} \\
       \mat{N}\T & \mat{R}
     \end{bmatrix}
     \begin{bmatrix}
-      \mat{x} \\
-      \mat{u}
-    \end{bmatrix} dt
+      \mat{x}_k \\
+      \mat{u}_k
+    \end{bmatrix}
 \end{equation*}
 
 where $J$ represents a trade-off between \gls{state} excursion and
@@ -29,64 +29,65 @@ weight matrix for \gls{control effort}, and $\mat{N}$ is a cross weight matrix
 between \gls{error} and \gls{control effort}. $\mat{N}$ is commonly utilized
 when penalizing the output in addition to the state and input.
 \begin{align*}
-  J &= \int\limits_0^\infty
+  J &= \sum_{k=0}^\infty
     \begin{bmatrix}
-      \mat{x} \\
-      \mat{u}
+      \mat{x}_k \\
+      \mat{u}_k
     \end{bmatrix}\T
     \begin{bmatrix}
-      \mat{Q}\mat{x} + \mat{N}\mat{u} \\
-      \mat{N}\T\mat{x} + \mat{R}\mat{u}
-    \end{bmatrix} dt \\
-  J &= \int\limits_0^\infty
+      \mat{Q}\mat{x}_k + \mat{N}\mat{u}_k \\
+      \mat{N}\T\mat{x}_k + \mat{R}\mat{u}_k
+    \end{bmatrix} \\
+  J &= \sum_{k=0}^\infty
     \begin{bmatrix}
-      \mat{x}\T & \mat{u}\T
+      \mat{x}_k\T & \mat{u}_k\T
     \end{bmatrix}
     \begin{bmatrix}
-      \mat{Q}\mat{x} + \mat{N}\mat{u} \\
-      \mat{N}\T\mat{x} + \mat{R}\mat{u}
-    \end{bmatrix} dt \\
-  J &= \int\limits_0^\infty
-    \left(\mat{x}\T\left(\mat{Q}\mat{x} + \mat{N}\mat{u}\right) +
-      \mat{u}\T\left(\mat{N}\T\mat{x} + \mat{R}\mat{u}\right)\right) dt \\
-  J &= \int\limits_0^\infty
-    \left(\mat{x}\T\mat{Q}\mat{x} + \mat{x}\T\mat{N}\mat{u} +
-      \mat{u}\T\mat{N}\T\mat{x} + \mat{u}\T\mat{R}\mat{u}\right) dt \\
-  J &= \int\limits_0^\infty
-    \left(\mat{x}\T\mat{Q}\mat{x} + \mat{x}\T\mat{N}\mat{u} +
-      \left(\mat{x}\T\mat{N}\mat{u}\right)\T + \mat{u}\T\mat{R}\mat{u}\right)
-    dt \\
-  J &= \int\limits_0^\infty
-    \left(\mat{x}\T\mat{Q}\mat{x} + 2\mat{x}\T\mat{N}\mat{u} +
-      \mat{u}\T\mat{R}\mat{u}\right) dt \\
-  J &= \int\limits_0^\infty
-    \left(\mat{x}\T\mat{Q}\mat{x} + \mat{u}\T\mat{R}\mat{u} +
-      2\mat{x}\T\mat{N}\mat{u}\right) dt
+      \mat{Q}\mat{x}_k + \mat{N}\mat{u}_k \\
+      \mat{N}\T\mat{x}_k + \mat{R}\mat{u}_k
+    \end{bmatrix} \\
+  J &= \sum_{k=0}^\infty
+    (\mat{x}_k\T (\mat{Q}\mat{x}_k + \mat{N}\mat{u}_k) +
+      \mat{u}_k\T (\mat{N}\T\mat{x}_k + \mat{R}\mat{u}_k)) \\
+  J &= \sum_{k=0}^\infty
+    (\mat{x}_k\T\mat{Q}\mat{x}_k + \mat{x}_k\T\mat{N}\mat{u}_k +
+      \mat{u}_k\T\mat{N}\T\mat{x}_k + \mat{u}_k\T\mat{R}\mat{u}_k) \\
+  J &= \sum_{k=0}^\infty
+    (\mat{x}_k\T\mat{Q}\mat{x}_k + \mat{x}_k\T\mat{N}\mat{u}_k +
+      \mat{x}_k\T\mat{N}\mat{u}_k\T + \mat{u_k}\T\mat{R}\mat{u}_k) \\
+  J &= \sum_{k=0}^\infty
+    (\mat{x}_k\T\mat{Q}\mat{x}_k + 2\mat{x}_k\T\mat{N}\mat{u}_k +
+      \mat{u}_k\T\mat{R}\mat{u}_k) \\
+  J &= \sum_{k=0}^\infty
+    (\mat{x}_k\T\mat{Q}\mat{x}_k + \mat{u}_k\T\mat{R}\mat{u}_k +
+      2\mat{x}_k\T\mat{N}\mat{u}_k)
 \end{align*}
 
 The feedback \gls{control law} which minimizes $J$ subject to the constraint
-$\dot{\mat{x}} = \mat{A}\mat{x} + \mat{B}\mat{u}$ is
+$\mat{x}_{k+1} = \mat{A}\mat{x}_k + \mat{B}\mat{u}_k$ is
 \begin{equation*}
-  \mat{u} = -\mat{K}\mat{x}
+  \mat{u}_k = -\mat{K}\mat{x}_k
 \end{equation*}
 
 where $\mat{K}$ is given by
 \begin{equation*}
-  \mat{K} = \mat{R}^{-1} \left(\mat{B}\T\mat{S} + \mat{N}\T\right)
+  \mat{K} = (\mat{R} + \mat{B}\T\mat{S}\mat{B})^{-1}
+    (\mat{B}\T\mat{S}\mat{A} + \mat{N}\T)
 \end{equation*}
 
-and $\mat{S}$ is found by solving the continuous time algebraic Riccati equation
+and $\mat{S}$ is found by solving the discrete time algebraic Riccati equation
 defined as
 \begin{equation*}
-  \mat{A}\T\mat{S} + \mat{S}\mat{A} - \left(\mat{S}\mat{B} +
-    \mat{N}\right) \mat{R}^{-1} \left(\mat{B}\T\mat{S} + \mat{N}\T\right) +
-    \mat{Q} = 0
+  \mat{A}\T\mat{S}\mat{A} - (\mat{A}\T\mat{S}\mat{B} + \mat{N})
+    (\mat{R} + \mat{B}\T\mat{S}\mat{B})^{-1}
+    (\mat{B}\T\mat{S}\mat{A} + \mat{N}\T) + \mat{Q} = 0
 \end{equation*}
 
 or alternatively
 \begin{equation*}
-  \mathcal{A}\T\mat{S} + \mat{S}\mathcal{A} -
-    \mat{S}\mat{B}\mat{R}^{-1}\mat{B}\T\mat{S} + \mathcal{Q} = 0
+  \mathcal{A}\T\mat{S}\mathcal{A} - \mathcal{A}\T\mat{S}\mat{B}
+    (\mat{R} + \mat{B}\T\mat{S}\mat{B})^{-1} \mat{B}\T\mat{S}\mathcal{A} +
+    \mat{Q} = 0
 \end{equation*}
 
 with
@@ -96,35 +97,33 @@ with
 \end{align*}
 
 If there is no cross-correlation between \gls{error} and \gls{control effort},
-$\mat{N}$ is a zero matrix and the cost function simplifies to
+$\mat{N}$ is a zero matrix and the cost functional simplifies to
 \begin{equation*}
-  J = \int\limits_0^\infty
-    \left(\mat{x}\T\mat{Q}\mat{x} + \mat{u}\T\mat{R}\mat{u}\right) dt
+  J = \sum_{k=0}^\infty (\mat{x}_k\T\mat{Q}\mat{x}_k +
+    \mat{u}_k\T\mat{R}\mat{u}_k)
 \end{equation*}
 
 The feedback \gls{control law} which minimizes this $J$ subject to
-$\dot{\mat{x}} = \mat{A}\mat{x} + \mat{B}\mat{u}$ is
+$\mat{x}_{k+1} = \mat{A}\mat{x}_k + \mat{B}\mat{u}_k$ is
 \begin{equation*}
-  \mat{u} = -\mat{K}\mat{x}
+  \mat{u}_k = -\mat{K}\mat{x}_k
 \end{equation*}
 
 where $\mat{K}$ is given by
 \begin{equation*}
-  \mat{K} = \mat{R}^{-1}\mat{B}\T\mat{S}
+  \mat{K} = (\mat{R} + \mat{B}\T\mat{S}\mat{B})^{-1} \mat{B}\T\mat{S}\mat{A}
 \end{equation*}
 
-and $\mat{S}$ is found by solving the continuous time algebraic Riccati equation
+and $\mat{S}$ is found by solving the discrete time algebraic Riccati equation
 defined as
 \begin{equation*}
-  \mat{A}\T\mat{S} + \mat{S}\mat{A} -
-    \mat{S}\mat{B}\mat{R}^{-1}\mat{B}\T\mat{S} + \mat{Q} = 0
+  \mat{A}\T\mat{S}\mat{A} - \mat{A}\T\mat{S}\mat{B}
+    (\mat{R} + \mat{B}\T\mat{S}\mat{B})^{-1} \mat{B}\T\mat{S}\mat{A} +
+    \mat{Q} = 0
 \end{equation*}
 
-The discrete time LQR \gls{controller} is computed via a slightly different cost
-function, constraint, and resulting algebraic Riccati equation. Snippet
-\ref{lst:lqr} computes the optimal infinite horizon, discrete time LQR
-\gls{controller}.
-\begin{coderemote}{Python}{build/frccontrol/frccontrol/lqr.py}
+Snippet \ref{lst:lqr} computes the infinite horizon, discrete time LQR.
+\begin{coderemote}{Python}{snippets/lqr.py}
   \caption{Infinite horizon, discrete time LQR computation in Python}
   \label{lst:lqr}
 \end{coderemote}

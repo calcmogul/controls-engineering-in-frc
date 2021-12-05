@@ -4,14 +4,14 @@
 
 LQR is normally used for state feedback on
 \begin{align*}
-  \dot{\mat{x}} &= \mat{A}\mat{x} + \mat{B}\mat{u} \\
-  \mat{y} &= \mat{C}\mat{x} + \mat{D}\mat{u}
+  \mat{x}_{k+1} &= \mat{A}\mat{x}_k + \mat{B}\mat{u}_k \\
+  \mat{y}_k &= \mat{C}\mat{x}_k + \mat{D}\mat{u}_k
 \end{align*}
 
 with the cost functional
 \begin{equation*}
-  J = \int_0^\infty \left(\mat{x}\T\mat{Q}\mat{x} +
-    \mat{u}\T\mat{R}\mat{u}\right) dt
+  J = \sum_{k=0}^\infty (\mat{x}_k\T\mat{Q}\mat{x}_k +
+    \mat{u}_k\T\mat{R}\mat{u}_k)
 \end{equation*}
 
 However, we may not know how to select costs for some of the states, or we don't
@@ -26,21 +26,21 @@ deviation from the behavior of another model.}
 For state feedback with an output cost, we want to minimize the following cost
 functional.
 \begin{align*}
-  J &= \int_0^\infty \left(\mat{y}\T\mat{Q}\mat{y} +
-    \mat{u}\T\mat{R}\mat{u}\right) dt
-  \intertext{Substitute in the expression for $\mat{y}$.}
-  J &= \int_0^\infty \left((\mat{C}\mat{x} + \mat{D}\mat{u})\T\mat{Q}
-    (\mat{C}\mat{x} + \mat{D}\mat{u}) + \mat{u}\T\mat{R}\mat{u}\right) dt
+  J &= \sum_{k=0}^\infty (\mat{y}_k\T\mat{Q}\mat{y}_k +
+    \mat{u}_k\T\mat{R}\mat{u}_k)
+  \intertext{Substitute in the expression for $\mat{y}_k$.}
+  J &= \sum_{k=0}^\infty ((\mat{C}\mat{x}_k + \mat{D}\mat{u}_k)\T\mat{Q}
+    (\mat{C}\mat{x}_k + \mat{D}\mat{u}_k) + \mat{u}_k\T\mat{R}\mat{u}_k)
   \intertext{Apply the transpose to the left-hand side of the $\mat{Q}$ term.}
-  J &= \int_0^\infty \left((\mat{x}\T\mat{C}\T + \mat{u}\T\mat{D}\T)\mat{Q}
-    (\mat{C}\mat{x} + \mat{D}\mat{u}) + \mat{u}\T\mat{R}\mat{u}\right) dt
-  \intertext{Factor out $\begin{bmatrix}\mat{x} \\ \mat{u}\end{bmatrix}\T$ from
-    the left side and $\begin{bmatrix}\mat{x} \\ \mat{u}\end{bmatrix}$ from the
-    right side of each term.}
-  J &= \int_0^\infty \left(
+  J &= \sum_{k=0}^\infty ((\mat{x}_k\T\mat{C}\T + \mat{u}_k\T\mat{D}\T)\mat{Q}
+    (\mat{C}\mat{x}_k + \mat{D}\mat{u}_k) + \mat{u}_k\T\mat{R}\mat{u}_k)
+  \intertext{Factor out $\begin{bmatrix}\mat{x}_k \\ \mat{u}_k\end{bmatrix}\T$
+    from the left side and $\begin{bmatrix}\mat{x}_k \\ \mat{u}_k\end{bmatrix}$
+    from the right side of each term.}
+  J &= \sum_{k=0}^\infty \left(
     \begin{bmatrix}
-      \mat{x} \\
-      \mat{u}
+      \mat{x}_k \\
+      \mat{u}_k
     \end{bmatrix}\T
     \begin{bmatrix}
       \mat{C}\T \\
@@ -52,26 +52,26 @@ functional.
       \mat{D}
     \end{bmatrix}
     \begin{bmatrix}
-      \mat{x} \\
-      \mat{u}
+      \mat{x}_k \\
+      \mat{u}_k
     \end{bmatrix} +
     \begin{bmatrix}
-      \mat{x} \\
-      \mat{u}
+      \mat{x}_k \\
+      \mat{u}_k
     \end{bmatrix}\T
     \begin{bmatrix}
       \mat{0} & \mat{0} \\
       \mat{0} & \mat{R}
     \end{bmatrix}
     \begin{bmatrix}
-      \mat{x} \\
-      \mat{u}
+      \mat{x}_k \\
+      \mat{u}_k
     \end{bmatrix}
-    \right) dt \\
-  J &= \int_0^\infty \left(
+    \right) \\
+  J &= \sum_{k=0}^\infty \left(
     \begin{bmatrix}
-      \mat{x} \\
-      \mat{u}
+      \mat{x}_k \\
+      \mat{u}_k
     \end{bmatrix}\T
     \left(
     \begin{bmatrix}
@@ -89,15 +89,15 @@ functional.
     \end{bmatrix}
     \right)
     \begin{bmatrix}
-      \mat{x} \\
-      \mat{u}
+      \mat{x}_k \\
+      \mat{u}_k
     \end{bmatrix}
-    \right) dt
+    \right)
   \intertext{Multiply in $\mat{Q}$.}
-  J &= \int_0^\infty \left(
+  J &= \sum_{k=0}^\infty \left(
     \begin{bmatrix}
-      \mat{x} \\
-      \mat{u}
+      \mat{x}_k \\
+      \mat{u}_k
     \end{bmatrix}\T
     \left(
     \begin{bmatrix}
@@ -114,15 +114,15 @@ functional.
     \end{bmatrix}
     \right)
     \begin{bmatrix}
-      \mat{x} \\
-      \mat{u}
+      \mat{x}_k \\
+      \mat{u}_k
     \end{bmatrix}
-    \right) dt
+    \right)
   \intertext{Multiply matrices in the left term together.}
-  J &= \int_0^\infty \left(
+  J &= \sum_{k=0}^\infty \left(
     \begin{bmatrix}
-      \mat{x} \\
-      \mat{u}
+      \mat{x}_k \\
+      \mat{u}_k
     \end{bmatrix}\T
     \left(
     \begin{bmatrix}
@@ -135,18 +135,18 @@ functional.
     \end{bmatrix}
     \right)
     \begin{bmatrix}
-      \mat{x} \\
-      \mat{u}
+      \mat{x}_k \\
+      \mat{u}_k
     \end{bmatrix}
-    \right) dt
+    \right)
 \end{align*}
 
 Add the terms together.
 \begin{equation}
-  J = \int_0^\infty
+  J = \sum_{k=0}^\infty
   \begin{bmatrix}
-    \mat{x} \\
-    \mat{u}
+    \mat{x}_k \\
+    \mat{u}_k
   \end{bmatrix}\T
   \begin{bmatrix}
     \underbrace{\mat{C}\T\mat{Q}\mat{C}}_{\mat{Q}} &
@@ -155,20 +155,19 @@ Add the terms together.
     \underbrace{\mat{D}\T\mat{Q}\mat{D} + \mat{R}}_{\mat{R}}
   \end{bmatrix}
   \begin{bmatrix}
-    \mat{x} \\
-    \mat{u}
+    \mat{x}_k \\
+    \mat{u}_k
   \end{bmatrix}
-  dt
 \end{equation}
 
 Thus, state feedback with an output cost can be defined as the following
 optimization problem.
 \begin{theorem}[Linear-quadratic regulator with output cost]
   \begin{align}
-    \min_{\mat{u}} &\int_0^\infty
+    \min_{\mat{u}_k} &\sum_{k=0}^\infty
     \begin{bmatrix}
-      \mat{x} \\
-      \mat{u}
+      \mat{x}_k \\
+      \mat{u}_k
     \end{bmatrix}\T
     \begin{bmatrix}
       \underbrace{\mat{C}\T\mat{Q}\mat{C}}_{\mat{Q}} &
@@ -177,15 +176,15 @@ optimization problem.
       \underbrace{\mat{D}\T\mat{Q}\mat{D} + \mat{R}}_{\mat{R}}
     \end{bmatrix}
     \begin{bmatrix}
-      \mat{x} \\
-      \mat{u}
+      \mat{x}_k \\
+      \mat{u}_k
     \end{bmatrix}
-    dt \nonumber \\
-    \text{subject to } &\dot{\mat{x}} = \mat{A}\mat{x} + \mat{B}\mat{u}
+    \nonumber \\
+    \text{subject to } &\mat{x}_{k+1} = \mat{A}\mat{x}_k + \mat{B}\mat{u}_k
   \end{align}
 
-  The optimal control policy $\mat{u}^*$ is $\mat{K}(\mat{r} - \mat{x})$ where
-  $\mat{r}$ is the desired state. Note that the $\mat{Q}$ in
+  The optimal control policy $\mat{u}_k^*$ is $\mat{K}(\mat{r}_k - \mat{x}_k)$
+  where $\mat{r}_k$ is the desired state. Note that the $\mat{Q}$ in
   $\mat{C}\T\mat{Q}\mat{C}$ is outputs $\times$ outputs instead of states
   $\times$ states. $\mat{K}$ can be computed via the typical LQR equations based
   on the algebraic Ricatti equation.
@@ -195,18 +194,17 @@ If the output is just the state vector, then $\mat{C} = \mat{I}$,
 $\mat{D} = \mat{0}$, and the cost functional simplifies to that of LQR with a
 state cost.
 \begin{equation*}
-  J = \int_0^\infty
+  J = \sum_{k=0}^\infty
   \begin{bmatrix}
-    \mat{x} \\
-    \mat{u}
+    \mat{x}_k \\
+    \mat{u}_k
   \end{bmatrix}\T
   \begin{bmatrix}
     \mat{Q} & \mat{0} \\
     \mat{0} & \mat{R}
   \end{bmatrix}
   \begin{bmatrix}
-    \mat{x} \\
-    \mat{u}
+    \mat{x}_k \\
+    \mat{u}_k
   \end{bmatrix}
-  dt
 \end{equation*}
