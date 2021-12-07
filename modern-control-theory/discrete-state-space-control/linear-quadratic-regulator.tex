@@ -104,7 +104,7 @@ The feedback \gls{control law} that minimizes $J$ is shown in theorem
 \begin{theorem}[Linear-quadratic regulator]
   \label{thm:linear-quadratic_regulator}
   \begin{align}
-    \min_{\mat{u}_k} &\sum\limits_{k=0}^\infty
+    \mat{u}_k^* = \argmin_{\mat{u}_k} &\sum\limits_{k=0}^\infty
       \left(\mat{x}_k\T\mat{Q}\mat{x}_k + \mat{u}_k\T\mat{R}\mat{u}_k\right)
       \nonumber \\
     \text{subject to } &\mat{x}_{k+1} = \mat{A}\mat{x}_k + \mat{B}\mat{u}_k
