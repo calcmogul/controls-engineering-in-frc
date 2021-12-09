@@ -1,6 +1,4 @@
-\chapterimage{appendices.jpg}{Sunset in an airplane over New Mexico}
-
-\chapter{Steady-state feedforward}
+\section{Steady-state feedforward}
 
 Steady-state feedforwards apply the \gls{control effort} required to keep a
 \gls{system} at the \gls{reference} if it is no longer moving (i.e., the
@@ -29,7 +27,7 @@ is
   \mat{u}_{ss} = \mat{N}_u\mat{y}_{ss} \label{eq:u_ss}
 \end{equation}
 
-\section{Continuous case}
+\subsection{Continuous case}
 
 To find the \gls{control input} required at steady-state, set equation
 \eqref{eq:cont_ss_ctrl_x} to zero.
@@ -88,7 +86,7 @@ To find the \gls{control input} required at steady-state, set equation
 
 where $^\dagger$ is the Moore-Penrose pseudoinverse.
 
-\section{Discrete case}
+\subsection{Discrete case}
 
 Now, we'll do the same thing for the discrete \gls{system}. To find the
 \gls{control input} required at steady-state, set
@@ -152,7 +150,7 @@ $\mat{x}_{k+1} = \mat{A}\mat{x}_k + \mat{B}\mat{u}_k$ to zero.
 
 where $^\dagger$ is the Moore-Penrose pseudoinverse.
 
-\section{Deriving steady-state input}
+\subsection{Deriving steady-state input}
 
 Now, we'll find an expression that uses $\mat{N}_x$ and $\mat{N}_u$ to convert
 the \gls{reference} $\mat{r}$ to a \gls{control input} feedforward
@@ -220,7 +218,7 @@ If the augmented matrix in theorem \ref{thm:steady-state_ff} is square (number
 of \glspl{input} = number of \glspl{output}), the normal matrix inverse can be
 used instead.
 
-\subsection{Case study: second-order CIM motor model}
+\subsubsection{Case study: second-order CIM motor model}
 
 Each feedforward implementation has advantages. The steady-state feedforward
 allows using specific actuators to maintain the \gls{reference} at steady-state.
