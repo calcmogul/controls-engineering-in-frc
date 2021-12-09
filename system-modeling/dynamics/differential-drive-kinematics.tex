@@ -4,40 +4,7 @@ A differential drive has two wheels, one on each side, separated by some
 distance $2r_b$. The forces they generate when moving forward are shown in
 figure \ref{fig:differential_drive_fbd}.
 \begin{bookfigure}
-  \begin{tikzpicture}[auto, >=latex']
-    %\draw [help lines] (-4,-3) grid (4,3);
-
-    % Coordinate axes
-    \begin{scope}[xshift=2cm,yshift=-2cm]
-      \draw[->] (0,0) -- (-1,0) node[below] {\small +$y$};
-      \draw[->] (0,0) -- (0,1) node[right] {\small +$x$};
-    \end{scope}
-
-    % Shared axle
-    \fill[black] (-1.2,-0.1) rectangle (1.2,0.1);
-
-    % Chassis
-    \filldraw[draw=black,fill=white] (-1,-1) rectangle (1,1);
-
-    % Left wheel
-    \begin{scope}[xshift=-1.2cm,yshift=0cm]
-      % Wheel vector
-      \draw[->,thick] (0,0) -- (0,1) node[left] {\small $v_l$};
-
-      % Wheel
-      \filldraw[draw=black,fill=lightgray] (-0.1,-0.5) rectangle (0.1,0.5);
-    \end{scope}
-
-    % Right wheel
-    \begin{scope}[xshift=1.2cm,yshift=0cm]
-      % Wheel vector
-      \draw[->,thick] (0,0) -- (0,1) node[right] {\small $v_r$};
-
-      % Wheel
-      \filldraw[draw=black,fill=lightgray] (-0.1,-0.5) rectangle (0.1,0.5);
-    \end{scope}
-  \end{tikzpicture}
-
+  \input{figs/differential-drive-fbd}
   \caption{Differential drive free body diagram}
   \label{fig:differential_drive_fbd}
 \end{bookfigure}

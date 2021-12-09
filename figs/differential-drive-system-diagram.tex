@@ -1,65 +1,44 @@
-\begin{tikzpicture}[auto, >=latex', circuit ee IEC,
-                    set resistor graphic=var resistor IEC graphic]
-  % \draw [help lines] (-1,-3) grid (7,4);
+\begin{tikzpicture}[auto, >=latex']
+  %\draw [help lines] (-4,-3) grid (4,3);
 
-  % Right wheel
-  \begin{scope}[xshift=5.78cm,yshift=1.83cm]
-    \draw[fill=black!50] (0.2,0.68) ellipse (0.13 and 0.67);
-    \draw[fill=black!50, color=black!50] (0,0) rectangle (0.2,1.35);
-    \draw[fill=white] (0,0.68) ellipse (0.13 and 0.67);
-    \draw (0,1.35) -- (0.2,1.35);
-    \draw (0,0) -- (0.2,0);
+  \def\heading{30}
+  \begin{scope}[xshift=3cm*-cos(-90-\heading),yshift=3cm*sin(-90-\heading)]
+    % Coordinate axes
+    \draw[->] (0,0) -- (-1.5,0) node[below] {\small +$y$};
+    \draw[->] (0,0) -- (0,1.5) node[right] {\small +$x$};
+
+    % Heading arc
+    \draw[line width=0.7pt,->] (0,1) arc (90:90+\heading:1)
+      node[midway,above] {$\theta$};
+
+    % Heading vector
+    \begin{scope}[rotate=\heading]
+      \draw[->,dashed] (0,0) -- (0,1.75);
+    \end{scope}
   \end{scope}
+  \begin{scope}[rotate=\heading]
+    % Shared axle
+    \fill[black] (-1.2,-0.1) rectangle (1.2,0.1);
 
-  % Right transmission shaft
-  \begin{scope}[xshift=5.32cm,yshift=2.42cm]
-    \draw[fill=black!50] (0,0) rectangle (0.46,0.1);
+    % Chassis
+    \filldraw[draw=black,fill=white] (-1,-1) rectangle (1,1);
+
+    % Left wheel
+    \begin{scope}[xshift=-1.2cm,yshift=0cm]
+      % Wheel vector
+      \draw[->,thick] (0,0) -- (0,1) node[left] {\small $v_l$};
+
+      % Wheel
+      \filldraw[draw=black,fill=lightgray] (-0.1,-0.5) rectangle (0.1,0.5);
+    \end{scope}
+
+    % Right wheel
+    \begin{scope}[xshift=1.2cm,yshift=0cm]
+      % Wheel vector
+      \draw[->,thick] (0,0) -- (0,1) node[right] {\small $v_r$};
+
+      % Wheel
+      \filldraw[draw=black,fill=lightgray] (-0.1,-0.5) rectangle (0.1,0.5);
+    \end{scope}
   \end{scope}
-
-  % Chassis
-  \begin{scope}[xshift=4.44cm,yshift=2.09cm]
-    \fill[fill=white] (0,0.8) -- (0,0.2) -- (0.2,0) -- (0.2,0.2)
-      -- (0.98,0.2) -- (0.78,0.8) -- cycle;
-    \draw (0,0.8) -- (0.78,0.8);
-    \draw (0,0.8) -- (0,0.2);
-    \draw (0,0.2) -- (0.2,0);
-    \draw (0,0.8) -- (0.2,0.6);
-    \draw (0.78,0.8) -- (0.98,0.6);
-    \draw[fill=white] (0.2,0.6) rectangle (0.98,0);
-  \end{scope}
-
-  % Left transmission shaft
-  \begin{scope}[xshift=4.09cm,yshift=2.42cm]
-    \draw[fill=black!50] (0,0) rectangle (0.46,0.1);
-  \end{scope}
-
-  % Left wheel
-  \begin{scope}[xshift=3.75cm,yshift=1.83cm]
-    \draw[fill=black!50] (0.2,0.68) ellipse (0.13 and 0.67);
-    \draw[fill=black!50, color=black!50] (0,0) rectangle (0.2,1.35);
-    \draw[fill=white] (0,0.68) ellipse (0.13 and 0.67);
-    \draw (0,1.35) -- (0.2,1.35);
-    \draw (0,0) -- (0.2,0);
-  \end{scope}
-
-  % Angular velocity arrow for left wheel
-  \draw[line width=0.7pt,->] (4.24,1.97) arc (-30:30:1) node[above]
-    {$\omega_l$};
-
-  % Angular velocity arrow for right wheel
-  \draw[line width=0.7pt,->] (5.44,1.97) arc (-30:30:1) node[above]
-    {$\omega_r$};
-
-  % Wheel radius arrow
-  \begin{scope}[xshift=3.5cm,yshift=1.83cm]
-    \draw[line width=0.7pt,<->] (0,0) -- node[left] {$r$} (0,0.67);
-  \end{scope}
-
-  % Robot radius arrow
-  \begin{scope}[xshift=4.65cm,yshift=1.83cm]
-    \draw[line width=0.7pt,<->] (0,0) -- node[below] {$r_b$} (0.39,0);
-  \end{scope}
-
-  % Descriptions inside graphic
-  \draw (4.99,2.42) node {$J$};
 \end{tikzpicture}

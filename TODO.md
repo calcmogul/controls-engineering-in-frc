@@ -29,9 +29,3 @@ Add stubs for missing chapters, missing sections, and todo items.
     the students should be able to complete the problems) so I can make sure the
     chapter teaches it sufficiently.
   * Basically like implicit learning outcomes?
-
-### Nonlinear control
-
-* Ramsete improvements
-  * Add diagram to Ramsete that shows global and vehicle coordinate frames to
-    help explain what the pose represents.

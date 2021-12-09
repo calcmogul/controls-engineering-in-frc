@@ -44,6 +44,13 @@
   }%
   {\end{table}}
 
+% #1: number of minifigs in same figure
+\newenvironment{bookminifig}[1]
+  {\begin{minipage}{\linewidth/#1 - 0.3cm}%
+    \begin{center}}%
+  {\end{center}%
+    \end{minipage}}
+
 % #1: file name without extension
 \newenvironment{svg}[1]
   {\begin{figure}%
