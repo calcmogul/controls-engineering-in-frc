@@ -26,9 +26,13 @@ augmentation to add controller dynamics relating to a newly added \gls{state}.
 \index{model augmentation!of observer}
 
 Observer augmentation is closely related to \gls{plant} augmentation. In
-addition to adding entries to the \gls{observer} matrix $\mat{L}$, the
-\gls{observer} is using this augmented \gls{plant} for estimation purposes. This
-is better explained with an example.
+addition to adding entries to the \gls{observer} matrix
+$\mat{K}$,\footnote{Observers use a matrix $\mat{K}$ to steer the state estimate
+toward the true state in the same way controllers use a matrix $\mat{K}$ to
+steer the current state toward a desired state. We'll cover this in more detail
+in part \ref{part:estimation_and_localization}.} the \gls{observer} is using
+this augmented \gls{plant} for estimation purposes. This is better explained
+with an example.
 
 By augmenting the \gls{plant} with a bias term with no dynamics (represented by
 zeroes in its rows in $\mat{A}$ and $\mat{B}$), the \gls{observer} will attempt
