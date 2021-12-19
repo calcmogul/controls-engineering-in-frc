@@ -53,9 +53,10 @@ def main():
     xsteps = int((xmax - xmin) / stepsize)
     ysteps = int((ymax - ymin) / stepsize)
     X, Y = np.meshgrid(np.linspace(xmin, xmax, xsteps), np.linspace(ymin, ymax, ysteps))
-    Z = np.zeros(X.shape)
-    for i in range(X.shape[0]):
-        for j in range(X.shape[1]):
+
+    Z = np.empty(X.shape)
+    for i in range(Z.shape[0]):
+        for j in range(Z.shape[1]):
             x = np.array([[X[i][j]], [Y[i][j]]])
             # Optimal cost-to-go for linear system is xᵀPx
             Z[i][j] = np.squeeze(x.T @ P @ x)
