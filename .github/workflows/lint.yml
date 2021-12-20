@@ -10,16 +10,6 @@ jobs:
       with:
         fetch-depth: 0
     - name: Install system dependencies
-      run: |
-        sudo apt-get update -y
-        sudo apt-get install -y \
-          clang-format \
-          python3 \
-          python3-pip \
-          python3-requests \
-          python3-setuptools \
-          python3-wheel
-        # The Ubuntu 20.04 package is too old
-        pip3 install --user black
+      run: make setup_ubuntu
     - name: Lint .py and .tex files
       run: make lint
