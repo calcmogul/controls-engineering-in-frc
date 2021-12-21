@@ -5,33 +5,47 @@ A common way of implementing integral control is to add an additional
 \gls{state} that is the integral of the \gls{error} of the variable intended to
 have zero \gls{steady-state error}.
 
-There are two drawbacks to this method. First, there is integral windup on a
-unit \gls{step input}. That is, the integrator accumulates even if the
-\gls{system} is \gls{tracking} the \gls{model} correctly. The second is
-demonstrated by an example from Jared Russell of FRC team 254. Say there is a
-position/velocity trajectory for some \gls{plant} to follow. Without integral
-control, one can calculate a desired $\mat{K}\mat{x}$ to use as the
-\gls{control input}. As a result of using both desired position and velocity,
-\gls{reference} \gls{tracking} is good. With integral control added, the
-\gls{reference} is always the desired position, but there is no way to tell the
-controller the desired velocity.
-
-Consider carefully whether integral control is necessary. One can get relatively
-close without integral control, and integral adds all the issues listed above.
-Below, it is assumed that the controls designer has determined that integral
-control will be worth the inconvenience.
-
 We'll present two methods:
 \begin{enumerate}
-  \item Augment the \gls{plant} as described earlier. For an arm, one would add
-    an ``integral of position" state.
+  \item Augment the \gls{plant}. For an arm, one would add an ``integral of
+    position" state.
   \item Estimate the ``error" in the \gls{control input} (the difference between
     what was applied versus what was observed to happen) via the \gls{observer}
     and compensate for it. We'll call this ``input error estimation".
 \end{enumerate}
 
+In FRC, avoid integral control unless you have a very good reason to use it.
+Integral control adds significant complexity, and steady-state error can often
+be avoided with a motion profile, a well-tuned feedforward, and proportional
+feedback (i.e., more deterministic options you should be using anyway).
+
 \subsection{Plant augmentation}
 \index{integral control!plant augmentation}
+
+\subsubsection{Caveats}
+
+First, unconstrained integral control exhibits integral windup on a unit
+\gls{step input}. When the error reaches zero, the integrator may still have a
+large positive accumulated error from the initial ramp-up. The integrator makes
+the system overshoot until the accumulated error is unwound by negative errors.
+Poor tuning can lead to instability.\footnote{With proper tuning, proportional
+control should generally be doing much more work than integral control.}
+Integrating only when close to the \gls{reference} somewhat mitigates integral
+windup.
+
+Second, unconstrained integral control is a poor choice for modeled dynamics
+compensation. Feedforwards provide more precise compensation since we already
+know beforehand how to counteract the undesirable dynamics.
+
+Third, unconstrained integral control is a poor choice for unmodeled dynamics
+compensation. To choose proper gains, the integrator must be tuned online when
+the unmodeled dynamics are present, which may be inconvenient or unsafe in some
+circumstances. Furthermore, accumulation even when the system is following the
+model means it still compensates for modeled dynamics despite our intent
+otherwise. Prefer the approach in subsection
+\ref{subsec:input_error_estimation}.
+
+\subsubsection{Implementation}
 
 We want to augment the \gls{system} with an integral term that integrates the
 \gls{error} $\mat{e} = \mat{r} - \mat{y} = \mat{r} - \mat{C}\mat{x}$.
