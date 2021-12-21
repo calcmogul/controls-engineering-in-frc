@@ -11,16 +11,15 @@ spins a straight bar in pitch.
 \subsection{Continuous state-space model}
 \index{FRC models!single-jointed arm equations}
 
-The angle and angular rate derivatives of the arm can be written as
+Using equation \eqref{eq:dot_omega_arm}, the angle and angular rate derivatives
+of the arm can be written as
 \begin{align}
   \dot{\theta}_{arm} &= \omega_{arm} \\
-  \dot{\omega}_{arm} &= \dot{\omega}_{arm}
+  \dot{\omega}_{arm} &= -\frac{G^2 K_t}{K_v RJ} \omega_{arm} + \frac{G K_t}{RJ} V
 \end{align}
 
-By equation \eqref{eq:dot_omega_arm}
+Factor out $\omega_{arm}$ and $V$ into column vectors.
 \begin{align*}
-  \dot{\omega}_{arm} &= -\frac{G^2 K_t}{K_v RJ} \omega_{arm} + \frac{G K_t}{RJ} V
-  \intertext{Factor out $\omega_{arm}$ and $V$ into column vectors.}
   \dot{\begin{bmatrix}
     \omega_{arm}
   \end{bmatrix}} &=
