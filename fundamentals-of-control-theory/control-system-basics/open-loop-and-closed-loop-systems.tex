@@ -24,9 +24,11 @@ controller.
     \node [name=input] {$r(t)$};
     \node [block, right=1.0cm of input, align=center] (controller)
       {Feedforward\\controller};
-    \node [block, right=1.0cm of controller] (plant) {Plant};
+    \node [block, right=1.0cm of controller] (plant) {};
     \node [right=1.0cm of plant] (output) {$y(t)$};
     \node [coordinate, below=1.0cm of controller] (measurements) {};
+
+    \drawplant{plant}{}
 
     % Connect the nodes
     \draw [arrow] (input) -- (controller);
@@ -50,9 +52,11 @@ called \textit{closed-loop} or \textit{feedback} controllers. Figure
     \node [sum, right=0.5cm of input] (errorsum) {};
     \node [block, right=1.0cm of errorsum, align=center] (controller)
       {Feedback\\controller};
-    \node [block, right=1.0cm of controller] (plant) {Plant};
+    \node [block, right=1.0cm of controller] (plant) {};
     \node [right=1.0cm of plant] (output) {};
     \node [coordinate, below=1.0cm of controller] (measurements) {};
+
+    \drawplant{plant}{}
 
     % Connect the nodes
     \draw [arrow] (input) -- node[pos=0.9] {$+$} (errorsum);
@@ -88,9 +92,11 @@ feedforward and feedback controllers.
     \node [block, above=1.0cm of feedback, align=center] (feedforward)
       {Feedforward\\controller};
     \node [sum, right=1.0cm of feedback] (controllersum) {};
-    \node [block, right=1.0cm of controllersum] (plant) {Plant};
+    \node [block, right=1.0cm of controllersum] (plant) {};
     \node [right=1.0cm of plant] (output) {};
     \node [coordinate, below=1.0cm of feedback] (measurements) {};
+
+    \drawplant{plant}{}
 
     % Connect the nodes
     \draw [arrow] (input) -- node[pos=0.9] {$+$} (errorsum);

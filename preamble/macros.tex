@@ -88,6 +88,29 @@
 }
 {\par\noindent}
 
+% #1: Name of node on which to center the plant
+% #2: Label
+\newcommand{\drawplant}[2] {
+  % Draw potted plant
+  \begin{scope}[shift=($(#1)$)]
+    % Plant
+    \foreach \angle in {0,-45,45,-33.75,33.75,-22.5,22.5,-11.25,11.25} {
+      \filldraw[fill=green!70!black,draw=black,rotate around={\angle:(0,0)}]
+        (-0.05,-0.05) -- (-0.01,0.375) -- (0.01,0.375) -- (0.05,-0.125) -- cycle;
+    }
+
+    % Base
+    \filldraw[fill=red!30!brown, draw=black]
+      (-0.2,0) -- (0.2,0) -- (0.15,-0.375) -- (-0.15,-0.375) -- cycle;
+
+    % Rim
+    \filldraw[fill=red!30!brown, draw=black]
+      (-0.225,-0.0625) rectangle (0.225,0.0625);
+
+    % Label
+    \node[draw=none,text centered,font=\tiny] at (0,-0.375/2 - 0.0625/2) {#2};
+  \end{scope}}
+
 % #1: xshift
 % #2: yshift
 % #3: xcoordshift

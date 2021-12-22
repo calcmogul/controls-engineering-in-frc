@@ -25,11 +25,36 @@ controllers; we'll cover examples of each.
 \subsection{Plant inversion}
 \label{subsec:plant_inversion}
 
-\Gls{plant} inversion is a method of model-based feedforward for \gls{state}
-feedback. It solves the \gls{plant} for the input that will make the \gls{plant}
-track a desired state. This is called inversion because in a block diagram, the
-inverted \gls{plant} feedforward and \gls{plant} cancel out to produce a unity
-system from input to output.
+\Gls{plant} inversion is a method of model-based feedforward that solves the
+\gls{plant} for the input that will make the \gls{plant} track a desired state.
+This is called inversion because in a block diagram, the inverted \gls{plant}
+feedforward and \gls{plant} cancel out to produce a unity system from input to
+output.
+\begin{bookfigure}
+  \begin{tikzpicture}[auto, >=latex']
+    \fontsize{9pt}{10pt}
+
+    % Place the blocks
+    \node [name=input] {$r(t)$};
+    \node [block, right=1.0cm of input, align=center] (controller) {};
+    \node [block, right=1.0cm of controller] (plant) {};
+    \node [right=1.0cm of plant] (output) {$y(t)$};
+    \node [coordinate, below=1.0cm of controller] (measurements) {};
+
+    % Draw plants
+    \begin{scope}[rotate=180]
+      \drawplant{controller}{}
+    \end{scope}
+    \drawplant{plant}{}
+
+    % Connect the nodes
+    \draw [arrow] (input) -- (controller);
+    \draw [arrow] (controller) -- node {$u(t)$} (plant);
+    \draw [arrow] (plant) -- (output);
+  \end{tikzpicture}
+
+  \caption{Open-loop control system with plant inversion feedforward}
+\end{bookfigure}
 
 While it can be an effective tool, the following should be kept in mind.
 \begin{enumerate}
