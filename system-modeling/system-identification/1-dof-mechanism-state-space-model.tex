@@ -43,6 +43,7 @@ simply solve for $\dot{\mat{x}}$.
 By inspection, $\mat{A} = -\frac{K_v}{K_a}$ and $\mat{B} = \frac{1}{K_a}$. A
 model with position and velocity states would be
 \begin{theorem}[1-DOF mechanism position model]
+  \label{thm:1-dof_position_model}
   \begin{equation*}
     \dot{\mat{x}} = \mat{A}\mat{x} + \mat{B}\mat{u}
   \end{equation*}
@@ -68,6 +69,39 @@ model with position and velocity states would be
     \begin{bmatrix}
       0 \\
       \frac{1}{K_a}
+    \end{bmatrix}
+    \mat{u}
+  \end{equation}
+\end{theorem}
+
+The model in theorem \ref{thm:1-dof_position_model} is undefined when $K_a = 0$.
+If one wants to design an LQR for such a system, use the model in theorem
+\ref{thm:1-dof_position_model_ka=0}. As $K_a$ tends to zero, acceleration
+requires no effort and velocity becomes an input for position control.
+\begin{theorem}[1-DOF mechanism position model ($K_a = 0$)]
+  \label{thm:1-dof_position_model_ka=0}
+  \begin{equation*}
+    \dot{\mat{x}} = \mat{A}\mat{x} + \mat{B}\mat{u}
+  \end{equation*}
+  \begin{equation*}
+    \mat{x} =
+    \begin{bmatrix}
+      \text{position}
+    \end{bmatrix}
+    \quad
+    \mat{u} =
+    \begin{bmatrix}
+      \text{velocity}
+    \end{bmatrix}
+  \end{equation*}
+  \begin{equation}
+    \dot{\mat{x}} =
+    \begin{bmatrix}
+      0
+    \end{bmatrix}
+    \mat{x} +
+    \begin{bmatrix}
+      1
     \end{bmatrix}
     \mat{u}
   \end{equation}
