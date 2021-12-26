@@ -45,13 +45,13 @@ T RKDP(F&& f, T x, U u, units::second_t dt, double maxError = 1e-6) {
   double truncationError;
 
   double dtElapsed = 0.0;
-  double h = dt.to<double>();
+  double h = dt.value();
 
   // Loop until we've gotten to our desired dt
-  while (dtElapsed < dt.to<double>()) {
+  while (dtElapsed < dt.value()) {
     do {
       // Only allow us to advance up to the dt remaining
-      h = std::min(h, dt.to<double>() - dtElapsed);
+      h = std::min(h, dt.value() - dtElapsed);
 
       // clang-format off
       T k1 = f(x, u);
