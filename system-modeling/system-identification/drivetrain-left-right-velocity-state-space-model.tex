@@ -1,4 +1,4 @@
-\section{Drivetrain velocity state-space model}
+\section{Drivetrain left/right velocity state-space model}
 \begin{equation*}
   \dot{\mat{x}} = \mat{A}\mat{x} + \mat{B}\mat{u}
 \end{equation*}
@@ -554,7 +554,7 @@ inverse of {{1, 1, b, b}, {v, v, b v + c a, b v + c a},
 \end{align*}
 
 To summarize,
-\begin{theorem}[Drivetrain velocity model]
+\begin{theorem}[Drivetrain left/right velocity model]
   \begin{equation*}
     \dot{\mat{x}} = \mat{A}\mat{x} + \mat{B}\mat{u}
   \end{equation*}
@@ -598,6 +598,10 @@ To summarize,
       \frac{1}{K_{a,linear}} - \frac{1}{K_{a,angular}}
     \end{bmatrix}
   \end{equation}
+
+  $K_{v,angular}$ and $K_{a,angular}$ have units of $\frac{V}{L/T}$ and
+  $\frac{V}{L/T^2}$ respectively where $V$ means voltage units, $L$ means length
+  units, and $T$ means time units.
 \end{theorem}
 
 If $K_v$ and $K_a$ are the same for both the linear and angular cases, it devolves to the one-dimensional case. This means the left and right sides are decoupled.

@@ -1,0 +1,145 @@
+\section{Drivetrain linear/angular velocity state-space model}
+
+Let the linear and angular voltage contributions be
+\begin{align*}
+  u_{linear} &= K_{v,linear} v + K_{a,linear} a \\
+  u_{angular} &= K_{v,angular} \omega + K_{a,angular} \alpha
+\end{align*}
+
+Solve for acceleration.
+\begin{align*}
+  a &= -\frac{K_{v,linear}}{K_{a,linear}} v + \frac{1}{K_{a,linear}} u_{linear} \\
+  \alpha &= -\frac{K_{v,angular}}{K_{a,angular}} \omega + \frac{1}{K_{a,angular}} u_{linear}
+\end{align*}
+
+Factor them into a matrix equation.
+\begin{equation*}
+  \dot{\mat{x}} =
+  \begin{bmatrix}
+    -\frac{K_{v,linear}}{K_{a,linear}} & 0 \\
+    0 & -\frac{K_{v,angular}}{K_{a,angular}}
+  \end{bmatrix}
+  \begin{bmatrix}
+    v \\
+    \omega
+  \end{bmatrix} +
+  \begin{bmatrix}
+    \frac{1}{K_{a,linear}} & 0 \\
+    0 & \frac{1}{K_{a,angular}}
+  \end{bmatrix}
+  \begin{bmatrix}
+    u_{linear} \\
+    u_{angular}
+  \end{bmatrix}
+\end{equation*}
+
+We want to write this model in terms of left and right voltages. The linear and
+angular voltages have the following relations.
+\begin{align*}
+  u_{left} &= u_{linear} - u_{angular} \\
+  u_{right} &= u_{linear} + u_{angular}
+\end{align*}
+
+Factor them into a matrix equation, then solve for the linear and angular
+voltages.
+\begin{align*}
+  \begin{bmatrix}
+    u_{left} \\
+    u_{right}
+  \end{bmatrix} &=
+  \begin{bmatrix}
+    1 & -1 \\
+    1 & 1
+  \end{bmatrix}
+  \begin{bmatrix}
+    u_{linear} \\
+    u_{angular}
+  \end{bmatrix} \\
+  \begin{bmatrix}
+    u_{linear} \\
+    u_{angular}
+  \end{bmatrix} &=
+  \begin{bmatrix}
+    0.5 & 0.5 \\
+    -0.5 & 0.5
+  \end{bmatrix}
+  \begin{bmatrix}
+    u_{left} \\
+    u_{right}
+  \end{bmatrix}
+\end{align*}
+
+Plug this into the model input.
+\begin{align*}
+  \dot{\mat{x}} &=
+  \begin{bmatrix}
+    -\frac{K_{v,linear}}{K_{a,linear}} & 0 \\
+    0 & -\frac{K_{v,angular}}{K_{a,angular}}
+  \end{bmatrix}
+  \begin{bmatrix}
+    v \\
+    \omega
+  \end{bmatrix} +
+  \begin{bmatrix}
+    \frac{1}{K_{a,linear}} & 0 \\
+    0 & \frac{1}{K_{a,angular}}
+  \end{bmatrix}
+  \begin{bmatrix}
+    0.5 & 0.5 \\
+    -0.5 & 0.5
+  \end{bmatrix}
+  \begin{bmatrix}
+    u_{left} \\
+    u_{right}
+  \end{bmatrix} \\
+  \dot{\mat{x}} &=
+  \begin{bmatrix}
+    -\frac{K_{v,linear}}{K_{a,linear}} & 0 \\
+    0 & -\frac{K_{v,angular}}{K_{a,angular}}
+  \end{bmatrix}
+  \begin{bmatrix}
+    v \\
+    \omega
+  \end{bmatrix} +
+  \begin{bmatrix}
+    \frac{0.5}{K_{a,linear}} & \frac{0.5}{K_{a,linear}} \\
+    -\frac{0.5}{K_{a,angular}} & \frac{0.5}{K_{a,angular}}
+  \end{bmatrix}
+  \begin{bmatrix}
+    u_{left} \\
+    u_{right}
+  \end{bmatrix}
+\end{align*}
+\begin{theorem}[Drivetrain linear/angular velocity model]
+  \begin{equation*}
+    \dot{\mat{x}} = \mat{A}\mat{x} + \mat{B}\mat{u}
+  \end{equation*}
+  \begin{equation*}
+    \mat{x} =
+    \begin{bmatrix}
+      \text{linear velocity} \\
+      \text{angular velocity}
+    \end{bmatrix}
+    \quad
+    \mat{u} =
+    \begin{bmatrix}
+      \text{left voltage} \\
+      \text{right voltage}
+    \end{bmatrix}
+  \end{equation*}
+  \begin{equation*}
+    \dot{\mat{x}} =
+    \begin{bmatrix}
+      -\frac{K_{v,linear}}{K_{a,linear}} & 0 \\
+      0 & -\frac{K_{v,angular}}{K_{a,angular}}
+    \end{bmatrix} \mat{x} +
+    \begin{bmatrix}
+      \frac{0.5}{K_{a,linear}} & \frac{0.5}{K_{a,linear}} \\
+      -\frac{0.5}{K_{a,angular}} & \frac{0.5}{K_{a,angular}}
+    \end{bmatrix} \mat{u}
+  \end{equation*}
+
+  $K_{v,angular}$ and $K_{a,angular}$ have units of $\frac{V}{A/T}$ and
+  $\frac{V}{A/T^2}$ respectively where $V$ means voltage units, $A$ means angle
+  units, and $T$ means time units.
+\end{theorem}
