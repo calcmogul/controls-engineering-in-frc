@@ -547,6 +547,20 @@ toward a steady-state value, and this matrix can be obtained via the discrete
 algebraic Riccati equation. This can then be used to compute a steady-state
 Kalman gain.
 
+General matrix inverses like $\mat{S}^{-1}$ are expensive. We want to put
+$\mat{K} = \mat{P}\mat{C}\T \mat{S}^{-1}$ into $\mat{A}\mat{x} = \mat{b}$ form
+so we can solve it more efficiently.
+\begin{align*}
+  \mat{K} &= \mat{P}\mat{C}\T \mat{S}^{-1} \\
+  \mat{K}\mat{S} &= \mat{P}\mat{C}\T \\
+  (\mat{K}\mat{S})\T &= (\mat{P}\mat{C}\T)\T \\
+  \mat{S}\T \mat{K}\T &= \mat{C}\mat{P}\T
+  \intertext{The solution of $\mat{A}\mat{x} = \mat{b}$ can be found via
+    $\mat{x} = \solve(\mat{A}, \mat{b})$.}
+  \mat{K}\T &= \solve(\mat{S}\T, \mat{C}\mat{P}\T) \\
+  \mat{K} &= \solve(\mat{S}\T, \mat{C}\mat{P}\T)\T
+\end{align*}
+
 Snippet \ref{lst:kalman} computes the steady-state matrices for a Kalman
 filter.
 \begin{coderemote}{Python}{build/frccontrol/frccontrol/kalmd.py}
