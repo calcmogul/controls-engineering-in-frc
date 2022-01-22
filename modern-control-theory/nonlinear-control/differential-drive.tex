@@ -74,7 +74,6 @@ By equations \eqref{eq:diff_drive_model_right} and
   \end{bmatrix}
 \end{align*}
 \begin{theorem}[Differential drive velocity state-space model]
-  \label{thm:diff_drive_velocity_ss_model}
   \begin{align*}
     \dot{\mat{x}} &= \mat{A} \mat{x} + \mat{B} \mat{u} \\
     \mat{y} &= \mat{C} \mat{x} + \mat{D} \mat{u}
@@ -99,7 +98,7 @@ By equations \eqref{eq:diff_drive_model_right} and
     \end{bmatrix}
   \end{equation*}
   \begin{equation}
-    \label{eq:diff_drive_ss_model}
+    \label{eq:diff_drive_velocity_state-space_model}
     \begin{array}{ll}
       \mat{A} =
       \begin{bmatrix}
@@ -139,14 +138,74 @@ shows the closed-loop \gls{system} response.
 Given the high inertia in drivetrains, it's better to drive the \gls{reference}
 with a motion profile instead of a \gls{step input} for reproducibility.
 
+\subsection{Heading state-space model}
+
+We can control heading by augmenting the state with that. The change in heading
+is defined as
+\begin{equation*}
+  \dot{\theta} = \frac{v_r - v_l}{2r_b} = \frac{v_r}{2r_b} - \frac{v_l}{2r_b}
+\end{equation*}
+
+This gives the following linear model.
+\begin{theorem}[Differential drive heading state-space model]
+  \begin{align*}
+    \dot{\mat{x}} &= \mat{A}\mat{x} + \mat{B}\mat{u} \\
+    \mat{y} &= \mat{C}\mat{x} + \mat{D}\mat{u}
+  \end{align*}
+  \begin{equation*}
+    \mat{x} =
+    \begin{bmatrix}
+      \theta & v_l & v_r
+    \end{bmatrix}\T
+    \quad
+    \mat{y} =
+    \begin{bmatrix}
+      \theta & v_l & v_r
+    \end{bmatrix}\T
+    \quad
+    \mat{u} =
+    \begin{bmatrix}
+      V_l & V_r
+    \end{bmatrix}\T
+  \end{equation*}
+  \begin{equation}
+    \begin{array}{ll}
+      \mat{A} =
+      \begin{bmatrix}
+        0 & -\frac{1}{2r_b} & \frac{1}{2r_b} \\
+        0 & \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_1 &
+          \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_3 \\
+        0 & \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_1 &
+          \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_3
+      \end{bmatrix} &
+      \mat{B} =
+      \begin{bmatrix}
+        0 & 0 \\
+        \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_2 &
+        \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_4 \\
+        \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_2 &
+        \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_4
+      \end{bmatrix} \\
+      \mat{C} = \mat{I}_{3 \times 3} & \mat{D} = \mat{0}_{3 \times 2}
+    \end{array}
+  \end{equation}
+
+  where $C_1 = -\frac{G_l^2 K_t}{K_v R r^2}$, $C_2 = \frac{G_l K_t}{Rr}$,
+  $C_3 = -\frac{G_r^2 K_t}{K_v R r^2}$, and $C_4 = \frac{G_r K_t}{Rr}$. The
+  constants $C_1$ through $C_4$ are from the derivation in section
+  \ref{sec:differential_drive}.
+\end{theorem}
+
+The velocity states are required to make the heading controllable.
+
 \subsection{Linear time-varying model}
 \index{controller design!linear time-varying control}
 \index{nonlinear control!linear time-varying control}
 \index{optimal control!linear time-varying control}
 
-The model in theorem \ref{thm:diff_drive_velocity_ss_model} is linear, but only
-includes the velocity dynamics, not the dynamics of the drivetrain's global
-pose. The change in global pose is defined by these three equations.
+We can control the drivetrain's global pose $(x, y, \theta)$ by augmenting the
+state with $x$ and $y$. The change in global pose is defined by these three
+equations.
 \begin{align*}
   \dot{x} &= \frac{v_l + v_r}{2}\cos\theta = \frac{v_r}{2}\cos\theta +
     \frac{v_l}{2}\cos\theta \\
@@ -155,8 +214,7 @@ pose. The change in global pose is defined by these three equations.
   \dot{\theta} &= \frac{v_r - v_l}{2r_b} = \frac{v_r}{2r_b} - \frac{v_l}{2r_b}
 \end{align*}
 
-Next, we'll augment the linear subspace's state with the global pose $x$, $y$,
-and $\theta$. Here's the model as a vector function where
+This augmented model is a nonlinear vector function where
 $\mat{x} = \begin{bmatrix} x & y & \theta & v_l & v_r \end{bmatrix}\T$ and
 $\mat{u} = \begin{bmatrix} V_l & V_r \end{bmatrix}\T$.
 \begin{equation}
