@@ -38,9 +38,9 @@ def drivetrain_decoupled(motor, num_motors, m, r, rb, J, Gl, Gr):
     """
     motor = fct.models.gearbox(motor, num_motors)
 
-    C1 = -(Gl ** 2) * motor.Kt / (motor.Kv * motor.R * r ** 2)
+    C1 = -(Gl**2) * motor.Kt / (motor.Kv * motor.R * r**2)
     C2 = Gl * motor.Kt / (motor.R * r)
-    C3 = -(Gr ** 2) * motor.Kt / (motor.Kv * motor.R * r ** 2)
+    C3 = -(Gr**2) * motor.Kt / (motor.Kv * motor.R * r**2)
     C4 = Gr * motor.Kt / (motor.R * r)
     # fmt: off
     A = np.array([[(1 / m + rb**2 / J) * C1, (1 / m - rb**2 / J) * C3],
@@ -78,9 +78,9 @@ def drivetrain_coupled(motor, num_motors, m, r, rb, J, Gl, Gr):
     """
     motor = fct.models.gearbox(motor, num_motors)
 
-    C1 = -(Gl ** 2) * motor.Kt / (motor.Kv * motor.R * r ** 2)
+    C1 = -(Gl**2) * motor.Kt / (motor.Kv * motor.R * r**2)
     C2 = Gl * motor.Kt / (motor.R * r)
-    C3 = -(Gr ** 2) * motor.Kt / (motor.Kv * motor.R * r ** 2)
+    C3 = -(Gr**2) * motor.Kt / (motor.Kv * motor.R * r**2)
     C4 = Gr * motor.Kt / (motor.R * r)
     # fmt: off
     A = np.array([[1 / m * (C1 + C3), rb / m * (-C1 + C3)],
@@ -119,9 +119,9 @@ def differential_drive(motor, num_motors, m, r, rb, J, Gl, Gr, states):
     """
     motor = fct.models.gearbox(motor, num_motors)
 
-    C1 = -(Gl ** 2) * motor.Kt / (motor.Kv * motor.R * r ** 2)
+    C1 = -(Gl**2) * motor.Kt / (motor.Kv * motor.R * r**2)
     C2 = Gl * motor.Kt / (motor.R * r)
-    C3 = -(Gr ** 2) * motor.Kt / (motor.Kv * motor.R * r ** 2)
+    C3 = -(Gr**2) * motor.Kt / (motor.Kv * motor.R * r**2)
     C4 = Gr * motor.Kt / (motor.R * r)
     x = states[0, 0]
     y = states[1, 0]
@@ -180,7 +180,7 @@ def ramsete(pose_desired, v_desired, omega_desired, pose, b, zeta):
     """
     e = pose_desired.relative_to(pose)
 
-    k = 2 * zeta * math.sqrt(omega_desired ** 2 + b * v_desired ** 2)
+    k = 2 * zeta * math.sqrt(omega_desired**2 + b * v_desired**2)
     v = v_desired * math.cos(e.theta) + k * e.x
     omega = omega_desired + k * e.theta + b * v_desired * np.sinc(e.theta) * e.y
 

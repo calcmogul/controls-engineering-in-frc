@@ -34,7 +34,7 @@ def func(x, y):
     """
     s = x + y * 1j
     h = (s - 9 + 9j) * (s - 9 - 9j) / (s * (s + 10))
-    return clamp(math.sqrt(h.real ** 2 + h.imag ** 2), -30, 30)
+    return clamp(math.sqrt(h.real**2 + h.imag**2), -30, 30)
 
 
 def main():

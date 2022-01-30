@@ -55,8 +55,8 @@ class Pose2d:
             s = math.sin(twist.omega * dt) / twist.omega
             c = (math.cos(twist.omega * dt) - 1.0) / twist.omega
         else:
-            s = dt - dt ** 3 * twist.omega ** 2 / 6.0
-            c = -(dt ** 2) * twist.omega / 2.0
+            s = dt - dt**3 * twist.omega**2 / 6.0
+            c = -(dt**2) * twist.omega / 2.0
         dpose_r = Pose2d(
             twist.v_x * s + twist.v_y * c,
             twist.v_x * -c + twist.v_y * s,

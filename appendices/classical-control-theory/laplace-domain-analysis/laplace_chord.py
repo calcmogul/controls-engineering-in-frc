@@ -72,7 +72,7 @@ def main():
     for i, pair in enumerate(xy):
         s = pair[0] + pair[1] * 1j
         h = sin_tf(f_f, s) * sin_tf(f_a, s) * sin_tf(f_c, s)
-        z[i] = clamp(math.sqrt(h.real ** 2 + h.imag ** 2), -30, 30)
+        z[i] = clamp(math.sqrt(h.real**2 + h.imag**2), -30, 30)
     z = z.reshape(x.shape)
 
     fig = plt.figure(2)

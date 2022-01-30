@@ -31,7 +31,7 @@ def taylor_exp(x, n):
     """
     val = 0
     for i in range(n + 1):
-        val += x ** i / math.factorial(i)
+        val += x**i / math.factorial(i)
     return val
 
 
