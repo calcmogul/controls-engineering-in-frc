@@ -12,4 +12,4 @@ jobs:
     - name: Install system dependencies
       run: make setup_ubuntu
     - name: Lint .py and .tex files
-      run: make lint
+      run: make -j$(nproc) lint
