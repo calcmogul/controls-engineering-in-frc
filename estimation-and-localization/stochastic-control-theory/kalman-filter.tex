@@ -561,9 +561,8 @@ so we can solve it more efficiently.
   \mat{K} &= \solve(\mat{S}\T, \mat{C}\mat{P}\T)\T
 \end{align*}
 
-Snippet \ref{lst:kalman} computes the steady-state matrices for a Kalman
-filter.
-\begin{coderemote}{Python}{build/frccontrol/frccontrol/kalmd.py}
+Snippet \ref{lst:kalman} computes the steady-state Kalman gain matrix.
+\begin{coderemote}{Python}{snippets/kalmd.py}
   \caption{Steady-state Kalman gain matrix calculation in Python}
   \label{lst:kalman}
 \end{coderemote}

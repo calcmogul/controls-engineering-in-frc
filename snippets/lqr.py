@@ -13,7 +13,7 @@ def lqr(A, B, Q, R, N):
     N -- numpy.array(states x inputs), cross weight matrix.
 
     Returns:
-    K -- numpy.array(states x inputs), controller gain matrix.
+    K -- numpy.array(inputs x states), controller gain matrix.
     """
     P = sp.linalg.solve_discrete_are(a=A, b=B, q=Q, r=R, s=N)
     return np.linalg.solve(R + B.T @ P @ B, B.T @ P @ A + N.T)
