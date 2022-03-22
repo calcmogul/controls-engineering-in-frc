@@ -8,13 +8,13 @@
         "posthooks": [
             "deps/frccontrol_examples.py"
         ],
-        "repo": "git://github.com/calcmogul/frccontrol"
+        "repo": "https://github.com/calcmogul/frccontrol"
     },
     {
         "commit": "0.9.1",
         "depends": [],
         "name": "control",
         "posthooks": [],
-        "repo": "git://github.com/python-control/python-control"
+        "repo": "https://github.com/python-control/python-control"
     }
 ]
