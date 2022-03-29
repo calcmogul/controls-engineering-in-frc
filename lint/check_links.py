@@ -31,7 +31,11 @@ def verify_url(filename, line_number, url):
     True if verification succeeded or False otherwise
     """
     try:
-        r = requests.head(url, headers={"User-Agent": "Mozilla/5.0"}, timeout=5)
+        headers = {"User-Agent": "Mozilla/5.0"}
+        try:
+            r = requests.head(url, headers=headers, timeout=5)
+        except requests.exceptions.SSLError:
+            r = requests.head(url, headers=headers, timeout=5, verify=False)
         if r.status_code != 200:
             print(f"[{filename}:{line_number}]\n    {url}\n    {r.status_code}")
             if url != r.url:
