@@ -1,14 +1,10 @@
 NAME := controls-engineering-in-frc
 
-DEPS_JSON := $(wildcard deps/*.json)
-DEPS_STAMP := $(DEPS_JSON:.json=.stamp)
-DEPS_STAMP := $(addprefix build/,$(DEPS_STAMP))
-
 # Make does not offer a recursive wildcard function, so here's one:
 rwildcard=$(wildcard $1$2) $(foreach dir,$(wildcard $1*),$(call rwildcard,$(dir)/,$2))
 
 # Python files that generate SVG files
-PY := $(filter-out ./bookutil/% ./build/% ./deps/% ./lint/% ./snippets/%,$(call rwildcard,./,*.py))
+PY := $(filter-out ./bookutil/% ./build/% ./lint/% ./setup_venv.py ./snippets/%,$(call rwildcard,./,*.py))
 STAMP := $(PY:.py=.stamp)
 STAMP := $(addprefix build/,$(STAMP))
 
@@ -17,7 +13,7 @@ BIB := $(wildcard *.bib)
 IMGS := $(wildcard imgs/*)
 SNIPPETS := $(wildcard snippets/*)
 
-CSV := $(filter-out ./bookutil/% ./build/% ./deps/% ./lint/% ./snippets/%,$(call rwildcard,./,*.csv))
+CSV := $(filter-out ./bookutil/% ./build/% ./lint/% ./snippets/%,$(call rwildcard,./,*.csv))
 CSV := $(addprefix build/,$(CSV))
 
 ROOT := $(shell pwd)
@@ -92,20 +88,20 @@ build/commit-hash.tex: .git/refs/heads/$(git rev-parse --abbrev-ref HEAD) .git/H
 	@mkdir -p $(@D)
 	echo "\href{https://github.com/calcmogul/$(NAME)/commit/`git rev-parse --short HEAD`}{commit `git rev-parse --short HEAD`}" > build/commit-hash.tex
 
-$(DEPS_STAMP): build/%.stamp: %.json
-	@mkdir -p $(@D)
-	$(ROOT)/deps/pkg.py init
-	$(ROOT)/build/venv/bin/pip3 install -e $(ROOT)/bookutil
-	$(ROOT)/deps/pkg.py install_all
-	@touch $@
-
 # This rule places CSVs into the build folder so scripts executed from the build
 # folder can use them.
 $(CSV): build/%.csv: %.csv
 	@mkdir -p $(@D)
 	cp $< $@
 
-$(STAMP): build/%.stamp: %.py $(CSV) $(DEPS_STAMP)
+build/venv.stamp:
+	@mkdir -p $(@D)
+	$(ROOT)/setup_venv.py
+	$(ROOT)/build/venv/bin/pip3 install -e $(ROOT)/bookutil
+	$(ROOT)/build/venv/bin/pip3 install control==0.9.1 frccontrol==2022.11
+	@touch $@
+
+$(STAMP): build/%.stamp: %.py $(CSV) build/venv.stamp
 	@mkdir -p $(@D)
 	cd $(@D) && $(ROOT)/build/venv/bin/python3 $(ROOT)/$< --noninteractive
 	@touch $@
@@ -115,7 +111,6 @@ $(STAMP): build/%.stamp: %.py $(CSV) $(DEPS_STAMP)
 format:
 	./lint/format_bibliography.py
 	./lint/format_eol.py
-	./lint/format_json.py
 	./lint/format_paragraph_breaks.py
 	cd snippets && clang-format -i *.cpp
 	python3 -m black -q .
