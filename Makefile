@@ -76,15 +76,15 @@ $(NAME)-prepress.pdf: $(NAME).pdf
 		-sOutputFile=$(NAME)-prepress.pdf \
 		$(NAME).pdf
 
-build/commit-date.tex: .git/refs/heads/$(git rev-parse --abbrev-ref HEAD) .git/HEAD
+build/commit-date.tex: .git/refs/heads/$(shell git rev-parse --abbrev-ref HEAD) .git/HEAD
 	@mkdir -p $(@D)
 	git log -1 --pretty=format:%ad --date="format:%B %-d, %Y" > build/commit-date.tex
 
-build/commit-year.tex: .git/refs/heads/$(git rev-parse --abbrev-ref HEAD) .git/HEAD
+build/commit-year.tex: .git/refs/heads/$(shell git rev-parse --abbrev-ref HEAD) .git/HEAD
 	@mkdir -p $(@D)
 	git log -1 --pretty=format:%ad --date=format:%Y > build/commit-year.tex
 
-build/commit-hash.tex: .git/refs/heads/$(git rev-parse --abbrev-ref HEAD) .git/HEAD
+build/commit-hash.tex: .git/refs/heads/$(shell git rev-parse --abbrev-ref HEAD) .git/HEAD
 	@mkdir -p $(@D)
 	echo "\href{https://github.com/calcmogul/$(NAME)/commit/`git rev-parse --short HEAD`}{commit `git rev-parse --short HEAD`}" > build/commit-hash.tex
 
