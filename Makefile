@@ -16,8 +16,6 @@ SNIPPETS := $(wildcard snippets/*)
 CSV := $(filter-out ./bookutil/% ./build/% ./lint/% ./snippets/%,$(call rwildcard,./,*.csv))
 CSV := $(addprefix build/,$(CSV))
 
-ROOT := $(shell pwd)
-
 .PHONY: all
 all: $(NAME).pdf
 
@@ -96,14 +94,14 @@ $(CSV): build/%.csv: %.csv
 
 build/venv.stamp:
 	@mkdir -p $(@D)
-	$(ROOT)/setup_venv.py
-	$(ROOT)/build/venv/bin/pip3 install -e $(ROOT)/bookutil
-	$(ROOT)/build/venv/bin/pip3 install control==0.9.1 frccontrol==2022.11
+	python3 setup_venv.py
+	./build/venv/bin/pip3 install -e ./bookutil
+	./build/venv/bin/pip3 install control==0.9.1 frccontrol==2022.11
 	@touch $@
 
 $(STAMP): build/%.stamp: %.py $(CSV) build/venv.stamp
 	@mkdir -p $(@D)
-	cd $(@D) && $(ROOT)/build/venv/bin/python3 $(ROOT)/$< --noninteractive
+	cd $(@D) && $(abspath ./build/venv/bin/python3) $(abspath ./$<) --noninteractive
 	@touch $@
 
 # Run formatters
