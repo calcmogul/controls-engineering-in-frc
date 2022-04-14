@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-20.04
     timeout-minutes: 15
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 0
 
@@ -32,17 +32,15 @@ jobs:
     container: archlinux/archlinux:base-devel
     timeout-minutes: 15
     steps:
-    - name: Install git
+    - name: Install Git
       run: sudo pacman -Sy --needed --noconfirm git
 
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 0
 
-    - name: Install Python
-      uses: actions/setup-python@v3
-      with:
-        python-version: '3.10'
+    - name: Add Git repo as a safe directory
+      run: git config --global --add safe.directory `pwd`
 
     - name: Install system dependencies
       run: |
@@ -64,7 +62,7 @@ jobs:
     runs-on: macos-latest
     timeout-minutes: 15
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 0
 
