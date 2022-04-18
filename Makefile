@@ -33,12 +33,9 @@ $(NAME).pdf: $(TEX) $(STAMP) $(BIB) $(IMGS) $(SNIPPETS) \
 	latexmk -interaction=nonstopmode -xelatex $(NAME)
 
 $(NAME)-ebook.pdf: $(NAME).pdf
+	# https://www.ghostscript.com/doc/9.56.1/VectorDevices.htm#distillerparams
 	gs -sDEVICE=pdfwrite \
-		-dCompatibilityLevel=1.7 \
 		-dPDFSETTINGS=/ebook \
-		-dEmbedAllFonts=true \
-		-dSubsetFonts=true \
-		-dFastWebView=true \
 		-dPrinted=false \
 		-dNOPAUSE \
 		-dQUIET \
@@ -47,12 +44,9 @@ $(NAME)-ebook.pdf: $(NAME).pdf
 		$(NAME).pdf
 
 $(NAME)-printer.pdf: $(NAME).pdf
+	# https://www.ghostscript.com/doc/9.56.1/VectorDevices.htm#distillerparams
 	gs -sDEVICE=pdfwrite \
-		-dCompatibilityLevel=1.7 \
 		-dPDFSETTINGS=/printer \
-		-dEmbedAllFonts=true \
-		-dSubsetFonts=true \
-		-dFastWebView=true \
 		-dPrinted=false \
 		-dNOPAUSE \
 		-dQUIET \
@@ -61,12 +55,9 @@ $(NAME)-printer.pdf: $(NAME).pdf
 		$(NAME).pdf
 
 $(NAME)-prepress.pdf: $(NAME).pdf
+	# https://www.ghostscript.com/doc/9.56.1/VectorDevices.htm#distillerparams
 	gs -sDEVICE=pdfwrite \
-		-dCompatibilityLevel=1.7 \
 		-dPDFSETTINGS=/prepress \
-		-dEmbedAllFonts=true \
-		-dSubsetFonts=true \
-		-dFastWebView=true \
 		-dPrinted=false \
 		-dNOPAUSE \
 		-dQUIET \
