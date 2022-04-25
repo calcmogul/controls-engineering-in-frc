@@ -26,7 +26,7 @@ equation \eqref{eq:cont_ss_x}.
 Instead of commanding the \gls{system} to a \gls{state} using the vector
 $\mat{u}$ directly, we can now specify a vector of desired \glspl{state} through
 $\mat{r}$ and the \gls{controller} will choose values of $\mat{u}$ for us over
-time to make the \gls{system} converge to the \gls{reference}.
+time that drive the \gls{system} toward the \gls{reference}.
 
 The eigenvalues of $\mat{A} - \mat{B}\mat{K}$ are the poles of the closed-loop
 \gls{system}. Therefore, the rate of convergence and stability of the
@@ -35,6 +35,7 @@ of $\mat{A} - \mat{B}\mat{K}$. $\mat{A}$ and $\mat{B}$ are inherent to the
 \gls{system}, but $\mat{K}$ can be chosen arbitrarily by the controller
 designer. For equation \eqref{eq:cont_ss_ctrl_x} to reach steady-state, the
 eigenvalues of $\mat{A} - \mat{B}\mat{K}$ must be in the left-half plane.
+There will be steady-state error if $\mat{A}\mat{r} \ne \mat{0}$.
 \begin{booktable}
   \begin{tabular}{|lll|}
     \hline

@@ -27,7 +27,7 @@ equation \eqref{eq:disc_ss_x}.
 Instead of commanding the \gls{system} to a \gls{state} using the vector
 $\mat{u}_k$ directly, we can now specify a vector of desired \glspl{state}
 through $\mat{r}_k$ and the \gls{controller} will choose values of $\mat{u}_k$
-for us over time to make the \gls{system} converge to the \gls{reference}.
+for us over time that drive the \gls{system} toward the \gls{reference}.
 
 The eigenvalues of $\mat{A} - \mat{B}\mat{K}$ are the poles of the closed-loop
 \gls{system}. Therefore, the rate of convergence and stability of the
@@ -35,7 +35,8 @@ closed-loop \gls{system} can be changed by moving the poles via the eigenvalues
 of $\mat{A} - \mat{B}\mat{K}$. $\mat{A}$ and $\mat{B}$ are inherent to the
 \gls{system}, but $\mat{K}$ can be chosen arbitrarily by the controller
 designer. For equation \eqref{eq:disc_ss_ctrl_x} to reach steady-state, the
-eigenvalues of $\mat{A} - \mat{B}\mat{K}$ must be in the left-half plane.
+eigenvalues of $\mat{A} - \mat{B}\mat{K}$ must be in the left-half plane. There
+will be steady-state error if $\mat{A}\mat{r}_k \ne \mat{r}_k$.
 \begin{booktable}
   \begin{tabular}{|lll|}
     \hline
