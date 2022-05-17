@@ -24,7 +24,7 @@ class Entry:
 
 
 # Example:
-# @misc{bib:calculus_taylor_series,
+# @misc{bib:3b1b_calculus_taylor_series,
 #   author = {3Blue1Brown},
 #   title = {Taylor series},
 #   url = {https://www.youtube.com/watch?v=3d6DsjIBzJ4},
