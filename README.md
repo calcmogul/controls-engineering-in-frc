@@ -22,6 +22,27 @@ systems.
 A PDF version is available at https://controls-in-frc.link (full link:
 https://file.tavsys.net/control/controls-engineering-in-frc.pdf).
 
+## Printed copies
+
+As per [this work's
+license](https://github.com/calcmogul/controls-engineering-in-frc/blob/main/LICENSE.CC4),
+you may print copies yourself for any purpose under the following terms:
+
+> Attribution — You must give appropriate credit, provide a link to the license,
+>               and indicate if changes were made. You may do so in any
+>               reasonable manner, but not in any way that suggests the licensor
+>               endorses you or your use.
+
+> ShareAlike — If you remix, transform, or build upon the material, you must
+>              distribute your contributions under the same license as the
+>              original.
+
+Printing a copy of the PDF as-is satisfies the license requirements. You'll want
+to use the prepress version of the PDF
+[here](https://file.tavsys.net/control/controls-engineering-in-frc-prepress.pdf)
+instead of the one linked above because the latter is compressed for electronic
+viewing.
+
 ## Running the examples
 
 Example Python scripts can be obtained from frccontrol's Git repository at

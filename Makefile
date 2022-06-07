@@ -47,7 +47,7 @@ $(NAME)-printer.pdf: $(NAME).pdf
 	# https://www.ghostscript.com/doc/9.56.1/VectorDevices.htm#distillerparams
 	gs -sDEVICE=pdfwrite \
 		-dPDFSETTINGS=/printer \
-		-dPrinted=false \
+		-dPrinted=true \
 		-dNOPAUSE \
 		-dQUIET \
 		-dBATCH \
@@ -58,7 +58,7 @@ $(NAME)-prepress.pdf: $(NAME).pdf
 	# https://www.ghostscript.com/doc/9.56.1/VectorDevices.htm#distillerparams
 	gs -sDEVICE=pdfwrite \
 		-dPDFSETTINGS=/prepress \
-		-dPrinted=false \
+		-dPrinted=true \
 		-dNOPAUSE \
 		-dQUIET \
 		-dBATCH \
@@ -129,8 +129,10 @@ clean_tex:
 	rm -f controls-engineering-in-frc-*.pdf
 
 .PHONY: upload
-upload: ebook
+upload: ebook printer prepress
 	rsync --progress $(NAME)-ebook.pdf file.tavsys.net:/srv/file/control/$(NAME).pdf
+	rsync --progress $(NAME)-printer.pdf file.tavsys.net:/srv/file/control/$(NAME)-printer.pdf
+	rsync --progress $(NAME)-prepress.pdf file.tavsys.net:/srv/file/control/$(NAME)-prepress.pdf
 
 .PHONY: setup_archlinux
 setup_archlinux:
