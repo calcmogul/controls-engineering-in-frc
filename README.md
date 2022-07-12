@@ -87,6 +87,7 @@ These can be installed via `make setup_archlinux`.
   * clang (for clang-format to format C++ code snippets)
   * ghostscript (to reduce size of final PDF for publishing)
   * inkscape (to convert SVGs to PDFs)
+  * perl-clone (for Clone.pm needed by biber)
   * python >= 3.6 (for generating plots)
   * python-black (to format Python source code)
   * python-pip (for installing required Python packages)

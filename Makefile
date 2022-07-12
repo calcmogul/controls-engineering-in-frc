@@ -142,6 +142,7 @@ setup_archlinux:
 		clang \
 		ghostscript \
 		inkscape \
+		perl-clone \
 		python \
 		python-black \
 		python-pip \
