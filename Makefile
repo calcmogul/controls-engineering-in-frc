@@ -87,7 +87,7 @@ build/venv.stamp:
 	@mkdir -p $(@D)
 	python3 setup_venv.py
 	./build/venv/bin/pip3 install -e ./bookutil
-	./build/venv/bin/pip3 install control==0.9.1 frccontrol==2022.11
+	./build/venv/bin/pip3 install control==0.9.2 frccontrol==2022.11
 	@touch $@
 
 $(STAMP): build/%.stamp: %.py $(CSV) build/venv.stamp

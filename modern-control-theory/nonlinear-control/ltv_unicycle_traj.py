@@ -36,7 +36,7 @@ class LTVUnicycle:
         C = np.array([[0, 0, 1]])
         D = np.array([[0, 0]])
 
-        return ct.StateSpace(A, B, C, D, remove_useless=False)
+        return ct.StateSpace(A, B, C, D, remove_useless_states=False)
 
     def calculate(self, pose_desired, v_desired, omega_desired, pose, v):
         error = pose_desired.relative_to(pose)

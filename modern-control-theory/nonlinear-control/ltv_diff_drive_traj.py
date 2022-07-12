@@ -77,7 +77,7 @@ def linearized_differential_drive(motor, num_motors, m, r, rb, J, Gl, Gr, states
                   [0, 0]])
     # fmt: on
 
-    return ct.StateSpace(A, B, C, D, remove_useless=False)
+    return ct.StateSpace(A, B, C, D, remove_useless_states=False)
 
 
 class DifferentialDrive(LTVDifferentialDrive):
