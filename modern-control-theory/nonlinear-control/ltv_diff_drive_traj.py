@@ -11,11 +11,11 @@ if "--noninteractive" in sys.argv:
     mpl.use("svg")
     import bookutil.latex as latex
 
-import control as ct
 import frccontrol as fct
 import math
 import matplotlib.pyplot as plt
 import numpy as np
+from scipy.signal import StateSpace
 
 from bookutil.drivetrain import get_diff_vels
 from bookutil.systems import LTVDifferentialDrive
@@ -77,7 +77,7 @@ def linearized_differential_drive(motor, num_motors, m, r, rb, J, Gl, Gr, states
                   [0, 0]])
     # fmt: on
 
-    return ct.StateSpace(A, B, C, D, remove_useless_states=False)
+    return StateSpace(A, B, C, D)
 
 
 class DifferentialDrive(LTVDifferentialDrive):

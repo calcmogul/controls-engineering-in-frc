@@ -209,6 +209,7 @@ applied, the original voltage is obtained. The \gls{model} input only drops from
 ideal if the compensated \gls{controller} voltage saturates.
 
 \subsection{Do flywheels need PD control?}
+\label{subsec:do_flywheels_need_pd_control}
 \index{PID control!flywheel (modern control)}
 
 PID controllers typically control voltage to a motor in FRC independent of the
@@ -296,8 +297,11 @@ desired case of positive acceleration.
 
 This analysis assumes that the motor is well coupled to the mass and that the
 time constant of the inductor is small enough that it doesn't factor into the
-motor equations. The latter is a pretty good assumption, as shown by the slight
-wiggle in figure \ref{fig:cs_ss_highfreq_unstable_step} compared to figure
+motor equations. The latter is a pretty good assumption for a CIM motor with the
+following constants: $J = 3.2284 \times 10^{-6}$ $kg$-$m^2$,
+$b = 3.5077 \times 10^{-6}$ $N$-$m$-$s$, $K_e = K_t = 0.0181 \,V/rad/s$,
+$R = 0.0902 \,\Omega$, and $L = 230$ μH. Notice the slight wiggle in figure
+\ref{fig:cs_ss_highfreq_unstable_step} compared to figure
 \ref{fig:cs_ss_highfreq_stable_step}. If more mass is added to the motor
 armature, the response timescales increase and the inductance matters even less.
 \begin{bookfigure}
@@ -309,7 +313,7 @@ armature, the response timescales increase and the inductance matters even less.
   \hfill
   \begin{minisvg}{2}{build/figs/highfreq_stable_step}
     \caption{Step response of first-order DC brushed motor plant augmented with
-      position}
+      position ($L = 0$ μH)}
     \label{fig:cs_ss_highfreq_stable_step}
   \end{minisvg}
 \end{bookfigure}

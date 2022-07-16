@@ -9,11 +9,11 @@ if "--noninteractive" in sys.argv:
     mpl.use("svg")
     import bookutil.latex as latex
 
-import control as ct
 from cycler import cycler
 import frccontrol as fct
 import matplotlib.pyplot as plt
 import numpy as np
+from scipy.signal import StateSpace
 
 plt.rc("text", usetex=True)
 
@@ -35,12 +35,12 @@ def main():
     D = np.array([[0]])
     # fmt: on
 
-    sysc = ct.StateSpace(A, B, C, D)
+    sysc = StateSpace(A, B, C, D)
 
     dt = 0.001
     tmax = 0.025
 
-    sysd = sysc.sample(dt)
+    sysd = sysc.to_discrete(dt)
 
     # fmt: off
     Q = np.array([[1 / 20**2, 0],

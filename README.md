@@ -161,7 +161,7 @@ These can be installed via `make setup_macos`.
 
 These packages are installed via pip3 (e.g., `pip3 install --user frccontrol`).
 
-* frccontrol (to provide FRC wrappers for Python Control and generate plots and
+* frccontrol (to provide FRC wrappers for scipy and generate plots and
   state-space results)
 
 The book's build process automatically sets these up in a venv so they don't

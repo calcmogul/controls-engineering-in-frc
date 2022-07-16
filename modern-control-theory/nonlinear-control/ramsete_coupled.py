@@ -11,7 +11,6 @@ if "--noninteractive" in sys.argv:
     mpl.use("svg")
     import bookutil.latex as latex
 
-import control as ct
 import frccontrol as fct
 import math
 import matplotlib.pyplot as plt
@@ -25,7 +24,7 @@ from bookutil.systems import DrivetrainCoupledVelocity
 def main():
     dt = 0.005
     drivetrain = DrivetrainCoupledVelocity(dt)
-    print("ctrb cond =", np.linalg.cond(ct.ctrb(drivetrain.sysd.A, drivetrain.sysd.B)))
+    print("ctrb cond =", np.linalg.cond(fct.ctrb(drivetrain.sysd.A, drivetrain.sysd.B)))
 
     t, xprof, vprof, aprof = fct.generate_s_curve_profile(
         max_v=4.0, max_a=3.5, time_to_max_a=1.0, dt=dt, goal=10.0
@@ -39,8 +38,10 @@ def main():
 
     # Run LQR
     state_rec, ref_rec, u_rec, y_rec = drivetrain.generate_time_responses(t, refs)
-    subplot_max = drivetrain.sysd.nstates + drivetrain.sysd.ninputs
-    for i in range(drivetrain.sysd.nstates):
+    nstates = drivetrain.sysd.A.shape[0]
+    ninputs = drivetrain.sysd.B.shape[1]
+    subplot_max = nstates + ninputs
+    for i in range(nstates):
         plt.subplot(subplot_max, 1, i + 1)
         plt.ylabel(
             drivetrain.state_labels[i],
@@ -56,8 +57,8 @@ def main():
         plt.plot(t, drivetrain.extract_row(ref_rec, i), label="Reference")
         plt.legend()
 
-    for i in range(drivetrain.sysd.ninputs):
-        plt.subplot(subplot_max, 1, drivetrain.sysd.nstates + i + 1)
+    for i in range(ninputs):
+        plt.subplot(subplot_max, 1, nstates + i + 1)
         plt.ylabel(
             drivetrain.u_labels[i],
             horizontalalignment="right",

@@ -97,39 +97,7 @@ to the \gls{error} is
 The roots of the denominator of $G_{cl}(s)$ are different from those of the
 open-loop transfer function $KG(s)$. These are called the closed-loop poles.
 
-\subsubsection{Root locus}
-\label{subsubsec:root_locus}
-\index{stability!root locus}
-
-In closed-loop, the poles can be moved around by adjusting the controller gain,
-but the zeroes stay put. The root locus shows where the poles will go as the
-gain for a P controller is increased and tells us for what range of gains the
-controller will be stable. As the controller gain is increased, poles can move
-toward negative infinity (figure \ref{fig:rlocus_infty}), move toward each other
-then split toward asymptotes (figure \ref{fig:rlocus_asymptotes}), or move
-toward zeroes (figure \ref{fig:rlocus_zeroes}). The \gls{system} in figure
-\ref{fig:rlocus_zeroes} becomes unstable as the gain is increased.
-\begin{bookfigure}
-  \begin{minisvg}{2}{build/\sectionpath/rlocus_infty}
-    \caption{Root locus showing pole moving toward negative infinity}
-    \label{fig:rlocus_infty}
-  \end{minisvg}
-  \hfill
-  \begin{minisvg}{2}{build/\sectionpath/rlocus_asymptotes}
-    \caption{Root locus showing poles moving toward asymptotes}
-    \label{fig:rlocus_asymptotes}
-  \end{minisvg}
-  \hfill
-  \begin{minisvg}{2}{build/\sectionpath/rlocus_zeroes}
-    \caption{Root locus of equation \eqref{eq:transfer_func} showing poles
-      moving toward zeroes.}
-    \label{fig:rlocus_zeroes}
-  \end{minisvg}
-\end{bookfigure}
-
-We won't be using root locus plots for any of our control systems analysis
-later, but it does help provide an intuition for what \glspl{controller}
-actually do to a \gls{system}.
+\subsubsection{DC motor transfer function}
 
 If poles are much farther left in the LHP than the typical \gls{system} dynamics
 exhibit, they can be considered negligible. Every \gls{system} has some form of
@@ -155,31 +123,15 @@ position state, making it a third-order system.}
   G(s) = \frac{K}{s((Js + b)(Ls + R) + K^2)}
 \end{equation*}
 
-This \gls{plant} has the root locus shown in figure
-\ref{fig:highfreq_unstable_rlocus}. In proportional feedback, the \gls{plant} is
-unstable for large values of $K$. However, if we remove the unstable pole by
-setting $L$ in the transfer function to zero, we get the root locus in figure
-\ref{fig:highfreq_stable_rlocus}. For small values of $K$, both \glspl{system}
-are stable and have nearly indistinguishable \glspl{step response} due to the
-exceedingly small contribution from the fast pole (see figures
-\ref{fig:tf_highfreq_unstable_step} and \ref{fig:tf_highfreq_stable_step}). The
-high frequency dynamics only cause instability for large values of $K$ that
-induce fast \glspl{system response}. In other words, the \glspl{system response}
-of the second-order model and its first-order approximation are similar for low
-frequency operating regimes.
-\begin{bookfigure}
-  \begin{minisvg}{2}{build/figs/highfreq_unstable_rlocus}
-    \caption{Root locus of second-order DC brushed motor plant augmented with
-      position ($L = 230$ μH)}
-    \label{fig:highfreq_unstable_rlocus}
-  \end{minisvg}
-  \hfill
-  \begin{minisvg}{2}{build/figs/highfreq_stable_rlocus}
-    \caption{Root locus of first-order DC brushed motor plant augmented with
-      position}
-    \label{fig:highfreq_stable_rlocus}
-  \end{minisvg}
-\end{bookfigure}
+Compare the step response of this \gls{system} (figure
+\ref{fig:tf_highfreq_unstable_step}) with the step response of this \gls{system}
+with $L$ set to zero (figure \ref{fig:tf_highfreq_stable_step}). For small
+values of $K$, both \glspl{system} are stable and have nearly indistinguishable
+\glspl{step response} due to the exceedingly small contribution from the fast
+pole. The high frequency dynamics only cause instability for large values of $K$
+that induce fast \glspl{system response}. In other words, the \glspl{system
+response} of the second-order model and its first-order approximation are
+similar for low frequency operating regimes.
 \begin{bookfigure}
   \begin{minisvg}{2}{build/figs/highfreq_unstable_step}
     \caption{Step response of second-order DC brushed motor plant augmented with
@@ -189,7 +141,7 @@ frequency operating regimes.
   \hfill
   \begin{minisvg}{2}{build/figs/highfreq_stable_step}
     \caption{Step response of first-order DC brushed motor plant augmented with
-      position}
+      position ($L = 0$ μH)}
     \label{fig:tf_highfreq_stable_step}
   \end{minisvg}
 \end{bookfigure}

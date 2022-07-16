@@ -101,9 +101,9 @@ single pole controller to place that pole anywhere on the real axis.
 
 This analysis assumes that the motor is well coupled to the mass and that the
 time constant of the inductor is small enough that it doesn't factor into the
-motor equations. The latter is a pretty good assumption, as shown by the slight
-wiggle in figure \ref{fig:cs_tf_highfreq_unstable_step} compared to figure
-\ref{fig:cs_tf_highfreq_stable_step}. If more mass is added to the motor
+motor equations. The latter is a pretty good assumption for a CIM motor (see
+figures \ref{fig:cs_tf_highfreq_unstable_step} and
+\ref{fig:cs_tf_highfreq_stable_step}). If more mass is added to the motor
 armature, the response timescales increase and the inductance matters even less.
 \begin{bookfigure}
   \begin{minisvg}{2}{build/figs/highfreq_unstable_step}
@@ -114,7 +114,7 @@ armature, the response timescales increase and the inductance matters even less.
   \hfill
   \begin{minisvg}{2}{build/figs/highfreq_stable_step}
     \caption{Step response of first-order DC brushed motor plant augmented with
-      position}
+      position ($L = 0$ μH)}
     \label{fig:cs_tf_highfreq_stable_step}
   \end{minisvg}
 \end{bookfigure}

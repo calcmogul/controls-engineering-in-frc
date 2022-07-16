@@ -9,12 +9,12 @@ if "--noninteractive" in sys.argv:
     mpl.use("svg")
     import bookutil.latex as latex
 
-import control as ct
 from cycler import cycler
 import frccontrol as fct
 import matplotlib.pyplot as plt
 import numpy as np
-import scipy as sp
+from scipy.linalg import eig
+from scipy.signal import StateSpace, place_poles
 
 plt.rc("text", usetex=True)
 
@@ -36,29 +36,29 @@ def main():
     D = np.array([[0]])
     # fmt: on
 
-    sysc = ct.StateSpace(A, B, C, D)
+    sysc = StateSpace(A, B, C, D)
 
     dt = 0.001
     tmax = 0.025
 
-    sysd = sysc.sample(dt)
+    sysd = sysc.to_discrete(dt)
 
     # fmt: off
     Q = np.array([[1 / 20**2, 0],
                   [        0, 0]])
     R = np.array([[1 / 12**2]])
     # fmt: on
-    K_pp1 = ct.place(sysd.A, sysd.B, [0.1, 0.5])
-    K_pp2 = ct.place(sysd.A, sysd.B, [0.1, 0.4])
+    K_pp1 = place_poles(sysd.A, sysd.B, [0.1, 0.5]).gain_matrix
+    K_pp2 = place_poles(sysd.A, sysd.B, [0.1, 0.4]).gain_matrix
     K_lqr = fct.lqr(sysd, Q, R)
 
-    poles = sp.linalg.eig(sysd.A - sysd.B @ K_pp1)[0]
+    poles = eig(sysd.A - sysd.B @ K_pp1)[0]
     poles_pp1 = f"{np.round(poles[0], 3)} and {np.round(poles[1], 3)}"
 
-    poles = sp.linalg.eig(sysd.A - sysd.B @ K_pp2)[0]
+    poles = eig(sysd.A - sysd.B @ K_pp2)[0]
     poles_pp2 = f"{np.round(poles[0], 3)} and {np.round(poles[1], 3)}"
 
-    poles = sp.linalg.eig(sysd.A - sysd.B @ K_lqr)[0]
+    poles = eig(sysd.A - sysd.B @ K_lqr)[0]
     poles_lqr = f"{np.round(poles[0], 3)} and {np.round(poles[1], 3)}"
 
     t = np.arange(0, tmax, dt)

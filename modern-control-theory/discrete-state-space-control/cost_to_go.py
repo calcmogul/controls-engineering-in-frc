@@ -9,12 +9,12 @@ if "--noninteractive" in sys.argv:
     mpl.use("svg")
     import bookutil.latex as latex
 
-import control as ct
 import math
 import matplotlib.pyplot as plt
 from mpl_toolkits import mplot3d
 import numpy as np
-import scipy as sp
+from scipy.linalg import solve_discrete_are
+from scipy.signal import StateSpace
 
 plt.rc("text", usetex=True)
 
@@ -26,13 +26,13 @@ def main():
     contB = np.array([[0], [21.457]])
     C = np.array([[1, 0]])
     D = np.array([[0]])
-    system = ct.ss(contA, contB, C, D).sample(dt)
+    system = StateSpace(contA, contB, C, D).to_discrete(dt)
 
     A = system.A
     B = system.B
     Q = np.diag(1.0 / np.square([0.02, 0.4]))
     R = np.diag(1.0 / np.square([12]))
-    P = sp.linalg.solve_discrete_are(A, B, Q, R)
+    P = solve_discrete_are(A, B, Q, R)
 
     K = np.linalg.solve(R + B.T @ P @ B, B.T @ P @ A)
     K_p = f"{np.round(K[0, 0], 3)}"

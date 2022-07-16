@@ -30,7 +30,7 @@ class DifferentialDrive(LTVDifferentialDrive):
 
     def update_plant(self):
         self.sysc = self.create_model(self.x, self.u)
-        self.sysd = self.sysc.sample(self.dt)
+        self.sysd = self.sysc.to_discrete(self.dt)
 
         self.x = self.sysd.A @ self.x + self.sysd.B @ self.u
         self.y = self.sysd.C @ self.x + self.sysd.D @ self.u

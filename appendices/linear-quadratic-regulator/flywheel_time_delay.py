@@ -9,10 +9,10 @@ if "--noninteractive" in sys.argv:
     mpl.use("svg")
 import bookutil.latex as latex
 
-import control as ct
 import matplotlib.pyplot as plt
 import numpy as np
-import scipy as sp
+from scipy.linalg import fractional_matrix_power
+from scipy.signal import StateSpace
 
 from bookutil.systems import Flywheel
 
@@ -43,7 +43,7 @@ class FlywheelTimeDelay(Flywheel):
         C = np.array([[1]])
         D = np.array([[0]])
 
-        return ct.ss(A, B, C, D)
+        return StateSpace(A, B, C, D)
 
     def design_controller_observer(self):
         self.design_two_state_feedforward()
@@ -58,7 +58,7 @@ class FlywheelTimeDelay(Flywheel):
             self.ubuf.append(np.zeros((1, 1)))
 
         if self.latency_comp:
-            self.K = self.K @ sp.linalg.fractional_matrix_power(
+            self.K = self.K @ fractional_matrix_power(
                 self.sysd.A - self.sysd.B @ self.K, DELAY / DT
             )
 

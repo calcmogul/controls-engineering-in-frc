@@ -9,11 +9,11 @@ if "--noninteractive" in sys.argv:
     mpl.use("svg")
 import bookutil.latex as latex
 
-import control as ct
 import frccontrol as fct
 import matplotlib.pyplot as plt
 import numpy as np
-import scipy as sp
+from scipy.linalg import fractional_matrix_power
+from scipy.signal import StateSpace
 
 plt.rc("text", usetex=True)
 
@@ -53,7 +53,7 @@ class DrivetrainTimeDelay(fct.System):
         C = np.array([[1]])
         D = np.array([[0]])
 
-        return ct.ss(A, B, C, D)
+        return StateSpace(A, B, C, D)
 
     def design_controller_observer(self):
         self.design_two_state_feedforward()
@@ -68,7 +68,7 @@ class DrivetrainTimeDelay(fct.System):
             self.ubuf.append(np.zeros((1, 1)))
 
         if self.latency_comp:
-            self.K = self.K @ sp.linalg.fractional_matrix_power(
+            self.K = self.K @ fractional_matrix_power(
                 self.sysd.A - self.sysd.B @ self.K, DELAY / DT
             )
 

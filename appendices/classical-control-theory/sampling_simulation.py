@@ -42,7 +42,7 @@ def generate_refs(dt):
 
 def simulate(elevator, dt, method):
     t, refs = generate_refs(dt)
-    elevator.sysd = elevator.sysc.sample(dt, method)
+    elevator.sysd = elevator.sysc.to_discrete(dt, method)
     elevator.x = np.zeros((elevator.x.shape[0], 1))
     elevator.x_hat = np.zeros((elevator.x_hat.shape[0], 1))
     state_rec, ref_rec, u_rec, y_rec = elevator.generate_time_responses(t, refs)

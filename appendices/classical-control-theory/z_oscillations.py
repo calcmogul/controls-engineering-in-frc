@@ -9,17 +9,16 @@ if "--noninteractive" in sys.argv:
     mpl.use("svg")
     import bookutil.latex as latex
 
-import math
-import control as ct
 from frccontrol import conv
 import matplotlib.pyplot as plt
 import numpy as np
+from scipy.signal import TransferFunction, dstep
 
 plt.rc("text", usetex=True)
 
 
-def sim(tf, T, label):
-    T, yout = ct.step_response(tf, T=T)
+def sim(tf, t, label):
+    T, yout = dstep(tf, t=t)
 
     plt.plot(T, np.squeeze(yout), label=label)
     plt.legend()
@@ -33,9 +32,9 @@ def main():
     plt.xticks(np.arange(min(T), max(T) + 1, 1.0))
     plt.xlabel("Time (s)")
     plt.ylabel("Step response")
-    tf = ct.TransferFunction(1, [1, -0.6], dt)
+    tf = TransferFunction(1, [1, -0.6], dt=dt)
     sim(tf, T, "Single pole in RHP")
-    tf = ct.TransferFunction(1, [1, 0.6], dt)
+    tf = TransferFunction(1, [1, 0.6], dt=dt)
     sim(tf, T, "Single pole in LHP")
     if "--noninteractive" in sys.argv:
         latex.savefig("z_oscillations_1p")
@@ -44,10 +43,10 @@ def main():
     plt.xlabel("Time (s)")
     plt.ylabel("Step response")
     den = [np.real(x) for x in conv([1, 0.6 + 0.6j], [1, 0.6 - 0.6j])]
-    tf = ct.TransferFunction(1, den, dt)
+    tf = TransferFunction(1, den, dt=dt)
     sim(tf, T, "Complex conjugate poles in LHP")
     den = [np.real(x) for x in conv([1, -0.6 + 0.6j], [1, -0.6 - 0.6j])]
-    tf = ct.TransferFunction(1, den, dt)
+    tf = TransferFunction(1, den, dt=dt)
     sim(tf, T, "Complex conjugate poles in RHP")
     if "--noninteractive" in sys.argv:
         latex.savefig("z_oscillations_2p")

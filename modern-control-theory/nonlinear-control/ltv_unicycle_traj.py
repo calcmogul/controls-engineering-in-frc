@@ -11,11 +11,11 @@ if "--noninteractive" in sys.argv:
     mpl.use("svg")
     import bookutil.latex as latex
 
-import control as ct
 import frccontrol as fct
 import math
 import matplotlib.pyplot as plt
 import numpy as np
+from scipy.signal import StateSpace
 
 from bookutil.drivetrain import drivetrain_decoupled, get_diff_vels
 from bookutil.pose2d import Pose2d
@@ -36,14 +36,14 @@ class LTVUnicycle:
         C = np.array([[0, 0, 1]])
         D = np.array([[0, 0]])
 
-        return ct.StateSpace(A, B, C, D, remove_useless_states=False)
+        return StateSpace(A, B, C, D)
 
     def calculate(self, pose_desired, v_desired, omega_desired, pose, v):
         error = pose_desired.relative_to(pose)
         e = np.array([[error.x], [error.y], [error.theta]])
 
         sys = self.make_model(v)
-        dsys = sys.sample(0.02)
+        dsys = sys.to_discrete(0.02)
         K = fct.lqr(dsys, self.Q, self.R)
 
         u = K @ e
@@ -77,7 +77,7 @@ def main():
 
     ltv_unicycle = LTVUnicycle([0.0625, 0.125, 2.5], [0.95, 0.95])
     drivetrain = Drivetrain(dt)
-    print("ctrb cond =", np.linalg.cond(ct.ctrb(drivetrain.sysd.A, drivetrain.sysd.B)))
+    print("ctrb cond =", np.linalg.cond(fct.ctrb(drivetrain.sysd.A, drivetrain.sysd.B)))
 
     data = np.genfromtxt("ramsete_traj.csv", delimiter=",")
     t = data[1:, 0].T

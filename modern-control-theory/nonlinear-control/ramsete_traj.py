@@ -11,8 +11,8 @@ if "--noninteractive" in sys.argv:
     mpl.use("svg")
     import bookutil.latex as latex
 
-import control as ct
 import math
+import frccontrol as fct
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -24,7 +24,7 @@ from bookutil.systems import DrivetrainDecoupledVelocity
 def main():
     dt = 0.02
     drivetrain = DrivetrainDecoupledVelocity(dt)
-    print("ctrb cond =", np.linalg.cond(ct.ctrb(drivetrain.sysd.A, drivetrain.sysd.B)))
+    print("ctrb cond =", np.linalg.cond(fct.ctrb(drivetrain.sysd.A, drivetrain.sysd.B)))
 
     data = np.genfromtxt("ramsete_traj.csv", delimiter=",")
     t = data[1:, 0].T

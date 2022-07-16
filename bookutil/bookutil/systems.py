@@ -252,7 +252,7 @@ class LTVDifferentialDrive(fct.System):
         from frccontrol import lqr
 
         sysc = self.create_model(states, inputs)
-        sysd = sysc.sample(self.dt)
+        sysd = sysc.to_discrete(self.dt)
 
         Q = np.diag(1.0 / np.square(Q_elems))
         R = np.diag(1.0 / np.square(R_elems))

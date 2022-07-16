@@ -9,16 +9,15 @@ if "--noninteractive" in sys.argv:
     mpl.use("svg")
     import bookutil.latex as latex
 
-import control as ct
 import matplotlib.pyplot as plt
 import numpy as np
+from scipy.signal import StateSpace, TransferFunction, step
 
 plt.rc("text", usetex=True)
 
 
 def main():
     dt = 0.0001
-    T = np.arange(0, 0.25, dt)
 
     # Make plant
     J = 3.2284e-6  # kg-m²
@@ -27,20 +26,6 @@ def main():
     Kt = 0.0181  # N-m/A
     R = 0.0902  # Ω
     L = 230e-6  # H
-
-    # Transfer function
-    #
-    # s((Js + b)(Ls + R) + Kt Ke)
-    # s(JLs² + JRs + bLs + bR + Kt Ke)
-    # JLs³ + JRs² + bLs² + bRs + Kt Ke s
-    # JLs³ + (JR + bL)s² + (bR + Kt Ke)s
-    G = ct.TransferFunction(Ke, [J * L, J * R + b * L, b * R + Kt * Ke, 0])
-
-    ct.root_locus(G, grid=True)
-    plt.xlabel("Real Axis (seconds$^{-1}$)")
-    plt.ylabel("Imaginary Axis (seconds$^{-1}$)")
-    if "--noninteractive" in sys.argv:
-        latex.savefig("highfreq_unstable_rlocus")
 
     # State-space
     #
@@ -63,17 +48,31 @@ def main():
     C = np.array([[1, 0, 0]])
     D = np.array([[0]])
     K = np.array([[1, 0, 0]])
-    system = ct.StateSpace(A - B @ K, B @ K, C - D @ K, D @ K)
+    system = StateSpace(A - B @ K, B @ K, C - D @ K, D @ K).to_discrete(dt)
 
     plt.figure(2)
     plt.xlabel("Time ($s$)")
     plt.ylabel("Position ($m$)")
 
-    plt.plot(T, [1 for t in T], label="Reference")
+    x = np.array([[0], [0], [0]])
+    u = np.array([[1], [0], [0]])
+    Ts = [0]
+    y = system.C @ x + system.D @ u
+    ys = [y[0, 0]]
+    t = 0
+    while t < 0.25:
+        x = system.A @ x + system.B @ u
+        y = system.C @ x + system.D @ u
+
+        Ts.append(t)
+        ys.append(y[0, 0])
+
+        t += dt
+
+    plt.plot(Ts, [1 for t in Ts], label="Reference")
     plt.legend()
 
-    _, yout = ct.step_response(system, T=T, input=0, output=0)
-    plt.plot(T, yout, label="Step response")
+    plt.plot(Ts, ys, label="Step response")
     plt.legend()
 
     if "--noninteractive" in sys.argv:

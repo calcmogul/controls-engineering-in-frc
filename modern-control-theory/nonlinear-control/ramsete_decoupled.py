@@ -12,7 +12,6 @@ if "--noninteractive" in sys.argv:
     mpl.use("svg")
     import bookutil.latex as latex
 
-import control as ct
 import frccontrol as fct
 import math
 import matplotlib.pyplot as plt
@@ -26,7 +25,7 @@ from bookutil.systems import DrivetrainDecoupledVelocity
 def main():
     dt = 0.005
     drivetrain = DrivetrainDecoupledVelocity(dt)
-    print("ctrb cond =", np.linalg.cond(ct.ctrb(drivetrain.sysd.A, drivetrain.sysd.B)))
+    print("ctrb cond =", np.linalg.cond(fct.ctrb(drivetrain.sysd.A, drivetrain.sysd.B)))
 
     t, xprof, vprof, aprof = fct.generate_s_curve_profile(
         max_v=4.0, max_a=3.5, time_to_max_a=1.0, dt=dt, goal=10.0
