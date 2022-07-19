@@ -9,7 +9,6 @@ if "--noninteractive" in sys.argv:
     mpl.use("svg")
     import bookutil.latex as latex
 
-from frccontrol import conv
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.signal import TransferFunction, dstep
@@ -42,10 +41,10 @@ def main():
     plt.figure(2)
     plt.xlabel("Time (s)")
     plt.ylabel("Step response")
-    den = [np.real(x) for x in conv([1, 0.6 + 0.6j], [1, 0.6 - 0.6j])]
+    den = [np.real(x) for x in np.convolve([1, 0.6 + 0.6j], [1, 0.6 - 0.6j])]
     tf = TransferFunction(1, den, dt=dt)
     sim(tf, T, "Complex conjugate poles in LHP")
-    den = [np.real(x) for x in conv([1, -0.6 + 0.6j], [1, -0.6 - 0.6j])]
+    den = [np.real(x) for x in np.convolve([1, -0.6 + 0.6j], [1, -0.6 - 0.6j])]
     tf = TransferFunction(1, den, dt=dt)
     sim(tf, T, "Complex conjugate poles in RHP")
     if "--noninteractive" in sys.argv:

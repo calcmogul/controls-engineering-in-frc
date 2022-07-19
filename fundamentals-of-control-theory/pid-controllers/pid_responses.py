@@ -9,7 +9,6 @@ if "--noninteractive" in sys.argv:
     mpl.use("svg")
     import bookutil.latex as latex
 
-from frccontrol import conv
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.signal import TransferFunction, step
@@ -41,7 +40,7 @@ def main():
     plt.ylabel("Position ($m$)")
 
     # Make plant
-    G = TransferFunction(1, conv([1, 5], [1, 0]))
+    G = TransferFunction(1, np.convolve([1, 5], [1, 0]))
 
     sim(TransferFunction(1, 1), T, "Setpoint")
 
