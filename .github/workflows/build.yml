@@ -4,7 +4,7 @@ on: [pull_request, push]
 
 jobs:
   ubuntu:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
     - uses: actions/checkout@v3
@@ -28,7 +28,7 @@ jobs:
         path: controls-engineering-in-frc-ebook.pdf
 
   archlinux:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     container: archlinux/archlinux:base-devel
     timeout-minutes: 15
     steps:
