@@ -7,6 +7,7 @@ import os
 import re
 import requests
 import sys
+import urllib3
 
 
 def lint_links(link):
@@ -35,6 +36,7 @@ def verify_url(filename, line_number, url):
         try:
             r = requests.head(url, headers=headers, timeout=5)
         except requests.exceptions.SSLError:
+            urllib3.disable_warnings()
             r = requests.head(url, headers=headers, timeout=5, verify=False)
         if r.status_code != 200:
             print(f"[{filename}:{line_number}]\n    {url}\n    {r.status_code}")
