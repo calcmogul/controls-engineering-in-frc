@@ -33,7 +33,7 @@ $(NAME).pdf: $(TEX) $(STAMP) $(BIB) $(IMGS) $(SNIPPETS) \
 	latexmk -interaction=nonstopmode -xelatex $(NAME)
 
 $(NAME)-ebook.pdf: $(NAME).pdf
-	# https://www.ghostscript.com/doc/9.56.1/VectorDevices.htm#distillerparams
+	# https://ghostscript.readthedocs.io/en/latest/VectorDevices.html#distiller-parameters
 	gs -sDEVICE=pdfwrite \
 		-dPDFSETTINGS=/ebook \
 		-dPrinted=false \
@@ -44,7 +44,7 @@ $(NAME)-ebook.pdf: $(NAME).pdf
 		$(NAME).pdf
 
 $(NAME)-printer.pdf: $(NAME).pdf
-	# https://www.ghostscript.com/doc/9.56.1/VectorDevices.htm#distillerparams
+	# https://ghostscript.readthedocs.io/en/latest/VectorDevices.html#distiller-parameters
 	gs -sDEVICE=pdfwrite \
 		-dPDFSETTINGS=/printer \
 		-dPrinted=true \
@@ -55,7 +55,7 @@ $(NAME)-printer.pdf: $(NAME).pdf
 		$(NAME).pdf
 
 $(NAME)-prepress.pdf: $(NAME).pdf
-	# https://www.ghostscript.com/doc/9.56.1/VectorDevices.htm#distillerparams
+	# https://ghostscript.readthedocs.io/en/latest/VectorDevices.html#distiller-parameters
 	gs -sDEVICE=pdfwrite \
 		-dPDFSETTINGS=/prepress \
 		-dPrinted=true \
