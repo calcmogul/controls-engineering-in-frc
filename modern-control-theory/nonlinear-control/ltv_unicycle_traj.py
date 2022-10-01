@@ -1,33 +1,34 @@
 #!/usr/bin/env python3
 
-# Runs LTV unicycle simulation on decoupled model with nonlinear trajectory
+"""Simulates LTV unicycle controller on decoupled model with nonlinear trajectory."""
 
-# Avoid needing display if plots aren't being shown
+import math
 import sys
 
-if "--noninteractive" in sys.argv:
-    import matplotlib as mpl
-
-    mpl.use("svg")
-    import bookutil.latex as latex
-
 import frccontrol as fct
-import math
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.signal import StateSpace
 
-from bookutil.drivetrain import drivetrain_decoupled, get_diff_vels
+from bookutil import latex
+from bookutil.drivetrain import get_diff_vels
 from bookutil.pose2d import Pose2d
 from bookutil.systems import DrivetrainDecoupledVelocity
 
+if "--noninteractive" in sys.argv:
+    mpl.use("svg")
+
 
 class LTVUnicycle:
+    """An frccontrol system for a unicycle."""
+
     def __init__(self, q, r):
         self.Q = np.diag(1.0 / np.square(q))
         self.R = np.diag(1.0 / np.square(r))
 
     def make_model(self, v):
+        """Makes the unicycle controller's linear model."""
         A = np.zeros((3, 3))
         if abs(v) < 1e-9:
             v = 1e-9
@@ -38,11 +39,19 @@ class LTVUnicycle:
 
         return StateSpace(A, B, C, D)
 
-    def calculate(self, pose_desired, v_desired, omega_desired, pose, v):
+    def calculate(self, pose, pose_desired, v_desired, omega_desired):
+        """Returns the next output of the unicycle controller.
+
+        Keyword arguments:
+        pose -- the current pose
+        pose_desired -- the desired pose
+        v_desired -- the desired linear velocity in meters per second
+        omega_desired -- the desired angular velocity in radians per second
+        """
         error = pose_desired.relative_to(pose)
         e = np.array([[error.x], [error.y], [error.theta]])
 
-        sys = self.make_model(v)
+        sys = self.make_model(v_desired)
         dsys = sys.to_discrete(0.02)
         K = fct.lqr(dsys, self.Q, self.R)
 
@@ -51,6 +60,8 @@ class LTVUnicycle:
 
 
 class Drivetrain(DrivetrainDecoupledVelocity):
+    """An frccontrol system for a differential drive."""
+
     def __init__(self, dt):
         """Drivetrain subsystem.
         Keyword arguments:
@@ -58,6 +69,7 @@ class Drivetrain(DrivetrainDecoupledVelocity):
         """
         DrivetrainDecoupledVelocity.__init__(self, dt)
 
+    # pragma pylint: disable=signature-differs
     def update_controller(self, next_r):
         u = self.K @ (self.r - self.x_hat)
         if self.f:
@@ -73,6 +85,7 @@ class Drivetrain(DrivetrainDecoupledVelocity):
 
 
 def main():
+    """Entry point."""
     dt = 0.02
 
     ltv_unicycle = LTVUnicycle([0.0625, 0.125, 2.5], [0.95, 0.95])
@@ -113,7 +126,7 @@ def main():
 
         vc = (drivetrain.x[0, 0] + drivetrain.x[1, 0]) / 2.0
         vref, omegaref = ltv_unicycle.calculate(
-            desired_pose, vprof[i], omegaprof[i], pose, vc
+            pose, desired_pose, vprof[i], omegaprof[i]
         )
         vlref, vrref = get_diff_vels(vref, omegaref, drivetrain.rb * 2.0)
         next_r = np.array([[vlref], [vrref]])
@@ -148,6 +161,7 @@ def main():
     plt.ylabel("y (m)")
     plt.legend()
 
+    plt.gca().set_aspect(1.0)
     plt.gca().set_box_aspect(1.0)
 
     if "--noninteractive" in sys.argv:

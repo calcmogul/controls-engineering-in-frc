@@ -1,3 +1,5 @@
+"""Function for computing the infinite horizon LQR."""
+
 import numpy as np
 import scipy as sp
 

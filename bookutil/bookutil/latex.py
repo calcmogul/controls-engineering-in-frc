@@ -1,12 +1,14 @@
-import matplotlib as mpl
+"""Utility functions for LaTeX figures."""
+
+import re
+import subprocess
 import sys
 
-if "--noninteractive" in sys.argv:
-    import matplotlib as mpl
-
-    mpl.use("svg")
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 
+if "--noninteractive" in sys.argv:
+    mpl.use("svg")
 plt.rc("text", usetex=True)
 
 
@@ -80,9 +82,6 @@ def convert_svg2pdf(filename):
     Keyword arguments:
     filename -- filename without the extension
     """
-    import re
-    import subprocess
-
     inkscape_output = subprocess.check_output(
         ["inkscape", "--version"], stderr=subprocess.DEVNULL, encoding="utf-8"
     )
@@ -97,7 +96,8 @@ def convert_svg2pdf(filename):
                 "-z",
                 "--file=" + filename + ".svg",
                 "--export-pdf=" + filename + ".pdf",
-            ]
+            ],
+            check=True,
         )
     else:
         subprocess.run(
@@ -107,7 +107,8 @@ def convert_svg2pdf(filename):
                 "--export-type=pdf",
                 "--export-filename=" + filename + ".pdf",
                 filename + ".svg",
-            ]
+            ],
+            check=True,
         )
 
 

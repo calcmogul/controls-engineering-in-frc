@@ -1,11 +1,17 @@
-import frccontrol as fct
+"""frccontrol system utility classes."""
+
 import math
+
+from frccontrol import lqr
+import frccontrol as fct
 import numpy as np
 
 from .drivetrain import drivetrain_coupled, drivetrain_decoupled, differential_drive
 
 
 class Flywheel(fct.System):
+    """An frccontrol system for a flywheel."""
+
     def __init__(self, dt):
         """Flywheel subsystem.
 
@@ -25,6 +31,7 @@ class Flywheel(fct.System):
             np.zeros((1, 1)),
         )
 
+    # pragma pylint: disable=signature-differs
     def create_model(self, states, inputs):
         # Number of motors
         num_motors = 1.0
@@ -44,6 +51,8 @@ class Flywheel(fct.System):
 
 
 class Elevator(fct.System):
+    """An frccontrol system for an elevator."""
+
     def __init__(self, dt):
         """Elevator subsystem.
 
@@ -63,6 +72,7 @@ class Elevator(fct.System):
             np.zeros((1, 1)),
         )
 
+    # pragma pylint: disable=signature-differs
     def create_model(self, states, inputs):
         # Number of motors
         num_motors = 2.0
@@ -86,6 +96,8 @@ class Elevator(fct.System):
 
 
 class DrivetrainDecoupledVelocity(fct.System):
+    """An frccontrol system for a decoupled drivetrain."""
+
     def __init__(self, dt):
         """Drivetrain subsystem.
 
@@ -100,6 +112,7 @@ class DrivetrainDecoupledVelocity(fct.System):
         u_max = np.array([[12.0], [12.0]])
         fct.System.__init__(self, u_min, u_max, dt, np.zeros((2, 1)), np.zeros((2, 1)))
 
+    # pragma pylint: disable=signature-differs
     def create_model(self, states, inputs):
         # Number of motors per side
         num_motors = 2.0
@@ -130,6 +143,8 @@ class DrivetrainDecoupledVelocity(fct.System):
 
 
 class DrivetrainCoupledVelocity(fct.System):
+    """An frccontrol system for a coupled drivetrain."""
+
     def __init__(self, dt):
         """Drivetrain subsystem.
 
@@ -144,6 +159,7 @@ class DrivetrainCoupledVelocity(fct.System):
         u_max = np.array([[12.0], [12.0]])
         fct.System.__init__(self, u_min, u_max, dt, np.zeros((2, 1)), np.zeros((2, 1)))
 
+    # pragma pylint: disable=signature-differs
     def create_model(self, states, inputs):
         # Number of motors per side
         num_motors = 2.0
@@ -175,6 +191,8 @@ class DrivetrainCoupledVelocity(fct.System):
 
 
 class LTVDifferentialDrive(fct.System):
+    """An frccontrol system for an LTV controller differential drive."""
+
     def __init__(self, dt, states):
         """Differential drive subsystem.
 
@@ -195,8 +213,14 @@ class LTVDifferentialDrive(fct.System):
         u_min = np.array([[-12.0], [-12.0]])
         u_max = np.array([[12.0], [12.0]])
 
-        f = (
-            lambda x, u: np.array(
+        fct.System.__init__(
+            self,
+            u_min,
+            u_max,
+            dt,
+            states,
+            np.zeros((2, 1)),
+            nonlinear_func=lambda x, u: np.array(
                 [
                     [(x[3, 0] + x[4, 0]) / 2.0 * math.cos(x[2, 0])],
                     [(x[3, 0] + x[4, 0]) / 2.0 * math.sin(x[2, 0])],
@@ -205,12 +229,10 @@ class LTVDifferentialDrive(fct.System):
                     [self.sysc.A[4, 3] * x[3, 0] + self.sysc.A[4, 4] * x[4, 0]],
                 ]
             )
-            + self.sysc.B @ u
-        )
-        fct.System.__init__(
-            self, u_min, u_max, dt, states, np.zeros((2, 1)), nonlinear_func=f
+            + self.sysc.B @ u,
         )
 
+    # pragma pylint: disable=signature-differs
     def create_model(self, states, inputs):
         """Relinearize model around given state.
 
@@ -249,8 +271,7 @@ class LTVDifferentialDrive(fct.System):
         )
 
     def relinearize(self, Q_elems, R_elems, states, inputs):
-        from frccontrol import lqr
-
+        """Relinearizes the controller around the given states and inputs."""
         sysc = self.create_model(states, inputs)
         sysd = sysc.to_discrete(self.dt)
 

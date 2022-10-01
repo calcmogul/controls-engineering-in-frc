@@ -1,20 +1,24 @@
 #!/usr/bin/env python3
 
+"""Plots flywheel step response."""
+
+import math
 import sys
 
-if "--noninteractive" in sys.argv:
-    import matplotlib as mpl
-
-    mpl.use("svg")
-    import bookutil.latex as latex
-
 import frccontrol as fct
-import math
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 
+from bookutil import latex
+
+if "--noninteractive" in sys.argv:
+    mpl.use("svg")
+
 
 class Flywheel(fct.System):
+    """An frccontrol system for a flywheel."""
+
     def __init__(self, dt):
         """Flywheel subsystem.
 
@@ -34,6 +38,7 @@ class Flywheel(fct.System):
             np.zeros((1, 1)),
         )
 
+    # pragma pylint: disable=signature-differs
     def create_model(self, states, inputs):
         # Number of motors
         num_motors = 1.0
@@ -58,6 +63,7 @@ class Flywheel(fct.System):
 
 
 def main():
+    """Entry point."""
     dt = 0.005
     flywheel = Flywheel(dt)
 
@@ -65,22 +71,22 @@ def main():
     l0 = 0.1
     l1 = l0 + 5.0
     l2 = l1 + 0.1
-    t = np.arange(0, l2 + 5.0, dt)
+    ts = np.arange(0, l2 + 5.0, dt)
 
     refs = []
 
     # Generate references for simulation
-    for i in range(len(t)):
-        if t[i] < l0:
+    for t in ts:
+        if t < l0:
             r = np.array([[0]])
-        elif t[i] < l1:
+        elif t < l1:
             r = np.array([[9000 / 60 * 2 * math.pi]])
         else:
             r = np.array([[0]])
         refs.append(r)
 
-    x_rec, ref_rec, u_rec, y_rec = flywheel.generate_time_responses(t, refs)
-    flywheel.plot_time_responses(t, x_rec, ref_rec, u_rec)
+    x_rec, ref_rec, u_rec, _ = flywheel.generate_time_responses(refs)
+    flywheel.plot_time_responses(ts, x_rec, ref_rec, u_rec)
     if "--noninteractive" in sys.argv:
         latex.savefig("flywheel_response")
     else:

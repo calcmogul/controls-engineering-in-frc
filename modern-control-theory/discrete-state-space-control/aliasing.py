@@ -1,22 +1,23 @@
 #!/usr/bin/env python3
 
-# Avoid needing display if plots aren't being shown
-import sys
-
-if "--noninteractive" in sys.argv:
-    import matplotlib as mpl
-
-    mpl.use("svg")
-    import bookutil.latex as latex
+"""Demonstrates aliasing of two sine waves."""
 
 import math
+import sys
+
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 
+from bookutil import latex
+
+if "--noninteractive" in sys.argv:
+    mpl.use("svg")
 plt.rc("text", usetex=True)
 
 
 def main():
+    """Entry point."""
     xlim = [0, 4]
     x = np.arange(xlim[0], xlim[1], 0.001)
     plt.xlim(xlim)

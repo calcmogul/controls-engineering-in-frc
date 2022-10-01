@@ -1,22 +1,23 @@
 #!/usr/bin/env python3
 
-# Avoid needing display if plots aren't being shown
+"""Plots PID controller underdamped, overdamped, and critically damped responses."""
+
 import sys
 
-if "--noninteractive" in sys.argv:
-    import matplotlib as mpl
-
-    mpl.use("svg")
-    import bookutil.latex as latex
-
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.signal import TransferFunction, step
 
+from bookutil import latex
+
+if "--noninteractive" in sys.argv:
+    mpl.use("svg")
 plt.rc("text", usetex=True)
 
 
 def sim(tf, T, label):
+    """Simulates the given transfer function for T seconds."""
     T, yout = step(tf, T=T)
 
     # 1 / yout[-1] normalizes to DC gain
@@ -33,6 +34,7 @@ def feedback(tf1, tf2, sign=-1):
 
 
 def main():
+    """Entry point."""
     dt = 0.0001
     T = np.arange(0, 6, dt)
 

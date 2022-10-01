@@ -1,32 +1,34 @@
 #!/usr/bin/env python3
 
-# Avoid needing display if plots aren't being shown
+"""Plots the Laplace transform of musical notes."""
+
+import math
 import sys
 
-if "--noninteractive" in sys.argv:
-    import matplotlib as mpl
-
-    mpl.use("svg")
-    import bookutil.latex as latex
-
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 from matplotlib import cm
-from mpl_toolkits.mplot3d import Axes3D
-import math
 import numpy as np
 
+from bookutil import latex
+
+if "--noninteractive" in sys.argv:
+    mpl.use("svg")
 plt.rc("text", usetex=True)
 
 
 def sin_tf(freq, s):
+    """Returns a transfer function that oscillates at the given frequency."""
     return freq / ((s - freq * 1j) * (s + freq * 1j))
 
 
 def clamp(val, low, high):
+    """Clamps a value within a range."""
     return max(low, min(val, high))
 
 
 def main():
+    """Entry point."""
     f_f = 349.23
     f_a = 440
     f_c = 261.63
@@ -48,13 +50,13 @@ def main():
 
     plt.subplot(num_plots, 1, 1)
     plt.ylim(ylim)
-    plt.ylabel("Fmaj4 ($\sigma = 0$)")
+    plt.ylabel(r"Fmaj4 ($\sigma = 0$)")
     plt.plot(x, ysum)
     plt.gca().axes.get_xaxis().set_ticks([])
 
     plt.subplot(num_plots, 1, 2)
     plt.ylim(ylim)
-    plt.ylabel("Attenuating Fmaj4 ($\sigma = -25$)")
+    plt.ylabel(r"Attenuating Fmaj4 ($\sigma = -25$)")
     plt.plot(x, ysum_attenuating)
     plt.gca().axes.get_xaxis().set_ticks([])
 
@@ -78,9 +80,9 @@ def main():
     fig = plt.figure(2)
     ax = fig.add_subplot(111, projection="3d")
     ax.plot_surface(x, y, z, cmap=cm.coolwarm)
-    ax.set_xlabel("$Re(\sigma)$")
-    ax.set_ylabel("$Im(j\omega)$")
-    ax.set_zlabel("$H(s)$")
+    ax.set_xlabel(r"$Re(\sigma)$")
+    ax.set_ylabel(r"$Im(j\omega)$")
+    ax.set_zlabel(r"$H(s)$")
     ax.set_zticks([])
 
     if "--noninteractive" in sys.argv:

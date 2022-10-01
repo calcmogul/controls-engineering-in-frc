@@ -1,21 +1,22 @@
 #!/usr/bin/env python3
 
-# Avoid needing display if plots aren't being shown
+"""Companion figures for section on 1D motion profiles."""
+
 import sys
 
-if "--noninteractive" in sys.argv:
-    import matplotlib as mpl
-
-    mpl.use("svg")
-    import bookutil.latex as latex
-
 import frccontrol as fct
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 
+from bookutil import latex
+
+if "--noninteractive" in sys.argv:
+    mpl.use("svg")
 plt.rc("text", usetex=True)
 
 
 def main():
+    """Entry point."""
     t, x, v, a = fct.generate_trapezoid_profile(
         max_v=7.0, time_to_max_v=2.0, dt=0.05, goal=50.0
     )

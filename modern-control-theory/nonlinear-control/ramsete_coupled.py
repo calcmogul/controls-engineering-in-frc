@@ -1,43 +1,42 @@
 #!/usr/bin/env python3
 
-# Runs Ramsete simulation on coupled model with v and omega as states
+"""Simulates Ramsete controller on coupled model with v and omega as states."""
 
-# Avoid needing display if plots aren't being shown
+import math
 import sys
 
-if "--noninteractive" in sys.argv:
-    import matplotlib as mpl
-
-    mpl.use("svg")
-    import bookutil.latex as latex
-
 import frccontrol as fct
-import math
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 
+from bookutil import latex
 from bookutil.drivetrain import ramsete
 from bookutil.pose2d import Pose2d
 from bookutil.systems import DrivetrainCoupledVelocity
 
+if "--noninteractive" in sys.argv:
+    mpl.use("svg")
+
 
 def main():
+    """Entry point."""
     dt = 0.005
     drivetrain = DrivetrainCoupledVelocity(dt)
     print("ctrb cond =", np.linalg.cond(fct.ctrb(drivetrain.sysd.A, drivetrain.sysd.B)))
 
-    t, xprof, vprof, aprof = fct.generate_s_curve_profile(
+    ts, xprof, vprof, _ = fct.generate_s_curve_profile(
         max_v=4.0, max_a=3.5, time_to_max_a=1.0, dt=dt, goal=10.0
     )
 
     # Generate references for LQR
     refs = []
-    for i in range(len(t)):
+    for i, _ in enumerate(ts):
         r = np.array([[vprof[i]], [0]])
         refs.append(r)
 
     # Run LQR
-    state_rec, ref_rec, u_rec, y_rec = drivetrain.generate_time_responses(t, refs)
+    state_rec, ref_rec, u_rec, _ = drivetrain.generate_time_responses(refs)
     nstates = drivetrain.sysd.A.shape[0]
     ninputs = drivetrain.sysd.B.shape[1]
     subplot_max = nstates + ninputs
@@ -53,8 +52,8 @@ def main():
             plt.title("Time domain responses")
         if i == 1:
             plt.ylim([-3, 3])
-        plt.plot(t, drivetrain.extract_row(state_rec, i), label="Estimated state")
-        plt.plot(t, drivetrain.extract_row(ref_rec, i), label="Reference")
+        plt.plot(ts, drivetrain.extract_row(state_rec, i), label="Estimated state")
+        plt.plot(ts, drivetrain.extract_row(ref_rec, i), label="Reference")
         plt.legend()
 
     for i in range(ninputs):
@@ -65,7 +64,7 @@ def main():
             verticalalignment="center",
             rotation=45,
         )
-        plt.plot(t, drivetrain.extract_row(u_rec, i), label="Control effort")
+        plt.plot(ts, drivetrain.extract_row(u_rec, i), label="Control effort")
         plt.legend()
     plt.xlabel("Time (s)")
     if "--noninteractive" in sys.argv:
@@ -103,7 +102,7 @@ def main():
 
     # Run Ramsete
     i = 0
-    while i < len(t) - 1:
+    while i < len(ts) - 1:
         desired_pose.x = 0
         desired_pose.y = xprof[i]
         desired_pose.theta = np.pi / 2.0
@@ -128,16 +127,17 @@ def main():
         pose.y += drivetrain.x[0, 0] * math.sin(pose.theta) * dt
         pose.theta += drivetrain.x[1, 0] * dt
 
-        if i < len(t) - 1:
+        if i < len(ts) - 1:
             i += 1
 
     plt.figure(2)
-    plt.plot([0] * len(t), xprof, label="Reference trajectory")
+    plt.plot([0] * len(ts), xprof, label="Reference trajectory")
     plt.plot(x_rec, y_rec, label="Ramsete controller")
     plt.xlabel("x (m)")
     plt.ylabel("y (m)")
     plt.legend()
 
+    plt.gca().set_aspect(1.0)
     plt.gca().set_box_aspect(1.0)
 
     if "--noninteractive" in sys.argv:
@@ -153,8 +153,8 @@ def main():
         verticalalignment="center",
         rotation=45,
     )
-    plt.plot(t, vref_rec, label="Reference")
-    plt.plot(t, v_rec, label="Estimated state")
+    plt.plot(ts, vref_rec, label="Reference")
+    plt.plot(ts, v_rec, label="Estimated state")
     plt.legend()
     plt.subplot(num_plots, 1, 2)
     plt.ylabel(
@@ -163,8 +163,8 @@ def main():
         verticalalignment="center",
         rotation=45,
     )
-    plt.plot(t, omegaref_rec, label="Reference")
-    plt.plot(t, omega_rec, label="Estimated state")
+    plt.plot(ts, omegaref_rec, label="Reference")
+    plt.plot(ts, omega_rec, label="Estimated state")
     plt.legend()
     plt.subplot(num_plots, 1, 3)
     plt.ylabel(
@@ -173,7 +173,7 @@ def main():
         verticalalignment="center",
         rotation=45,
     )
-    plt.plot(t, ul_rec, label="Control effort")
+    plt.plot(ts, ul_rec, label="Control effort")
     plt.legend()
     plt.subplot(num_plots, 1, 4)
     plt.ylabel(
@@ -182,7 +182,7 @@ def main():
         verticalalignment="center",
         rotation=45,
     )
-    plt.plot(t, ur_rec, label="Control effort")
+    plt.plot(ts, ur_rec, label="Control effort")
     plt.legend()
     plt.xlabel("Time (s)")
 

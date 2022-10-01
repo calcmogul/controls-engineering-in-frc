@@ -1,23 +1,24 @@
 #!/usr/bin/env python3
 
-# Avoid needing display if plots aren't being shown
-import sys
-
-if "--noninteractive" in sys.argv:
-    import matplotlib as mpl
-
-    mpl.use("svg")
-    import bookutil.latex as latex
+"""Plots the FFT of musical notes."""
 
 import math
+import sys
+
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 import scipy.fftpack
 
+from bookutil import latex
+
+if "--noninteractive" in sys.argv:
+    mpl.use("svg")
 plt.rc("text", usetex=True)
 
 
 def main():
+    """Entry point."""
     T = 0.000001
     xlim = [0, 0.05]
     ylim = [-3, 3]

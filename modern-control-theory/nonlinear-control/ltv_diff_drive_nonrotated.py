@@ -1,24 +1,28 @@
 #!/usr/bin/env python3
 
-# Runs LTV differential drive simulation
+"""
+Simulates LTV differential drive controller with RK4 integration in field
+coordinate frame.
+"""
 
-# Avoid needing display if plots aren't being shown
+import csv
 import sys
 
-if "--noninteractive" in sys.argv:
-    import matplotlib as mpl
-
-    mpl.use("svg")
-    import bookutil.latex as latex
-
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 
-from bookutil.drivetrain import get_diff_vels, differential_drive
+from bookutil import latex
+from bookutil.drivetrain import get_diff_vels
 from bookutil.systems import LTVDifferentialDrive
+
+if "--noninteractive" in sys.argv:
+    mpl.use("svg")
 
 
 class DifferentialDrive(LTVDifferentialDrive):
+    """An frccontrol system for a differential drive."""
+
     def __init__(self, dt, states):
         """Differential drive subsystem.
 
@@ -28,6 +32,7 @@ class DifferentialDrive(LTVDifferentialDrive):
         """
         LTVDifferentialDrive.__init__(self, dt, states)
 
+    # pragma pylint: disable=signature-differs
     def update_controller(self, next_r):
         self.design_controller_observer()
 
@@ -43,21 +48,18 @@ class DifferentialDrive(LTVDifferentialDrive):
 
 
 def main():
-    t = []
+    """Entry point."""
+    ts = []
     refs = []
 
     # Radius of robot in meters
     rb = 0.59055 / 2.0
 
-    with open("ramsete_traj.csv", "r") as trajectory_file:
-        import csv
-
-        current_t = 0
-
+    with open("ramsete_traj.csv", "r", encoding="utf-8") as trajectory_file:
         reader = csv.reader(trajectory_file, delimiter=",")
         trajectory_file.readline()
         for row in reader:
-            t.append(float(row[0]))
+            ts.append(float(row[0]))
             x = float(row[1])
             y = float(row[2])
             theta = float(row[3])
@@ -69,7 +71,7 @@ def main():
     x = np.array([[refs[0][0, 0] + 0.5], [refs[0][1, 0] + 0.5], [np.pi / 2], [0], [0]])
     diff_drive = DifferentialDrive(dt, x)
 
-    state_rec, ref_rec, u_rec, y_rec = diff_drive.generate_time_responses(t, refs)
+    state_rec, ref_rec, u_rec, y_rec = diff_drive.generate_time_responses(refs)
 
     plt.figure(1)
     x_rec = np.squeeze(state_rec[0:1, :])
@@ -80,12 +82,13 @@ def main():
     plt.ylabel("y (m)")
     plt.legend()
 
+    plt.gca().set_aspect(1.0)
     plt.gca().set_box_aspect(1.0)
 
     if "--noninteractive" in sys.argv:
         latex.savefig("ltv_diff_drive_nonrotated_xy")
 
-    diff_drive.plot_time_responses(t, state_rec, ref_rec, u_rec)
+    diff_drive.plot_time_responses(ts, state_rec, ref_rec, u_rec)
 
     if "--noninteractive" in sys.argv:
         latex.savefig("ltv_diff_drive_nonrotated_response")

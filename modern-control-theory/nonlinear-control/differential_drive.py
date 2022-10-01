@@ -1,19 +1,23 @@
 #!/usr/bin/env python3
 
+"""Plots differential drive following a motion profile."""
+
 import sys
 
-if "--noninteractive" in sys.argv:
-    import matplotlib as mpl
-
-    mpl.use("svg")
-    import bookutil.latex as latex
-
 import frccontrol as fct
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 
+from bookutil import latex
+
+if "--noninteractive" in sys.argv:
+    mpl.use("svg")
+
 
 class DifferentialDrive(fct.System):
+    """An frccontrol system for a differential drive."""
+
     def __init__(self, dt):
         """DifferentialDrive subsystem.
 
@@ -33,6 +37,7 @@ class DifferentialDrive(fct.System):
         u_max = np.array([[12.0], [12.0]])
         fct.System.__init__(self, u_min, u_max, dt, np.zeros((4, 1)), np.zeros((2, 1)))
 
+    # pragma pylint: disable=signature-differs
     def create_model(self, states, inputs):
         self.in_low_gear = False
 
@@ -79,29 +84,27 @@ class DifferentialDrive(fct.System):
 
         q_pos = 0.05
         q_vel = 1.0
-        q_voltage = 10.0
-        q_encoder_uncertainty = 2.0
         r_pos = 0.0001
-        r_gyro = 0.000001
         self.design_kalman_filter([q_pos, q_vel, q_pos, q_vel], [r_pos, r_pos])
 
 
 def main():
+    """Entry point."""
     dt = 0.005
     diff_drive = DifferentialDrive(dt)
 
-    t, xprof, vprof, aprof = fct.generate_trapezoid_profile(
+    ts, xprof, vprof, _ = fct.generate_trapezoid_profile(
         max_v=3.5, time_to_max_v=1.0, dt=dt, goal=50.0
     )
 
     # Generate references for simulation
     refs = []
-    for i in range(len(t)):
+    for i, _ in enumerate(ts):
         r = np.array([[xprof[i]], [vprof[i]], [xprof[i]], [vprof[i]]])
         refs.append(r)
 
-    x_rec, ref_rec, u_rec, y_rec = diff_drive.generate_time_responses(t, refs)
-    diff_drive.plot_time_responses(t, x_rec, ref_rec, u_rec)
+    x_rec, ref_rec, u_rec, _ = diff_drive.generate_time_responses(refs)
+    diff_drive.plot_time_responses(ts, x_rec, ref_rec, u_rec)
     if "--noninteractive" in sys.argv:
         latex.savefig("differential_drive_response")
     else:

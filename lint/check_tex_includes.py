@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
-"""Ensure every .tex file is transitively included by
+"""
+Ensure every .tex file is transitively included by
 controls-engineering-in-frc.tex
 """
 
@@ -16,9 +17,13 @@ files = [
     if f.endswith(".tex") and "build/venv/" not in dp
 ]
 
-# Tuples are filename and whether filename has been parsed (whether node has
-# been visited)
+
 class Node:
+    """
+    Tuples are filename and whether filename has been parsed (whether node has
+    been visited)
+    """
+
     def __init__(self, filename):
         self.filename = filename
         self.visited = False
@@ -30,6 +35,7 @@ error_occurred = False
 
 
 def visit(filename):
+    """Recurse through a file's includes."""
     nodes[filename].visited = True
 
     # Ignore files that break parsing
@@ -37,7 +43,7 @@ def visit(filename):
         return
 
     # Get file contents
-    with open(filename, "r") as f:
+    with open(filename, "r", encoding="utf-8") as f:
         contents = f.read()
 
     rgx = re.compile(
@@ -76,6 +82,8 @@ def visit(filename):
                 print(
                     f"[{filename}:{linecount}] error: included file '{subfile}' does not exist"
                 )
+                # pragma pylint: disable=global-statement
+                global error_occurred
                 error_occurred = True
 
 

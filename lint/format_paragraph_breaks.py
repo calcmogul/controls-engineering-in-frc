@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
-"""Removes blank lines before \begin blocks since those add an undesired
-paragraph break. Also ensure a blank line exists between \end statements and new
+r"""
+Removes blank lines before \begin blocks since those add an undesired paragraph
+break. Also ensure a blank line exists between \end statements and new
 paragraphs.
 """
 
@@ -19,7 +20,7 @@ files = [
 ]
 
 for filename in files:
-    with open(filename, "r") as infile:
+    with open(filename, "r", encoding="utf-8") as infile:
         in_contents = infile.read()
 
     out_contents = begin_rgx.sub(r"\g<1>", in_contents)
@@ -27,7 +28,7 @@ for filename in files:
     out_contents = re.sub(r"\n\n\n", r"\n\n", out_contents)
 
     if in_contents != out_contents:
-        with open(filename + ".tmp", "w") as outfile:
+        with open(filename + ".tmp", "w", encoding="utf-8") as outfile:
             outfile.write(out_contents)
             os.remove(filename)
             os.rename(filename + ".tmp", filename)

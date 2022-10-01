@@ -5,8 +5,9 @@
 import multiprocessing as mp
 import os
 import re
-import requests
 import sys
+
+import requests
 import urllib3
 
 
@@ -16,8 +17,7 @@ def lint_links(link):
     Keyword arguments:
     link -- a tuple containing the filename, line number of URL, and URL
     """
-    filename, line, url = link
-    return verify_url(filename, line, url)
+    return verify_url(link[0], link[1], link[2])
 
 
 def verify_url(filename, line_number, url):
@@ -68,9 +68,9 @@ bib_rgx = re.compile(r"url\s*=\s*{(?P<url>[^}]+)}")
 #   contents -- file contents
 #   match -- regex Match object
 links = []
-for filename in files:
+for f in files:
     # Get file contents
-    with open(filename, "r") as f:
+    with open(f, "r", encoding="utf-8") as f:
         contents = f.read()
 
     for match in list(cmd_rgx.finditer(contents)) + list(bib_rgx.finditer(contents)):
@@ -80,7 +80,7 @@ for filename in files:
             if contents[i] == os.linesep:
                 linecount += 1
 
-        links.append((filename, linecount, match.group("url")))
+        links.append((f, linecount, match.group("url")))
 
 with mp.Pool(mp.cpu_count()) as pool:
     results = pool.map(lint_links, links)

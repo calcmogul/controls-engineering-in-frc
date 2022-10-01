@@ -1,22 +1,23 @@
 #!/usr/bin/env python3
 
-# Avoid needing display if plots aren't being shown
+"""Plots time domain response of a system that's stable at high frequencies."""
+
 import sys
 
-if "--noninteractive" in sys.argv:
-    import matplotlib as mpl
-
-    mpl.use("svg")
-    import bookutil.latex as latex
-
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
-from scipy.signal import StateSpace, TransferFunction, step
+from scipy.signal import StateSpace
 
+from bookutil import latex
+
+if "--noninteractive" in sys.argv:
+    mpl.use("svg")
 plt.rc("text", usetex=True)
 
 
 def main():
+    """Entry point."""
     dt = 0.0001
 
     # Make plant
@@ -25,7 +26,6 @@ def main():
     Ke = 0.0181  # V/rad/s
     Kt = 0.0181  # N-m/A
     R = 0.0902  # Ω
-    L = 230e-6  # H
 
     # State-space
     #

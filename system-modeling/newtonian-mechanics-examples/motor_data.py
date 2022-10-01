@@ -1,22 +1,22 @@
 #!/usr/bin/env python3
 
-# Avoid needing display if plots aren't being shown
+"""Plots motor data for a 775pro motor."""
+
 import sys
 
-if "--noninteractive" in sys.argv:
-    import matplotlib as mpl
-
-    mpl.use("svg")
-    import bookutil.latex as latex
-
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
-import os
 
+from bookutil import latex
+
+if "--noninteractive" in sys.argv:
+    mpl.use("svg")
 plt.rc("text", usetex=True)
 
 
 def main():
+    """Entry point."""
     i_stall = 134
     i_free = 0.7
     rpm_free = 18730
@@ -24,11 +24,11 @@ def main():
     t_stall = 0.71
 
     # 775pro data
-    fig, ax_left = plt.subplots()
+    _, ax_left = plt.subplots()
     ax_left.set_xlabel("Speed (RPM)")
 
     rpm = np.arange(0, rpm_free, 50)
-    line1 = ax_left.plot(
+    ax_left.plot(
         rpm, [i_stall - i_stall / rpm_free * x for x in rpm], "b", label="Current (A)"
     )
     ax_left.annotate(
@@ -37,7 +37,7 @@ def main():
         xytext=(0, 160),
         arrowprops=dict(arrowstyle="->"),
     )
-    line2 = ax_left.plot(
+    ax_left.plot(
         rpm,
         [
             -p_max / (rpm_free / 2.0) ** 2 * (x - rpm_free / 2.0) ** 2 + p_max
@@ -57,7 +57,7 @@ def main():
     plt.legend(loc=3)
 
     ax_right = ax_left.twinx()
-    line3 = ax_right.plot(
+    ax_right.plot(
         rpm, [t_stall - t_stall / rpm_free * x for x in rpm], "y", label="Torque (N-m)"
     )
     ax_right.annotate(

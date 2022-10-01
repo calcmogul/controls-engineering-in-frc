@@ -1,22 +1,28 @@
 #!/usr/bin/env python3
 
-# Avoid needing display if plots aren't being shown
-import sys
-
-if "--noninteractive" in sys.argv:
-    import matplotlib as mpl
-
-    mpl.use("svg")
-    import bookutil.latex as latex
+"""Companion figures for section on configuration spaces."""
 
 import math
-import matplotlib.colors as colors
+import sys
+
+import matplotlib as mpl
+from matplotlib import colors
 import matplotlib.pyplot as plt
 
+from bookutil import latex
+
+if "--noninteractive" in sys.argv:
+    mpl.use("svg")
 plt.rc("text", usetex=True)
 
 
 def config_plot(xlim, ylim):
+    """Configure the global plot with x and y labels and limits.
+
+    Keyword arguments:
+    xlim -- the x limits
+    ylim -- the y limits
+    """
     plt.xlabel("Arm angle (rad)")
     plt.ylabel("Elevator height (m)")
     plt.xlim(xlim)
@@ -24,6 +30,12 @@ def config_plot(xlim, ylim):
 
 
 def make_box(bottom_left, top_right):
+    """Creates a pyplot Polygon box.
+
+    Keyword arguments:
+    bottom_left -- the box's bottom-left coordinate
+    top_right -- the box's top-right coordinate
+    """
     return plt.Polygon(
         [
             (bottom_left[0], bottom_left[1]),
@@ -35,6 +47,12 @@ def make_box(bottom_left, top_right):
 
 
 def make_invalid_region(xlim, ylim):
+    """Creates a pyplot Polygon "invalid region".
+
+    Keyword arguments:
+    xlim -- the x limits of the invalid region
+    ylim -- the y limits of the invalid region
+    """
     points = list(zip(xlim, ylim))
     invalid_states = make_box(points[0], points[1])
     invalid_states.set_color(colors.hsv_to_rgb((1, 0.8, 0.9)))
@@ -45,7 +63,11 @@ def make_invalid_region(xlim, ylim):
 
 
 def make_valid_region(points):
-    """Turns a list of x-y pairs into a valid region"""
+    """Turns a list of x-y pairs into a valid region.
+
+    Keyword arguments:
+    points -- list of x-y pairs
+    """
     valid_states = plt.Polygon(points)
     valid_states.set_color((1, 1, 1))
     valid_states.set_label("Valid states")
@@ -53,6 +75,17 @@ def make_valid_region(points):
 
 
 def draw_point(ax, x, y, label, horizontalalignment="left", verticalalignment="top"):
+    """Draw a point and corresponding label onto an Axis.
+
+    Keyword arguments:
+    ax -- the Axis object on which to draw
+    x -- the point's x coordinate
+    y -- the point's y coordinate
+    horizontalalignment -- how the text should be horizontally aligned with
+                           respect to the point (default: "left")
+    verticalignment -- how the text should be vertically aligned with respect to
+                       the point (default: "top")
+    """
     ax.scatter(x, y, color="C0", s=10, zorder=2)
     ax.annotate(
         label,
@@ -63,6 +96,7 @@ def draw_point(ax, x, y, label, horizontalalignment="left", verticalalignment="t
 
 
 def main():
+    """Entry point."""
     xlim = [-math.pi, math.pi]
     ylim = [-1, 6.5]
 

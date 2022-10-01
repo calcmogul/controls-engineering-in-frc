@@ -1,27 +1,26 @@
 #!/usr/bin/env python3
 
-# Runs Ramsete simulation on decoupled model with nonlinear trajectory
-
-# Avoid needing display if plots aren't being shown
-import sys
-
-if "--noninteractive" in sys.argv:
-    import matplotlib as mpl
-
-    mpl.use("svg")
-    import bookutil.latex as latex
+"""Simulates Ramsete controller on decoupled model with nonlinear trajectory."""
 
 import math
+import sys
+
 import frccontrol as fct
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 
+from bookutil import latex
 from bookutil.drivetrain import get_diff_vels, ramsete
 from bookutil.pose2d import Pose2d
 from bookutil.systems import DrivetrainDecoupledVelocity
 
+if "--noninteractive" in sys.argv:
+    mpl.use("svg")
+
 
 def main():
+    """Entry point."""
     dt = 0.02
     drivetrain = DrivetrainDecoupledVelocity(dt)
     print("ctrb cond =", np.linalg.cond(fct.ctrb(drivetrain.sysd.A, drivetrain.sysd.B)))
@@ -97,6 +96,7 @@ def main():
     plt.ylabel("y (m)")
     plt.legend()
 
+    plt.gca().set_aspect(1.0)
     plt.gca().set_box_aspect(1.0)
 
     if "--noninteractive" in sys.argv:

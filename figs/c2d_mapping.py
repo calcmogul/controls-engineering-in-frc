@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
 
-# Avoid needing display if plots aren't being shown
-import sys
-
-if "--noninteractive" in sys.argv:
-    import matplotlib as mpl
-
-    mpl.use("svg")
-    import bookutil.latex as latex
+"""Plots the continuous-to-discrete mapping of system poles."""
 
 import math
+import sys
+
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 
+from bookutil import latex
+
+if "--noninteractive" in sys.argv:
+    mpl.use("svg")
 plt.rc("text", usetex=True)
 
 T = 1.0
@@ -36,6 +36,12 @@ def z_to_rgb(z):
 
 
 def exp_map(x, y):
+    """Performs the exponential map of a complex number.
+
+    Keyword arguments:
+    x -- the real part
+    y -- the imaginary part
+    """
     z = complex(x, y)
     z = np.exp(z * T)
     return z.real, z.imag
@@ -49,7 +55,6 @@ def plot_phase_lines(ax, transform=None):
     transform -- x_new, y_new = f(x, y)
     """
     xmin = -2.0 * math.pi
-    xmax = 0
     ymin = -math.pi
     ymax = math.pi
 
@@ -81,13 +86,14 @@ def plot_phase_lines(ax, transform=None):
             line_y = np.delete(line_y, -1)
 
         if transform:
-            for i in range(len(line_x)):
+            for i, _ in enumerate(line_x):
                 line_x[i], line_y[i] = transform(line_x[i], line_y[i])
 
         ax.plot(line_x, line_y, color=[1, 1, 1])
 
 
 def main():
+    """Entry point."""
     xmin = -2.0 * math.pi
     xmax = 0
     ymin = -math.pi
@@ -117,6 +123,7 @@ def main():
 
     plot_phase_lines(ax)
 
+    ax.set_aspect(1.0)
     ax.set_box_aspect(1.0)
 
     if "--noninteractive" in sys.argv:
@@ -151,6 +158,7 @@ def main():
 
     plot_phase_lines(ax, exp_map)
 
+    ax.set_aspect(1.0)
     ax.set_box_aspect(1.0)
 
     if "--noninteractive" in sys.argv:

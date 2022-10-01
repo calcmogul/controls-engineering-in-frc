@@ -1,51 +1,60 @@
 #!/usr/bin/env python3
 
-# Avoid needing display if plots aren't being shown
+"""Simulates an elevator with different discretization methods."""
+
 import sys
 
-if "--noninteractive" in sys.argv:
-    import matplotlib as mpl
-
-    mpl.use("svg")
-    import bookutil.latex as latex
-
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 
+from bookutil import latex
 from bookutil.systems import Elevator
 
+if "--noninteractive" in sys.argv:
+    mpl.use("svg")
 plt.rc("text", usetex=True)
 
 
-def generate_refs(dt):
+def generate_refs(T):
+    """Generates refs for the given duration."""
     # Set up graphing
     l0 = 0.1
     l1 = l0 + 5.0
     l2 = l1 + 0.1
     l3 = l2 + 1.0
-    t = np.arange(0, l3, dt)
+    ts = np.arange(0, l3, T)
 
     refs = []
 
     # Generate references for simulation
-    for i in range(len(t)):
-        if t[i] < l0:
+    for t in ts:
+        if t < l0:
             r = np.array([[0.0], [0.0]])
-        elif t[i] < l1:
+        elif t < l1:
             r = np.array([[1.524], [0.0]])
         else:
             r = np.array([[0.0], [0.0]])
         refs.append(r)
 
-    return t, refs
+    return ts, refs
 
 
 def simulate(elevator, dt, method):
-    t, refs = generate_refs(dt)
+    """Simulate an elevator with a timestep of dt using the given discretization
+    method.
+
+    Keyword arguments:
+    elevator -- the elevator to simulate
+    dt -- the timestep duration
+    method -- the discretization method ("zoh", "euler", "backward_diff", or
+              "bilinear")
+    """
+    ts, refs = generate_refs(dt)
     elevator.sysd = elevator.sysc.to_discrete(dt, method)
     elevator.x = np.zeros((elevator.x.shape[0], 1))
     elevator.x_hat = np.zeros((elevator.x_hat.shape[0], 1))
-    state_rec, ref_rec, u_rec, y_rec = elevator.generate_time_responses(t, refs)
+    state_rec, _, _, _ = elevator.generate_time_responses(refs)
 
     pos = elevator.extract_row(state_rec, 0)
     if method == "zoh":
@@ -56,11 +65,12 @@ def simulate(elevator, dt, method):
         label = "Backward Euler"
     elif method == "bilinear":
         label = "Bilinear transform"
-    label += " (T={}s)".format(dt)
-    plt.plot(t, pos, label=label)
+    label += f" (T={dt} s)"
+    plt.plot(ts, pos, label=label)
 
 
 def main():
+    """Entry point."""
     elevator = Elevator(0.1)
 
     plt.figure(1)

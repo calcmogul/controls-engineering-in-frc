@@ -1,3 +1,5 @@
+"""Function for computing the steady-state Kalman gain matrix."""
+
 import numpy as np
 import scipy as sp
 

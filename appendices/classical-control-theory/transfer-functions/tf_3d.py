@@ -1,24 +1,24 @@
 #!/usr/bin/env python3
 
-# Avoid needing display if plots aren't being shown
+"""Plots the magnitude of a transfer function in 3D."""
+
+import math
 import sys
 
-if "--noninteractive" in sys.argv:
-    import matplotlib as mpl
-
-    mpl.use("svg")
-    import bookutil.latex as latex
-
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 from matplotlib import cm
-from mpl_toolkits.mplot3d import Axes3D
-import math
 import numpy as np
 
+from bookutil import latex
+
+if "--noninteractive" in sys.argv:
+    mpl.use("svg")
 plt.rc("text", usetex=True)
 
 
 def clamp(val, low, high):
+    """Clamps a value within a range."""
     return max(low, min(val, high))
 
 
@@ -38,6 +38,7 @@ def func(x, y):
 
 
 def main():
+    """Entry point."""
     x, y = np.mgrid[-20.0:20.0:250j, -20.0:20.0:250j]
 
     # Need an (N, 2) array of (x, y) pairs.
@@ -51,8 +52,8 @@ def main():
     fig = plt.figure()
     ax = fig.add_subplot(111, projection="3d")
     ax.plot_surface(x, y, z, cmap=cm.coolwarm)
-    ax.set_xlabel("$Re(\sigma)$")
-    ax.set_ylabel("$Im(j\omega)$")
+    ax.set_xlabel(r"$Re(\sigma)$")
+    ax.set_ylabel(r"$Im(j\omega)$")
     ax.set_zlabel("$H(s)$")
     ax.set_zticks([])
 

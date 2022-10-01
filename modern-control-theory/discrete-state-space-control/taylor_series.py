@@ -1,23 +1,23 @@
 #!/usr/bin/env python3
 
-# Avoid needing display if plots aren't being shown
+"""Plots Taylor series approximations of exp(x)."""
+
+import math
 import sys
 
 import matplotlib as mpl
-
-if "--noninteractive" in sys.argv:
-    mpl.use("svg")
-    import bookutil.latex as latex
-
-import math
 import matplotlib.pyplot as plt
 import numpy as np
+
+from bookutil import latex
 
 # Set the default color cycle
 mpl.rcParams["axes.prop_cycle"] = mpl.cycler(
     color=["k", "violet", "blueviolet", "b", "g", "darkorange", "crimson"]
 )
 
+if "--noninteractive" in sys.argv:
+    mpl.use("svg")
 plt.rc("text", usetex=True)
 
 
@@ -36,6 +36,7 @@ def taylor_exp(x, n):
 
 
 def main():
+    """Entry point."""
     xlim = [-5, 5]
     xs = np.arange(xlim[0], xlim[1], 0.001)
     plt.xlim(xlim)

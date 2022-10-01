@@ -1,25 +1,26 @@
 #!/usr/bin/env python3
 
-# Avoid needing display if plots aren't being shown
+"""Case study of pole placement vs LQR."""
+
 import sys
-
-if "--noninteractive" in sys.argv:
-    import matplotlib as mpl
-
-    mpl.use("svg")
-    import bookutil.latex as latex
 
 from cycler import cycler
 import frccontrol as fct
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.linalg import eig
 from scipy.signal import StateSpace, place_poles
 
+from bookutil import latex
+
+if "--noninteractive" in sys.argv:
+    mpl.use("svg")
 plt.rc("text", usetex=True)
 
 
 def main():
+    """Entry point."""
     J = 7.7500e-05
     b = 8.9100e-05
     Kt = 0.0184
@@ -112,7 +113,7 @@ def main():
 
     plt.subplot(3, 1, 1)
     plt.plot(t, r_rec[0, 0, :], label="Reference")
-    plt.ylabel("$\omega$ (rad/s)")
+    plt.ylabel(r"$\omega$ (rad/s)")
     plt.plot(t, x_pp1_rec[0, 0, :], label=f"Pole placement at {poles_pp1}")
     plt.plot(t, x_pp2_rec[0, 0, :], label=f"Pole placement at {poles_pp2}")
     plt.plot(t, x_lqr_rec[0, 0, :], label=f"LQR at {poles_lqr}")

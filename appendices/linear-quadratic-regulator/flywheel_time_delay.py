@@ -1,21 +1,20 @@
 #!/usr/bin/env python3
 
-# Avoid needing display if plots aren't being shown
+"""Simulates flywheel velocity control with a time delay."""
+
 import sys
 
-if "--noninteractive" in sys.argv:
-    import matplotlib as mpl
-
-    mpl.use("svg")
-import bookutil.latex as latex
-
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.linalg import fractional_matrix_power
 from scipy.signal import StateSpace
 
+from bookutil import latex
 from bookutil.systems import Flywheel
 
+if "--noninteractive" in sys.argv:
+    mpl.use("svg")
 plt.rc("text", usetex=True)
 
 DT = 0.001
@@ -23,6 +22,8 @@ DELAY = 0.08
 
 
 class FlywheelTimeDelay(Flywheel):
+    """An frccontrol system representing a flywheel with a time delay."""
+
     def __init__(self, dt, latency_comp=False):
         """Flywheel subsystem.
 
@@ -34,6 +35,7 @@ class FlywheelTimeDelay(Flywheel):
 
         Flywheel.__init__(self, dt)
 
+    # pragma pylint: disable=signature-differs
     def create_model(self, states, inputs):
         Kv = 0.011
         Ka = 0.005515
@@ -54,7 +56,7 @@ class FlywheelTimeDelay(Flywheel):
         self.design_kalman_filter([q_vel], [r_vel])
 
         self.ubuf = []
-        for i in range(int(DELAY / DT)):
+        for _ in range(int(DELAY / DT)):
             self.ubuf.append(np.zeros((1, 1)))
 
         if self.latency_comp:
@@ -76,33 +78,34 @@ class FlywheelTimeDelay(Flywheel):
 
 
 def main():
+    """Entry point."""
     # Set up graphing
     l0 = 0.1
     l1 = l0 + 5.0
     l2 = l1 + 0.1
-    t = np.arange(0, l2 + 5.0, DT)
+    ts = np.arange(0, l2 + 5.0, DT)
 
     refs = []
 
     # Generate references for simulation
-    for i in range(len(t)):
-        if t[i] < l0:
+    for t in ts:
+        if t < l0:
             r = np.array([[0]])
-        elif t[i] < l1:
+        elif t < l1:
             r = np.array([[510]])
         else:
             r = np.array([[0]])
         refs.append(r)
 
     flywheel = FlywheelTimeDelay(DT)
-    x_rec, ref_rec, u_rec, y_rec = flywheel.generate_time_responses(t, refs)
-    latex.plot_time_responses(flywheel, t, x_rec, ref_rec, u_rec, 2)
+    x_rec, ref_rec, u_rec, _ = flywheel.generate_time_responses(refs)
+    latex.plot_time_responses(flywheel, ts, x_rec, ref_rec, u_rec, 2)
     if "--noninteractive" in sys.argv:
         latex.savefig("flywheel_time_delay_no_comp")
 
     flywheel = FlywheelTimeDelay(DT, latency_comp=True)
-    x_rec, ref_rec, u_rec, y_rec = flywheel.generate_time_responses(t, refs)
-    latex.plot_time_responses(flywheel, t, x_rec, ref_rec, u_rec, 8)
+    x_rec, ref_rec, u_rec, _ = flywheel.generate_time_responses(refs)
+    latex.plot_time_responses(flywheel, ts, x_rec, ref_rec, u_rec, 8)
     if "--noninteractive" in sys.argv:
         latex.savefig("flywheel_time_delay_comp")
     else:

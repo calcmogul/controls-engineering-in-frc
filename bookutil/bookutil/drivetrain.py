@@ -1,5 +1,8 @@
-import frccontrol as fct
+"""Utility functions for differential drive."""
+
 import math
+
+import frccontrol as fct
 import numpy as np
 from scipy.signal import StateSpace
 
@@ -123,8 +126,6 @@ def differential_drive(motor, num_motors, m, r, rb, J, Gl, Gr, states):
     C2 = Gl * motor.Kt / (motor.R * r)
     C3 = -(Gr**2) * motor.Kt / (motor.Kv * motor.R * r**2)
     C4 = Gr * motor.Kt / (motor.R * r)
-    x = states[0, 0]
-    y = states[1, 0]
     theta = states[2, 0]
     vl = states[3, 0]
     vr = states[4, 0]

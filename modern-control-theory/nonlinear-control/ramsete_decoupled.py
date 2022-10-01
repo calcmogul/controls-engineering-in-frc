@@ -1,45 +1,46 @@
 #!/usr/bin/env python3
 
-# Runs Ramsete simulation on decoupled model with right and left wheel
-# velocities as states
+"""
+Simulates Ramsete controller on decoupled model with right and left wheel
+velocities as states.
+"""
 
-# Avoid needing display if plots aren't being shown
+import math
 import sys
 
-if "--noninteractive" in sys.argv:
-    import matplotlib as mpl
-
-    mpl.use("svg")
-    import bookutil.latex as latex
-
 import frccontrol as fct
-import math
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 
+from bookutil import latex
 from bookutil.drivetrain import get_diff_vels, ramsete
 from bookutil.pose2d import Pose2d
 from bookutil.systems import DrivetrainDecoupledVelocity
 
+if "--noninteractive" in sys.argv:
+    mpl.use("svg")
+
 
 def main():
+    """Entry point."""
     dt = 0.005
     drivetrain = DrivetrainDecoupledVelocity(dt)
     print("ctrb cond =", np.linalg.cond(fct.ctrb(drivetrain.sysd.A, drivetrain.sysd.B)))
 
-    t, xprof, vprof, aprof = fct.generate_s_curve_profile(
+    ts, xprof, vprof, _ = fct.generate_s_curve_profile(
         max_v=4.0, max_a=3.5, time_to_max_a=1.0, dt=dt, goal=10.0
     )
 
     # Generate references for LQR
     refs = []
-    for i in range(len(t)):
+    for i, _ in enumerate(ts):
         r = np.array([[vprof[i]], [vprof[i]]])
         refs.append(r)
 
     # Run LQR
-    state_rec, ref_rec, u_rec, y_rec = drivetrain.generate_time_responses(t, refs)
-    drivetrain.plot_time_responses(t, state_rec, ref_rec, u_rec)
+    state_rec, ref_rec, u_rec, _ = drivetrain.generate_time_responses(refs)
+    drivetrain.plot_time_responses(ts, state_rec, ref_rec, u_rec)
     if "--noninteractive" in sys.argv:
         latex.savefig("ramsete_decoupled_vel_lqr_profile")
 
@@ -75,7 +76,7 @@ def main():
 
     # Run Ramsete
     i = 0
-    while i < len(t) - 1:
+    while i < len(ts) - 1:
         desired_pose.x = 0
         desired_pose.y = xprof[i]
         desired_pose.theta = np.pi / 2.0
@@ -103,16 +104,17 @@ def main():
         pose.y += vc * math.sin(pose.theta) * dt
         pose.theta += omega * dt
 
-        if i < len(t) - 1:
+        if i < len(ts) - 1:
             i += 1
 
     plt.figure(2)
-    plt.plot([0] * len(t), xprof, label="Reference trajectory")
+    plt.plot([0] * len(ts), xprof, label="Reference trajectory")
     plt.plot(x_rec, y_rec, label="Ramsete controller")
     plt.xlabel("x (m)")
     plt.ylabel("y (m)")
     plt.legend()
 
+    plt.gca().set_aspect(1.0)
     plt.gca().set_box_aspect(1.0)
 
     if "--noninteractive" in sys.argv:
@@ -128,8 +130,8 @@ def main():
         verticalalignment="center",
         rotation=45,
     )
-    plt.plot(t, vref_rec, label="Reference")
-    plt.plot(t, v_rec, label="Estimated state")
+    plt.plot(ts, vref_rec, label="Reference")
+    plt.plot(ts, v_rec, label="Estimated state")
     plt.legend()
     plt.subplot(num_plots, 1, 2)
     plt.ylabel(
@@ -138,8 +140,8 @@ def main():
         verticalalignment="center",
         rotation=45,
     )
-    plt.plot(t, omegaref_rec, label="Reference")
-    plt.plot(t, omega_rec, label="Estimated state")
+    plt.plot(ts, omegaref_rec, label="Reference")
+    plt.plot(ts, omega_rec, label="Estimated state")
     plt.legend()
     plt.subplot(num_plots, 1, 3)
     plt.ylabel(
@@ -148,7 +150,7 @@ def main():
         verticalalignment="center",
         rotation=45,
     )
-    plt.plot(t, ul_rec, label="Control effort")
+    plt.plot(ts, ul_rec, label="Control effort")
     plt.legend()
     plt.subplot(num_plots, 1, 4)
     plt.ylabel(
@@ -157,7 +159,7 @@ def main():
         verticalalignment="center",
         rotation=45,
     )
-    plt.plot(t, ur_rec, label="Control effort")
+    plt.plot(ts, ur_rec, label="Control effort")
     plt.legend()
     plt.xlabel("Time (s)")
 

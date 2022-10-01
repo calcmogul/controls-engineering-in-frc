@@ -1,33 +1,32 @@
 #!/usr/bin/env python3
 
-# Runs Ramsete simulation on decoupled model and compares odometry methods
+"""Runs Ramsete simulation on decoupled model and compares odometry methods."""
 
-# Avoid needing display if plots aren't being shown
+import math
 import sys
 
-if "--noninteractive" in sys.argv:
-    import matplotlib as mpl
-
-    mpl.use("svg")
-    import bookutil.latex as latex
-
 import frccontrol as fct
-import math
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 
+from bookutil import latex
 from bookutil.drivetrain import get_diff_vels, ramsete
 from bookutil.pose2d import Pose2d
 from bookutil.systems import DrivetrainDecoupledVelocity
 from bookutil.twist2d import Twist2d
 
+if "--noninteractive" in sys.argv:
+    mpl.use("svg")
+
 
 def main():
+    """Entry point."""
     dt = 0.05
     drivetrain = DrivetrainDecoupledVelocity(dt)
     print("ctrb cond =", np.linalg.cond(fct.ctrb(drivetrain.sysd.A, drivetrain.sysd.B)))
 
-    t, xprof, vprof, aprof = fct.generate_s_curve_profile(
+    ts, xprof, vprof, _ = fct.generate_s_curve_profile(
         max_v=4.0, max_a=3.5, time_to_max_a=1.0, dt=dt, goal=10.0
     )
 
@@ -68,7 +67,7 @@ def main():
 
     # Run Ramsete
     i = 0
-    while i < len(t) - 1:
+    while i < len(ts) - 1:
         desired_pose.x = 0
         desired_pose.y = xprof[i]
         desired_pose.theta = np.pi / 2.0
@@ -99,13 +98,13 @@ def main():
         pose.theta += omega * dt
         twist_pose.exp(Twist2d(vc, 0, omega), dt)
 
-        if i < len(t) - 1:
+        if i < len(ts) - 1:
             i += 1
 
     plt.figure(1)
     plt.ylabel("Odometry error (m)")
-    plt.plot(t, np.subtract(twist_x_rec, x_rec), label="Error in x")
-    plt.plot(t, np.subtract(twist_y_rec, y_rec), label="Error in y")
+    plt.plot(ts, np.subtract(twist_x_rec, x_rec), label="Error in x")
+    plt.plot(ts, np.subtract(twist_y_rec, y_rec), label="Error in y")
     plt.legend()
     plt.xlabel("Time (s)")
 

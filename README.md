@@ -91,6 +91,7 @@ These can be installed via `make setup_archlinux`.
   * python >= 3.6 (for generating plots)
   * python-black (to format Python source code)
   * python-pip (for installing required Python packages)
+  * python-pylint (for Python linting)
   * python-requests (for .tex HTTP link checker)
   * python-wheel (for "setup.py bdist_wheel")
   * texlive-bibtexextra (for additional BibTeX styles and bibliography databases)
@@ -120,6 +121,7 @@ These can be installed via `make setup_ubuntu`.
   * texlive-xetex (for xelatex)
 * Python packages (via "pip3 install --user")
   * black (to format Python source code)
+  * pylint (for Python linting)
 
 #### macOS
 
@@ -133,6 +135,7 @@ These can be installed via `make setup_macos`.
   * python@3.9 (for generating plots)
 * Python packages (via "pip3 install --user")
   * black (to format Python source code)
+  * pylint (for Python linting)
 * tlmgr packages (via "sudo tlmgr install")
   * biber (for generating bibliography)
   * biblatex (for generating bibliography)

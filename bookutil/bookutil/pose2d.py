@@ -1,8 +1,12 @@
+"""Pose2d utility class."""
+
 import math
 import numpy as np
 
 
 class Pose2d:
+    """Represents a 2D pose."""
+
     def __init__(self, x=0, y=0, theta=0):
         self.x = x
         self.y = y

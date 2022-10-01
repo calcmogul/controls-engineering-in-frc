@@ -1,24 +1,25 @@
 #!/usr/bin/env python3
 
-# Avoid needing display if plots aren't being shown
+"""Demonstrates PD controller."""
+
 import sys
 
-if "--noninteractive" in sys.argv:
-    import matplotlib as mpl
-
-    mpl.use("svg")
-import bookutil.latex as latex
-
 import frccontrol as fct
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 
+from bookutil import latex
 from bookutil.systems import Elevator
 
+if "--noninteractive" in sys.argv:
+    mpl.use("svg")
 plt.rc("text", usetex=True)
 
 
 class ElevatorNoFeedforward(Elevator):
+    """frccontrol system for elevator without feedforward."""
+
     def __init__(self, dt):
         """Elevator subsystem.
 
@@ -37,6 +38,7 @@ class ElevatorNoFeedforward(Elevator):
 
 
 def main():
+    """Entry point."""
     dt = 0.005
     elevator = ElevatorNoFeedforward(dt)
 
@@ -44,22 +46,22 @@ def main():
     l0 = 0.1
     l1 = l0 + 5.0
     l2 = l1 + 0.1
-    t = np.arange(0, l2 + 5.0, dt)
+    ts = np.arange(0, l2 + 5.0, dt)
 
-    t, xprof, vprof, aprof = fct.generate_trapezoid_profile(
+    ts, xprof, vprof, _ = fct.generate_trapezoid_profile(
         max_v=0.5, time_to_max_v=0.5, dt=dt, goal=3
     )
 
     refs = []
 
     # Generate references for simulation
-    for i in range(len(t)):
+    for i, _ in enumerate(ts):
         r = np.array([[xprof[i]], [vprof[i]]])
         refs.append(r)
 
-    x_rec, ref_rec, u_rec, y_rec = elevator.generate_time_responses(t, refs)
+    x_rec, ref_rec, u_rec, _ = elevator.generate_time_responses(refs)
     latex.plot_time_responses(
-        elevator, t, x_rec, ref_rec, u_rec, 2, use_pid_labels=True
+        elevator, ts, x_rec, ref_rec, u_rec, 2, use_pid_labels=True
     )
 
     if "--noninteractive" in sys.argv:

@@ -1,3 +1,5 @@
+"""Function for generating a trapezoid profile."""
+
 import math
 
 

@@ -87,7 +87,7 @@ build/venv.stamp:
 	@mkdir -p $(@D)
 	python3 setup_venv.py
 	./build/venv/bin/pip3 install -e ./bookutil
-	./build/venv/bin/pip3 install frccontrol==2022.14
+	./build/venv/bin/pip3 install frccontrol==2022.18 pylint requests
 	@touch $@
 
 $(STAMP): build/%.stamp: %.py $(CSV) build/venv.stamp
@@ -97,12 +97,13 @@ $(STAMP): build/%.stamp: %.py $(CSV) build/venv.stamp
 
 # Run formatters
 .PHONY: format
-format:
+format: build/venv.stamp
 	./lint/format_bibliography.py
 	./lint/format_eol.py
 	./lint/format_paragraph_breaks.py
 	cd snippets && clang-format -i *.cpp
 	python3 -m black -q .
+	find . -type f -name \*\.py -print0 | xargs -0 $(abspath ./build/venv/bin/python3) -m pylint
 	git --no-pager diff --exit-code HEAD  # Ensure formatters made no changes
 
 # Run formatters and all linters except link checker. The commit metadata files
@@ -146,6 +147,7 @@ setup_archlinux:
 		python \
 		python-black \
 		python-pip \
+		python-pylint \
 		python-requests \
 		python-wheel \
 		texlive-bibtexextra \
@@ -171,8 +173,8 @@ setup_ubuntu:
 		texlive-bibtex-extra \
 		texlive-latex-extra \
 		texlive-xetex
-	# The Ubuntu 20.04 package is too old
-	pip3 install --user black
+	# The Ubuntu 22.04 packages are too old
+	pip3 install --user black pylint
 
 .PHONY: setup_macos
 setup_macos:
@@ -204,4 +206,4 @@ setup_macos:
 		was \
 		xfor \
 		zref
-	pip3 install --user black requests wheel
+	pip3 install --user black pylint requests wheel

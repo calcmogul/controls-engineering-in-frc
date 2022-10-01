@@ -1,19 +1,23 @@
 #!/usr/bin/env python3
 
+"""Plots elevator following a motion profile."""
+
 import sys
 
-if "--noninteractive" in sys.argv:
-    import matplotlib as mpl
-
-    mpl.use("svg")
-    import bookutil.latex as latex
-
 import frccontrol as fct
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 
+from bookutil import latex
+
+if "--noninteractive" in sys.argv:
+    mpl.use("svg")
+
 
 class Elevator(fct.System):
+    """An frccontrol system for an elevator."""
+
     def __init__(self, dt):
         """Elevator subsystem.
 
@@ -33,6 +37,7 @@ class Elevator(fct.System):
             np.zeros((1, 1)),
         )
 
+    # pragma pylint: disable=signature-differs
     def create_model(self, states, inputs):
         # Number of motors
         num_motors = 2.0
@@ -58,6 +63,7 @@ class Elevator(fct.System):
 
 
 def main():
+    """Entry point."""
     dt = 0.005
     elevator = Elevator(dt)
 
@@ -65,22 +71,22 @@ def main():
     l0 = 0.1
     l1 = l0 + 5.0
     l2 = l1 + 0.1
-    t = np.arange(0, l2 + 5.0, dt)
+    ts = np.arange(0, l2 + 5.0, dt)
 
     refs = []
 
     # Generate references for simulation
-    for i in range(len(t)):
-        if t[i] < l0:
+    for t in ts:
+        if t < l0:
             r = np.array([[0.0], [0.0]])
-        elif t[i] < l1:
+        elif t < l1:
             r = np.array([[1.524], [0.0]])
         else:
             r = np.array([[0.0], [0.0]])
         refs.append(r)
 
-    x_rec, ref_rec, u_rec, y_rec = elevator.generate_time_responses(t, refs)
-    elevator.plot_time_responses(t, x_rec, ref_rec, u_rec)
+    x_rec, ref_rec, u_rec, _ = elevator.generate_time_responses(refs)
+    elevator.plot_time_responses(ts, x_rec, ref_rec, u_rec)
     if "--noninteractive" in sys.argv:
         latex.savefig("elevator_response")
     else:

@@ -7,15 +7,20 @@ import sys
 
 
 class Entry:
-    def __init__(self, type, label, fields):
+    """
+    An Entry contains its type, LaTeX label, and dictionary of field types and
+    values.
+    """
+
+    def __init__(self, entry_type, label, fields):
         """Construct an Entry
 
         Keyword arguments:
-        type -- bibliography entry type (e.g., misc, online)
+        entry_type -- bibliography entry type (e.g., misc, online)
         label -- LaTeX label
         fields -- dictionary of field types and values
         """
-        self.type = type
+        self.entry_type = entry_type
         self.label = label
         self.fields = fields
 
@@ -38,7 +43,7 @@ entry_regex = re.compile(
 )
 keyval_regex = re.compile(r"(?P<key>\w+) \s* = \s* \{ (?P<value>[^\}]+) \}", re.VERBOSE)
 
-with open("controls-engineering-in-frc.bib") as f:
+with open("controls-engineering-in-frc.bib", encoding="utf-8") as f:
     contents = f.read()
 
 entries = []
@@ -67,7 +72,7 @@ for i, entry in enumerate(entries):
     if i != 0:
         output += "\n"
 
-    output += f"@{entry.type}"
+    output += f"@{entry.entry_type}"
     output += "{"
     output += f"{entry.label}"
     output += ",\n"
@@ -82,5 +87,5 @@ for i, entry in enumerate(entries):
         else:
             output += "\n}\n"
 
-with open("controls-engineering-in-frc.bib", "w") as f:
+with open("controls-engineering-in-frc.bib", "w", encoding="utf-8") as f:
     f.write(output)

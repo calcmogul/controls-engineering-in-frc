@@ -1,23 +1,24 @@
 #!/usr/bin/env python3
 
-# Avoid needing display if plots aren't being shown
+"""Case study for QR-weighted plant inversion feedforward."""
+
 import sys
 
-if "--noninteractive" in sys.argv:
-    import matplotlib as mpl
-
-    mpl.use("svg")
-    import bookutil.latex as latex
-
 import frccontrol as fct
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.signal import StateSpace
 
+from bookutil import latex
+
+if "--noninteractive" in sys.argv:
+    mpl.use("svg")
 plt.rc("text", usetex=True)
 
 
 def main():
+    """Entry point."""
     J = 7.7500e-05
     b = 8.9100e-05
     Kt = 0.0184
@@ -89,7 +90,7 @@ def main():
 
     plt.subplot(3, 1, 1)
     plt.plot(t, r_rec[0, 0, :], label="Reference")
-    plt.ylabel("$\omega$ (rad/s)")
+    plt.ylabel(r"$\omega$ (rad/s)")
     plt.plot(t, x_ts1_rec[0, 0, :], label="Plant inversion")
     plt.plot(t, x_ts2_rec[0, 0, :], label="Plant inversion (Q and R cost)")
     plt.legend()

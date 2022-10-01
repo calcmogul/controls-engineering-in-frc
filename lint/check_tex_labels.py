@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 
-"""Verify all labels defined by \label commands are referenced at least once,
-and verify that all ref commands refer to a defined label."""
+r"""
+Verify all labels defined by \label commands are referenced at least once, and
+verify that all ref commands refer to a defined label.
+"""
 
 import os
 import re
@@ -9,6 +11,11 @@ import sys
 
 
 class Label:
+    """
+    Labels contains the LaTeX label's containing filename, line number on which
+    it occurred, and its name.
+    """
+
     def __init__(self, filename, line_number, name):
         self.filename = filename
         self.line_number = line_number
@@ -37,9 +44,9 @@ refs = set()
 label_locations = {}
 ref_locations = {}
 
-for filename in files:
+for f in files:
     # Get file contents
-    with open(filename, "r") as f:
+    with open(f, "r", encoding="utf-8") as f:
         contents = f.read()
 
     for match in rgx.finditer(contents):
@@ -52,11 +59,11 @@ for filename in files:
         if match.group("command") == "label":
             label = match.group("arg")
             labels.add(label)
-            label_locations[label] = Label(filename, linecount, label)
+            label_locations[label] = Label(f, linecount, label)
         elif "ref" in match.group("command"):
             ref = match.group("arg")
             refs.add(ref)
-            ref_locations[ref] = Label(filename, linecount, ref)
+            ref_locations[ref] = Label(f, linecount, ref)
 
 undefined_refs = refs - labels
 unrefed_labels = labels - refs

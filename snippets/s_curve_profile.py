@@ -1,3 +1,5 @@
+"""Function for generating an S-curve profile."""
+
 import math
 
 

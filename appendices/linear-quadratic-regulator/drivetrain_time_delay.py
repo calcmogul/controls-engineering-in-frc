@@ -1,20 +1,20 @@
 #!/usr/bin/env python3
 
-# Avoid needing display if plots aren't being shown
+"""Simulates drivetrain velocity control with a time delay."""
+
 import sys
 
-if "--noninteractive" in sys.argv:
-    import matplotlib as mpl
-
-    mpl.use("svg")
-import bookutil.latex as latex
-
 import frccontrol as fct
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.linalg import fractional_matrix_power
 from scipy.signal import StateSpace
 
+from bookutil import latex
+
+if "--noninteractive" in sys.argv:
+    mpl.use("svg")
 plt.rc("text", usetex=True)
 
 DT = 0.001
@@ -22,6 +22,8 @@ DELAY = 0.04
 
 
 class DrivetrainTimeDelay(fct.System):
+    """An frccontrol system representing a drivetrain with a time delay."""
+
     def __init__(self, dt, latency_comp=False):
         """Drivetrain subsystem.
 
@@ -44,6 +46,7 @@ class DrivetrainTimeDelay(fct.System):
             np.zeros((1, 1)),
         )
 
+    # pragma pylint: disable=signature-differs
     def create_model(self, states, inputs):
         Kv = 3.02
         Ka = 0.642
@@ -64,7 +67,7 @@ class DrivetrainTimeDelay(fct.System):
         self.design_kalman_filter([q_vel], [r_vel])
 
         self.ubuf = []
-        for i in range(int(DELAY / DT)):
+        for _ in range(int(DELAY / DT)):
             self.ubuf.append(np.zeros((1, 1)))
 
         if self.latency_comp:
@@ -86,33 +89,34 @@ class DrivetrainTimeDelay(fct.System):
 
 
 def main():
+    """Entry point."""
     # Set up graphing
     l0 = 0.1
     l1 = l0 + 5.0
     l2 = l1 + 0.1
-    t = np.arange(0, l2 + 5.0, DT)
+    ts = np.arange(0, l2 + 5.0, DT)
 
     refs = []
 
     # Generate references for simulation
-    for i in range(len(t)):
-        if t[i] < l0:
+    for t in ts:
+        if t < l0:
             r = np.array([[0]])
-        elif t[i] < l1:
+        elif t < l1:
             r = np.array([[2]])
         else:
             r = np.array([[0]])
         refs.append(r)
 
     drivetrain = DrivetrainTimeDelay(DT)
-    x_rec, ref_rec, u_rec, y_rec = drivetrain.generate_time_responses(t, refs)
-    latex.plot_time_responses(drivetrain, t, x_rec, ref_rec, u_rec, 2)
+    x_rec, ref_rec, u_rec, _ = drivetrain.generate_time_responses(refs)
+    latex.plot_time_responses(drivetrain, ts, x_rec, ref_rec, u_rec, 2)
     if "--noninteractive" in sys.argv:
         latex.savefig("drivetrain_time_delay_no_comp")
 
     drivetrain = DrivetrainTimeDelay(DT, latency_comp=True)
-    x_rec, ref_rec, u_rec, y_rec = drivetrain.generate_time_responses(t, refs)
-    latex.plot_time_responses(drivetrain, t, x_rec, ref_rec, u_rec, 8)
+    x_rec, ref_rec, u_rec, _ = drivetrain.generate_time_responses(refs)
+    latex.plot_time_responses(drivetrain, ts, x_rec, ref_rec, u_rec, 8)
     if "--noninteractive" in sys.argv:
         latex.savefig("drivetrain_time_delay_comp")
     else:

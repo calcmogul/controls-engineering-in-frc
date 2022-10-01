@@ -1,22 +1,23 @@
 #!/usr/bin/env python3
 
-# Avoid needing display if plots aren't being shown
+"""Plots z-plane oscillations from undersampling."""
+
 import sys
 
-if "--noninteractive" in sys.argv:
-    import matplotlib as mpl
-
-    mpl.use("svg")
-    import bookutil.latex as latex
-
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.signal import TransferFunction, dstep
 
+from bookutil import latex
+
+if "--noninteractive" in sys.argv:
+    mpl.use("svg")
 plt.rc("text", usetex=True)
 
 
 def sim(tf, t, label):
+    """Simulates the given transfer function for t seconds."""
     T, yout = dstep(tf, t=t)
 
     plt.plot(T, np.squeeze(yout), label=label)
@@ -24,6 +25,7 @@ def sim(tf, t, label):
 
 
 def main():
+    """Entry point."""
     dt = 0.1
     T = np.arange(0, 6, dt)
 

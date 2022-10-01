@@ -1,20 +1,23 @@
 #!/usr/bin/env python3
 
+"""Plots single-jointed arm following a motion profile."""
+
 import sys
 
-if "--noninteractive" in sys.argv:
-    import matplotlib as mpl
-
-    mpl.use("svg")
-    import bookutil.latex as latex
-
 import frccontrol as fct
-import math
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 
+from bookutil import latex
+
+if "--noninteractive" in sys.argv:
+    mpl.use("svg")
+
 
 class SingleJointedArm(fct.System):
+    """An frccontrol system for a single-jointed arm."""
+
     def __init__(self, dt):
         """Single-jointed arm subsystem.
 
@@ -34,6 +37,7 @@ class SingleJointedArm(fct.System):
             np.zeros((1, 1)),
         )
 
+    # pragma pylint: disable=signature-differs
     def create_model(self, states, inputs):
         # Number of motors
         num_motors = 1.0
@@ -57,26 +61,26 @@ class SingleJointedArm(fct.System):
         q_pos = 0.01745
         q_vel = 0.1745329
         r_pos = 0.01
-        r_vel = 0.01
         self.design_kalman_filter([q_pos, q_vel], [r_pos])
 
 
 def main():
+    """Entry point."""
     dt = 0.005
     single_jointed_arm = SingleJointedArm(dt)
 
-    t, xprof, vprof, aprof = fct.generate_trapezoid_profile(
+    ts, xprof, vprof, _ = fct.generate_trapezoid_profile(
         max_v=0.5, time_to_max_v=0.5, dt=dt, goal=1.04
     )
 
     # Generate references for simulation
     refs = []
-    for i in range(len(t)):
+    for i, _ in enumerate(ts):
         r = np.array([[xprof[i]], [vprof[i]]])
         refs.append(r)
 
-    x_rec, ref_rec, u_rec, y_rec = single_jointed_arm.generate_time_responses(t, refs)
-    single_jointed_arm.plot_time_responses(t, x_rec, ref_rec, u_rec)
+    x_rec, ref_rec, u_rec, _ = single_jointed_arm.generate_time_responses(refs)
+    single_jointed_arm.plot_time_responses(ts, x_rec, ref_rec, u_rec)
     if "--noninteractive" in sys.argv:
         latex.savefig("single_jointed_arm_response")
     else:
