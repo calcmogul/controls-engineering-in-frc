@@ -117,10 +117,7 @@ def main():
 
     plot_phase_lines(ax)
 
-    # Give axes same scale
-    x0, x1 = ax.get_xlim()
-    y0, y1 = ax.get_ylim()
-    ax.set_aspect(abs(x1 - x0) / abs(y1 - y0))
+    ax.set_box_aspect(1.0)
 
     if "--noninteractive" in sys.argv:
         latex.savefig("s_plane")
@@ -154,10 +151,7 @@ def main():
 
     plot_phase_lines(ax, exp_map)
 
-    # Give axes same scale
-    x0, x1 = ax.get_xlim()
-    y0, y1 = ax.get_ylim()
-    ax.set_aspect(abs(x1 - x0) / abs(y1 - y0))
+    ax.set_box_aspect(1.0)
 
     if "--noninteractive" in sys.argv:
         latex.savefig("z_plane")

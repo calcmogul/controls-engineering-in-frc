@@ -87,15 +87,7 @@ def main():
     plt.ylabel("y (m)")
     plt.legend()
 
-    # Equalize aspect ratio
-    xlim = plt.xlim()
-    width = abs(xlim[0]) + abs(xlim[1])
-    ylim = plt.ylim()
-    height = abs(ylim[0]) + abs(ylim[1])
-    if width > height:
-        plt.ylim([-width / 2, width / 2])
-    else:
-        plt.xlim([-height / 2, height / 2])
+    plt.gca().set_box_aspect(1.0)
 
     if "--noninteractive" in sys.argv:
         latex.savefig("ltv_diff_drive_nonrotated_firstorder_xy")
