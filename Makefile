@@ -129,11 +129,20 @@ clean_tex:
 	latexmk -xelatex -C
 	rm -f controls-engineering-in-frc-*.pdf
 
-.PHONY: upload
-upload: ebook printer prepress
+.PHONY: upload_ebook
+upload_ebook: ebook
 	rsync --progress $(NAME)-ebook.pdf file.tavsys.net:/srv/file/control/$(NAME).pdf
+
+.PHONY: upload_printer
+upload_printer: printer
 	rsync --progress $(NAME)-printer.pdf file.tavsys.net:/srv/file/control/$(NAME)-printer.pdf
+
+.PHONY: upload_prepress
+upload_prepress: prepress
 	rsync --progress $(NAME)-prepress.pdf file.tavsys.net:/srv/file/control/$(NAME)-prepress.pdf
+
+.PHONY: upload
+upload: upload_ebook upload_printer upload_prepress
 
 .PHONY: setup_archlinux
 setup_archlinux:
