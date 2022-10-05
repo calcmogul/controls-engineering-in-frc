@@ -68,9 +68,9 @@ bib_rgx = re.compile(r"url\s*=\s*{(?P<url>[^}]+)}")
 #   contents -- file contents
 #   match -- regex Match object
 links = []
-for f in files:
+for file in files:
     # Get file contents
-    with open(f, "r", encoding="utf-8") as f:
+    with open(file, "r", encoding="utf-8") as f:
         contents = f.read()
 
     for match in list(cmd_rgx.finditer(contents)) + list(bib_rgx.finditer(contents)):
@@ -80,7 +80,7 @@ for f in files:
             if contents[i] == os.linesep:
                 linecount += 1
 
-        links.append((f, linecount, match.group("url")))
+        links.append((file, linecount, match.group("url")))
 
 with mp.Pool(mp.cpu_count()) as pool:
     results = pool.map(lint_links, links)

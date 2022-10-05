@@ -103,7 +103,6 @@ format: build/venv.stamp
 	./lint/format_paragraph_breaks.py
 	cd snippets && clang-format -i *.cpp
 	python3 -m black -q .
-	find . -type f -name \*\.py -print0 | xargs -0 $(abspath ./build/venv/bin/python3) -m pylint
 	git --no-pager diff --exit-code HEAD  # Ensure formatters made no changes
 
 # Run formatters and all linters except link checker. The commit metadata files
@@ -111,6 +110,7 @@ format: build/venv.stamp
 # check_tex_includes.py will fail if they're missing.
 .PHONY: lint_no_linkcheck
 lint_no_linkcheck: format build/commit-date.tex build/commit-year.tex build/commit-hash.tex $(STAMP)
+	find . -type f -name \*\.py -print0 | xargs -0 $(abspath ./build/venv/bin/python3) -m pylint
 	./lint/check_filenames.py
 	./lint/check_tex_includes.py
 	./lint/check_tex_labels.py
