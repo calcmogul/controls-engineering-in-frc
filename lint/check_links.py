@@ -38,6 +38,12 @@ def verify_url(filename, line_number, url):
         except requests.exceptions.SSLError:
             urllib3.disable_warnings()
             r = requests.head(url, headers=headers, timeout=5, verify=False)
+
+        # researchgate.net tends to block scripts, so don't return verification
+        # failure for its links
+        if r.status_code == 403 and url.startswith("https://www.researchgate.net"):
+            return True
+
         if r.status_code != 200:
             print(f"[{filename}:{line_number}]\n    {url}\n    {r.status_code}")
             if url != r.url:
