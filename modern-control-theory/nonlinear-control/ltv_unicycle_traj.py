@@ -92,13 +92,9 @@ def main():
     drivetrain = Drivetrain(dt)
     print("ctrb cond =", np.linalg.cond(fct.ctrb(drivetrain.sysd.A, drivetrain.sysd.B)))
 
-    data = np.genfromtxt("ramsete_traj.csv", delimiter=",", skip_header=1)
-    t = data[:, 0].T
-    xprof = data[:, 1].T
-    yprof = data[:, 2].T
-    thetaprof = data[:, 3].T
-    vprof = data[:, 4].T
-    omegaprof = data[:, 5].T
+    t, xprof, yprof, thetaprof, vprof, omegaprof = np.genfromtxt(
+        "ramsete_traj.csv", delimiter=",", skip_header=1, unpack=True
+    )
 
     # Initial robot pose
     pose = Pose2d(xprof[0] + 0.5, yprof[0] + 0.5, np.pi / 4)
