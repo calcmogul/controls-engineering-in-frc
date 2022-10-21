@@ -37,7 +37,7 @@ derived via plant inversion as follows.
   \dot{\mat{x}} &= f(\mat{x}_0) + \mat{B}\mat{u}_0 \nonumber \\
   \mat{0} &= f(\mat{x}_0) + \mat{B}\mat{u}_0 \nonumber \\
   \mat{B}\mat{u}_0 &= -f(\mat{x}_0) \nonumber \\
-  \mat{u}_0 &= -\mat{B}^\dagger f(\mat{x}_0)
+  \mat{u}_0 &= -\mat{B}^+ f(\mat{x}_0)
 \end{align}
 
 \subsection{Feedback linearization for reference tracking}
@@ -50,7 +50,7 @@ dynamics in $\dot{\mat{r}}$.
 \begin{align}
   \dot{\mat{r}} &= f(\mat{x}) + \mat{B}\mat{u} \nonumber \\
   \mat{B}\mat{u} &= \dot{\mat{r}} - f(\mat{x}) \nonumber \\
-  \mat{u} &= \mat{B}^\dagger (\dot{\mat{r}} - f(\mat{x}))
+  \mat{u} &= \mat{B}^+ (\dot{\mat{r}} - f(\mat{x}))
     \label{eq:control_affine_plant_invert}
 \end{align}
 \begin{remark}

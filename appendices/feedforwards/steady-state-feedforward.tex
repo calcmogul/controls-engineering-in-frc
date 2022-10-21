@@ -77,14 +77,14 @@ To find the \gls{control input} required at steady-state, set equation
   \begin{bmatrix}
     \mat{A} & \mat{B} \\
     \mat{C} & \mat{D}
-  \end{bmatrix}^{\dagger}
+  \end{bmatrix}^+
   \begin{bmatrix}
     \mat{0} \\
     \mat{1}
   \end{bmatrix}
 \end{align*}
 
-where $^\dagger$ is the Moore-Penrose pseudoinverse.
+where $^+$ denotes the Moore-Penrose pseudoinverse.
 
 \subsection{Discrete case}
 
@@ -141,14 +141,14 @@ $\mat{x}_{k+1} = \mat{A}\mat{x}_k + \mat{B}\mat{u}_k$ to zero.
   \begin{bmatrix}
     \mat{A} - \mat{I} & \mat{B} \\
     \mat{C} & \mat{D}
-  \end{bmatrix}^{\dagger}
+  \end{bmatrix}^+
   \begin{bmatrix}
     \mat{0} \\
     \mat{1}
   \end{bmatrix}
 \end{align*}
 
-where $^\dagger$ is the Moore-Penrose pseudoinverse.
+where $^+$ denotes the Moore-Penrose pseudoinverse.
 
 \subsection{Deriving steady-state input}
 
@@ -157,14 +157,14 @@ the \gls{reference} $\mat{r}$ to a \gls{control input} feedforward
 $\mat{u}_{ff}$. Let's start with equation \eqref{eq:x_ss}.
 \begin{align*}
   \mat{x}_{ss} &= \mat{N}_x \mat{y}_{ss} \\
-  \mat{N}_x^\dagger \mat{x}_{ss} &= \mat{y}_{ss}
+  \mat{N}_x^+ \mat{x}_{ss} &= \mat{y}_{ss}
   \intertext{Now substitute this into equation \eqref{eq:u_ss}.}
   \mat{u}_{ss} &= \mat{N}_u \mat{y}_{ss} \\
-  \mat{u}_{ss} &= \mat{N}_u (\mat{N}_x^\dagger \mat{x}_{ss}) \\
-  \mat{u}_{ss} &= \mat{N}_u \mat{N}_x^\dagger \mat{x}_{ss}
+  \mat{u}_{ss} &= \mat{N}_u (\mat{N}_x^+ \mat{x}_{ss}) \\
+  \mat{u}_{ss} &= \mat{N}_u \mat{N}_x^+ \mat{x}_{ss}
   \intertext{$\mat{u}_{ss}$ and $\mat{x}_{ss}$ are also known as $\mat{u}_{ff}$
     and $\mat{r}$ respectively.}
-  \mat{u}_{ff} &= \mat{N}_u \mat{N}_x^\dagger \mat{r}
+  \mat{u}_{ff} &= \mat{N}_u \mat{N}_x^+ \mat{r}
 \end{align*}
 
 So all together, we get theorem \ref{thm:steady-state_ff}.
@@ -181,12 +181,12 @@ So all together, we get theorem \ref{thm:steady-state_ff}.
     \begin{bmatrix}
       \mat{A} & \mat{B} \\
       \mat{C} & \mat{D}
-    \end{bmatrix}^{\dagger}
+    \end{bmatrix}^+
     \begin{bmatrix}
       \mat{0} \\
       \mat{1}
     \end{bmatrix} \\
-    \mat{u}_{ff} &= \mat{N}_u \mat{N}_x^\dagger \mat{r}
+    \mat{u}_{ff} &= \mat{N}_u \mat{N}_x^+ \mat{r}
     \intertext{Discrete:}
     \begin{bmatrix}
       \mat{N}_x \\
@@ -195,12 +195,12 @@ So all together, we get theorem \ref{thm:steady-state_ff}.
     \begin{bmatrix}
       \mat{A} - \mat{I} & \mat{B} \\
       \mat{C} & \mat{D}
-    \end{bmatrix}^{\dagger}
+    \end{bmatrix}^+
     \begin{bmatrix}
       \mat{0} \\
       \mat{1}
     \end{bmatrix} \\
-    \mat{u}_{ff,k} &= \mat{N}_u \mat{N}_x^\dagger \mat{r}_k
+    \mat{u}_{ff,k} &= \mat{N}_u \mat{N}_x^+ \mat{r}_k
   \end{align}
 
   In the augmented matrix, $\mat{B}$ should contain one column corresponding to

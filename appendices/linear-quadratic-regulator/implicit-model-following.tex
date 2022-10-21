@@ -280,10 +280,10 @@ Let $\mat{x} = \mat{z}$.
     \mat{B}_{ref}\mat{u}_k \\
   \mat{B}\mat{u}_{imf,k} &= (\mat{A}_{ref} - \mat{A})\mat{x}_k +
     \mat{B}_{ref}\mat{u}_k \\
-  \mat{u}_{imf,k} &= \mat{B}^\dagger ((\mat{A}_{ref} - \mat{A})\mat{x}_k +
+  \mat{u}_{imf,k} &= \mat{B}^+ ((\mat{A}_{ref} - \mat{A})\mat{x}_k +
     \mat{B}_{ref}\mat{u}_k) \\
-  \mat{u}_{imf,k} &= -\mat{B}^\dagger (\mat{A} - \mat{A}_{ref})\mat{x}_k +
-    \mat{B}^\dagger \mat{B}_{ref}\mat{u}_k
+  \mat{u}_{imf,k} &= -\mat{B}^+ (\mat{A} - \mat{A}_{ref})\mat{x}_k +
+    \mat{B}^+ \mat{B}_{ref}\mat{u}_k
 \end{align*}
 
 The first term makes the open-loop poles match that of the reference model, and

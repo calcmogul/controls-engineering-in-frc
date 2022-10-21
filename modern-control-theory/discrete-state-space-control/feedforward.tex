@@ -105,7 +105,7 @@ $\mat{0}$.
 \end{align*}
 
 $(\mat{B}\T\mat{B})^{-1} \mat{B}\T$ is the Moore-Penrose pseudoinverse of
-$\mat{B}$ denoted by $\mat{B}^\dagger$.
+$\mat{B}$ denoted by $\mat{B}^+$.
 \begin{theorem}[Linear plant inversion]
   \label{thm:linear_plant_inversion}
 
@@ -113,10 +113,10 @@ $\mat{B}$ denoted by $\mat{B}^\dagger$.
   $\mat{x}_{k+1} = \mat{A}\mat{x}_k + \mat{B}\mat{u}_k$, the plant inversion
   feedforward is
   \begin{equation}
-    \mat{u}_k = \mat{B}^\dagger (\mat{r}_{k+1} - \mat{A}\mat{r}_k)
+    \mat{u}_k = \mat{B}^+ (\mat{r}_{k+1} - \mat{A}\mat{r}_k)
   \end{equation}
 
-  where $\mat{B}^\dagger$ is the Moore-Penrose pseudoinverse of $\mat{B}$,
+  where $\mat{B}^+$ is the Moore-Penrose pseudoinverse of $\mat{B}$,
   $\mat{r}_{k+1}$ is the reference at the next timestep, and $\mat{r}_k$ is the
   reference at the current timestep.
 \end{theorem}
@@ -135,11 +135,11 @@ For example, a constant \gls{reference} requires a feedforward that opposes
 \gls{system} dynamics that would change the \gls{state} over time. If the
 \gls{system} has no dynamics, then $\mat{A} = \mat{I}$ and thus
 \begin{align*}
-  \mat{u}_k &= \mat{B}_\dagger (\mat{r}_{k+1} - \mat{I}\mat{r}_k) \\
-  \mat{u}_k &= \mat{B}_\dagger (\mat{r}_{k+1} - \mat{r}_k)
+  \mat{u}_k &= \mat{B}^+ (\mat{r}_{k+1} - \mat{I}\mat{r}_k) \\
+  \mat{u}_k &= \mat{B}^+ (\mat{r}_{k+1} - \mat{r}_k)
   \intertext{For a constant \gls{reference}, $\mat{r}_{k+1} = \mat{r}_k$.}
-  \mat{u}_k &= \mat{B}_\dagger (\mat{r}_k - \mat{r}_k) \\
-  \mat{u}_k &= \mat{B}_\dagger (\mat{0}) \\
+  \mat{u}_k &= \mat{B}^+ (\mat{r}_k - \mat{r}_k) \\
+  \mat{u}_k &= \mat{B}^+ (\mat{0}) \\
   \mat{u}_k &= \mat{0}
 \end{align*}
 
