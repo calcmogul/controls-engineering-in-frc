@@ -37,10 +37,8 @@ $(NAME)-ebook.pdf: $(NAME).pdf
 	gs -sDEVICE=pdfwrite \
 		-dPDFSETTINGS=/ebook \
 		-dPrinted=false \
-		-dNOPAUSE \
-		-dQUIET \
-		-dBATCH \
-		-sOutputFile=$(NAME)-ebook.pdf \
+		-q \
+		-o $(NAME)-ebook.pdf \
 		$(NAME).pdf
 
 $(NAME)-printer.pdf: $(NAME).pdf
@@ -48,10 +46,8 @@ $(NAME)-printer.pdf: $(NAME).pdf
 	gs -sDEVICE=pdfwrite \
 		-dPDFSETTINGS=/printer \
 		-dPrinted=true \
-		-dNOPAUSE \
-		-dQUIET \
-		-dBATCH \
-		-sOutputFile=$(NAME)-printer.pdf \
+		-q \
+		-o $(NAME)-printer.pdf \
 		$(NAME).pdf
 
 $(NAME)-prepress.pdf: $(NAME).pdf
@@ -59,10 +55,8 @@ $(NAME)-prepress.pdf: $(NAME).pdf
 	gs -sDEVICE=pdfwrite \
 		-dPDFSETTINGS=/prepress \
 		-dPrinted=true \
-		-dNOPAUSE \
-		-dQUIET \
-		-dBATCH \
-		-sOutputFile=$(NAME)-prepress.pdf \
+		-q \
+		-o $(NAME)-prepress.pdf \
 		$(NAME).pdf
 
 build/commit-date.tex: .git/refs/heads/$(shell git rev-parse --abbrev-ref HEAD) .git/HEAD
