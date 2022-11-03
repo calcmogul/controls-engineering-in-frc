@@ -48,19 +48,22 @@ def main():
 
     num_plots = 2
 
-    plt.subplot(num_plots, 1, 1)
-    plt.ylim(ylim)
-    plt.ylabel(r"Fmaj4 ($\sigma = 0$)")
-    plt.plot(x, ysum)
-    plt.gca().axes.get_xaxis().set_ticks([])
+    fig = plt.figure(1)
+    plt.axis("off")
 
-    plt.subplot(num_plots, 1, 2)
-    plt.ylim(ylim)
-    plt.ylabel(r"Attenuating Fmaj4 ($\sigma = -25$)")
-    plt.plot(x, ysum_attenuating)
-    plt.gca().axes.get_xaxis().set_ticks([])
+    ax = fig.add_subplot(num_plots, 1, 1)
+    ax.set_ylim(ylim)
+    ax.set_ylabel(r"Fmaj4 ($\sigma = 0$)")
+    ax.plot(x, ysum)
+    ax.xaxis.set_visible(True)
+    ax.yaxis.set_visible(True)
 
-    plt.xlabel("$t$")
+    ax = fig.add_subplot(num_plots, 1, 2)
+    ax.set_ylim(ylim)
+    ax.set_ylabel(r"Attenuating Fmaj4 ($\sigma = -25$)")
+    ax.plot(x, ysum_attenuating)
+    ax.set_xlabel("Time (s)")
+    ax.yaxis.set_visible(True)
 
     if "--noninteractive" in sys.argv:
         latex.savefig("laplace_chord_attenuating")

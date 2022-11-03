@@ -37,35 +37,40 @@ def main():
 
     num_plots = 4
 
-    plt.subplot(num_plots, 1, 1)
-    plt.ylim(ylim)
-    plt.ylabel("Fmaj4")
-    plt.plot(x, ysum)
-    plt.gca().axes.get_xaxis().set_ticks([])
+    fig = plt.figure(1)
+    plt.axis("off")
 
-    plt.subplot(num_plots, 1, 2)
-    plt.ylim(ylim)
-    plt.ylabel("$F_4$")
-    plt.plot(x, yf)
-    plt.gca().axes.get_xaxis().set_ticks([])
+    ax = fig.add_subplot(num_plots, 1, 1)
+    ax.set_ylim(ylim)
+    ax.set_ylabel("Fmaj4")
+    ax.plot(x, ysum)
+    ax.xaxis.set_visible(False)
+    ax.yaxis.set_visible(True)
 
-    plt.subplot(num_plots, 1, 3)
-    plt.ylim(ylim)
-    plt.ylabel("$A_4$")
-    plt.plot(x, ya)
-    plt.gca().axes.get_xaxis().set_ticks([])
+    ax = fig.add_subplot(num_plots, 1, 2)
+    ax.set_ylim(ylim)
+    ax.set_ylabel("$F_4$")
+    ax.plot(x, yf)
+    ax.xaxis.set_visible(False)
+    ax.yaxis.set_visible(True)
 
-    plt.subplot(num_plots, 1, 4)
-    plt.ylim(ylim)
-    plt.ylabel("$C_4$")
-    plt.plot(x, yc)
+    ax = fig.add_subplot(num_plots, 1, 3)
+    ax.set_ylim(ylim)
+    ax.set_ylabel("$A_4$")
+    ax.plot(x, ya)
+    ax.xaxis.set_visible(False)
+    ax.yaxis.set_visible(True)
 
-    plt.xlabel("$t$")
+    ax = fig.add_subplot(num_plots, 1, 4)
+    ax.set_ylim(ylim)
+    ax.set_ylabel("$C_4$")
+    ax.plot(x, yc)
+    ax.set_xlabel("Time (s)")
+    ax.yaxis.set_visible(True)
 
     if "--noninteractive" in sys.argv:
         latex.savefig("fourier_chord")
 
-    plt.figure(2)
     N = 1000000  # Number of samples
     T = 1.0 / 2000.0  # Sample spacing
     x = np.arange(0.0, N * T, T)
@@ -76,6 +81,7 @@ def main():
     yf = scipy.fftpack.fft(ysum)
     xf = np.linspace(0.0, 1.0 / (2.0 * T), N // 2)
 
+    plt.figure(2)
     plt.plot(xf, 2.0 / N * np.abs(yf[: N // 2]))
     plt.xlabel("Frequency (Hz)")
     plt.xlim([0, 700])
