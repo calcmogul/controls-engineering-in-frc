@@ -78,14 +78,14 @@ where $\mat{K}$ is given by
 and $\mat{S}$ is found by solving the discrete time algebraic Riccati equation
 defined as
 \begin{equation*}
-  \mat{A}\T\mat{S}\mat{A} - (\mat{A}\T\mat{S}\mat{B} + \mat{N})
+  \mat{A}\T\mat{S}\mat{A} - \mat{S} - (\mat{A}\T\mat{S}\mat{B} + \mat{N})
     (\mat{R} + \mat{B}\T\mat{S}\mat{B})^{-1}
     (\mat{B}\T\mat{S}\mat{A} + \mat{N}\T) + \mat{Q} = 0
 \end{equation*}
 
 or alternatively
 \begin{equation*}
-  \mathcal{A}\T\mat{S}\mathcal{A} - \mathcal{A}\T\mat{S}\mat{B}
+  \mathcal{A}\T\mat{S}\mathcal{A} - \mat{S} - \mathcal{A}\T\mat{S}\mat{B}
     (\mat{R} + \mat{B}\T\mat{S}\mat{B})^{-1} \mat{B}\T\mat{S}\mathcal{A} +
     \mat{Q} = 0
 \end{equation*}
@@ -117,7 +117,7 @@ where $\mat{K}$ is given by
 and $\mat{S}$ is found by solving the discrete time algebraic Riccati equation
 defined as
 \begin{equation*}
-  \mat{A}\T\mat{S}\mat{A} - \mat{A}\T\mat{S}\mat{B}
+  \mat{A}\T\mat{S}\mat{A} - \mat{S} - \mat{A}\T\mat{S}\mat{B}
     (\mat{R} + \mat{B}\T\mat{S}\mat{B})^{-1} \mat{B}\T\mat{S}\mat{A} +
     \mat{Q} = 0
 \end{equation*}
