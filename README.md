@@ -38,8 +38,8 @@ you may print copies yourself for any purpose under the following terms:
 >              original.
 
 Printing a copy of the PDF as-is satisfies the license requirements. You'll want
-to use the prepress version of the PDF
-[here](https://file.tavsys.net/control/controls-engineering-in-frc-prepress.pdf)
+to use the printer version of the PDF
+[here](https://file.tavsys.net/control/controls-engineering-in-frc-printer.pdf)
 instead of the one linked above because the latter is compressed for electronic
 viewing.
 
@@ -85,7 +85,7 @@ These can be installed via `make setup_archlinux`.
   * base-devel (for `make` to run the makefile)
   * biber (for generating bibliography)
   * clang (for clang-format to format C++ code snippets)
-  * ghostscript (to reduce size of final PDF for publishing)
+  * imagemagick (to compress JPEGs)
   * inkscape (to convert SVGs to PDFs)
   * perl-clone (for Clone.pm needed by biber)
   * python >= 3.6 (for generating plots)
@@ -107,7 +107,7 @@ These can be installed via `make setup_ubuntu`.
   * build-essential (for `make` to run the makefile)
   * cm-super (for type1ec.sty)
   * clang-format (to format C++ code snippets)
-  * ghostscript (to reduce size of final PDF for publishing)
+  * imagemagick (to compress JPEGs)
   * inkscape (to convert SVGs to PDFs)
   * latexmk
   * python3 >= 3.6 (for generating plots)
@@ -130,7 +130,7 @@ These can be installed via `make setup_macos`.
 * brew packages (via "brew install")
   * basictex (for xelatex)
   * clang-format (to format C++ code snippets)
-  * ghostscript (to reduce size of final PDF for publishing)
+  * imagemagick (to compress JPEGs)
   * inkscape (to convert SVGs to PDFs)
   * python@3.9 (for generating plots)
 * Python packages (via "pip3 install --user")

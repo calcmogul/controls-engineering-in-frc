@@ -8,16 +8,17 @@ PY := $(filter-out ./bookutil/% ./build/% ./lint/% ./setup_venv.py ./snippets/%,
 STAMP := $(PY:.py=.stamp)
 STAMP := $(addprefix build/,$(STAMP))
 
-TEX := $(call rwildcard,./,*.tex)
+TEX := $(filter-out ./controls-engineering-in-frc-ebook.tex ./controls-engineering-in-frc-printer.tex,$(call rwildcard,./,*.tex))
 BIB := $(wildcard *.bib)
-IMGS := $(wildcard imgs/*)
+EBOOK_IMGS := $(addprefix build/ebook/,$(wildcard imgs/*))
+PRINTER_IMGS := $(addprefix build/printer/,$(wildcard imgs/*))
 SNIPPETS := $(wildcard snippets/*)
 
 CSV := $(filter-out ./bookutil/% ./build/% ./lint/% ./snippets/%,$(call rwildcard,./,*.csv))
 CSV := $(addprefix build/,$(CSV))
 
 .PHONY: all
-all: $(NAME).pdf
+all: ebook
 
 .PHONY: ebook
 ebook: $(NAME)-ebook.pdf
@@ -25,39 +26,37 @@ ebook: $(NAME)-ebook.pdf
 .PHONY: printer
 printer: $(NAME)-printer.pdf
 
-.PHONY: prepress
-prepress: $(NAME)-prepress.pdf
+$(NAME)-ebook.pdf: $(TEX) $(NAME)-ebook.tex $(STAMP) $(BIB) $(EBOOK_IMGS) \
+		$(SNIPPETS) build/commit-date.tex build/commit-year.tex \
+		build/commit-hash.tex
+	latexmk -interaction=nonstopmode -xelatex $(NAME)-ebook
 
-$(NAME).pdf: $(TEX) $(STAMP) $(BIB) $(IMGS) $(SNIPPETS) \
-		build/commit-date.tex build/commit-year.tex build/commit-hash.tex
-	latexmk -interaction=nonstopmode -xelatex $(NAME)
+$(NAME)-printer.pdf: $(TEX) $(NAME)-printer.tex $(STAMP) $(BIB) \
+		$(PRINTER_IMGS) $(SNIPPETS) build/commit-date.tex build/commit-year.tex \
+		build/commit-hash.tex
+	latexmk -interaction=nonstopmode -xelatex $(NAME)-printer
 
-$(NAME)-ebook.pdf: $(NAME).pdf
-	# https://ghostscript.readthedocs.io/en/latest/VectorDevices.html#distiller-parameters
-	gs -sDEVICE=pdfwrite \
-		-dPDFSETTINGS=/ebook \
-		-dPrinted=false \
-		-q \
-		-o $(NAME)-ebook.pdf \
-		$(NAME).pdf
+$(EBOOK_IMGS): build/ebook/%.jpg: %.jpg
+	@mkdir -p $(@D)
+# 150dpi, 75% quality
+# cover: 4032x2016 -> 150dpi * 8.5" x 150dpi * 11" -> 1275x1650
+# banners: 4032x2016 -> 150dpi * 8.5" x 150dpi * 4.25" -> 1275x637
+	if [ $< = "imgs/cover.jpg" ]; then \
+		convert $< -resize 1275x1650 -quality 75 $@; \
+	else \
+		convert $< -resize 1275x637 -quality 75 $@; \
+	fi
 
-$(NAME)-printer.pdf: $(NAME).pdf
-	# https://ghostscript.readthedocs.io/en/latest/VectorDevices.html#distiller-parameters
-	gs -sDEVICE=pdfwrite \
-		-dPDFSETTINGS=/printer \
-		-dPrinted=true \
-		-q \
-		-o $(NAME)-printer.pdf \
-		$(NAME).pdf
-
-$(NAME)-prepress.pdf: $(NAME).pdf
-	# https://ghostscript.readthedocs.io/en/latest/VectorDevices.html#distiller-parameters
-	gs -sDEVICE=pdfwrite \
-		-dPDFSETTINGS=/prepress \
-		-dPrinted=true \
-		-q \
-		-o $(NAME)-prepress.pdf \
-		$(NAME).pdf
+$(PRINTER_IMGS): build/printer/%.jpg: %.jpg
+	@mkdir -p $(@D)
+# 300dpi, 95% quality
+# cover: 4032x2016 -> 300dpi * 8.5" x 300dpi * 11" -> 2550x3300
+# banners: 4032x2016 -> 300dpi * 8.5" x 300dpi * 4.25" -> 2550x1275
+	if [ $< = "imgs/cover.jpg" ]; then \
+		convert $< -resize 2550x3300 -quality 95 $@; \
+	else \
+		convert $< -resize 2550x1275 -quality 95 $@; \
+	fi
 
 build/commit-date.tex: .git/refs/heads/$(shell git rev-parse --abbrev-ref HEAD) .git/HEAD
 	@mkdir -p $(@D)
@@ -123,6 +122,9 @@ clean_tex:
 	latexmk -xelatex -C
 	rm -f controls-engineering-in-frc-*.pdf
 
+.PHONY: upload
+upload: upload_ebook upload_printer
+
 .PHONY: upload_ebook
 upload_ebook: ebook
 	rsync --progress $(NAME)-ebook.pdf file.tavsys.net:/srv/file/control/$(NAME).pdf
@@ -131,20 +133,13 @@ upload_ebook: ebook
 upload_printer: printer
 	rsync --progress $(NAME)-printer.pdf file.tavsys.net:/srv/file/control/$(NAME)-printer.pdf
 
-.PHONY: upload_prepress
-upload_prepress: prepress
-	rsync --progress $(NAME)-prepress.pdf file.tavsys.net:/srv/file/control/$(NAME)-prepress.pdf
-
-.PHONY: upload
-upload: upload_ebook upload_printer upload_prepress
-
 .PHONY: setup_archlinux
 setup_archlinux:
 	sudo pacman -Sy --needed --noconfirm \
 		base-devel \
 		biber \
 		clang \
-		ghostscript \
+		imagemagick \
 		inkscape \
 		perl-clone \
 		python \
@@ -165,7 +160,7 @@ setup_ubuntu:
 		build-essential \
 		cm-super \
 		clang-format \
-		ghostscript \
+		imagemagick \
 		inkscape \
 		latexmk \
 		python3 \
@@ -176,7 +171,7 @@ setup_ubuntu:
 		texlive-bibtex-extra \
 		texlive-latex-extra \
 		texlive-xetex
-	# The Ubuntu 22.04 packages are too old
+# The Ubuntu 22.04 packages are too old
 	pip3 install --user black pylint
 
 .PHONY: setup_macos
@@ -184,7 +179,7 @@ setup_macos:
 	brew install \
 		basictex \
 		clang-format \
-		ghostscript \
+		imagemagick \
 		inkscape
 	sudo /Library/TeX/texbin/tlmgr update --self
 	sudo /Library/TeX/texbin/tlmgr install \

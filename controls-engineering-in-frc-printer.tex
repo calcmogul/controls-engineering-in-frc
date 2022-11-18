@@ -43,7 +43,7 @@
             marginpar=70pt,
             a4paper]{geometry}
 \usepackage{graphicx} % For including figures
-\graphicspath{{imgs/}} % Specifies directory where images are stored
+\graphicspath{{build/printer/imgs/}} % Specifies directory where images are stored
 \usepackage{imakeidx} % For \indexsetup command to fix index heading style
 \usepackage{listings}
 \usepackage{mathtools} % For \prescript{}
@@ -85,7 +85,7 @@
             abbreviate=false,
             backref=true,
             backend=biber]{biblatex}
-\addbibresource{\jobname.bib}
+\addbibresource{controls-engineering-in-frc.bib}
 \defbibheading{bibempty}{}
 
 % Index setup

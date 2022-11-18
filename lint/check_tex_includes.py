@@ -9,13 +9,8 @@ import os
 import re
 import sys
 
-ROOT = "controls-engineering-in-frc.tex"
-files = [
-    os.path.join(dp, f)[2:]
-    for dp, dn, fn in os.walk(".")
-    for f in fn
-    if f.endswith(".tex") and "build/venv/" not in dp
-]
+EBOOK_ROOT = "controls-engineering-in-frc-ebook.tex"
+PRINTER_ROOT = "controls-engineering-in-frc-printer.tex"
 
 
 class Node:
@@ -29,7 +24,16 @@ class Node:
         self.visited = False
 
 
-nodes = {f: Node(f) for f in files}
+# Configure visit()'s state for ebook files
+ebook_files = [
+    os.path.join(dp, f)[2:]
+    for dp, dn, fn in os.walk(".")
+    for f in fn
+    if f.endswith(".tex")
+    and "build/venv/" not in dp
+    and f != "controls-engineering-in-frc-printer.tex"
+]
+nodes = {f: Node(f) for f in ebook_files}
 latex_vars = {}
 error_occurred = False
 
@@ -87,9 +91,8 @@ def visit(filename):
                 error_occurred = True
 
 
-# Start at controls-engineering-in-frc.tex and perform depth-first search of
-# file includes
-visit(ROOT)
+# Start at root .tex file and perform depth-first search of file includes
+visit(EBOOK_ROOT)
 
 if not all(node.visited for node in nodes.values()):
     orphans = [node.filename for node in nodes.values() if not node.visited]
@@ -97,7 +100,39 @@ if not all(node.visited for node in nodes.values()):
     print(f"error: {len(orphans)} .tex file", end="")
     if len(orphans) > 1:
         print("s", end="")
-    print(f" not transitively included in {ROOT}:")
+    print(f" not transitively included in {EBOOK_ROOT}:")
+
+    for orphan in orphans:
+        print("    " + orphan)
+    sys.exit(1)
+elif error_occurred:
+    sys.exit(1)
+else:
+    sys.exit(0)
+
+# Configure visit()'s state for printer files
+printer_files = [
+    os.path.join(dp, f)[2:]
+    for dp, dn, fn in os.walk(".")
+    for f in fn
+    if f.endswith(".tex")
+    and "build/venv/" not in dp
+    and f != "controls-engineering-in-frc-ebook.tex"
+]
+nodes = {f: Node(f) for f in printer_files}
+latex_vars = {}
+error_occurred = False
+
+# Start at root .tex file and perform depth-first search of file includes
+visit(PRINTER_ROOT)
+
+if not all(node.visited for node in nodes.values()):
+    orphans = [node.filename for node in nodes.values() if not node.visited]
+
+    print(f"error: {len(orphans)} .tex file", end="")
+    if len(orphans) > 1:
+        print("s", end="")
+    print(f" not transitively included in {EBOOK_ROOT}:")
 
     for orphan in orphans:
         print("    " + orphan)
