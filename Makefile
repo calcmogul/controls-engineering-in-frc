@@ -70,11 +70,11 @@ $(PRINTER_IMGS): build/printer/%.jpg: %.jpg
 
 build/commit-date.tex: .git/refs/heads/$(shell git rev-parse --abbrev-ref HEAD) .git/HEAD
 	@mkdir -p $(@D)
-	git log -1 --pretty=format:%ad --date="format:%B %-d, %Y" > build/commit-date.tex
+	git log -1 --pretty="format:%ad" --date="format:%B %-d, %Y" > build/commit-date.tex
 
 build/commit-year.tex: .git/refs/heads/$(shell git rev-parse --abbrev-ref HEAD) .git/HEAD
 	@mkdir -p $(@D)
-	git log -1 --pretty=format:%ad --date=format:%Y > build/commit-year.tex
+	git log -1 --pretty="format:%ad" --date="format:%Y" > build/commit-year.tex
 
 build/commit-hash.tex: .git/refs/heads/$(shell git rev-parse --abbrev-ref HEAD) .git/HEAD
 	@mkdir -p $(@D)
