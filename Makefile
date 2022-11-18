@@ -18,9 +18,11 @@ CSV := $(filter-out ./bookutil/% ./build/% ./lint/% ./snippets/%,$(call rwildcar
 CSV := $(addprefix build/,$(CSV))
 
 ifeq ($(OS),Windows_NT)
+	CONVERT := magick convert
 	VENV_PYTHON := ./build/venv/Scripts/python3
 	VENV_PIP := ./build/venv/Scripts/pip3
 else
+	CONVERT := convert
 	VENV_PYTHON := ./build/venv/bin/python3
 	VENV_PIP := ./build/venv/bin/pip3
 endif
@@ -49,10 +51,10 @@ $(EBOOK_IMGS): build/ebook/%.jpg: %.jpg
 # 150dpi, 75% quality
 # cover: 4032x2016 -> 150dpi * 8.5" x 150dpi * 11" -> 1275x1650
 # banners: 4032x2016 -> 150dpi * 8.5" x 150dpi * 4.25" -> 1275x637
-	if [ $< = "imgs/cover.jpg" ]; then \
-		convert $< -resize 1275x1650 -quality 75 $@; \
+	if [ "$<" = "imgs/cover.jpg" ]; then \
+		$(CONVERT) "$<" -resize 1275x1650 -quality 75 "$@"; \
 	else \
-		convert $< -resize 1275x637 -quality 75 $@; \
+		$(CONVERT) "$<" -resize 1275x637 -quality 75 "$@"; \
 	fi
 
 $(PRINTER_IMGS): build/printer/%.jpg: %.jpg
@@ -60,10 +62,10 @@ $(PRINTER_IMGS): build/printer/%.jpg: %.jpg
 # 300dpi, 95% quality
 # cover: 4032x2016 -> 300dpi * 8.5" x 300dpi * 11" -> 2550x3300
 # banners: 4032x2016 -> 300dpi * 8.5" x 300dpi * 4.25" -> 2550x1275
-	if [ $< = "imgs/cover.jpg" ]; then \
-		convert $< -resize 2550x3300 -quality 95 $@; \
+	if [ "$<" = "imgs/cover.jpg" ]; then \
+		$(CONVERT) "$<" -resize 2550x3300 -quality 95 "$@"; \
 	else \
-		convert $< -resize 2550x1275 -quality 95 $@; \
+		$(CONVERT) "$<" -resize 2550x1275 -quality 95 "$@"; \
 	fi
 
 build/commit-date.tex: .git/refs/heads/$(shell git rev-parse --abbrev-ref HEAD) .git/HEAD
