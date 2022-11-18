@@ -17,6 +17,14 @@ SNIPPETS := $(wildcard snippets/*)
 CSV := $(filter-out ./bookutil/% ./build/% ./lint/% ./snippets/%,$(call rwildcard,./,*.csv))
 CSV := $(addprefix build/,$(CSV))
 
+ifeq ($(OS),Windows_NT)
+	VENV_PYTHON := ./build/venv/Scripts/python3
+	VENV_PIP := ./build/venv/Scripts/pip3
+else
+	VENV_PYTHON := ./build/venv/bin/python3
+	VENV_PIP := ./build/venv/bin/pip3
+endif
+
 .PHONY: all
 all: ebook
 
@@ -79,13 +87,13 @@ $(CSV): build/%.csv: %.csv
 build/venv.stamp:
 	@mkdir -p $(@D)
 	python3 setup_venv.py
-	./build/venv/bin/pip3 install -e ./bookutil
-	./build/venv/bin/pip3 install frccontrol==2022.19 pylint requests
+	$(VENV_PIP) install -e ./bookutil
+	$(VENV_PIP) install frccontrol==2022.19 pylint requests
 	@touch $@
 
 $(STAMP): build/%.stamp: %.py $(CSV) build/venv.stamp
 	@mkdir -p $(@D)
-	cd $(@D) && $(abspath ./build/venv/bin/python3) $(abspath ./$<) --noninteractive
+	cd $(@D) && $(abspath $(VENV_PYTHON)) $(abspath ./$<) --noninteractive
 	@touch $@
 
 # Run formatters
