@@ -12,7 +12,7 @@ jobs:
         fetch-depth: 0
 
     - name: Install Python
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v4
       with:
         python-version: '3.10'
 
@@ -22,7 +22,7 @@ jobs:
     - name: Generate PDF
       run: make -j$(nproc) ebook
 
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v3
       with:
         name: e-book PDF (Ubuntu)
         path: controls-engineering-in-frc-ebook.pdf
@@ -53,7 +53,7 @@ jobs:
         source /etc/profile
         make -j$(nproc) ebook
 
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v3
       with:
         name: e-book PDF (Arch Linux)
         path: controls-engineering-in-frc-ebook.pdf
@@ -74,7 +74,7 @@ jobs:
         eval `/usr/libexec/path_helper`
         make -j$(nproc) ebook
 
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v3
       with:
         name: e-book PDF (macOS)
         path: controls-engineering-in-frc-ebook.pdf
