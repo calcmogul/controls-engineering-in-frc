@@ -132,7 +132,7 @@ These can be installed via `make setup_macos`.
   * clang-format (to format C++ code snippets)
   * imagemagick (to compress JPEGs)
   * inkscape (to convert SVGs to PDFs)
-  * python@3.9 (for generating plots)
+  * python@3.10 (for generating plots)
 * Python packages (via "pip3 install --user")
   * black (to format Python source code)
   * pylint (for Python linting)
