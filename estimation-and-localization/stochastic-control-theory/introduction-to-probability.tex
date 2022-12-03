@@ -110,9 +110,10 @@ negative and that the sum of all probabilities is $1$.
 
 The expected values for joint PDFs are as follows.
 \begin{align*}
-  E[x] &= \int_{-\infty}^\infty \int_{-\infty}^{\infty} x \,dx \,dy \\
-  E[y] &= \int_{-\infty}^\infty \int_{-\infty}^{\infty} y \,dx \,dy \\
-  E[f(x, y)] &= \int_{-\infty}^\infty \int_{-\infty}^{\infty} f(x, y) \,dx \,dy
+  E[x] &= \int_{-\infty}^\infty \int_{-\infty}^{\infty} x p(x, y) \,dx \,dy \\
+  E[y] &= \int_{-\infty}^\infty \int_{-\infty}^{\infty} y p(x, y) \,dx \,dy \\
+  E[f(x, y)] &= \int_{-\infty}^\infty \int_{-\infty}^{\infty} f(x, y) p(x, y)
+    \,dx \,dy
 \end{align*}
 
 The variance of a joint PDF measures how a variable correlates with itself
