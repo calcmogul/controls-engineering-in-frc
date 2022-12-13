@@ -5,7 +5,7 @@ on: [pull_request, push]
 jobs:
   ubuntu:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 30
     steps:
     - uses: actions/checkout@v3
       with:
@@ -30,7 +30,7 @@ jobs:
   archlinux:
     runs-on: ubuntu-latest
     container: archlinux/archlinux:base-devel
-    timeout-minutes: 15
+    timeout-minutes: 30
     steps:
     - name: Install Git
       run: sudo pacman -Sy --needed --noconfirm git
@@ -60,7 +60,7 @@ jobs:
 
   macos:
     runs-on: macos-latest
-    timeout-minutes: 15
+    timeout-minutes: 30
     steps:
     - uses: actions/checkout@v3
       with:
