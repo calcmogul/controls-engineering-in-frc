@@ -48,7 +48,7 @@ int main() {
   problem.SubjectTo(U <= 1);
 
   // Cost function - minimize position error
-  sleipnir::VariableMatrix J = 0.0;
+  sleipnir::Variable J = 0.0;
   for (int k = 0; k < N + 1; ++k) {
     J += sleipnir::pow(r - X(0, k), 2);
   }
