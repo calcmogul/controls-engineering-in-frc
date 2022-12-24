@@ -1,0 +1,33 @@
+\section{Matrix definiteness}
+\begin{booktable}
+  \begin{tabular}{|cccc|}
+    \hline
+    \rowcolor{headingbg}
+    \textbf{Type} & \textbf{Eigenvalues} & \textbf{Notation} &
+      \textbf{Definition} \\
+    \hline
+    Negative definite &
+      All $\lambda < 0$ &
+      $\mat{M} < \mat{0}$ &
+      $\mat{x}\T\mat{M}\mat{x} < 0$ for all $\mat{x}$ \\
+    Negative semidefinite &
+      All $\lambda \leq 0$ &
+      $\mat{M} \leq \mat{0}$ &
+      $\mat{x}\T\mat{M}\mat{x} \leq 0$ for all $\mat{x}$ \\
+    Positive semidefinite &
+      All $\lambda \geq 0$ &
+      $\mat{M} \geq \mat{0}$ &
+      $\mat{x}\T\mat{M}\mat{x} \geq 0$ for all $\mat{x}$ \\
+    Positive definite &
+      All $\lambda > 0$ &
+      $\mat{M} > \mat{0}$ &
+      $\mat{x}\T\mat{M}\mat{x} > 0$ for all $\mat{x}$ \\
+    Indefinite &
+      Positive and negative &
+      N/A &
+      $\exists \mat{x}, \mat{y} \ni \mat{x}\T\mat{M}\mat{x} < 0 < \mat{y}\T\mat{M}\mat{y}$ \\
+    \hline
+  \end{tabular}
+  \caption{Types of matrix definiteness. Let $\mat{M}$ be a matrix and let
+    $\mat{x}$ and $\mat{y}$ be nonzero vectors.}
+\end{booktable}
