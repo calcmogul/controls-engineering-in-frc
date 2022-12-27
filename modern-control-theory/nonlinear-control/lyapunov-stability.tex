@@ -48,9 +48,9 @@ Lyapunov candidate function.
 This function is positive definite by definition. Its derivative is
 \begin{align*}
   \dot{V}(\mat{x}) &= \dot{\mat{x}}\T\mat{P}\mat{x} +
-    \mat{x}\T\dot{\mat{P}}\mat{x} + \mat{x}\T\dot{\mat{P}}\dot{\mat{x}} \\
+    \mat{x}\T\dot{\mat{P}}\mat{x} + \mat{x}\T\mat{P}\dot{\mat{x}} \\
   \dot{V}(\mat{x}) &= \dot{\mat{x}}\T\mat{P}\mat{x} +
-    \mat{x}\T\mat{0}\mat{x} + \mat{x}\T\dot{\mat{P}}\dot{\mat{x}} \\
+    \mat{x}\T\mat{0}\mat{x} + \mat{x}\T\mat{P}\dot{\mat{x}} \\
   \dot{V}(\mat{x}) &= \dot{\mat{x}}\T\mat{P}\mat{x} +
     \mat{x}\T\mat{P}\dot{\mat{x}} \\
   \dot{V}(\mat{x}) &= (\mat{A}\mat{x})\T\mat{P}\mat{x} +
