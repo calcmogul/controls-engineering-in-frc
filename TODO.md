@@ -8,8 +8,6 @@ More examples of concepts should help slow the pace down. I should read through
 this book as if I was explaining it to my veteran software students and
 anticipate gaps in their understanding.
 
-Add stubs for missing chapters, missing sections, and todo items.
-
 ### All chapters
 
 * Fix book glossary (less self-referential?) and define terms on first use
