@@ -3,19 +3,19 @@
 \chapter{Trajectory optimization}
 \index{motion profiles!trajectory optimization}
 
-To contextualize some definitions related to trajectory optimization, let's use
-the example of a drivetrain in FRC. A \textit{path} is a set of (x, y) points
-for the \gls{system} to follow. A \textit{trajectory} is a path that includes
-both the states (e.g., position and velocity) and control inputs (e.g., voltage)
-of the \gls{system} as functions of time. \textit{Trajectory optimization}
-refers to a set of methods for finding the best choice of trajectory (for some
-mathematical definition of ``best") by selecting states and inputs of the
-\gls{system} as functions of time.
+A \textit{trajectory} is a collection of samples defined over some time
+interval. A drivetrain trajectory would include its states (e.g., x position, y
+position, heading, and velocity) and control inputs (e.g., voltage).
+
+\textit{Trajectory optimization} finds the best choice of trajectory (for some
+mathematical definition of ``best") by formulating and solving a constrained
+optimization problem.
 
 \section{Solving optimization problems with Sleipnir}
 
-Sleipnir is a C++ library that allows the user to pose a constrained nonlinear
-optimization problem in natural mathematical notation and solve it.
+Sleipnir is a C++ library that facilitates the specification of constrained
+nonlinear optimization problems with natural mathematical notation, then
+efficiently solves them.
 
 Sleipnir supports problems of the form:
 \begin{align*}
@@ -26,12 +26,13 @@ Sleipnir supports problems of the form:
 
 where $f(x)$ is the scalar cost function, $x$ is the vector of decision
 variables (variables the solver can tweak to minimize the cost function),
-$c_i(x)$ are the inequality constraints, and $c_e(x)$ are the equality
-constraints. Constraints are equations or inequalities of the decision variables
-that constrain what values the solver is allowed to use when searching for an
-optimal solution.
+$c_e(x)$ is the vector-valued function whose rows are equality constraints, and
+$c_i(x)$ is the vector-valued function whose rows are inequality constraints.
+Constraints are equations or inequalities of the decision variables that
+constrain what values the solver is allowed to use when searching for an optimal
+solution.
 
-The nice thing about this class is users don't have to put their system in the
+The nice thing about Sleipnir is users don't have to put their system in the
 form shown above manually; they can write it in natural mathematical form and
 it'll be converted for them. We'll cover some examples next.
 
