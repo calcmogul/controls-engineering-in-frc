@@ -13,8 +13,8 @@ PY_STAMP := $(addprefix build/,$(PY:.py=.stamp))
 
 TEX := $(filter-out ./controls-engineering-in-frc-ebook.tex ./controls-engineering-in-frc-printer.tex,$(call rwildcard,./,*.tex))
 BIB := $(wildcard *.bib)
-EBOOK_IMGS := $(addprefix build/ebook/,$(wildcard imgs/*))
-PRINTER_IMGS := $(addprefix build/printer/,$(wildcard imgs/*))
+EBOOK_IMGS := $(addprefix build/controls-engineering-in-frc-ebook/,$(wildcard imgs/*))
+PRINTER_IMGS := $(addprefix build/controls-engineering-in-frc-printer/,$(wildcard imgs/*))
 SNIPPETS := $(wildcard snippets/*)
 
 CSV := $(filter-out ./bookutil/% ./build/% ./lint/% ./snippets/%,$(call rwildcard,./,*.csv))
@@ -49,7 +49,7 @@ $(NAME)-printer.pdf: $(TEX) $(NAME)-printer.tex $(CPP_EXE) $(PY_STAMP) \
 		build/commit-year.tex build/commit-hash.tex
 	latexmk -interaction=nonstopmode -xelatex $(NAME)-printer
 
-$(EBOOK_IMGS): build/ebook/%.jpg: %.jpg
+$(EBOOK_IMGS): build/controls-engineering-in-frc-ebook/%.jpg: %.jpg
 	@mkdir -p $(@D)
 # 150dpi, 75% quality
 # cover: 4032x2016 -> 150dpi * 8.5" x 150dpi * 11" -> 1275x1650
@@ -60,7 +60,7 @@ $(EBOOK_IMGS): build/ebook/%.jpg: %.jpg
 		$(CONVERT) "$<" -resize 1275x637 -quality 75 "$@"; \
 	fi
 
-$(PRINTER_IMGS): build/printer/%.jpg: %.jpg
+$(PRINTER_IMGS): build/controls-engineering-in-frc-printer/%.jpg: %.jpg
 	@mkdir -p $(@D)
 # 300dpi, 95% quality
 # cover: 4032x2016 -> 300dpi * 8.5" x 300dpi * 11" -> 2550x3300
