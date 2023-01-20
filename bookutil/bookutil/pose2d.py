@@ -46,31 +46,36 @@ class Pose2d:
         temp = R @ temp
         return Pose2d(temp[0, 0], temp[1, 0], temp[2, 0])
 
-    def exp(self, twist, dt):
+    def exp(self, twist):
         """Apply the given twist to update the pose.
 
         Keyword arguments:
-        twist -- a Twist2d object containing the linear and angular velocities
-                 between updates
-        dt -- the time in seconds between updates
+        twist -- the change in pose in the robot's coordinate frame since the
+                 previous pose update
         """
         # Compute change in pose in local coordinate frame
-        if twist.omega > 1e-9:
-            s = math.sin(twist.omega * dt) / twist.omega
-            c = (math.cos(twist.omega * dt) - 1.0) / twist.omega
+        if abs(twist.dtheta) < 1e-9:
+            s = 1.0 - 1.0 / 6.0 * twist.dtheta**2
+            c = 0.5 * twist.dtheta
         else:
-            s = dt - dt**3 * twist.omega**2 / 6.0
-            c = -(dt**2) * twist.omega / 2.0
+            s = math.sin(twist.dtheta) / twist.dtheta
+            c = (1.0 - math.cos(twist.dtheta)) / twist.dtheta
         dpose_r = Pose2d(
-            twist.v_x * s + twist.v_y * c,
-            twist.v_x * -c + twist.v_y * s,
-            twist.omega * dt,
+            twist.dx * s - twist.dy * c,
+            twist.dx * c + twist.dy * s,
+            twist.dtheta,
         )
 
         # Transform to global coordinate frame, then apply transformation
-        self.x += dpose_r.x * math.cos(self.theta) - dpose_r.y * math.sin(self.theta)
-        self.y += dpose_r.x * math.sin(self.theta) + dpose_r.y * math.cos(self.theta)
-        self.theta += dpose_r.theta
+        return Pose2d(
+            self.x
+            + dpose_r.x * math.cos(self.theta)
+            - dpose_r.y * math.sin(self.theta),
+            self.y
+            + dpose_r.x * math.sin(self.theta)
+            + dpose_r.y * math.cos(self.theta),
+            self.theta + dpose_r.theta,
+        )
 
     @staticmethod
     def __get_continuous_error(error):

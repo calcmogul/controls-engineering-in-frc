@@ -448,20 +448,39 @@ of the current heading, which is along the x-axis. Therefore,
   update it.
 \end{theorem}
 
-Figure \ref{fig:ramsete_twist_odometry_error} shows the error in the global pose
-coordinates over time for the simpler odometry method compared to the method
-using twists (uses the Ramsete controller from subsection
-\ref{sec:ramsete_unicycle_controller}).
-\begin{svg}{build/\chapterpath/ramsete_twist_odometry_error}
-  \caption{Odometry error compared to method using twists ($dt = 0.05$ s)}
-  \label{fig:ramsete_twist_odometry_error}
-\end{svg}
+Figures \ref{fig:pose_estimation_comparison_xy} through
+\ref{fig:pose_estimation_comparison_heading_error} show the pose estimation
+errors of forward Euler odometry and pose exponential odometry for a feedforward
+S-curve trajectory (dt $= 20$ ms).
+\begin{bookfigure}
+  \begin{minisvg}{2}{build/\chapterpath/pose_estimation_comparison_xy}
+    \caption{Pose estimation comparison\\(y vs x)}
+    \label{fig:pose_estimation_comparison_xy}
+  \end{minisvg}
+  \hfill
+  \begin{minisvg}{2}{build/\chapterpath/pose_estimation_comparison_x_error}
+    \caption{Pose estimation  comparison\\(x error vs time)}
+  \end{minisvg}
+\end{bookfigure}
+\begin{bookfigure}
+  \begin{minisvg}{2}{build/\chapterpath/pose_estimation_comparison_y_error}
+    \caption{Pose estimation comparison\\(y error vs time)}
+  \end{minisvg}
+  \begin{minisvg}{2}{build/\chapterpath/pose_estimation_comparison_heading_error}
+    \caption{Pose estimation comparison\\(heading error vs time)}
+    \label{fig:pose_estimation_comparison_heading_error}
+  \end{minisvg}
+\end{bookfigure}
 
-The highest error is $4$ cm in $x$ over a $10$ m path starting with a $2$ m
-displacement. The difference would be even more noticeable for paths with higher
-curvatures and longer durations. One mitigation is using a smaller update
-period. However, there are bigger sources of error like turning scrub on skid
-steer robots that should be dealt with before odometry numerical accuracy.
+The highest error is about $3.4$ cm in $x$ over a $10$ m path. The difference
+would be even more noticeable for paths with higher curvatures and longer
+durations. The error returns to near zero in this case because the curvature is
+symmetric, so the second half cancels the error accrued in the first half.
+
+Using a smaller update period somewhat mitigates the forward Euler pose
+estimation error. However, there are bigger sources of error like turning scrub
+on skid steer robots that should be dealt with before odometry numerical
+accuracy.
 
 \subsection{Lie groups}
 
