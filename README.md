@@ -81,7 +81,7 @@ To compile the book, the following packages are required.
 
 These can be installed via `make setup_archlinux`.
 
-* pacman packages (via "sudo pacman -Sy")
+* pacman packages (via `sudo pacman -Sy`)
   * base-devel (for `make` to run the makefile)
   * biber (for generating bibliography)
   * clang (for clang-format to format C++ code snippets)
@@ -103,7 +103,7 @@ These can be installed via `make setup_archlinux`.
 
 These can be installed via `make setup_ubuntu`.
 
-* apt packages (via "sudo apt install")
+* apt packages (via `sudo apt install`)
   * biber (for generating bibliography)
   * build-essential (for `make` to run the makefile)
   * cm-super (for type1ec.sty)
@@ -123,7 +123,7 @@ These can be installed via `make setup_ubuntu`.
   * texlive-generic-extra (for miscellaneous LaTeX .sty files)
   * texlive-latex-extra (for bibtex and makeglossaries)
   * texlive-xetex (for xelatex)
-* Python packages (via "pip3 install --user")
+* Python packages (via `pip3 install --user`)
   * black (to format Python source code)
   * pylint (for Python linting)
 
@@ -131,17 +131,17 @@ These can be installed via `make setup_ubuntu`.
 
 These can be installed via `make setup_macos`.
 
-* brew packages (via "brew install")
+* brew packages (via `brew install`)
   * basictex (for xelatex)
   * clang-format (to format C++ code snippets)
   * cmake (for building C++ plot generators)
   * imagemagick (to compress JPEGs)
   * inkscape (to convert SVGs to PDFs)
   * python@3.10 (for generating plots)
-* Python packages (via "pip3 install --user")
+* Python packages (via `pip3 install --user`)
   * black (to format Python source code)
   * pylint (for Python linting)
-* tlmgr packages (via "sudo tlmgr install")
+* tlmgr packages (via `sudo tlmgr install`)
   * biber (for generating bibliography)
   * biblatex (for generating bibliography)
   * cm-super (for type1ec.sty)
