@@ -68,7 +68,7 @@ def main():
         xycoords="data",
         xytext=(annotate_t, top + 5),  # End coord of arrow
         textcoords="data",
-        arrowprops=dict(arrowstyle="<->", connectionstyle="arc3,rad=0"),
+        arrowprops={"arrowstyle": "<->", "connectionstyle": "arc3,rad=0"},
         ha="center",
         va="center",
     )

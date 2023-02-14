@@ -35,7 +35,7 @@ def main():
         f"Stall current: {i_stall} A",
         xy=(0, i_stall),
         xytext=(0, 160),
-        arrowprops=dict(arrowstyle="->"),
+        arrowprops={"arrowstyle": "->"},
     )
     ax_left.plot(
         rpm,
@@ -50,7 +50,7 @@ def main():
         f"Peak power: {p_max} W\n(at {rpm_free / 2.0} RPM)",
         xy=(rpm_free / 2.0, p_max),
         xytext=(7000, 365),
-        arrowprops=dict(arrowstyle="->"),
+        arrowprops={"arrowstyle": "->"},
     )
     ax_left.set_ylabel("Current (A), Power (W)")
     ax_left.set_ylim([0, 400])
@@ -64,13 +64,13 @@ def main():
         f"Stall torque: {t_stall} N-m",
         xy=(0, t_stall),
         xytext=(0, 0.75),
-        arrowprops=dict(arrowstyle="->"),
+        arrowprops={"arrowstyle": "->"},
     )
     ax_right.annotate(
         f"Free speed: {rpm_free} RPM\nFree current: {i_free} A",
         xy=(rpm_free, 0),
         xytext=(11000, 0.3),
-        arrowprops=dict(arrowstyle="->"),
+        arrowprops={"arrowstyle": "->"},
     )
     ax_right.set_ylabel("Torque (N-m)")
     ax_right.set_ylim([0, 0.8])
