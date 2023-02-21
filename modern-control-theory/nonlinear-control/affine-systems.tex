@@ -30,13 +30,19 @@ is
   \item Add $\mat{u}_0$ to the LQR's control input.
 \end{enumerate}
 
-For a control-affine \gls{system} (a nonlinear \gls{system} with linear control
-inputs) $\dot{\mat{x}} = f(\mat{x}) + \mat{B}\mat{u}$, $\mat{u}_0$ can be
-derived via plant inversion as follows.
+A control-affine system is of the form
+$\dot{\mat{x}} = f(\mat{x}) + g(\mat{x})\mat{u}$. Since it has separable control
+inputs, $\mat{u}_0$ can be derived via plant inversion as follows.
 \begin{align}
-  \dot{\mat{x}} &= f(\mat{x}_0) + \mat{B}\mat{u}_0 \nonumber \\
-  \mat{0} &= f(\mat{x}_0) + \mat{B}\mat{u}_0 \nonumber \\
-  \mat{B}\mat{u}_0 &= -f(\mat{x}_0) \nonumber \\
+  \dot{\mat{x}} &= f(\mat{x}_0) + g(\mat{x}_0)\mat{u}_0 \nonumber \\
+  \mat{0} &= f(\mat{x}_0) + g(\mat{x}_0)\mat{u}_0 \nonumber \\
+  g(\mat{x}_0)\mat{u}_0 &= -f(\mat{x}_0) \nonumber \\
+  \mat{u}_0 &= -g^{-1}(\mat{x}_0) f(\mat{x}_0)
+\end{align}
+
+For the control-affine \gls{system}
+$\dot{\mat{x}} = f(\mat{x}) + \mat{B}\mat{u}$, $\mat{u}_0$ would be
+\begin{align}
   \mat{u}_0 &= -\mat{B}^+ f(\mat{x}_0)
 \end{align}
 
