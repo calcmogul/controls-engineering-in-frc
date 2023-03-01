@@ -49,7 +49,7 @@ if exists(version_file):
         # pragma pylint: disable=exec-used
         exec(fp.read(), globals())
 else:
-    __version__ = "main"
+    __version__ = f"{date.today().year}.0"
 
 setup(
     name="bookutil",
