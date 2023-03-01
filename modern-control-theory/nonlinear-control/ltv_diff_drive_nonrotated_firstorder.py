@@ -36,6 +36,10 @@ class DifferentialDrive(LTVDifferentialDrive):
         self.x = self.sysd.A @ self.x + self.sysd.B @ self.u
         self.y = self.sysd.C @ self.x + self.sysd.D @ self.u
 
+    def predict_observer(self):
+        self.x_hat = self.sysd.A @ self.x_hat + self.sysd.B @ self.u
+        self.P = self.sysd.A @ self.P @ self.sysd.A.T + self.Q
+
     # pragma pylint: disable=signature-differs
     def update_controller(self, next_r):
         self.design_controller_observer()
