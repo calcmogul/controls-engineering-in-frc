@@ -146,9 +146,9 @@ def main():
     l3 = l2 + 1.0
     ts = np.arange(0, l3, dt)
 
-    refs = []
+    state_rec = np.zeros((2, 0))
 
-    # Generate references for simulation
+    # Run simulation
     for t in ts:
         if t < l0:
             r = np.array([[0.0], [0.0]])
@@ -156,11 +156,23 @@ def main():
             r = np.array([[1.524], [0.0]])
         else:
             r = np.array([[0.0], [0.0]])
-        refs.append(r)
 
-    state_rec, _, _, _ = elevator.generate_time_responses(refs)
-    pos = elevator.extract_row(state_rec, 0)
-    vel = elevator.extract_row(state_rec, 1)
+        if t + dt < l0:
+            next_r = np.array([[0.0], [0.0]])
+        elif t + dt < l1:
+            next_r = np.array([[1.524], [0.0]])
+        else:
+            next_r = np.array([[0.0], [0.0]])
+
+        elevator.update(r, next_r)
+
+        # Log states for plotting
+        state_rec = np.concatenate((state_rec, elevator.observer.x_hat), axis=1)
+
+        r = next_r
+
+    pos = state_rec[0, :]
+    vel = state_rec[1, :]
 
     plt.figure(1)
     plt.xlabel("Time (s)")

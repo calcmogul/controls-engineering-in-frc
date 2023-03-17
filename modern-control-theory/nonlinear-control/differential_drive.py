@@ -4,19 +4,19 @@
 
 import sys
 
-import frccontrol as fct
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 
 from bookutil import latex
+import frccontrol as fct
 
 if "--noninteractive" in sys.argv:
     mpl.use("svg")
 
 
-class DifferentialDrive(fct.System):
-    """An frccontrol system for a differential drive."""
+class DifferentialDrive:
+    """An frccontrol system representing a differential drive."""
 
     def __init__(self, dt):
         """DifferentialDrive subsystem.
@@ -24,21 +24,8 @@ class DifferentialDrive(fct.System):
         Keyword arguments:
         dt -- time between model/controller updates
         """
-        state_labels = [
-            ("Left position", "m"),
-            ("Left velocity", "m/s"),
-            ("Right position", "m"),
-            ("Right velocity", "m/s"),
-        ]
-        u_labels = [("Left voltage", "V"), ("Right voltage", "V")]
-        self.set_plot_labels(state_labels, u_labels)
+        self.dt = dt
 
-        u_min = np.array([[-12.0], [-12.0]])
-        u_max = np.array([[12.0], [12.0]])
-        fct.System.__init__(self, u_min, u_max, dt, np.zeros((4, 1)), np.zeros((2, 1)))
-
-    # pragma pylint: disable=signature-differs
-    def create_model(self, states, inputs):
         self.in_low_gear = False
 
         # Number of motors per side
@@ -65,31 +52,71 @@ class DifferentialDrive(fct.System):
             Gl = Ghigh
             Gr = Ghigh
 
-        return fct.models.differential_drive(
+        self.plant = fct.models.differential_drive(
             fct.models.MOTOR_CIM, num_motors, m, r, rb, J, Gl, Gr
         )
 
-    def design_controller_observer(self):
+        # Sim variables
+        self.sim = self.plant.to_discrete(self.dt)
+        self.x = np.zeros((4, 1))
+        self.u = np.zeros((2, 1))
+        self.y = np.zeros((2, 1))
+
+        # States: left position (m), left velocity (m/s),
+        #         right position (m), right velocity (m/s)
+        # Inputs: left voltage (V), right voltage (V)
+        # Outputs: left position (m), right position (m)
+        self.observer = fct.KalmanFilter(
+            self.plant, [0.05, 1.0, 0.05, 1.0], [0.0001, 0.0001], self.dt
+        )
+        self.feedforward = fct.LinearPlantInversionFeedforward(
+            self.plant.A, self.plant.B, self.dt
+        )
         if self.in_low_gear:
-            q_pos = 0.12
-            q_vel = 1.0
+            self.feedback = fct.LinearQuadraticRegulator(
+                self.plant.A,
+                self.plant.B,
+                [0.12, 1.0, 0.12, 1.0],
+                [12.0, 12.0],
+                self.dt,
+            )
         else:
-            q_pos = 0.14
-            q_vel = 0.95
+            self.feedback = fct.LinearQuadraticRegulator(
+                self.plant.A,
+                self.plant.B,
+                [0.14, 0.95, 0.14, 0.95],
+                [12.0, 12.0],
+                self.dt,
+            )
 
-        q = [q_pos, q_vel, q_pos, q_vel]
-        r = [12.0, 12.0]
-        self.design_lqr(q, r)
-        self.design_two_state_feedforward()
+        self.u_min = np.array([[-12.0], [-12.0]])
+        self.u_max = np.array([[12.0], [12.0]])
 
-        q_pos = 0.05
-        q_vel = 1.0
-        r_pos = 0.0001
-        self.design_kalman_filter([q_pos, q_vel, q_pos, q_vel], [r_pos, r_pos])
+    def update(self, r, next_r):
+        """
+        Advance the model by one timestep.
+
+        Keyword arguments:
+        r -- the current reference
+        next_r -- the next reference
+        """
+        # Update sim model
+        self.x = self.sim.A @ self.x + self.sim.B @ self.u
+        self.y = self.sim.C @ self.x + self.sim.D @ self.u
+
+        self.observer.predict(self.u, self.dt)
+        self.observer.correct(self.u, self.y)
+        self.u = np.clip(
+            self.feedforward.calculate(next_r)
+            + self.feedback.calculate(self.observer.x_hat, r),
+            self.u_min,
+            self.u_max,
+        )
 
 
 def main():
     """Entry point."""
+
     dt = 0.005
     diff_drive = DifferentialDrive(dt)
 
@@ -97,14 +124,26 @@ def main():
         max_v=3.5, time_to_max_v=1.0, dt=dt, goal=50.0
     )
 
-    # Generate references for simulation
-    refs = []
-    for i, _ in enumerate(ts):
-        r = np.array([[xprof[i]], [vprof[i]], [xprof[i]], [vprof[i]]])
-        refs.append(r)
+    # Run simulation
+    refs = [
+        np.array([[xprof[i]], [vprof[i]], [xprof[i]], [vprof[i]]])
+        for i in range(len(ts))
+    ]
+    x_rec, ref_rec, u_rec, _ = fct.generate_time_responses(diff_drive, refs)
 
-    x_rec, ref_rec, u_rec, _ = diff_drive.generate_time_responses(refs)
-    diff_drive.plot_time_responses(ts, x_rec, ref_rec, u_rec)
+    fct.plot_time_responses(
+        [
+            "Left position (m)",
+            "Left velocity (m/s)",
+            "Right position (m)",
+            "Right velocity (m/s)",
+        ],
+        ["Left voltage (V)", "Right voltage (V)"],
+        ts,
+        x_rec,
+        ref_rec,
+        u_rec,
+    )
     if "--noninteractive" in sys.argv:
         latex.savefig("differential_drive_response")
     else:

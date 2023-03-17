@@ -4,6 +4,7 @@
 
 import sys
 
+import frccontrol as fct
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
@@ -49,9 +50,8 @@ def main():
     l3 = l2 + 1.0
     ts = np.arange(0, l3, dt)
 
-    refs = []
-
     # Generate references for simulation
+    refs = []
     for t in ts:
         if t < l0:
             r = np.array([[0.0], [0.0]])
@@ -61,8 +61,8 @@ def main():
             r = np.array([[0.0], [0.0]])
         refs.append(r)
 
-    state_rec, _, _, _ = elevator.generate_time_responses(refs)
-    pos = elevator.extract_row(state_rec, 0)
+    state_rec, _, _, _ = fct.generate_time_responses(elevator, refs)
+    pos = state_rec[0, :]
 
     plt.figure(1)
     plt.xlabel("Time (s)")

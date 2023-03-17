@@ -9,7 +9,6 @@ import frccontrol as fct
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
-from scipy.signal import StateSpace
 
 from bookutil import latex
 from bookutil.drivetrain import get_diff_vels
@@ -23,21 +22,10 @@ if "--noninteractive" in sys.argv:
 class LTVUnicycle:
     """An frccontrol system for a unicycle."""
 
-    def __init__(self, q, r):
-        self.Q = np.diag(1.0 / np.square(q))
-        self.R = np.diag(1.0 / np.square(r))
-
-    def make_model(self, v):
-        """Makes the unicycle controller's linear model."""
-        A = np.zeros((3, 3))
-        if abs(v) < 1e-9:
-            v = 1e-9
-        A[1, 2] = v
-        B = np.array([[1, 0], [0, 0], [0, 1]])
-        C = np.array([[0, 0, 1]])
-        D = np.array([[0, 0]])
-
-        return StateSpace(A, B, C, D)
+    def __init__(self, q, r, dt):
+        self.q = q
+        self.r = r
+        self.dt = dt
 
     def calculate(self, pose, pose_desired, v_desired, omega_desired):
         """Returns the next output of the unicycle controller.
@@ -51,46 +39,23 @@ class LTVUnicycle:
         error = pose_desired.relative_to(pose)
         e = np.array([[error.x], [error.y], [error.theta]])
 
-        sys = self.make_model(v_desired)
-        dsys = sys.to_discrete(0.02)
-        K = fct.lqr(dsys, self.Q, self.R)
+        A = np.zeros((3, 3))
+        if abs(v_desired) < 1e-9:
+            v_desired = 1e-9
+        A[1, 2] = v_desired
+        B = np.array([[1, 0], [0, 0], [0, 1]])
+        K = fct.LinearQuadraticRegulator(A, B, self.q, self.r, self.dt).K
 
         u = K @ e
         return v_desired + u[0, 0], omega_desired + u[1, 0]
-
-
-class Drivetrain(DrivetrainDecoupledVelocity):
-    """An frccontrol system for a differential drive."""
-
-    def __init__(self, dt):
-        """Drivetrain subsystem.
-        Keyword arguments:
-        dt -- time between model/controller updates
-        """
-        DrivetrainDecoupledVelocity.__init__(self, dt)
-
-    # pragma pylint: disable=signature-differs
-    def update_controller(self, next_r):
-        u = self.K @ (self.r - self.x_hat)
-        if self.f:
-            rdot = (next_r - self.r) / self.dt
-            uff = self.Kff @ (rdot - self.f(self.r, np.zeros(self.u.shape)))
-        else:
-            uff = self.Kff @ (next_r - self.sysd.A @ self.r)
-        self.r = next_r
-        self.u = u + uff
-        u_cap = np.max(np.abs(self.u))
-        if u_cap > 12.0:
-            self.u = self.u / u_cap * 12.0
 
 
 def main():
     """Entry point."""
     dt = 0.02
 
-    ltv_unicycle = LTVUnicycle([0.0625, 0.125, 2.5], [0.95, 0.95])
-    drivetrain = Drivetrain(dt)
-    print("ctrb cond =", np.linalg.cond(fct.ctrb(drivetrain.sysd.A, drivetrain.sysd.B)))
+    ltv_unicycle = LTVUnicycle([0.0625, 0.125, 2.5], [0.95, 0.95], dt)
+    drivetrain = DrivetrainDecoupledVelocity(dt)
 
     t, xprof, yprof, thetaprof, vprof, omegaprof = np.genfromtxt(
         "ramsete_traj.csv", delimiter=",", skip_header=1, unpack=True
@@ -114,8 +79,8 @@ def main():
     ur_rec = []
 
     # Run LTV unicycle controller
-    i = 0
-    while i < len(t) - 1:
+    next_r = np.array([[0.0], [0.0]])
+    for i in range(len(t) - 1):
         desired_pose.x = xprof[i]
         desired_pose.y = yprof[i]
         desired_pose.theta = thetaprof[i]
@@ -125,8 +90,9 @@ def main():
             pose, desired_pose, vprof[i], omegaprof[i]
         )
         vlref, vrref = get_diff_vels(vref, omegaref, drivetrain.rb * 2.0)
+        r = next_r
         next_r = np.array([[vlref], [vrref]])
-        drivetrain.update(next_r)
+        drivetrain.update(r, next_r)
         vc = (drivetrain.x[0, 0] + drivetrain.x[1, 0]) / 2.0
         omega = (drivetrain.x[1, 0] - drivetrain.x[0, 0]) / (2.0 * drivetrain.rb)
         vl, vr = get_diff_vels(vc, omega, drivetrain.rb * 2.0)
@@ -146,9 +112,6 @@ def main():
         pose.x += vc * math.cos(pose.theta) * dt
         pose.y += vc * math.sin(pose.theta) * dt
         pose.theta += omega * dt
-
-        if i < len(t) - 1:
-            i += 1
 
     plt.figure(1)
     plt.plot(x_rec, y_rec, label="LTV unicycle controller")

@@ -23,7 +23,13 @@ def main():
     """Entry point."""
     dt = 0.005
     drivetrain = DrivetrainCoupledVelocity(dt)
-    print("ctrb cond =", np.linalg.cond(fct.ctrb(drivetrain.sysd.A, drivetrain.sysd.B)))
+
+    cond = round(np.linalg.cond(fct.ctrb(drivetrain.sim.A, drivetrain.sim.B)), 3)
+    if "--noninteractive" in sys.argv:
+        with open("ramsete-coupled-ctrb-cond.tex", "w", encoding="utf-8") as f:
+            f.write(f"{cond}\n")
+    else:
+        print(f"ctrb cond = {cond}")
 
     ts, xprof, vprof, _ = fct.generate_s_curve_profile(
         max_v=4.0, max_a=3.5, time_to_max_a=1.0, dt=dt, goal=10.0
@@ -36,14 +42,16 @@ def main():
         refs.append(r)
 
     # Run LQR
-    state_rec, ref_rec, u_rec, _ = drivetrain.generate_time_responses(refs)
-    nstates = drivetrain.sysd.A.shape[0]
-    ninputs = drivetrain.sysd.B.shape[1]
+    state_rec, ref_rec, u_rec, _ = fct.generate_time_responses(drivetrain, refs)
+    state_labels = ["Velocity (m/s)", "Angular velocity (rad/s)"]
+    input_labels = ["Left voltage (V)", "Right voltage (V)"]
+    nstates = state_rec.shape[0]
+    ninputs = u_rec.shape[0]
     subplot_max = nstates + ninputs
     for i in range(nstates):
         plt.subplot(subplot_max, 1, i + 1)
         plt.ylabel(
-            drivetrain.state_labels[i],
+            state_labels[i],
             horizontalalignment="right",
             verticalalignment="center",
             rotation=45,
@@ -52,19 +60,19 @@ def main():
             plt.title("Time domain responses")
         if i == 1:
             plt.ylim([-3, 3])
-        plt.plot(ts, drivetrain.extract_row(state_rec, i), label="Estimated state")
-        plt.plot(ts, drivetrain.extract_row(ref_rec, i), label="Reference")
+        plt.plot(ts, state_rec[i, :], label="Estimated state")
+        plt.plot(ts, ref_rec[i, :], label="Reference")
         plt.legend()
 
     for i in range(ninputs):
         plt.subplot(subplot_max, 1, nstates + i + 1)
         plt.ylabel(
-            drivetrain.u_labels[i],
+            input_labels[i],
             horizontalalignment="right",
             verticalalignment="center",
             rotation=45,
         )
-        plt.plot(ts, drivetrain.extract_row(u_rec, i), label="Control effort")
+        plt.plot(ts, u_rec[i, :], label="Control effort")
         plt.legend()
     plt.xlabel("Time (s)")
     if "--noninteractive" in sys.argv:
@@ -101,16 +109,17 @@ def main():
     omega_rec.append(0)
 
     # Run Ramsete
-    i = 0
-    while i < len(ts) - 1:
+    next_r = np.array([[0.0], [0.0]])
+    for i in range(len(ts) - 1):
         desired_pose.x = 0
         desired_pose.y = xprof[i]
         desired_pose.theta = np.pi / 2.0
 
         # pose_desired, v_desired, omega_desired, pose, b, zeta
         vref, omegaref = ramsete(desired_pose, vprof[i], 0, pose, b, zeta)
+        r = next_r
         next_r = np.array([[vref], [omegaref]])
-        drivetrain.update(next_r)
+        drivetrain.update(r, next_r)
 
         # Log data for plots
         vref_rec.append(vref)
@@ -126,9 +135,6 @@ def main():
         pose.x += drivetrain.x[0, 0] * math.cos(pose.theta) * dt
         pose.y += drivetrain.x[0, 0] * math.sin(pose.theta) * dt
         pose.theta += drivetrain.x[1, 0] * dt
-
-        if i < len(ts) - 1:
-            i += 1
 
     plt.figure(2)
     plt.plot([0] * len(ts), xprof, label="Reference trajectory")

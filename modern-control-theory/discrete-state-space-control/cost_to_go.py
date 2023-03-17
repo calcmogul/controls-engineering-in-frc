@@ -34,15 +34,15 @@ def main():
     P = solve_discrete_are(A, B, Q, R)
 
     K = np.linalg.solve(R + B.T @ P @ B, B.T @ P @ A)
-    K_p = f"{np.round(K[0, 0], 3)}"
-    K_d = f"{np.round(K[0, 1], 3)}"
+    K_p = f"{round(K[0, 0], 3)}"
+    K_d = f"{round(K[0, 1], 3)}"
     if "--noninteractive" in sys.argv:
         with open("cost-to-go-kp.tex", "w", encoding="utf-8") as f:
             f.write(f"$K_p = {K_p}$\n")
         with open("cost-to-go-kd.tex", "w", encoding="utf-8") as f:
-            f.write(f"$K_d={K_d}$\n")
+            f.write(f"$K_d = {K_d}$\n")
     else:
-        print(f"K_p={K_p}, K_d={K_d}")
+        print(f"K_p = {K_p}, K_d = {K_d}")
 
     xmin = -1
     xmax = 1

@@ -16,8 +16,8 @@ if "--noninteractive" in sys.argv:
     mpl.use("svg")
 
 
-class Flywheel(fct.System):
-    """An frccontrol system for a flywheel."""
+class Flywheel:
+    """An frccontrol system representing a flyhweel."""
 
     def __init__(self, dt):
         """Flywheel subsystem.
@@ -25,45 +25,61 @@ class Flywheel(fct.System):
         Keyword arguments:
         dt -- time between model/controller updates
         """
-        state_labels = [("Angular velocity", "rad/s")]
-        u_labels = [("Voltage", "V")]
-        self.set_plot_labels(state_labels, u_labels)
+        self.dt = dt
 
-        fct.System.__init__(
-            self,
-            np.array([[-12.0]]),
-            np.array([[12.0]]),
-            dt,
-            np.zeros((1, 1)),
-            np.zeros((1, 1)),
-        )
-
-    # pragma pylint: disable=signature-differs
-    def create_model(self, states, inputs):
         # Number of motors
         num_motors = 1.0
         # Flywheel moment of inertia in kg-m^2
         J = 0.00032
         # Gear ratio
         G = 12.0 / 18.0
+        self.plant = fct.models.flywheel(fct.models.MOTOR_775PRO, num_motors, J, G)
 
-        return fct.models.flywheel(fct.models.MOTOR_775PRO, num_motors, J, G)
+        # Sim variables
+        self.sim = self.plant.to_discrete(self.dt)
+        self.x = np.zeros((1, 1))
+        self.u = np.zeros((1, 1))
+        self.y = np.zeros((1, 1))
 
-    def design_controller_observer(self):
-        q = [9.42]
-        r = [12.0]
-        self.design_lqr(q, r)
-        # self.place_controller_poles([0.87])
-        self.design_two_state_feedforward()
+        # States: angular velocity (rad/s)
+        # Inputs: voltage (V)
+        # Outputs: angular velocity (rad/s)
+        self.observer = fct.KalmanFilter(self.plant, [1.0], [0.01], self.dt)
+        self.feedforward = fct.LinearPlantInversionFeedforward(
+            self.plant.A, self.plant.B, self.dt
+        )
+        self.feedback = fct.LinearQuadraticRegulator(
+            self.plant.A, self.plant.B, [9.42], [12.0], self.dt
+        )
 
-        q_vel = 1.0
-        r_vel = 0.01
-        self.design_kalman_filter([q_vel], [r_vel])
-        # self.place_observer_poles([0.3])
+        self.u_min = np.array([[-12.0]])
+        self.u_max = np.array([[12.0]])
+
+    def update(self, r, next_r):
+        """
+        Advance the model by one timestep.
+
+        Keyword arguments:
+        r -- the current reference
+        next_r -- the next reference
+        """
+        # Update sim model
+        self.x = self.sim.A @ self.x + self.sim.B @ self.u
+        self.y = self.sim.C @ self.x + self.sim.D @ self.u
+
+        self.observer.predict(self.u, self.dt)
+        self.observer.correct(self.u, self.y)
+        self.u = np.clip(
+            self.feedforward.calculate(next_r)
+            + self.feedback.calculate(self.observer.x_hat, r),
+            self.u_min,
+            self.u_max,
+        )
 
 
 def main():
     """Entry point."""
+
     dt = 0.005
     flywheel = Flywheel(dt)
 
@@ -73,20 +89,26 @@ def main():
     l2 = l1 + 0.1
     ts = np.arange(0, l2 + 5.0, dt)
 
+    # Run simulation
     refs = []
-
-    # Generate references for simulation
     for t in ts:
         if t < l0:
-            r = np.array([[0]])
+            r = np.array([[0.0]])
         elif t < l1:
             r = np.array([[9000 / 60 * 2 * math.pi]])
         else:
-            r = np.array([[0]])
+            r = np.array([[0.0]])
         refs.append(r)
+    x_rec, ref_rec, u_rec, _ = fct.generate_time_responses(flywheel, refs)
 
-    x_rec, ref_rec, u_rec, _ = flywheel.generate_time_responses(refs)
-    flywheel.plot_time_responses(ts, x_rec, ref_rec, u_rec)
+    fct.plot_time_responses(
+        ["Angular velocity (rad/s)"],
+        ["Voltage (V)"],
+        ts,
+        x_rec,
+        ref_rec,
+        u_rec,
+    )
     if "--noninteractive" in sys.argv:
         latex.savefig("flywheel_response")
     else:

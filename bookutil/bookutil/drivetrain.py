@@ -64,7 +64,7 @@ def drivetrain_coupled(motor, num_motors, m, r, rb, J, Gl, Gr):
 
     States: [[velocity], [angular velocity]]
     Inputs: [[left voltage], [right voltage]]
-    Outputs: [[left velocity], [right velocity]]
+    Outputs: [[velocity], [angular velocity]]
 
     Keyword arguments:
     motor -- instance of DcBrushedMotor
@@ -93,65 +93,6 @@ def drivetrain_coupled(motor, num_motors, m, r, rb, J, Gl, Gr):
     C = np.array([[1, -rb],
                   [1, rb]])
     D = np.array([[0, 0],
-                  [0, 0]])
-    # fmt: on
-
-    return StateSpace(A, B, C, D)
-
-
-def differential_drive(motor, num_motors, m, r, rb, J, Gl, Gr, states):
-    """Returns the state-space model for a differential drive.
-
-    States: [[x], [y], [theta], [left velocity], [right velocity]]
-    Inputs: [[left voltage], [right voltage]]
-    Outputs: [[theta], [left velocity], [right velocity]]
-
-    Keyword arguments:
-    motor -- instance of DcBrushedMotor
-    num_motors -- number of motors driving the mechanism
-    m -- mass of robot in kg
-    r -- radius of wheels in meters
-    rb -- radius of robot in meters
-    J -- moment of inertia of the differential drive in kg-m²
-    Gl -- gear ratio of left side of differential drive
-    Gr -- gear ratio of right side of differential drive
-    states -- state vector around which to linearize model
-
-    Returns:
-    StateSpace instance containing continuous model
-    """
-    motor = fct.models.gearbox(motor, num_motors)
-
-    C1 = -(Gl**2) * motor.Kt / (motor.Kv * motor.R * r**2)
-    C2 = Gl * motor.Kt / (motor.R * r)
-    C3 = -(Gr**2) * motor.Kt / (motor.Kv * motor.R * r**2)
-    C4 = Gr * motor.Kt / (motor.R * r)
-    theta = states[2, 0]
-    vl = states[3, 0]
-    vr = states[4, 0]
-    v = (vr + vl) / 2.0
-    if abs(v) < 1e-9:
-        vl = 1e-9
-        vr = 1e-9
-        v = 1e-9
-    # fmt: off
-    c = math.cos(theta)
-    s = math.sin(theta)
-    A = np.array([[0, 0, -v * s, 0.5 * c, 0.5 * c],
-                  [0, 0, v * c, 0.5 * s, 0.5 * s],
-                  [0, 0, 0, -0.5 / rb, 0.5 / rb],
-                  [0, 0, 0, (1 / m + rb**2 / J) * C1, (1 / m - rb**2 / J) * C3],
-                  [0, 0, 0, (1 / m - rb**2 / J) * C1, (1 / m + rb**2 / J) * C3]])
-    B = np.array([[0, 0],
-                  [0, 0],
-                  [0, 0],
-                  [(1 / m + rb**2 / J) * C2, (1 / m - rb**2 / J) * C4],
-                  [(1 / m - rb**2 / J) * C2, (1 / m + rb**2 / J) * C4]])
-    C = np.array([[0, 0, 1, 0, 0],
-                  [0, 0, 0, 1, 0],
-                  [0, 0, 0, 0, 1]])
-    D = np.array([[0, 0],
-                  [0, 0],
                   [0, 0]])
     # fmt: on
 

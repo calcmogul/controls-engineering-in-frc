@@ -36,19 +36,12 @@ def main():
     D = np.array([[0]])
     # fmt: on
 
-    sysc = StateSpace(A, B, C, D)
-
     dt = 0.001
     tmax = 0.025
 
-    sysd = sysc.to_discrete(dt)
+    sysd = StateSpace(A, B, C, D).to_discrete(dt)
 
-    # fmt: off
-    Q = np.array([[1 / 20**2, 0],
-                  [        0, 0]])
-    R = np.array([[1 / 12**2]])
-    # fmt: on
-    K = fct.lqr(sysd, Q, R)
+    K = fct.LinearQuadraticRegulator(A, B, [20, float("inf")], [12], dt).K
 
     # Plant inversions
     Kff_ts = np.linalg.pinv(sysd.B)

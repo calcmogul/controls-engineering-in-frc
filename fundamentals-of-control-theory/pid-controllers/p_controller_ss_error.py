@@ -5,16 +5,74 @@
 import math
 import sys
 
+import frccontrol as fct
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 
 from bookutil import latex
-from bookutil.systems import Flywheel
 
 if "--noninteractive" in sys.argv:
     mpl.use("svg")
 plt.rc("text", usetex=True)
+
+
+class Flywheel:
+    """An frccontrol system representing a flyhweel."""
+
+    def __init__(self, dt):
+        """Flywheel subsystem.
+
+        Keyword arguments:
+        dt -- time between model/controller updates
+        """
+        self.dt = dt
+
+        # Number of motors
+        num_motors = 1.0
+        # Flywheel moment of inertia in kg-m^2
+        J = 0.00032
+        # Gear ratio
+        G = 12.0 / 18.0
+        self.plant = fct.models.flywheel(fct.models.MOTOR_775PRO, num_motors, J, G)
+
+        # Sim variables
+        self.sim = self.plant.to_discrete(self.dt)
+        self.x = np.zeros((1, 1))
+        self.u = np.zeros((1, 1))
+        self.y = np.zeros((1, 1))
+
+        # States: angular velocity (rad/s)
+        # Inputs: voltage (V)
+        # Outputs: angular velocity (rad/s)
+        self.observer = fct.KalmanFilter(self.plant, [1.0], [0.01], self.dt)
+        self.feedback = fct.LinearQuadraticRegulator(
+            self.plant.A, self.plant.B, [200.0], [12.0], self.dt
+        )
+
+        self.u_min = np.array([[-12.0]])
+        self.u_max = np.array([[12.0]])
+
+    # pylint: disable=unused-argument
+    def update(self, r, next_r):
+        """
+        Advance the model by one timestep.
+
+        Keyword arguments:
+        r -- the current reference
+        next_r -- the next reference
+        """
+        # Update sim model
+        self.x = self.sim.A @ self.x + self.sim.B @ self.u
+        self.y = self.sim.C @ self.x + self.sim.D @ self.u
+
+        self.observer.predict(self.u, self.dt)
+        self.observer.correct(self.u, self.y)
+        self.u = np.clip(
+            self.feedback.calculate(self.observer.x_hat, r),
+            self.u_min,
+            self.u_max,
+        )
 
 
 def main():
@@ -41,11 +99,11 @@ def main():
         refs.append(r)
 
     plt.figure(1)
-    x_rec, ref_rec, _, _ = flywheel.generate_time_responses(refs)
+    x_rec, ref_rec, _, _ = fct.generate_time_responses(flywheel, refs)
 
-    plt.ylabel(flywheel.state_labels[0])
-    plt.plot(ts, flywheel.extract_row(x_rec, 0), label="Output")
-    plt.plot(ts, flywheel.extract_row(ref_rec, 0), label="Setpoint")
+    plt.ylabel("Angular velocity (rad/s)")
+    plt.plot(ts, x_rec[0, :], label="Output")
+    plt.plot(ts, ref_rec[0, :], label="Setpoint")
 
     fill_end = int(3.0 / dt)
     plt.fill_between(

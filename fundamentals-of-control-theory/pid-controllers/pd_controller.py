@@ -10,15 +10,14 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from bookutil import latex
-from bookutil.systems import Elevator
 
 if "--noninteractive" in sys.argv:
     mpl.use("svg")
 plt.rc("text", usetex=True)
 
 
-class ElevatorNoFeedforward(Elevator):
-    """frccontrol system for elevator without feedforward."""
+class Elevator:
+    """An frccontrol system representing an elevator."""
 
     def __init__(self, dt):
         """Elevator subsystem.
@@ -26,21 +25,61 @@ class ElevatorNoFeedforward(Elevator):
         Keyword arguments:
         dt -- time between model/controller updates
         """
-        Elevator.__init__(self, dt)
+        self.dt = dt
 
-    def design_controller_observer(self):
-        self.design_lqr([0.02, 0.4], [12.0])
+        # Number of motors
+        num_motors = 2.0
+        # Elevator carriage mass in kg
+        m = 6.803886
+        # Radius of pulley in meters
+        r = 0.02762679089
+        # Gear ratio
+        G = 42.0 / 12.0 * 40.0 / 14.0
+        self.plant = fct.models.elevator(fct.models.MOTOR_CIM, num_motors, m, r, G)
 
-        q_pos = 0.05
-        q_vel = 1.0
-        r_pos = 0.0001
-        self.design_kalman_filter([q_pos, q_vel], [r_pos])
+        # Sim variables
+        self.sim = self.plant.to_discrete(self.dt)
+        self.x = np.zeros((2, 1))
+        self.u = np.zeros((1, 1))
+        self.y = np.zeros((1, 1))
+
+        # States: position (m), velocity (m/s)
+        # Inputs: voltage (V)
+        # Outputs: position (m)
+        self.observer = fct.KalmanFilter(self.plant, [0.05, 1.0], [0.0001], self.dt)
+        self.feedback = fct.LinearQuadraticRegulator(
+            self.plant.A, self.plant.B, [0.02, 0.4], [12.0], self.dt
+        )
+
+        self.u_min = np.array([[-12.0]])
+        self.u_max = np.array([[12.0]])
+
+    # pylint: disable=unused-argument
+    def update(self, r, next_r):
+        """
+        Advance the model by one timestep.
+
+        Keyword arguments:
+        r -- the current reference
+        next_r -- the next reference
+        """
+        # Update sim model
+        self.x = self.sim.A @ self.x + self.sim.B @ self.u
+        self.y = self.sim.C @ self.x + self.sim.D @ self.u
+
+        self.observer.predict(self.u, self.dt)
+        self.observer.correct(self.u, self.y)
+        self.u = np.clip(
+            self.feedback.calculate(self.observer.x_hat, r),
+            self.u_min,
+            self.u_max,
+        )
 
 
 def main():
     """Entry point."""
     dt = 0.005
-    elevator = ElevatorNoFeedforward(dt)
+    elevator = Elevator(dt)
 
     # Set up graphing
     l0 = 0.1
@@ -52,17 +91,38 @@ def main():
         max_v=0.5, time_to_max_v=0.5, dt=dt, goal=3
     )
 
-    refs = []
-
     # Generate references for simulation
-    for i, _ in enumerate(ts):
-        r = np.array([[xprof[i]], [vprof[i]]])
-        refs.append(r)
+    refs = [np.array([[xprof[i]], [vprof[i]]]) for i in range(len(ts))]
 
-    x_rec, ref_rec, u_rec, _ = elevator.generate_time_responses(refs)
-    latex.plot_time_responses(
-        elevator, ts, x_rec, ref_rec, u_rec, 2, use_pid_labels=True
+    # Run simulation
+    x_rec, ref_rec, u_rec, _ = fct.generate_time_responses(elevator, refs)
+
+    plt.figure()
+
+    # Plot position
+    plt.subplot(3, 1, 1)
+    plt.ylabel("Position (m)")
+    plt.plot(
+        ts, x_rec[0, :], label=f"Output ($K_p = {round(elevator.feedback.K[0, 0], 2)}$)"
     )
+    plt.plot(ts, ref_rec[0, :], label="Setpoint")
+    plt.legend()
+
+    # Plot velocity
+    plt.subplot(3, 1, 2)
+    plt.ylabel("Velocity (m/s)")
+    plt.plot(
+        ts, x_rec[1, :], label=f"Output ($K_d = {round(elevator.feedback.K[0, 1], 2)}$)"
+    )
+    plt.plot(ts, ref_rec[1, :], label="Setpoint")
+    plt.legend()
+
+    # Plot voltage
+    plt.subplot(3, 1, 3)
+    plt.ylabel("Voltage (V)")
+    plt.plot(ts, u_rec[0, :], label="Control effort")
+    plt.legend()
+    plt.xlabel("Time (s)")
 
     if "--noninteractive" in sys.argv:
         latex.savefig("pd_controller")

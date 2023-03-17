@@ -8,7 +8,6 @@ import frccontrol as fct
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
-import scipy as sp
 
 from bookutil import latex
 
@@ -16,37 +15,20 @@ if "--noninteractive" in sys.argv:
     mpl.use("svg")
 plt.rc("text", usetex=True)
 
-DT = 0.005
-DELAY = 0.05
 
-
-class Elevator(fct.System):
+class Elevator:
     """An frccontrol system representing an elevator with a time delay."""
 
-    def __init__(self, dt, latency_comp=False):
+    def __init__(self, dt, delay=0.0):
         """Elevator subsystem.
 
         Keyword arguments:
         dt -- time between model/controller updates
-        latency_comp -- True if the controller gain should be latency-compensated
+        delay -- input delay in seconds
         """
-        self.latency_comp = latency_comp
+        self.dt = dt
+        self.delay = delay
 
-        state_labels = [("Position", "m"), ("Velocity", "m/s")]
-        u_labels = [("Voltage", "V")]
-        self.set_plot_labels(state_labels, u_labels)
-
-        fct.System.__init__(
-            self,
-            np.array([[-12.0]]),
-            np.array([[12.0]]),
-            dt,
-            np.zeros((2, 1)),
-            np.zeros((1, 1)),
-        )
-
-    # pragma pylint: disable=signature-differs
-    def create_model(self, states, inputs):
         # Number of motors
         num_motors = 2.0
         # Elevator carriage mass in kg
@@ -55,51 +37,71 @@ class Elevator(fct.System):
         r = 0.02762679089
         # Gear ratio
         G = 42.0 / 12.0 * 40.0 / 14.0
+        self.plant = fct.models.elevator(fct.models.MOTOR_CIM, num_motors, m, r, G)
 
-        return fct.models.elevator(fct.models.MOTOR_CIM, num_motors, m, r, G)
+        # Sim variables
+        self.sim = self.plant.to_discrete(self.dt)
+        self.x = np.zeros((2, 1))
+        self.u = np.zeros((1, 1))
+        self.y = np.zeros((1, 1))
 
-    def design_controller_observer(self):
-        self.design_two_state_feedforward()
-        self.design_lqr([0.02, 0.4], [12.0])
+        # States: position (m), velocity (m/s)
+        # Inputs: voltage (V)
+        # Outputs: position (m)
+        self.observer = fct.KalmanFilter(self.plant, [0.05, 1.0], [0.0001], self.dt)
+        self.feedforward = fct.LinearPlantInversionFeedforward(
+            self.plant.A, self.plant.B, self.dt
+        )
+        self.feedback = fct.LinearQuadraticRegulator(
+            self.plant.A, self.plant.B, [0.02, 0.4], [12.0], self.dt
+        )
 
-        q_pos = 0.05
-        q_vel = 1.0
-        r_pos = 0.0001
-        self.design_kalman_filter([q_pos, q_vel], [r_pos])
-
+        # Prepare time delay
         self.ubuf = []
-        for _ in range(int(DELAY / DT)):
+        for _ in range(int(self.delay / self.dt)):
             self.ubuf.append(np.zeros((1, 1)))
 
-        if self.latency_comp:
-            self.K = self.K @ sp.linalg.fractional_matrix_power(
-                self.sysd.A - self.sysd.B @ self.K, DELAY / DT
-            )
+        self.u_min = np.array([[-12.0]])
+        self.u_max = np.array([[12.0]])
 
-    def update_controller(self, next_r):
-        u = self.K @ (self.r - self.x_hat)
-        if self.f:
-            rdot = (next_r - self.r) / self.dt
-            uff = self.Kff @ (rdot - self.f(self.r, np.zeros(self.u.shape)))
-        else:
-            uff = self.Kff @ (next_r - self.sysd.A @ self.r)
-        self.r = next_r
-        self.u = np.clip(u + uff, self.u_min, self.u_max)
+    def update(self, r, next_r):
+        """
+        Advance the model by one timestep.
+
+        Keyword arguments:
+        r -- the current reference
+        next_r -- the next reference
+        """
+        # Update sim model
+        self.x = self.sim.A @ self.x + self.sim.B @ self.u
+        self.y = self.sim.C @ self.x + self.sim.D @ self.u
+
+        self.observer.predict(self.u, self.dt)
+        self.observer.correct(self.u, self.y)
+        self.u = np.clip(
+            self.feedforward.calculate(next_r)
+            + self.feedback.calculate(self.observer.x_hat, r),
+            self.u_min,
+            self.u_max,
+        )
         self.ubuf.append(self.u)
         self.u = self.ubuf.pop(0)
 
 
 def main():
     """Entry point."""
+
+    dt = 0.005
+    delay = 0.05
+
     # Set up graphing
     l0 = 0.1
     l1 = l0 + 5.0
     l2 = l1 + 0.1
-    ts = np.arange(0, l2 + 5.0, DT)
+    ts = np.arange(0, l2 + 5.0, dt)
 
+    # Run simulation
     refs = []
-
-    # Generate references for simulation
     for t in ts:
         if t < l0:
             r = np.array([[0.0], [0.0]])
@@ -108,20 +110,82 @@ def main():
         else:
             r = np.array([[0.0], [0.0]])
         refs.append(r)
+    for i in range(2):
+        elevator = Elevator(dt, delay)
+        if i == 1:
+            elevator.feedback.latency_compensate(
+                elevator.plant.A, elevator.plant.B, elevator.dt, delay
+            )
 
-    elevator = Elevator(DT)
-    x_rec, ref_rec, u_rec, _ = elevator.generate_time_responses(refs)
-    latex.plot_time_responses(elevator, ts, x_rec, ref_rec, u_rec, 2)
-    if "--noninteractive" in sys.argv:
-        latex.savefig("elevator_time_delay_no_comp")
+        x_rec, ref_rec, u_rec, _ = fct.generate_time_responses(elevator, refs)
 
-    elevator = Elevator(DT, latency_comp=True)
-    x_rec, ref_rec, u_rec, _ = elevator.generate_time_responses(refs)
-    latex.plot_time_responses(elevator, ts, x_rec, ref_rec, u_rec, 2)
-    if "--noninteractive" in sys.argv:
-        latex.savefig("elevator_time_delay_comp")
-    else:
-        plt.show()
+        plt.figure()
+        if i == 0:
+            # Plot position
+            plt.subplot(3, 1, 1)
+            plt.ylabel("Position (m)")
+            plt.plot(
+                ts,
+                x_rec[0, :],
+                label=f"State ($K_p = {round(elevator.feedback.K[0, 0], 2)}$)",
+            )
+            plt.plot(ts, ref_rec[0, :], label="Reference")
+            plt.legend()
+
+            # Plot velocity
+            plt.subplot(3, 1, 2)
+            plt.ylabel("Velocity (m/s)")
+            plt.plot(
+                ts,
+                x_rec[1, :],
+                label=f"State ($K_d = {round(elevator.feedback.K[0, 1], 2)}$)",
+            )
+            plt.plot(ts, ref_rec[1, :], label="Reference")
+            plt.legend()
+
+            # Plot voltage
+            plt.subplot(3, 1, 3)
+            plt.ylabel("Voltage (V)")
+            plt.plot(ts, u_rec[0, :], label="Control effort")
+            plt.legend()
+            plt.xlabel("Time (s)")
+
+            if "--noninteractive" in sys.argv:
+                latex.savefig("elevator_time_delay_no_comp")
+        else:
+            # Plot position
+            plt.subplot(3, 1, 1)
+            plt.ylabel("Position (m)")
+            plt.plot(
+                ts,
+                x_rec[0, :],
+                label=f"State ($K_p = {round(elevator.feedback.K[0, 0], 2)}$)",
+            )
+            plt.plot(ts, ref_rec[0, :], label="Reference")
+            plt.legend()
+
+            # Plot velocity
+            plt.subplot(3, 1, 2)
+            plt.ylabel("Velocity (m/s)")
+            plt.plot(
+                ts,
+                x_rec[1, :],
+                label=f"State ($K_d = {round(elevator.feedback.K[0, 1], 2)}$)",
+            )
+            plt.plot(ts, ref_rec[1, :], label="Reference")
+            plt.legend()
+
+            # Plot voltage
+            plt.subplot(3, 1, 3)
+            plt.ylabel("Voltage (V)")
+            plt.plot(ts, u_rec[0, :], label="Control effort")
+            plt.legend()
+            plt.xlabel("Time (s)")
+
+            if "--noninteractive" in sys.argv:
+                latex.savefig("elevator_time_delay_comp")
+            else:
+                plt.show()
 
 
 if __name__ == "__main__":

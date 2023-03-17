@@ -4,39 +4,32 @@
 
 import sys
 
+import frccontrol as fct
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
-from scipy.linalg import fractional_matrix_power
-from scipy.signal import StateSpace
+import scipy as sp
 
 from bookutil import latex
-from bookutil.systems import Flywheel
 
 if "--noninteractive" in sys.argv:
     mpl.use("svg")
 plt.rc("text", usetex=True)
 
-DT = 0.001
-DELAY = 0.08
 
-
-class FlywheelTimeDelay(Flywheel):
+class Flywheel:
     """An frccontrol system representing a flywheel with a time delay."""
 
-    def __init__(self, dt, latency_comp=False):
+    def __init__(self, dt, delay=0.0):
         """Flywheel subsystem.
 
         Keyword arguments:
         dt -- time between model/controller updates
-        latency_comp -- True if the controller gain should be latency-compensated
+        delay -- input delay in seconds
         """
-        self.latency_comp = latency_comp
+        self.dt = dt
+        self.delay = delay
 
-        Flywheel.__init__(self, dt)
-
-    # pragma pylint: disable=signature-differs
-    def create_model(self, states, inputs):
         Kv = 0.011
         Ka = 0.005515
 
@@ -45,71 +38,133 @@ class FlywheelTimeDelay(Flywheel):
         C = np.array([[1]])
         D = np.array([[0]])
 
-        return StateSpace(A, B, C, D)
+        self.plant = sp.signal.StateSpace(A, B, C, D)
 
-    def design_controller_observer(self):
-        self.design_two_state_feedforward()
-        self.design_lqr([80], [12])
+        # Sim variables
+        self.sim = self.plant.to_discrete(self.dt)
+        self.x = np.zeros((1, 1))
+        self.u = np.zeros((1, 1))
+        self.y = np.zeros((1, 1))
 
-        q_vel = 700
-        r_vel = 50
-        self.design_kalman_filter([q_vel], [r_vel])
+        # States: angular velocity (rad/s)
+        # Inputs: voltage (V)
+        # Outputs: angular velocity (rad/s)
+        self.observer = fct.KalmanFilter(self.plant, [700.0], [50.0], self.dt)
+        self.feedforward = fct.LinearPlantInversionFeedforward(
+            self.plant.A, self.plant.B, self.dt
+        )
+        self.feedback = fct.LinearQuadraticRegulator(
+            self.plant.A, self.plant.B, [80.0], [12.0], self.dt
+        )
 
+        # Prepare time delay
         self.ubuf = []
-        for _ in range(int(DELAY / DT)):
+        for _ in range(int(self.delay / self.dt)):
             self.ubuf.append(np.zeros((1, 1)))
 
-        if self.latency_comp:
-            self.K = self.K @ fractional_matrix_power(
-                self.sysd.A - self.sysd.B @ self.K, DELAY / DT
-            )
+        self.u_min = np.array([[-12.0]])
+        self.u_max = np.array([[12.0]])
 
-    def update_controller(self, next_r):
-        u = self.K @ (self.r - self.x_hat)
-        if self.f:
-            rdot = (next_r - self.r) / self.dt
-            uff = self.Kff @ (rdot - self.f(self.r, np.zeros(self.u.shape)))
-        else:
-            uff = self.Kff @ (next_r - self.sysd.A @ self.r)
-        self.r = next_r
-        self.u = np.clip(u + uff, self.u_min, self.u_max)
+    def update(self, r, next_r):
+        """
+        Advance the model by one timestep.
+
+        Keyword arguments:
+        r -- the current reference
+        next_r -- the next reference
+        """
+        # Update sim model
+        self.x = self.sim.A @ self.x + self.sim.B @ self.u
+        self.y = self.sim.C @ self.x + self.sim.D @ self.u
+
+        self.observer.predict(self.u, self.dt)
+        self.observer.correct(self.u, self.y)
+        self.u = np.clip(
+            self.feedforward.calculate(next_r)
+            + self.feedback.calculate(self.observer.x_hat, r),
+            self.u_min,
+            self.u_max,
+        )
         self.ubuf.append(self.u)
         self.u = self.ubuf.pop(0)
 
 
 def main():
     """Entry point."""
+
+    dt = 0.001
+    delay = 0.08
+
     # Set up graphing
     l0 = 0.1
     l1 = l0 + 5.0
     l2 = l1 + 0.1
-    ts = np.arange(0, l2 + 5.0, DT)
+    ts = np.arange(0, l2 + 5.0, dt)
 
+    # Run simulations
     refs = []
-
-    # Generate references for simulation
     for t in ts:
         if t < l0:
-            r = np.array([[0]])
+            r = np.array([[0.0]])
         elif t < l1:
-            r = np.array([[510]])
+            r = np.array([[510.0]])
         else:
-            r = np.array([[0]])
+            r = np.array([[0.0]])
         refs.append(r)
+    for i in range(2):
+        flywheel = Flywheel(dt, delay)
+        if i == 1:
+            flywheel.feedback.latency_compensate(
+                flywheel.plant.A, flywheel.plant.B, flywheel.dt, delay
+            )
 
-    flywheel = FlywheelTimeDelay(DT)
-    x_rec, ref_rec, u_rec, _ = flywheel.generate_time_responses(refs)
-    latex.plot_time_responses(flywheel, ts, x_rec, ref_rec, u_rec, 2)
-    if "--noninteractive" in sys.argv:
-        latex.savefig("flywheel_time_delay_no_comp")
+        x_rec, ref_rec, u_rec, _ = fct.generate_time_responses(flywheel, refs)
 
-    flywheel = FlywheelTimeDelay(DT, latency_comp=True)
-    x_rec, ref_rec, u_rec, _ = flywheel.generate_time_responses(refs)
-    latex.plot_time_responses(flywheel, ts, x_rec, ref_rec, u_rec, 8)
-    if "--noninteractive" in sys.argv:
-        latex.savefig("flywheel_time_delay_comp")
-    else:
-        plt.show()
+        plt.figure()
+        if i == 0:
+            # Plot angular velocity
+            plt.subplot(2, 1, 1)
+            plt.ylabel("Angular velocity (rad/s)")
+            plt.plot(
+                ts,
+                x_rec[0, :],
+                label=f"State ($K_p = {round(flywheel.feedback.K[0, 0], 2)}$)",
+            )
+            plt.plot(ts, ref_rec[0, :], label="Reference")
+            plt.legend()
+
+            # Plot voltage
+            plt.subplot(2, 1, 2)
+            plt.ylabel("Voltage (V)")
+            plt.plot(ts, u_rec[0, :], label="Control effort")
+            plt.legend()
+            plt.xlabel("Time (s)")
+
+            if "--noninteractive" in sys.argv:
+                latex.savefig("flywheel_time_delay_no_comp")
+        else:
+            # Plot angular velocity
+            plt.subplot(2, 1, 1)
+            plt.ylabel("Angular velocity (rad/s)")
+            plt.plot(
+                ts,
+                x_rec[0, :],
+                label=f"State ($K_p = {round(flywheel.feedback.K[0, 0], 8)}$)",
+            )
+            plt.plot(ts, ref_rec[0, :], label="Reference")
+            plt.legend()
+
+            # Plot voltage
+            plt.subplot(2, 1, 2)
+            plt.ylabel("Voltage (V)")
+            plt.plot(ts, u_rec[0, :], label="Control effort")
+            plt.legend()
+            plt.xlabel("Time (s)")
+
+            if "--noninteractive" in sys.argv:
+                latex.savefig("flywheel_time_delay_comp")
+            else:
+                plt.show()
 
 
 if __name__ == "__main__":

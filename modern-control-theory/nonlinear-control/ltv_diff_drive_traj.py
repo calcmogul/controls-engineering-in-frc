@@ -17,13 +17,14 @@ from scipy.signal import StateSpace
 
 from bookutil import latex
 from bookutil.drivetrain import get_diff_vels
-from bookutil.systems import LTVDifferentialDrive
 
 if "--noninteractive" in sys.argv:
     mpl.use("svg")
 
 
-def linearized_differential_drive(motor, num_motors, m, r, rb, J, Gl, Gr, states):
+def linearized_differential_drive_rotated(
+    motor, num_motors, m, r, rb, J, Gl, Gr, states
+):
     """Returns the state-space model for a differential drive.
 
     States: [[x], [y], [theta], [left velocity], [right velocity]]
@@ -54,8 +55,6 @@ def linearized_differential_drive(motor, num_motors, m, r, rb, J, Gl, Gr, states
     vr = states[4, 0]
     v = (vr + vl) / 2.0
     if abs(v) < 1e-9:
-        vl = 1e-9
-        vr = 1e-9
         v = 1e-9
     # fmt: off
     A = np.array([[0, 0, 0, 0.5, 0.5],
@@ -79,27 +78,47 @@ def linearized_differential_drive(motor, num_motors, m, r, rb, J, Gl, Gr, states
     return StateSpace(A, B, C, D)
 
 
-class DifferentialDrive(LTVDifferentialDrive):
+class DifferentialDrive:
     """An frccontrol system for a differential drive."""
 
-    def __init__(self, dt, states):
+    def __init__(self, dt):
         """Differential drive subsystem.
 
         Keyword arguments:
         dt -- time between model/controller updates
-        states -- state vector around which to linearize model
         """
-        LTVDifferentialDrive.__init__(self, dt, states)
+        self.dt = dt
 
-    def create_model(self, states, inputs):
-        """Relinearize model around given state.
+        self.plant = self.linearize(np.zeros((5, 1)))
+
+        # States: x position (m), y position (m), heading (rad),
+        #         left velocity (m/s), right velocity (m/s)
+        # Inputs: left voltage (V), right voltage (V)
+        # Outputs: heading (rad), left velocity (m/s), right velocity (m/s)
+        self.observer = fct.ExtendedKalmanFilter(
+            5,
+            2,
+            self.f,
+            self.h,
+            [0.5, 0.5, 10.0, 1.0, 1.0],
+            [0.0001, 0.01, 0.01],
+            self.dt,
+        )
+
+        # Sim variables
+        self.x = np.zeros((5, 1))
+        self.u = np.zeros((2, 1))
+        self.y = np.zeros((3, 1))
+
+        self.u_min = np.array([[-12.0], [-12.0]])
+        self.u_max = np.array([[12.0], [12.0]])
+
+    def linearize(self, states):
+        """
+        Return differential drive model linearized around the given state.
 
         Keyword arguments:
-        states -- state vector around which to linearize model
-        inputs -- input vector around which to linearize model
-
-        Returns:
-        StateSpace instance containing continuous state-space model
+        states -- state around which to linearize.
         """
         # Number of motors per side
         num_motors = 3.0
@@ -116,7 +135,7 @@ class DifferentialDrive(LTVDifferentialDrive):
         # Moment of inertia of the differential drive in kg-m²
         J = 6.0
 
-        return linearized_differential_drive(
+        return linearized_differential_drive_rotated(
             fct.models.MOTOR_CIM,
             num_motors,
             m,
@@ -128,11 +147,73 @@ class DifferentialDrive(LTVDifferentialDrive):
             states,
         )
 
-    # pragma pylint: disable=signature-differs
-    def update_controller(self, next_r):
-        self.design_controller_observer()
+    def f(self, x, u):
+        """
+        Nonlinear differential drive dynamics.
 
-        rot = self.x_hat[2, 0]
+        Keyword arguments:
+        x -- state vector
+        u -- input vector
+
+        Returns:
+        dx/dt -- state derivative
+        """
+        return (
+            np.array(
+                [
+                    [(x[3, 0] + x[4, 0]) / 2.0 * math.cos(x[2, 0])],
+                    [(x[3, 0] + x[4, 0]) / 2.0 * math.sin(x[2, 0])],
+                    [(x[4, 0] - x[3, 0]) / (2.0 * self.rb)],
+                    [self.plant.A[3, 3] * x[3, 0] + self.plant.A[3, 4] * x[4, 0]],
+                    [self.plant.A[4, 3] * x[3, 0] + self.plant.A[4, 4] * x[4, 0]],
+                ]
+            )
+            + self.plant.B @ u
+        )
+
+    def h(self, x, u):
+        """
+        Nonlinear differential drive dynamics.
+
+        Keyword arguments:
+        x -- state vector
+        u -- input vector
+
+        Returns:
+        dx/dt -- state derivative
+        """
+        return self.plant.C @ x + self.plant.D @ u
+
+    def update(self, r, next_r):
+        """
+        Advance the model by one timestep.
+
+        Keyword arguments:
+        r -- the current reference
+        next_r -- the next reference
+        """
+        # Update sim model
+        self.x = fct.rk4(self.f, self.x, self.u, self.dt)
+        self.y = self.plant.C @ self.x + self.plant.D @ self.u
+
+        self.observer.predict(self.u, self.dt)
+        self.observer.correct(self.u, self.y)
+
+        # Feedforward
+        rdot = (next_r - r) / self.dt
+        u_ff = np.linalg.pinv(self.plant.B) @ (rdot - self.f(r, np.zeros((2, 1))))
+
+        self.plant = self.linearize(self.observer.x_hat)
+
+        K = fct.LinearQuadraticRegulator(
+            self.plant.A,
+            self.plant.B,
+            [0.05, 0.125, 10.0, 0.95, 0.95],
+            [12.0, 12.0],
+            self.dt,
+        ).K
+
+        rot = self.observer.x_hat[2, 0]
         in_robot_frame = np.array(
             [
                 [math.cos(rot), math.sin(rot), 0, 0, 0],
@@ -142,12 +223,10 @@ class DifferentialDrive(LTVDifferentialDrive):
                 [0, 0, 0, 0, 1],
             ]
         )
-        e = self.r - self.x_hat
-        u = self.K @ in_robot_frame @ e
-        rdot = (next_r - self.r) / self.dt
-        uff = self.Kff @ (rdot - self.f(self.x_hat, np.zeros(self.u.shape)))
-        self.r = next_r
-        self.u = u + uff
+        e = r - self.observer.x_hat
+        u_fb = K @ in_robot_frame @ e
+
+        self.u = u_ff + u_fb
 
         u_cap = np.max(np.abs(self.u))
         if u_cap > 12.0:
@@ -176,9 +255,13 @@ def main():
 
     dt = 0.02
     x = np.array([[refs[0][0, 0] + 0.5], [refs[0][1, 0] + 0.5], [np.pi / 2], [0], [0]])
-    diff_drive = DifferentialDrive(dt, x)
+    # x = np.array([[refs[0][0, 0]], [refs[0][1, 0]], [0], [0], [0]])
+    diff_drive = DifferentialDrive(dt)
+    diff_drive.x = x
+    diff_drive.observer.x_hat = x
 
-    state_rec, ref_rec, u_rec, _ = diff_drive.generate_time_responses(refs)
+    # Run simulation
+    state_rec, ref_rec, u_rec, _ = fct.generate_time_responses(diff_drive, refs)
 
     plt.figure(1)
     x_rec = np.squeeze(state_rec[0:1, :])
@@ -195,7 +278,20 @@ def main():
     if "--noninteractive" in sys.argv:
         latex.savefig("ltv_diff_drive_traj_xy")
 
-    diff_drive.plot_time_responses(ts, state_rec, ref_rec, u_rec)
+    fct.plot_time_responses(
+        [
+            "x position (m)",
+            "y position (m)",
+            "Heading (rad)",
+            "Left velocity (m/s)",
+            "Right velocity (m/s)",
+        ],
+        ["Left voltage (V)", "Right voltage (V)"],
+        ts,
+        state_rec,
+        ref_rec,
+        u_rec,
+    )
 
     if "--noninteractive" in sys.argv:
         latex.savefig("ltv_diff_drive_traj_response")

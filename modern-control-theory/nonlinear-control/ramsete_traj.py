@@ -5,7 +5,6 @@
 import math
 import sys
 
-import frccontrol as fct
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
@@ -23,7 +22,6 @@ def main():
     """Entry point."""
     dt = 0.02
     drivetrain = DrivetrainDecoupledVelocity(dt)
-    print("ctrb cond =", np.linalg.cond(fct.ctrb(drivetrain.sysd.A, drivetrain.sysd.B)))
 
     t, xprof, yprof, thetaprof, vprof, omegaprof = np.genfromtxt(
         "ramsete_traj.csv", delimiter=",", skip_header=1, unpack=True
@@ -51,6 +49,7 @@ def main():
     ur_rec = []
 
     # Run Ramsete
+    next_r = np.array([[0.0], [0.0]])
     i = 0
     while i < len(t) - 1:
         desired_pose.x = xprof[i]
@@ -60,8 +59,9 @@ def main():
         # pose_desired, v_desired, omega_desired, pose, b, zeta
         vref, omegaref = ramsete(desired_pose, vprof[i], omegaprof[i], pose, b, zeta)
         vlref, vrref = get_diff_vels(vref, omegaref, drivetrain.rb * 2.0)
+        r = next_r
         next_r = np.array([[vlref], [vrref]])
-        drivetrain.update(next_r)
+        drivetrain.update(r, next_r)
         vc = (drivetrain.x[0, 0] + drivetrain.x[1, 0]) / 2.0
         omega = (drivetrain.x[1, 0] - drivetrain.x[0, 0]) / (2.0 * drivetrain.rb)
         vl, vr = get_diff_vels(vc, omega, drivetrain.rb * 2.0)

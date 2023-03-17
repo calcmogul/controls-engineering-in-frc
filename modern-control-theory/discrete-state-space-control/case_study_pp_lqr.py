@@ -37,21 +37,14 @@ def main():
     D = np.array([[0]])
     # fmt: on
 
-    sysc = StateSpace(A, B, C, D)
-
     dt = 0.001
     tmax = 0.025
 
-    sysd = sysc.to_discrete(dt)
+    sysd = StateSpace(A, B, C, D).to_discrete(dt)
 
-    # fmt: off
-    Q = np.array([[1 / 20**2, 0],
-                  [        0, 0]])
-    R = np.array([[1 / 12**2]])
-    # fmt: on
     K_pp1 = place_poles(sysd.A, sysd.B, [0.1, 0.5]).gain_matrix
     K_pp2 = place_poles(sysd.A, sysd.B, [0.1, 0.4]).gain_matrix
-    K_lqr = fct.lqr(sysd, Q, R)
+    K_lqr = fct.LinearQuadraticRegulator(A, B, [20, float("inf")], [12], dt).K
 
     poles = eig(sysd.A - sysd.B @ K_pp1)[0]
     poles_pp1 = f"{np.round(poles[0], 3)} and {np.round(poles[1], 3)}"

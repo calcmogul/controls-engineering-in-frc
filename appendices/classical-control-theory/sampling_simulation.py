@@ -4,6 +4,7 @@
 
 import sys
 
+import frccontrol as fct
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
@@ -51,12 +52,12 @@ def simulate(elevator, dt, method):
               "bilinear")
     """
     ts, refs = generate_refs(dt)
-    elevator.sysd = elevator.sysc.to_discrete(dt, method)
+    elevator.sim = elevator.plant.to_discrete(dt, method)
     elevator.x = np.zeros((elevator.x.shape[0], 1))
-    elevator.x_hat = np.zeros((elevator.x_hat.shape[0], 1))
-    state_rec, _, _, _ = elevator.generate_time_responses(refs)
+    elevator.observer.x_hat = np.zeros((elevator.observer.x_hat.shape[0], 1))
+    state_rec, _, _, _ = fct.generate_time_responses(elevator, refs)
 
-    pos = elevator.extract_row(state_rec, 0)
+    pos = state_rec[0, :]
     if method == "zoh":
         label = "Zero-order hold"
     elif method == "euler":

@@ -35,18 +35,14 @@ def main():
     D = np.array([[0]])
     # fmt: on
 
-    sysc = StateSpace(A, B, C, D)
-
     dt = 0.0001
     tmax = 0.025
 
-    sysd = sysc.to_discrete(dt)
+    sysd = StateSpace(A, B, C, D).to_discrete(dt)
 
-    # fmt: off
-    Q = np.diag(1.0 / np.square([20, 40]))
-    R = np.diag(1.0 / np.square([12]))
-    # fmt: on
-    K = fct.lqr(sysd, Q, R)
+    Q = fct.make_cost_matrix([20, 40])
+    R = fct.make_cost_matrix([12])
+    K = fct.LinearQuadraticRegulator(A, B, [20, 40], [12], dt).K
 
     # Steady-state feedforward
     tmp1 = np.block([[sysd.A - np.eye(sysd.A.shape[0]), sysd.B], [sysd.C, sysd.D]])
