@@ -169,7 +169,7 @@ def main():
     y = generate_forward_euler_vel(vel, dt, sample_period)
     plt.plot(ts, y, label=f"Forward Euler (T={sample_period} s)")
     y = generate_backward_euler_vel(vel, dt, sample_period)
-    plt.plot(ts, y, label="fBackward Euler (T={sample_period} s)")
+    plt.plot(ts, y, label=f"Backward Euler (T={sample_period} s)")
     y = generate_bilinear_transform_vel(vel, dt, sample_period)
     plt.plot(ts, y, label=f"Bilinear transform (T={sample_period} s)")
     plt.legend()
