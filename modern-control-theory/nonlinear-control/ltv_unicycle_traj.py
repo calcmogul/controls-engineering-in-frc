@@ -62,7 +62,7 @@ def main():
     )
 
     # Initial robot pose
-    pose = Pose2d(xprof[0] + 0.5, yprof[0] + 0.5, np.pi / 4)
+    pose = Pose2d(xprof[0] + 0.5, yprof[0] + 0.5, math.pi / 4)
     desired_pose = Pose2d()
 
     vl = float("inf")

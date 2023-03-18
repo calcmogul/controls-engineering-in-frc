@@ -30,9 +30,9 @@ def main():
     )
 
     # Initial robot pose
-    pose = Pose2d(2, 0, np.pi / 2.0)
+    pose = Pose2d(2, 0, math.pi / 2.0)
     desired_pose = Pose2d()
-    twist_pose = Pose2d(2, 0, np.pi / 2.0)
+    twist_pose = Pose2d(2, 0, math.pi / 2.0)
 
     # Ramsete tuning constants
     b = 2
@@ -69,7 +69,7 @@ def main():
     for i in range(len(ts) - 1):
         desired_pose.x = 0
         desired_pose.y = xprof[i]
-        desired_pose.theta = np.pi / 2.0
+        desired_pose.theta = math.pi / 2.0
 
         # pose_desired, v_desired, omega_desired, pose, b, zeta
         vref, omegaref = ramsete(desired_pose, vprof[i], 0, pose, b, zeta)

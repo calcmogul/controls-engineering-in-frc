@@ -254,7 +254,9 @@ def main():
             refs.append(ref)
 
     dt = 0.02
-    x = np.array([[refs[0][0, 0] + 0.5], [refs[0][1, 0] + 0.5], [np.pi / 2], [0], [0]])
+    x = np.array(
+        [[refs[0][0, 0] + 0.5], [refs[0][1, 0] + 0.5], [math.pi / 2], [0], [0]]
+    )
     # x = np.array([[refs[0][0, 0]], [refs[0][1, 0]], [0], [0], [0]])
     diff_drive = DifferentialDrive(dt)
     diff_drive.x = x

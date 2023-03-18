@@ -28,7 +28,7 @@ def main():
     )
 
     # Initial robot pose
-    pose = Pose2d(xprof[0] + 0.5, yprof[0] + 0.5, np.pi)
+    pose = Pose2d(xprof[0] + 0.5, yprof[0] + 0.5, math.pi)
     desired_pose = Pose2d()
 
     # Ramsete tuning constants
