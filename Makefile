@@ -126,7 +126,7 @@ format: build/venv.stamp
 # check_tex_includes.py will fail if they're missing.
 .PHONY: lint_no_linkcheck
 lint_no_linkcheck: format build/commit-date.tex build/commit-year.tex build/commit-hash.tex $(PY_STAMP)
-	find . -type f -name \*\.py -print0 | xargs -0 $(abspath ./build/venv/bin/python3) -m pylint
+	find . -type f -name '*.py' -print0 | xargs -0 $(abspath ./build/venv/bin/python3) -m pylint
 	./lint/check_filenames.py
 	./lint/check_tex_includes.py
 	./lint/check_tex_labels.py
