@@ -22,6 +22,63 @@ if "--noninteractive" in sys.argv:
     mpl.use("svg")
 
 
+def linearized_differential_drive(motor, num_motors, m, r, rb, J, Gl, Gr, states):
+    """Returns the linearized state-space model for a differential drive.
+
+    States: [[x], [y], [theta], [left velocity], [right velocity]]
+    Inputs: [[left voltage], [right voltage]]
+    Outputs: [[theta], [left velocity], [right velocity]]
+
+    Keyword arguments:
+    motor -- instance of DcBrushedMotor
+    num_motors -- number of motors driving the mechanism
+    m -- mass of robot in kg
+    r -- radius of wheels in meters
+    rb -- radius of robot in meters
+    J -- moment of inertia of the differential drive in kg-m²
+    Gl -- gear ratio of left side of differential drive
+    Gr -- gear ratio of right side of differential drive
+    states -- state vector around which to linearize model
+
+    Returns:
+    StateSpace instance containing continuous model
+    """
+    motor = fct.models.gearbox(motor, num_motors)
+
+    C1 = -(Gl**2) * motor.Kt / (motor.Kv * motor.R * r**2)
+    C2 = Gl * motor.Kt / (motor.R * r)
+    C3 = -(Gr**2) * motor.Kt / (motor.Kv * motor.R * r**2)
+    C4 = Gr * motor.Kt / (motor.R * r)
+    theta = states[2, 0]
+    vl = states[3, 0]
+    vr = states[4, 0]
+    v = (vr + vl) / 2.0
+    if abs(v) < 1e-9:
+        v = 1e-9
+    # fmt: off
+    c = math.cos(theta)
+    s = math.sin(theta)
+    A = np.array([[0, 0, -v * s, 0.5 * c, 0.5 * c],
+                  [0, 0, v * c, 0.5 * s, 0.5 * s],
+                  [0, 0, 0, -0.5 / rb, 0.5 / rb],
+                  [0, 0, 0, (1 / m + rb**2 / J) * C1, (1 / m - rb**2 / J) * C3],
+                  [0, 0, 0, (1 / m - rb**2 / J) * C1, (1 / m + rb**2 / J) * C3]])
+    B = np.array([[0, 0],
+                  [0, 0],
+                  [0, 0],
+                  [(1 / m + rb**2 / J) * C2, (1 / m - rb**2 / J) * C4],
+                  [(1 / m - rb**2 / J) * C2, (1 / m + rb**2 / J) * C4]])
+    C = np.array([[0, 0, 1, 0, 0],
+                  [0, 0, 0, 1, 0],
+                  [0, 0, 0, 0, 1]])
+    D = np.array([[0, 0],
+                  [0, 0],
+                  [0, 0]])
+    # fmt: on
+
+    return StateSpace(A, B, C, D)
+
+
 def linearized_differential_drive_rotated(
     motor, num_motors, m, r, rb, J, Gl, Gr, states
 ):
@@ -89,7 +146,10 @@ class DifferentialDrive:
         """
         self.dt = dt
 
-        self.plant = self.linearize(np.zeros((5, 1)))
+        # Radius of robot in meters
+        self.rb = 0.59055 / 2.0
+
+        self.plant = self.linearize_for_plant(np.zeros((5, 1)))
 
         # States: x position (m), y position (m), heading (rad),
         #         left velocity (m/s), right velocity (m/s)
@@ -113,7 +173,7 @@ class DifferentialDrive:
         self.u_min = np.array([[-12.0], [-12.0]])
         self.u_max = np.array([[12.0], [12.0]])
 
-    def linearize(self, states):
+    def linearize_for_plant(self, states):
         """
         Return differential drive model linearized around the given state.
 
@@ -130,8 +190,38 @@ class DifferentialDrive:
         m = 52
         # Radius of wheels in meters
         r = 0.08255 / 2.0
-        # Radius of robot in meters
-        self.rb = 0.59055 / 2.0
+        # Moment of inertia of the differential drive in kg-m²
+        J = 6.0
+
+        return linearized_differential_drive_rotated(
+            fct.models.MOTOR_CIM,
+            num_motors,
+            m,
+            r,
+            self.rb,
+            J,
+            G,
+            G,
+            states,
+        )
+
+    def linearize_for_lqr(self, states):
+        """
+        Return differential drive model linearized around the given state.
+
+        Keyword arguments:
+        states -- state around which to linearize.
+        """
+        # Number of motors per side
+        num_motors = 3.0
+
+        # Gear ratio of differential drive
+        G = 60.0 / 11.0
+
+        # Drivetrain mass in kg
+        m = 52
+        # Radius of wheels in meters
+        r = 0.08255 / 2.0
         # Moment of inertia of the differential drive in kg-m²
         J = 6.0
 
@@ -203,11 +293,12 @@ class DifferentialDrive:
         rdot = (next_r - r) / self.dt
         u_ff = np.linalg.pinv(self.plant.B) @ (rdot - self.f(r, np.zeros((2, 1))))
 
-        self.plant = self.linearize(self.observer.x_hat)
+        self.plant = self.linearize_for_plant(self.observer.x_hat)
+        lqr_plant = self.linearize_for_lqr(self.observer.x_hat)
 
         K = fct.LinearQuadraticRegulator(
-            self.plant.A,
-            self.plant.B,
+            lqr_plant.A,
+            lqr_plant.B,
             [0.05, 0.125, 10.0, 0.95, 0.95],
             [12.0, 12.0],
             self.dt,

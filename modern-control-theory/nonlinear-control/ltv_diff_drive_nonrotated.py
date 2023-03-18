@@ -90,6 +90,9 @@ class DifferentialDrive:
         """
         self.dt = dt
 
+        # Radius of robot in meters
+        self.rb = 0.59055 / 2.0
+
         self.plant = self.linearize(np.zeros((5, 1)))
 
         # States: x position (m), y position (m), heading (rad),
@@ -131,8 +134,6 @@ class DifferentialDrive:
         m = 52
         # Radius of wheels in meters
         r = 0.08255 / 2.0
-        # Radius of robot in meters
-        self.rb = 0.59055 / 2.0
         # Moment of inertia of the differential drive in kg-m²
         J = 6.0
 
