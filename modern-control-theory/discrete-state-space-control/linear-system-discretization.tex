@@ -1,6 +1,6 @@
-\section{State-space zero-order hold}
-\label{sec:state-space_zoh}
-\index{discretization!zero-order hold}
+\section{Linear system discretization}
+\label{sec:linear_system_zoh}
+\index{discretization!linear system zero-order hold}
 
 We're going to discretize the following continuous time state-space model
 \begin{align*}
@@ -129,8 +129,8 @@ to this type of differential equation uses an exponential.
 
 This solution generalizes via the matrix exponential to the set of differential
 equations $\dot{\mat{x}} = \mat{A}\mat{x} + \mat{B}\mat{u}$ we use to describe
-\glspl{system}.\footnote{See section \ref{sec:deriv_state-space_zoh} for a
-complete derivation of the state-space zero-order hold.}
+\glspl{system}.\footnote{See section \ref{sec:deriv_linear_system_zoh} for a
+complete derivation of the linear system zero-order hold.}
 \begin{equation*}
   \mat{x}(t) = e^{\mat{A}t} \mat{x}_0 +
     \mat{A}^{-1}(e^{\mat{A}t} - \mat{I})\mat{B} \mat{u}
@@ -147,7 +147,8 @@ input from time $0$ to $t$. If the initial \gls{state} is the current system
 \end{align*}
 
 where $T$ is the time between samples $\mat{x}_k$ and $\mat{x}_{k+1}$. Theorem
-\ref{thm:state-space_zoh} has more efficient ways to compute $\mat{A}_d$ and $\mat{B}_d$.
+\ref{thm:linear_system_zoh} has more efficient ways to compute $\mat{A}_d$ and
+$\mat{B}_d$.
 
 \subsection{Definition}
 
@@ -162,8 +163,8 @@ with covariances
   \mat{w}_k &\sim N(0, \mat{Q}_d) \\
   \mat{v}_k &\sim N(0, \mat{R}_d)
 \end{align*}
-\begin{theorem}[State-space zero-order hold]
-  \label{thm:state-space_zoh}
+\begin{theorem}[Linear system zero-order hold]
+  \label{thm:linear_system_zoh}
   \begin{align}
     \mat{A}_d &= e^{\mat{A}_c T} \\
     \mat{B}_d &= \int_0^T e^{\mat{A}_c \tau} d\tau \mat{B}_c =
@@ -209,7 +210,7 @@ with covariances
   where $\mat{Q}_d = \Phi_{2,2}\T \Phi_{1,2}$ \cite{bib:integral_matrix_exp}.
 \end{theorem}
 
-See appendix \ref{sec:deriv_state-space_zoh} for derivations.
+See appendix \ref{sec:deriv_linear_system_zoh} for derivations.
 
 To see why $\mat{R}_c$ is being divided by $T$, consider the discrete white
 noise sequence $\mat{v}_k$ and the (non-physically realizable) continuous white
