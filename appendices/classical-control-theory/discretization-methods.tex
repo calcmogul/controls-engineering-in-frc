@@ -1,10 +1,10 @@
 \section{Discretization methods}
 
-\Gls{discretization} is done using a zero-order hold. That is, the \gls{system}
-\gls{state} is only updated at discrete intervals and it's held constant between
-samples (see figure \ref{fig:zoh}). The exact method of applying this uses the
-matrix exponential, but this can be computationally expensive. Instead,
-approximations such as the following are used.
+\Gls{discretization} is done using a zero-order hold. That is, the input is only
+updated at discrete intervals and it's held constant between samples (see figure
+\ref{fig:zoh}). The exact method of applying this uses the matrix exponential,
+but this can be computationally expensive. Instead, approximations such as the
+following are used.
 \begin{enumerate}
   \item Forward Euler method. This is defined as
     $y_{n+1} = y_n + f(t_n, y_n) \Delta t$.
