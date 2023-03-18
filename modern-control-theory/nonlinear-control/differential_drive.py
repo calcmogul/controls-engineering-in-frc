@@ -4,12 +4,12 @@
 
 import sys
 
+import frccontrol as fct
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 
 from bookutil import latex
-import frccontrol as fct
 
 if "--noninteractive" in sys.argv:
     mpl.use("svg")
