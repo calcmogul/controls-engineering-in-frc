@@ -2,62 +2,34 @@
 
 \chapter{Preface}
 
-\section*{Motivation}
+When I was a high school student on FIRST Robotics Competition (FRC) team 3512,
+I had to learn control theory from scattered internet sources that either
+weren't rigorous enough or assumed too much prior knowledge. After I took
+graduate-level control theory courses from University of California, Santa Cruz
+for my bachelor's degree, I realized that the concepts weren't difficult when
+presented well, but the information wasn't broadly accessible outside academia.
 
-I am the software mentor for a FIRST Robotics Competition (FRC) team. My
-responsibilities for that include teaching programming, software engineering
-practices, and applications of control theory. The curriculum I developed as of
-the spring of 2017 (located at \url{https://frc3512.github.io/ci/}) taught
-rookies enough to be minimally competitive, but it provided no formal avenues of
-growth for veteran students.
+I wanted to fix the information disparity so more people could appreciate the
+beauty and elegance I saw in control theory. This book streamlines the learning
+process to make that possible.
 
-Also, out of a six week build season, the software team usually only got a few
-days with the completed robot due to poor build schedule management. This led to
-two problems. First, two days is only enough time to verify basic software
-functionality, not test and tune feedback controllers. Second, this was also the
-first time the robot's electromechanical systems have been tested after
-integration, so any issues that arose consumed valuable software integration
-time while the team traced the problem to a mechanical, electrical, or software
-cause.
+I wrote the initial draft of this book as a final project for an undergraduate
+technical writing class I took at UCSC in Spring 2017
+(\href{https://cmpe185-spring17-01.courses.soe.ucsc.edu/}{CMPE 185}). It was a
+13-page IEEE-formatted paper intended as a reference manual and guide to
+state-space control that summarized the three graduate controls classes I had
+taken that year. I kept working on it the following year to flesh it out, and it
+eventually became long enough to make into a proper book. I've been adding to it
+ever since as I learn new things.
 
-This book expands my curriculum to cover control theory topics I learned in my
-graduate-level engineering classes at University of California, Santa Cruz. It
-introduces state-space controllers and serves as a practical guide for
-formulating and implementing them. Since state-space control utilizes a system
-model, both problems mentioned earlier can be addressed. Basic software
-functionality can be tested against it and feedback controllers can be tuned
-automatically based on system constraints. This allows software teams to test
-their work much earlier in the build season in a controlled environment as well
-as save time during feedback controller design, implementation, and testing.
-
-I originally started writing this book because I felt that the topic wasn't
-difficult, but the information for it wasn't easily accessible. When I was a
-high school robotics team member, I had to learn everything from scratch through
-various internet sources and eventually from college courses as part of my
-bachelor's degree. Control theory has a certain beauty to it, and I want more
-people to appreciate it the way I do. Therefore, my goal is to make the learning
-process quicker and easier for future team members by collating all the relevant
-information.
-
-\section*{Intended audience}
-
-This guide is intended to make an advanced engineering topic approachable so it
-can be applied by those who aren't experts in control theory. My intended
-audience is high school students who are members of a FIRST Robotics Competition
-team. As such, they will likely have passing knowledge of PID control and have
-basic proficiency in programming. This guide will expand their incomplete
-understanding of control theory to include enough linear algebra to understand
-the notation and mechanics of modern control, and how to apply modern control to
-design challenges they regularly see in their FRC robots from year to year.
+I contextualized the material within FRC because it's always been a significant
+part of my life, and it's a useful application sandbox. I've since contributed
+implementations of many of this book's tools to the FRC standard library
+(\href{https://github.com/wpilibsuite/allwpilib}{WPILib}) and maintain them.
 
 \section*{Acknowledgements}
 
-I would like to thank my controls engineering instructors Dejan Milutinovi\'c
-and Gabriel Elkaim of University of California, Santa Cruz. They taught their
-classes from a pragmatic perspective focused on application and intuition that I
-appreciated. I would also like to thank Dejan Milutinovi\'c for introducing me
-to the field of control theory and both of my instructors for teaching me what
-it means to be a controls engineer.
-
-Thanks to Austin Schuh from FRC team 971 for providing the final continuous
-state-space models used in the examples section.
+Thanks to my controls engineering instructors Dejan Milutinovi\'c and Gabriel
+Elkaim for introducing me to the field of control theory. They taught me what it
+means to be a controls engineer, and I appreciated their classes's pragmatic
+perspective focused on intuition and application.

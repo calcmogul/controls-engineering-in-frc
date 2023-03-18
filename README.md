@@ -1,21 +1,30 @@
 # Controls Engineering in the FIRST Robotics Competition
 ## Graduate-level control theory for high schoolers
 
-I originally wrote this as a final project for an undergraduate technical
-writing class I took at University of California, Santa Cruz in Spring 2017
-([CMPE 185](https://cmpe185-spring17-01.courses.soe.ucsc.edu/)). It is intended
-as a digest of graduate-level control theory aimed at veteran FIRST Robotics
-Competition (FRC) students who know algebra and a bit of physics. As I learned
-the subject of control theory, I found that it wasn't particularly difficult,
-but very few resources exist outside of academia for learning it. This book is
-intended to rectify that situation and lower the barrier to entry to the field.
+When I was a high school student on FIRST Robotics Competition (FRC) team 3512,
+I had to learn control theory from scattered internet sources that either
+weren't rigorous enough or assumed too much prior knowledge. After I took
+graduate-level control theory courses from University of California, Santa Cruz
+for my bachelor's degree, I realized that the concepts weren't difficult when
+presented well, but the information wasn't broadly accessible outside academia.
 
-This book reads a lot like a reference manual on control theory and related
-tools. It teaches the reader how to start designing and implementing control
-systems for practical systems with an emphasis on pragmatism rather than theory.
-While the theory is mathematically elegant at times and helps inform what is
-going on, one shouldn't lose sight of how it behaves when applied to real
-systems.
+I wanted to fix the information disparity so more people could appreciate the
+beauty and elegance I saw in control theory. This book streamlines the learning
+process to make that possible.
+
+I wrote the initial draft of this book as a final project for an undergraduate
+technical writing class I took at UCSC in Spring 2017
+([CMPE 185](https://cmpe185-spring17-01.courses.soe.ucsc.edu/)). It was a
+13-page IEEE-formatted paper intended as a reference manual and guide to
+state-space control that summarized the three graduate controls classes I had
+taken that year. I kept working on it the following year to flesh it out, and it
+eventually became long enough to make into a proper book. I've been adding to it
+ever since as I learn new things.
+
+I contextualized the material within FRC because it's always been a significant
+part of my life, and it's a useful application sandbox. I've since contributed
+implementations of many of this book's tools to the FRC standard library
+([WPILib](https://github.com/wpilibsuite/allwpilib)) and maintain them.
 
 ## Download
 
