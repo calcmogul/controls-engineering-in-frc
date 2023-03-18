@@ -16,3 +16,16 @@ model-based control care about developing an accurate \gls{model} of the
 needed to handle \gls{model} uncertainty, but we prefer not to use it because
 its response is hard to tune and some of its destabilizing dynamics aren't
 visible during simulation.
+
+Why use model-based control in FRC? Poor build season schedule management often
+leads to the software team:
+\begin{enumerate}
+  \item Not getting enough time to verify basic functionality and test/tune
+    feedback controllers.
+  \item Spending dedicated software testing time troubleshooting
+    mechanical/electrical issues within recently integrated subsystems instead.
+\end{enumerate}
+
+Model-based control (one of the focuses of this book) avoids both problems
+because it lets software teams test basic functionality in simulation much
+earlier in the build season and tune their feedback controllers automatically.
