@@ -278,7 +278,7 @@ equations to conserve computational resources.
   \label{thm:kalman_filter}
   \begin{align}
     \text{Predict step} \nonumber \\
-    \hat{\mat{x}}_{k+1}^- &= \mat{A}\hat{\mat{x}}_k + \mat{B} \mat{u}_k \\
+    \hat{\mat{x}}_{k+1}^- &= \mat{A}\hat{\mat{x}}_k^+ + \mat{B} \mat{u}_k \\
     \mat{P}_{k+1}^- &= \mat{A} \mat{P}_k^- \mat{A}\T + \mat{Q} \\
     \text{Update step} \nonumber \\
     \mat{K}_{k+1} &=
