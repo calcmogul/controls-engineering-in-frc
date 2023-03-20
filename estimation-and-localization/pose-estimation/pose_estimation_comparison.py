@@ -385,15 +385,38 @@ def main():
     plt.ylabel("Heading error (deg)")
     plt.plot(
         ts,
-        (x_rec_euler[2, :] - x_rec_exact[2, :]) * 180.0 / math.pi,
+        np.degrees(x_rec_euler[2, :] - x_rec_exact[2, :]),
         label="Forward Euler",
     )
     plt.plot(
         ts,
-        (x_rec_se3[2, :] - x_rec_exact[2, :]) * 180.0 / math.pi,
+        np.degrees(x_rec_se3[2, :] - x_rec_exact[2, :]),
         label="Pose exponential",
     )
     plt.legend()
+
+    # Write max errors to .tex file
+    if "--noninteractive" in sys.argv:
+        with open(
+            "pose_estimation_comparison_max_error.tex", "w", encoding="utf-8"
+        ) as f:
+            x_length = round((refs[-1][0, 0] - refs[0][0, 0]), 3)
+            y_length = round((refs[-1][1, 0] - refs[0][1, 0]), 3)
+
+            x_error = x_rec_euler[0, :] - x_rec_exact[0, :]
+            x_max_error = round(x_error[np.argmax(np.abs(x_error))] * 1e2, 3)
+
+            y_error = x_rec_euler[1, :] - x_rec_exact[1, :]
+            y_max_error = round(y_error[np.argmax(np.abs(y_error))] * 1e2, 3)
+
+            heading_error = x_rec_euler[2, :] - x_rec_exact[2, :]
+            heading_max_error = round(
+                math.degrees(heading_error[np.argmax(np.abs(heading_error))]), 3
+            )
+
+            f.write(
+                f"The highest errors for the ${x_length}$ m by ${y_length}$ m trajectory are ${x_max_error}$ cm in $x$, ${y_max_error}$ cm in $y$, and ${heading_max_error}$ deg in heading.\n"
+            )
 
     if "--noninteractive" in sys.argv:
         latex.savefig("pose_estimation_comparison_heading_error")

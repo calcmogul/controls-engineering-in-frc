@@ -472,10 +472,11 @@ S-curve trajectory (dt $= 20$ ms).
   \end{minisvg}
 \end{bookfigure}
 
-The highest error is about $3.4$ cm in $x$ over a $10$ m path. The difference
-would be even more noticeable for paths with higher curvatures and longer
-durations. The error returns to near zero in this case because the curvature is
-symmetric, so the second half cancels the error accrued in the first half.
+\input{build/\chapterpath/pose_estimation_comparison_max_error}\unskip~The
+difference would be even more noticeable for paths with higher curvatures and
+longer durations. The error returns to near zero in this case because the
+curvature is symmetric, so the second half cancels the error accrued in the
+first half.
 
 Using a smaller update period somewhat mitigates the forward Euler pose
 estimation error. However, there are bigger sources of error like turning scrub
