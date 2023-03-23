@@ -89,11 +89,31 @@ class Drivetrain:
         self.u = self.ubuf.pop(0)
 
 
+class PlotMetadata:
+    """
+    Plot metadata.
+    """
+
+    def __init__(self, delay, compensate, gain_digits, plot_filename):
+        """
+        Constructs PlotMetadata.
+
+        Keyword arguments:
+        delay -- the input delay
+        compensate -- whether to perform latency compensation
+        gain_digits -- number of digits to include in feedback gain plot label
+        plot_filename -- plot filename
+        """
+        self.delay = delay
+        self.compensate = compensate
+        self.gain_digits = gain_digits
+        self.plot_filename = plot_filename
+
+
 def main():
     """Entry point."""
 
     dt = 0.001
-    delay = 0.04
 
     # Set up graphing
     l0 = 0.1
@@ -101,7 +121,7 @@ def main():
     l2 = l1 + 0.1
     ts = np.arange(0, l2 + 5.0, dt)
 
-    # Run simulation
+    # Generate references
     refs = []
     for t in ts:
         if t < l0:
@@ -111,60 +131,45 @@ def main():
         else:
             r = np.array([[0.0]])
         refs.append(r)
-    for i in range(2):
-        drivetrain = Drivetrain(dt, delay)
-        if i == 1:
+
+    # Run simulations
+    for plot in [
+        PlotMetadata(0.04, False, 2, "drivetrain_time_delay_no_comp"),
+        PlotMetadata(0.04, True, 2, "drivetrain_time_delay_comp"),
+    ]:
+        drivetrain = Drivetrain(dt, plot.delay)
+        if plot.compensate:
             drivetrain.feedback.latency_compensate(
-                drivetrain.plant.A, drivetrain.plant.B, drivetrain.dt, delay
+                drivetrain.plant.A, drivetrain.plant.B, drivetrain.dt, plot.delay
             )
 
         x_rec, ref_rec, u_rec, _ = fct.generate_time_responses(drivetrain, refs)
 
         plt.figure()
-        if i == 0:
-            # Plot angular velocity
-            plt.subplot(2, 1, 1)
-            plt.ylabel("Velocity (m/s)")
-            plt.plot(
-                ts,
-                x_rec[0, :],
-                label=f"State ($K_p = {round(drivetrain.feedback.K[0, 0], 2)}$)",
-            )
-            plt.plot(ts, ref_rec[0, :], label="Reference")
-            plt.legend()
 
-            # Plot voltage
-            plt.subplot(2, 1, 2)
-            plt.ylabel("Voltage (V)")
-            plt.plot(ts, u_rec[0, :], label="Control effort")
-            plt.legend()
-            plt.xlabel("Time (s)")
+        # Plot velocity
+        plt.subplot(2, 1, 1)
+        plt.ylabel("Velocity (m/s)")
+        plt.plot(
+            ts,
+            x_rec[0, :],
+            label=f"State ($K_p = {round(drivetrain.feedback.K[0, 0], plot.gain_digits)}$)",
+        )
+        plt.plot(ts, ref_rec[0, :], label="Reference")
+        plt.legend()
 
-            if "--noninteractive" in sys.argv:
-                latex.savefig("drivetrain_time_delay_no_comp")
-        else:
-            # Plot angular velocity
-            plt.subplot(2, 1, 1)
-            plt.ylabel("Velocity (m/s)")
-            plt.plot(
-                ts,
-                x_rec[0, :],
-                label=f"State ($K_p = {round(drivetrain.feedback.K[0, 0], 2)}$)",
-            )
-            plt.plot(ts, ref_rec[0, :], label="Reference")
-            plt.legend()
+        # Plot voltage
+        plt.subplot(2, 1, 2)
+        plt.ylabel("Voltage (V)")
+        plt.plot(ts, u_rec[0, :], label="Control effort")
+        plt.legend()
+        plt.xlabel("Time (s)")
 
-            # Plot voltage
-            plt.subplot(2, 1, 2)
-            plt.ylabel("Voltage (V)")
-            plt.plot(ts, u_rec[0, :], label="Control effort")
-            plt.legend()
-            plt.xlabel("Time (s)")
+        if "--noninteractive" in sys.argv:
+            latex.savefig(plot.plot_filename)
 
-            if "--noninteractive" in sys.argv:
-                latex.savefig("drivetrain_time_delay_comp")
-            else:
-                plt.show()
+    if "--noninteractive" not in sys.argv:
+        plt.show()
 
 
 if __name__ == "__main__":

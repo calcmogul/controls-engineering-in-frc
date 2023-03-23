@@ -88,11 +88,31 @@ class Elevator:
         self.u = self.ubuf.pop(0)
 
 
+class PlotMetadata:
+    """
+    Plot metadata.
+    """
+
+    def __init__(self, delay, compensate, gain_digits, plot_filename):
+        """
+        Constructs PlotMetadata.
+
+        Keyword arguments:
+        delay -- the input delay
+        compensate -- whether to perform latency compensation
+        gain_digits -- number of digits to include in feedback gain plot label
+        plot_filename -- plot filename
+        """
+        self.delay = delay
+        self.compensate = compensate
+        self.gain_digits = gain_digits
+        self.plot_filename = plot_filename
+
+
 def main():
     """Entry point."""
 
     dt = 0.005
-    delay = 0.05
 
     # Set up graphing
     l0 = 0.1
@@ -100,7 +120,7 @@ def main():
     l2 = l1 + 0.1
     ts = np.arange(0, l2 + 5.0, dt)
 
-    # Run simulation
+    # Generate references
     refs = []
     for t in ts:
         if t < l0:
@@ -110,82 +130,56 @@ def main():
         else:
             r = np.array([[0.0], [0.0]])
         refs.append(r)
-    for i in range(2):
-        elevator = Elevator(dt, delay)
-        if i == 1:
+
+    # Run simulations
+    for plot in [
+        PlotMetadata(0.05, False, 2, "elevator_time_delay_no_comp"),
+        PlotMetadata(0.05, True, 2, "elevator_time_delay_comp"),
+    ]:
+        elevator = Elevator(dt, plot.delay)
+        if plot.compensate:
             elevator.feedback.latency_compensate(
-                elevator.plant.A, elevator.plant.B, elevator.dt, delay
+                elevator.plant.A, elevator.plant.B, elevator.dt, plot.delay
             )
 
         x_rec, ref_rec, u_rec, _ = fct.generate_time_responses(elevator, refs)
 
         plt.figure()
-        if i == 0:
-            # Plot position
-            plt.subplot(3, 1, 1)
-            plt.ylabel("Position (m)")
-            plt.plot(
-                ts,
-                x_rec[0, :],
-                label=f"State ($K_p = {round(elevator.feedback.K[0, 0], 2)}$)",
-            )
-            plt.plot(ts, ref_rec[0, :], label="Reference")
-            plt.legend()
 
-            # Plot velocity
-            plt.subplot(3, 1, 2)
-            plt.ylabel("Velocity (m/s)")
-            plt.plot(
-                ts,
-                x_rec[1, :],
-                label=f"State ($K_d = {round(elevator.feedback.K[0, 1], 2)}$)",
-            )
-            plt.plot(ts, ref_rec[1, :], label="Reference")
-            plt.legend()
+        # Plot position
+        plt.subplot(3, 1, 1)
+        plt.ylabel("Position (m)")
+        plt.plot(
+            ts,
+            x_rec[0, :],
+            label=f"State ($K_p = {round(elevator.feedback.K[0, 0], plot.gain_digits)}$)",
+        )
+        plt.plot(ts, ref_rec[0, :], label="Reference")
+        plt.legend()
 
-            # Plot voltage
-            plt.subplot(3, 1, 3)
-            plt.ylabel("Voltage (V)")
-            plt.plot(ts, u_rec[0, :], label="Control effort")
-            plt.legend()
-            plt.xlabel("Time (s)")
+        # Plot velocity
+        plt.subplot(3, 1, 2)
+        plt.ylabel("Velocity (m/s)")
+        plt.plot(
+            ts,
+            x_rec[1, :],
+            label=f"State ($K_d = {round(elevator.feedback.K[0, 1], plot.gain_digits)}$)",
+        )
+        plt.plot(ts, ref_rec[1, :], label="Reference")
+        plt.legend()
 
-            if "--noninteractive" in sys.argv:
-                latex.savefig("elevator_time_delay_no_comp")
-        else:
-            # Plot position
-            plt.subplot(3, 1, 1)
-            plt.ylabel("Position (m)")
-            plt.plot(
-                ts,
-                x_rec[0, :],
-                label=f"State ($K_p = {round(elevator.feedback.K[0, 0], 2)}$)",
-            )
-            plt.plot(ts, ref_rec[0, :], label="Reference")
-            plt.legend()
+        # Plot voltage
+        plt.subplot(3, 1, 3)
+        plt.ylabel("Voltage (V)")
+        plt.plot(ts, u_rec[0, :], label="Control effort")
+        plt.legend()
+        plt.xlabel("Time (s)")
 
-            # Plot velocity
-            plt.subplot(3, 1, 2)
-            plt.ylabel("Velocity (m/s)")
-            plt.plot(
-                ts,
-                x_rec[1, :],
-                label=f"State ($K_d = {round(elevator.feedback.K[0, 1], 2)}$)",
-            )
-            plt.plot(ts, ref_rec[1, :], label="Reference")
-            plt.legend()
+        if "--noninteractive" in sys.argv:
+            latex.savefig(plot.plot_filename)
 
-            # Plot voltage
-            plt.subplot(3, 1, 3)
-            plt.ylabel("Voltage (V)")
-            plt.plot(ts, u_rec[0, :], label="Control effort")
-            plt.legend()
-            plt.xlabel("Time (s)")
-
-            if "--noninteractive" in sys.argv:
-                latex.savefig("elevator_time_delay_comp")
-            else:
-                plt.show()
+    if "--noninteractive" not in sys.argv:
+        plt.show()
 
 
 if __name__ == "__main__":
