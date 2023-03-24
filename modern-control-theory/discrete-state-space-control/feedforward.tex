@@ -181,3 +181,38 @@ trigonometric function is required to model the gravitational force in the arm's
 rotating reference frame.\footnote{While the applied torque of the motor is
 constant throughout the arm's range of motion, the torque caused by gravity in
 the opposite direction varies according to the arm's angle.}
+
+\subsection{Do feedforwards affect stability?}
+
+Feedforwards have no effect on stability because they don't use the system
+state. We'll demonstrate this for a plant inversion feedforward.
+
+Let $\mat{u}_k = \mat{K}(\mat{r}_k - \mat{x}_k)$ be a feedback controller for
+the discrete model $\mat{x}_{k+1} = \mat{A}\mat{x}_k + \mat{B}\mat{u}_k$.
+\begin{align*}
+  \mat{x}_{k+1} &= \mat{A}\mat{x}_k + \mat{B}\mat{u}_k \\
+  \mat{x}_{k+1} &= \mat{A}\mat{x}_k + \mat{B}(\mat{K}(\mat{r}_k - \mat{x}_k)) \\
+  \mat{x}_{k+1} &= \mat{A}\mat{x}_k + \mat{B}\mat{K}(\mat{r}_k - \mat{x}_k) \\
+  \mat{x}_{k+1} &= \mat{A}\mat{x}_k + \mat{B}\mat{K}\mat{r}_k -
+    \mat{B}\mat{K}\mat{x}_k \\
+  \mat{x}_{k+1} &= (\mat{A} - \mat{B}\mat{K})\mat{x}_k + \mat{B}\mat{K}\mat{r}_k
+  \intertext{The system is stable if the eigenvalues of
+    $\mat{A} - \mat{B}\mat{K}$ are within the unit circle. Now add the plant
+    inversion feedforward controller
+    $\mat{B}^+(\mat{r}_{k+1} - \mat{A}\mat{r}_k)$ to $\mat{u}_k$.}
+  \mat{x}_{k+1} &= \mat{A}\mat{x}_k + \mat{B}\mat{u}_k \\
+  \mat{x}_{k+1} &= \mat{A}\mat{x}_k + \mat{B}(\mat{K}(\mat{r}_k - \mat{x}_k) +
+    \mat{B}^+(\mat{r}_{k+1} - \mat{A}\mat{r}_k)) \\
+  \mat{x}_{k+1} &= \mat{A}\mat{x}_k + \mat{B}\mat{K}(\mat{r}_k - \mat{x}_k) +
+    \mat{r}_{k+1} - \mat{A}\mat{r}_k \\
+  \mat{x}_{k+1} &= \mat{A}\mat{x}_k + \mat{B}\mat{K}\mat{r}_k -
+    \mat{B}\mat{K}\mat{x}_k + \mat{r}_{k+1} - \mat{A}\mat{r}_k \\
+  \mat{x}_{k+1} &= (\mat{A} - \mat{B}\mat{K})\mat{x}_k + \mat{r}_{k+1} +
+    (\mat{B}\mat{K} - \mat{A})\mat{r}_k \\
+  \mat{x}_{k+1} &= (\mat{A} - \mat{B}\mat{K})\mat{x}_k + \mat{r}_{k+1} -
+    (\mat{A} - \mat{B}\mat{K})\mat{r}_k
+\end{align*}
+
+The multiplicative term on $\mat{x}_k$ is still $\mat{A} - \mat{B}\mat{K}$, so
+the feedforward didn't affect stability. It still affects the system response
+and steady-state error though.
