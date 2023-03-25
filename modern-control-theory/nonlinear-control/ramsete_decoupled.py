@@ -12,10 +12,10 @@ import frccontrol as fct
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
+from wpimath.geometry import Pose2d
 
 from bookutil import latex
 from bookutil.drivetrain import get_diff_vels, ramsete
-from bookutil.pose2d import Pose2d
 from bookutil.systems import DrivetrainDecoupledVelocity
 
 if "--noninteractive" in sys.argv:
@@ -60,34 +60,19 @@ def main():
     b = 2
     zeta = 0.7
 
-    vl = float("inf")
-    vr = float("inf")
-
-    x_rec = []
-    y_rec = []
-    vr_rec = []
-    omegar_rec = []
-    v_rec = []
-    omega_rec = []
-    ul_rec = []
-    ur_rec = []
-
-    # Log initial data for plots
-    vr_rec.append(0)
-    omegar_rec.append(0)
-    x_rec.append(pose.x)
-    y_rec.append(pose.y)
-    ul_rec.append(drivetrain.u[0, 0])
-    ur_rec.append(drivetrain.u[1, 0])
-    v_rec.append(0)
-    omega_rec.append(0)
+    x_rec = [pose.X()]
+    y_rec = [pose.Y()]
+    r_v_rec = [0]
+    r_omega_rec = [0]
+    v_rec = [0]
+    omega_rec = [0]
+    ul_rec = [drivetrain.u[0, 0]]
+    ur_rec = [drivetrain.u[1, 0]]
 
     # Run Ramsete
     next_r = np.array([[0.0], [0.0]])
     for i in range(len(ts) - 1):
-        desired_pose.x = 0
-        desired_pose.y = xprof[i]
-        desired_pose.theta = math.pi / 2.0
+        desired_pose = Pose2d(0, xprof[i], math.pi / 2.0)
 
         # pose_desired, v_desired, omega_desired, pose, b, zeta
         vref, omegaref = ramsete(desired_pose, vprof[i], 0, pose, b, zeta)
@@ -99,8 +84,8 @@ def main():
         omega = (drivetrain.x[1, 0] - drivetrain.x[0, 0]) / (2.0 * drivetrain.rb)
 
         # Log data for plots
-        vr_rec.append(vref)
-        omegar_rec.append(omegaref)
+        r_v_rec.append(vref)
+        r_omega_rec.append(omegaref)
         x_rec.append(pose.x)
         y_rec.append(pose.y)
         ul_rec.append(drivetrain.u[0, 0])
@@ -109,9 +94,11 @@ def main():
         omega_rec.append(omega)
 
         # Update nonlinear observer
-        pose.x += vc * math.cos(pose.theta) * dt
-        pose.y += vc * math.sin(pose.theta) * dt
-        pose.theta += omega * dt
+        pose = Pose2d(
+            pose.X() + vc * pose.rotation().cos() * dt,
+            pose.Y() + vc * pose.rotation().sin() * dt,
+            pose.rotation().radians() + omega * dt,
+        )
 
     plt.figure(2)
     plt.plot([0] * len(ts), xprof, label="Reference trajectory")
@@ -136,8 +123,8 @@ def main():
         verticalalignment="center",
         rotation=45,
     )
-    plt.plot(ts, vr_rec, label="Reference")
-    plt.plot(ts, v_rec, label="Estimated state")
+    plt.plot(ts, r_v_rec, label="Reference")
+    plt.plot(ts, v_rec, label="State")
     plt.legend()
     plt.subplot(num_plots, 1, 2)
     plt.ylabel(
@@ -146,8 +133,8 @@ def main():
         verticalalignment="center",
         rotation=45,
     )
-    plt.plot(ts, omegar_rec, label="Reference")
-    plt.plot(ts, omega_rec, label="Estimated state")
+    plt.plot(ts, r_omega_rec, label="Reference")
+    plt.plot(ts, omega_rec, label="State")
     plt.legend()
     plt.subplot(num_plots, 1, 3)
     plt.ylabel(

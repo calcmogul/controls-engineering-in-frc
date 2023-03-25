@@ -5,7 +5,6 @@ Simulates LTV differential drive controller with linear ODE integration in
 field coordinate frame.
 """
 
-import csv
 import math
 import sys
 
@@ -14,9 +13,10 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.signal import StateSpace
+from wpimath.geometry import Pose2d
+from wpimath.trajectory import TrajectoryConfig, TrajectoryGenerator
 
 from bookutil import latex
-from bookutil.drivetrain import get_diff_vels
 
 if "--noninteractive" in sys.argv:
     mpl.use("svg")
@@ -234,25 +234,34 @@ class DifferentialDrive:
 
 def main():
     """Entry point."""
-    ts = []
-    refs = []
+    dt = 0.02
 
     # Radius of robot in meters
     rb = 0.59055 / 2.0
 
-    with open("ramsete_traj.csv", "r", encoding="utf-8") as trajectory_file:
-        reader = csv.reader(trajectory_file, delimiter=",")
-        trajectory_file.readline()
-        for row in reader:
-            ts.append(float(row[0]))
-            x = float(row[1])
-            y = float(row[2])
-            theta = float(row[3])
-            vl, vr = get_diff_vels(float(row[4]), float(row[5]), rb * 2.0)
-            ref = np.array([[x], [y], [theta], [vl], [vr]])
-            refs.append(ref)
+    trajectory = TrajectoryGenerator.generateTrajectory(
+        [Pose2d(1.330117, 13, 0), Pose2d(10.17, 18, 0)],
+        TrajectoryConfig(3.5, 3.5),
+    )
 
-    dt = 0.02
+    refs = []
+    t_rec = np.arange(0, trajectory.totalTime(), dt)
+    for t in t_rec:
+        sample = trajectory.sample(t)
+        vl = sample.velocity - sample.velocity * sample.curvature * rb
+        vr = sample.velocity + sample.velocity * sample.curvature * rb
+        refs.append(
+            np.array(
+                [
+                    [sample.pose.X()],
+                    [sample.pose.Y()],
+                    [sample.pose.rotation().radians()],
+                    [vl],
+                    [vr],
+                ]
+            )
+        )
+
     x = np.array(
         [[refs[0][0, 0] + 0.5], [refs[0][1, 0] + 0.5], [math.pi / 2], [0], [0]]
     )
@@ -285,7 +294,7 @@ def main():
             "Right velocity (m/s)",
         ],
         ["Left voltage (V)", "Right voltage (V)"],
-        ts,
+        t_rec,
         x_rec,
         r_rec,
         u_rec,

@@ -8,10 +8,11 @@ import sys
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
+from wpimath.geometry import Pose2d
+from wpimath.trajectory import TrajectoryConfig, TrajectoryGenerator
 
 from bookutil import latex
 from bookutil.drivetrain import get_diff_vels, ramsete
-from bookutil.pose2d import Pose2d
 from bookutil.systems import DrivetrainDecoupledVelocity
 
 if "--noninteractive" in sys.argv:
@@ -21,11 +22,27 @@ if "--noninteractive" in sys.argv:
 def main():
     """Entry point."""
     dt = 0.02
+
     drivetrain = DrivetrainDecoupledVelocity(dt)
 
-    t, xprof, yprof, thetaprof, vprof, omegaprof = np.genfromtxt(
-        "ramsete_traj.csv", delimiter=",", skip_header=1, unpack=True
+    trajectory = TrajectoryGenerator.generateTrajectory(
+        [Pose2d(1.330117, 13, 0), Pose2d(10.17, 18, 0)],
+        TrajectoryConfig(3.5, 3.5),
     )
+
+    ts = np.arange(0, trajectory.totalTime(), dt)
+    xprof = []
+    yprof = []
+    thetaprof = []
+    vprof = []
+    omegaprof = []
+    for t in ts:
+        sample = trajectory.sample(t)
+        xprof.append(sample.pose.X())
+        yprof.append(sample.pose.Y())
+        thetaprof.append(sample.pose.rotation().radians())
+        vprof.append(sample.velocity)
+        omegaprof.append(sample.velocity * sample.curvature)
 
     # Initial robot pose
     pose = Pose2d(xprof[0] + 0.5, yprof[0] + 0.5, math.pi)
@@ -50,26 +67,25 @@ def main():
 
     # Run Ramsete
     next_r = np.array([[0.0], [0.0]])
-    i = 0
-    while i < len(t) - 1:
-        desired_pose.x = xprof[i]
-        desired_pose.y = yprof[i]
-        desired_pose.theta = thetaprof[i]
+    for i in range(len(ts) - 1):
+        desired_pose = Pose2d(xprof[i], yprof[i], thetaprof[i])
 
         # pose_desired, v_desired, omega_desired, pose, b, zeta
         vref, omegaref = ramsete(desired_pose, vprof[i], omegaprof[i], pose, b, zeta)
         r_vl, r_vr = get_diff_vels(vref, omegaref, drivetrain.rb * 2.0)
         r = next_r
         next_r = np.array([[r_vl], [r_vr]])
+
         drivetrain.update(r, next_r)
+
         vc = (drivetrain.x[0, 0] + drivetrain.x[1, 0]) / 2.0
         omega = (drivetrain.x[1, 0] - drivetrain.x[0, 0]) / (2.0 * drivetrain.rb)
         vl, vr = get_diff_vels(vc, omega, drivetrain.rb * 2.0)
 
         # Log data for plots
-        x_rec.append(pose.x)
-        y_rec.append(pose.y)
-        theta_rec.append(pose.theta)
+        x_rec.append(pose.X())
+        y_rec.append(pose.Y())
+        theta_rec.append(pose.rotation().radians())
         vl_rec.append(vl)
         vr_rec.append(vr)
         r_vl_rec.append(r_vl)
@@ -78,12 +94,11 @@ def main():
         ur_rec.append(drivetrain.u[1, 0])
 
         # Update nonlinear observer
-        pose.x += vc * math.cos(pose.theta) * dt
-        pose.y += vc * math.sin(pose.theta) * dt
-        pose.theta += omega * dt
-
-        if i < len(t) - 1:
-            i += 1
+        pose = Pose2d(
+            pose.X() + vc * pose.rotation().cos() * dt,
+            pose.Y() + vc * pose.rotation().sin() * dt,
+            pose.rotation().radians() + omega * dt,
+        )
 
     plt.figure(1)
     plt.plot(x_rec, y_rec, label="Ramsete controller")
@@ -108,8 +123,8 @@ def main():
         verticalalignment="center",
         rotation=45,
     )
-    plt.plot(t[:-1], x_rec, label="Estimated state")
-    plt.plot(t, xprof, label="Reference")
+    plt.plot(ts[:-1], x_rec, label="State")
+    plt.plot(ts, xprof, label="Reference")
     plt.legend()
     plt.subplot(num_plots, 1, 2)
     plt.ylabel(
@@ -118,8 +133,8 @@ def main():
         verticalalignment="center",
         rotation=45,
     )
-    plt.plot(t[:-1], y_rec, label="Estimated state")
-    plt.plot(t, yprof, label="Reference")
+    plt.plot(ts[:-1], y_rec, label="State")
+    plt.plot(ts, yprof, label="Reference")
     plt.legend()
     plt.subplot(num_plots, 1, 3)
     plt.ylabel(
@@ -128,11 +143,11 @@ def main():
         verticalalignment="center",
         rotation=45,
     )
-    plt.plot(t[:-1], theta_rec, label="Estimated state")
-    plt.plot(t, thetaprof, label="Reference")
+    plt.plot(ts[:-1], theta_rec, label="State")
+    plt.plot(ts, thetaprof, label="Reference")
     plt.legend()
 
-    t = t[:-1]
+    ts = ts[:-1]
     plt.subplot(num_plots, 1, 4)
     plt.ylabel(
         "Left velocity (m/s)",
@@ -140,8 +155,8 @@ def main():
         verticalalignment="center",
         rotation=45,
     )
-    plt.plot(t, vl_rec, label="Estimated state")
-    plt.plot(t, r_vl_rec, label="Reference")
+    plt.plot(ts, vl_rec, label="State")
+    plt.plot(ts, r_vl_rec, label="Reference")
     plt.legend()
     plt.subplot(num_plots, 1, 5)
     plt.ylabel(
@@ -150,8 +165,8 @@ def main():
         verticalalignment="center",
         rotation=45,
     )
-    plt.plot(t, vr_rec, label="Estimated state")
-    plt.plot(t, r_vr_rec, label="Reference")
+    plt.plot(ts, vr_rec, label="State")
+    plt.plot(ts, r_vr_rec, label="Reference")
     plt.legend()
     plt.subplot(num_plots, 1, 6)
     plt.ylabel(
@@ -160,7 +175,7 @@ def main():
         verticalalignment="center",
         rotation=45,
     )
-    plt.plot(t, ul_rec, label="Input")
+    plt.plot(ts, ul_rec, label="Input")
     plt.legend()
     plt.subplot(num_plots, 1, 7)
     plt.ylabel(
@@ -169,7 +184,7 @@ def main():
         verticalalignment="center",
         rotation=45,
     )
-    plt.plot(t, ur_rec, label="Input")
+    plt.plot(ts, ur_rec, label="Input")
     plt.legend()
     plt.xlabel("Time (s)")
 

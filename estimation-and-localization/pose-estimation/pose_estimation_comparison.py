@@ -3,7 +3,6 @@
 """Comparison of pose estimation methods."""
 
 from abc import ABCMeta, abstractmethod
-import csv
 import math
 import sys
 
@@ -12,11 +11,10 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.signal import StateSpace
+from wpimath.geometry import Pose2d, Twist2d
+from wpimath.trajectory import TrajectoryConfig, TrajectoryGenerator
 
 from bookutil import latex
-from bookutil.drivetrain import get_diff_vels
-from bookutil.pose2d import Pose2d
-from bookutil.twist2d import Twist2d
 
 if "--noninteractive" in sys.argv:
     mpl.use("svg")
@@ -273,7 +271,7 @@ class DifferentialDriveSE3(DifferentialDrive):
 
         self.x_hat[0, 0] = pose.x
         self.x_hat[1, 0] = pose.y
-        self.x_hat[2, 0] = pose.theta
+        self.x_hat[2, 0] = pose.rotation().radians()
         self.x_hat[3, 0] = self.x[3, 0]
         self.x_hat[4, 0] = self.x[4, 0]
         self.x_hat[5, 0] = left_pos
@@ -286,25 +284,33 @@ class DifferentialDriveSE3(DifferentialDrive):
 
 def main():
     """Entry point."""
-    ts = []
-    refs = []
+    dt = 0.02
 
     # Radius of robot in meters
     rb = 0.59055 / 2.0
 
-    with open("ramsete_traj.csv", "r", encoding="utf-8") as trajectory_file:
-        reader = csv.reader(trajectory_file, delimiter=",")
-        trajectory_file.readline()
-        for row in reader:
-            ts.append(float(row[0]))
-            x = float(row[1])
-            y = float(row[2])
-            theta = float(row[3])
-            vl, vr = get_diff_vels(float(row[4]), float(row[5]), rb * 2.0)
-            ref = np.array([[x], [y], [theta], [vl], [vr]])
-            refs.append(ref)
+    trajectory = TrajectoryGenerator.generateTrajectory(
+        [Pose2d(1.330117, 13, 0), Pose2d(10.17, 18, 0)],
+        TrajectoryConfig(3.5, 3.5),
+    )
 
-    dt = 0.02
+    refs = []
+    t_rec = np.arange(0, trajectory.totalTime(), dt)
+    for t in t_rec:
+        sample = trajectory.sample(t)
+        vl = sample.velocity - sample.velocity * sample.curvature * rb
+        vr = sample.velocity + sample.velocity * sample.curvature * rb
+        refs.append(
+            np.array(
+                [
+                    [sample.pose.X()],
+                    [sample.pose.Y()],
+                    [sample.pose.rotation().radians()],
+                    [vl],
+                    [vr],
+                ]
+            )
+        )
 
     x = np.array(
         [
@@ -363,8 +369,12 @@ def main():
     plt.figure(2)
     plt.xlabel("Time (s)")
     plt.ylabel("X error (cm)")
-    plt.plot(ts, (x_rec_euler[0, :] - x_rec_exact[0, :]) * 1e2, label="Forward Euler")
-    plt.plot(ts, (x_rec_se3[0, :] - x_rec_exact[0, :]) * 1e2, label="Pose exponential")
+    plt.plot(
+        t_rec, (x_rec_euler[0, :] - x_rec_exact[0, :]) * 1e2, label="Forward Euler"
+    )
+    plt.plot(
+        t_rec, (x_rec_se3[0, :] - x_rec_exact[0, :]) * 1e2, label="Pose exponential"
+    )
     plt.legend()
 
     if "--noninteractive" in sys.argv:
@@ -373,8 +383,12 @@ def main():
     plt.figure(3)
     plt.xlabel("Time (s)")
     plt.ylabel("Y error (cm)")
-    plt.plot(ts, (x_rec_euler[1, :] - x_rec_exact[1, :]) * 1e2, label="Forward Euler")
-    plt.plot(ts, (x_rec_se3[1, :] - x_rec_exact[1, :]) * 1e2, label="Pose exponential")
+    plt.plot(
+        t_rec, (x_rec_euler[1, :] - x_rec_exact[1, :]) * 1e2, label="Forward Euler"
+    )
+    plt.plot(
+        t_rec, (x_rec_se3[1, :] - x_rec_exact[1, :]) * 1e2, label="Pose exponential"
+    )
     plt.legend()
 
     if "--noninteractive" in sys.argv:
@@ -384,12 +398,12 @@ def main():
     plt.xlabel("Time (s)")
     plt.ylabel("Heading error (deg)")
     plt.plot(
-        ts,
+        t_rec,
         np.degrees(x_rec_euler[2, :] - x_rec_exact[2, :]),
         label="Forward Euler",
     )
     plt.plot(
-        ts,
+        t_rec,
         np.degrees(x_rec_se3[2, :] - x_rec_exact[2, :]),
         label="Pose exponential",
     )

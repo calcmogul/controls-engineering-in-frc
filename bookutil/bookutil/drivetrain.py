@@ -120,10 +120,14 @@ def ramsete(pose_desired, v_desired, omega_desired, pose, b, zeta):
     Returns:
     linear velocity and angular velocity commands
     """
-    e = pose_desired.relative_to(pose)
+    e = pose_desired.relativeTo(pose)
 
     k = 2 * zeta * math.sqrt(omega_desired**2 + b * v_desired**2)
-    v = v_desired * math.cos(e.theta) + k * e.x
-    omega = omega_desired + k * e.theta + b * v_desired * np.sinc(e.theta) * e.y
+    v = v_desired * e.rotation().cos() + k * e.x
+    omega = (
+        omega_desired
+        + k * e.rotation().radians()
+        + b * v_desired * np.sinc(e.rotation().radians()) * e.y
+    )
 
     return v, omega
