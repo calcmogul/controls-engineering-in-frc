@@ -99,17 +99,17 @@ def main():
         refs.append(r)
 
     plt.figure(1)
-    x_rec, ref_rec, _, _ = fct.generate_time_responses(flywheel, refs)
+    x_rec, r_rec, _, _ = fct.generate_time_responses(flywheel, refs)
 
     plt.ylabel("Angular velocity (rad/s)")
     plt.plot(ts, x_rec[0, :], label="Output")
-    plt.plot(ts, ref_rec[0, :], label="Setpoint")
+    plt.plot(ts, r_rec[0, :], label="Setpoint")
 
     fill_end = int(3.0 / dt)
     plt.fill_between(
         ts[:fill_end],
         np.ravel(x_rec)[:fill_end],
-        np.ravel(ref_rec)[:fill_end],
+        np.ravel(r_rec)[:fill_end],
         color=(0.5, 0.5, 0.5, 0.5),
         label="Error area for integral term",
     )
@@ -119,7 +119,7 @@ def main():
     annotate_t = 3.25
     time = int(annotate_t / dt)
     bottom = np.ravel(x_rec[0, time])
-    top = np.ravel(ref_rec[0, time])
+    top = np.ravel(r_rec[0, time])
     plt.annotate(
         "",
         xy=(annotate_t, bottom - 5),  # Start coord of arrow

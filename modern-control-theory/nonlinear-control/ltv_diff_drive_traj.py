@@ -353,13 +353,13 @@ def main():
     diff_drive.observer.x_hat = x
 
     # Run simulation
-    state_rec, ref_rec, u_rec, _ = fct.generate_time_responses(diff_drive, refs)
+    state_rec, r_rec, u_rec, _ = fct.generate_time_responses(diff_drive, refs)
 
     plt.figure(1)
     x_rec = np.squeeze(state_rec[0:1, :])
     y_rec = np.squeeze(state_rec[1:2, :])
     plt.plot(x_rec, y_rec, label="LTV controller")
-    plt.plot(ref_rec[0, :], ref_rec[1, :], label="Reference trajectory")
+    plt.plot(r_rec[0, :], r_rec[1, :], label="Reference trajectory")
     plt.xlabel("x (m)")
     plt.ylabel("y (m)")
     plt.legend()
@@ -381,7 +381,7 @@ def main():
         ["Left voltage (V)", "Right voltage (V)"],
         ts,
         state_rec,
-        ref_rec,
+        r_rec,
         u_rec,
     )
 

@@ -45,10 +45,10 @@ def main():
         refs.append(r)
 
     # Run LQR
-    state_rec, ref_rec, u_rec, _ = fct.generate_time_responses(drivetrain, refs)
+    state_rec, r_rec, u_rec, _ = fct.generate_time_responses(drivetrain, refs)
     state_labels = ["Left velocity (m/s)", "Right velocity (m/s)"]
     input_labels = ["Left voltage (V)", "Right voltage (V)"]
-    fct.plot_time_responses(state_labels, input_labels, ts, state_rec, ref_rec, u_rec)
+    fct.plot_time_responses(state_labels, input_labels, ts, state_rec, r_rec, u_rec)
     if "--noninteractive" in sys.argv:
         latex.savefig("ramsete_decoupled_vel_lqr_profile")
 
@@ -65,16 +65,16 @@ def main():
 
     x_rec = []
     y_rec = []
-    vref_rec = []
-    omegaref_rec = []
+    vr_rec = []
+    omegar_rec = []
     v_rec = []
     omega_rec = []
     ul_rec = []
     ur_rec = []
 
     # Log initial data for plots
-    vref_rec.append(0)
-    omegaref_rec.append(0)
+    vr_rec.append(0)
+    omegar_rec.append(0)
     x_rec.append(pose.x)
     y_rec.append(pose.y)
     ul_rec.append(drivetrain.u[0, 0])
@@ -99,8 +99,8 @@ def main():
         omega = (drivetrain.x[1, 0] - drivetrain.x[0, 0]) / (2.0 * drivetrain.rb)
 
         # Log data for plots
-        vref_rec.append(vref)
-        omegaref_rec.append(omegaref)
+        vr_rec.append(vref)
+        omegar_rec.append(omegaref)
         x_rec.append(pose.x)
         y_rec.append(pose.y)
         ul_rec.append(drivetrain.u[0, 0])
@@ -136,7 +136,7 @@ def main():
         verticalalignment="center",
         rotation=45,
     )
-    plt.plot(ts, vref_rec, label="Reference")
+    plt.plot(ts, vr_rec, label="Reference")
     plt.plot(ts, v_rec, label="Estimated state")
     plt.legend()
     plt.subplot(num_plots, 1, 2)
@@ -146,7 +146,7 @@ def main():
         verticalalignment="center",
         rotation=45,
     )
-    plt.plot(ts, omegaref_rec, label="Reference")
+    plt.plot(ts, omegar_rec, label="Reference")
     plt.plot(ts, omega_rec, label="Estimated state")
     plt.legend()
     plt.subplot(num_plots, 1, 3)

@@ -106,11 +106,11 @@ def main():
         refs.append(r)
 
     plt.figure(1)
-    x_rec, ref_rec, _, _ = fct.generate_time_responses(flywheel, refs)
+    x_rec, r_rec, _, _ = fct.generate_time_responses(flywheel, refs)
 
     plt.ylabel("Angular velocity (rad/s)")
     plt.plot(ts, x_rec[0, :], label="Output")
-    plt.plot(ts, ref_rec[0, :], label="Setpoint")
+    plt.plot(ts, r_rec[0, :], label="Setpoint")
     plt.legend()
     plt.xlabel("Time (s)")
 

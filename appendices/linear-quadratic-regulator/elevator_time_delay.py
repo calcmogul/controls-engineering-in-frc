@@ -142,7 +142,7 @@ def main():
                 elevator.plant.A, elevator.plant.B, elevator.dt, plot.delay
             )
 
-        x_rec, ref_rec, u_rec, _ = fct.generate_time_responses(elevator, refs)
+        x_rec, r_rec, u_rec, _ = fct.generate_time_responses(elevator, refs)
 
         plt.figure()
 
@@ -154,7 +154,7 @@ def main():
             x_rec[0, :],
             label=f"State ($K_p = {round(elevator.feedback.K[0, 0], plot.gain_digits)}$)",
         )
-        plt.plot(ts, ref_rec[0, :], label="Reference")
+        plt.plot(ts, r_rec[0, :], label="Reference")
         plt.legend()
 
         # Plot velocity
@@ -165,7 +165,7 @@ def main():
             x_rec[1, :],
             label=f"State ($K_d = {round(elevator.feedback.K[0, 1], plot.gain_digits)}$)",
         )
-        plt.plot(ts, ref_rec[1, :], label="Reference")
+        plt.plot(ts, r_rec[1, :], label="Reference")
         plt.legend()
 
         # Plot voltage

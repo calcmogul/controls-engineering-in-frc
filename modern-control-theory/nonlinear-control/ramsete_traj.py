@@ -42,9 +42,9 @@ def main():
     y_rec = []
     theta_rec = []
     vl_rec = []
-    vlref_rec = []
     vr_rec = []
-    vrref_rec = []
+    r_vl_rec = []
+    r_vr_rec = []
     ul_rec = []
     ur_rec = []
 
@@ -58,22 +58,22 @@ def main():
 
         # pose_desired, v_desired, omega_desired, pose, b, zeta
         vref, omegaref = ramsete(desired_pose, vprof[i], omegaprof[i], pose, b, zeta)
-        vlref, vrref = get_diff_vels(vref, omegaref, drivetrain.rb * 2.0)
+        r_vl, r_vr = get_diff_vels(vref, omegaref, drivetrain.rb * 2.0)
         r = next_r
-        next_r = np.array([[vlref], [vrref]])
+        next_r = np.array([[r_vl], [r_vr]])
         drivetrain.update(r, next_r)
         vc = (drivetrain.x[0, 0] + drivetrain.x[1, 0]) / 2.0
         omega = (drivetrain.x[1, 0] - drivetrain.x[0, 0]) / (2.0 * drivetrain.rb)
         vl, vr = get_diff_vels(vc, omega, drivetrain.rb * 2.0)
 
         # Log data for plots
-        vlref_rec.append(vlref)
-        vrref_rec.append(vrref)
         x_rec.append(pose.x)
         y_rec.append(pose.y)
         theta_rec.append(pose.theta)
         vl_rec.append(vl)
         vr_rec.append(vr)
+        r_vl_rec.append(r_vl)
+        r_vr_rec.append(r_vr)
         ul_rec.append(drivetrain.u[0, 0])
         ur_rec.append(drivetrain.u[1, 0])
 
@@ -141,7 +141,7 @@ def main():
         rotation=45,
     )
     plt.plot(t, vl_rec, label="Estimated state")
-    plt.plot(t, vlref_rec, label="Reference")
+    plt.plot(t, r_vl_rec, label="Reference")
     plt.legend()
     plt.subplot(num_plots, 1, 5)
     plt.ylabel(
@@ -151,7 +151,7 @@ def main():
         rotation=45,
     )
     plt.plot(t, vr_rec, label="Estimated state")
-    plt.plot(t, vrref_rec, label="Reference")
+    plt.plot(t, r_vr_rec, label="Reference")
     plt.legend()
     plt.subplot(num_plots, 1, 6)
     plt.ylabel(

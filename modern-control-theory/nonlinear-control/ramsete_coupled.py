@@ -42,7 +42,7 @@ def main():
         refs.append(r)
 
     # Run LQR
-    state_rec, ref_rec, u_rec, _ = fct.generate_time_responses(drivetrain, refs)
+    state_rec, r_rec, u_rec, _ = fct.generate_time_responses(drivetrain, refs)
     state_labels = ["Velocity (m/s)", "Angular velocity (rad/s)"]
     input_labels = ["Left voltage (V)", "Right voltage (V)"]
     nstates = state_rec.shape[0]
@@ -61,7 +61,7 @@ def main():
         if i == 1:
             plt.ylim([-3, 3])
         plt.plot(ts, state_rec[i, :], label="Estimated state")
-        plt.plot(ts, ref_rec[i, :], label="Reference")
+        plt.plot(ts, r_rec[i, :], label="Reference")
         plt.legend()
 
     for i in range(ninputs):
@@ -91,16 +91,16 @@ def main():
 
     x_rec = []
     y_rec = []
-    vref_rec = []
-    omegaref_rec = []
+    vr_rec = []
+    omegar_rec = []
     v_rec = []
     omega_rec = []
     ul_rec = []
     ur_rec = []
 
     # Log initial data for plots
-    vref_rec.append(0)
-    omegaref_rec.append(0)
+    vr_rec.append(0)
+    omegar_rec.append(0)
     x_rec.append(pose.x)
     y_rec.append(pose.y)
     ul_rec.append(drivetrain.u[0, 0])
@@ -122,8 +122,8 @@ def main():
         drivetrain.update(r, next_r)
 
         # Log data for plots
-        vref_rec.append(vref)
-        omegaref_rec.append(omegaref)
+        vr_rec.append(vref)
+        omegar_rec.append(omegaref)
         x_rec.append(pose.x)
         y_rec.append(pose.y)
         ul_rec.append(drivetrain.u[0, 0])
@@ -159,7 +159,7 @@ def main():
         verticalalignment="center",
         rotation=45,
     )
-    plt.plot(ts, vref_rec, label="Reference")
+    plt.plot(ts, vr_rec, label="Reference")
     plt.plot(ts, v_rec, label="Estimated state")
     plt.legend()
     plt.subplot(num_plots, 1, 2)
@@ -169,7 +169,7 @@ def main():
         verticalalignment="center",
         rotation=45,
     )
-    plt.plot(ts, omegaref_rec, label="Reference")
+    plt.plot(ts, omegar_rec, label="Reference")
     plt.plot(ts, omega_rec, label="Estimated state")
     plt.legend()
     plt.subplot(num_plots, 1, 3)
