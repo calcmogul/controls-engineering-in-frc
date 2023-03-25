@@ -93,7 +93,7 @@ build/venv.stamp:
 	@mkdir -p $(@D)
 	python3 setup_venv.py
 	$(VENV_PIP) install -e ./bookutil
-	$(VENV_PIP) install frccontrol==2023.21 pylint requests
+	$(VENV_PIP) install frccontrol==2023.22 pylint requests
 	@touch $@
 
 $(CPP_EXE): build/%: %.cpp build/venv.stamp
