@@ -10,11 +10,69 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from bookutil import latex
-from bookutil.systems import Elevator
 
 if "--noninteractive" in sys.argv:
     mpl.use("svg")
 plt.rc("text", usetex=True)
+
+
+class Elevator:
+    """An frccontrol system representing an elevator."""
+
+    def __init__(self, dt):
+        """Elevator subsystem.
+
+        Keyword arguments:
+        dt -- time between model/controller updates
+        """
+        self.dt = dt
+
+        # Number of motors
+        num_motors = 2.0
+        # Elevator carriage mass in kg
+        m = 6.803886
+        # Radius of pulley in meters
+        r = 0.02762679089
+        # Gear ratio
+        G = 42.0 / 12.0 * 40.0 / 14.0
+        self.plant = fct.models.elevator(fct.models.MOTOR_CIM, num_motors, m, r, G)
+
+        # Sim variables
+        self.sim = self.plant.to_discrete(self.dt)
+        self.x = np.zeros((2, 1))
+        self.u = np.zeros((1, 1))
+        self.y = np.zeros((1, 1))
+
+        # States: position (m), velocity (m/s)
+        # Inputs: voltage (V)
+        # Outputs: position (m)
+        self.feedforward = fct.LinearPlantInversionFeedforward(
+            self.plant.A, self.plant.B, self.dt
+        )
+        self.feedback = fct.LinearQuadraticRegulator(
+            self.plant.A, self.plant.B, [0.02, 0.4], [12.0], self.dt
+        )
+
+        self.u_min = np.array([[-12.0]])
+        self.u_max = np.array([[12.0]])
+
+    def update(self, r, next_r):
+        """
+        Advance the model by one timestep.
+
+        Keyword arguments:
+        r -- the current reference
+        next_r -- the next reference
+        """
+        # Update sim model
+        self.x = self.sim.A @ self.x + self.sim.B @ self.u
+        self.y = self.sim.C @ self.x + self.sim.D @ self.u
+
+        self.u = np.clip(
+            self.feedforward.calculate(next_r) + self.feedback.calculate(self.x, r),
+            self.u_min,
+            self.u_max,
+        )
 
 
 def generate_refs(T):
@@ -54,10 +112,8 @@ def simulate(elevator, dt, method):
     ts, refs = generate_refs(dt)
     elevator.sim = elevator.plant.to_discrete(dt, method)
     elevator.x = np.zeros((elevator.x.shape[0], 1))
-    elevator.observer.x_hat = np.zeros((elevator.observer.x_hat.shape[0], 1))
-    state_rec, _, _, _ = fct.generate_time_responses(elevator, refs)
+    x_rec, _, _, _ = fct.generate_time_responses(elevator, refs)
 
-    pos = state_rec[0, :]
     if method == "zoh":
         label = "Zero-order hold"
     elif method == "euler":
@@ -67,7 +123,7 @@ def simulate(elevator, dt, method):
     elif method == "bilinear":
         label = "Bilinear transform"
     label += f" (T={dt} s)"
-    plt.plot(ts, pos, label=label)
+    plt.plot(ts, x_rec[0, :], label=label)
 
 
 def main():

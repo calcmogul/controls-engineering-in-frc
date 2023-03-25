@@ -9,15 +9,127 @@ import frccontrol as fct
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
+from scipy.signal import StateSpace
 from wpimath.geometry import Pose2d
 from wpimath.trajectory import TrajectoryConfig, TrajectoryGenerator
 
 from bookutil import latex
-from bookutil.drivetrain import get_diff_vels
-from bookutil.systems import DrivetrainDecoupledVelocity
 
 if "--noninteractive" in sys.argv:
     mpl.use("svg")
+
+
+def drivetrain_decoupled(motor, num_motors, m, r, rb, J, Gl, Gr):
+    """Returns the state-space model for a drivetrain.
+
+    States: [[left velocity], [right velocity]]
+    Inputs: [[left voltage], [right voltage]]
+    Outputs: [[left velocity], [right velocity]]
+
+    Keyword arguments:
+    motor -- instance of DcBrushedMotor
+    num_motors -- number of motors driving the mechanism
+    m -- mass of robot in kg
+    r -- radius of wheels in meters
+    rb -- radius of robot in meters
+    J -- moment of inertia of the drivetrain in kg-m²
+    Gl -- gear ratio of left side of drivetrain
+    Gr -- gear ratio of right side of drivetrain
+
+    Returns:
+    StateSpace instance containing continuous model
+    """
+    motor = fct.models.gearbox(motor, num_motors)
+
+    C1 = -(Gl**2) * motor.Kt / (motor.Kv * motor.R * r**2)
+    C2 = Gl * motor.Kt / (motor.R * r)
+    C3 = -(Gr**2) * motor.Kt / (motor.Kv * motor.R * r**2)
+    C4 = Gr * motor.Kt / (motor.R * r)
+    # fmt: off
+    A = np.array([[(1 / m + rb**2 / J) * C1, (1 / m - rb**2 / J) * C3],
+                  [(1 / m - rb**2 / J) * C1, (1 / m + rb**2 / J) * C3]])
+    B = np.array([[(1 / m + rb**2 / J) * C2, (1 / m - rb**2 / J) * C4],
+                  [(1 / m - rb**2 / J) * C2, (1 / m + rb**2 / J) * C4]])
+    C = np.array([[1, 0],
+                  [0, 1]])
+    D = np.array([[0, 0],
+                  [0, 0]])
+    # fmt: on
+
+    return StateSpace(A, B, C, D)
+
+
+class Drivetrain:
+    """An frccontrol system for a decoupled drivetrain."""
+
+    def __init__(self, dt):
+        """Drivetrain subsystem.
+
+        Keyword arguments:
+        dt -- time between model/controller updates
+        """
+        self.dt = dt
+
+        # Number of motors per side
+        num_motors = 2.0
+
+        # Gear ratio of drivetrain
+        G = 60.0 / 11.0
+
+        # Drivetrain mass in kg
+        m = 52
+        # Radius of wheels in meters
+        r = 0.08255 / 2.0
+        # Radius of robot in meters
+        self.rb = 0.59055 / 2.0
+
+        # Moment of inertia of the drivetrain in kg-m²
+        J = 6.0
+
+        self.plant = drivetrain_decoupled(
+            fct.models.MOTOR_CIM, num_motors, m, r, self.rb, J, G, G
+        )
+
+        # Sim variables
+        self.sim = self.plant.to_discrete(self.dt)
+        self.x = np.zeros((2, 1))
+        self.u = np.zeros((2, 1))
+        self.y = np.zeros((2, 1))
+
+        # States: left velocity (m/s), right velocity (m/s)
+        # Inputs: left voltage (V), right voltage (V)
+        # Outputs: left velocity (m/s), right velocity (m/s)
+        self.observer = fct.KalmanFilter(self.plant, [1.0, 1.0], [0.01, 0.01], self.dt)
+        self.feedforward = fct.LinearPlantInversionFeedforward(
+            self.plant.A, self.plant.B, self.dt
+        )
+        self.feedback = fct.LinearQuadraticRegulator(
+            self.plant.A, self.plant.B, [0.95, 0.95], [12.0, 12.0], self.dt
+        )
+
+        self.u_min = np.array([[-12.0], [-12.0]])
+        self.u_max = np.array([[12.0], [12.0]])
+
+    def update(self, r, next_r):
+        """
+        Advance the model by one timestep.
+
+        Keyword arguments:
+        r -- the current reference
+        next_r -- the next reference
+        """
+        # Update sim model
+        self.x = self.sim.A @ self.x + self.sim.B @ self.u
+        self.y = self.sim.C @ self.x + self.sim.D @ self.u
+
+        self.observer.predict(self.u, self.dt)
+        self.observer.correct(self.u, self.y)
+        self.u = np.clip(
+            self.feedforward.calculate(next_r)
+            + self.feedback.calculate(self.observer.x_hat, r),
+            self.u_min,
+            self.u_max,
+        )
 
 
 class LTVUnicycle:
@@ -56,7 +168,7 @@ def main():
     dt = 0.02
 
     ltv_unicycle = LTVUnicycle([0.0625, 0.125, 2.5], [0.95, 0.95], dt)
-    drivetrain = DrivetrainDecoupledVelocity(dt)
+    drivetrain = Drivetrain(dt)
 
     trajectory = TrajectoryGenerator.generateTrajectory(
         [Pose2d(1.330117, 13, 0), Pose2d(10.17, 18, 0)],
@@ -103,7 +215,8 @@ def main():
         vref, omegaref = ltv_unicycle.calculate(
             pose, desired_pose, vprof[i], omegaprof[i]
         )
-        r_vl, r_vr = get_diff_vels(vref, omegaref, drivetrain.rb * 2.0)
+        r_vl = vref - omegaref * drivetrain.rb
+        r_vr = vref + omegaref * drivetrain.rb
         r = next_r
         next_r = np.array([[r_vl], [r_vr]])
 
@@ -111,7 +224,8 @@ def main():
 
         vc = (drivetrain.x[0, 0] + drivetrain.x[1, 0]) / 2.0
         omega = (drivetrain.x[1, 0] - drivetrain.x[0, 0]) / (2.0 * drivetrain.rb)
-        vl, vr = get_diff_vels(vc, omega, drivetrain.rb * 2.0)
+        vl = vc - omega * drivetrain.rb
+        vr = vc + omega * drivetrain.rb
 
         # Log data for plots
         x_rec.append(pose.X())
