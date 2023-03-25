@@ -102,7 +102,7 @@ def main():
     plt.plot(t, u_rec[0, 0, :], label="No feedforward")
     plt.plot(t, u_ts_rec[0, 0, :], label="Plant inversion")
     plt.legend()
-    plt.ylabel("Control effort (V)")
+    plt.ylabel("Input (V)")
     plt.xlabel("Time (s)")
 
     if "--noninteractive" in sys.argv:

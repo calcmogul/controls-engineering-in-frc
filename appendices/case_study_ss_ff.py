@@ -137,7 +137,7 @@ def main():
     plt.plot(t, u_ss_rec[0, 0, :], label="Steady-state FF")
     plt.plot(t, u_ts1_rec[0, 0, :], label="Plant inversion (Q and R cost)")
     plt.legend()
-    plt.ylabel("Control effort (V)")
+    plt.ylabel("Input (V)")
     plt.xlabel("Time (s)")
 
     if "--noninteractive" in sys.argv:
@@ -163,7 +163,7 @@ def main():
     plt.plot(t, u_ts1_rec[0, 0, :], label="Plant inversion (Q and R cost)")
     plt.plot(t, u_ts2_rec[0, 0, :], label="Plant inversion (Q cost only)")
     plt.legend()
-    plt.ylabel("Control effort (V)")
+    plt.ylabel("Input (V)")
     plt.xlabel("Time (s)")
 
     if "--noninteractive" in sys.argv:

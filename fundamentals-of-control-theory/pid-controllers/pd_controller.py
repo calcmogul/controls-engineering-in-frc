@@ -120,7 +120,7 @@ def main():
     # Plot voltage
     plt.subplot(3, 1, 3)
     plt.ylabel("Voltage (V)")
-    plt.plot(ts, u_rec[0, :], label="Control effort")
+    plt.plot(ts, u_rec[0, :], label="Input")
     plt.legend()
     plt.xlabel("Time (s)")
 

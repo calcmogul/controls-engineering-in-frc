@@ -188,7 +188,7 @@ def main():
         verticalalignment="center",
         rotation=45,
     )
-    plt.plot(t, ul_rec, label="Control effort")
+    plt.plot(t, ul_rec, label="Input")
     plt.legend()
     plt.subplot(num_plots, 1, 7)
     plt.ylabel(
@@ -197,7 +197,7 @@ def main():
         verticalalignment="center",
         rotation=45,
     )
-    plt.plot(t, ur_rec, label="Control effort")
+    plt.plot(t, ur_rec, label="Input")
     plt.legend()
     plt.xlabel("Time (s)")
 

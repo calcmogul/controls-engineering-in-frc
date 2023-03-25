@@ -127,7 +127,7 @@ def main():
     plt.plot(t, u_pp2_rec[0, 0, :], label=f"Pole placement at {poles_pp2}")
     plt.plot(t, u_lqr_rec[0, 0, :], label=f"LQR at {poles_lqr}")
     plt.legend()
-    plt.ylabel("Control effort (V)")
+    plt.ylabel("Input (V)")
     plt.xlabel("Time (s)")
 
     if "--noninteractive" in sys.argv:

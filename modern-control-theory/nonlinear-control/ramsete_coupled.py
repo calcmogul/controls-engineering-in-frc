@@ -72,7 +72,7 @@ def main():
             verticalalignment="center",
             rotation=45,
         )
-        plt.plot(ts, u_rec[i, :], label="Control effort")
+        plt.plot(ts, u_rec[i, :], label="Input")
         plt.legend()
     plt.xlabel("Time (s)")
     if "--noninteractive" in sys.argv:
@@ -179,7 +179,7 @@ def main():
         verticalalignment="center",
         rotation=45,
     )
-    plt.plot(ts, ul_rec, label="Control effort")
+    plt.plot(ts, ul_rec, label="Input")
     plt.legend()
     plt.subplot(num_plots, 1, 4)
     plt.ylabel(
@@ -188,7 +188,7 @@ def main():
         verticalalignment="center",
         rotation=45,
     )
-    plt.plot(ts, ur_rec, label="Control effort")
+    plt.plot(ts, ur_rec, label="Input")
     plt.legend()
     plt.xlabel("Time (s)")
 
