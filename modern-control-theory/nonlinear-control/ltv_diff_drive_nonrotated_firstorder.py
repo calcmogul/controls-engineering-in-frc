@@ -81,7 +81,7 @@ def linearized_differential_drive(motor, num_motors, m, r, rb, J, Gl, Gr, states
     return StateSpace(A, B, C, D)
 
 
-class DifferentialDrive:
+class Drivetrain:
     """An frccontrol system for a differential drive."""
 
     def __init__(self, dt):
@@ -267,12 +267,12 @@ def main():
     x = np.array(
         [[refs[0][0, 0] + 0.5], [refs[0][1, 0] + 0.5], [math.pi / 2], [0], [0]]
     )
-    diff_drive = DifferentialDrive(dt)
-    diff_drive.x = x
-    diff_drive.observer.x_hat = x
+    drivetrain = Drivetrain(dt)
+    drivetrain.x = x
+    drivetrain.observer.x_hat = x
 
     # Run simulation
-    x_rec, r_rec, u_rec, _ = fct.generate_time_responses(diff_drive, refs)
+    x_rec, r_rec, u_rec, _ = fct.generate_time_responses(drivetrain, refs)
 
     plt.figure(1)
     plt.plot(x_rec[0, :], x_rec[1, :], label="LTV controller")

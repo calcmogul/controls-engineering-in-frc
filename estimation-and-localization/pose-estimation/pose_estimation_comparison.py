@@ -79,7 +79,7 @@ def linearized_differential_drive(motor, num_motors, m, r, rb, J, Gl, Gr, states
     return StateSpace(A, B, C, D)
 
 
-class DifferentialDrive(metaclass=ABCMeta):
+class Drivetrain(metaclass=ABCMeta):
     """An frccontrol system for a differential drive."""
 
     def __init__(self, dt):
@@ -119,7 +119,7 @@ class DifferentialDrive(metaclass=ABCMeta):
         # Gear ratio of differential drive
         G = 60.0 / 11.0
 
-        # DifferentialDrive mass in kg
+        # Drivetrain mass in kg
         m = 52
         # Radius of wheels in meters
         r = 0.08255 / 2.0
@@ -195,13 +195,13 @@ class DifferentialDrive(metaclass=ABCMeta):
             self.u = self.u / u_cap * 12.0
 
 
-class DifferentialDriveExact(DifferentialDrive):
+class DrivetrainExact(Drivetrain):
     """
     An frccontrol system for a differential drive with exact observer.
     """
 
     def __init__(self, dt, x):
-        DifferentialDrive.__init__(self, dt)
+        Drivetrain.__init__(self, dt)
 
         self.x = x.copy()
         self.x_hat = x.copy()
@@ -213,13 +213,13 @@ class DifferentialDriveExact(DifferentialDrive):
         self.x_hat = fct.rk4(self.f, self.x_hat, self.u, self.dt)
 
 
-class DifferentialDriveEuler(DifferentialDrive):
+class DrivetrainEuler(Drivetrain):
     """
     An frccontrol system for a differential drive with forward Euler observer.
     """
 
     def __init__(self, dt, x):
-        DifferentialDrive.__init__(self, dt)
+        Drivetrain.__init__(self, dt)
 
         self.x = x.copy()
         self.x_hat = x.copy()
@@ -240,13 +240,13 @@ class DifferentialDriveEuler(DifferentialDrive):
         self.x_hat[6, 0] = self.x[6, 0]
 
 
-class DifferentialDriveSE3(DifferentialDrive):
+class DrivetrainSE3(Drivetrain):
     """
     An frccontrol system for a differential drive with SE(3) observer.
     """
 
     def __init__(self, dt, x):
-        DifferentialDrive.__init__(self, dt)
+        Drivetrain.__init__(self, dt)
 
         self.x = x.copy()
         self.x_hat = x.copy()
@@ -325,42 +325,42 @@ def main():
             [0.0],
         ]
     )
-    diff_drive_exact = DifferentialDriveExact(dt, x)
-    diff_drive_euler = DifferentialDriveEuler(dt, x)
-    diff_drive_se3 = DifferentialDriveSE3(dt, x)
+    drivetrain_exact = DrivetrainExact(dt, x)
+    drivetrain_euler = DrivetrainEuler(dt, x)
+    drivetrain_se3 = DrivetrainSE3(dt, x)
 
     plt.figure(1)
     plt.xlabel("X position (m)")
     plt.ylabel("Y position (m)")
 
-    x_rec_exact = np.zeros((diff_drive_exact.x.shape[0], 0))
+    x_rec_exact = np.zeros((drivetrain_exact.x.shape[0], 0))
     for i, r in enumerate(refs):
         if i < len(refs) - 1:
             next_r = refs[i + 1]
         else:
             next_r = r
-        diff_drive_exact.update(r, next_r)
-        x_rec_exact = np.concatenate((x_rec_exact, diff_drive_exact.x_hat), axis=1)
+        drivetrain_exact.update(r, next_r)
+        x_rec_exact = np.concatenate((x_rec_exact, drivetrain_exact.x_hat), axis=1)
     plt.plot(x_rec_exact[0, :], x_rec_exact[1, :], label="Exact")
 
-    x_rec_euler = np.zeros((diff_drive_euler.x.shape[0], 0))
+    x_rec_euler = np.zeros((drivetrain_euler.x.shape[0], 0))
     for i, r in enumerate(refs):
         if i < len(refs) - 1:
             next_r = refs[i + 1]
         else:
             next_r = r
-        diff_drive_euler.update(r, next_r)
-        x_rec_euler = np.concatenate((x_rec_euler, diff_drive_euler.x_hat), axis=1)
+        drivetrain_euler.update(r, next_r)
+        x_rec_euler = np.concatenate((x_rec_euler, drivetrain_euler.x_hat), axis=1)
     plt.plot(x_rec_euler[0, :], x_rec_euler[1, :], label="Forward Euler")
 
-    x_rec_se3 = np.zeros((diff_drive_se3.x.shape[0], 0))
+    x_rec_se3 = np.zeros((drivetrain_se3.x.shape[0], 0))
     for i, r in enumerate(refs):
         if i < len(refs) - 1:
             next_r = refs[i + 1]
         else:
             next_r = r
-        diff_drive_se3.update(r, next_r)
-        x_rec_se3 = np.concatenate((x_rec_se3, diff_drive_se3.x_hat), axis=1)
+        drivetrain_se3.update(r, next_r)
+        x_rec_se3 = np.concatenate((x_rec_se3, drivetrain_se3.x_hat), axis=1)
     plt.plot(x_rec_se3[0, :], x_rec_se3[1, :], label="Pose exponential")
 
     plt.legend()
