@@ -58,17 +58,14 @@ class DifferentialDrive:
 
         # Sim variables
         self.sim = self.plant.to_discrete(self.dt)
-        self.x = np.zeros((4, 1))
+        self.x = np.zeros((2, 1))
         self.u = np.zeros((2, 1))
         self.y = np.zeros((2, 1))
 
-        # States: left position (m), left velocity (m/s),
-        #         right position (m), right velocity (m/s)
+        # States: left velocity (m/s), right velocity (m/s)
         # Inputs: left voltage (V), right voltage (V)
-        # Outputs: left position (m), right position (m)
-        self.observer = fct.KalmanFilter(
-            self.plant, [0.05, 1.0, 0.05, 1.0], [0.0001, 0.0001], self.dt
-        )
+        # Outputs: left velocity (m/s), right velocity (m/s)
+        self.observer = fct.KalmanFilter(self.plant, [1.0, 1.0], [0.01, 0.01], self.dt)
         self.feedforward = fct.LinearPlantInversionFeedforward(
             self.plant.A, self.plant.B, self.dt
         )
@@ -76,7 +73,7 @@ class DifferentialDrive:
             self.feedback = fct.LinearQuadraticRegulator(
                 self.plant.A,
                 self.plant.B,
-                [0.12, 1.0, 0.12, 1.0],
+                [1.0, 1.0],
                 [12.0, 12.0],
                 self.dt,
             )
@@ -84,7 +81,7 @@ class DifferentialDrive:
             self.feedback = fct.LinearQuadraticRegulator(
                 self.plant.A,
                 self.plant.B,
-                [0.14, 0.95, 0.14, 0.95],
+                [0.95, 0.95],
                 [12.0, 12.0],
                 self.dt,
             )
@@ -120,22 +117,17 @@ def main():
     dt = 0.005
     diff_drive = DifferentialDrive(dt)
 
-    ts, xprof, vprof, _ = fct.generate_trapezoid_profile(
+    ts, _, vprof, _ = fct.generate_trapezoid_profile(
         max_v=3.5, time_to_max_v=1.0, dt=dt, goal=50.0
     )
 
     # Run simulation
-    refs = [
-        np.array([[xprof[i]], [vprof[i]], [xprof[i]], [vprof[i]]])
-        for i in range(len(ts))
-    ]
+    refs = [np.array([[vprof[i]], [vprof[i]]]) for i in range(len(ts))]
     x_rec, r_rec, u_rec, _ = fct.generate_time_responses(diff_drive, refs)
 
     fct.plot_time_responses(
         [
-            "Left position (m)",
             "Left velocity (m/s)",
-            "Right position (m)",
             "Right velocity (m/s)",
         ],
         ["Left voltage (V)", "Right voltage (V)"],

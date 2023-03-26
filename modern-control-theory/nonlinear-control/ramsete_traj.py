@@ -9,7 +9,6 @@ import frccontrol as fct
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
-from scipy.signal import StateSpace
 from wpimath.geometry import Pose2d
 from wpimath.trajectory import TrajectoryConfig, TrajectoryGenerator
 
@@ -53,50 +52,6 @@ def ramsete(pose_desired, v_desired, omega_desired, pose, b, zeta):
     return v, omega
 
 
-def drivetrain_decoupled(motor, num_motors, m, r, rb, J, Gl, Gr):
-    """Returns the state-space model for a drivetrain.
-
-    States: [[left velocity], [right velocity]]
-    Inputs: [[left voltage], [right voltage]]
-    Outputs: [[left velocity], [right velocity]]
-
-    Keyword arguments:
-    motor -- instance of DcBrushedMotor
-    num_motors -- number of motors driving the mechanism
-    m -- mass of robot in kg
-    r -- radius of wheels in meters
-    rb -- radius of robot in meters
-    J -- moment of inertia of the drivetrain in kg-m²
-    Gl -- gear ratio of left side of drivetrain
-    Gr -- gear ratio of right side of drivetrain
-
-    Returns:
-    StateSpace instance containing continuous model
-    """
-    motor = fct.models.gearbox(motor, num_motors)
-
-    C1 = -(Gl**2) * motor.Kt / (motor.Kv * motor.R * r**2)
-    C2 = Gl * motor.Kt / (motor.R * r)
-    C3 = -(Gr**2) * motor.Kt / (motor.Kv * motor.R * r**2)
-    C4 = Gr * motor.Kt / (motor.R * r)
-    A = np.array(
-        [
-            [(1 / m + rb**2 / J) * C1, (1 / m - rb**2 / J) * C3],
-            [(1 / m - rb**2 / J) * C1, (1 / m + rb**2 / J) * C3],
-        ]
-    )
-    B = np.array(
-        [
-            [(1 / m + rb**2 / J) * C2, (1 / m - rb**2 / J) * C4],
-            [(1 / m - rb**2 / J) * C2, (1 / m + rb**2 / J) * C4],
-        ]
-    )
-    C = np.eye(2)
-    D = np.zeros((2, 2))
-
-    return StateSpace(A, B, C, D)
-
-
 class Drivetrain:
     """An frccontrol system for a decoupled drivetrain."""
 
@@ -107,9 +62,6 @@ class Drivetrain:
         dt -- time between model/controller updates
         """
         self.dt = dt
-
-        # Number of motors per side
-        num_motors = 2.0
 
         # Gear ratio of drivetrain
         G = 60.0 / 11.0
@@ -124,8 +76,8 @@ class Drivetrain:
         # Moment of inertia of the drivetrain in kg-m²
         J = 6.0
 
-        self.plant = drivetrain_decoupled(
-            fct.models.MOTOR_CIM, num_motors, m, r, self.rb, J, G, G
+        self.plant = fct.models.differential_drive(
+            fct.models.MOTOR_CIM, 2.0, m, r, self.rb, J, G, G
         )
 
         # Sim variables
