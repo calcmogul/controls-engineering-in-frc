@@ -178,7 +178,7 @@ class Drivetrain(metaclass=ABCMeta):
         r -- the current reference
         next_r -- the next reference
         """
-        self.x = fct.rk4(self.f, self.x, self.u, self.dt)
+        self.x = fct.rkdp(self.f, self.x, self.u, self.dt)
 
         self.update_observer()
 
@@ -210,7 +210,7 @@ class DrivetrainExact(Drivetrain):
         """
         Update observer.
         """
-        self.x_hat = fct.rk4(self.f, self.x_hat, self.u, self.dt)
+        self.x_hat = fct.rkdp(self.f, self.x_hat, self.u, self.dt)
 
 
 class DrivetrainEuler(Drivetrain):

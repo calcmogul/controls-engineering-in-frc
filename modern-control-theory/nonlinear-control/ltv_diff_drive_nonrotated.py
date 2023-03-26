@@ -197,7 +197,7 @@ class Drivetrain:
         next_r -- the next reference
         """
         # Update sim model
-        self.x = fct.rk4(self.f, self.x, self.u, self.dt)
+        self.x = fct.rkdp(self.f, self.x, self.u, self.dt)
         self.y = self.plant.C @ self.x + self.plant.D @ self.u
 
         self.observer.predict(self.u, self.dt)
