@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 
-"""Simulates LTV unicycle controller on decoupled model with nonlinear trajectory."""
+"""
+Simulates LTV unicycle controller with RK4 integration in chassis coordinate
+frame.
+"""
 
 import math
 import sys
@@ -18,74 +21,10 @@ if "--noninteractive" in sys.argv:
     mpl.use("svg")
 
 
-class Drivetrain:
-    """An frccontrol system for a decoupled drivetrain."""
-
-    def __init__(self, dt):
-        """Drivetrain subsystem.
-
-        Keyword arguments:
-        dt -- time between model/controller updates
-        """
-        self.dt = dt
-
-        # Gear ratio of drivetrain
-        G = 60.0 / 11.0
-
-        # Drivetrain mass in kg
-        m = 52
-        # Radius of wheels in meters
-        r = 0.08255 / 2.0
-        # Radius of robot in meters
-        self.rb = 0.59055 / 2.0
-
-        # Moment of inertia of the drivetrain in kg-m²
-        J = 6.0
-
-        self.plant = fct.models.differential_drive(
-            fct.models.MOTOR_CIM, 2.0, m, r, self.rb, J, G, G
-        )
-
-        # Sim variables
-        self.sim = self.plant.to_discrete(self.dt)
-        self.x = np.zeros((2, 1))
-        self.u = np.zeros((2, 1))
-        self.y = np.zeros((2, 1))
-
-        # States: left velocity (m/s), right velocity (m/s)
-        # Inputs: left voltage (V), right voltage (V)
-        # Outputs: left velocity (m/s), right velocity (m/s)
-        self.feedforward = fct.LinearPlantInversionFeedforward(
-            self.plant.A, self.plant.B, self.dt
-        )
-        self.feedback = fct.LinearQuadraticRegulator(
-            self.plant.A, self.plant.B, [0.95, 0.95], [12.0, 12.0], self.dt
-        )
-
-        self.u_min = np.array([[-12.0], [-12.0]])
-        self.u_max = np.array([[12.0], [12.0]])
-
-    def update(self, r, next_r):
-        """
-        Advance the model by one timestep.
-
-        Keyword arguments:
-        r -- the current reference
-        next_r -- the next reference
-        """
-        # Update sim model
-        self.x = self.sim.A @ self.x + self.sim.B @ self.u
-        self.y = self.sim.C @ self.x + self.sim.D @ self.u
-
-        self.u = np.clip(
-            self.feedforward.calculate(next_r) + self.feedback.calculate(self.x, r),
-            self.u_min,
-            self.u_max,
-        )
-
-
-class LTVUnicycle:
-    """An frccontrol system for a unicycle."""
+class LTVUnicycleController:
+    """
+    A linear time-varying unicycle controller.
+    """
 
     def __init__(self, q, r, dt):
         self.q = q
@@ -115,91 +54,204 @@ class LTVUnicycle:
         return v_desired + u[0, 0], omega_desired + u[1, 0]
 
 
+class Drivetrain:
+    """An frccontrol system for a differential drive."""
+
+    def __init__(self, dt):
+        """Differential drive subsystem.
+
+        Keyword arguments:
+        dt -- time between model/controller updates
+        """
+        self.dt = dt
+
+        # Radius of robot in meters
+        self.rb = 0.59055 / 2.0
+
+        # Gear ratio of differential drive
+        G = 60.0 / 11.0
+
+        # Drivetrain mass in kg
+        m = 52
+        # Radius of wheels in meters
+        r = 0.08255 / 2.0
+        # Moment of inertia of the differential drive in kg-m²
+        J = 6.0
+
+        motor = fct.models.gearbox(fct.models.MOTOR_CIM, 3.0)
+
+        C1 = -(G**2) * motor.Kt / (motor.Kv * motor.R * r**2)
+        C2 = G * motor.Kt / (motor.R * r)
+        C3 = -(G**2) * motor.Kt / (motor.Kv * motor.R * r**2)
+        C4 = G * motor.Kt / (motor.R * r)
+        self.velocity_A = np.array(
+            [
+                [(1 / m + self.rb**2 / J) * C1, (1 / m - self.rb**2 / J) * C3],
+                [(1 / m - self.rb**2 / J) * C1, (1 / m + self.rb**2 / J) * C3],
+            ]
+        )
+        self.velocity_B = np.array(
+            [
+                [(1 / m + self.rb**2 / J) * C2, (1 / m - self.rb**2 / J) * C4],
+                [(1 / m - self.rb**2 / J) * C2, (1 / m + self.rb**2 / J) * C4],
+            ]
+        )
+
+        # States: x position (m), y position (m), heading (rad),
+        #         left velocity (m/s), right velocity (m/s)
+        # Inputs: left voltage (V), right voltage (V)
+        # Outputs: heading (rad), left velocity (m/s), right velocity (m/s)
+        self.observer = fct.ExtendedKalmanFilter(
+            5,
+            2,
+            self.f,
+            self.h,
+            [0.5, 0.5, 10.0, 1.0, 1.0],
+            [0.0001, 0.01, 0.01],
+            self.dt,
+        )
+        self.pose_controller = LTVUnicycleController(
+            [0.0625, 0.125, 2.5], [0.95, 0.95], self.dt
+        )
+        self.velocity_controller = fct.LinearQuadraticRegulator(
+            self.velocity_A, self.velocity_B, [0.95, 0.95], [12.0, 12.0], self.dt
+        )
+
+        # Sim variables
+        self.x = np.zeros((5, 1))
+        self.u = np.zeros((2, 1))
+        self.y = np.zeros((3, 1))
+
+        self.u_min = np.array([[-12.0], [-12.0]])
+        self.u_max = np.array([[12.0], [12.0]])
+
+    def f(self, x, u):
+        """
+        Nonlinear differential drive dynamics.
+
+        Keyword arguments:
+        x -- state vector
+        u -- input vector
+
+        Returns:
+        dx/dt -- state derivative
+        """
+        return (
+            np.array(
+                [
+                    [(x[3, 0] + x[4, 0]) / 2.0 * math.cos(x[2, 0])],
+                    [(x[3, 0] + x[4, 0]) / 2.0 * math.sin(x[2, 0])],
+                    [(x[4, 0] - x[3, 0]) / (2.0 * self.rb)],
+                    [self.velocity_A[0, 0] * x[3, 0] + self.velocity_A[0, 1] * x[4, 0]],
+                    [self.velocity_A[1, 0] * x[3, 0] + self.velocity_A[1, 1] * x[4, 0]],
+                ]
+            )
+            + np.block([[np.zeros((3, 2))], [self.velocity_B]]) @ u
+        )
+
+    # pragma pylint: disable=unused-argument
+    def h(self, x, u):
+        """
+        Nonlinear differential drive dynamics.
+
+        Keyword arguments:
+        x -- state vector
+        u -- input vector
+
+        Returns:
+        dx/dt -- state derivative
+        """
+        return x[2:, :]
+
+    def update(self, r, next_r):
+        """
+        Advance the model by one timestep.
+
+        Keyword arguments:
+        r -- the current reference
+        next_r -- the next reference
+        """
+        # Update sim model
+        self.x = fct.rk4(self.f, self.x, self.u, self.dt)
+        self.y = self.h(self.x, self.u)
+
+        self.observer.predict(self.u, self.dt)
+        self.observer.correct(self.u, self.y)
+
+        # Feedforward
+        rdot = (next_r - r) / self.dt
+        u_ff = np.linalg.pinv(np.block([[np.zeros((3, 2))], [self.velocity_B]])) @ (
+            rdot - self.f(r, np.zeros((2, 1)))
+        )
+
+        # Pose feedback
+        v_cmd, omega_cmd = self.pose_controller.calculate(
+            Pose2d(
+                self.observer.x_hat[0, 0],
+                self.observer.x_hat[1, 0],
+                self.observer.x_hat[2, 0],
+            ),
+            Pose2d(r[0, 0], r[1, 0], r[2, 0]),
+            (r[3, 0] + r[4, 0]) / 2,
+            (r[4, 0] - r[3, 0]) / (2 * self.rb),
+        )
+
+        # Velocity feedback
+        u_fb = self.velocity_controller.calculate(
+            self.observer.x_hat[3:, :],
+            np.array([[v_cmd - omega_cmd * self.rb], [v_cmd + omega_cmd * self.rb]]),
+        )
+
+        self.u = u_ff + u_fb
+
+        u_cap = np.max(np.abs(self.u))
+        if u_cap > 12.0:
+            self.u = self.u / u_cap * 12.0
+
+
 def main():
     """Entry point."""
     dt = 0.02
 
-    ltv_unicycle = LTVUnicycle([0.0625, 0.125, 2.5], [0.95, 0.95], dt)
-    drivetrain = Drivetrain(dt)
+    # Radius of robot in meters
+    rb = 0.59055 / 2.0
 
     trajectory = TrajectoryGenerator.generateTrajectory(
         [Pose2d(1.330117, 13, 0), Pose2d(10.17, 18, 0)],
         TrajectoryConfig(3.5, 3.5),
     )
 
-    ts = np.arange(0, trajectory.totalTime(), dt)
-    xprof = []
-    yprof = []
-    thetaprof = []
-    vprof = []
-    omegaprof = []
-    for t in ts:
+    refs = []
+    t_rec = np.arange(0, trajectory.totalTime(), dt)
+    for t in t_rec:
         sample = trajectory.sample(t)
-        xprof.append(sample.pose.X())
-        yprof.append(sample.pose.Y())
-        thetaprof.append(sample.pose.rotation().radians())
-        vprof.append(sample.velocity)
-        omegaprof.append(sample.velocity * sample.curvature)
-
-    # Initial robot pose
-    pose = Pose2d(xprof[0] + 0.5, yprof[0] + 0.5, math.pi / 4)
-    desired_pose = Pose2d()
-
-    vl = float("inf")
-    vr = float("inf")
-
-    x_rec = []
-    y_rec = []
-    theta_rec = []
-    vl_rec = []
-    vr_rec = []
-    r_vl_rec = []
-    r_vr_rec = []
-    ul_rec = []
-    ur_rec = []
-
-    # Run LTV unicycle controller
-    next_r = np.array([[0.0], [0.0]])
-    for i in range(len(ts) - 1):
-        desired_pose = Pose2d(xprof[i], yprof[i], thetaprof[i])
-
-        vc = (drivetrain.x[0, 0] + drivetrain.x[1, 0]) / 2.0
-        vref, omegaref = ltv_unicycle.calculate(
-            pose, desired_pose, vprof[i], omegaprof[i]
+        vl = sample.velocity - sample.velocity * sample.curvature * rb
+        vr = sample.velocity + sample.velocity * sample.curvature * rb
+        refs.append(
+            np.array(
+                [
+                    [sample.pose.X()],
+                    [sample.pose.Y()],
+                    [sample.pose.rotation().radians()],
+                    [vl],
+                    [vr],
+                ]
+            )
         )
-        r_vl = vref - omegaref * drivetrain.rb
-        r_vr = vref + omegaref * drivetrain.rb
-        r = next_r
-        next_r = np.array([[r_vl], [r_vr]])
 
-        drivetrain.update(r, next_r)
+    x = np.array(
+        [[refs[0][0, 0] + 0.5], [refs[0][1, 0] + 0.5], [math.pi / 2], [0], [0]]
+    )
+    drivetrain = Drivetrain(dt)
+    drivetrain.x = x
+    drivetrain.observer.x_hat = x
 
-        vc = (drivetrain.x[0, 0] + drivetrain.x[1, 0]) / 2.0
-        omega = (drivetrain.x[1, 0] - drivetrain.x[0, 0]) / (2.0 * drivetrain.rb)
-        vl = vc - omega * drivetrain.rb
-        vr = vc + omega * drivetrain.rb
-
-        # Log data for plots
-        x_rec.append(pose.X())
-        y_rec.append(pose.Y())
-        theta_rec.append(pose.rotation().radians())
-        vl_rec.append(vl)
-        vr_rec.append(vr)
-        r_vl_rec.append(r_vl)
-        r_vr_rec.append(r_vr)
-        ul_rec.append(drivetrain.u[0, 0])
-        ur_rec.append(drivetrain.u[1, 0])
-
-        # Update nonlinear observer
-        pose = Pose2d(
-            pose.X() + vc * pose.rotation().cos() * dt,
-            pose.Y() + vc * pose.rotation().sin() * dt,
-            pose.rotation().radians() + omega * dt,
-        )
+    # Run simulation
+    x_rec, r_rec, u_rec, _ = fct.generate_time_responses(drivetrain, refs)
 
     plt.figure(1)
-    plt.plot(x_rec, y_rec, label="LTV unicycle controller")
-    plt.plot(xprof, yprof, label="Reference trajectory")
+    plt.plot(x_rec[0, :], x_rec[1, :], label="LTV controller")
+    plt.plot(r_rec[0, :], r_rec[1, :], label="Reference trajectory")
     plt.xlabel("x (m)")
     plt.ylabel("y (m)")
     plt.legend()
@@ -210,80 +262,20 @@ def main():
     if "--noninteractive" in sys.argv:
         latex.savefig("ltv_unicycle_traj_xy")
 
-    plt.figure(2)
-    num_plots = 7
-    plt.subplot(num_plots, 1, 1)
-    plt.title("Time domain responses")
-    plt.ylabel(
-        "x position (m)",
-        horizontalalignment="right",
-        verticalalignment="center",
-        rotation=45,
+    fct.plot_time_responses(
+        [
+            "x position (m)",
+            "y position (m)",
+            "Heading (rad)",
+            "Left velocity (m/s)",
+            "Right velocity (m/s)",
+        ],
+        ["Left voltage (V)", "Right voltage (V)"],
+        t_rec,
+        x_rec,
+        r_rec,
+        u_rec,
     )
-    plt.plot(ts[:-1], x_rec, label="State")
-    plt.plot(ts, xprof, label="Reference")
-    plt.legend()
-    plt.subplot(num_plots, 1, 2)
-    plt.ylabel(
-        "y position (m)",
-        horizontalalignment="right",
-        verticalalignment="center",
-        rotation=45,
-    )
-    plt.plot(ts[:-1], y_rec, label="State")
-    plt.plot(ts, yprof, label="Reference")
-    plt.legend()
-    plt.subplot(num_plots, 1, 3)
-    plt.ylabel(
-        "Theta (rad)",
-        horizontalalignment="right",
-        verticalalignment="center",
-        rotation=45,
-    )
-    plt.plot(ts[:-1], theta_rec, label="State")
-    plt.plot(ts, thetaprof, label="Reference")
-    plt.legend()
-
-    ts = ts[:-1]
-    plt.subplot(num_plots, 1, 4)
-    plt.ylabel(
-        "Left velocity (m/s)",
-        horizontalalignment="right",
-        verticalalignment="center",
-        rotation=45,
-    )
-    plt.plot(ts, vl_rec, label="State")
-    plt.plot(ts, r_vl_rec, label="Reference")
-    plt.legend()
-    plt.subplot(num_plots, 1, 5)
-    plt.ylabel(
-        "Right velocity (m/s)",
-        horizontalalignment="right",
-        verticalalignment="center",
-        rotation=45,
-    )
-    plt.plot(ts, vr_rec, label="State")
-    plt.plot(ts, r_vr_rec, label="Reference")
-    plt.legend()
-    plt.subplot(num_plots, 1, 6)
-    plt.ylabel(
-        "Left voltage (V)",
-        horizontalalignment="right",
-        verticalalignment="center",
-        rotation=45,
-    )
-    plt.plot(ts, ul_rec, label="Input")
-    plt.legend()
-    plt.subplot(num_plots, 1, 7)
-    plt.ylabel(
-        "Right voltage (V)",
-        horizontalalignment="right",
-        verticalalignment="center",
-        rotation=45,
-    )
-    plt.plot(ts, ur_rec, label="Input")
-    plt.legend()
-    plt.xlabel("Time (s)")
 
     if "--noninteractive" in sys.argv:
         latex.savefig("ltv_unicycle_traj_response")
