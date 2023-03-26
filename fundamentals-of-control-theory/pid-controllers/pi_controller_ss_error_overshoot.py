@@ -45,7 +45,6 @@ class Flywheel:
         # States: angular velocity (rad/s)
         # Inputs: voltage (V)
         # Outputs: angular velocity (rad/s)
-        self.observer = fct.KalmanFilter(self.plant, [1.0], [0.01], self.dt)
         self.feedback = fct.LinearQuadraticRegulator(
             self.plant.A, self.plant.B, [200.0], [12.0], self.dt
         )
@@ -69,14 +68,12 @@ class Flywheel:
         self.x = self.sim.A @ self.x + self.sim.B @ self.u
         self.y = self.sim.C @ self.x + self.sim.D @ self.u
 
-        self.observer.predict(self.u, self.dt)
-        self.observer.correct(self.u, self.y)
-        e = (r - self.observer.x_hat)[0, 0]
+        e = (r - self.x)[0, 0]
         self.integrator = np.clip(
             self.integrator + e * self.dt, self.u_min / self.Ki, self.u_max / self.Ki
         )
         self.u = np.clip(
-            self.Ki * self.integrator + self.feedback.calculate(self.observer.x_hat, r),
+            self.Ki * self.integrator + self.feedback.calculate(self.x, r),
             self.u_min,
             self.u_max,
         )

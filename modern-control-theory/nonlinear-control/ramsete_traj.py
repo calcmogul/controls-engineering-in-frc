@@ -89,7 +89,6 @@ class Drivetrain:
         # States: left velocity (m/s), right velocity (m/s)
         # Inputs: left voltage (V), right voltage (V)
         # Outputs: left velocity (m/s), right velocity (m/s)
-        self.observer = fct.KalmanFilter(self.plant, [1.0, 1.0], [0.01, 0.01], self.dt)
         self.feedforward = fct.LinearPlantInversionFeedforward(
             self.plant.A, self.plant.B, self.dt
         )
@@ -112,11 +111,8 @@ class Drivetrain:
         self.x = self.sim.A @ self.x + self.sim.B @ self.u
         self.y = self.sim.C @ self.x + self.sim.D @ self.u
 
-        self.observer.predict(self.u, self.dt)
-        self.observer.correct(self.u, self.y)
         self.u = np.clip(
-            self.feedforward.calculate(next_r)
-            + self.feedback.calculate(self.observer.x_hat, r),
+            self.feedforward.calculate(next_r) + self.feedback.calculate(self.x, r),
             self.u_min,
             self.u_max,
         )
