@@ -55,26 +55,28 @@ def linearized_differential_drive(motor, num_motors, m, r, rb, J, Gl, Gr, states
     v = (vr + vl) / 2.0
     if abs(v) < 1e-9:
         v = 1e-9
-    # fmt: off
     c = math.cos(theta)
     s = math.sin(theta)
-    A = np.array([[0, 0, -v * s, 0.5 * c, 0.5 * c],
-                  [0, 0, v * c, 0.5 * s, 0.5 * s],
-                  [0, 0, 0, -0.5 / rb, 0.5 / rb],
-                  [0, 0, 0, (1 / m + rb**2 / J) * C1, (1 / m - rb**2 / J) * C3],
-                  [0, 0, 0, (1 / m - rb**2 / J) * C1, (1 / m + rb**2 / J) * C3]])
-    B = np.array([[0, 0],
-                  [0, 0],
-                  [0, 0],
-                  [(1 / m + rb**2 / J) * C2, (1 / m - rb**2 / J) * C4],
-                  [(1 / m - rb**2 / J) * C2, (1 / m + rb**2 / J) * C4]])
-    C = np.array([[0, 0, 1, 0, 0],
-                  [0, 0, 0, 1, 0],
-                  [0, 0, 0, 0, 1]])
-    D = np.array([[0, 0],
-                  [0, 0],
-                  [0, 0]])
-    # fmt: on
+    A = np.array(
+        [
+            [0, 0, -v * s, 0.5 * c, 0.5 * c],
+            [0, 0, v * c, 0.5 * s, 0.5 * s],
+            [0, 0, 0, -0.5 / rb, 0.5 / rb],
+            [0, 0, 0, (1 / m + rb**2 / J) * C1, (1 / m - rb**2 / J) * C3],
+            [0, 0, 0, (1 / m - rb**2 / J) * C1, (1 / m + rb**2 / J) * C3],
+        ]
+    )
+    B = np.array(
+        [
+            [0, 0],
+            [0, 0],
+            [0, 0],
+            [(1 / m + rb**2 / J) * C2, (1 / m - rb**2 / J) * C4],
+            [(1 / m - rb**2 / J) * C2, (1 / m + rb**2 / J) * C4],
+        ]
+    )
+    C = np.array([[0, 0, 1, 0, 0], [0, 0, 0, 1, 0], [0, 0, 0, 0, 1]])
+    D = np.zeros((3, 2))
 
     return StateSpace(A, B, C, D)
 

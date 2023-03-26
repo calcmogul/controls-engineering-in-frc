@@ -27,14 +27,10 @@ def main():
     R = 0.0916
     L = 5.9000e-05
 
-    # fmt: off
-    A = np.array([[-b / J, Kt / J],
-                  [-Ke / L, -R / L]])
-    B = np.array([[0],
-                  [1 / L]])
+    A = np.array([[-b / J, Kt / J], [-Ke / L, -R / L]])
+    B = np.array([[0], [1 / L]])
     C = np.array([[1, 0]])
     D = np.array([[0]])
-    # fmt: on
 
     dt = 0.001
     tmax = 0.025
