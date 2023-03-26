@@ -44,9 +44,9 @@ refs = set()
 label_locations = {}
 ref_locations = {}
 
-for f in files:
+for file in files:
     # Get file contents
-    with open(f, "r", encoding="utf-8") as f:
+    with open(file, "r", encoding="utf-8") as f:
         contents = f.read()
 
     for match in rgx.finditer(contents):
@@ -59,11 +59,11 @@ for f in files:
         if match.group("command") == "label":
             label = match.group("arg")
             labels.add(label)
-            label_locations[label] = Label(f, linecount, label)
+            label_locations[label] = Label(file, linecount, label)
         elif "ref" in match.group("command"):
             ref = match.group("arg")
             refs.add(ref)
-            ref_locations[ref] = Label(f, linecount, ref)
+            ref_locations[ref] = Label(file, linecount, ref)
 
 undefined_refs = refs - labels
 unrefed_labels = labels - refs

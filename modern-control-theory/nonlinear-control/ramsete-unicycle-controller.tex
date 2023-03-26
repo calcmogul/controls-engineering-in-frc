@@ -157,9 +157,12 @@ $k = k_1(v_d, \omega_d) = k_3(v_d, \omega_d) = 2\zeta\sqrt{\omega_d^2 + bv_d^2}$
   more damping.
 \end{theorem}
 
-$v$ and $\omega$ should be the \glspl{reference} for a \gls{reference} tracker
-for the drivetrain. This can be a linear controller (see theorem
-\ref{thm:diff_drive_velocity_state-space_model} for a model to use with LQR).
+$v$ and $\omega$ should be the \glspl{reference} for a drivetrain
+\gls{reference} tracker. A good choice would be using equations
+\eqref{eq:diff_vl} and \eqref{eq:diff_vr} to convert $v$ and $\omega$ to left
+and right velocities, then applying LQR to the model in theorem
+\ref{thm:diff_drive_velocity_state-space_model}.
+
 $x$, $y$, and $\theta$ are obtained via a \gls{pose} estimator (see chapter
 \ref{ch:pose_estimation} for how to implement one). The desired velocity,
 turning rate, and \gls{pose} can be varied over time according to a desired
