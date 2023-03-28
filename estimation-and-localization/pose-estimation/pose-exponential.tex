@@ -285,118 +285,22 @@ coordinate frame).
   the model update.
 \end{remark}
 
-When the robot is traveling on a straight trajectory ($\omega = 0$), some
+When the robot is traveling on a straight trajectory ($\Delta\theta = 0$), some
 expressions within the equation above are indeterminate. We can approximate
 these with Taylor series expansions.
-\begin{align*}
-  \frac{\sin\omega t}{\omega} &= t - \frac{t^3 \omega^2}{6} + \ldots \\
-  \frac{\sin\omega t}{\omega} &\sim t - \frac{t^3 \omega^2}{6} \\
-  \frac{\cos\omega t - 1}{\omega} &= -\frac{t^2 \omega}{2} + \frac{t^4 \omega^3}{4} - \ldots \\
-  \frac{\cos\omega t - 1}{\omega} &\sim -\frac{t^2 \omega}{2} \\
-  \frac{1 - \cos\omega t}{\omega} &= \frac{t^2 \omega}{2} - \frac{t^4 \omega^3}{4} + \ldots \\
-  \frac{1 - \cos\omega t}{\omega} &\sim \frac{t^2 \omega}{2}
-  \intertext{If we let $\omega = 0$, we should get the standard kinematic
-    equations like $x = vt$ with a rotation applied to them.}
-  \frac{\sin\omega t}{\omega} &\sim t - \frac{t^3 \cdot 0^2}{6} = t \\
-  \frac{\cos\omega t - 1}{\omega} &\sim -\frac{t^2 \cdot 0}{2} = 0 \\
-  \frac{1 - \cos\omega t}{\omega} &\sim \frac{t^2 \cdot 0}{2} = 0
-\end{align*}
-
-Now substitute these into equation \eqref{eq:pose_exponential}.
-\begin{align*}
-  \crdfrm{G}{\begin{bmatrix}
-    \Delta x \\
-    \Delta y \\
-    \Delta \theta
-  \end{bmatrix}} &=
-  \begin{bmatrix}
-    \cos\theta & -\sin\theta & 0 \\
-    \sin\theta &  \cos\theta & 0 \\
-             0 &           0 & 1
-  \end{bmatrix}
-  \begin{bmatrix}
-    t & 0 & 0 \\
-    0 & t & 0 \\
-    0 & 0 & t
-  \end{bmatrix}
-  \crdfrm{R}{\begin{bmatrix}
-    v_x \\
-    v_y \\
-    \omega
-  \end{bmatrix}} \\
-  \crdfrm{G}{\begin{bmatrix}
-    \Delta x \\
-    \Delta y \\
-    \Delta \theta
-  \end{bmatrix}} &=
-  \begin{bmatrix}
-    \cos\theta & -\sin\theta & 0 \\
-    \sin\theta &  \cos\theta & 0 \\
-             0 &           0 & 1
-  \end{bmatrix}
-  \begin{bmatrix}
-    v_x t \\
-    v_y t \\
-    \omega t
-  \end{bmatrix}
-\end{align*}
-
-As expected, the equations simplify to the first-order case with a rotation
-matrix applied to the velocities in the robot's local coordinate frame.
-
-Differential drive robots have $v_y = 0$ since they only move in the direction
-of the current heading, which is along the x-axis. Therefore,
-\begin{align*}
-  \crdfrm{G}{\begin{bmatrix}
-    \Delta x \\
-    \Delta y \\
-    \Delta \theta
-  \end{bmatrix}} &=
-  \begin{bmatrix}
-    \cos\theta & -\sin\theta & 0 \\
-    \sin\theta &  \cos\theta & 0 \\
-             0 &           0 & 1
-  \end{bmatrix}
-  \begin{bmatrix}
-    v_x t \\
-    0 \\
-    \omega t
-  \end{bmatrix} \\
-  \crdfrm{G}{\begin{bmatrix}
-    \Delta x \\
-    \Delta y \\
-    \Delta \theta
-  \end{bmatrix}} &=
-  \begin{bmatrix}
-    v_x t \cos\theta \\
-    v_x t \sin\theta \\
-    \omega t
-  \end{bmatrix}
-\end{align*}
+\begin{alignat*}{4}
+  \frac{\sin\Delta\theta}{\Delta\theta}
+    &= 1 - \frac{\Delta\theta^2}{6} + \ldots
+    &&\approx 1 - \frac{\Delta\theta^2}{6} \\
+  \frac{\cos\Delta\theta - 1}{\Delta\theta}
+    &= -\frac{\Delta\theta}{2} + \frac{\Delta\theta^3}{4} - \ldots
+    &&\approx -\frac{\Delta\theta}{2} \\
+  \frac{1 - \cos\Delta\theta}{\Delta\theta}
+    &= \frac{\Delta\theta}{2} - \frac{\Delta\theta^3}{4} + \ldots
+    &&\approx \frac{\Delta\theta}{2}
+\end{alignat*}
 \begin{theorem}[Pose exponential]
   \begin{align}
-    \crdfrm{G}{\begin{bmatrix}
-      \Delta x \\
-      \Delta y \\
-      \Delta \theta
-    \end{bmatrix}} &=
-    \begin{bmatrix}
-      \cos\theta & -\sin\theta & 0 \\
-      \sin\theta &  \cos\theta & 0 \\
-               0 &           0 & 1
-    \end{bmatrix}
-    \begin{bmatrix}
-      \frac{\sin\omega t}{\omega} & \frac{\cos\omega t - 1}{\omega} & 0 \\
-      \frac{1 - \cos\omega t}{\omega} & \frac{\sin\omega t}{\omega} & 0 \\
-      0 & 0 & t
-    \end{bmatrix}
-    \crdfrm{R}{\begin{bmatrix}
-      v_x \\
-      v_y \\
-      \omega
-    \end{bmatrix}}
-    \label{eq:pose_exponential}
-    \intertext{or}
     \crdfrm{G}{\begin{bmatrix}
       \Delta x \\
       \Delta y \\
@@ -424,23 +328,17 @@ of the current heading, which is along the x-axis. Therefore,
   where $G$ denotes global coordinate frame and $R$ denotes robot's coordinate
   frame.
 
-  For sufficiently small $\omega$:
+  For sufficiently small $\Delta\theta$:
   \begin{align}
-    \frac{\sin\omega t}{\omega} &= t - \frac{t^3 \omega^2}{6} &
-    \frac{\cos\omega t - 1}{\omega} &= -\frac{t^2 \omega}{2} &
-    \frac{1 - \cos\omega t}{\omega} &= \frac{t^2 \omega}{2} \\
-    \frac{\sin\omega t}{\omega t} &= 1 - \frac{t^2 \omega^2}{6} &
-    \frac{\cos\omega t - 1}{\omega t} &= -\frac{t \omega}{2} &
-    \frac{1 - \cos\omega t}{\omega t} &= \frac{t \omega}{2}
+    \frac{\sin\Delta\theta}{\Delta\theta} &= 1 - \frac{\Delta\theta^2}{6} &
+    \frac{\cos\Delta\theta - 1}{\Delta\theta} &= -\frac{\Delta\theta}{2} &
+    \frac{1 - \cos\Delta\theta}{\Delta\theta} &= \frac{\Delta\theta}{2}
   \end{align}
   \begin{figurekey}
     \begin{tabular}{llll}
-      $\Delta x$ & change in pose's $x$ & $v_x$ & velocity along $x$-axis \\
-      $\Delta y$ & change in pose's $y$ & $v_y$ & velocity along $y$-axis \\
-      $\Delta \theta$ & change in pose's $\theta$ & $\omega$ & angular velocity
-        \\
-      $t$ & Time since last pose update & $\theta$ & starting angle in global
-        coordinate frame
+      $\Delta x$ & change in pose's $x$ & $\Delta y$ & change in pose's $y$ \\
+      $\Delta \theta$ & change in pose's $\theta$ & $\theta$ & starting angle in
+        global coordinate frame
     \end{tabular}
   \end{figurekey}
 
