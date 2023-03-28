@@ -15,7 +15,7 @@ import numpy as np
 from wpimath.geometry import Pose2d
 from wpimath.trajectory import TrajectoryConfig, TrajectoryGenerator
 
-from bookutil import latex
+from bookutil import latex, plotutil
 
 if "--noninteractive" in sys.argv:
     mpl.use("svg")
@@ -249,18 +249,25 @@ def main():
     # Run simulation
     x_rec, r_rec, u_rec, _ = fct.generate_time_responses(drivetrain, refs)
 
-    plt.figure(1)
-    plt.plot(x_rec[0, :], x_rec[1, :], label="Ramsete controller")
-    plt.plot(r_rec[0, :], r_rec[1, :], label="Reference trajectory")
-    plt.xlabel("x (m)")
-    plt.ylabel("y (m)")
-    plt.legend()
-
-    plt.gca().set_aspect(1.0)
-    plt.gca().set_box_aspect(1.0)
-
+    fig = plt.figure(1)
     if "--noninteractive" in sys.argv:
+        plotutil.plot_xy(
+            fig,
+            x_rec[0, :],
+            x_rec[1, :],
+            r_rec[0, :],
+            r_rec[1, :],
+        )
         latex.savefig("ramsete_traj_xy")
+    else:
+        anim = plotutil.animate_xy(  # pragma pylint: disable=unused-variable
+            fig,
+            x_rec[0, :],
+            x_rec[1, :],
+            r_rec[0, :],
+            r_rec[1, :],
+            dt,
+        )
 
     fct.plot_time_responses(
         [
