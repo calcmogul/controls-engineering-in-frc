@@ -13,3 +13,5 @@ jobs:
       run: make setup_ubuntu
     - name: Lint .py and .tex files
       run: make -j$(nproc) lint
+    - name: Ensure formatters made no changes
+      run: git --no-pager diff --exit-code HEAD

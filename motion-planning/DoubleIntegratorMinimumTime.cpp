@@ -63,8 +63,7 @@ int main() {
 
     constexpr double t = std::chrono::duration<double>{dt}.count();
     for (int k = 0; k < N + 1; ++k) {
-      states << fmt::format("{},{},{}\n", k * t, X.Value(0, k),
-                            X.Value(1, k));
+      states << fmt::format("{},{},{}\n", k * t, X.Value(0, k), X.Value(1, k));
     }
   }
 
