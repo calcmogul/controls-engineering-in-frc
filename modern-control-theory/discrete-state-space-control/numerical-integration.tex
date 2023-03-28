@@ -251,6 +251,8 @@ relative to the amount of floating point operations (FLOPs) it requires.
 Dormand-Prince (RKDP) is a fourth-order method with fifth-order error checking.
 It uses an adaptive stepsize to enforce an upper bound on the integration error.
 \begin{theorem}[Dormand-Prince integration]
+  \label{thm:rkdp}
+
   Given the differential equation $\dot{\mat{x}} = f(\mat{x}_k, \mat{u}_k)$,
   this method solves for $\mat{x}_{k+1}$ at $h$ seconds in the future.
   $\mat{u}$ is assumed to be held constant between timesteps. It has the

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """
-Simulates LTV unicycle controller with RK4 integration in chassis coordinate
+Simulates LTV unicycle controller with RKDP integration in chassis coordinate
 frame.
 """
 

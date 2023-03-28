@@ -381,11 +381,11 @@ would be
 \end{equation*}
 
 To include higher-order dynamics in the linearized differential drive model
-integration, we'll apply the fourth-order Runge-Kutta integration method (RK4)
-from theorem \ref{thm:rk4} to equation \eqref{eq:ltv_diff_drive_f}.
+integration, we'll apply the Dormand-Prince integration method (RKDP) from
+theorem \ref{thm:rkdp} to equation \eqref{eq:ltv_diff_drive_f}.
 
 Figures \ref{fig:ltv_diff_drive_nonrotated_xy} and
-\ref{fig:ltv_diff_drive_nonrotated_response} show a simulation using RK4
+\ref{fig:ltv_diff_drive_nonrotated_response} show a simulation using RKDP
 instead of the first-order \gls{model}.
 \begin{bookfigure}
   \begin{minisvg}{2}{build/\chapterpath/ltv_diff_drive_nonrotated_xy}

@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
 """
-Simulates Ramsete unicycle controller with RK4 integration in chassis coordinate
-frame.
+Simulates Ramsete unicycle controller with RKDP integration in chassis
+coordinate frame.
 """
 
 import math

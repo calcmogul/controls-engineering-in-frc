@@ -203,7 +203,7 @@ class Drivetrain:
         self.x = discA @ self.x + discB @ self.u
         self.y = self.plant.C @ self.x + self.plant.D @ self.u
 
-        # Use linearized prediction instead of RK4 of EKF.predict()
+        # Use linearized prediction instead of RKDP for EKF.predict()
         discA, discQ = fct.discretize_aq(contA, self.observer.contQ, self.dt)
         self.observer.x_hat = discA @ self.observer.x_hat + discB @ self.u
         self.observer.P = discA @ self.observer.P @ discA.T + discQ

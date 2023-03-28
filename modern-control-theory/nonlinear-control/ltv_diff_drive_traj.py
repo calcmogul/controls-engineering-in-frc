@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """
-Simulates LTV differential drive controller with RK4 integration in chassis
+Simulates LTV differential drive controller with RKDP integration in chassis
 coordinate frame.
 """
 
