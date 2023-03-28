@@ -112,7 +112,7 @@ def simulate(elevator, dt, method):
     ts, refs = generate_refs(dt)
     elevator.sim = elevator.plant.to_discrete(dt, method)
     elevator.x = np.zeros((elevator.x.shape[0], 1))
-    x_rec, _, _, _ = fct.generate_time_responses(elevator, refs)
+    _, x_rec, _, _ = fct.generate_time_responses(elevator, refs)
 
     if method == "zoh":
         label = "Zero-order hold"

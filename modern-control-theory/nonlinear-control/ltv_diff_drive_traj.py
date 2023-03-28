@@ -265,25 +265,25 @@ def main():
     drivetrain.observer.x_hat = x
 
     # Run simulation
-    x_rec, r_rec, u_rec, _ = fct.generate_time_responses(drivetrain, refs)
+    r_rec, x_rec, u_rec, _ = fct.generate_time_responses(drivetrain, refs)
 
     fig = plt.figure()
     if "--noninteractive" in sys.argv:
         plotutil.plot_xy(
             fig,
-            x_rec[0, :],
-            x_rec[1, :],
             r_rec[0, :],
             r_rec[1, :],
+            x_rec[0, :],
+            x_rec[1, :],
         )
         latex.savefig("ltv_diff_drive_traj_xy")
     else:
         anim = plotutil.animate_xy(  # pragma pylint: disable=unused-variable
             fig,
-            x_rec[0, :],
-            x_rec[1, :],
             r_rec[0, :],
             r_rec[1, :],
+            x_rec[0, :],
+            x_rec[1, :],
             dt,
         )
 
@@ -297,8 +297,8 @@ def main():
         ],
         ["Left voltage (V)", "Right voltage (V)"],
         t_rec,
-        x_rec,
         r_rec,
+        x_rec,
         u_rec,
     )
 

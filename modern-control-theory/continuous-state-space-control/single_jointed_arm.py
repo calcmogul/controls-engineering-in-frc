@@ -95,14 +95,14 @@ def main():
 
     # Run simulation
     refs = [np.array([[xprof[i]], [vprof[i]]]) for i in range(len(ts))]
-    x_rec, r_rec, u_rec, _ = fct.generate_time_responses(single_jointed_arm, refs)
+    r_rec, x_rec, u_rec, _ = fct.generate_time_responses(single_jointed_arm, refs)
 
     fct.plot_time_responses(
         ["Angle (rad)", "Angular velocity (rad/s)"],
         ["Voltage (V)"],
         ts,
-        x_rec,
         r_rec,
+        x_rec,
         u_rec,
     )
     if "--noninteractive" in sys.argv:

@@ -119,7 +119,7 @@ def main():
             r = np.array([[0.0], [0.0]])
         refs.append(r)
 
-    x_rec, _, _, _ = fct.generate_time_responses(elevator, refs)
+    _, x_rec, _, _ = fct.generate_time_responses(elevator, refs)
 
     plt.figure(1)
     plt.xlabel("Time (s)")

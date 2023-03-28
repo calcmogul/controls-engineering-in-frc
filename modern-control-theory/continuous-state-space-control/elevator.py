@@ -100,14 +100,14 @@ def main():
         else:
             r = np.array([[0.0], [0.0]])
         refs.append(r)
-    x_rec, r_rec, u_rec, _ = fct.generate_time_responses(elevator, refs)
+    r_rec, x_rec, u_rec, _ = fct.generate_time_responses(elevator, refs)
 
     fct.plot_time_responses(
         ["Position (m)", "Velocity (m/s)"],
         ["Voltage (V)"],
         ts,
-        x_rec,
         r_rec,
+        x_rec,
         u_rec,
     )
     if "--noninteractive" in sys.argv:

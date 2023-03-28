@@ -139,19 +139,19 @@ def main():
                 flywheel.plant.A, flywheel.plant.B, flywheel.dt, plot.delay
             )
 
-        x_rec, r_rec, u_rec, _ = fct.generate_time_responses(flywheel, refs)
+        r_rec, x_rec, u_rec, _ = fct.generate_time_responses(flywheel, refs)
 
         plt.figure()
 
         # Plot angular velocity
         plt.subplot(2, 1, 1)
         plt.ylabel("Angular velocity (rad/s)")
+        plt.plot(ts, r_rec[0, :], label="Reference")
         plt.plot(
             ts,
             x_rec[0, :],
             label=f"State ($K_p = {round(flywheel.feedback.K[0, 0], plot.gain_digits)}$)",
         )
-        plt.plot(ts, r_rec[0, :], label="Reference")
         plt.legend()
 
         # Plot voltage

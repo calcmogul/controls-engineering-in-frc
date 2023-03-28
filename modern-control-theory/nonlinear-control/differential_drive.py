@@ -123,7 +123,7 @@ def main():
 
     # Run simulation
     refs = [np.array([[vprof[i]], [vprof[i]]]) for i in range(len(ts))]
-    x_rec, r_rec, u_rec, _ = fct.generate_time_responses(diff_drive, refs)
+    r_rec, x_rec, u_rec, _ = fct.generate_time_responses(diff_drive, refs)
 
     fct.plot_time_responses(
         [
@@ -132,8 +132,8 @@ def main():
         ],
         ["Left voltage (V)", "Right voltage (V)"],
         ts,
-        x_rec,
         r_rec,
+        x_rec,
         u_rec,
     )
     if "--noninteractive" in sys.argv:

@@ -92,26 +92,26 @@ def main():
     refs = [np.array([[xprof[i]], [vprof[i]]]) for i in range(len(ts))]
 
     # Run simulation
-    x_rec, r_rec, u_rec, _ = fct.generate_time_responses(elevator, refs)
+    r_rec, x_rec, u_rec, _ = fct.generate_time_responses(elevator, refs)
 
     plt.figure()
 
     # Plot position
     plt.subplot(3, 1, 1)
     plt.ylabel("Position (m)")
+    plt.plot(ts, r_rec[0, :], label="Setpoint")
     plt.plot(
         ts, x_rec[0, :], label=f"Output ($K_p = {round(elevator.feedback.K[0, 0], 2)}$)"
     )
-    plt.plot(ts, r_rec[0, :], label="Setpoint")
     plt.legend()
 
     # Plot velocity
     plt.subplot(3, 1, 2)
     plt.ylabel("Velocity (m/s)")
+    plt.plot(ts, r_rec[1, :], label="Setpoint")
     plt.plot(
         ts, x_rec[1, :], label=f"Output ($K_d = {round(elevator.feedback.K[0, 1], 2)}$)"
     )
-    plt.plot(ts, r_rec[1, :], label="Setpoint")
     plt.legend()
 
     # Plot voltage

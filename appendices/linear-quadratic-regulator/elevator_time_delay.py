@@ -138,30 +138,30 @@ def main():
                 elevator.plant.A, elevator.plant.B, elevator.dt, plot.delay
             )
 
-        x_rec, r_rec, u_rec, _ = fct.generate_time_responses(elevator, refs)
+        r_rec, x_rec, u_rec, _ = fct.generate_time_responses(elevator, refs)
 
         plt.figure()
 
         # Plot position
         plt.subplot(3, 1, 1)
         plt.ylabel("Position (m)")
+        plt.plot(ts, r_rec[0, :], label="Reference")
         plt.plot(
             ts,
             x_rec[0, :],
             label=f"State ($K_p = {round(elevator.feedback.K[0, 0], plot.gain_digits)}$)",
         )
-        plt.plot(ts, r_rec[0, :], label="Reference")
         plt.legend()
 
         # Plot velocity
         plt.subplot(3, 1, 2)
         plt.ylabel("Velocity (m/s)")
+        plt.plot(ts, r_rec[1, :], label="Reference")
         plt.plot(
             ts,
             x_rec[1, :],
             label=f"State ($K_d = {round(elevator.feedback.K[0, 1], plot.gain_digits)}$)",
         )
-        plt.plot(ts, r_rec[1, :], label="Reference")
         plt.legend()
 
         # Plot voltage

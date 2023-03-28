@@ -139,19 +139,19 @@ def main():
                 drivetrain.plant.A, drivetrain.plant.B, drivetrain.dt, plot.delay
             )
 
-        x_rec, r_rec, u_rec, _ = fct.generate_time_responses(drivetrain, refs)
+        r_rec, x_rec, u_rec, _ = fct.generate_time_responses(drivetrain, refs)
 
         plt.figure()
 
         # Plot velocity
         plt.subplot(2, 1, 1)
         plt.ylabel("Velocity (m/s)")
+        plt.plot(ts, r_rec[0, :], label="Reference")
         plt.plot(
             ts,
             x_rec[0, :],
             label=f"State ($K_p = {round(drivetrain.feedback.K[0, 0], plot.gain_digits)}$)",
         )
-        plt.plot(ts, r_rec[0, :], label="Reference")
         plt.legend()
 
         # Plot voltage

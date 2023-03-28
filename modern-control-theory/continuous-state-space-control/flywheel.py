@@ -99,14 +99,14 @@ def main():
         else:
             r = np.array([[0.0]])
         refs.append(r)
-    x_rec, r_rec, u_rec, _ = fct.generate_time_responses(flywheel, refs)
+    r_rec, x_rec, u_rec, _ = fct.generate_time_responses(flywheel, refs)
 
     fct.plot_time_responses(
         ["Angular velocity (rad/s)"],
         ["Voltage (V)"],
         ts,
-        x_rec,
         r_rec,
+        x_rec,
         u_rec,
     )
     if "--noninteractive" in sys.argv:
