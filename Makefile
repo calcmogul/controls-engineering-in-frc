@@ -17,9 +17,6 @@ EBOOK_IMGS := $(addprefix build/controls-engineering-in-frc-ebook/,$(wildcard im
 PRINTER_IMGS := $(addprefix build/controls-engineering-in-frc-printer/,$(wildcard imgs/*))
 SNIPPETS := $(wildcard snippets/*)
 
-CSV := $(filter-out ./bookutil/% ./build/% ./lint/% ./snippets/%,$(call rwildcard,./,*.csv))
-CSV := $(addprefix build/,$(CSV))
-
 ifeq ($(OS),Windows_NT)
 	CONVERT := magick convert
 	VENV_PYTHON := ./build/venv/Scripts/python3
@@ -83,12 +80,6 @@ build/commit-hash.tex: .git/refs/heads/$(shell git rev-parse --abbrev-ref HEAD) 
 	@mkdir -p $(@D)
 	echo "\href{https://github.com/calcmogul/$(NAME)/commit/`git rev-parse --short HEAD`}{commit `git rev-parse --short HEAD`}" > build/commit-hash.tex
 
-# This rule places CSVs into the build folder so scripts executed from the build
-# folder can use them.
-$(CSV): build/%.csv: %.csv
-	@mkdir -p $(@D)
-	cp $< $@
-
 build/venv.stamp:
 	@mkdir -p $(@D)
 	python3 setup_venv.py
@@ -106,7 +97,7 @@ $(CPP_EXE): build/%: %.cpp build/venv.stamp
 	# Convert generated CSVs to PDFs
 	$(abspath $(VENV_PYTHON)) ./snippets/sleipnir_csv_to_pdf.py $(@D)/*.csv
 
-$(PY_STAMP): build/%.stamp: %.py $(CSV) build/venv.stamp
+$(PY_STAMP): build/%.stamp: %.py build/venv.stamp
 	@mkdir -p $(@D)
 	cd $(@D) && $(abspath $(VENV_PYTHON)) $(abspath ./$<) --noninteractive
 	@touch $@
