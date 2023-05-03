@@ -47,16 +47,19 @@ which is an analytical solution to the continuous \gls{model}. Now we want to
     \int_0^{(k + 1)T} e^{\mat{A}((k + 1)T - \tau)}\mat{B}\mat{u}(\tau) \,d\tau
     \\
   \mat{x}_{k+1} &= e^{\mat{A}(k + 1)T}\mat{x}(0) +
-    \int_0^{kT} e^{\mat{A}((k + 1)T - \tau)}\mat{B}\mat{u}(\tau) \,d\tau +
+    \int_0^{kT} e^{\mat{A}((k + 1)T - \tau)}\mat{B}\mat{u}(\tau) \,d\tau \\
+    &\quad +
     \int_{kT}^{(k + 1)T} e^{\mat{A}((k + 1)T - \tau)}\mat{B}\mat{u}(\tau)
     \,d\tau \\
   \mat{x}_{k+1} &= e^{\mat{A}(k + 1)T}\mat{x}(0) +
-    \int_0^{kT} e^{\mat{A}((k + 1)T - \tau)}\mat{B}\mat{u}(\tau) \,d\tau +
+    \int_0^{kT} e^{\mat{A}((k + 1)T - \tau)}\mat{B}\mat{u}(\tau) \,d\tau \\
+    &\quad +
     \int_{kT}^{(k + 1)T} e^{\mat{A}(kT + T - \tau)}\mat{B}\mat{u}(\tau) \,d\tau
     \\
   \mat{x}_{k+1} &= e^{\mat{A}T} \underbrace{\left(e^{\mat{A}kT}\mat{x}(0) +
     \int_0^{kT} e^{\mat{A}(kT - \tau)}\mat{B}\mat{u}(\tau)
-    \,d\tau\right)}_{\mat{x}_k} +
+    \,d\tau\right)}_{\mat{x}_k} \\
+    &\quad +
     \int_{kT}^{(k + 1)T} e^{\mat{A}(kT + T - \tau)}\mat{B}\mat{u}(\tau) \,d\tau
 \end{align*}
 

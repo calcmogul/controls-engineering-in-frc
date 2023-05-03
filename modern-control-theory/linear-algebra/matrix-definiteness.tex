@@ -1,33 +1,48 @@
 \section{Matrix definiteness}
 \begin{booktable}
-  \begin{tabular}{|cccc|}
+  \begin{tabular}{|ccc|}
     \hline
     \rowcolor{headingbg}
-    \textbf{Type} & \textbf{Eigenvalues} & \textbf{Notation} &
-      \textbf{Definition} \\
+    \textbf{Type} & \textbf{Eigenvalues} & \textbf{Notation} \\
     \hline
     Negative definite &
       All $\lambda < 0$ &
-      $\mat{M} < \mat{0}$ &
-      $\mat{x}\T\mat{M}\mat{x} < 0$ for all $\mat{x}$ \\
+      $\mat{M} < \mat{0}$ \\
     Negative semidefinite &
       All $\lambda \leq 0$ &
-      $\mat{M} \leq \mat{0}$ &
-      $\mat{x}\T\mat{M}\mat{x} \leq 0$ for all $\mat{x}$ \\
+      $\mat{M} \leq \mat{0}$ \\
     Positive semidefinite &
       All $\lambda \geq 0$ &
-      $\mat{M} \geq \mat{0}$ &
-      $\mat{x}\T\mat{M}\mat{x} \geq 0$ for all $\mat{x}$ \\
+      $\mat{M} \geq \mat{0}$ \\
     Positive definite &
       All $\lambda > 0$ &
-      $\mat{M} > \mat{0}$ &
-      $\mat{x}\T\mat{M}\mat{x} > 0$ for all $\mat{x}$ \\
+      $\mat{M} > \mat{0}$ \\
     Indefinite &
       Positive and negative &
-      N/A &
+      N/A \\
+    \hline
+  \end{tabular}
+  \caption{Eigenvalue distribution and notation for each type of matrix
+    definiteness. Let $\mat{M}$ be a matrix.}
+\end{booktable}
+\begin{booktable}
+  \begin{tabular}{|cc|}
+    \hline
+    \rowcolor{headingbg}
+    \textbf{Type} & \textbf{Definition} \\
+    \hline
+    Negative definite &
+      $\mat{x}\T\mat{M}\mat{x} < 0$ for all $\mat{x}$ \\
+    Negative semidefinite &
+      $\mat{x}\T\mat{M}\mat{x} \leq 0$ for all $\mat{x}$ \\
+    Positive semidefinite &
+      $\mat{x}\T\mat{M}\mat{x} \geq 0$ for all $\mat{x}$ \\
+    Positive definite &
+      $\mat{x}\T\mat{M}\mat{x} > 0$ for all $\mat{x}$ \\
+    Indefinite &
       $\exists \mat{x}, \mat{y} \ni \mat{x}\T\mat{M}\mat{x} < 0 < \mat{y}\T\mat{M}\mat{y}$ \\
     \hline
   \end{tabular}
-  \caption{Types of matrix definiteness. Let $\mat{M}$ be a matrix and let
-    $\mat{x}$ and $\mat{y}$ be nonzero vectors.}
+  \caption{Rigorous definition for each type of matrix definiteness. Let
+    $\mat{M}$ be a matrix and let $\mat{x}$ and $\mat{y}$ be nonzero vectors.}
 \end{booktable}

@@ -189,7 +189,7 @@ Add the terms together.
     \mat{x}_k \\
     \mat{u}_k
   \end{bmatrix}\T
-  \begin{bmatrix}
+  \begin{bsmallmatrix}
     \underbrace{(\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})\T\mat{Q}
       (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})}_{\mat{Q}} &
     \underbrace{(\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})\T\mat{Q}
@@ -197,7 +197,7 @@ Add the terms together.
     \underbrace{(\mat{C}\mat{B})\T\mat{Q}
       (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})}_{\mat{N}\T} &
     \underbrace{(\mat{C}\mat{B})\T\mat{Q}(\mat{C}\mat{B}) + \mat{R}}_{\mat{R}}
-  \end{bmatrix}
+  \end{bsmallmatrix}
   \begin{bmatrix}
     \mat{x}_k \\
     \mat{u}_k
@@ -214,13 +214,8 @@ problem.
       \mat{u}_k
     \end{bmatrix}\T
     \begin{bmatrix}
-      \underbrace{(\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})\T\mat{Q}
-        (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})}_{\mat{Q}} &
-      \underbrace{(\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})\T\mat{Q}
-        (\mat{C}\mat{B})}_{\mat{N}} \\
-      \underbrace{(\mat{C}\mat{B})\T\mat{Q}
-        (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})}_{\mat{N}\T} &
-      \underbrace{(\mat{C}\mat{B})\T\mat{Q}(\mat{C}\mat{B}) + \mat{R}}_{\mat{R}}
+      \mat{Q}_{imf} & \mat{N}_{imf} \\
+      \mat{N}_{imf}\T & \mat{R}_{imf}
     \end{bmatrix}
     \begin{bmatrix}
       \mat{x}_k \\
@@ -229,6 +224,14 @@ problem.
     \nonumber \\
     \text{subject to } &\mat{x}_{k+1} = \mat{A}\mat{x}_k + \mat{B}\mat{u}_k
   \end{align}
+  where
+  \begin{align*}
+    \mat{Q}_{imf} &= (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})\T\mat{Q}
+      (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C}) \\
+    \mat{N}_{imf} &= (\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})\T\mat{Q}
+      (\mat{C}\mat{B}) \\
+    \mat{R}_{imf} &= (\mat{C}\mat{B})\T\mat{Q}(\mat{C}\mat{B}) + \mat{R}
+  \end{align*}
 
   The optimal control policy $\mat{u}_k^*$ is $-\mat{K}\mat{x}_k$. $\mat{K}$ can
   be computed via the typical LQR equations based on the algebraic Ricatti

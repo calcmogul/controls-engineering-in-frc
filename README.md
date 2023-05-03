@@ -49,7 +49,7 @@ you may print copies yourself for any purpose under the following terms:
 Printing a copy of the PDF as-is satisfies the license requirements.
 
 This book should be printed on
-[A4](https://www.prepressure.com/library/paper-size/din-a4) paper. Use the
+[A5](https://www.prepressure.com/library/paper-size/din-a5) paper. Use the
 printer version of the PDF
 [here](https://file.tavsys.net/control/controls-engineering-in-frc-printer.pdf)
 instead of the one linked above because the latter is compressed for electronic

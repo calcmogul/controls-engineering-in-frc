@@ -157,26 +157,19 @@ and actuator. The nondiagonal elements are zero. The balance between state
 excursion and control effort penalty ($\mat{Q}$ and $\mat{R}$ respectively) can
 be adjusted using the weighting factor $\rho$.
 \begin{equation*}
-  J = \sum_0^\infty \left(\rho \left[
-    \left(\frac{x_1}{x_{1,max}}\right)^2 + \ldots +
-    \left(\frac{x_m}{x_{m,max}}\right)^2\right] + \left[
-    \left(\frac{u_1}{u_{1,max}}\right)^2 + \ldots +
-    \left(\frac{u_n}{u_{n,max}}\right)^2\right]\right)
-\end{equation*}
-\begin{equation*}
-  \mat{Q} = \begin{bmatrix}
+  \mat{Q} = \begin{bsmallmatrix}
     \frac{\rho}{x_{1,max}^2} & 0 & \ldots & 0 \\
     0 & \frac{\rho}{x_{2,max}^2} & & \vdots \\
     \vdots & & \ddots & 0 \\
     0 & \ldots & 0 & \frac{\rho}{x_{m,max}^2}
-  \end{bmatrix}
+  \end{bsmallmatrix}
   \quad
-  \mat{R} = \begin{bmatrix}
+  \mat{R} = \begin{bsmallmatrix}
     \frac{1}{u_{1,max}^2} & 0 & \ldots & 0 \\
     0 & \frac{1}{u_{2,max}^2} & & \vdots \\
     \vdots & & \ddots & 0 \\
     0 & \ldots & 0 & \frac{1}{u_{n,max}^2}
-  \end{bmatrix}
+  \end{bsmallmatrix}
 \end{equation*}
 
 The index subscript denotes a row of the state or input vector. Small values of

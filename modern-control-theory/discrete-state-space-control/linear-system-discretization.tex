@@ -57,32 +57,44 @@ methods.
     \frac{1}{2}\mat{A}^2T^2 + \frac{1}{6}\mat{A}^3T^3
 \end{equation*}
 
-Table \ref{tab:disc_approx_matrix} compares the Taylor series expansions of the
-\gls{discretization} methods for the matrix case. These use a more complex
-formula which we won't present here.
+Table \ref{tab:disc_matrix} compares \gls{discretization} methods for the matrix
+case, and table \ref{tab:disc_approx_matrix} compares their Taylor series
+expansions. These use a more complex formula which we won't present here.
 \begin{booktable}
-  \begin{tabular}{|cll|}
+  \begin{tabular}{|cl|}
     \hline
     \rowcolor{headingbg}
     \multicolumn{1}{|c}{\textbf{Method}} &
-      \multicolumn{1}{c}{\textbf{Conversion to $\mat{A}_d$}} &
+      \multicolumn{1}{c|}{\textbf{Conversion to $\mat{A}_d$}} \\
+    \hline
+    Zero-order hold & $e^{\mat{A}_c T}$ \\
+    Bilinear &
+      $\left(\mat{I} + \frac{1}{2}\mat{A}_c T\right)
+        \left(\mat{I} - \frac{1}{2}\mat{A}_c T\right)^{-1}$ \\
+    Backward Euler & $\left(\mat{I} - \mat{A}_c T\right)^{-1}$ \\
+    Forward Euler & $\mat{I} + \mat{A}_c T$ \\
+    \hline
+  \end{tabular}
+  \caption{Discretization methods (matrix case). The zero-order hold
+    discretization method is exact.}
+  \label{tab:disc_matrix}
+\end{booktable}
+\begin{booktable}
+  \begin{tabular}{|cl|}
+    \hline
+    \rowcolor{headingbg}
+    \multicolumn{1}{|c}{\textbf{Method}} &
       \multicolumn{1}{c|}{\textbf{Taylor series expansion}} \\
     \hline
     Zero-order hold &
-      $e^{\mat{A}_c T}$ &
       $\mat{I} + \mat{A}_c T + \frac{1}{2}\mat{A}_c^2T^2 +
         \frac{1}{6}\mat{A}_c^3T^3 + \ldots$ \\
     Bilinear &
-      $\left(\mat{I} + \frac{1}{2}\mat{A}_c T\right)
-        \left(\mat{I} - \frac{1}{2}\mat{A}_c T\right)^{-1}$ &
       $\mat{I} + \mat{A}_c T + \frac{1}{2}\mat{A}_c^2T^2 +
         \frac{1}{4}\mat{A}_c^3T^3 + \ldots$ \\
-    Forward Euler &
-      $\mat{I} + \mat{A}_c T$ &
-      $\mat{I} + \mat{A}_c T$ \\
     Backward Euler &
-      $\left(\mat{I} - \mat{A}_c T\right)^{-1}$ &
       $\mat{I} + \mat{A}_c T + \mat{A}_c^2T^2 + \mat{A}_c^3T^3 + \ldots$ \\
+    Forward Euler & $\mat{I} + \mat{A}_c T$ \\
     \hline
   \end{tabular}
   \caption{Taylor series expansions of discretization methods (matrix case).

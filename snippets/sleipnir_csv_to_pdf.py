@@ -33,7 +33,6 @@ def main():
             ax.plot(data[:, :1], data[:, i + 1 : i + 2], label=label)
             ax.set_xlabel(labels[0])
             ax.set_ylabel(label)
-            ax.legend()
 
             figname = re.search(r"(\w+)(\(.*?\))?", label).group(1)
             latex.savefig(f"{filename.removesuffix('.csv')}{figname}")

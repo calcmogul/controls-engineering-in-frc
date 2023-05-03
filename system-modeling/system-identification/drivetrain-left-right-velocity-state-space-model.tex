@@ -477,10 +477,14 @@ Now stack the rows.
 \end{equation*}
 
 Solve for matrix elements with Wolfram Alpha. Let
-$b = K_{v,linear}$, $c = K_{a,linear}$, $d = K_{v,angular}$, and $f = K_{a,angular}$.
+$b = K_{v,linear}$, $c = K_{a,linear}$, $d = K_{v,angular}$, and
+$f = K_{a,angular}$.
 \begin{verbatim}
-inverse of {{1, 1, b, b}, {v, v, b v + c a, b v + c a},
-  {-1, 1, -d, d}, {v, -v, d v + f a, -(d v + f a)}} * {{0}, {a}, {0}, {a}}
+inverse of {{1, 1, b, b},
+            {v, v, b v + c a, b v + c a},
+            {-1, 1, -d, d},
+            {v, -v, d v + f a, -(d v + f a)}}
+           * {{0}, {a}, {0}, {a}}
 \end{verbatim}
 \begin{align*}
   \begin{bmatrix}

@@ -1,4 +1,4 @@
-\documentclass[11pt]{book}
+\documentclass[10pt]{book}
 
 % Used by cover/title pages and PDF attributes
 \newcommand{\booktitle}{Controls Engineering in the FIRST Robotics Competition}
@@ -35,19 +35,20 @@
 \renewcommand{\thefootnote}{[\arabic{footnote}]} % "[]" around footnote markers
 
 \usepackage{textcomp,gensymb} % For degree symbol
-\usepackage[top=3cm,
-            bottom=3cm,
-            left=3cm,
-            right=3cm,
+\usepackage[top=2cm,
+            bottom=2cm,
+            left=1.5cm,
+            right=1.5cm,
             headsep=10pt,
             marginpar=70pt,
-            a4paper]{geometry}
+            a5paper]{geometry}
 \usepackage{graphicx} % For including figures
 \graphicspath{{build/\jobname/imgs/}} % Specifies directory where images are stored
 \usepackage{imakeidx} % For \indexsetup command to fix index heading style
 \usepackage{listings}
 \usepackage{mathtools} % For \prescript{}
 \usepackage{makeidx}
+\usepackage{multicol} % For multicolumn support
 \usepackage{parskip}
 \usepackage{placeins} % For FloatBarrier command
 \usepackage{subcaption}

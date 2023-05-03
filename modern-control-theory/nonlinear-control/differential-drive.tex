@@ -30,21 +30,21 @@ By equations \eqref{eq:diff_drive_model_right} and
   \intertext{Regroup the terms into states $v_l$ and $v_r$ and inputs $V_l$ and
     $V_r$.}
   \dot{v}_l &= \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_1 v_l +
-    \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_2 V_l +
-    \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_3 v_r +
+    \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_2 V_l \\
+  &\qquad + \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_3 v_r +
     \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_4 V_r \\
   \dot{v}_r &= \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_1 v_l +
-    \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_2 V_l +
-    \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_3 v_r +
+    \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_2 V_l \\
+  &\qquad + \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_3 v_r +
     \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_4 V_r
   \shortintertext{}
   \dot{v}_l &= \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_1 v_l +
-    \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_3 v_r +
-    \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_2 V_l +
+    \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_3 v_r \\
+  &\qquad + \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_2 V_l +
     \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_4 V_r \\
   \dot{v}_r &= \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_1 v_l +
-    \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_3 v_r +
-    \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_2 V_l +
+    \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_3 v_r \\
+  &\qquad + \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_2 V_l +
     \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_4 V_r
   \intertext{Factor out $v_l$ and $v_r$ into a column vector and $V_l$ and $V_r$
     into a column vector.}
@@ -61,7 +61,8 @@ By equations \eqref{eq:diff_drive_model_right} and
   \begin{bmatrix}
     v_l \\
     v_r
-  \end{bmatrix} +
+  \end{bmatrix} \\
+  &\qquad +
   \begin{bmatrix}
     \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_2 &
     \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_4 \\
@@ -75,18 +76,11 @@ By equations \eqref{eq:diff_drive_model_right} and
 \end{align*}
 \begin{theorem}[Differential drive velocity state-space model]
   \label{thm:diff_drive_velocity_state-space_model}
-  \begin{align*}
-    \dot{\mat{x}} &= \mat{A} \mat{x} + \mat{B} \mat{u} \\
-    \mat{y} &= \mat{C} \mat{x} + \mat{D} \mat{u}
-  \end{align*}
+  \begin{equation*}
+    \dot{\mat{x}} = \mat{A} \mat{x} + \mat{B} \mat{u}
+  \end{equation*}
   \begin{equation*}
     \mat{x} =
-    \begin{bmatrix}
-      v_l \\
-      v_r
-    \end{bmatrix}
-    \quad
-    \mat{y} =
     \begin{bmatrix}
       v_l \\
       v_r
@@ -98,26 +92,18 @@ By equations \eqref{eq:diff_drive_model_right} and
       V_r
     \end{bmatrix}
   \end{equation*}
-  \begin{equation}
-    \begin{array}{ll}
-      \mat{A} =
-      \begin{bmatrix}
-        \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_1 & \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_3 \\
-        \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_1 & \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_3
-      \end{bmatrix} &
-      \mat{B} =
-      \begin{bmatrix}
-        \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_2 & \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_4 \\
-        \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_2 & \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_4
-      \end{bmatrix} \\
-      \mat{C} =
-      \begin{bmatrix}
-        1 & 0 \\
-        0 & 1 \\
-      \end{bmatrix} &
-      \mat{D} = \mat{0}_{2 \times 2}
-    \end{array}
-  \end{equation}
+  \begin{align}
+    \mat{A} &=
+    \begin{bmatrix}
+      \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_1 & \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_3 \\
+      \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_1 & \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_3
+    \end{bmatrix} \\
+    \mat{B} &=
+    \begin{bmatrix}
+      \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_2 & \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_4 \\
+      \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_2 & \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_4
+    \end{bmatrix}
+  \end{align}
 
   where $C_1 = -\frac{G_l^2 K_t}{K_v R r^2}$, $C_2 = \frac{G_l K_t}{Rr}$,
   $C_3 = -\frac{G_r^2 K_t}{K_v R r^2}$, and $C_4 = \frac{G_r K_t}{Rr}$.
@@ -148,47 +134,41 @@ is defined as
 
 This gives the following linear model.
 \begin{theorem}[Differential drive heading state-space model]
-  \begin{align*}
-    \dot{\mat{x}} &= \mat{A}\mat{x} + \mat{B}\mat{u} \\
-    \mat{y} &= \mat{C}\mat{x} + \mat{D}\mat{u}
-  \end{align*}
+  \begin{equation*}
+    \dot{\mat{x}} = \mat{A}\mat{x} + \mat{B}\mat{u}
+  \end{equation*}
   \begin{equation*}
     \mat{x} =
     \begin{bmatrix}
-      \theta & v_l & v_r
-    \end{bmatrix}\T
-    \quad
-    \mat{y} =
-    \begin{bmatrix}
-      \theta & v_l & v_r
-    \end{bmatrix}\T
+      \theta \\
+      v_l \\
+      v_r
+    \end{bmatrix}
     \quad
     \mat{u} =
     \begin{bmatrix}
-      V_l & V_r
-    \end{bmatrix}\T
+      V_l \\
+      V_r
+    \end{bmatrix}
   \end{equation*}
-  \begin{equation}
-    \begin{array}{ll}
-      \mat{A} =
-      \begin{bmatrix}
-        0 & -\frac{1}{2r_b} & \frac{1}{2r_b} \\
-        0 & \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_1 &
-          \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_3 \\
-        0 & \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_1 &
-          \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_3
-      \end{bmatrix} &
-      \mat{B} =
-      \begin{bmatrix}
-        0 & 0 \\
-        \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_2 &
-        \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_4 \\
-        \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_2 &
-        \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_4
-      \end{bmatrix} \\
-      \mat{C} = \mat{I}_{3 \times 3} & \mat{D} = \mat{0}_{3 \times 2}
-    \end{array}
-  \end{equation}
+  \begin{align}
+    \mat{A} &=
+    \begin{bmatrix}
+      0 & -\frac{1}{2r_b} & \frac{1}{2r_b} \\
+      0 & \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_1 &
+        \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_3 \\
+      0 & \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_1 &
+        \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_3
+    \end{bmatrix} \\
+    \mat{B} &=
+    \begin{bmatrix}
+      0 & 0 \\
+      \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_2 &
+      \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_4 \\
+      \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_2 &
+      \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_4
+    \end{bmatrix}
+  \end{align}
 
   where $C_1 = -\frac{G_l^2 K_t}{K_v R r^2}$, $C_2 = \frac{G_l K_t}{Rr}$,
   $C_3 = -\frac{G_r^2 K_t}{K_v R r^2}$, and $C_4 = \frac{G_r K_t}{Rr}$. The
@@ -274,57 +254,47 @@ drive. To create an LQR, we need to linearize equation
 
 Therefore,
 \begin{theorem}[Linear time-varying differential drive state-space model]
-  \begin{align*}
-    \dot{\mat{x}} &= \mat{A}\mat{x} + \mat{B}\mat{u} \\
-    \mat{y} &= \mat{C}\mat{x} + \mat{D}\mat{u}
-  \end{align*}
+  \begin{equation*}
+    \dot{\mat{x}} = \mat{A}\mat{x} + \mat{B}\mat{u}
+  \end{equation*}
   \begin{equation*}
     \mat{x} =
     \begin{bmatrix}
-      x & y & \theta & v_l & v_r
-    \end{bmatrix}\T
-    \quad
-    \mat{y} =
-    \begin{bmatrix}
-      \theta & v_l & v_r
-    \end{bmatrix}\T
+      x \\
+      y \\
+      \theta \\
+      v_l \\
+      v_r
+    \end{bmatrix}
     \quad
     \mat{u} =
     \begin{bmatrix}
-      V_l & V_r
-    \end{bmatrix}\T
+      V_l \\
+      V_r
+    \end{bmatrix}
   \end{equation*}
-  \begin{equation}
-    \begin{array}{ll}
-      \mat{A} =
-      \begin{bmatrix}
-        0 & 0 & -vs & \frac{1}{2}c & \frac{1}{2}c \\
-        0 & 0 & vc & \frac{1}{2}s & \frac{1}{2}s \\
-        0 & 0 & 0 & -\frac{1}{2r_b} & \frac{1}{2r_b} \\
-        0 & 0 & 0 & \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_1 &
-          \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_3 \\
-        0 & 0 & 0 & \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_1 &
-          \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_3
-      \end{bmatrix} &
-      \mat{B} =
-      \begin{bmatrix}
-        0 & 0 \\
-        0 & 0 \\
-        0 & 0 \\
-        \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_2 &
-        \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_4 \\
-        \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_2 &
-        \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_4
-      \end{bmatrix} \\
-      \mat{C} =
-      \begin{bmatrix}
-        0 & 0 & 1 & 0 & 0 \\
-        0 & 0 & 0 & 1 & 0 \\
-        0 & 0 & 0 & 0 & 1
-      \end{bmatrix} &
-      \mat{D} = \mat{0}_{3 \times 2}
-    \end{array}
-  \end{equation}
+  \begin{align}
+    \mat{A} &=
+    \begin{bmatrix}
+      0 & 0 & -vs & \frac{1}{2}c & \frac{1}{2}c \\
+      0 & 0 & vc & \frac{1}{2}s & \frac{1}{2}s \\
+      0 & 0 & 0 & -\frac{1}{2r_b} & \frac{1}{2r_b} \\
+      0 & 0 & 0 & \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_1 &
+        \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_3 \\
+      0 & 0 & 0 & \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_1 &
+        \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_3
+    \end{bmatrix} \\
+    \mat{B} &=
+    \begin{bmatrix}
+      0 & 0 \\
+      0 & 0 \\
+      0 & 0 \\
+      \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_2 &
+      \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_4 \\
+      \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_2 &
+      \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_4
+    \end{bmatrix}
+  \end{align}
 
   where $v = \frac{v_l + v_r}{2}$, $c = \cos\theta$, $s = \sin\theta$,
   $C_1 = -\frac{G_l^2 K_t}{K_v R r^2}$, $C_2 = \frac{G_l K_t}{Rr}$,
@@ -466,11 +436,27 @@ around $\theta = 0$ at all times.
 
   Let the differential drive dynamics be of the form
   $\dot{\mat{x}} = f(\mat{x}) + \mat{B}\mat{u}$ where
-  $\mat{x} = \begin{bmatrix}x & y & \theta & v_l & v_r\end{bmatrix}\T$,
-  $\mat{u} = \begin{bmatrix}V_l & V_r\end{bmatrix}\T$, and
-  $\mat{A} = \left.\frac{\partial f(\mat{x})}{\partial\mat{x}}\right|_{\theta = 0}$.
-  \begin{equation}
+  \begin{equation*}
+    \mat{x} =
+    \begin{bmatrix}
+      x \\
+      y \\
+      \theta \\
+      v_l \\
+      v_r
+    \end{bmatrix}
+    \quad
+    \mat{u} =
+    \begin{bmatrix}
+      V_l \\
+      V_r
+    \end{bmatrix}
+    \quad
     \mat{A} =
+    \left.\frac{\partial f(\mat{x})}{\partial\mat{x}}\right|_{\theta = 0}
+  \end{equation*}
+  \begin{align}
+    \mat{A} &=
     \begin{bmatrix}
       0 & 0 & 0 & \frac{1}{2} & \frac{1}{2} \\
       0 & 0 & v & 0 & 0 \\
@@ -479,9 +465,8 @@ around $\theta = 0$ at all times.
         \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_3 \\
       0 & 0 & 0 & \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_1 &
         \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_3
-    \end{bmatrix}
-    \quad
-    \mat{B} =
+    \end{bmatrix} \\
+    \mat{B} &=
     \begin{bmatrix}
       0 & 0 \\
       0 & 0 \\
@@ -491,7 +476,7 @@ around $\theta = 0$ at all times.
       \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_2 &
       \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_4
     \end{bmatrix}
-  \end{equation}
+  \end{align}
 
   where $v = \frac{v_l + v_r}{2}$, $C_1 = -\frac{G_l^2 K_t}{K_v R r^2}$,
   $C_2 = \frac{G_l K_t}{Rr}$, $C_3 = -\frac{G_r^2 K_t}{K_v R r^2}$, and
@@ -584,8 +569,8 @@ have zeroes inserted where $x_l$ and $x_r$ are multiplied in.
 
 This produces the following linear subspace over
 $\mat{x} = \begin{bmatrix}v_l & v_r & x_l & x_r\end{bmatrix}\T$.
-\begin{equation}
-  \mat{A} =
+\begin{align}
+  \mat{A} &=
   \begin{bmatrix}
     \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_1 &
       \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_3 & 0 & 0 \\
@@ -593,9 +578,8 @@ $\mat{x} = \begin{bmatrix}v_l & v_r & x_l & x_r\end{bmatrix}\T$.
       \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_3 & 0 & 0 \\
     1 & 0 & 0 & 0 \\
     0 & 1 & 0 & 0
-  \end{bmatrix}
-  \quad
-  \mat{B} =
+  \end{bmatrix} \\
+  \mat{B} &=
   \begin{bmatrix}
     \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_2 &
       \left(\frac{1}{m} - \frac{r_b^2}{J}\right) C_4 \\
@@ -605,7 +589,7 @@ $\mat{x} = \begin{bmatrix}v_l & v_r & x_l & x_r\end{bmatrix}\T$.
     0 & 0
   \end{bmatrix}
   \label{eq:diff_drive_linear_subspace}
-\end{equation}
+\end{align}
 
 The measurement model for the complete nonlinear model is now
 $\mat{y} = \begin{bmatrix}\theta & x_l & x_r\end{bmatrix}\T$ instead of
@@ -632,8 +616,21 @@ The heading $u_{error}$ state is the heading error between what the wheel
 positions imply and the gyroscope measurement.
 
 The full state is thus
-$\mat{x} = \begin{bmatrix}x & y & \theta & v_l & v_r & x_l & x_r & u_{error,l} &
-  u_{error,r} & u_{error,heading}\end{bmatrix}\T$.
+\begin{equation*}
+  \mat{x} =
+  \begin{bmatrix}
+    x \\
+    y \\
+    \theta \\
+    v_l \\
+    v_r \\
+    x_l \\
+    x_r \\
+    u_{error,l} \\
+    u_{error,r} \\
+    u_{error,heading}
+  \end{bmatrix}
+\end{equation*}
 
 The complete nonlinear model is as follows. Let $v = \frac{v_l + v_r}{2}$. The
 three $u_{error}$ states augment the linear subspace, so the nonlinear pose

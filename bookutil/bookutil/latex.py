@@ -48,5 +48,5 @@ def savefig(filename):
     Keyword arguments:
     filename -- filename without the extension
     """
-    plt.savefig(filename + ".svg")
+    plt.savefig(filename + ".svg", bbox_inches="tight")
     convert_svg2pdf(filename)

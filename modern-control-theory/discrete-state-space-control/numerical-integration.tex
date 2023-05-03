@@ -46,33 +46,27 @@ The simplest explicit Runge-Kutta integration method is forward Euler
 integration. We don't recommend using it because it suffers from numerical
 stability issues. We'll demonstrate how to translate its Butcher tableau into
 equations that integrate $\dot{\mat{x}} = f(t, \mat{x})$ from $0$ to $h$.
-\begin{center}
-  \begin{minipage}{0.35\linewidth}
-    \centering
-    \begin{alignat*}{7}
-      \mat{k}_1 &= f(t +
-        && {\color{blue}0} h,
-        && \mat{x}_k)
-        && \\
-      \mat{x}_{k+1} &=
-        &&
-        && \mat{x}_k + h (
-        && {\color{deepgreen}1} \mat{k}_1)
-    \end{alignat*}
-  \end{minipage}
-  \quad
-  \begin{minipage}{0.35\linewidth}
-    \centering
-    \begin{equation*}
-      \renewcommand\arraystretch{1.2}
-      \begin{array}{c|c}
-        {\color{blue}0} \\
-        \hline
-        & {\color{deepgreen}1}
-      \end{array}
-    \end{equation*}
-  \end{minipage}
-\end{center}
+\begin{multicols}{2}
+  \begin{alignat*}{7}
+    \mat{k}_1 &= f(t +
+      && {\color{blue}0} h,
+      && \mat{x}_k)
+      && \\
+    \mat{x}_{k+1} &=
+      &&
+      && \mat{x}_k + h (
+      && {\color{deepgreen}1} \mat{k}_1)
+  \end{alignat*}
+  \columnbreak
+  \begin{equation*}
+    \renewcommand\arraystretch{1.2}
+    \begin{array}{c|c}
+      {\color{blue}0} \\
+      \hline
+      & {\color{deepgreen}1}
+    \end{array}
+  \end{equation*}
+\end{multicols}
 
 Remove zeroed out terms.
 \begin{align*}
@@ -92,26 +86,20 @@ integration method. This gives theorem \ref{thm:forward_euler}.
   Given the differential equation $\dot{\mat{x}} = f(\mat{x}_k, \mat{u}_k)$,
   this method solves for $\mat{x}_{k+1}$ at $h$ seconds in the future.
   $\mat{u}$ is assumed to be held constant between timesteps.
-  \begin{center}
-    \begin{minipage}{0.35\linewidth}
-      \centering
-      \begin{equation*}
-        \mat{x}_{k+1} = \mat{x}_k + h f(\mat{x}_k, \mat{u}_k)
-      \end{equation*}
-    \end{minipage}
-    \quad
-    \begin{minipage}{0.35\linewidth}
-      \centering
-      \begin{equation*}
-        \renewcommand\arraystretch{1.2}
-        \begin{array}{c|c}
-          0 \\
-          \hline
-          & 1
-        \end{array}
-      \end{equation*}
-    \end{minipage}
-  \end{center}
+  \begin{multicols}{2}
+    \begin{equation*}
+      \mat{x}_{k+1} = \mat{x}_k + h f(\mat{x}_k, \mat{u}_k)
+    \end{equation*}
+    \columnbreak
+    \begin{equation*}
+      \renewcommand\arraystretch{1.2}
+      \begin{array}{c|c}
+        0 \\
+        \hline
+        & 1
+      \end{array}
+    \end{equation*}
+  \end{multicols}
 \end{theorem}
 
 \subsection{Runge-Kutta fourth-order method}
@@ -121,63 +109,57 @@ The most common method we'll cover is Runge-Kutta fourth-order (RK4). It's
 simple and accurate for most systems we'll see in FRC. We'll demonstrate how to
 translate its Butcher tableau into equations that integrate
 $\dot{\mat{x}} = f(t, \mat{x})$ from $0$ to $h$.
-\begin{center}
-  \begin{minipage}{0.35\linewidth}
-    \centering
-    \begin{alignat*}{7}
-      \mat{k}_1 &= f(t +
-        && {\color{blue}0} h,
-        && \mat{x}_k)
-        &&
-        &&
-        &&
-        && \\
-      \mat{k}_2 &= f(t +
-        && {\color{blue}\frac{1}{2}} h,
-        && \mat{x}_k + h (
-        && {\color{deeporange}\frac{1}{2}} \mat{k}_1))
-        &&
-        &&
-        && \\
-      \mat{k}_3 &= f(t +
-        && {\color{blue}\frac{1}{2}} h,
-        && \mat{x}_k + h (
-        && {\color{deeporange}0} \mat{k}_1 +
-        && {\color{deeporange}\frac{1}{2}} \mat{k}_2))
-        &&
-        && \\
-      \mat{k}_4 &= f(t +
-        && {\color{blue}1} h,
-        && \mat{x}_k + h (
-        && {\color{deeporange}0} \mat{k}_1 +
-        && {\color{deeporange}0} \mat{k}_2 +
-        && {\color{deeporange}1} \mat{k}_3))
-        && \\
-      \mat{x}_{k+1} &=
-        &&
-        && \mat{x}_k + h (
-        && {\color{deepgreen}\frac{1}{6}} \mat{k}_1 +
-        && {\color{deepgreen}\frac{1}{3}} \mat{k}_2 +
-        && {\color{deepgreen}\frac{1}{3}} \mat{k}_3 +
-        && {\color{deepgreen}\frac{1}{6}} \mat{k}_4)
-    \end{alignat*}
-  \end{minipage}
-  \quad
-  \begin{minipage}{0.35\linewidth}
-    \centering
-    \begin{equation*}
-      \renewcommand\arraystretch{1.2}
-      \begin{array}{c|cccc}
-        {\color{blue}0} \\
-        {\color{blue}\frac{1}{2}} & {\color{deeporange}\frac{1}{2}} \\
-        {\color{blue}\frac{1}{2}} & {\color{deeporange}0}           & {\color{deeporange}\frac{1}{2}} \\
-        {\color{blue}1}           & {\color{deeporange}0}           & {\color{deeporange}0}           & {\color{deeporange}1} \\
-        \hline
-                                  & {\color{deepgreen}\frac{1}{6}}  & {\color{deepgreen}\frac{1}{3}}  & {\color{deepgreen}\frac{1}{3}} & {\color{deepgreen}\frac{1}{6}}
-      \end{array}
-    \end{equation*}
-  \end{minipage}
-\end{center}
+\begin{multicols}{2}
+  \begin{alignat*}{7}
+    \mat{k}_1 &= f(t +
+      && {\color{blue}0} h,
+      && \mat{x}_k)
+      &&
+      &&
+      &&
+      && \\
+    \mat{k}_2 &= f(t +
+      && {\color{blue}\frac{1}{2}} h,
+      && \mat{x}_k + h (
+      && {\color{deeporange}\frac{1}{2}} \mat{k}_1))
+      &&
+      &&
+      && \\
+    \mat{k}_3 &= f(t +
+      && {\color{blue}\frac{1}{2}} h,
+      && \mat{x}_k + h (
+      && {\color{deeporange}0} \mat{k}_1 +
+      && {\color{deeporange}\frac{1}{2}} \mat{k}_2))
+      &&
+      && \\
+    \mat{k}_4 &= f(t +
+      && {\color{blue}1} h,
+      && \mat{x}_k + h (
+      && {\color{deeporange}0} \mat{k}_1 +
+      && {\color{deeporange}0} \mat{k}_2 +
+      && {\color{deeporange}1} \mat{k}_3))
+      && \\
+    \mat{x}_{k+1} &=
+      &&
+      && \mat{x}_k + h (
+      && {\color{deepgreen}\frac{1}{6}} \mat{k}_1 +
+      && {\color{deepgreen}\frac{1}{3}} \mat{k}_2 +
+      && {\color{deepgreen}\frac{1}{3}} \mat{k}_3 +
+      && {\color{deepgreen}\frac{1}{6}} \mat{k}_4)
+  \end{alignat*}
+  \columnbreak
+  \begin{equation*}
+    \renewcommand\arraystretch{1.2}
+    \begin{array}{c|cccc}
+      {\color{blue}0} \\
+      {\color{blue}\frac{1}{2}} & {\color{deeporange}\frac{1}{2}} \\
+      {\color{blue}\frac{1}{2}} & {\color{deeporange}0}           & {\color{deeporange}\frac{1}{2}} \\
+      {\color{blue}1}           & {\color{deeporange}0}           & {\color{deeporange}0}           & {\color{deeporange}1} \\
+      \hline
+                                & {\color{deepgreen}\frac{1}{6}}  & {\color{deepgreen}\frac{1}{3}}  & {\color{deepgreen}\frac{1}{3}} & {\color{deepgreen}\frac{1}{6}}
+    \end{array}
+  \end{equation*}
+\end{multicols}
 
 Remove zeroed out terms.
 \begin{align*}
@@ -206,34 +188,28 @@ integration method. This gives theorem \ref{thm:rk4}.
   Given the differential equation $\dot{\mat{x}} = f(\mat{x}_k, \mat{u}_k)$,
   this method solves for $\mat{x}_{k+1}$ at $h$ seconds in the future.
   $\mat{u}$ is assumed to be held constant between timesteps.
-  \begin{center}
-    \begin{minipage}{0.35\linewidth}
-      \centering
-      \begin{align*}
-        \mat{k}_1 &= f(\mat{x}_k, \mat{u}_k) \\
-        \mat{k}_2 &= f(\mat{x}_k + h \frac{1}{2}\mat{k}_1, \mat{u}_k) \\
-        \mat{k}_3 &= f(\mat{x}_k + h \frac{1}{2}\mat{k}_2, \mat{u}_k) \\
-        \mat{k}_4 &= f(\mat{x}_k + h \mat{k}_3, \mat{u}_k) \\
-        \mat{x}_{k+1} &= \mat{x}_k + h \frac{1}{6} (\mat{k}_1 + 2\mat{k}_2 +
-          2\mat{k}_3 + \mat{k}_4)
-      \end{align*}
-    \end{minipage}
-    \quad
-    \begin{minipage}{0.35\linewidth}
-      \centering
-      \begin{equation*}
-        \renewcommand\arraystretch{1.2}
-        \begin{array}{c|cccc}
-          0 \\
-          \frac{1}{2} & \frac{1}{2} \\
-          \frac{1}{2} & 0 & \frac{1}{2} \\
-          1 & 0 & 0 & 1 \\
-          \hline
-          & \frac{1}{6} & \frac{1}{3} & \frac{1}{3} & \frac{1}{6}
-        \end{array}
-      \end{equation*}
-    \end{minipage}
-  \end{center}
+  \begin{multicols}{2}
+    \begin{align*}
+      \mat{k}_1 &= f(\mat{x}_k, \mat{u}_k) \\
+      \mat{k}_2 &= f(\mat{x}_k + h \frac{1}{2}\mat{k}_1, \mat{u}_k) \\
+      \mat{k}_3 &= f(\mat{x}_k + h \frac{1}{2}\mat{k}_2, \mat{u}_k) \\
+      \mat{k}_4 &= f(\mat{x}_k + h \mat{k}_3, \mat{u}_k) \\
+      \mat{x}_{k+1} &= \mat{x}_k + h \frac{1}{6} (\mat{k}_1 + 2\mat{k}_2 +
+        2\mat{k}_3 + \mat{k}_4)
+    \end{align*}
+    \columnbreak
+    \begin{equation*}
+      \renewcommand\arraystretch{1.2}
+      \begin{array}{c|cccc}
+        0 \\
+        \frac{1}{2} & \frac{1}{2} \\
+        \frac{1}{2} & 0 & \frac{1}{2} \\
+        1 & 0 & 0 & 1 \\
+        \hline
+        & \frac{1}{6} & \frac{1}{3} & \frac{1}{3} & \frac{1}{6}
+      \end{array}
+    \end{equation*}
+  \end{multicols}
 \end{theorem}
 
 Here's a reference implementation.
