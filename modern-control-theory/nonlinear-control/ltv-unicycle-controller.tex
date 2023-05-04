@@ -86,17 +86,29 @@ Therefore,
     v\sin\theta &
     \omega
   \end{bmatrix}\T$ where
-  $\mat{x} =
-  \begin{bmatrix}
-    x &
-    y &
-    \theta
-  \end{bmatrix}\T$ and
-  $\mat{u} =
-  \begin{bmatrix}
-    v &
-    \omega
-  \end{bmatrix}\T$.
+  \begin{equation*}
+    \mat{x} =
+    \begin{bmatrix}
+      x \\
+      y \\
+      \theta
+    \end{bmatrix} =
+    \begin{bmatrix}
+      \text{x position} \\
+      \text{y position} \\
+      \text{heading}
+    \end{bmatrix}
+    \quad
+    \mat{u} =
+    \begin{bmatrix}
+      v \\
+      \omega
+    \end{bmatrix} =
+    \begin{bmatrix}
+      \text{linear velocity} \\
+      \text{angular velocity}
+    \end{bmatrix}
+  \end{equation*}
   \begin{align*}
     \mat{A} &= \left.
       \frac{\partial f(\mat{x}, \mat{u})}{\partial\mat{x}}

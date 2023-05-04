@@ -84,12 +84,20 @@ By equations \eqref{eq:diff_drive_model_right} and
     \begin{bmatrix}
       v_l \\
       v_r
+    \end{bmatrix} =
+    \begin{bmatrix}
+      \text{left velocity} \\
+      \text{right velocity}
     \end{bmatrix}
     \quad
     \mat{u} =
     \begin{bmatrix}
       V_l \\
       V_r
+    \end{bmatrix} =
+    \begin{bmatrix}
+      \text{left voltage} \\
+      \text{right voltage}
     \end{bmatrix}
   \end{equation*}
   \begin{align}
@@ -143,12 +151,21 @@ This gives the following linear model.
       \theta \\
       v_l \\
       v_r
+    \end{bmatrix} =
+    \begin{bmatrix}
+      \text{heading} \\
+      \text{left velocity} \\
+      \text{right velocity}
     \end{bmatrix}
     \quad
     \mat{u} =
     \begin{bmatrix}
       V_l \\
       V_r
+    \end{bmatrix} =
+    \begin{bmatrix}
+      \text{left voltage} \\
+      \text{right voltage}
     \end{bmatrix}
   \end{equation*}
   \begin{align}
@@ -265,12 +282,23 @@ Therefore,
       \theta \\
       v_l \\
       v_r
+    \end{bmatrix} =
+    \begin{bmatrix}
+      \text{x position} \\
+      \text{y position} \\
+      \text{heading} \\
+      \text{left velocity} \\
+      \text{right velocity}
     \end{bmatrix}
     \quad
     \mat{u} =
     \begin{bmatrix}
       V_l \\
       V_r
+    \end{bmatrix} =
+    \begin{bmatrix}
+      \text{left voltage} \\
+      \text{right voltage}
     \end{bmatrix}
   \end{equation*}
   \begin{align}
@@ -444,19 +472,28 @@ around $\theta = 0$ at all times.
       \theta \\
       v_l \\
       v_r
+    \end{bmatrix} =
+    \begin{bmatrix}
+      \text{x position} \\
+      \text{y position} \\
+      \text{heading} \\
+      \text{left velocity} \\
+      \text{right velocity}
     \end{bmatrix}
     \quad
     \mat{u} =
     \begin{bmatrix}
       V_l \\
       V_r
+    \end{bmatrix} =
+    \begin{bmatrix}
+      \text{left voltage} \\
+      \text{right voltage}
     \end{bmatrix}
-    \quad
-    \mat{A} =
-    \left.\frac{\partial f(\mat{x})}{\partial\mat{x}}\right|_{\theta = 0}
   \end{equation*}
   \begin{align}
     \mat{A} &=
+    \left.\frac{\partial f(\mat{x})}{\partial\mat{x}}\right|_{\theta = 0} =
     \begin{bmatrix}
       0 & 0 & 0 & \frac{1}{2} & \frac{1}{2} \\
       0 & 0 & v & 0 & 0 \\

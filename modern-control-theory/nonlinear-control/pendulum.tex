@@ -109,29 +109,3 @@ would use in this case is
   \mat{y} &= 1\theta + 0\omega \\
   \mat{y} &= \theta
 \end{align*}
-\begin{theorem}[Linear time-varying pendulum state-space model with no input]
-  \begin{align*}
-    \dot{\mat{x}} &= \mat{A} \mat{x} \\
-    \mat{y} &= \mat{C} \mat{x}
-  \end{align*}
-  \begin{equation*}
-    \mat{x} =
-    \begin{bmatrix}
-      \theta \\
-      \omega
-    \end{bmatrix}
-    \quad
-    \mat{y} = \theta
-  \end{equation*}
-  \begin{align}
-    \mat{A} &=
-    \begin{bmatrix}
-      0 & 1 \\
-      -\frac{g}{l}\cos\theta & 0
-    \end{bmatrix} \\
-    \mat{C} &=
-    \begin{bmatrix}
-      1 & 0
-    \end{bmatrix}
-  \end{align}
-\end{theorem}
