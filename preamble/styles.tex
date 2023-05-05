@@ -320,10 +320,12 @@
 \def\@part[#1]#2{%
   \ifnum \c@secnumdepth >-2\relax%
     \refstepcounter{part}%
+    \NR@gettitle{#1}%
     \addcontentsline{toc}{part}{%
       \texorpdfstring{\protect\@mypartnumtocformat{\thepart}{#1}}{%
         \partname~\thepart\ ---\ #1}}
   \else%
+    \NR@gettitle{#1}%
     \addcontentsline{toc}{part}{%
       \texorpdfstring{\protect\@myparttocformat{#1}}{#1}}%
   \fi%
@@ -372,6 +374,7 @@
     };
   \end{tikzpicture}%
   }
+  \NR@gettitle{#1}%
   \addcontentsline{toc}{part}{\texorpdfstring{%
     \setlength\fboxsep{0pt}%
     \noindent\protect\colorbox{themecolor!40}{%
