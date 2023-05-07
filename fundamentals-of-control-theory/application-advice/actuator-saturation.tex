@@ -1,11 +1,12 @@
 \section{Actuator saturation}
 \index{controller design!actuator saturation}
 
-A controller calculates its output based on the error between the
+A feedback controller calculates its output based on the error between the
 \gls{reference} and the current \gls{state}. \Gls{plant} in the real world don't
-have unlimited control authority available for the controller to apply. When the
-actuator limits are reached, the controller acts as if the gain has been
-temporarily reduced.
+have unlimited control authority available for the feedback controller to apply.
+When the actuator limits are reached, the feedback controller acts as if the
+gain has been temporarily reduced (i.e., it will have reduced control
+authority).
 
 We'll try to explain this through a bit of math. Let's say we have a controller
 $u = k(r - x)$ where $u$ is the \gls{control effort}, $k$ is the gain, $r$ is
