@@ -2,7 +2,7 @@
 name = "bookutil"
 description = "Utility functions for controls book"
 version = "0.0.1"
-dependencies = [ "frccontrol" ]
+dependencies = [ "matplotlib" ]
 
   [project.license]
   text = "BSD License"
