@@ -1,0 +1,19 @@
+[project]
+name = "bookutil"
+description = "Utility functions for controls book"
+version = "0.0.1"
+dependencies = [ "frccontrol" ]
+
+  [project.license]
+  text = "BSD License"
+
+  [[project.authors]]
+  name = "Tyler Veness"
+  email = "calcmogul@gmail.com"
+
+  [project.urls]
+  Homepage = "https://github.com/calcmogul/controls-engineering-in-frc"
+
+[build-system]
+requires = [ "setuptools>=61.0" ]
+build-backend = "setuptools.build_meta"
