@@ -39,12 +39,12 @@ printer: $(NAME)-printer.pdf
 $(NAME)-ebook.pdf: $(TEX) $(NAME)-ebook.tex $(CPP_EXE) $(PY_STAMP) \
 		$(BIB) $(EBOOK_IMGS) $(SNIPPETS) build/commit-date.tex \
 		build/commit-year.tex build/commit-hash.tex
-	latexmk -interaction=nonstopmode -xelatex $(NAME)-ebook
+	latexmk -interaction=nonstopmode -xelatex -shell-escape $(NAME)-ebook
 
 $(NAME)-printer.pdf: $(TEX) $(NAME)-printer.tex $(CPP_EXE) $(PY_STAMP) \
 		$(BIB) $(PRINTER_IMGS) $(SNIPPETS) build/commit-date.tex \
 		build/commit-year.tex build/commit-hash.tex
-	latexmk -interaction=nonstopmode -xelatex $(NAME)-printer
+	latexmk -interaction=nonstopmode -xelatex -shell-escape $(NAME)-printer
 
 $(EBOOK_IMGS): build/controls-engineering-in-frc-ebook/%.jpg: %.jpg
 	@mkdir -p $(@D)
@@ -84,7 +84,7 @@ build/venv.stamp:
 	@mkdir -p $(@D)
 	python3 setup_venv.py
 	$(VENV_PIP) install -e ./bookutil
-	$(VENV_PIP) install frccontrol==2023.28 pylint requests robotpy-wpimath==2023.4.2
+	$(VENV_PIP) install frccontrol==2023.28 pylint qrcode requests robotpy-wpimath==2023.4.2
 	@touch $@
 
 $(CPP_EXE): build/%: %.cpp build/venv.stamp
@@ -168,6 +168,7 @@ setup_archlinux:
 		python-black \
 		python-pip \
 		python-pylint \
+		python-qrcode \
 		python-requests \
 		python-wheel \
 		texlive-bibtexextra \
@@ -199,7 +200,7 @@ setup_ubuntu:
 		texlive-latex-extra \
 		texlive-xetex
 # The Ubuntu 22.04 packages are too old
-	pip3 install --user autoflake black pylint
+	pip3 install --user autoflake black pylint qrcode
 
 .PHONY: setup_macos
 setup_macos:
@@ -233,4 +234,4 @@ setup_macos:
 		was \
 		xfor \
 		zref
-	pip3 install --user autoflake black pylint requests wheel
+	pip3 install --user autoflake black pylint qrcode requests wheel

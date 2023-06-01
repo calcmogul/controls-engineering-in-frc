@@ -144,6 +144,15 @@
     \draw[themecolor,rotate=-45] (-0.1,-0.0025) rectangle (0.1,0.0025);
   \end{scope}}
 
+% QR code
+%
+% #1 (optional): arguments for \includegraphics (e.g., width=2cm)
+% #2: URL
+\makeatletter
+\DeclareRobustCommand{\qrcode}[2][width=2cm]{\hyper@normalise\@qrcode{#1}{#2}}
+\def\@qrcode#1#2{\input{|"snippets/qrcode_to_png.py #1 #2"}}
+\makeatother
+
 % Set custom \cleardoublepage
 \makeatletter
 \newcommand{\setcleardoublepage}{%
