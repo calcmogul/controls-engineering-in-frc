@@ -144,6 +144,7 @@ clean: clean_tex
 .PHONY: clean_tex
 clean_tex:
 	latexmk -xelatex -C
+	rm -f build/qrcode_*.png
 	rm -f controls-engineering-in-frc-*.pdf
 
 .PHONY: upload
