@@ -14,11 +14,12 @@ def main():
     try:
         includegraphics_args = sys.argv[1]
         url = sys.argv[2]
+        output_dir = sys.argv[3]
 
         filename = (
             # Add directory prefix
             os.path.join(
-                "build",
+                output_dir,
                 # Add filename prefix
                 "qrcode_" +
                 # Normalize URL
