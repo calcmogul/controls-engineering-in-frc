@@ -144,8 +144,7 @@ clean: clean_tex
 .PHONY: clean_tex
 clean_tex:
 	latexmk -xelatex -C
-	rm -f build/controls-engineering-in-frc-ebook/qrcode_*.png
-	rm -f build/controls-engineering-in-frc-printer/qrcode_*.png
+	rm -f build/controls-engineering-in-frc-*/qrcode_*.png
 	rm -f controls-engineering-in-frc-*.pdf
 
 .PHONY: upload
