@@ -82,112 +82,13 @@ installed to see the plots.
 
 ## Compiling the book
 
-After installing the dependencies, just run `make`. It will produce a PDF named
-controls-engineering-in-frc.pdf.
+Install the dependencies via one of the following commands:
 
-### Dependencies
+* `make setup_archlinux`
+* `make setup_ubuntu`
+* `make setup_macos`
 
-To compile the book, the following packages are required.
-
-#### Arch Linux
-
-These can be installed via `make setup_archlinux`.
-
-* pacman packages (via `sudo pacman -Sy`)
-  * base-devel (for `make` to run the makefile)
-  * biber (for generating bibliography)
-  * clang (for clang-format to format C++ code snippets)
-  * cmake (for building C++ plot generators)
-  * imagemagick (to compress JPEGs)
-  * inkscape (to convert SVGs to PDFs)
-  * perl-clone (for Clone.pm needed by biber)
-  * python >= 3.6 (for generating plots)
-  * python-black (to format Python source code)
-  * python-pip (for installing required Python packages)
-  * python-pylint (for Python linting)
-  * python-requests (for .tex HTTP link checker)
-  * python-wheel (for "setup.py bdist_wheel")
-  * texlive-bibtexextra (for additional BibTeX styles and bibliography databases)
-  * texlive-core (for latexmk and xelatex)
-  * texlive-latexextra (for bibtex and makeglossaries)
-
-#### Ubuntu
-
-These can be installed via `make setup_ubuntu`.
-
-* apt packages (via `sudo apt install`)
-  * biber (for generating bibliography)
-  * build-essential (for `make` to run the makefile)
-  * cm-super (for type1ec.sty)
-  * clang-format (to format C++ code snippets)
-  * cmake (for building C++ plot generators)
-  * dvipng (to convert DVIs to PNGs)
-  * imagemagick (to compress JPEGs)
-  * inkscape (to convert SVGs to PDFs)
-  * latexmk
-  * python3 >= 3.6 (for generating plots)
-  * python3-pip (for installing required Python packages)
-  * python3-requests (for .tex HTTP link checker)
-  * python3-setuptools (for dependencies of setup.py)
-  * python3-wheel (for "setup.py bdist_wheel")
-  * texlive-base (for latexmk)
-  * texlive-bibtex-extra (for additional BibTeX styles and bibliography databases)
-  * texlive-generic-extra (for miscellaneous LaTeX .sty files)
-  * texlive-latex-extra (for bibtex and makeglossaries)
-  * texlive-xetex (for xelatex)
-* Python packages (via `pip3 install --user`)
-  * black (to format Python source code)
-  * pylint (for Python linting)
-
-#### macOS
-
-These can be installed via `make setup_macos`.
-
-* brew packages (via `brew install`)
-  * basictex (for xelatex)
-  * clang-format (to format C++ code snippets)
-  * cmake (for building C++ plot generators)
-  * imagemagick (to compress JPEGs)
-  * inkscape (to convert SVGs to PDFs)
-  * python@3.10 (for generating plots)
-* Python packages (via `pip3 install --user`)
-  * black (to format Python source code)
-  * pylint (for Python linting)
-* tlmgr packages (via `sudo tlmgr install`)
-  * biber (for generating bibliography)
-  * biblatex (for generating bibliography)
-  * cm-super (for type1ec.sty)
-  * csquotes (used by textcomp package)
-  * datatool (used by xfor package)
-  * enumitem (customize lists)
-  * footmisc (used by gensymb)
-  * gensymb
-  * glossaries (for makeglossaries command)
-  * glossaries-english (english language module for glossaries package)
-  * imakeidx (used by listings package)
-  * latexmk
-  * mdframed (for creating the theorem, definition, exercise, and corollary
-    boxes)
-  * mfirstuc (used by glossaries package)
-  * needspace (used by zref package)
-  * placeins (used by subcaption package)
-  * titlesec (for titletoc package)
-  * tracklang (used by glossaries package)
-  * type1cm (for type1cm.sty)
-  * was (for gensymb package)
-  * xfor (used by textcase package)
-  * zref (used by mdframed package)
-
-#### Python packages
-
-These packages are installed via pip3 (e.g., `pip3 install --user frccontrol`).
-
-* frccontrol (to provide FRC wrappers for scipy and generate plots and
-  state-space results)
-
-The book's build process automatically sets these up in a venv so they don't
-have to be installed manually. Modifications to the Python package folders in
-`build` will be reflected in any scripts which use the venv.
+Run `make` to generate a PDF named controls-engineering-in-frc-ebook.pdf.
 
 ### Style guide
 
