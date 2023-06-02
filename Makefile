@@ -36,6 +36,9 @@ ebook: $(NAME)-ebook.pdf
 .PHONY: printer
 printer: $(NAME)-printer.pdf
 
+.PHONY: figures
+figures: $(CPP_EXE) $(PY_STAMP)
+
 $(NAME)-ebook.pdf: $(TEX) $(NAME)-ebook.tex $(CPP_EXE) $(PY_STAMP) \
 		$(BIB) $(EBOOK_IMGS) $(SNIPPETS) build/commit-date.tex \
 		build/commit-year.tex build/commit-hash.tex
