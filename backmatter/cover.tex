@@ -2,12 +2,44 @@
 \begingroup
 \thispagestyle{empty}
 \begin{tikzpicture}[remember picture,overlay]
-  \ifusechapterimage
-    \node[inner sep=0pt] (background) at (current page.center) {%
+  \node[inner sep=0pt] (background) at (current page.center) {%
+    \ifusechapterimage
       \reflectbox{%
-        \includegraphics[width=\paperwidth,height=\paperheight]{cover.jpg}}};
-  \else
-    \node[inner sep=0pt] (background) at (current page.center) {};
-  \fi
+        \includegraphics[width=\paperwidth,height=\paperheight]{cover.jpg}%
+      }%
+    \fi
+  };
+  \draw (current page.center) node%
+    [fill=coverblue!30!white,fill opacity=0.6,text opacity=1,inner sep=1cm] {%
+    \parbox[c][][t]{\paperwidth - 1cm * 2} {%
+      \normalsize\sffamily
+      When I was a high school student on FIRST Robotics Competition (FRC) team
+      3512, I had to learn control theory from scattered internet sources that
+      either weren't rigorous enough or assumed too much prior knowledge. After
+      I took graduate-level control theory courses from University of
+      California, Santa Cruz for my bachelor's degree, I realized that the
+      concepts weren't difficult when presented well, but the information wasn't
+      broadly accessible outside academia. \\
+
+      I wanted to fix the information disparity so more people could appreciate
+      the beauty and elegance I saw in control theory. This book streamlines the
+      learning process to make that possible. \\
+
+      I wrote the initial draft of this book as a final project for an
+      undergraduate technical writing class I took at UCSC in Spring 2017 (CMPE
+      185). It was a 13-page IEEE-formatted paper intended as a reference manual
+      and guide to state-space control that summarized the three graduate
+      controls classes I had taken that year. I kept working on it the following
+      year to flesh it out, and it eventually became long enough to make into a
+      proper book. I've been adding to it ever since as I learn new things. \\
+
+      I contextualized the material within FRC because it's always been a
+      significant part of my life, and it's a useful application sandbox. I
+      maintain implementations of many of this book's tools in the FRC standard
+      library (WPILib). \\
+
+      -- Tyler Veness
+    }%
+  };
 \end{tikzpicture}
 \endgroup

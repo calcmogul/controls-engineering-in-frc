@@ -1,11 +1,17 @@
 \begingroup
 \thispagestyle{empty}
 \begin{tikzpicture}[remember picture,overlay]
-  \draw (current page.center) node%
-    {\Huge\centering\bfseries\sffamily\parbox[c][][t]{\paperwidth}%
-    {\centering \bookdisplaytitle\\[15pt] % Book title
-  {\Large Graduate-level control theory for high schoolers}\\[20pt] % Subtitle
-  {\huge \bookauthor}}}; % Author name
+  \draw (current page.center) node {%
+    \parbox[c][][t]{\paperwidth - 1cm * 2} {%
+      \centering\Huge\bfseries\sffamily
+      % Book title
+      \bookdisplaytitle \\[15pt]
+      % Subtitle
+      {\Large Graduate-level control theory for high schoolers} \\[20pt]
+      % Author name
+      {\huge \bookauthor}%
+    }%
+  };
 \end{tikzpicture}
 \vfill
 \endgroup

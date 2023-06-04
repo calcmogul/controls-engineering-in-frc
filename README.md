@@ -22,9 +22,9 @@ eventually became long enough to make into a proper book. I've been adding to it
 ever since as I learn new things.
 
 I contextualized the material within FRC because it's always been a significant
-part of my life, and it's a useful application sandbox. I've since contributed
-implementations of many of this book's tools to the FRC standard library
-([WPILib](https://github.com/wpilibsuite/allwpilib)) and maintain them.
+part of my life, and it's a useful application sandbox. I maintain
+implementations of many of this book's tools in the FRC standard library
+([WPILib](https://github.com/wpilibsuite/allwpilib)).
 
 ## Download
 
