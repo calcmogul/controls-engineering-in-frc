@@ -2,42 +2,42 @@
 
 Let the linear and angular voltage contributions be
 \begin{align*}
-  u_{linear} &= K_{v,linear} v + K_{a,linear} a \\
-  u_{angular} &= K_{v,angular} \omega + K_{a,angular} \alpha
+  u_{lin} &= K_{v,lin} v + K_{a,lin} a \\
+  u_{ang} &= K_{v,ang} \omega + K_{a,ang} \alpha
 \end{align*}
 
 Solve for acceleration.
 \begin{align*}
-  a &= -\frac{K_{v,linear}}{K_{a,linear}} v + \frac{1}{K_{a,linear}} u_{linear} \\
-  \alpha &= -\frac{K_{v,angular}}{K_{a,angular}} \omega + \frac{1}{K_{a,angular}} u_{linear}
+  a &= -\frac{K_{v,lin}}{K_{a,lin}} v + \frac{1}{K_{a,lin}} u_{lin} \\
+  \alpha &= -\frac{K_{v,ang}}{K_{a,ang}} \omega + \frac{1}{K_{a,ang}} u_{lin}
 \end{align*}
 
 Factor them into a matrix equation.
 \begin{equation*}
   \dot{\mat{x}} =
   \begin{bmatrix}
-    -\frac{K_{v,linear}}{K_{a,linear}} & 0 \\
-    0 & -\frac{K_{v,angular}}{K_{a,angular}}
+    -\frac{K_{v,lin}}{K_{a,lin}} & 0 \\
+    0 & -\frac{K_{v,ang}}{K_{a,ang}}
   \end{bmatrix}
   \begin{bmatrix}
     v \\
     \omega
   \end{bmatrix} +
   \begin{bmatrix}
-    \frac{1}{K_{a,linear}} & 0 \\
-    0 & \frac{1}{K_{a,angular}}
+    \frac{1}{K_{a,lin}} & 0 \\
+    0 & \frac{1}{K_{a,ang}}
   \end{bmatrix}
   \begin{bmatrix}
-    u_{linear} \\
-    u_{angular}
+    u_{lin} \\
+    u_{ang}
   \end{bmatrix}
 \end{equation*}
 
 We want to write this model in terms of left and right voltages. The linear and
 angular voltages have the following relations.
 \begin{align*}
-  u_{left} &= u_{linear} - u_{angular} \\
-  u_{right} &= u_{linear} + u_{angular}
+  u_{left} &= u_{lin} - u_{ang} \\
+  u_{right} &= u_{lin} + u_{ang}
 \end{align*}
 
 Factor them into a matrix equation, then solve for the linear and angular
@@ -52,12 +52,12 @@ voltages.
     1 & 1
   \end{bmatrix}
   \begin{bmatrix}
-    u_{linear} \\
-    u_{angular}
+    u_{lin} \\
+    u_{ang}
   \end{bmatrix} \\
   \begin{bmatrix}
-    u_{linear} \\
-    u_{angular}
+    u_{lin} \\
+    u_{ang}
   \end{bmatrix} &=
   \begin{bmatrix}
     0.5 & 0.5 \\
@@ -73,16 +73,16 @@ Plug this into the model input.
 \begin{align*}
   \dot{\mat{x}} &=
   \begin{bmatrix}
-    -\frac{K_{v,linear}}{K_{a,linear}} & 0 \\
-    0 & -\frac{K_{v,angular}}{K_{a,angular}}
+    -\frac{K_{v,lin}}{K_{a,lin}} & 0 \\
+    0 & -\frac{K_{v,ang}}{K_{a,ang}}
   \end{bmatrix}
   \begin{bmatrix}
     v \\
     \omega
   \end{bmatrix} +
   \begin{bmatrix}
-    \frac{1}{K_{a,linear}} & 0 \\
-    0 & \frac{1}{K_{a,angular}}
+    \frac{1}{K_{a,lin}} & 0 \\
+    0 & \frac{1}{K_{a,ang}}
   \end{bmatrix}
   \begin{bmatrix}
     0.5 & 0.5 \\
@@ -94,16 +94,16 @@ Plug this into the model input.
   \end{bmatrix} \\
   \dot{\mat{x}} &=
   \begin{bmatrix}
-    -\frac{K_{v,linear}}{K_{a,linear}} & 0 \\
-    0 & -\frac{K_{v,angular}}{K_{a,angular}}
+    -\frac{K_{v,lin}}{K_{a,lin}} & 0 \\
+    0 & -\frac{K_{v,ang}}{K_{a,ang}}
   \end{bmatrix}
   \begin{bmatrix}
     v \\
     \omega
   \end{bmatrix} +
   \begin{bmatrix}
-    \frac{0.5}{K_{a,linear}} & \frac{0.5}{K_{a,linear}} \\
-    -\frac{0.5}{K_{a,angular}} & \frac{0.5}{K_{a,angular}}
+    \frac{0.5}{K_{a,lin}} & \frac{0.5}{K_{a,lin}} \\
+    -\frac{0.5}{K_{a,ang}} & \frac{0.5}{K_{a,ang}}
   \end{bmatrix}
   \begin{bmatrix}
     u_{left} \\
@@ -130,16 +130,16 @@ Plug this into the model input.
   \begin{equation*}
     \dot{\mat{x}} =
     \begin{bmatrix}
-      -\frac{K_{v,linear}}{K_{a,linear}} & 0 \\
-      0 & -\frac{K_{v,angular}}{K_{a,angular}}
+      -\frac{K_{v,lin}}{K_{a,lin}} & 0 \\
+      0 & -\frac{K_{v,ang}}{K_{a,ang}}
     \end{bmatrix} \mat{x} +
     \begin{bmatrix}
-      \frac{0.5}{K_{a,linear}} & \frac{0.5}{K_{a,linear}} \\
-      -\frac{0.5}{K_{a,angular}} & \frac{0.5}{K_{a,angular}}
+      \frac{0.5}{K_{a,lin}} & \frac{0.5}{K_{a,lin}} \\
+      -\frac{0.5}{K_{a,ang}} & \frac{0.5}{K_{a,ang}}
     \end{bmatrix} \mat{u}
   \end{equation*}
 
-  $K_{v,angular}$ and $K_{a,angular}$ have units of $\frac{V}{A/T}$ and
+  $K_{v,ang}$ and $K_{a,ang}$ have units of $\frac{V}{A/T}$ and
   $\frac{V}{A/T^2}$ respectively where $V$ means voltage units, $A$ means angle
   units, and $T$ means time units.
 \end{theorem}

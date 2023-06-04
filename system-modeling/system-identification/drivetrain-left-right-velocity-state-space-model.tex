@@ -34,9 +34,11 @@ the model has the form
   \end{bmatrix}
 \end{equation*}
 
-Let $\mat{u} =
+Let $K_{v,lin}$ be the linear velocity gain, $K_{a,lin}$ be the linear
+acceleration gain, $K_{v,ang}$ be the angular velocity gain, and $K_{a,ang}$ be
+the angular acceleration gain. Let $\mat{u} =
 \begin{bmatrix}
-  K_{v,linear} v & K_{v,linear} v
+  K_{v,lin} v & K_{v,lin} v
 \end{bmatrix}\T$ be the input that makes both sides of the drivetrain move at a
 constant velocity $v$. Therefore, $\mat{x} =
 \begin{bmatrix}
@@ -63,8 +65,8 @@ constant velocity $v$. Therefore, $\mat{x} =
     B_2 & B_1
   \end{bmatrix}
   \begin{bmatrix}
-    K_{v,linear} v \\
-    K_{v,linear} v
+    K_{v,lin} v \\
+    K_{v,lin} v
   \end{bmatrix}
   \intertext{Since the column vectors contain the same element, the elements in
     the second row can be rearranged.}
@@ -85,8 +87,8 @@ constant velocity $v$. Therefore, $\mat{x} =
     B_1 & B_2
   \end{bmatrix}
   \begin{bmatrix}
-    K_{v,linear} v \\
-    K_{v,linear} v
+    K_{v,lin} v \\
+    K_{v,lin} v
   \end{bmatrix}
   \intertext{Since the rows are linearly dependent, we can use just one of
     them.}
@@ -96,10 +98,10 @@ constant velocity $v$. Therefore, $\mat{x} =
     \end{bmatrix} v +
     \begin{bmatrix}
       B_1 & B_2
-    \end{bmatrix} K_{v,linear} v \\
+    \end{bmatrix} K_{v,lin} v \\
   0 &=
     \begin{bmatrix}
-      v & v & K_{v,linear} v & K_{v,linear} v
+      v & v & K_{v,lin} v & K_{v,lin} v
     \end{bmatrix}
     \begin{bmatrix}
       A_1 \\
@@ -109,7 +111,7 @@ constant velocity $v$. Therefore, $\mat{x} =
     \end{bmatrix} \\
   0 &=
     \begin{bmatrix}
-      1 & 1 & K_{v,linear} & K_{v,linear}
+      1 & 1 & K_{v,lin} & K_{v,lin}
     \end{bmatrix}
     \begin{bmatrix}
       A_1 \\
@@ -121,7 +123,7 @@ constant velocity $v$. Therefore, $\mat{x} =
 
 Let $\mat{u} =
 \begin{bmatrix}
-  K_{v,linear} v + K_{a,linear} a & K_{v,linear} v + K_{a,linear} a
+  K_{v,lin} v + K_{a,lin} a & K_{v,lin} v + K_{a,lin} a
 \end{bmatrix}\T$ be the input that accelerates both sides of the drivetrain by
 $a$ from an initial velocity of $v$. Therefore, $\mat{x} =
 \begin{bmatrix}
@@ -148,8 +150,8 @@ $a$ from an initial velocity of $v$. Therefore, $\mat{x} =
     B_2 & B_1
   \end{bmatrix}
   \begin{bmatrix}
-    K_{v,linear} v + K_{a,linear} a \\
-    K_{v,linear} v + K_{a,linear} a
+    K_{v,lin} v + K_{a,lin} a \\
+    K_{v,lin} v + K_{a,lin} a
   \end{bmatrix}
   \intertext{Since the column vectors contain the same element, the elements in
     the second row can be rearranged.}
@@ -170,8 +172,8 @@ $a$ from an initial velocity of $v$. Therefore, $\mat{x} =
     B_1 & B_2
   \end{bmatrix}
   \begin{bmatrix}
-    K_{v,linear} v + K_{a,linear} a \\
-    K_{v,linear} v + K_{a,linear} a
+    K_{v,lin} v + K_{a,lin} a \\
+    K_{v,lin} v + K_{a,lin} a
   \end{bmatrix}
   \intertext{Since the rows are linearly dependent, we can use just one of
     them.}
@@ -183,11 +185,11 @@ $a$ from an initial velocity of $v$. Therefore, $\mat{x} =
       B_1 & B_2
     \end{bmatrix}
     \begin{bmatrix}
-      K_{v,linear} v + K_{a,linear} a
+      K_{v,lin} v + K_{a,lin} a
     \end{bmatrix} \\
   a &=
     \begin{bmatrix}
-      v & v & K_{v,linear} v + K_{a,linear} a & K_{v,linear} + K_{a,linear} a
+      v & v & K_{v,lin} v + K_{a,lin} a & K_{v,lin} + K_{a,lin} a
     \end{bmatrix}
     \begin{bmatrix}
       A_1 \\
@@ -199,7 +201,7 @@ $a$ from an initial velocity of $v$. Therefore, $\mat{x} =
 
 Let $\mat{u} =
 \begin{bmatrix}
-  -K_{v,angular} v & K_{v,angular} v
+  -K_{v,ang} v & K_{v,ang} v
 \end{bmatrix}\T$ be the input that rotates the drivetrain in place where each
 wheel has a constant velocity $v$. Therefore, $\mat{x} =
 \begin{bmatrix}
@@ -226,8 +228,8 @@ wheel has a constant velocity $v$. Therefore, $\mat{x} =
       B_2 & B_1
     \end{bmatrix}
     \begin{bmatrix}
-      -K_{v,angular} v \\
-      K_{v,angular} v
+      -K_{v,ang} v \\
+      K_{v,ang} v
     \end{bmatrix} \\
   \begin{bmatrix}
     0 \\
@@ -246,8 +248,8 @@ wheel has a constant velocity $v$. Therefore, $\mat{x} =
       -B_2 & B_1
     \end{bmatrix}
     \begin{bmatrix}
-      K_{v,angular} v \\
-      K_{v,angular} v
+      K_{v,ang} v \\
+      K_{v,ang} v
     \end{bmatrix} \\
   \begin{bmatrix}
     0 \\
@@ -266,8 +268,8 @@ wheel has a constant velocity $v$. Therefore, $\mat{x} =
       B_1 & -B_2
     \end{bmatrix}
     \begin{bmatrix}
-      K_{v,angular} v \\
-      K_{v,angular} v
+      K_{v,ang} v \\
+      K_{v,ang} v
     \end{bmatrix}
   \intertext{Since the column vectors contain the same element, the elements in
     the second row can be rearranged.}
@@ -288,8 +290,8 @@ wheel has a constant velocity $v$. Therefore, $\mat{x} =
     -B_1 & B_2
   \end{bmatrix}
   \begin{bmatrix}
-    K_{v,angular} v \\
-    K_{v,angular} v
+    K_{v,ang} v \\
+    K_{v,ang} v
   \end{bmatrix}
   \intertext{Since the rows are linearly dependent, we can use just one of
     them.}
@@ -299,11 +301,11 @@ wheel has a constant velocity $v$. Therefore, $\mat{x} =
     \end{bmatrix} v +
     \begin{bmatrix}
       -B_1 & B_2
-    \end{bmatrix} K_{v,angular} v \\
-  0 &= -v A_1 + v A_2 - K_{v,angular} v B_1 + K_{v,angular} v B_2 \\
+    \end{bmatrix} K_{v,ang} v \\
+  0 &= -v A_1 + v A_2 - K_{v,ang} v B_1 + K_{v,ang} v B_2 \\
   0 &=
     \begin{bmatrix}
-      -v & v & -K_{v,angular} v & K_{v,angular} v
+      -v & v & -K_{v,ang} v & K_{v,ang} v
     \end{bmatrix}
     \begin{bmatrix}
       A_1 \\
@@ -313,7 +315,7 @@ wheel has a constant velocity $v$. Therefore, $\mat{x} =
     \end{bmatrix} \\
   0 &=
     \begin{bmatrix}
-      -1 & 1 & -K_{v,angular} & K_{v,angular}
+      -1 & 1 & -K_{v,ang} & K_{v,ang}
     \end{bmatrix}
     \begin{bmatrix}
       A_1 \\
@@ -325,7 +327,7 @@ wheel has a constant velocity $v$. Therefore, $\mat{x} =
 
 Let $\mat{u} =
 \begin{bmatrix}
-  -K_{v,angular} v - K_{a,angular} a & K_{v,angular} v + K_{a,angular} a
+  -K_{v,ang} v - K_{a,ang} a & K_{v,ang} v + K_{a,ang} a
 \end{bmatrix}\T$ be the input that rotates the drivetrain in place where each
 wheel has an initial speed of $v$ and accelerates by $a$. Therefore, $\mat{x} =
 \begin{bmatrix}
@@ -352,8 +354,8 @@ wheel has an initial speed of $v$ and accelerates by $a$. Therefore, $\mat{x} =
       B_2 & B_1
     \end{bmatrix}
     \begin{bmatrix}
-      -K_{v,angular} v - K_{a,angular} a \\
-      K_{v,angular} v + K_{a,angular} a
+      -K_{v,ang} v - K_{a,ang} a \\
+      K_{v,ang} v + K_{a,ang} a
     \end{bmatrix} \\
   \begin{bmatrix}
     -a \\
@@ -372,8 +374,8 @@ wheel has an initial speed of $v$ and accelerates by $a$. Therefore, $\mat{x} =
       -B_2 & B_1
     \end{bmatrix}
     \begin{bmatrix}
-      K_{v,angular} v + K_{a,angular} a \\
-      K_{v,angular} v + K_{a,angular} a
+      K_{v,ang} v + K_{a,ang} a \\
+      K_{v,ang} v + K_{a,ang} a
     \end{bmatrix} \\
   \begin{bmatrix}
     -a \\
@@ -392,8 +394,8 @@ wheel has an initial speed of $v$ and accelerates by $a$. Therefore, $\mat{x} =
       B_1 & -B_2
     \end{bmatrix}
     \begin{bmatrix}
-      K_{v,angular} v + K_{a,angular} a \\
-      K_{v,angular} v + K_{a,angular} a
+      K_{v,ang} v + K_{a,ang} a \\
+      K_{v,ang} v + K_{a,ang} a
     \end{bmatrix}
   \intertext{Since the column vectors contain the same element, the elements in
     the second row can be rearranged.}
@@ -414,8 +416,8 @@ wheel has an initial speed of $v$ and accelerates by $a$. Therefore, $\mat{x} =
     -B_1 & B_2
   \end{bmatrix}
   \begin{bmatrix}
-    K_{v,angular} v + K_{a,angular} a \\
-    K_{v,angular} v + K_{a,angular} a
+    K_{v,ang} v + K_{a,ang} a \\
+    K_{v,ang} v + K_{a,ang} a
   \end{bmatrix}
 \end{align*}
 
@@ -429,12 +431,12 @@ Since the rows are linearly dependent, we can use just one of them.
       -B_1 & B_2
     \end{bmatrix}
     \begin{bmatrix}
-      K_{v,angular} v + K_{a,angular} a
+      K_{v,ang} v + K_{a,ang} a
     \end{bmatrix} \\
-  -a &= -v A_1 + v A_2 - (K_{v,angular} v + K_{a,angular} a) B_1 + K_{v,angular} v + K_{a,angular} a) B_2 \\
+  -a &= -v A_1 + v A_2 - (K_{v,ang} v + K_{a,ang} a) B_1 + (K_{v,ang} v + K_{a,ang} a) B_2 \\
   -a &=
     \begin{bmatrix}
-      -v & v & -(K_{v,angular} v + K_{a,angular} a) & K_{v,angular} v+ K_{a,angular} a
+      -v & v & -(K_{v,ang} v + K_{a,ang} a) & K_{v,ang} v+ K_{a,ang} a
     \end{bmatrix}
     \begin{bmatrix}
       A_1 \\
@@ -444,7 +446,7 @@ Since the rows are linearly dependent, we can use just one of them.
     \end{bmatrix} \\
   a &=
     \begin{bmatrix}
-      v & -v & K_{v,angular} v + K_{a,angular} a & -(K_{v,angular} v + K_{a,angular} a)
+      v & -v & K_{v,ang} v + K_{a,ang} a & -(K_{v,ang} v + K_{a,ang} a)
     \end{bmatrix}
     \begin{bmatrix}
       A_1 \\
@@ -463,10 +465,10 @@ Now stack the rows.
     a
   \end{bmatrix} =
   \begin{bmatrix}
-    1 & 1 & K_{v,linear} & K_{v,linear} \\
-    v & v & K_{v,linear} v + K_{a,linear} a & K_{v,linear} v + K_{a,linear} a \\
-    -1 & 1 & -K_{v,angular} & K_{v,angular} \\
-    v & -v & K_{v,angular} v + K_{a,angular} a & -(K_{v,angular} v + K_{a,angular} a)
+    1 & 1 & K_{v,lin} & K_{v,lin} \\
+    v & v & K_{v,lin} v + K_{a,lin} a & K_{v,lin} v + K_{a,lin} a \\
+    -1 & 1 & -K_{v,ang} & K_{v,ang} \\
+    v & -v & K_{v,ang} v + K_{a,ang} a & -(K_{v,ang} v + K_{a,ang} a)
   \end{bmatrix}
   \begin{bmatrix}
     A_1 \\
@@ -477,8 +479,8 @@ Now stack the rows.
 \end{equation*}
 
 Solve for matrix elements with Wolfram Alpha. Let
-$b = K_{v,linear}$, $c = K_{a,linear}$, $d = K_{v,angular}$, and
-$f = K_{a,angular}$.
+$b = K_{v,lin}$, $c = K_{a,lin}$, $d = K_{v,ang}$, and
+$f = K_{a,ang}$.
 \begin{verbatim}
 inverse of {{1, 1, b, b},
             {v, v, b v + c a, b v + c a},
@@ -504,12 +506,12 @@ inverse of {{1, 1, b, b},
     A_2 \\
     B_1 \\
     B_2
-  \end{bmatrix} &= \frac{1}{2 K_{a,linear} K_{a,angular}}
+  \end{bmatrix} &= \frac{1}{2 K_{a,lin} K_{a,ang}}
   \begin{bmatrix}
-    -K_{a,linear} K_{v,angular} - K_{v,linear} K_{a,angular} \\
-    K_{a,linear} K_{v,angular} - K_{v,linear} K_{a,angular} \\
-    K_{a,linear} + K_{a,angular} \\
-    K_{a,angular} - K_{a,linear}
+    -K_{a,lin} K_{v,ang} - K_{v,lin} K_{a,ang} \\
+    K_{a,lin} K_{v,ang} - K_{v,lin} K_{a,ang} \\
+    K_{a,lin} + K_{a,ang} \\
+    K_{a,ang} - K_{a,lin}
   \end{bmatrix} \\
   \begin{bmatrix}
     A_1 \\
@@ -518,14 +520,14 @@ inverse of {{1, 1, b, b},
     B_2
   \end{bmatrix} &= \frac{1}{2}
   \begin{bmatrix}
-    -\frac{K_{a,linear} K_{v,angular}}{K_{a,linear} K_{a,angular}} -
-      \frac{K_{v,linear} K_{a,angular}}{K_{a,linear} K_{a,angular}} \\
-    \frac{K_{a,linear} K_{v,angular}}{K_{a,linear} K_{a,angular}} -
-      \frac{K_{v,linear} K_{a,angular}}{K_{a,linear} K_{a,angular}} \\
-    \frac{K_{a,linear}}{K_{a,linear} K_{a,angular}} +
-      \frac{K_{a,angular}}{K_{a,linear} K_{a,angular}} \\
-    \frac{K_{a,angular}}{K_{a,linear} K_{a,angular}} -
-      \frac{K_{a,linear}}{K_{a,linear} K_{a,angular}}
+    -\frac{K_{a,lin} K_{v,ang}}{K_{a,lin} K_{a,ang}} -
+      \frac{K_{v,lin} K_{a,ang}}{K_{a,lin} K_{a,ang}} \\
+    \frac{K_{a,lin} K_{v,ang}}{K_{a,lin} K_{a,ang}} -
+      \frac{K_{v,lin} K_{a,ang}}{K_{a,lin} K_{a,ang}} \\
+    \frac{K_{a,lin}}{K_{a,lin} K_{a,ang}} +
+      \frac{K_{a,ang}}{K_{a,lin} K_{a,ang}} \\
+    \frac{K_{a,ang}}{K_{a,lin} K_{a,ang}} -
+      \frac{K_{a,lin}}{K_{a,lin} K_{a,ang}}
   \end{bmatrix} \\
   \begin{bmatrix}
     A_1 \\
@@ -534,12 +536,12 @@ inverse of {{1, 1, b, b},
     B_2
   \end{bmatrix} &= \frac{1}{2}
   \begin{bmatrix}
-    -\frac{K_{v,angular}}{K_{a,angular}} -
-      \frac{K_{v,linear}}{K_{a,linear}} \\
-    \frac{K_{v,angular}}{K_{a,angular}} -
-      \frac{K_{v,linear}}{K_{a,linear}} \\
-    \frac{1}{K_{a,angular}} + \frac{1}{K_{a,linear}} \\
-    \frac{1}{K_{a,linear}} - \frac{1}{K_{a,angular}}
+    -\frac{K_{v,ang}}{K_{a,ang}} -
+      \frac{K_{v,lin}}{K_{a,lin}} \\
+    \frac{K_{v,ang}}{K_{a,ang}} -
+      \frac{K_{v,lin}}{K_{a,lin}} \\
+    \frac{1}{K_{a,ang}} + \frac{1}{K_{a,lin}} \\
+    \frac{1}{K_{a,lin}} - \frac{1}{K_{a,ang}}
   \end{bmatrix} \\
   \begin{bmatrix}
     A_1 \\
@@ -548,12 +550,12 @@ inverse of {{1, 1, b, b},
     B_2
   \end{bmatrix} &= \frac{1}{2}
   \begin{bmatrix}
-    -\left(\frac{K_{v,linear}}{K_{a,linear}} +
-      \frac{K_{v,angular}}{K_{a,angular}}\right) \\
-    -\left(\frac{K_{v,linear}}{K_{a,linear}} -
-      \frac{K_{v,angular}}{K_{a,angular}}\right) \\
-    \frac{1}{K_{a,linear}} + \frac{1}{K_{a,angular}} \\
-    \frac{1}{K_{a,linear}} - \frac{1}{K_{a,angular}}
+    -\left(\frac{K_{v,lin}}{K_{a,lin}} +
+      \frac{K_{v,ang}}{K_{a,ang}}\right) \\
+    -\left(\frac{K_{v,lin}}{K_{a,lin}} -
+      \frac{K_{v,ang}}{K_{a,ang}}\right) \\
+    \frac{1}{K_{a,lin}} + \frac{1}{K_{a,ang}} \\
+    \frac{1}{K_{a,lin}} - \frac{1}{K_{a,ang}}
   \end{bmatrix}
 \end{align*}
 
@@ -594,16 +596,16 @@ To summarize,
       B_2
     \end{bmatrix} = \frac{1}{2}
     \begin{bmatrix}
-      -\left(\frac{K_{v,linear}}{K_{a,linear}} +
-        \frac{K_{v,angular}}{K_{a,angular}}\right) \\
-      -\left(\frac{K_{v,linear}}{K_{a,linear}} -
-        \frac{K_{v,angular}}{K_{a,angular}}\right) \\
-      \frac{1}{K_{a,linear}} + \frac{1}{K_{a,angular}} \\
-      \frac{1}{K_{a,linear}} - \frac{1}{K_{a,angular}}
+      -\left(\frac{K_{v,lin}}{K_{a,lin}} +
+        \frac{K_{v,ang}}{K_{a,ang}}\right) \\
+      -\left(\frac{K_{v,lin}}{K_{a,lin}} -
+        \frac{K_{v,ang}}{K_{a,ang}}\right) \\
+      \frac{1}{K_{a,lin}} + \frac{1}{K_{a,ang}} \\
+      \frac{1}{K_{a,lin}} - \frac{1}{K_{a,ang}}
     \end{bmatrix}
   \end{equation}
 
-  $K_{v,angular}$ and $K_{a,angular}$ have units of $\frac{V}{L/T}$ and
+  $K_{v,ang}$ and $K_{a,ang}$ have units of $\frac{V}{L/T}$ and
   $\frac{V}{L/T^2}$ respectively where $V$ means voltage units, $L$ means length
   units, and $T$ means time units.
 \end{theorem}
