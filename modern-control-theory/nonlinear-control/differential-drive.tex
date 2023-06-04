@@ -214,9 +214,9 @@ equations.
 This augmented model is a nonlinear vector function where
 $\mat{x} = \begin{bmatrix} x & y & \theta & v_l & v_r \end{bmatrix}\T$ and
 $\mat{u} = \begin{bmatrix} V_l & V_r \end{bmatrix}\T$.
-\begin{equation}
-  f(\mat{x}, \mat{u}) =
-  \begin{bmatrix}
+\begin{align}
+  &f(\mat{x}, \mat{u}) = \nonumber \\
+  &\qquad \begin{bmatrix}
     \frac{v_r}{2}\cos\theta + \frac{v_l}{2}\cos\theta \\
     \frac{v_r}{2}\sin\theta + \frac{v_l}{2}\sin\theta \\
     \frac{v_r}{2r_b} - \frac{v_l}{2r_b} \\
@@ -230,7 +230,7 @@ $\mat{u} = \begin{bmatrix} V_l & V_r \end{bmatrix}\T$.
       \left(\frac{1}{m} + \frac{r_b^2}{J}\right) C_4 V_r
   \end{bmatrix}
   \label{eq:ltv_diff_drive_f}
-\end{equation}
+\end{align}
 
 As mentioned in chapter \ref{ch:nonlinear_control}, one can approximate a
 nonlinear system via linearizations around points of interest in the state-space
