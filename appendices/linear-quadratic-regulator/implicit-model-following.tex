@@ -51,18 +51,18 @@ Substitute this into the cost functional.
   J &= \sum_{k=0}^\infty \left(
     ((\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})\mat{x}_k + \mat{C}\mat{B}\mat{u}_k)\T
     \mat{Q}
-    ((\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})\mat{x}_k + \mat{C}\mat{B}\mat{u}_k) +
-    \mat{u}_k\T\mat{R}\mat{u}_k\right)
+    ((\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})\mat{x}_k + \mat{C}\mat{B}\mat{u}_k) \right. \\
+  &\qquad \left. + \mat{u}_k\T\mat{R}\mat{u}_k\right)
 \end{align*}
 
 Apply the transpose to the left-hand side of the $\mat{Q}$ term.
-\begin{equation*}
-  J = \sum_{k=0}^\infty \left(
+\begin{align*}
+  J &= \sum_{k=0}^\infty \left(
     (\mat{x}_k\T(\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})\T + \mat{u}_k\T(\mat{C}\mat{B})\T)
     \mat{Q}
-    ((\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})\mat{x}_k + \mat{C}\mat{B}\mat{u}_k) +
-    \mat{u}_k\T\mat{R}\mat{u}_k\right)
-\end{equation*}
+    ((\mat{C}\mat{A} - \mat{A}_{ref}\mat{C})\mat{x}_k + \mat{C}\mat{B}\mat{u}_k) \right. \\
+  &\qquad \left. + \mat{u}_k\T\mat{R}\mat{u}_k\right)
+\end{align*}
 
 Factor out $\begin{bmatrix}\mat{x}_k \\ \mat{u}_k\end{bmatrix}\T$ from the left
 side and $\begin{bmatrix}\mat{x}_k \\ \mat{u}_k\end{bmatrix}$ from the right
@@ -114,7 +114,9 @@ side of each term.
     \begin{bmatrix}
       \mat{C}\mat{A} - \mat{A}_{ref}\mat{C} &
       \mat{C}\mat{B}
-    \end{bmatrix} +
+    \end{bmatrix}
+    \right.\right. \\
+  &\qquad \left.\left. +
     \begin{bmatrix}
       \mat{0} & \mat{0} \\
       \mat{0} & \mat{R}
@@ -128,8 +130,8 @@ side of each term.
 \end{align*}
 
 Multiply in $\mat{Q}$.
-\begin{equation*}
-  J = \sum_{k=0}^\infty \left(
+\begin{align*}
+  J &= \sum_{k=0}^\infty \left(
     \begin{bmatrix}
       \mat{x}_k \\
       \mat{u}_k
@@ -142,7 +144,8 @@ Multiply in $\mat{Q}$.
     \begin{bmatrix}
       \mat{C}\mat{A} - \mat{A}_{ref}\mat{C} &
       \mat{C}\mat{B}
-    \end{bmatrix} +
+    \end{bmatrix} \right.\right. \\
+  &\qquad \left.\left. +
     \begin{bmatrix}
       \mat{0} & \mat{0} \\
       \mat{0} & \mat{R}
@@ -153,11 +156,12 @@ Multiply in $\mat{Q}$.
       \mat{u}_k
     \end{bmatrix}
     \right)
-\end{equation*}
+\end{align*}
 
 Multiply matrices in the left term together.
 \begin{align*}
-  J &= \sum_{k=0}^\infty \left(
+  J &= \sum_{k=0}^\infty \\
+  &\left(
     \begin{bmatrix}
       \mat{x}_k \\
       \mat{u}_k
@@ -183,9 +187,9 @@ Multiply matrices in the left term together.
 \end{align*}
 
 Add the terms together.
-\begin{equation}
-  J = \sum_{k=0}^\infty
-  \begin{bmatrix}
+\begin{align}
+  J &= \sum_{k=0}^\infty \nonumber \\
+  &\begin{bmatrix}
     \mat{x}_k \\
     \mat{u}_k
   \end{bmatrix}\T
@@ -202,7 +206,7 @@ Add the terms together.
     \mat{x}_k \\
     \mat{u}_k
   \end{bmatrix}
-\end{equation}
+\end{align}
 
 Thus, implicit model following can be defined as the following optimization
 problem.
