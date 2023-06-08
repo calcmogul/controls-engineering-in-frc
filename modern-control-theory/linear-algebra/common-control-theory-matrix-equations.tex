@@ -24,6 +24,24 @@ discrete time LQ problem.
     \mat{B}\T\mat{X}\mat{B})^{-1} \mat{B}\T\mat{X}\mat{A} + \mat{Q}
 \end{equation}
 
+Snippet \ref{lst:dare} computes the unique stabilizing solution to the discrete
+algebraic Riccati equation. A robust implementation should also check that:
+\begin{enumerate}
+  \item $\mat{A}$ is states $\times$ states.
+  \item $\mat{B}$ is states $\times$ inputs.
+  \item $\mat{Q}$ is states $\times$ states and symmetric positive semidefinite.
+  \item $\mat{R}$ is inputs $\times$ inputs and symmetric positive definite.
+  \item The number of inputs isn't greater than the number of states.
+  \item $(\mat{A}, \mat{B})$ is a stabilizable pair (see subsection
+    \ref{subsec:stabilizability}).
+  \item $(\mat{A}, \mat{C})$ is a detectable pair where
+    $\mat{Q} = \mat{C}\T\mat{C}$ (see section \ref{subsec:detectability}).
+\end{enumerate}
+\begin{coderemote}{cpp}{snippets/DARE.cpp}
+  \caption{Discrete algebraic Riccati equation solver in C++}
+  \label{lst:dare}
+\end{coderemote}
+
 \subsection{Continuous Lyapunov equation}
 \index{Lyapunov equation!continuous}
 
