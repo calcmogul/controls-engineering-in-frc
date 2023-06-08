@@ -157,26 +157,17 @@ and actuator. The nondiagonal elements are zero. The balance between state
 excursion and control effort penalty ($\mat{Q}$ and $\mat{R}$ respectively) can
 be adjusted using the weighting factor $\rho$.
 \begin{equation*}
-  \mat{Q} = \begin{bsmallmatrix}
-    \frac{\rho}{x_{1,max}^2} & 0 & \ldots & 0 \\
-    0 & \frac{\rho}{x_{2,max}^2} & & \vdots \\
-    \vdots & & \ddots & 0 \\
-    0 & \ldots & 0 & \frac{\rho}{x_{m,max}^2}
-  \end{bsmallmatrix}
+  \mat{Q} = \diag\left(\frac{\rho}{\mat{x}_{max}^2}\right)
   \quad
-  \mat{R} = \begin{bsmallmatrix}
-    \frac{1}{u_{1,max}^2} & 0 & \ldots & 0 \\
-    0 & \frac{1}{u_{2,max}^2} & & \vdots \\
-    \vdots & & \ddots & 0 \\
-    0 & \ldots & 0 & \frac{1}{u_{n,max}^2}
-  \end{bsmallmatrix}
+  \mat{R} = \diag\left(\frac{1}{\mat{u}_{max}^2}\right)
 \end{equation*}
 
-The index subscript denotes a row of the state or input vector. Small values of
-$\rho$ penalize \gls{control effort} while large values of $\rho$ penalize
-\gls{state} excursions. Large values would be chosen in applications like
-fighter jets where performance is necessary. Spacecrafts would use small values
-to conserve their limited fuel supply.
+where $\mat{x}_{max}$ is the vector of acceptable state tolerances,
+$\mat{u}_{max}$ is the vector of acceptable input tolerances, and $\rho$ is a
+tuning constant. Small values of $\rho$ penalize \gls{control effort} while
+large values of $\rho$ penalize \gls{state} excursions. Large values would be
+chosen in applications like fighter jets where performance is necessary.
+Spacecrafts would use small values to conserve their limited fuel supply.
 
 \subsection{Pole placement vs LQR}
 

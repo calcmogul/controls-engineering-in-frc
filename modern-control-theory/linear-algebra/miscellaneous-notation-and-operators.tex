@@ -1,0 +1,104 @@
+\section{Miscellaneous notation and operators}
+
+This book works with two-dimensional matrices in the sense that they only have
+rows and columns. The dimensionality of these matrices is specified by row
+first, then column. For example, a matrix with two rows and three columns would
+be a two-by-three matrix. A square matrix has the same number of rows as
+columns. Matrices commonly use capital letters while vectors use lowercase
+letters.
+
+\subsection{Special constant matrices}
+
+$\mat{I}$ is the identity matrix, a typically square matrix with ones along its
+diagonal and zeroes elsewhere. $\mat{0}$ is a matrix filled with zeroes and
+$\mat{1}$ is a matrix filled with ones. An optional subscript ${m \times n}$
+denotes the matrix having $m$ rows and $n$ columns.
+\begin{equation*}
+  \mat{I}_{3 \times 3} =
+  \begin{bmatrix}
+    1 & 0 & 0 \\
+    0 & 1 & 0 \\
+    0 & 0 & 1
+  \end{bmatrix}
+  \quad
+  \mat{0}_{3 \times 2} =
+  \begin{bmatrix}
+    0 & 0 \\
+    0 & 0 \\
+    0 & 0
+  \end{bmatrix}
+  \quad
+  \mat{1}_{3 \times 2} =
+  \begin{bmatrix}
+    1 & 1 \\
+    1 & 1 \\
+    1 & 1
+  \end{bmatrix}
+\end{equation*}
+
+\subsection{Operators}
+
+\subsubsection{Transpose}
+\index{matrices!transpose}
+The $\T$ in $\mat{A}\T$ denotes transpose, which flips the matrix across its
+diagonal such that the rows become columns and vice versa.
+
+A symmetric matrix is equal to its transpose.
+
+\subsubsection{Pseudoinverse}
+\index{matrices!pseudoinverse}
+The $^+$ in $\mat{B}^+$ denotes the Moore-Penrose pseudoinverse given by
+$\mat{B}^+ = (\mat{B}\T\mat{B})^{-1}\mat{B}\T$. The pseudoinverse is used when
+the matrix is nonsquare and thus not invertible to produce a close approximation
+of an inverse in the least squares sense.
+
+\subsubsection{Diagonal}
+\index{matrices!diagonal}
+A diagonal matrix has elements along its diagonal and zeroes elsewhere (e.g.,
+the identity matrix). Let
+$\mat{x} = \begin{bmatrix}x_1 & \ldots & x_n\end{bmatrix}\T$.
+\begin{equation*}
+  \diag(\mat{x}) = \diag(x_1,\, \ldots,\, x_n) =
+  \begin{bmatrix}
+    x_1 & 0 & \cdots & 0 \\
+    0 & x_2 & & \vdots \\
+    \vdots & & \ddots & 0 \\
+    0 & \cdots & 0 & x_n
+  \end{bmatrix}
+\end{equation*}
+
+A block diagonal matrix has matrices along its diagonal. $\diag()$ works
+similarly for constructing one. Let
+$\mat{A} = \begin{bsmallmatrix}1 & 2\\3 & 4\end{bsmallmatrix}$ and
+$\mat{B} = \begin{bsmallmatrix}1 & 2 & 3\\4 & 5 & 6\\7 & 8 & 9\end{bsmallmatrix}$.
+\begin{equation*}
+  \diag(\mat{A}, \mat{B}) =
+  \begin{bmatrix}
+    \mat{A} & \mat{0} \\
+    \mat{0} & \mat{B}
+  \end{bmatrix} =
+  \begin{bmatrix}
+    1 & 2 & 0 & 0 & 0 \\
+    3 & 4 & 0 & 0 & 0 \\
+    0 & 0 & 1 & 2 & 3 \\
+    0 & 0 & 4 & 5 & 6 \\
+    0 & 0 & 7 & 8 & 9
+  \end{bmatrix}
+\end{equation*}
+
+Operations on the $\diag()$ argument are applied element-wise.
+\begin{equation*}
+  \diag\left(\frac{1}{\mat{x}^2}\right) =
+  \begin{bmatrix}
+    \frac{1}{x_1^2} & 0 & \cdots & 0 \\
+    0 & \frac{1}{x_2^2} & & \vdots \\
+    \vdots & & \ddots & 0 \\
+    0 & \cdots & 0 & \frac{1}{x_n^2}
+  \end{bmatrix}
+\end{equation*}
+
+\subsubsection{Trace}
+\index{matrices!trace}
+$\tr(\mat{A})$ denotes the trace of the square matrix $\mat{A}$, which is
+defined as the sum of the elements on the main diagonal (top-left to
+bottom-right).
