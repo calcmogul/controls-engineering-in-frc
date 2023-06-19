@@ -21,7 +21,7 @@ jobs:
     - name: Install system dependencies
       run: |
         sudo pacman -Syu --noconfirm
-        make setup_archlinux
+        ./setup_archlinux.sh
 
     - name: Generate PDF
       run: |
@@ -48,7 +48,7 @@ jobs:
         python-version: '3.10'
 
     - name: Install system dependencies
-      run: make setup_ubuntu
+      run: ./setup_ubuntu.sh
 
     - name: Generate PDF
       run: make -j$(nproc) ebook
@@ -67,7 +67,7 @@ jobs:
         fetch-depth: 0
 
     - name: Install system dependencies
-      run: make setup_macos
+      run: ./setup_macos.sh
 
     - name: Generate PDF
       run: |

@@ -10,7 +10,7 @@ jobs:
       with:
         fetch-depth: 0
     - name: Install system dependencies
-      run: make setup_ubuntu
+      run: ./setup_ubuntu.sh
     - name: Lint .py and .tex files
       run: make -j$(nproc) lint
     - name: Ensure formatters made no changes
