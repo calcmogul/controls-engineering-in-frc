@@ -13,8 +13,16 @@
 #   * python-pip (for installing required Python packages)
 #   * python-pylint (for Python linting)
 #   * python-requests (for .tex HTTP link checker)
-#   * python-wheel (for "setup.py bdist_wheel")
-#   * texlive-meta (for all LaTeX packages)
+#   * texlive-bibtexextra (for LaTeX package biblatex)
+#   * texlive-bin (for xelatex)
+#   * texlive-binextra (for matplotlib usetex dependencies)
+#   * texlive-fontsrecommended (for matplotlib usetex dependencies and fonts
+#                               needed by LaTeX package amsmath)
+#   * texlive-latex (for essential LaTeX packages)
+#   * texlive-latexextra (for LaTeX package csquotes)
+#   * texlive-latexrecommended (for LaTeX packages amsmath, graphicx, etc.)
+#   * texlive-plaingeneric (for plain (La)TeX packages)
+#   * texlive-xetex (for XeTeX)
 sudo pacman -Sy --needed --noconfirm \
   base-devel \
   biber \
@@ -29,8 +37,15 @@ sudo pacman -Sy --needed --noconfirm \
   python-pylint \
   python-qrcode \
   python-requests \
-  python-wheel \
-  texlive-meta
+  texlive-bibtexextra \
+  texlive-bin \
+  texlive-binextra \
+  texlive-fontsrecommended \
+  texlive-latex \
+  texlive-latexextra \
+  texlive-latexrecommended \
+  texlive-plaingeneric \
+  texlive-xetex
 
 # autoflake isn't in [extra] and we can't use an AUR helper
 pip3 install --user --break-system-packages autoflake
