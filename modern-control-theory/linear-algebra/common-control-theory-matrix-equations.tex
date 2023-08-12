@@ -25,13 +25,10 @@ discrete time LQ problem.
 \end{equation}
 
 Snippet \ref{lst:dare} computes the unique stabilizing solution to the discrete
-algebraic Riccati equation. A robust implementation should also check that:
+algebraic Riccati equation. A robust implementation should also enforce the
+following preconditions:
 \begin{enumerate}
-  \item $\mat{A}$ is states $\times$ states.
-  \item $\mat{B}$ is states $\times$ inputs.
-  \item $\mat{Q}$ is states $\times$ states and symmetric positive semidefinite.
-  \item $\mat{R}$ is inputs $\times$ inputs and symmetric positive definite.
-  \item The number of inputs isn't greater than the number of states.
+  \item $\mat{Q} = \mat{Q}\T \geq \mat{0}$ and $\mat{R} = \mat{R}\T > \mat{0}$.
   \item $(\mat{A}, \mat{B})$ is a stabilizable pair (see subsection
     \ref{subsec:stabilizability}).
   \item $(\mat{A}, \mat{C})$ is a detectable pair where
