@@ -2,10 +2,12 @@
 #include <Eigen/Core>
 #include <Eigen/LU>
 
-Eigen::MatrixXd DARE(const Eigen::Ref<const Eigen::MatrixXd>& A,
-                     const Eigen::Ref<const Eigen::MatrixXd>& B,
-                     const Eigen::Ref<const Eigen::MatrixXd>& Q,
-                     const Eigen::Ref<const Eigen::MatrixXd>& R) {
+template <int States, int Inputs>
+Eigen::Matrix<double, States, States> DARE(
+    const Eigen::Matrix<double, States, States>& A,
+    const Eigen::Matrix<double, States, Inputs>& B,
+    const Eigen::Matrix<double, States, States>& Q,
+    const Eigen::Matrix<double, Inputs, Inputs>& R) {
   // [1] E. K.-W. Chu, H.-Y. Fan, W.-W. Lin & C.-S. Wang
   //     "Structure-Preserving Algorithms for Periodic Discrete-Time
   //     Algebraic Riccati Equations",
@@ -13,20 +15,21 @@ Eigen::MatrixXd DARE(const Eigen::Ref<const Eigen::MatrixXd>& A,
   //     DOI: 10.1080/00207170410001714988
   //
   // Implements SDA algorithm on p. 5 of [1] (initial A, G, H are from (4)).
-  Eigen::MatrixXd A_k = A;
-  Eigen::MatrixXd G_k = B * R.llt().solve(B.transpose());
-  Eigen::MatrixXd H_k;
-  Eigen::MatrixXd H_k1 = Q;
+  using StateMatrix = Eigen::Matrix<double, States, States>;
+
+  StateMatrix A_k = A;
+  StateMatrix G_k = B * R.llt().solve(B.transpose());
+  StateMatrix H_k;
+  StateMatrix H_k1 = Q;
 
   do {
     H_k = H_k1;
 
-    Eigen::MatrixXd W =
-        Eigen::MatrixXd::Identity(H_k.rows(), H_k.cols()) + G_k * H_k;
+    StateMatrix W = StateMatrix::Identity() + G_k * H_k;
 
     auto W_solver = W.lu();
-    Eigen::MatrixXd V_1 = W_solver.solve(A_k);
-    Eigen::MatrixXd V_2 = W_solver.solve(G_k.transpose()).transpose();
+    StateMatrix V_1 = W_solver.solve(A_k);
+    StateMatrix V_2 = W_solver.solve(G_k.transpose()).transpose();
 
     G_k += A_k * V_2 * A_k.transpose();
     H_k1 = H_k + V_1.transpose() * H_k * A_k;
