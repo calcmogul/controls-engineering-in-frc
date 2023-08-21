@@ -165,11 +165,11 @@ Input voltage is proportional to torque and gravity is a constant force, but the
 torque applied against the motor varies according to the arm's angle. We'll use
 sum of torques to find a compensating torque.
 
-We'll model gravity as a disturbance described by $-mg$ where $m$ is the arm's
-mass. To compensate for it, we want to find a torque that is equal and opposite
-to the torque applied to the arm by gravity. The bottom row of the continuous
-elevator model contains the angular acceleration terms, so $Bu_{ff}$ is angular
-acceleration caused by the motor; $JBu_{ff}$ is the torque.
+We'll model gravity as an acceleration disturbance $-g$. To compensate for it,
+we want to find a torque that is equal and opposite to the torque applied to the
+arm by gravity. The bottom row of the continuous elevator model contains the
+angular acceleration terms, so $Bu_{ff}$ is angular acceleration caused by the
+motor; $JBu_{ff}$ is the torque.
 \begin{align*}
   J Bu_{ff} &= -(\mat{r}\times\mat{F}) \\
   J Bu_{ff} &= -(rF\cos\theta)

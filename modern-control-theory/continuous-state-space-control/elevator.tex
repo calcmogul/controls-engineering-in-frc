@@ -161,17 +161,17 @@ performance.
 
 Input voltage is proportional to force and gravity is a constant force, so a
 constant voltage feedforward can compensate for gravity. We'll model gravity as
-a disturbance described by $-mg$. To compensate for it, we want to find a
+an acceleration disturbance $-g$. To compensate for it, we want to find a
 voltage that is equal and opposite to it. The bottom row of the continuous
 elevator model contains the acceleration terms.
 \begin{align*}
   Bu_{ff} &= -(\text{unmodeled dynamics})
   \intertext{where $B$ is the motor acceleration term from $\mat{B}$ and
     $u_{ff}$ is the voltage feedforward.}
-  Bu_{ff} &= -(-mg) \\
-  Bu_{ff} &= mg \\
-  \frac{G K_t}{Rrm} u_{ff} &= mg \\
-  u_{ff} &= \frac{Rrm^2 g}{G K_t}
+  Bu_{ff} &= -(-g) \\
+  Bu_{ff} &= g \\
+  \frac{G K_t}{Rrm} u_{ff} &= g \\
+  u_{ff} &= \frac{Rrmg}{G K_t}
 \end{align*}
 
 \subsection{Simulation}
