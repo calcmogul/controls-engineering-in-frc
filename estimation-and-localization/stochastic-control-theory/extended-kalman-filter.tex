@@ -34,6 +34,8 @@ an extended Kalman filter at the $k^{th}$ timestep.
       \hat{\mat{x}}_{k+1}^- + \mat{K}_{k+1}(\mat{y}_{k+1} -
       h(\hat{\mat{x}}_{k+1}^-, \mat{u}_{k+1})) \\
     \mat{P}_{k+1}^+ &= (\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})\mat{P}_{k+1}^-
+      (\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})\T +
+      \mat{K}_{k+1}\mat{R}_{k+1}\mat{K}_{k+1}\T
   \end{align}
   \begin{figurekey}
     \begin{tabular}{llll}

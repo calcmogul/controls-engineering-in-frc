@@ -24,59 +24,69 @@ matrix.
 
 Substitute in the \textit{a posteriori} update equation and expand the
 measurement equations.
-\begin{align*}
+\begin{align}
   \mat{P}_{k+1}^+ &= \cov(\mat{x}_{k+1} - (\hat{\mat{x}}_{k+1}^- +
-    \mat{K}_{k+1}(\mat{y}_{k+1} - \hat{\mat{y}}_{k+1}))) \\
+    \mat{K}_{k+1}(\mat{y}_{k+1} - \hat{\mat{y}}_{k+1}))) \nonumber \\
   \mat{P}_{k+1}^+ &= \cov(\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^- -
-    \mat{K}_{k+1}(\mat{y}_{k+1} - \hat{\mat{y}}_{k+1})) \\
+    \mat{K}_{k+1}(\mat{y}_{k+1} - \hat{\mat{y}}_{k+1})) \nonumber \\
   \mat{P}_{k+1}^+ &= \cov(\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^- -
-    \mat{K}_{k+1}( \\
+    \mat{K}_{k+1}( \nonumber \\
       &\qquad (\mat{C}_{k+1} \mat{x}_{k+1} + \mat{D}_{k+1} \mat{u}_{k+1} +
-        \mat{v}_{k+1}) \\
+        \mat{v}_{k+1}) \nonumber \\
       &\qquad - (\mat{C}_{k+1} \hat{\mat{x}}_{k+1}^- +
-        \mat{D}_{k+1}\mat{u}_{k+1}))) \\
+        \mat{D}_{k+1}\mat{u}_{k+1}))) \nonumber \\
   \mat{P}_{k+1}^+ &= \cov(\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^- -
-    \mat{K}_{k+1}( \\
+    \mat{K}_{k+1}( \nonumber \\
       &\qquad \mat{C}_{k+1} \mat{x}_{k+1} + \mat{D}_{k+1} \mat{u}_{k+1} +
-        \mat{v}_{k+1} \\
+        \mat{v}_{k+1} \nonumber \\
       &\qquad - \mat{C}_{k+1} \hat{\mat{x}}_{k+1}^- -
-        \mat{D}_{k+1}\mat{u}_{k+1}))
+        \mat{D}_{k+1}\mat{u}_{k+1})) \nonumber
   \intertext{Reorder terms.}
   \mat{P}_{k+1}^+ &= \cov(\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^- -
-    \mat{K}_{k+1}( \\
+    \mat{K}_{k+1}( \nonumber \\
       &\qquad\mat{C}_{k+1} \mat{x}_{k+1} -
-        \mat{C}_{k+1} \hat{\mat{x}}_{k+1}^- \\
+        \mat{C}_{k+1} \hat{\mat{x}}_{k+1}^- \nonumber \\
       &\qquad + \mat{D}_{k+1} \mat{u}_{k+1} - \mat{D}_{k+1}\mat{u}_{k+1} +
-        \mat{v}_{k+1}))
+        \mat{v}_{k+1})) \nonumber
   \intertext{The $\mat{D}_{k+1}\mat{u}_{k+1}$ terms cancel.}
   \mat{P}_{k+1}^+ &= \cov(\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^- -
     \mat{K}_{k+1}(\mat{C}_{k+1}\mat{x}_{k+1} -
-    \mat{C}_{k+1} \hat{\mat{x}}_{k+1}^- + \mat{v}_{k+1}))
+    \mat{C}_{k+1} \hat{\mat{x}}_{k+1}^- + \mat{v}_{k+1})) \nonumber
   \intertext{Distribute $\mat{K}_{k+1}$ to $\mat{v}_{k+1}$.}
   \mat{P}_{k+1}^+ &= \cov(\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^- -
     \mat{K}_{k+1}(\mat{C}_{k+1}\mat{x}_{k+1} -
-    \mat{C}_{k+1} \hat{\mat{x}}_{k+1}^-) - \mat{K}_{k+1}\mat{v}_{k+1})
+    \mat{C}_{k+1} \hat{\mat{x}}_{k+1}^-) - \mat{K}_{k+1}\mat{v}_{k+1}) \nonumber
   \intertext{Factor out $\mat{C}_{k+1}$.}
   \mat{P}_{k+1}^+ &= \cov(\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^- -
     \mat{K}_{k+1}\mat{C}_{k+1}(\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^-) -
-    \mat{K}_{k+1}\mat{v}_{k+1})
+    \mat{K}_{k+1}\mat{v}_{k+1}) \nonumber
   \intertext{Factor out $\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^-$ to the right.}
   \mat{P}_{k+1}^+ &= \cov((\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})
     (\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^-) - \mat{K}_{k+1}\mat{v}_{k+1})
+    \nonumber
   \intertext{Covariance is a linear operator, so it can be applied to each term
     separately. Covariance squares terms internally, so the negative sign on
     $\mat{K}_{k+1}\mat{v}_{k+1}$ is removed.}
   \mat{P}_{k+1}^+ &= \cov((\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})
-    (\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^-)) + \cov(\mat{K}_{k+1}\mat{v}_{k+1})
+    (\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^-)) + \cov(\mat{K}_{k+1}\mat{v}_{k+1})\
+    \nonumber
   \intertext{Now just evaluate the covariances.}
   \mat{P}_{k+1}^+ &= (\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})
     \cov(\mat{x}_{k+1} - \hat{\mat{x}}_{k+1}^-)
-    (\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})\T \\
-      &\qquad + \mat{K}_{k+1}cov(\mat{v}_{k+1})\mat{K}_{k+1}\T \\
+    (\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})\T \nonumber \\
+      &\qquad + \mat{K}_{k+1}cov(\mat{v}_{k+1})\mat{K}_{k+1}\T \nonumber \\
   \mat{P}_{k+1}^+ &= (\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})\mat{P}_{k+1}^-
-    (\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})\T + \mat{K}_{k+1}\mat{R}_{k+1}
-    \mat{K}_{k+1}\T
-\end{align*}
+    (\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})\T +
+    \mat{K}_{k+1}\mat{R}_{k+1}\mat{K}_{k+1}\T
+\end{align}
+
+This is the \textit{Joseph form} of the covariance update equation, which is
+valid for all Kalman gains.
+\begin{remark}
+  The Joseph form is helpful in floating point implementations of the Kalman
+  filter since it has better numerical stability than the optimal Kalman gain
+  form discussed later.
+\end{remark}
 
 \subsubsection{Finding the optimal Kalman gain}
 
@@ -287,7 +297,9 @@ equations to conserve computational resources.
     \hat{\mat{x}}_{k+1}^+ &=
       \hat{\mat{x}}_{k+1}^- + \mat{K}_{k+1}(\mat{y}_{k+1} -
       \mat{C} \hat{\mat{x}}_{k+1}^- - \mat{D}\mat{u}_{k+1}) \\
-    \mat{P}_{k+1}^+ &= (\mat{I} - \mat{K}_{k+1}\mat{C})\mat{P}_{k+1}^-
+    \mat{P}_{k+1}^+ &= (\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})\mat{P}_{k+1}^-
+      (\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})\T +
+      \mat{K}_{k+1}\mat{R}_{k+1}\mat{K}_{k+1}\T
   \end{align}
   \begin{figurekey}
     \begin{tabular}{llll}
