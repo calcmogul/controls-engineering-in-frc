@@ -1,32 +1,72 @@
 \section{Extended Kalman filter}
 \label{sec:ekf}
-\index{nonlinear control!extended Kalman filter}
+\index{nonlinear control!Extended Kalman filter}
 \index{state-space observers!Extended Kalman filter}
 
 In this book, we have covered the Kalman filter, which is the optimal unbiased
-estimator for linear \glspl{system}. It isn't optimal for nonlinear
-\glspl{system}, but several extensions to it have been developed to make it more
-accurate.
+estimator for linear \glspl{system}. One method for extending it to nonlinear
+systems is the extended Kalman filter.
 
-The extended Kalman filter \glslink{linearization}{linearizes} the matrices used
-during the prediction step. $\mat{A}$, $\mat{B}$, $\mat{C}$, and $\mat{D}$ are
-\glslink{linearization}{linearized} as follows:
-\begin{align*}
-  \mat{A} &\approx
-    \frac{\partial f(\mat{x}, \mat{u})}{\partial \mat{x}} &
-  \mat{B} &\approx
-    \frac{\partial f(\mat{x}, \mat{u})}{\partial \mat{u}} &
-  \mat{C} &\approx
-    \frac{\partial h(\mat{x}, \mat{u})}{\partial \mat{x}} &
-  \mat{D} &\approx
-    \frac{\partial h(\mat{x}, \mat{u})}{\partial \mat{u}}
-\end{align*}
+The extended Kalman filter (EKF) \glslink{linearization}{linearizes} the
+dynamics and measurement models during the prediction and correction steps
+respectively. Then, the linear Kalman filter equations are used to compute the
+error covariance matrix $\mat{P}$ and Kalman gain matrix $\mat{K}$.
 
-From there, the continuous Kalman filter equations are used like normal to
-compute the error covariance matrix $\mat{P}$ and Kalman gain matrix. The
-\gls{state} estimate update can still use the function $h(\mat{x})$ for
-accuracy.
-\begin{equation*}
-  \hat{\mat{x}}_{k+1}^+ = \hat{\mat{x}}_{k+1}^- +
-    \mat{K}_{k+1}(\mat{y}_{k+1} - h(\hat{\mat{x}}_{k+1}^-))
-\end{equation*}
+Theorem \ref{thm:extended_kalman_filter} shows the predict and update steps for
+an extended Kalman filter at the $k^{th}$ timestep.
+\begin{theorem}[Extended Kalman filter]
+  \label{thm:extended_kalman_filter}
+  \begin{align}
+    \text{Predict step} \nonumber \\
+    \mat{A} &= \left.\frac{\partial f(\mat{x}, \mat{u})}{\partial \mat{x}}
+               \right|_{\hat{\mat{x}}_k^+, \mat{u}_k}
+      \quad\text{(linearize $f(\mat{x}, \mat{u})$)} \\
+    \mat{A}_k &= e^{\mat{A}T} \qquad\text{(discretize $\mat{A}$)} \\
+    \hat{\mat{x}}_{k+1}^- &= f(\hat{\mat{x}}_k^+, \mat{u}_k) \\
+    \mat{P}_{k+1}^- &= \mat{A}_k \mat{P}_k^- \mat{A}_k\T + \mat{Q}_k \\
+    \text{Update step} \nonumber \\
+    \mat{C}_{k+1} &= \left.\frac{\partial h(\mat{x}, \mat{u})}{\partial \mat{x}}
+                     \right|_{\hat{\mat{x}}_{k+1}^-, \mat{u}_{k+1}}
+      \quad\text{(linearize $h(\mat{x}, \mat{u})$)} \\
+    \mat{K}_{k+1} &= \mat{P}_{k+1}^- \mat{C}_{k+1}\T
+      (\mat{C}_{k+1}\mat{P}_{k+1}^- \mat{C}_{k+1}\T + \mat{R}_{k+1})^{-1} \\
+    \hat{\mat{x}}_{k+1}^+ &=
+      \hat{\mat{x}}_{k+1}^- + \mat{K}_{k+1}(\mat{y}_{k+1} -
+      h(\hat{\mat{x}}_{k+1}^-, \mat{u}_{k+1})) \\
+    \mat{P}_{k+1}^+ &= (\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})\mat{P}_{k+1}^-
+  \end{align}
+  \begin{figurekey}
+    \begin{tabular}{llll}
+      $f(\mat{x}, \mat{u})$ & continuous dynamics model & $\hat{\mat{x}}$ & state estimate vector \\
+      $h(\mat{x}, \mat{u})$ & measurement model & $\mat{u}$ & input vector \\
+      $T$ & sample timestep duration & $\mat{y}$ & output vector \\
+      $\mat{P}$ & error covariance matrix & $\mat{Q}$ & process noise covariance \\
+      $\mat{K}$ & Kalman gain matrix & $\mat{R}$ & measurement noise covariance \\
+    \end{tabular}
+  \end{figurekey}
+
+  where a superscript of minus denotes \textit{a priori} and plus denotes
+  \textit{a posteriori} estimate (before and after update respectively).
+\end{theorem}
+\begin{remark}
+  To implement a discrete time Kalman filter from a continuous model, the model
+  and continuous time $\mat{Q}$ and $\mat{R}$ matrices can be
+  \glslink{discretization}{discretized} using theorem
+  \ref{thm:linear_system_zoh}.
+\end{remark}
+\begin{booktable}
+  \begin{tabular}{|ll|ll|}
+    \hline
+    \rowcolor{headingbg}
+    \textbf{Matrix} & \textbf{Rows $\times$ Columns} &
+    \textbf{Matrix} & \textbf{Rows $\times$ Columns} \\
+    \hline
+    $\mat{A}$ & states $\times$ states & $\hat{\mat{x}}$ & states $\times$ 1 \\
+    $\mat{C}$ & outputs $\times$ states & $\mat{u}$ & inputs $\times$ 1 \\
+    $\mat{P}$ & states $\times$ states & $\mat{y}$ & outputs $\times$ 1 \\
+    $\mat{K}$ & states $\times$ outputs & $\mat{Q}$ & states $\times$ states \\
+              &                         & $\mat{R}$ & outputs $\times$ outputs \\
+    \hline
+  \end{tabular}
+  \caption{Extended Kalman filter matrix dimensions}
+\end{booktable}
