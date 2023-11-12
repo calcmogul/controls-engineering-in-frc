@@ -18,16 +18,20 @@ an extended Kalman filter at the $k^{th}$ timestep.
   \label{thm:extended_kalman_filter}
   \begin{align}
     \text{Predict step} \nonumber \\
-    \mat{A} &= \left.\frac{\partial f(\mat{x}, \mat{u})}{\partial \mat{x}}
-               \right|_{\hat{\mat{x}}_k^+, \mat{u}_k}
-      \quad\text{(linearize $f(\mat{x}, \mat{u})$)} \\
-    \mat{A}_k &= e^{\mat{A}T} \qquad\text{(discretize $\mat{A}$)} \\
-    \hat{\mat{x}}_{k+1}^- &= f(\hat{\mat{x}}_k^+, \mat{u}_k) \\
+    \mat{A} &=
+      \underbrace{\left.\frac{\partial f(\mat{x}, \mat{u})}{\partial \mat{x}}
+                  \right|_{\hat{\mat{x}}_k^+, \mat{u}_k}}
+                 _{\text{Linearize } f(\mat{x}, \mat{u})} \\
+    \mat{A}_k &= \underbrace{e^{\mat{A}T}}_{\text{Discretize } \mat{A}} \\
+    \hat{\mat{x}}_{k+1}^- &=
+      \underbrace{\text{RK4}(f, \hat{\mat{x}}_k^+, \mat{u}_k, T)}
+                 _{\text{Numerical integration}} \\
     \mat{P}_{k+1}^- &= \mat{A}_k \mat{P}_k^- \mat{A}_k\T + \mat{Q}_k \\
     \text{Update step} \nonumber \\
-    \mat{C}_{k+1} &= \left.\frac{\partial h(\mat{x}, \mat{u})}{\partial \mat{x}}
-                     \right|_{\hat{\mat{x}}_{k+1}^-, \mat{u}_{k+1}}
-      \quad\text{(linearize $h(\mat{x}, \mat{u})$)} \\
+    \mat{C}_{k+1} &=
+      \underbrace{\left.\frac{\partial h(\mat{x}, \mat{u})}{\partial \mat{x}}
+                  \right|_{\hat{\mat{x}}_{k+1}^-, \mat{u}_{k+1}}}
+                 _{\text{Linearize } h(\mat{x}, \mat{u})} \\
     \mat{K}_{k+1} &= \mat{P}_{k+1}^- \mat{C}_{k+1}\T
       (\mat{C}_{k+1}\mat{P}_{k+1}^- \mat{C}_{k+1}\T + \mat{R}_{k+1})^{-1} \\
     \hat{\mat{x}}_{k+1}^+ &=
