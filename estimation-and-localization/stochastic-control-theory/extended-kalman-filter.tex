@@ -55,9 +55,10 @@ an extended Kalman filter at the $k^{th}$ timestep.
   \textit{a posteriori} estimate (before and after update respectively).
 \end{theorem}
 \begin{remark}
-  To implement a discrete time Kalman filter from a continuous model, the model
-  and continuous time $\mat{Q}$ and $\mat{R}$ matrices can be
-  \glslink{discretization}{discretized} using theorem
+  To implement a discrete time extended Kalman filter from a continuous model,
+  the dynamics model can be numerically integrated via a method from section
+  \ref{sec:numerical_integration_methods} and the continuous time $\mat{Q}$ and
+  $\mat{R}$ matrices can be \glslink{discretization}{discretized} using theorem
   \ref{thm:linear_system_zoh}.
 \end{remark}
 \begin{booktable}
