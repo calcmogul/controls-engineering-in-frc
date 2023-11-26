@@ -13,7 +13,7 @@ $(TARGET): $(basename $(TARGET)).tex $(PDF_TEX) $(BIB)
 	latexmk -pdf $(basename $@)
 
 %.pdf_tex: %.svg
-	inkscape -D --export-type=pdf --export-latex --export-filename=$(basename $<).pdf $<
+	SELF_CALL=true inkscape -D --export-type=pdf --export-latex --export-filename=$(basename $<).pdf $<
 
 .PHONY: clean
 clean:
