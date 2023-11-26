@@ -1,5 +1,6 @@
 """Utility functions for LaTeX figures."""
 
+import os
 import re
 import subprocess
 
@@ -12,8 +13,14 @@ def convert_svg2pdf(filename):
     Keyword arguments:
     filename -- filename without the extension
     """
+    # Avoids the following inkscape exceptions:
+    #   * "terminate called after throwing an instance of 'Gio::Error'"
+    #   * "terminate called after throwing an instance of 'Gio::DBus::Error'"
+    env = os.environ.copy()
+    env["SELF_CALL"] = "true"
+
     inkscape_output = subprocess.check_output(
-        ["inkscape", "--version"], stderr=subprocess.DEVNULL, encoding="utf-8"
+        ["inkscape", "--version"], stderr=subprocess.DEVNULL, encoding="utf-8", env=env
     )
     match = re.search(r"(?P<major>[0-9]+)\.(?P<minor>[0-9]+)", inkscape_output)
 
@@ -28,6 +35,7 @@ def convert_svg2pdf(filename):
                 "--export-pdf=" + filename + ".pdf",
             ],
             check=True,
+            env=env,
         )
     else:
         subprocess.run(
@@ -39,6 +47,7 @@ def convert_svg2pdf(filename):
                 filename + ".svg",
             ],
             check=True,
+            env=env,
         )
 
 
