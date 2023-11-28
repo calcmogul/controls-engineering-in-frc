@@ -44,6 +44,10 @@ def verify_url(filename, line_number, url):
         if r.status_code == 403 and url.startswith("https://www.researchgate.net"):
             return True
 
+        # Allow redirects for YouTube shortlinks
+        if r.status_code == 303 and url.startswith("https://youtu.be"):
+            return True
+
         if r.status_code != 200:
             print(f"[{filename}:{line_number}]\n    {url}\n    {r.status_code}")
             if url != r.url:
