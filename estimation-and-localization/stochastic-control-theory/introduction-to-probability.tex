@@ -195,7 +195,8 @@ calculated by integrating the joint PDF over $y$.
 
 Let us assume that we know the joint PDF $p(x, y)$ and the exact value for $y$.
 The conditional PDF gives the probability of $x$ in the interval $[x, x + dx]$
-for the given value $y$.
+for the given value $y$. The probability of $x$ given $y$ is denoted by
+$p(x|y)$.
 
 If $p(x, y)$ is known, then we also know $p(x, y = y^\ast)$. However, note that
 the latter is not the conditional density $p(x|y^\ast)$, instead
@@ -403,3 +404,17 @@ For example, suppose that a sample is obtained containing a large number of
 independent observations, and that the arithmetic mean of the observed values
 is computed. The central limit theorem says that the computed values of the
 mean will tend toward being distributed according to a normal distribution.
+\begin{bookfigure}
+  \begin{bookminifig}{2}
+    \qrcode{https://youtu.be/zeJD6dqJ5lo} \\
+    ``But what is the Central Limit Theorem?" (31 minutes) \\
+    \footnotesize 3Blue1Brown \\
+    \url{https://youtu.be/zeJD6dqJ5lo}
+  \end{bookminifig}
+  \begin{bookminifig}{2}
+    \qrcode{https://youtu.be/d_qvLDhkg00} \\
+    ``A pretty reason why Gaussian + Gaussian = Gaussian" (13 minutes) \\
+    \footnotesize 3Blue1Brown \\
+    \url{https://youtu.be/d_qvLDhkg00}
+  \end{bookminifig}
+\end{bookfigure}
