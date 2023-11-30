@@ -48,4 +48,5 @@ sudo pacman -Sy --needed --noconfirm \
   texlive-xetex
 
 # autoflake isn't in [extra] and we can't use an AUR helper
-pip3 install --user --break-system-packages autoflake
+# gersemi isn't in [extra] or the AUR
+pip3 install --user --break-system-packages autoflake gersemi

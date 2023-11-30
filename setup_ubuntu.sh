@@ -45,5 +45,6 @@ sudo apt-get install -y \
 # The Ubuntu 22.04 packages are too old
 # Python packages
 #   * black (to format Python source code)
+#   * gersemi (to format CMake files)
 #   * pylint (for Python linting)
-pip3 install --user autoflake black pylint qrcode
+pip3 install --user autoflake black gersemi pylint qrcode
