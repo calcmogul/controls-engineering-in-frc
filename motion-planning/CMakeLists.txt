@@ -10,7 +10,7 @@ include(FetchContent)
 fetchcontent_declare(
     Sleipnir
     GIT_REPOSITORY https://github.com/SleipnirGroup/Sleipnir.git
-    GIT_TAG 0d20a9f712f1e997f734038a977392d8bc6a19f4
+    GIT_TAG 4783342f17bb3698321b3cd364ac529fd91e9dfa
 )
 fetchcontent_makeavailable(Sleipnir)
 
