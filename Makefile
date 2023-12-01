@@ -5,7 +5,11 @@ rwildcard=$(wildcard $1$2) $(foreach dir,$(wildcard $1*),$(call rwildcard,$(dir)
 
 # C++ files that generate SVG files
 CPP := $(filter-out ./bookutil/% ./build/% ./lint/% ./snippets/%,$(call rwildcard,./,*.cpp))
-CPP_EXE := $(addprefix build/,$(CPP:.cpp=))
+ifeq ($(OS),Windows_NT)
+	CPP_EXE := $(addprefix build/,$(CPP:.cpp=.exe))
+else
+	CPP_EXE := $(addprefix build/,$(CPP:.cpp=))
+endif
 
 # Python files that generate SVG files
 PY := $(filter-out ./bookutil/% ./build/% ./lint/% ./setup_venv.py ./snippets/%,$(call rwildcard,./,*.py))
@@ -90,13 +94,21 @@ build/venv.stamp:
 	$(VENV_PIP) install frccontrol==2023.28 pylint qrcode requests robotpy-wpimath==2024.0.0b3.post1
 	@touch $@
 
+ifeq ($(OS),Windows_NT)
+$(CPP_EXE): build/%.exe: %.cpp build/venv.stamp
+else
 $(CPP_EXE): build/%: %.cpp build/venv.stamp
+endif
 	@mkdir -p $(@D)
 	# Run CMake
 	cmake -B $(@D) -S $(dir $<)
 	# Build and run binary
-	cmake --build $(@D)
-	cd $(@D) && ./$(notdir $(basename $<))
+	cmake --build $(@D) --target $(notdir $(basename $@))
+ifeq ($(OS),Windows_NT)
+	cd $(@D)/Debug && ./$(notdir $@)
+else
+	cd $(@D) && ./$(notdir $@)
+endif
 	# Convert generated CSVs to PDFs
 	$(abspath $(VENV_PYTHON)) ./snippets/sleipnir_csv_to_pdf.py $(@D)/*.csv
 
