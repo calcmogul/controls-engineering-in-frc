@@ -53,9 +53,7 @@ def main():
     C = np.array([[1, 0, 0], [-1, 0, 1]])
 
     dt = 1
-    P = np.array(
-        [[10, 10 / dt, 10], [10 / dt, 20 / dt**2, 10 / dt], [10, 10 / dt, 20]]
-    )
+    P = np.array([[10, 10 / dt, 10], [10 / dt, 20 / dt**2, 10 / dt], [10, 10 / dt, 20]])
     Q = np.diag(np.square([0, 0.1, 0]))
     R = np.array([[10, 0], [0, 10]])
 

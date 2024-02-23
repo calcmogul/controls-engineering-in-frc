@@ -9,7 +9,6 @@
 #   * inkscape (to convert SVGs to PDFs)
 #   * perl-clone (for Clone.pm needed by biber)
 #   * python >= 3.6 (for generating plots)
-#   * python-black (to format Python source code)
 #   * python-pip (for installing required Python packages)
 #   * python-pylint (for Python linting)
 #   * python-requests (for .tex HTTP link checker)
@@ -32,7 +31,6 @@ sudo pacman -Sy --needed --noconfirm \
   inkscape \
   perl-clone \
   python \
-  python-black \
   python-pip \
   python-pylint \
   python-qrcode \
@@ -48,5 +46,6 @@ sudo pacman -Sy --needed --noconfirm \
   texlive-xetex
 
 # autoflake isn't in [extra] and we can't use an AUR helper
+# black in [extra] is too old
 # gersemi isn't in [extra] or the AUR
-pip3 install --user --break-system-packages autoflake gersemi
+pip3 install --user --break-system-packages autoflake black==24.2.0 gersemi

@@ -47,4 +47,4 @@ sudo apt-get install -y \
 #   * black (to format Python source code)
 #   * gersemi (to format CMake files)
 #   * pylint (for Python linting)
-pip3 install --user autoflake black gersemi pylint qrcode
+pip3 install --user autoflake black==24.2.0 gersemi pylint qrcode
