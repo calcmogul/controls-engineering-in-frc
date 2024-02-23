@@ -47,5 +47,4 @@ sudo pacman -Sy --needed --noconfirm \
 
 # autoflake isn't in [extra] and we can't use an AUR helper
 # black in [extra] is too old
-# gersemi isn't in [extra] or the AUR
-pip3 install --user --break-system-packages autoflake black==24.2.0 gersemi
+pip3 install --user --break-system-packages autoflake black==24.2.0

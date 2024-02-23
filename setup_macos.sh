@@ -64,6 +64,5 @@ sudo /Library/TeX/texbin/tlmgr install \
 
 # Python packages
 #  * black (to format Python source code)
-#  * gersemi (to format CMake files)
 #  * pylint (for Python linting)
-pip3 install --user autoflake black==24.2.0 gersemi pylint qrcode requests wheel
+pip3 install --user autoflake black==24.2.0 pylint qrcode requests wheel
