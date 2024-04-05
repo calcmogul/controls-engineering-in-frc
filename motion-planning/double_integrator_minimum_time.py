@@ -83,8 +83,6 @@ def main():
 
         if "--noninteractive" in sys.argv:
             latex.savefig(figname)
-        else:
-            plt.show()
 
     # Plot inputs
     labels = ["Acceleration (m/s²)"]
@@ -102,8 +100,9 @@ def main():
 
         if "--noninteractive" in sys.argv:
             latex.savefig(figname)
-        else:
-            plt.show()
+
+    if "--noninteractive" not in sys.argv:
+        plt.show()
 
 
 if __name__ == "__main__":
