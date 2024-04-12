@@ -122,10 +122,16 @@ defined as
     \mat{Q} = 0
 \end{equation*}
 
-Snippet \ref{lst:lqr} computes the infinite horizon, discrete time LQR.
+Snippets \ref{lst:lqr_cpp} and \ref{lst:lqr_py} compute the infinite horizon,
+discrete time LQR.
+\begin{coderemote}{cpp}{snippets/LQR.cpp}
+  \caption{Infinite horizon, discrete time LQR solver in C++ (see subsection
+    \ref{subsec:dare} for DARE solver)}
+  \label{lst:lqr_cpp}
+\end{coderemote}
 \begin{coderemote}{Python}{snippets/lqr.py}
   \caption{Infinite horizon, discrete time LQR solver in Python}
-  \label{lst:lqr}
+  \label{lst:lqr_py}
 \end{coderemote}
 
 Other formulations of LQR for finite horizon and discrete time can be seen on

@@ -18,4 +18,4 @@ def lqr(A, B, Q, R, N):
     K -- numpy.array(inputs x states), controller gain matrix.
     """
     P = sp.linalg.solve_discrete_are(a=A, b=B, q=Q, r=R, s=N)
-    return np.linalg.solve(R + B.T @ P @ B, B.T @ P @ A + N.T)
+    return np.linalg.solve(B.T @ P @ B + R, B.T @ P @ A + N.T)
