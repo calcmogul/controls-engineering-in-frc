@@ -47,4 +47,4 @@ sudo pacman -Sy --needed --noconfirm \
 
 # autoflake isn't in [extra] and we can't use an AUR helper
 # black in [extra] is too old
-pip3 install --user --break-system-packages autoflake black==24.2.0
+pip3 install --user --break-system-packages autoflake black==24.3.0

@@ -65,4 +65,4 @@ sudo /Library/TeX/texbin/tlmgr install \
 # Python packages
 #  * black (to format Python source code)
 #  * pylint (for Python linting)
-pip3 install --user autoflake black==24.2.0 pylint qrcode requests wheel
+pip3 install --user autoflake black==24.3.0 pylint qrcode requests wheel
