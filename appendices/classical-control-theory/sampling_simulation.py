@@ -114,14 +114,15 @@ def simulate(elevator, dt, method):
     elevator.x = np.zeros((elevator.x.shape[0], 1))
     _, x_rec, _, _ = fct.generate_time_responses(elevator, refs)
 
+    label = ""
     if method == "zoh":
-        label = "Zero-order hold"
+        label += "Zero-order hold"
     elif method == "euler":
-        label = "Forward Euler"
+        label += "Forward Euler"
     elif method == "backward_diff":
-        label = "Backward Euler"
+        label += "Backward Euler"
     elif method == "bilinear":
-        label = "Bilinear transform"
+        label += "Bilinear transform"
     label += f" (T={dt} s)"
     plt.plot(ts, x_rec[0, :], label=label)
 

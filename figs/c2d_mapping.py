@@ -30,7 +30,7 @@ def z_to_rgb(z):
     if arg >= 0.0:
         # Add 1/255 so first slot in colormap isn't used
         hue = arg / math.pi - 0.5 + 1 / 255
-    elif arg < 0.0:
+    else:
         hue = arg / math.pi + 1.5
     return hue
 
