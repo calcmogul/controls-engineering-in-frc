@@ -114,9 +114,13 @@ where $\omega_{free}$ is the angular velocity of the motor under no load (also
 known as the free speed), and $V$ is the voltage applied to the motor when it's
 spinning at $\omega_{free}$, and $I_{free}$ is the current drawn by the motor
 under no load.
-
-If several identical motors are being used in one gearbox for a mechanism,
-multiply the stall torque by the number of motors.
+\begin{remark}
+  To model a mechanism with several identical motors in one gearbox, multiply
+  the stall torque, stall current, and free current by the number of motors $N$.
+  $K_t$ and $K_v$ will be the same because $N$ cancels out, but $R$ will be
+  divided by $N$. This multiplies the acceleration contribution of each model
+  term by $N$.
+\end{remark}
 
 \subsection{Current limiting}
 
