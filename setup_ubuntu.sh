@@ -7,7 +7,6 @@
 #   * clang-format (to format C++ code snippets)
 #   * cmake (for building C++ plot generators)
 #   * dvipng (to convert DVIs to PNGs)
-#   * imagemagick (to compress JPEGs)
 #   * inkscape (to convert SVGs to PDFs)
 #   * latexmk
 #   * python3 >= 3.6 (for generating plots)
@@ -29,7 +28,6 @@ sudo apt-get install -y \
   clang-format \
   cmake \
   dvipng \
-  imagemagick \
   inkscape \
   latexmk \
   python3 \
@@ -41,6 +39,14 @@ sudo apt-get install -y \
   texlive-bibtex-extra \
   texlive-latex-extra \
   texlive-xetex
+
+# Install ImageMagick 7 (to compress JPEGs)
+sudo apt-get remove imagemagick
+git clone https://github.com/SoftCreatR/imei
+pushd imei
+chmod +x imei.sh
+sudo ./imei.sh
+popd
 
 # The Ubuntu 22.04 packages are too old
 # Python packages
