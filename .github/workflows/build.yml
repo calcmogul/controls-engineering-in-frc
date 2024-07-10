@@ -71,7 +71,7 @@ jobs:
     - name: Generate PDF
       run: |
         eval `/usr/libexec/path_helper`
-        make -j$(nproc) ebook
+        make -j4 ebook
 
     - uses: actions/upload-artifact@v4
       with:
