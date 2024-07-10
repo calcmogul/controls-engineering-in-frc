@@ -1,8 +1,9 @@
 \section{Linear time-varying unicycle controller}
 
 One can also create a linear time-varying controller with a cascaded control
-architecture like Ramsete. This section will derive a locally optimal
-replacement for Ramsete.
+architecture, where the outer layer consumes a pose command and produces
+unicycle velocity commands, and the inner layer consumes unicycle velocity
+commands and produces wheel motor voltages.
 
 The change in global pose for a unicycle is defined by the following three
 equations.
