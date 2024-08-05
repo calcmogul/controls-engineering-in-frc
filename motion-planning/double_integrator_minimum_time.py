@@ -42,7 +42,7 @@ def main():
         v_k = X[1, k]
         a_k = U[0, k]
 
-        problem.subject_to(p_k1 == p_k + v_k * dt)
+        problem.subject_to(p_k1 == p_k + v_k * dt + 0.5 * a_k * dt**2)
         problem.subject_to(v_k1 == v_k + a_k * dt)
 
     # Start and end at rest
