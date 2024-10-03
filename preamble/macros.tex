@@ -116,7 +116,7 @@
 % #3: xcoordshift
 % #4: ycoordshift
 % #5: func to plot
-\newcommand{\drawtimeplot}[5] {
+\newcommand{\drawcontinuoustimeplot}[5] {
   \begin{scope}[xshift=#1-0.5cm,yshift=#2-0.5cm]
     \def\xcoordshift{#3,0}
     \def\ycoordshift{0,#4}
@@ -130,8 +130,61 @@
         \draw[->,font=\tiny] (-0.075cm,0cm) -- (0.8125cm,0cm)
           node[label={[below]90:$t$}] {};
 
+        \clip (0cm,-0.45cm) rectangle (1cm,0.55cm);
         \draw[xscale=1.2,yscale=0.3,domain=0:0.5,smooth,variable=\x,line width=0.5]
           plot ({\x},{#5});
+      \end{scope}
+    \end{scope}
+  \end{scope}}
+
+% #1: xshift
+% #2: yshift
+% #3: xcoordshift
+% #4: ycoordshift
+% #5: func to plot
+\newcommand{\drawdiscretetimeplot}[5] {
+  \begin{scope}[xshift=#1-0.5cm,yshift=#2-0.5cm]
+    \def\xcoordshift{#3,0}
+    \def\ycoordshift{0,#4}
+
+    \draw[fill=headingbg] (0,0) rectangle (1,1);
+    \begin{scope}[shift=(\xcoordshift)]
+      % Draw y-axis
+      \draw[->] (0cm,0.05cm) -- (0cm,0.9375cm) node {};
+      \begin{scope}[shift=(\ycoordshift)]
+        % Draw x-axis
+        \draw[->,font=\tiny] (-0.075cm,0cm) -- (0.8125cm,0cm)
+          node[label={[below]90:$t$}] {};
+
+        \clip (0cm,-0.45cm) rectangle (1cm,0.55cm);
+        \draw[xscale=1.2,yscale=0.3,domain=0:0.5,variable=\x,line width=0.5]
+          plot ({\x},{#5});
+      \end{scope}
+    \end{scope}
+  \end{scope}}
+
+% #1: xshift
+% #2: yshift
+% #3: xcoordshift
+% #4: ycoordshift
+% #5: coordinates to plot
+\newcommand{\drawdiscretecoordplot}[5] {
+  \begin{scope}[xshift=#1-0.5cm,yshift=#2-0.5cm]
+    \def\xcoordshift{#3,0}
+    \def\ycoordshift{0,#4}
+
+    \draw[fill=headingbg] (0,0) rectangle (1,1);
+    \begin{scope}[shift=(\xcoordshift)]
+      % Draw y-axis
+      \draw[->] (0cm,0.05cm) -- (0cm,0.9375cm) node {};
+      \begin{scope}[shift=(\ycoordshift)]
+        % Draw x-axis
+        \draw[->,font=\tiny] (-0.075cm,0cm) -- (0.8125cm,0cm)
+          node[label={[below]90:$t$}] {};
+
+        \clip (0cm,-0.45cm) rectangle (1cm,0.55cm);
+        \draw[xscale=1.2,yscale=0.3,domain=0:0.5,variable=\x,line width=0.5]
+          plot coordinates {#5};
       \end{scope}
     \end{scope}
   \end{scope}}

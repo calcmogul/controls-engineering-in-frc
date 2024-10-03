@@ -1,0 +1,95 @@
+\begin{tikzpicture}[auto, >=latex']
+  % \draw [help lines] (-4,-4) grid (4,4);
+
+  % Draw main axes
+  \draw[->] (-4,0) -- (4,0) node[below] {\small Re};
+  \draw[->] (0,-4) -- (0,4) node[right] {\small Im};
+
+  % Unit circle
+  \draw[black] (0,0) circle (3cm);
+
+  % Exponent for the given x plot coordinate:
+  %
+  %   exp(at) = x
+  %   at = ln(x)
+  %   a = ln(x)/t
+  %
+  % t = 50 ms
+
+  % LHP integrator
+  \drawdiscretecoordplot{-3cm - 0.166cm}{-0.75cm}{0.125cm}{0.44375cm}
+    {(0,1) (0.05,-1) (0.1,1) (0.15,-1) (0.2,1) (0.25,-1) (0.3,1) (0.35,-1)
+     (0.4,1) (0.45,-1) (0.5,1)}
+  \drawpole{-3cm}{0cm}
+
+  % LHP stable: xₖ₊₁ = −2/3xₖ
+  \drawdiscretecoordplot{-2cm}{0.75cm}{0.125cm}{0.44375cm}
+    {(0,1) (0.05,-0.667) (0.1,0.444) (0.15,-0.296) (0.2,0.198) (0.25,-0.132)
+     (0.3,0.088) (0.35,-0.059) (0.4,0.039) (0.45,-0.026) (0.5,0.017)}
+  \drawpole{-2cm}{0cm}
+
+  % LHP stable: xₖ₊₁ = −1/3xₖ
+  \drawdiscretecoordplot{-1cm + 0.166cm}{-0.75cm}{0.125cm}{0.44375cm}
+    {(0,1) (0.05,-0.333) (0.1,0.111) (0.15,-0.037) (0.2,0.012) (0.25,-0.004)
+     (0.3,0.001) (0.35,0) (0.4,0) (0.45,0) (0.5,0)}
+  \drawpole{-1cm}{0cm}
+
+  % LHP stable: xₖ₊₁ = (0.333 + 0.5i)xₖ
+  \drawdiscretecoordplot{-1cm}{2.25cm}{0.125cm}{0.44375cm}
+    {(0,1) (0.05,-0.333) (0.1,-0.139) (0.15,0.213) (0.2,-0.092) (0.25,-0.016)
+     (0.3,0.044) (0.35,-0.023) (0.4,0) (0.45,0.009) (0.5,-0.006)}
+  \drawpole{-1cm}{1.5cm}
+
+  % LHP unstable: xₖ₊₁ = (−1 − 0.75i)xₖ
+  \drawdiscretecoordplot{-2.25cm}{-2.25cm}{0.125cm}{0.44375cm}
+    {(0,1) (0.05,-1) (0.1,0.4375) (0.15,0.6875) (0.2,-2.059) (0.25,3.043)
+     (0.3,-2.869) (0.35,0.984) (0.4,2.515) (0.45,-6.568) (0.5,9.206)}
+  \drawpole{-3cm}{-2.25cm}
+
+  % RHP stable: exp(-10.192t) cos(19.665wt) (40/3*w for readability)
+  %
+  % a = ln(0.333 + 0.5i)/0.05 = -10.192 + 19.665i
+  \drawdiscretetimeplot{1cm}{2.25cm}{0.125cm}{0.44375cm}{
+    exp(-10.192 * \x) * cos(40/3 * 19.665 * deg(\x))}
+  \drawpole{1cm}{1.5cm}
+
+  % RHP stable: exp(-21.97t)
+  %
+  % a = ln(1/3)/0.05 = -21.97
+  \drawdiscretetimeplot{1cm - 0.166cm}{-0.75cm}{0.125cm}{0.125cm}{exp(-21.97 * \x)}
+  \drawpole{1cm}{0cm}
+
+  % RHP stable: exp(-8.109t)
+  %
+  % a = ln(2/3)/0.05 = -8.109
+  \drawdiscretetimeplot{2cm}{0.75cm}{0.125cm}{0.125cm}{exp(-8.109 * \x)}
+  \drawpole{2cm}{0cm}
+
+  % RHP marginally stable: cos(15.707wt)
+  %
+  % a = ln(√2 + √2i)/0.05 = 15.707i
+  \drawdiscretetimeplot{3 * (0.707cm + 0.25cm)}{3 * 0.707cm + 0.375cm}{0.125cm}{0.44375cm}{cos(15.707 * deg(\x))}
+  \drawpole{3 * 0.707cm}{3 * 0.707cm}
+
+  % RHP integrator
+  \drawdiscretetimeplot{3cm + 0.166cm}{-0.75cm}{0.125cm}{0.125cm}{exp(0 * \x)}
+  \drawpole{3cm}{0cm}
+
+  % RHP unstable: exp(4.463t) cos(-12.87wt)
+  %
+  % a = ln(1 - 0.75i)/0.05 = 4.463 - 12.87i
+  \drawdiscretetimeplot{2.25cm}{-2.25cm}{0.125cm}{0.44375cm}{exp(4.463 * \x) * cos(-12.87 * deg(\x))}
+  \drawpole{3cm}{-2.25cm}
+
+  % LHP and RHP labels
+  \draw (-3.5,1.5) node {LHP};
+  \draw (3.5,1.5) node {RHP};
+
+  % Stable and unstable labels
+  \fill[white] (-0.5,-2.25) rectangle (0.5,-1.75);
+  \draw (0,-2) node {\small Stable};
+  \draw (2.5,3.5) node {\small Unstable};
+  \draw (-2.5,3.5) node {\small Unstable};
+  \draw (-2.5,-3.5) node {\small Unstable};
+  \draw (2.5,-3.5) node {\small Unstable};
+\end{tikzpicture}
