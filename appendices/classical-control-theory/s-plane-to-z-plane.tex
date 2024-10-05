@@ -30,14 +30,21 @@ s-plane's LHP maps to the inside of a unit circle in the z-plane. Table
 
 \subsection{Discrete system stability}
 
-Poles of a \gls{system} that are within the unit circle are stable, but why is
-that? Let's consider a scalar equation $x_{k + 1} = ax_k$. $a < 1$ makes
-$x_{k + 1}$ converge to zero. The same applies to a complex number like
-$z = x + yi$ for $x_{k + 1} = zx_k$. If the magnitude of the complex number $z$
-is less than one, $x_{k+1}$ will converge to zero. Values with a magnitude of
-$1$ oscillate forever because $x_{k+1}$ never decays.
+Eigenvalues of a \gls{system} that are within the unit circle are stable. To
+demonstrate this, consider the discrete system $x_{k + 1} = ax_k$ where $a$ is a
+complex number. $|a| < 1$ will make $x_{k + 1}$ converge to zero.
 
 \subsection{Discrete system behavior}
+
+Figure \ref{fig:disc_impulse_response_poles} shows the \glspl{impulse response}
+in the time domain for \glspl{system} with various pole locations in the complex
+plane (real numbers on the x-axis and imaginary numbers on the y-axis). Each
+response has an initial condition of $1$.
+\begin{bookfigure}
+  \input{figs/discrete-impulse-response-vs-pole-location}
+  \caption{Discrete impulse response vs pole location}
+  \label{fig:disc_impulse_response_poles}
+\end{bookfigure}
 
 As $\omega$ increases in $s = j\omega$, a pole in the z-plane moves around the
 perimeter of the unit circle. Once it hits $\frac{\omega_s}{2}$ (half the
@@ -45,20 +52,16 @@ sampling frequency) at $(-1, 0)$, the pole wraps around. This is due to poles
 faster than the sample frequency folding down to below the sample frequency
 (that is, higher frequency signals \textit{alias} to lower frequency ones).
 
-You may notice that poles can be placed at $(0, 0)$ in the z-plane. This is
-known as a deadbeat controller. An $\rm N^{th}$-order deadbeat controller decays
-to the \gls{reference} in N timesteps. While this sounds great, there are other
-considerations like \gls{control effort}, \gls{robustness}, and
-\gls{noise immunity}.
+Placing the poles at $(0, 0)$ produces a \textit{deadbeat controller}. An
+$\rm N^{th}$-order deadbeat controller decays to the \gls{reference} in N
+timesteps. While this sounds great, there are other considerations like
+\gls{control effort}, \gls{robustness}, and \gls{noise immunity}.
 
-If poles from $(1, 0)$ to $(0, 0)$ on the x-axis approach infinity, then what do
-poles from $(-1, 0)$ to $(0, 0)$ represent? Them being faster than infinity
-doesn't make sense. Poles in this location exhibit oscillatory behavior similar
-to complex conjugate pairs. See figures \ref{fig:z_oscillations_1p} and
-\ref{fig:z_oscillations_2p}. The jaggedness of these signals is due to the
-frequency of the \gls{system} dynamics being above the Nyquist frequency (twice
-the sample frequency). The \glslink{discretization}{discretized} signal doesn't
-have enough samples to reconstruct the continuous \gls{system}'s dynamics.
+Poles in the left half-plane cause jagged outputs because the frequency of the
+\gls{system} dynamics is above the Nyquist frequency (twice the sample
+frequency). The \glslink{discretization}{discretized} signal doesn't have enough
+samples to reconstruct the continuous \gls{system}'s dynamics. See figures
+\ref{fig:z_oscillations_1p} and \ref{fig:z_oscillations_2p} for examples.
 \begin{bookfigure}
   \begin{minisvg}{2}{build/\chapterpath/z_oscillations_1p}
     \caption{Single poles in various locations in z-plane}
