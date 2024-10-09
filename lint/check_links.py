@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-"""Ensure URLs in every .tex file are reachable"""
+"""Ensure URLs in every .tex file are reachable."""
 
 import multiprocessing as mp
 import os

@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
-"""Ensure .tex filenames use hyphens and .py files use underscores. Vice versa
-is not allowed.
+"""
+Ensure .tex filenames use hyphens and .py files use underscores. Vice versa is
+not allowed.
 """
 
 import os
