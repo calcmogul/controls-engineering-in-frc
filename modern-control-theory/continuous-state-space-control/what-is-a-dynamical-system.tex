@@ -7,16 +7,16 @@ Linear operators are things like constant gain multiplications, derivatives, and
 integrals. You can define reasonably accurate linear \glspl{model} for pretty
 much everything you'll see in FRC with just those relations.
 
-But let's say you have a DC brushed motor hooked up to a power supply and you
-applied a constant voltage to it from rest. The motor approaches a steady-state
-angular velocity, but the shape of the angular velocity curve over time isn't a
-line. In fact, it's a decaying exponential curve akin to
+But let's say you have a DC motor hooked up to a power supply and you applied a
+constant voltage to it from rest. The motor approaches a steady-state angular
+velocity, but the shape of the angular velocity curve over time isn't a line. In
+fact, it's a decaying exponential curve akin to
 \begin{equation*}
   \omega = \omega_{max}\left(1 - e^{-t}\right)
 \end{equation*}
 
 where $\omega$ is the angular velocity and $\omega_{max}$ is the maximum angular
-velocity. If DC brushed motors are said to behave linearly, then why is this?
+velocity. If DC motors are said to behave linearly, then why is this?
 
 Linearity refers to a \gls{system}'s equations of motion, not its time domain
 response. The equation defining the motor's change in angular velocity over time
@@ -33,12 +33,11 @@ current \gls{state} $\omega$.
 
 Also of note is that the relation between the input voltage and the angular
 velocity of the output shaft is a linear regression. You'll see why if you model
-a DC brushed motor as a voltage source and generator producing back-EMF (in the
-equation above, $bV$ corresponds to the voltage source and $-a\omega$
-corresponds to the back-EMF). As you increase the input voltage, the back-EMF
-increases linearly with the motor's angular velocity. If there was a friction
-term that varied with the angular velocity squared (air resistance is one
-example), the relation from input to output would be a curve. Friction that
-scales with just the angular velocity would result in a lower maximum angular
-velocity, but because that term can be lumped into the back-EMF term, the
-response is still linear.
+a DC motor as a voltage source and generator producing back-EMF (in the equation
+above, $bV$ corresponds to the voltage source and $-a\omega$ corresponds to the
+back-EMF). As you increase the input voltage, the back-EMF increases linearly
+with the motor's angular velocity. If there was a friction term that varied with
+the angular velocity squared (air resistance is one example), the relation from
+input to output would be a curve. Friction that scales with just the angular
+velocity would result in a lower maximum angular velocity, but because that term
+can be lumped into the back-EMF term, the response is still linear.

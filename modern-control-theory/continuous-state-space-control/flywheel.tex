@@ -1,7 +1,7 @@
 \section{Flywheel}
 \label{sec:ss_model_flywheel}
 
-This flywheel consists of a DC brushed motor attached to a spinning mass of
+This flywheel consists of a DC motor attached to a spinning mass of
 non-negligible moment of inertia.
 \begin{bookfigure}
   \input{figs/flywheel-system-diagram}
@@ -236,7 +236,7 @@ Our simple motor model hooked up to a mass is
 \end{align}
 
 For an explanation of where these equations come from, read section
-\ref{sec:dc_brushed_motor}.
+\ref{sec:dc_motor}.
 
 First, we'll solve for $\frac{d\omega}{dt}$ in terms of $V$.
 
@@ -300,14 +300,14 @@ $R = 0.0902 \,\Omega$, and $L = 230$ μH. Notice the slight wiggle in figure
 armature, the response timescales increase and the inductance matters even less.
 \begin{bookfigure}
   \begin{minisvg}{2}{build/figs/highfreq_unstable_step}
-    \caption{Step response of second-order DC brushed motor plant augmented with
+    \caption{Step response of second-order DC motor plant augmented with
       position ($L = 230$ μH)}
     \label{fig:cs_ss_highfreq_unstable_step}
   \end{minisvg}
   \hfill
   \begin{minisvg}{2}{build/figs/highfreq_stable_step}
-    \caption{Step response of first-order DC brushed motor plant augmented with
-      position ($L = 0$ μH)}
+    \caption{Step response of first-order DC motor plant augmented with position
+      ($L = 0$ μH)}
     \label{fig:cs_ss_highfreq_stable_step}
   \end{minisvg}
 \end{bookfigure}

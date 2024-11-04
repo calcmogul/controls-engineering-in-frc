@@ -1,7 +1,7 @@
 \section{Elevator}
 
-This elevator consists of a DC brushed motor attached to a pulley that drives a
-mass up or down.
+This elevator consists of a DC motor attached to a pulley that drives a mass up
+or down.
 \begin{bookfigure}
   \input{figs/elevator-system-diagram}
   \caption{Elevator system diagram}
@@ -17,8 +17,8 @@ We want to derive an equation for the carriage acceleration $a$ (derivative of
 $v$) given an input voltage $V$, which we can integrate to get carriage velocity
 and position.
 
-First, we'll find a torque to substitute into the equation for a DC brushed
-motor. Based on figure \ref{fig:elevator}
+First, we'll find a torque to substitute into the equation for a DC motor. Based
+on figure \ref{fig:elevator}
 \begin{equation}
   \tau_m G = \tau_p \label{eq:elevator_tau_m_ratio}
 \end{equation}
@@ -30,7 +30,7 @@ torque produced by the pulley.
 \end{equation}
 
 where $r$ is the radius of the pulley. Substitute equation
-\eqref{eq:elevator_tau_m_ratio} into $\tau_m$ in the DC brushed motor equation
+\eqref{eq:elevator_tau_m_ratio} into $\tau_m$ in the DC motor equation
 \eqref{eq:motor_tau_V}.
 \begin{align}
   V &= \frac{\frac{\tau_p}{G}}{K_t} R + \frac{\omega_m}{K_v} \nonumber \\

@@ -1,12 +1,18 @@
-\section{DC brushed motor}
-\label{sec:dc_brushed_motor}
+\section{DC motor}
+\label{sec:dc_motor}
 
-We will be deriving a first-order \gls{model} for a DC brushed motor. A
-second-order \gls{model} would include the inductance of the motor windings as
-well, but we're assuming the time constant of the inductor is small enough that
-its affect on the \gls{model} behavior is negligible for FRC use cases (see
-subsection \ref{subsec:do_flywheels_need_pd_control} for a demonstration of this
-for a real DC brushed motor).
+We will be deriving a first-order \gls{model} for a DC motor. A second-order
+\gls{model} would include the inductance of the motor windings as well, but
+we're assuming the time constant of the inductor is small enough that its affect
+on the \gls{model} behavior is negligible for FRC use cases (see subsection
+\ref{subsec:do_flywheels_need_pd_control} for a demonstration of this for a real
+DC motor).
+\begin{remark}
+  For the brushless motor commutation methods currently available in FRC
+  (trapezoidal commutation, field-oriented control), brushed and brushless DC
+  motors have the same dynamics. However, more advanced commutation methods can
+  break the linear back-EMF assumption of the brushed motor model.
+\end{remark}
 
 The first-order \gls{model} will only require numbers from the motor's
 datasheet. The second-order \gls{model} would require measuring the motor
@@ -15,7 +21,7 @@ to measure accurately without the right equipment.
 
 \subsection{Equations of motion}
 
-The circuit for a DC brushed motor is shown in figure
+The circuit for a DC motor is shown in figure
 \ref{fig:dc_motor_circuit}.
 \begin{bookfigure}
   \begin{tikzpicture}[auto, >=latex', circuit ee IEC,
@@ -34,7 +40,7 @@ The circuit for a DC brushed motor is shown in figure
                   to (end);
   \end{tikzpicture}
 
-  \caption{DC brushed motor circuit}
+  \caption{DC motor circuit}
   \label{fig:dc_motor_circuit}
 \end{bookfigure}
 
@@ -47,7 +53,7 @@ relation.
   V = IR + \frac{\omega}{K_v} \label{eq:motor_V}
 \end{equation}
 
-The mechanical relation for a DC brushed motor is
+The mechanical relation for a DC motor is
 \begin{equation}
   \tau = K_t I
 \end{equation}
@@ -60,7 +66,7 @@ the torque constant in Newton-meters per Amp. Therefore
 
 Substitute this into equation \eqref{eq:motor_V}.
 
-\index{FRC models!DC brushed motor equations}
+\index{FRC models!DC motor equations}
 \begin{equation}
   V = \frac{\tau}{K_t} R + \frac{\omega}{K_v} \label{eq:motor_tau_V}
 \end{equation}
@@ -124,11 +130,11 @@ under no load.
 
 \subsection{Current limiting}
 
-Current limiting of a DC brushed motor reduces the maximum input voltage to
-avoid exceeding a current threshold. Predictive current limiting uses a
-projected estimate of the current, so the voltage is reduced before the current
-threshold is exceeded. Reactive current limiting uses an actual current
-measurement, so the voltage is reduced after the current threshold is exceeded.
+Current limiting of a DC motor reduces the maximum input voltage to avoid
+exceeding a current threshold. Predictive current limiting uses a projected
+estimate of the current, so the voltage is reduced before the current threshold
+is exceeded. Reactive current limiting uses an actual current measurement, so
+the voltage is reduced after the current threshold is exceeded.
 
 The following pseudocode demonstrates each type of current limiting.
 \begin{code}
