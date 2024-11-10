@@ -30,7 +30,7 @@ def linearized_differential_drive(motor, num_motors, m, r, rb, J, Gl, Gr, states
     Outputs: [[theta], [left velocity], [right velocity]]
 
     Keyword arguments:
-    motor -- instance of DcBrushedMotor
+    motor -- instance of DCMotor
     num_motors -- number of motors driving the mechanism
     m -- mass of robot in kg
     r -- radius of wheels in meters

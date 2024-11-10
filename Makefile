@@ -89,7 +89,7 @@ build/venv.stamp:
 	@mkdir -p $(@D)
 	python3 setup_venv.py
 	$(VENV_PIP) install -e ./bookutil
-	$(VENV_PIP) install frccontrol==2024.21 sleipnirgroup-jormungandr==0.0.1.dev206 pylint qrcode requests robotpy-wpimath==2024.3.2.1
+	$(VENV_PIP) install frccontrol==2024.22 sleipnirgroup-jormungandr==0.0.1.dev206 pylint qrcode requests robotpy-wpimath==2024.3.2.1
 	@touch $@
 
 $(PY_STAMP): build/%.stamp: %.py build/venv.stamp
