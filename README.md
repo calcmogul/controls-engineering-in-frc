@@ -1,5 +1,4 @@
 # Controls Engineering in the FIRST Robotics Competition
-## Graduate-level control theory for high schoolers
 
 When I was a high school student on FIRST Robotics Competition (FRC) team 3512,
 I had to learn control theory from scattered internet sources that either
