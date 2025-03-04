@@ -6,7 +6,7 @@ from pathlib import Path
 import re
 import sys
 
-from jormungandr.optimization import OptimizationProblem
+from jormungandr.optimization import Problem
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
@@ -26,7 +26,7 @@ def main():
 
     r = 2.0
 
-    problem = OptimizationProblem()
+    problem = Problem()
 
     # 2x1 state vector with N + 1 timesteps (includes last state)
     X = problem.decision_variable(2, N + 1)
