@@ -48,8 +48,10 @@ chmod +x imei.sh
 sudo ./imei.sh
 popd
 
-# The Ubuntu 22.04 packages are too old
+# The Ubuntu 24.04 packages are too old
 # Python packages
 #   * black (to format Python source code)
+#   * pillow (required by qrcode, but not preinstalled)
 #   * pylint (for Python linting)
-pip3 install --user --break-system-packages autoflake black==24.3.0 pylint qrcode
+#   * qrcode (for QR codes)
+pip3 install --user --break-system-packages autoflake black==24.3.0 pillow pylint qrcode

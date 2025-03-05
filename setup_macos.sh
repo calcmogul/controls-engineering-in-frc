@@ -64,5 +64,8 @@ sudo /Library/TeX/texbin/tlmgr install \
 
 # Python packages
 #  * black (to format Python source code)
+#  * pillow (required by qrcode, but not preinstalled)
 #  * pylint (for Python linting)
-pip3 install --user --break-system-packages autoflake black==24.3.0 pylint qrcode requests wheel
+#  * qrcode (for QR codes)
+#  * requests (for .tex HTTP link checker)
+pip3 install --user --break-system-packages autoflake black==24.3.0 pillow pylint qrcode requests wheel
