@@ -47,10 +47,28 @@ A symmetric matrix is equal to its transpose.
 
 \subsubsection{Pseudoinverse}
 \index{matrices!pseudoinverse}
-The $^+$ in $\mat{B}^+$ denotes the Moore-Penrose pseudoinverse given by
-$\mat{B}^+ = (\mat{B}\T\mat{B})^{-1}\mat{B}\T$. The pseudoinverse is used when
-the matrix is nonsquare and thus not invertible to produce a close approximation
-of an inverse in the least squares sense.
+The $^+$ in $\mat{A}^+$ denotes the Moore-Penrose pseudoinverse, which is a
+generalization of the inverse matrix to nonsquare matrices. The pseudoinverse is
+an approximate inverse in the least-squares sense, so it can solve least-squares
+problems of the form $\mat{A}\mat{x} = \mat{b}$ via
+$\mat{x} = \mat{A}^+\mat{b}$.
+\begin{booktable}
+  \begin{tabular}{|cccc|}
+    \hline
+    \rowcolor{headingbg}
+    \textbf{System type} & \textbf{Shape of A} & \textbf{Name of }$\mat{A}^+$ &
+      \textbf{Value of }$\mat{A}^+$ \\
+    \hline
+    Well-determined & Square & Inverse &
+      $\mat{A}^{-1}$ \\
+    Overdetermined & Tall & Left pseudoinverse &
+      $(\mat{A}\T\mat{A})^{-1}\mat{A}\T$ \\
+    Underdetermined & Wide & Right pseudoinverse &
+      $\mat{A}\T(\mat{A}\mat{A}\T)^{-1}$ \\
+    \hline
+  \end{tabular}
+  \caption{Pseudoinverses by system type.}
+\end{booktable}
 
 \subsubsection{Diagonal}
 \index{matrices!diagonal}
