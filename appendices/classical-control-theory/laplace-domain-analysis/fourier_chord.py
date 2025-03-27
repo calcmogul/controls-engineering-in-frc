@@ -14,7 +14,6 @@ from bookutil import latex
 
 if "--noninteractive" in sys.argv:
     mpl.use("svg")
-plt.rc("text", usetex=True)
 
 
 def main():
@@ -49,21 +48,21 @@ def main():
 
     ax = fig.add_subplot(num_plots, 1, 2)
     ax.set_ylim(ylim)
-    ax.set_ylabel("$F_4$")
+    ax.set_ylabel("F₄")
     ax.plot(x, yf)
     ax.xaxis.set_visible(False)
     ax.yaxis.set_visible(True)
 
     ax = fig.add_subplot(num_plots, 1, 3)
     ax.set_ylim(ylim)
-    ax.set_ylabel("$A_4$")
+    ax.set_ylabel("A₄")
     ax.plot(x, ya)
     ax.xaxis.set_visible(False)
     ax.yaxis.set_visible(True)
 
     ax = fig.add_subplot(num_plots, 1, 4)
     ax.set_ylim(ylim)
-    ax.set_ylabel("$C_4$")
+    ax.set_ylabel("C₄")
     ax.plot(x, yc)
     ax.set_xlabel("Time (s)")
     ax.yaxis.set_visible(True)

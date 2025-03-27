@@ -15,7 +15,6 @@ from bookutil import latex
 
 if "--noninteractive" in sys.argv:
     mpl.use("svg")
-plt.rc("text", usetex=True)
 
 
 def main():

@@ -13,7 +13,6 @@ from bookutil import latex
 
 if "--noninteractive" in sys.argv:
     mpl.use("svg")
-plt.rc("text", usetex=True)
 
 
 def main():
@@ -31,9 +30,9 @@ def main():
     fig = plt.figure()
     ax = fig.add_subplot(111, projection="3d")
     ax.plot_surface(x, y, z)
-    ax.set_xlabel("$x$")
-    ax.set_ylabel("$y$")
-    ax.set_zlabel("$p(x, y)$")
+    ax.set_xlabel("x")
+    ax.set_ylabel("y")
+    ax.set_zlabel("p(x, y)")
 
     if "--noninteractive" in sys.argv:
         latex.savefig("joint_pdf")

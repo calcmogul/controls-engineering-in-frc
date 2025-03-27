@@ -12,7 +12,6 @@ from bookutil import latex
 
 if "--noninteractive" in sys.argv:
     mpl.use("svg")
-plt.rc("text", usetex=True)
 
 
 def main():
@@ -130,7 +129,7 @@ def main():
     # Robot position variance
     plt.figure(4)
     plt.xlabel("Time (s)")
-    plt.ylabel("Robot position variance ($cm^2$)")
+    plt.ylabel("Robot position variance (cm²)")
     plt.plot(t, [P[1, 1] for P in P_post], label="Kalman filter")
     plt.plot(t, [P[1, 1] for P in P_smooth], label="Kalman smoother")
     plt.legend()

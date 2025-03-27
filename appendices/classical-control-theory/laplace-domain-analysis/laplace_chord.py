@@ -14,7 +14,6 @@ from bookutil import latex
 
 if "--noninteractive" in sys.argv:
     mpl.use("svg")
-plt.rc("text", usetex=True)
 
 
 def sin_tf(freq, s):
@@ -53,14 +52,14 @@ def main():
 
     ax = fig.add_subplot(num_plots, 1, 1)
     ax.set_ylim(ylim)
-    ax.set_ylabel(r"Fmaj4 ($\sigma = 0$)")
+    ax.set_ylabel("Fmaj4 (σ = 0)")
     ax.plot(x, ysum)
     ax.xaxis.set_visible(True)
     ax.yaxis.set_visible(True)
 
     ax = fig.add_subplot(num_plots, 1, 2)
     ax.set_ylim(ylim)
-    ax.set_ylabel(r"Attenuating Fmaj4 ($\sigma = -25$)")
+    ax.set_ylabel("Attenuating Fmaj4 (σ = -25)")
     ax.plot(x, ysum_attenuating)
     ax.set_xlabel("Time (s)")
     ax.yaxis.set_visible(True)
@@ -83,9 +82,9 @@ def main():
     fig = plt.figure(2)
     ax = fig.add_subplot(111, projection="3d")
     ax.plot_surface(x, y, z, cmap=cm.coolwarm)
-    ax.set_xlabel(r"$Re(\sigma)$")
-    ax.set_ylabel(r"$Im(j\omega)$")
-    ax.set_zlabel(r"$H(s)$")
+    ax.set_xlabel("Re(σ)")
+    ax.set_ylabel("Im(jω)")
+    ax.set_zlabel("H(s)")
     ax.set_zticks([])
 
     if "--noninteractive" in sys.argv:

@@ -16,7 +16,6 @@ from bookutil import latex
 
 if "--noninteractive" in sys.argv:
     mpl.use("svg")
-plt.rc("text", usetex=True)
 
 
 def main():
@@ -102,7 +101,7 @@ def main():
 
     plt.subplot(3, 1, 1)
     plt.plot(t, r_rec[0, 0, :], label="Reference")
-    plt.ylabel(r"$\omega$ (rad/s)")
+    plt.ylabel("Angular velocity (rad/s)")
     plt.plot(t, x_pp1_rec[0, 0, :], label=f"Pole placement at {poles_pp1}")
     plt.plot(t, x_pp2_rec[0, 0, :], label=f"Pole placement at {poles_pp2}")
     plt.plot(t, x_lqr_rec[0, 0, :], label=f"LQR at {poles_lqr}")

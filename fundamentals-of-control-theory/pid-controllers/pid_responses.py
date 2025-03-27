@@ -13,7 +13,6 @@ from bookutil import latex
 
 if "--noninteractive" in sys.argv:
     mpl.use("svg")
-plt.rc("text", usetex=True)
 
 
 def sim(tf, T, label):
@@ -38,8 +37,8 @@ def main():
     dt = 0.0001
     T = np.arange(0, 6, dt)
 
-    plt.xlabel("Time ($s$)")
-    plt.ylabel("Position ($m$)")
+    plt.xlabel("Time (s)")
+    plt.ylabel("Position (m)")
 
     # Make plant
     G = TransferFunction(1, np.convolve([1, 5], [1, 0]))

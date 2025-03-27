@@ -18,7 +18,6 @@ mpl.rcParams["axes.prop_cycle"] = mpl.cycler(
 
 if "--noninteractive" in sys.argv:
     mpl.use("svg")
-plt.rc("text", usetex=True)
 
 
 def taylor_exp(x, n):
@@ -41,15 +40,15 @@ def main():
     xs = np.arange(xlim[0], xlim[1], 0.001)
     plt.xlim(xlim)
     plt.ylim([-2, 20])
-    plt.plot(xs, [math.exp(x) for x in xs], label="$e^t$")
+    plt.plot(xs, [math.exp(x) for x in xs], label="eᵗ")
     for i in range(5, -1, -1):
         plt.plot(
             xs,
             [taylor_exp(x, i) for x in xs],
-            label=f"Taylor series of $e^t$ ($n = {i}$)",
+            label=f"Taylor series of eᵗ (n = {i})",
         )
-    plt.xlabel("$t$")
-    plt.ylabel("$f(t)$")
+    plt.xlabel("t")
+    plt.ylabel("f(t)")
     plt.legend()
     if "--noninteractive" in sys.argv:
         latex.savefig("taylor_series")

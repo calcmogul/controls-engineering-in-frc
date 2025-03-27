@@ -13,7 +13,6 @@ from bookutil import latex
 
 if "--noninteractive" in sys.argv:
     mpl.use("svg")
-plt.rc("text", usetex=True)
 
 
 def main():
@@ -52,8 +51,8 @@ def main():
     system = StateSpace(A - B @ K, B @ K, C - D @ K, D @ K).to_discrete(dt)
 
     plt.figure(2)
-    plt.xlabel("Time ($s$)")
-    plt.ylabel("Position ($m$)")
+    plt.xlabel("Time (s)")
+    plt.ylabel("Position (m)")
 
     x = np.array([[0], [0], [0]])
     u = np.array([[1], [0], [0]])

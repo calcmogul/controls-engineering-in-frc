@@ -12,7 +12,6 @@ from bookutil import latex
 
 if "--noninteractive" in sys.argv:
     mpl.use("svg")
-plt.rc("text", usetex=True)
 
 
 def main():
@@ -29,7 +28,7 @@ def main():
     plt.plot(t, v, label="Velocity")
     plt.subplot(3, 1, 3)
     plt.xlabel("Time (s)")
-    plt.ylabel("Acceleration ($m/s^2$)")
+    plt.ylabel("Acceleration (m/s²)")
     plt.plot(t, a, label="Acceleration")
     if "--noninteractive" in sys.argv:
         latex.savefig("trapezoid_profile")
@@ -46,7 +45,7 @@ def main():
     plt.plot(t, v, label="Velocity")
     plt.subplot(3, 1, 3)
     plt.xlabel("Time (s)")
-    plt.ylabel("Acceleration ($m/s^2$)")
+    plt.ylabel("Acceleration (m/s²)")
     plt.plot(t, a, label="Acceleration")
     if "--noninteractive" in sys.argv:
         latex.savefig("s_curve_profile")

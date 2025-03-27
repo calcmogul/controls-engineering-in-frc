@@ -14,7 +14,6 @@ from bookutil import latex
 
 if "--noninteractive" in sys.argv:
     mpl.use("svg")
-plt.rc("text", usetex=True)
 
 
 def main():
@@ -114,7 +113,7 @@ def main():
 
     plt.subplot(3, 1, 1)
     plt.plot(t, r_rec[0, 0, :], label="Reference")
-    plt.ylabel(r"$\omega$ (rad/s)")
+    plt.ylabel("Angular velocity (rad/s)")
     plt.plot(t, x_rec[0, 0, :], label="No FF")
     plt.plot(t, x_ss_rec[0, 0, :], label="Steady-state FF")
     plt.plot(t, x_ts1_rec[0, 0, :], label="Plant inversion (Q and R cost)")
@@ -143,7 +142,7 @@ def main():
 
     plt.subplot(3, 1, 1)
     plt.plot(t, r_rec[0, 0, :], label="Reference")
-    plt.ylabel(r"$\omega$ (rad/s)")
+    plt.ylabel("Angular velocity (rad/s)")
     plt.plot(t, x_ts1_rec[0, 0, :], label="Plant inversion (Q and R cost)")
     plt.plot(t, x_ts2_rec[0, 0, :], label="Plant inversion (Q cost only)")
     plt.legend()

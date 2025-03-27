@@ -14,7 +14,6 @@ from bookutil import latex
 
 if "--noninteractive" in sys.argv:
     mpl.use("svg")
-plt.rc("text", usetex=True)
 
 
 def clamp(val, low, high):
@@ -52,9 +51,9 @@ def main():
     fig = plt.figure()
     ax = fig.add_subplot(111, projection="3d")
     ax.plot_surface(x, y, z, cmap=cm.coolwarm)
-    ax.set_xlabel(r"$Re(\sigma)$")
-    ax.set_ylabel(r"$Im(j\omega)$")
-    ax.set_zlabel("$H(s)$")
+    ax.set_xlabel("Re(σ)")
+    ax.set_ylabel("Im(jω)")
+    ax.set_zlabel("H(s)")
     ax.set_zticks([])
 
     if "--noninteractive" in sys.argv:

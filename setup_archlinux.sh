@@ -14,9 +14,8 @@
 #   * python-requests (for .tex HTTP link checker)
 #   * texlive-bibtexextra (for LaTeX package biblatex)
 #   * texlive-bin (for xelatex)
-#   * texlive-binextra (for matplotlib usetex dependencies)
-#   * texlive-fontsrecommended (for matplotlib usetex dependencies and fonts
-#                               needed by LaTeX package amsmath)
+#   * texlive-binextra (for latexmk)
+#   * texlive-fontsrecommended (for fonts needed by LaTeX package amsmath)
 #   * texlive-latex (for essential LaTeX packages)
 #   * texlive-latexextra (for LaTeX package csquotes)
 #   * texlive-latexrecommended (for LaTeX packages amsmath, graphicx, etc.)

@@ -13,7 +13,6 @@ from bookutil import latex
 
 if "--noninteractive" in sys.argv:
     mpl.use("svg")
-plt.rc("text", usetex=True)
 
 
 def main():
@@ -40,7 +39,7 @@ def main():
 
     # Left arrow
     plt.annotate(
-        "$x_1$",
+        "x₁",
         xy=(2.0, 0.025),  # Start coord of arrow
         xycoords="data",
         xytext=(2.0 - 1.0, 0.025),  # End coord of arrow
@@ -51,15 +50,15 @@ def main():
     )
 
     plt.annotate(
-        "$dx$",
+        "dx",
         xy=(2.25, -0.005),
         xycoords="data",
         ha="center",
         va="center",
     )
 
-    plt.xlabel("$x$")
-    plt.ylabel("$p(x)$")
+    plt.xlabel("x")
+    plt.ylabel("p(x)")
     if "--noninteractive" in sys.argv:
         latex.savefig("pdf")
     else:

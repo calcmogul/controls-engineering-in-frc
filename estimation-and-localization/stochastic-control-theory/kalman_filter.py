@@ -12,7 +12,6 @@ from bookutil import latex
 
 if "--noninteractive" in sys.argv:
     mpl.use("svg")
-plt.rc("text", usetex=True)
 
 
 def main():
@@ -108,7 +107,7 @@ def main():
     plt.plot(
         t, [x_hat[0, 0] for x_hat in x_hat_rec], label="Robot position estimate (cm)"
     )
-    plt.plot(t, [P[0, 0] for P in P_rec], label="Robot position variance ($cm^2$)")
+    plt.plot(t, [P[0, 0] for P in P_rec], label="Robot position variance (cm²)")
     plt.legend()
     if "--noninteractive" in sys.argv:
         latex.savefig("kalman_filter_robot_pos")
@@ -119,7 +118,7 @@ def main():
     plt.plot(
         t, [x_hat[2, 0] for x_hat in x_hat_rec], label="Wall position estimate (cm)"
     )
-    plt.plot(t, [P[2, 0] for P in P_rec], label="Wall position variance ($cm^2$)")
+    plt.plot(t, [P[2, 0] for P in P_rec], label="Wall position variance (cm²)")
     plt.legend()
     if "--noninteractive" in sys.argv:
         latex.savefig("kalman_filter_wall_pos")
