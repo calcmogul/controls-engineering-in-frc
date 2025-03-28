@@ -85,6 +85,7 @@ Install the dependencies via one of the following commands:
 
 * `./setup_archlinux.sh`
 * `./setup_ubuntu.sh`
+* `./setup_windows.sh`
 * `./setup_macos.sh`
 
 Run `make` to generate a PDF named controls-engineering-in-frc-ebook.pdf.
