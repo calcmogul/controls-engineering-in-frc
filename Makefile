@@ -22,8 +22,8 @@ PRINTER_IMGS := $(addprefix build/controls-engineering-in-frc-printer/,$(wildcar
 SNIPPETS := $(wildcard snippets/*)
 
 ifeq ($(OS),Windows_NT)
-	VENV_PYTHON := ./build/venv/Scripts/python3
-	VENV_PIP := ./build/venv/Scripts/pip3
+	VENV_PYTHON := ./build/venv/Scripts/python
+	VENV_PIP := ./build/venv/Scripts/pip
 else
 	VENV_PYTHON := ./build/venv/bin/python3
 	VENV_PIP := ./build/venv/bin/pip3
