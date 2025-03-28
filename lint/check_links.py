@@ -44,11 +44,6 @@ def verify_url(filename, line_number, url):
         if r.status_code == 403 and url.startswith("https://www.researchgate.net"):
             return True
 
-        # motors.vex.com tends to block scripts, so don't return verification
-        # failure for its links
-        if r.status_code == 403 and url.startswith("https://motors.vex.com"):
-            return True
-
         # Allow redirects for YouTube shortlinks
         if r.status_code == 303 and url.startswith("https://youtu.be"):
             return True
@@ -58,15 +53,7 @@ def verify_url(filename, line_number, url):
             if url != r.url:
                 print(f"    redirected to {r.url}")
             return False
-    except requests.ConnectionError as ex:
-        print(f"[{filename}:{line_number}]\n    {url}\n    {ex}")
-        return False
-    except requests.exceptions.Timeout as ex:
-        # motors.vex.com tends to time out for scripts, so don't return
-        # verification failure for its links
-        if url.startswith("https://motors.vex.com"):
-            return True
-
+    except (requests.ConnectionError, requests.exceptions.Timeout) as ex:
         print(f"[{filename}:{line_number}]\n    {url}\n    {ex}")
         return False
     return True
