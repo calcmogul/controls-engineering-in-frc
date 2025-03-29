@@ -203,7 +203,7 @@
 % #2: URL
 \makeatletter
 \DeclareRobustCommand{\qrcode}[2][width=2cm]{\hyper@normalise\@qrcode{#1}{#2}}
-\def\@qrcode#1#2{\input{|"snippets/qrcode_to_png.py #1 #2 build/\jobname"}}
+\def\@qrcode#1#2{\input{|"python snippets/qrcode_to_png.py #1 #2 build/\jobname"}}
 \makeatother
 
 % Set custom \cleardoublepage

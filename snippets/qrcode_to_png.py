@@ -17,17 +17,19 @@ def main():
         output_dir = sys.argv[3]
 
         filename = (
-            # Add directory prefix
-            os.path.join(
-                output_dir,
-                # Add filename prefix
-                "qrcode_" +
-                # Normalize URL
-                urllib.parse.quote(url)
-                # Replace invalid filesystem path characters
-                .replace(":", "_").replace(".", "_").replace("/", "_")
-                # Replace invalid LaTeX characters
-                .replace("%", "_"),
+            "/".join(
+                [
+                    # Add directory prefix
+                    output_dir,
+                    # Add filename prefix
+                    "qrcode_" +
+                    # Normalize URL
+                    urllib.parse.quote(url)
+                    # Replace invalid filesystem path characters
+                    .replace(":", "_").replace(".", "_").replace("/", "_")
+                    # Replace invalid LaTeX characters
+                    .replace("%", "_"),
+                ]
             )
             # Add file extension
             + ".png"
