@@ -5,16 +5,25 @@ on: [pull_request, push]
 jobs:
   lint:
     runs-on: ubuntu-24.04
+    container: archlinux/archlinux:base-devel
     steps:
+    - name: Install Git
+      run: sudo pacman -Sy --needed --noconfirm git
+
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0
+
+    - name: Add Git repo as a safe directory
+      run: git config --global --add safe.directory `pwd`
 
     - name: Make branch for git rev-parse
       run: git switch -c pr
 
     - name: Install system dependencies
-      run: ./setup_ubuntu.sh
+      run: |
+        sudo pacman -Syu --noconfirm
+        ./setup_archlinux.sh
 
     - name: Lint .py and .tex files
       run: make -j$(nproc) lint

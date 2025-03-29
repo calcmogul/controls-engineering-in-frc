@@ -37,62 +37,62 @@ jobs:
         name: e-book PDF (Arch Linux)
         path: controls-engineering-in-frc-ebook.pdf
 
-  ubuntu:
-    runs-on: ubuntu-24.04
-    timeout-minutes: 30
-    steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
+  # ubuntu:
+  #   runs-on: ubuntu-24.04
+  #   timeout-minutes: 30
+  #   steps:
+  #   - uses: actions/checkout@v4
+  #     with:
+  #       fetch-depth: 0
 
-    - name: Make branch for git rev-parse
-      run: git switch -c pr
+  #   - name: Make branch for git rev-parse
+  #     run: git switch -c pr
 
-    - uses: actions/setup-python@v5
-      with:
-        python-version: '3.13'
+  #   - uses: actions/setup-python@v5
+  #     with:
+  #       python-version: '3.13'
 
-    - name: Install system dependencies
-      run: ./setup_ubuntu.sh
+  #   - name: Install system dependencies
+  #     run: ./setup_ubuntu.sh
 
-    - name: Generate PDF
-      run: make -j$(nproc) ebook
+  #   - name: Generate PDF
+  #     run: make -j$(nproc) ebook
 
-    - uses: actions/upload-artifact@v4
-      with:
-        name: e-book PDF (Ubuntu)
-        path: controls-engineering-in-frc-ebook.pdf
+  #   - uses: actions/upload-artifact@v4
+  #     with:
+  #       name: e-book PDF (Ubuntu)
+  #       path: controls-engineering-in-frc-ebook.pdf
 
-  windows:
-    runs-on: windows-latest
-    defaults:
-      run:
-        shell: bash
-    timeout-minutes: 30
-    steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
+  # windows:
+  #   runs-on: windows-latest
+  #   defaults:
+  #     run:
+  #       shell: bash
+  #   timeout-minutes: 30
+  #   steps:
+  #   - uses: actions/checkout@v4
+  #     with:
+  #       fetch-depth: 0
 
-    - name: Make branch for git rev-parse
-      run: git switch -c pr
+  #   - name: Make branch for git rev-parse
+  #     run: git switch -c pr
 
-    - uses: actions/setup-python@v5
-      with:
-        python-version: '3.13'
+  #   - uses: actions/setup-python@v5
+  #     with:
+  #       python-version: '3.13'
 
-    - name: Install system dependencies
-      run: |
-        ./setup_windows.sh
-        echo "C:\texlive\2025\bin\windows" >> $GITHUB_PATH
+  #   - name: Install system dependencies
+  #     run: |
+  #       ./setup_windows.sh
+  #       echo "C:\texlive\2025\bin\windows" >> $GITHUB_PATH
 
-    - name: Generate PDF
-      run: make -j4 ebook
+  #   - name: Generate PDF
+  #     run: make -j4 ebook
 
-    - uses: actions/upload-artifact@v4
-      with:
-        name: e-book PDF (Windows)
-        path: controls-engineering-in-frc-ebook.pdf
+  #   - uses: actions/upload-artifact@v4
+  #     with:
+  #       name: e-book PDF (Windows)
+  #       path: controls-engineering-in-frc-ebook.pdf
 
   macos:
     runs-on: macos-14
