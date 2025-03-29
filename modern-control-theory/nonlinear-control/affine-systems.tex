@@ -65,3 +65,27 @@ dynamics in $\dot{\mat{r}}$.
   $\frac{\mat{r}_{k + 1} - \mat{r}_k}{T}$ where $T$ is the time period between
   the two \glspl{reference}.
 \end{remark}
+
+\subsection{Affine system discretization}
+
+We're going to discretize the following continuous time state-space model with a
+zero-order hold.
+\begin{equation*}
+  \dot{\mat{x}} = \mat{A}_c\mat{x} + \mat{B}_c\mat{u} + \mat{c}
+\end{equation*}
+
+Since $\mat{u}$ and $\mat{c}$ are held constant between updates, we can treat
+them as the aggregated input of the linear model
+$\dot{\mat{x}} = \mat{A}_c\mat{x} + \mat{B}_c\mat{u}$ and use the zero-order
+hold from theorem \ref{thm:linear_system_zoh}.
+\begin{align}
+  \dot{\mat{x}} &= \mat{A}_c\mat{x} + \mat{B}_c(\mat{u} + \mat{B}_c^+\mat{c})
+    \nonumber \\
+  \mat{x}_{k+1} &= \mat{A}_d \mat{x}_k + \mat{B}_d
+    (\mat{u}_k + \mat{B}_c^+\mat{c}_k) \nonumber \\
+  \mat{x}_{k+1} &= \mat{A}_d \mat{x}_k + \mat{B}_d \mat{u}_k +
+    \mat{B}_d \mat{B}_c^+\mat{c}_k
+\end{align}
+
+See theorem \ref{thm:linear_system_zoh} for how to compute $\mat{A}_d$ and
+$\mat{B}_d$.
