@@ -54,4 +54,4 @@ popd
 #   * pillow (required by qrcode, but not preinstalled)
 #   * pylint (for Python linting)
 #   * qrcode (for QR codes)
-pip3 install --user --break-system-packages autoflake black==24.3.0 pillow pylint qrcode
+pip3 install --user --break-system-packages autoflake black==25.1.0 pillow pylint qrcode

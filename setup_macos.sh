@@ -68,4 +68,4 @@ sudo /Library/TeX/texbin/tlmgr install \
 #  * pylint (for Python linting)
 #  * qrcode (for QR codes)
 #  * requests (for .tex HTTP link checker)
-pip3 install --user --break-system-packages autoflake black==24.3.0 pillow pylint qrcode requests wheel
+pip3 install --user --break-system-packages autoflake black==25.1.0 pillow pylint qrcode requests wheel
