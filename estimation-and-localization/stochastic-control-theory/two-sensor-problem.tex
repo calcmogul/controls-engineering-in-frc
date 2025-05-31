@@ -16,14 +16,14 @@ measurements $z_1$ and $z_2$.
 \begin{equation*}
   p(x|z_1, z_2) = \frac{p(x, z_1, z_2)}{p(z_1, z_2)}
                 = \frac{p(z_1, z_2|x)p(x)}{p(z_1, z_2)}
-                = \frac{p(z_1|x) p(z_2|x)}{p(z_1, z_2)}
+                = \frac{p(z_1|x) p(z_2|x) p(x)}{p(z_1, z_2)}
 \end{equation*}
 
 where $p(z_1, z_2) = \int_X p(z_1|x) p(z_2|x) \,dx$, but $z_1$ and $z_2$ are
 given and we can write
 \begin{equation*}
-  p(x|z_1, z_2) = \frac{1}{C} p(z_1|x) p(z_2|x) \quad \text{or} \quad
-    p(x|z_1, z_2) \sim p(z_1|x) p(z_2|x)
+  p(x|z_1, z_2) = \frac{1}{C} p(z_1|x) p(z_2|x) p(x) \quad \text{or} \quad
+    p(x|z_1, z_2) \sim p(z_1|x) p(z_2|x) p(x)
 \end{equation*}
 
 where $C$ is a normalizing constant providing that
@@ -49,9 +49,10 @@ where $p(z_1) = \int_X p(z_1|x) \,dx$, but $z_1$ is given so we can write
 
 The probability density $p(x|z_1)$ summarizes our complete knowledge about $x$.
 \begin{remark}
-  Even in the single measurement case, the estimation of the variable $x$ is a
-  data/information fusion problem. We combine \textit{prior probability} with
-  the probability resulting from the measurement.
+  In both the single and double measurement cases, the estimation of the
+  variable $x$ is a data/information fusion problem. In the single measurement
+  case, we combine the \textit{prior probability} with the probability resulting
+  from the measurement.
 \end{remark}
 
 \subsection{Single noisy observations: a Gaussian case}
