@@ -136,8 +136,10 @@ measure.
 
 See appendix \ref{ch:deriv_lqr} for how $\mat{K}$ is calculated. If the result
 is finite, the controller is guaranteed to be stable and
-\glslink{robustness}{robust} with a \gls{phase margin} of 60 degrees
-\cite{bib:lqr_phase_margin}.
+\glslink{robustness}{robust} with a \gls{gain margin} of infinity and a
+\gls{phase margin} of 60 degrees \cite{bib:lqr_phase_margin}. However, using a
+state estimator forfeits the robustness guarantees
+\cite{bib:lqg_guaranteed_margins}.
 \begin{remark}
   LQR design's $\mat{Q}$ and $\mat{R}$ matrices don't need \gls{discretization},
   but the $\mat{K}$ calculated for continuous time and discrete time
