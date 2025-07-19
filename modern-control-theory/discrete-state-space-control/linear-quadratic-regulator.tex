@@ -151,25 +151,24 @@ state estimator forfeits the robustness guarantees
 \index{controller design!linear-quadratic regulator!Bryson's rule}
 \index{optimal control!linear-quadratic regulator!Bryson's rule}
 
-The next obvious question is what values to choose for $\mat{Q}$ and $\mat{R}$.
-While this can be more of an art than a science, Bryson's rule provides a good
-starting point. With Bryson's rule, the diagonals of the $\mat{Q}$ and $\mat{R}$
-matrices are chosen based on the maximum acceptable value for each \gls{state}
-and actuator. The nondiagonal elements are zero. The balance between state
-excursion and control effort penalty ($\mat{Q}$ and $\mat{R}$ respectively) can
-be adjusted using the weighting factor $\rho$.
+Tuning $\mat{Q}$ and $\mat{R}$ is more art than science, but Bryson's rule
+\cite{bib:applied_optimal_control} provides a good starting point. Bryson's rule
+sets $\mat{Q}$'s diagonal to the inverse square of the acceptable state
+excursions and $\mat{R}$'s diagonal to the inverse square of the acceptable
+control efforts. The nondiagonal elements are zero.
 \begin{equation*}
   \mat{Q} = \diag\left(\frac{\rho}{\mat{x}_{max}^2}\right)
   \quad
   \mat{R} = \diag\left(\frac{1}{\mat{u}_{max}^2}\right)
 \end{equation*}
 
-where $\mat{x}_{max}$ is the vector of acceptable state tolerances,
-$\mat{u}_{max}$ is the vector of acceptable input tolerances, and $\rho$ is a
-tuning constant. Small values of $\rho$ penalize \gls{control effort} while
-large values of $\rho$ penalize \gls{state} excursions. Large values would be
-chosen in applications like fighter jets where performance is necessary.
-Spacecrafts would use small values to conserve their limited fuel supply.
+where $\mat{x}_{max}$ is the vector of acceptable state excursions,
+$\mat{u}_{max}$ is the vector of acceptable control efforts, and $\rho$ is a
+weighting factor that adjusts the balance between state excursion and control
+effort penalty. Small values of $\rho$ penalize \gls{control effort} while large
+values of $\rho$ penalize \gls{state} excursions. Large values would be chosen
+in applications like fighter jets where performance is necessary. Spacecrafts
+would use small values to conserve their limited fuel supply.
 
 \subsection{Pole placement vs LQR}
 
