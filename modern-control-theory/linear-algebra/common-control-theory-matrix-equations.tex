@@ -25,9 +25,9 @@ discrete time LQ problem.
     \mat{B}\T\mat{X}\mat{B})^{-1} \mat{B}\T\mat{X}\mat{A} + \mat{Q}
 \end{equation}
 
-Snippet \ref{lst:dare} computes the unique stabilizing solution to the discrete
-algebraic Riccati equation. A robust implementation should also enforce the
-following preconditions:
+Snippets \ref{lst:dare_dense} and \ref{lst:dare_sparse} compute the unique
+stabilizing solution to the discrete algebraic Riccati equation. A robust
+implementation should also enforce the following preconditions:
 \begin{enumerate}
   \item $\mat{Q} = \mat{Q}\T \geq \mat{0}$ and $\mat{R} = \mat{R}\T > \mat{0}$.
   \item $(\mat{A}, \mat{B})$ is a stabilizable pair (see subsection
@@ -35,9 +35,13 @@ following preconditions:
   \item $(\mat{A}, \mat{C})$ is a detectable pair where
     $\mat{Q} = \mat{C}\T\mat{C}$ (see section \ref{subsec:detectability}).
 \end{enumerate}
-\begin{coderemote}{cpp}{snippets/DARE.cpp}
-  \caption{Discrete algebraic Riccati equation solver in C++}
-  \label{lst:dare}
+\begin{coderemote}{cpp}{snippets/DARE_dense.cpp}
+  \caption{Dense discrete algebraic Riccati equation solver in C++}
+  \label{lst:dare_dense}
+\end{coderemote}
+\begin{coderemote}{cpp}{snippets/DARE_sparse.cpp}
+  \caption{Sparse discrete algebraic Riccati equation solver in C++}
+  \label{lst:dare_sparse}
 \end{coderemote}
 
 \subsection{Continuous Lyapunov equation}
