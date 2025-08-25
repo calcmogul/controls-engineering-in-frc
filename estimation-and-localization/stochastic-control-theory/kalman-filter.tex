@@ -552,7 +552,7 @@ optimally with LQR. The eigenvalues of the Kalman filter are
   \eig(\mat{A}(\mat{I} - \mat{K}_k\mat{C}))
 \end{equation}
 
-\subsubsection{Steady-state Kalman gain}
+\subsection{Steady-state Kalman gain}
 
 One may have noticed that the error covariance matrix can be updated
 independently of the rest of the \gls{model}. The error covariance matrix tends
@@ -572,6 +572,8 @@ so we can solve it more efficiently.
     $\mat{x} = \solve(\mat{A}, \mat{b})$.}
   \mat{K}\T &= \solve(\mat{S}\T, \mat{C}\mat{P}\T) \\
   \mat{K} &= \solve(\mat{S}\T, \mat{C}\mat{P}\T)\T
+  \intertext{Drop the transposes on symmetric matrices $\mat{S}$ and $\mat{P}$.}
+  \mat{K} &= \solve(\mat{S}, \mat{C}\mat{P})\T
 \end{align*}
 
 Snippet \ref{lst:kalman} computes the steady-state Kalman gain matrix.

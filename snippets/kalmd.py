@@ -17,4 +17,4 @@ def kalmd(A, C, Q, R):
     K -- numpy.array(outputs x states), Kalman gain matrix.
     """
     P = sp.linalg.solve_discrete_are(a=A.T, b=C.T, q=Q, r=R)
-    return np.linalg.solve(C @ P @ C.T + R, C @ P.T).T
+    return np.linalg.solve(C @ P @ C.T + R, C @ P).T
