@@ -349,8 +349,8 @@ would require going much more in depth into stochastic processes and It\^{o}
 calculus, which is outside the scope of this book.} This process has the
 property that its variance increases linearly with time $t$.
 
-\subsection{Setup}
-\index{state-space observers!Kalman filter!setup}
+\subsection{Example}
+\index{state-space observers!Kalman filter!example}
 
 \subsubsection{Equations to model}
 
@@ -451,64 +451,8 @@ add together. Therefore, $\mat{P}_{22} = \frac{20}{dt^2}$. It continues in this
 fashion until the matrix is filled up. Order doesn't matter for correlation, so
 the matrix is symmetric.
 
-\subsubsection{Selection of priors}
-
-Choosing good priors is important for a well performing filter, even if little
-information is known. This applies to both the measurement noise and the noise
-\gls{model}. The act of giving a \gls{state} variable a large variance means you
-know something about the \gls{system}. Namely, you aren't sure whether your
-initial guess is close to the true \gls{state}. If you make a guess and specify
-a small variance, you are telling the filter that you are very confident in your
-guess. If that guess is incorrect, it will take the filter a long time to move
-away from your guess to the true value.
-
-\subsubsection{Covariance selection}
-
-While one could assume no correlation between the \gls{state} variables and set
-the covariance matrix entries to zero, this may not reflect reality. The Kalman
-filter is still guarenteed to converge to the steady-state covariance after an
-infinite time, but it will take longer than otherwise.
-
-\subsubsection{Noise model selection}
-
-We typically use a Gaussian distribution for the noise \gls{model} because the
-sum of many independent random variables produces a normal distribution by the
-central limit theorem. Kalman filters only require that the noise is zero-mean.
-If the true value has an equal probability of being anywhere within a certain
-range, use a uniform distribution instead. Each of these communicates
-information regarding what you know about a system in addition to what you do
-not.
-
-\subsubsection{Process noise and measurement noise covariance selection}
-
-Recall that the process noise covariance is $\mat{Q}$ and the measurement noise
-covariance is $\mat{R}$. To tune the elements of these, it can be helpful to
-take a collection of measurements, then run the Kalman filter on them offline to
-evaluate its performance.
-
-The diagonal elements of $\mat{R}$ are the variances of each measurement, which
-can be easily determined from the offline measurements. The diagonal elements of
-$\mat{Q}$ are the variances of each \gls{state}. They represent how much each
-\gls{state} is expected to deviate from the \gls{model}.
-
-Selecting $\mat{Q}$ is more difficult. If the data is trusted too much over the
-model, one risks overfitting the data. One should balance estimating any hidden
-\glspl{state} sufficiently with actually filtering out the noise.
-
-\subsubsection{Modeling other noise colors}
-
-The Kalman filter assumes a \gls{model} with zero-mean white noise. If the
-\gls{model} is incomplete in some way, whether it's missing dynamics or assumes
-an incorrect noise \gls{model}, the residual
-$\widetilde{\mat{y}} = \mat{y} - \mat{C}\hat{\mat{x}}$ over time will have
-probability characteristics not indicative of white noise (e.g., it isn't
-zero-mean).
-
-To handle other colors of noise in a Kalman filter, define that color of noise
-in terms of white noise and augment the \gls{model} with it.
-
-\subsection{Simulation}
-\label{subsec:filter_simulation}
+\subsubsection{Simulation}
+\label{subsubsec:filter_simulation}
 
 Figure \ref{fig:filter_all} shows the \gls{state} estimates and measurements of
 the Kalman filter over time. Figure \ref{fig:filter_robot_pos} shows the
@@ -542,8 +486,8 @@ measurement alone.
 A Kalman filter can be represented as a Luenberger \gls{observer} by letting
 $\mat{L} = \mat{A} \mat{K}_k$ (see appendix \ref{sec:deriv_kalman_luenberger}).
 The Luenberger observer has a constant observer gain matrix $\mat{L}$, so the
-steady-state Kalman gain is used to calculate it. We will demonstrate how to
-find this shortly.
+steady-state Kalman gain is used to calculate it (see subsection
+\ref{subsec:steady-state_kalman_gain}).
 
 Kalman filter theory provides a way to place the poles of the Luenberger
 observer optimally in the same way we placed the poles of the controller
@@ -553,6 +497,7 @@ optimally with LQR. The eigenvalues of the Kalman filter are
 \end{equation}
 
 \subsection{Steady-state Kalman gain}
+\label{subsec:steady-state_kalman_gain}
 
 One may have noticed that the error covariance matrix can be updated
 independently of the rest of the \gls{model}. The error covariance matrix tends
@@ -581,3 +526,161 @@ Snippet \ref{lst:kalman} computes the steady-state Kalman gain matrix.
   \caption{Steady-state Kalman gain matrix calculation in Python}
   \label{lst:kalman}
 \end{coderemote}
+
+\subsection{Selection of priors}
+\index{state-space observers!Kalman filter!practical advice}
+
+Choosing good priors is important for a well performing filter, even if little
+information is known. This applies to both the measurement noise and the noise
+\gls{model}. The act of giving a \gls{state} variable a large variance means you
+know something about the \gls{system}. Namely, you aren't sure whether your
+initial guess is close to the true \gls{state}. If you make a guess and specify
+a small variance, you are telling the filter that you are very confident in your
+guess. If that guess is incorrect, it will take the filter a long time to move
+away from your guess to the true value.
+
+\subsection{Error covariance selection}
+
+While one could assume no correlation between the \gls{state} variables and set
+the error covariance matrix entries to zero, this may not reflect reality. The
+Kalman filter is still guarenteed to converge to the steady-state error
+covariance after a finite time, but it will take longer than otherwise.
+
+\subsection{Process noise and measurement noise covariance selection}
+
+Recall that the process noise covariance is $\mat{Q}$ and the measurement noise
+covariance is $\mat{R}$. To tune the elements of these, it can be helpful to
+take a collection of measurements, then run the Kalman filter on them offline to
+evaluate its performance.
+
+The diagonal elements of $\mat{R}$ are the variances of each measurement, which
+can be easily determined from the offline measurements. The diagonal elements of
+$\mat{Q}$ are the variances of each \gls{state}. They represent how much each
+\gls{state} is expected to deviate from the \gls{model}.
+
+Selecting $\mat{Q}$ is more difficult. If the data is trusted too much over the
+model, one risks overfitting the data. One should balance estimating any hidden
+\glspl{state} sufficiently with actually filtering out the noise.
+
+\subsection{Multiple measurement models}
+
+Some systems have different measurements available at different times due to
+varying sample rates or environmental factors (e.g., obscured localization
+targets). To incorporate them all into the state estimate, perform an update
+step at each time with a measurement model containing only the available
+measurements.
+
+For example, consider the following system
+\begin{equation*}
+  \underbrace{
+    \begin{bmatrix}
+      x_{k+1} \\
+      y_{k+1} \\
+      \theta_{k+1}
+    \end{bmatrix} =
+    \begin{bmatrix}
+      1 & 0 & 0 \\
+      0 & 1 & 0 \\
+      0 & 0 & 1
+    \end{bmatrix}
+    \begin{bmatrix}
+      x_k \\
+      y_k \\
+      \theta_k
+    \end{bmatrix} +
+    \begin{bmatrix}
+      \Delta T & 0 & 0 \\
+      0 & \Delta T & 0 \\
+      0 & 0 & \Delta T
+    \end{bmatrix}
+    \begin{bmatrix}
+      v_{x,k} \\
+      v_{y,k} \\
+      \omega_k
+    \end{bmatrix}
+  }_{\text{dynamical model}}
+\end{equation*}
+\begin{equation*}
+  \underbrace{
+    \begin{bmatrix}
+      x_k \\
+      y_k \\
+      \theta_k
+    \end{bmatrix} =
+    \begin{bmatrix}
+      1 & 0 & 0 \\
+      0 & 1 & 0 \\
+      0 & 0 & 1
+    \end{bmatrix}
+    \begin{bmatrix}
+      x_k \\
+      y_k \\
+      \theta_k
+    \end{bmatrix} +
+    \begin{bmatrix}
+      0 & 0 & 0 \\
+      0 & 0 & 0 \\
+      0 & 0 & 0
+    \end{bmatrix}
+    \begin{bmatrix}
+      v_{x,k} \\
+      v_{y,k} \\
+      \omega_k
+    \end{bmatrix}
+  }_{\text{measurement model}}
+\end{equation*}
+\begin{equation*}
+  \underbrace{
+    \mat{R} = \diag(\sigma_x^2, \sigma_y^2, \sigma_\theta^2)
+  }_{\text{measurement covariance matrix}}
+\end{equation*}
+
+If the $\theta$ measurement is unavailable, we can remove it from the
+measurement model and $\mat{R}$ matrix for that update step.
+\begin{align*}
+  \begin{bmatrix}
+    x_k \\
+    y_k
+  \end{bmatrix} &=
+  \begin{bmatrix}
+    1 & 0 & 0 \\
+    0 & 1 & 0
+  \end{bmatrix}
+  \begin{bmatrix}
+    x_k \\
+    y_k \\
+    \theta_k
+  \end{bmatrix} +
+  \begin{bmatrix}
+    0 & 0 & 0 \\
+    0 & 0 & 0
+  \end{bmatrix}
+  \begin{bmatrix}
+    v_{x,k} \\
+    v_{y,k} \\
+    \omega_k
+  \end{bmatrix} \\
+  \mat{R} &= \diag(\sigma_x^2, \sigma_y^2)
+\end{align*}
+
+\subsection{Noise model selection}
+
+We typically use a Gaussian distribution for the noise \gls{model} because the
+sum of many independent random variables produces a normal distribution by the
+central limit theorem. Kalman filters only require that the noise is zero-mean.
+If the true value has an equal probability of being anywhere within a certain
+range, use a uniform distribution instead. Each of these communicates
+information regarding what you know about a system in addition to what you do
+not.
+
+\subsection{Modeling other noise colors}
+
+The Kalman filter assumes a \gls{model} with zero-mean white noise. If the
+\gls{model} is incomplete in some way, whether it's missing dynamics or assumes
+an incorrect noise \gls{model}, the residual
+$\widetilde{\mat{y}} = \mat{y} - \mat{C}\hat{\mat{x}}$ over time will have
+probability characteristics not indicative of white noise (e.g., it isn't
+zero-mean).
+
+To handle other colors of noise in a Kalman filter, define that color of noise
+in terms of white noise and augment the \gls{model} with it.

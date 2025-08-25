@@ -8,7 +8,7 @@ estimator for linear \glspl{system}. One method for extending it to nonlinear
 systems is the extended Kalman filter.
 
 The extended Kalman filter (EKF) \glslink{linearization}{linearizes} the
-dynamics and measurement models during the prediction and correction steps
+dynamical and measurement models during the prediction and correction steps
 respectively. Then, the linear Kalman filter equations are used to compute the
 error covariance matrix $\mat{P}$ and Kalman gain matrix $\mat{K}$.
 
@@ -43,7 +43,7 @@ an extended Kalman filter at the $k^{th}$ timestep.
   \end{align}
   \begin{figurekey}
     \begin{tabular}{llll}
-      $f(\mat{x}, \mat{u})$ & continuous dynamics model & $\hat{\mat{x}}$ & state estimate vector \\
+      $f(\mat{x}, \mat{u})$ & continuous dynamical model & $\hat{\mat{x}}$ & state estimate vector \\
       $h(\mat{x}, \mat{u})$ & measurement model & $\mat{u}$ & input vector \\
       $T$ & sample timestep duration & $\mat{y}$ & output vector \\
       $\mat{P}$ & error covariance matrix & $\mat{Q}$ & process noise covariance \\
@@ -56,7 +56,7 @@ an extended Kalman filter at the $k^{th}$ timestep.
 \end{theorem}
 \begin{remark}
   To implement a discrete time extended Kalman filter from a continuous model,
-  the dynamics model can be numerically integrated via a method from section
+  the dynamical model can be numerically integrated via a method from section
   \ref{sec:numerical_integration_methods} and the continuous time $\mat{Q}$ and
   $\mat{R}$ matrices can be \glslink{discretization}{discretized} using theorem
   \ref{thm:linear_system_zoh}.
