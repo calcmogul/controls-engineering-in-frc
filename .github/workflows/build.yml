@@ -11,7 +11,7 @@ jobs:
     - name: Install Git
       run: sudo pacman -Sy --needed --noconfirm git
 
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
       with:
         fetch-depth: 0
 
@@ -32,7 +32,7 @@ jobs:
         source /etc/profile
         make -j$(nproc) ebook
 
-    - uses: actions/upload-artifact@v4
+    - uses: actions/upload-artifact@v5
       with:
         name: e-book PDF (Arch Linux)
         path: controls-engineering-in-frc-ebook.pdf
@@ -41,16 +41,16 @@ jobs:
   #   runs-on: ubuntu-24.04
   #   timeout-minutes: 30
   #   steps:
-  #   - uses: actions/checkout@v4
+  #   - uses: actions/checkout@v5
   #     with:
   #       fetch-depth: 0
 
   #   - name: Make branch for git rev-parse
   #     run: git switch -c pr
 
-  #   - uses: actions/setup-python@v5
+  #   - uses: actions/setup-python@v6
   #     with:
-  #       python-version: '3.13'
+  #       python-version: '3.14'
 
   #   - name: Install system dependencies
   #     run: ./setup_ubuntu.sh
@@ -58,7 +58,7 @@ jobs:
   #   - name: Generate PDF
   #     run: make -j$(nproc) ebook
 
-  #   - uses: actions/upload-artifact@v4
+  #   - uses: actions/upload-artifact@v5
   #     with:
   #       name: e-book PDF (Ubuntu)
   #       path: controls-engineering-in-frc-ebook.pdf
@@ -70,16 +70,16 @@ jobs:
   #       shell: bash
   #   timeout-minutes: 30
   #   steps:
-  #   - uses: actions/checkout@v4
+  #   - uses: actions/checkout@v5
   #     with:
   #       fetch-depth: 0
 
   #   - name: Make branch for git rev-parse
   #     run: git switch -c pr
 
-  #   - uses: actions/setup-python@v5
+  #   - uses: actions/setup-python@v6
   #     with:
-  #       python-version: '3.13'
+  #       python-version: '3.14'
 
   #   - name: Install system dependencies
   #     run: |
@@ -89,7 +89,7 @@ jobs:
   #   - name: Generate PDF
   #     run: make -j4 ebook
 
-  #   - uses: actions/upload-artifact@v4
+  #   - uses: actions/upload-artifact@v5
   #     with:
   #       name: e-book PDF (Windows)
   #       path: controls-engineering-in-frc-ebook.pdf
@@ -98,7 +98,7 @@ jobs:
     runs-on: macos-14
     timeout-minutes: 30
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
       with:
         fetch-depth: 0
 
@@ -113,7 +113,7 @@ jobs:
         eval `/usr/libexec/path_helper`
         make -j4 ebook
 
-    - uses: actions/upload-artifact@v4
+    - uses: actions/upload-artifact@v5
       with:
         name: e-book PDF (macOS)
         path: controls-engineering-in-frc-ebook.pdf
