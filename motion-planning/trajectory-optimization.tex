@@ -36,7 +36,7 @@ The nice thing about Sleipnir is users don't have to put their system in the
 form shown above manually; they can write it in natural mathematical form and
 it'll be converted for them. We'll cover some examples next.
 
-\subsection{Double integrator minimum time}
+\subsection{Double integrator}
 
 A system with position and velocity states and an acceleration input is an
 example of a double integrator. We want to go from $0$ m at rest to $10$ m at
@@ -63,14 +63,14 @@ Jormungandr is the Python version of Sleipnir and can be installed via
 
 First, we need to make a problem instance.
 \begin{coderemotesubset}{Python}
-  {motion-planning/double_integrator_minimum_time.py}{22}{28}
+  {motion-planning/double_integrator.py}{22}{28}
 \end{coderemotesubset}
 
 \subsubsection{Creating decision variables}
 
 Next, we need to make decision variables for our state and input.
 \begin{coderemotesubset}{Python}
-  {motion-planning/double_integrator_minimum_time.py}{30}{34}
+  {motion-planning/double_integrator.py}{30}{34}
 \end{coderemotesubset}
 
 By convention, we use capital letters for the variables to designate
@@ -80,19 +80,19 @@ matrices.
 
 Now, we need to apply dynamics constraints between timesteps.
 \begin{coderemotesubset}{Python}
-  {motion-planning/double_integrator_minimum_time.py}{36}{45}
+  {motion-planning/double_integrator.py}{36}{45}
 \end{coderemotesubset}
 
 Next, we'll apply the state and input constraints.
 \begin{coderemotesubset}{Python}
-  {motion-planning/double_integrator_minimum_time.py}{47}{57}
+  {motion-planning/double_integrator.py}{47}{57}
 \end{coderemotesubset}
 
 \subsubsection{Specifying a cost function}
 
 Next, we'll create a cost function for minimizing position error.
 \begin{coderemotesubset}{Python}
-  {motion-planning/double_integrator_minimum_time.py}{59}{63}
+  {motion-planning/double_integrator.py}{59}{60}
 \end{coderemotesubset}
 
 The cost function passed to minimize() should produce a scalar output.
@@ -101,7 +101,7 @@ The cost function passed to minimize() should produce a scalar output.
 
 Now we can solve the problem.
 \begin{coderemotesubset}{Python}
-  {motion-planning/double_integrator_minimum_time.py}{65}{65}
+  {motion-planning/double_integrator.py}{62}{62}
 \end{coderemotesubset}
 
 The solver will find the decision variable values that minimize the cost
@@ -118,15 +118,15 @@ You can obtain the solution by querying the values of the variables like so.
   \end{lstlisting}
 \end{code}
 \begin{bookfigure}
-  \begin{minisvg}{2}{build/motion-planning/double_integrator_minimum_time_position}
+  \begin{minisvg}{2}{build/motion-planning/double_integrator_position}
     \caption{Double integrator position}
   \end{minisvg}
   \hfill
-  \begin{minisvg}{2}{build/motion-planning/double_integrator_minimum_time_velocity}
+  \begin{minisvg}{2}{build/motion-planning/double_integrator_velocity}
     \caption{Double integrator velocity}
   \end{minisvg}
   \hfill
-  \begin{minisvg}{2}{build/motion-planning/double_integrator_minimum_time_acceleration}
+  \begin{minisvg}{2}{build/motion-planning/double_integrator_acceleration}
     \caption{Double integrator acceleration}
   \end{minisvg}
 \end{bookfigure}
