@@ -59,7 +59,7 @@ viewing.
 Example Python scripts can be obtained from frccontrol's Git repository at
 https://github.com/calcmogul/frccontrol/tree/main/examples. Furthermore, all
 scripts in the [code](code) directory are runnable by the user. They require
-Python 3.5+ and frccontrol. frccontrol can be installed with the following
+Python 3.12+ and frccontrol. frccontrol can be installed with the following
 command.
 
 ```

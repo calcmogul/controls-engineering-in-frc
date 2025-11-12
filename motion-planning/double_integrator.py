@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 
-"""Solves double integrator minimum-time trajectory optimization problem with Jormungandr."""
+"""Solves double integrator minimum-time trajectory optimization problem with Sleipnir."""
 
 from pathlib import Path
 import re
 import sys
 
-from jormungandr.optimization import Problem
+from sleipnir.optimization import Problem
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
