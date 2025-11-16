@@ -279,7 +279,7 @@ ellipsoid over time.
 If the update period is constant, the predict and correct steps are run in a
 loop as opposed to sporadically skipping correct steps, and the
 $(\mat{A}, \mat{C})$ pair is detectable, the error covariance matrix $\mat{P}$
-willl approach a steady-state. This steady-state $\mat{P}$ results in a
+will approach a steady-state. This steady-state $\mat{P}$ results in a
 steady-state Kalman gain that can be used instead of the error covariance update
 equations to conserve computational resources.
 
@@ -543,7 +543,7 @@ away from your guess to the true value.
 
 While one could assume no correlation between the \gls{state} variables and set
 the error covariance matrix entries to zero, this may not reflect reality. The
-Kalman filter is still guarenteed to converge to the steady-state error
+Kalman filter is still guaranteed to converge to the steady-state error
 covariance after a finite time, but it will take longer than otherwise.
 
 \subsection{Process noise and measurement noise covariance selection}
