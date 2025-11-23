@@ -292,7 +292,7 @@ def main():
     rb = 0.59055 / 2.0
 
     trajectory = TrajectoryGenerator.generateTrajectory(
-        [Pose2d(1.330117, 13, 0), Pose2d(10.17, 18, 0)],
+        [Pose2d(1, 13, 0), Pose2d(10, 18, 0)],
         TrajectoryConfig(3.5, 3.5),
     )
 
