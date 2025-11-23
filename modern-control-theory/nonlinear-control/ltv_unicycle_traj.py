@@ -12,10 +12,9 @@ import frccontrol as fct
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
-from wpimath.geometry import Pose2d
-from wpimath.trajectory import TrajectoryConfig, TrajectoryGenerator
 
 from bookutil import latex, plotutil
+from bookutil.trajectory import generate_trajectory
 
 if "--noninteractive" in sys.argv:
     mpl.use("svg")
@@ -42,8 +41,8 @@ class LTVUnicycleController:
         Parameter ``omega_desired``:
             The desired angular velocity in radians per second.
         """
-        error = pose_desired.relativeTo(pose)
-        e = np.array([[error.x], [error.y], [error.rotation().radians()]])
+        error = pose_desired.relative_to(pose)
+        e = np.array([[error.x], [error.y], [error.rotation.radians]])
 
         A = np.zeros((3, 3))
         if abs(v_desired) < 1e-9:
@@ -190,12 +189,12 @@ class Drivetrain:
 
         # Pose feedback
         v_cmd, omega_cmd = self.pose_controller.calculate(
-            Pose2d(
+            fct.Pose2d.from_triplet(
                 self.observer.x_hat[0, 0],
                 self.observer.x_hat[1, 0],
                 self.observer.x_hat[2, 0],
             ),
-            Pose2d(r[0, 0], r[1, 0], r[2, 0]),
+            fct.Pose2d.from_triplet(r[0, 0], r[1, 0], r[2, 0]),
             (r[3, 0] + r[4, 0]) / 2,
             (r[4, 0] - r[3, 0]) / (2 * self.rb),
         )
@@ -220,23 +219,26 @@ def main():
     # Radius of robot in meters
     rb = 0.59055 / 2.0
 
-    trajectory = TrajectoryGenerator.generateTrajectory(
-        [Pose2d(1, 13, 0), Pose2d(10, 18, 0)],
-        TrajectoryConfig(3.5, 3.5),
+    trajectory = generate_trajectory(
+        [fct.Pose2d.from_triplet(1, 13, 0), fct.Pose2d.from_triplet(10, 18, 0)],
+        3.5,
+        3.5,
+        3.5,
+        3.5,
     )
 
     refs = []
-    t_rec = np.arange(0, trajectory.totalTime(), dt)
+    t_rec = np.arange(0, trajectory.total_time(), dt)
     for t in t_rec:
         sample = trajectory.sample(t)
-        vl = sample.velocity - sample.velocity * sample.curvature * rb
-        vr = sample.velocity + sample.velocity * sample.curvature * rb
+        vl = sample.v - sample.ω * rb
+        vr = sample.v + sample.ω * rb
         refs.append(
             np.array(
                 [
-                    [sample.pose.X()],
-                    [sample.pose.Y()],
-                    [sample.pose.rotation().radians()],
+                    [sample.x],
+                    [sample.y],
+                    [sample.θ],
                     [vl],
                     [vr],
                 ]

@@ -11,10 +11,9 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.signal import StateSpace
-from wpimath.geometry import Pose2d, Twist2d
-from wpimath.trajectory import TrajectoryConfig, TrajectoryGenerator
 
 from bookutil import latex
+from bookutil.trajectory import generate_trajectory
 
 if "--noninteractive" in sys.argv:
     mpl.use("svg")
@@ -266,12 +265,14 @@ class DrivetrainSE3(Drivetrain):
         ) / 2.0
         dtheta = heading - self.prev_heading
 
-        pose = Pose2d(self.x_hat[0, 0], self.x_hat[1, 0], self.x_hat[2, 0])
-        pose = pose.exp(Twist2d(dx, 0.0, dtheta))
+        pose = fct.Pose2d.from_triplet(
+            self.x_hat[0, 0], self.x_hat[1, 0], self.x_hat[2, 0]
+        )
+        pose = pose + fct.Twist2d(dx, 0.0, dtheta).exp()
 
         self.x_hat[0, 0] = pose.x
         self.x_hat[1, 0] = pose.y
-        self.x_hat[2, 0] = pose.rotation().radians()
+        self.x_hat[2, 0] = pose.rotation.radians
         self.x_hat[3, 0] = self.x[3, 0]
         self.x_hat[4, 0] = self.x[4, 0]
         self.x_hat[5, 0] = left_pos
@@ -289,23 +290,26 @@ def main():
     # Radius of robot in meters
     rb = 0.59055 / 2.0
 
-    trajectory = TrajectoryGenerator.generateTrajectory(
-        [Pose2d(1, 13, 0), Pose2d(10, 18, 0)],
-        TrajectoryConfig(3.5, 3.5),
+    trajectory = generate_trajectory(
+        [fct.Pose2d.from_triplet(1, 13, 0), fct.Pose2d.from_triplet(10, 18, 0)],
+        3.5,
+        3.5,
+        3.5,
+        3.5,
     )
 
     refs = []
-    t_rec = np.arange(0, trajectory.totalTime(), dt)
+    t_rec = np.arange(0, trajectory.total_time(), dt)
     for t in t_rec:
         sample = trajectory.sample(t)
-        vl = sample.velocity - sample.velocity * sample.curvature * rb
-        vr = sample.velocity + sample.velocity * sample.curvature * rb
+        vl = sample.v - sample.ω * rb
+        vr = sample.v + sample.ω * rb
         refs.append(
             np.array(
                 [
-                    [sample.pose.X()],
-                    [sample.pose.Y()],
-                    [sample.pose.rotation().radians()],
+                    [sample.x],
+                    [sample.y],
+                    [sample.θ],
                     [vl],
                     [vr],
                 ]

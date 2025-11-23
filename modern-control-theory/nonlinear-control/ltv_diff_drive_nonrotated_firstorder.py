@@ -13,10 +13,9 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.signal import StateSpace
-from wpimath.geometry import Pose2d
-from wpimath.trajectory import TrajectoryConfig, TrajectoryGenerator
 
 from bookutil import latex, plotutil
+from bookutil.trajectory import generate_trajectory
 
 if "--noninteractive" in sys.argv:
     mpl.use("svg")
@@ -251,23 +250,26 @@ def main():
     # Radius of robot in meters
     rb = 0.59055 / 2.0
 
-    trajectory = TrajectoryGenerator.generateTrajectory(
-        [Pose2d(1, 13, 0), Pose2d(10, 18, 0)],
-        TrajectoryConfig(3.5, 3.5),
+    trajectory = generate_trajectory(
+        [fct.Pose2d.from_triplet(1, 13, 0), fct.Pose2d.from_triplet(10, 18, 0)],
+        3.5,
+        3.5,
+        3.5,
+        3.5,
     )
 
     refs = []
-    t_rec = np.arange(0, trajectory.totalTime(), dt)
+    t_rec = np.arange(0, trajectory.total_time(), dt)
     for t in t_rec:
         sample = trajectory.sample(t)
-        vl = sample.velocity - sample.velocity * sample.curvature * rb
-        vr = sample.velocity + sample.velocity * sample.curvature * rb
+        vl = sample.v - sample.ω * rb
+        vr = sample.v + sample.ω * rb
         refs.append(
             np.array(
                 [
-                    [sample.pose.X()],
-                    [sample.pose.Y()],
-                    [sample.pose.rotation().radians()],
+                    [sample.x],
+                    [sample.y],
+                    [sample.θ],
                     [vl],
                     [vr],
                 ]
