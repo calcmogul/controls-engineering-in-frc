@@ -19,10 +19,11 @@ class SingleJointedArm:
     """An frccontrol system representing a single-jointed arm."""
 
     def __init__(self, dt):
-        """Single-jointed arm subsystem.
+        """
+        Single-jointed arm subsystem.
 
-        Keyword arguments:
-        dt -- time between model/controller updates
+        Parameter ``dt``:
+            Time between model/controller updates.
         """
         self.dt = dt
 
@@ -65,9 +66,10 @@ class SingleJointedArm:
         """
         Advance the model by one timestep.
 
-        Keyword arguments:
-        r -- the current reference
-        next_r -- the next reference
+        Parameter ``r``:
+            The current reference.
+        Parameter ``next_r``:
+            The next reference.
         """
         # Update sim model
         self.x = self.sim.A @ self.x + self.sim.B @ self.u

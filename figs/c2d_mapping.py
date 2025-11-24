@@ -35,11 +35,13 @@ def z_to_rgb(z):
 
 
 def exp_map(x, y):
-    """Performs the exponential map of a complex number.
+    """
+    Performs the exponential map of a complex number.
 
-    Keyword arguments:
-    x -- the real part
-    y -- the imaginary part
+    Parameter ``x``:
+        The real part.
+    Parameter ``y``:
+        The imaginary part.
     """
     z = complex(x, y)
     z = np.exp(z * T)
@@ -47,11 +49,13 @@ def exp_map(x, y):
 
 
 def plot_phase_lines(ax, transform=None):
-    """Plots phase lines.
+    """
+    Plots phase lines.
 
-    Keyword arguments:
-    ax -- Axes object
-    transform -- x_new, y_new = f(x, y)
+    Parameter ``ax``:
+        Axes object.
+    Parameter ``transform``:
+        x_new, y_new = f(x, y).
     """
     xmin = -2.0 * math.pi
     ymin = -math.pi

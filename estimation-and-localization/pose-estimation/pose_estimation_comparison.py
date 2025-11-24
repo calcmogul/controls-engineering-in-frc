@@ -21,25 +21,33 @@ if "--noninteractive" in sys.argv:
 
 
 def linearized_differential_drive(motor, num_motors, m, r, rb, J, Gl, Gr, states):
-    """Returns the linearized state-space model for a differential drive.
+    """
+    Returns the linearized state-space model for a differential drive.
 
     States: [[x], [y], [theta], [left velocity], [right velocity]]
     Inputs: [[left voltage], [right voltage]]
     Outputs: [[theta], [left velocity], [right velocity]]
 
-    Keyword arguments:
-    motor -- instance of DCMotor
-    num_motors -- number of motors driving the mechanism
-    m -- mass of robot in kg
-    r -- radius of wheels in meters
-    rb -- radius of robot in meters
-    J -- moment of inertia of the differential drive in kg-m²
-    Gl -- gear ratio of left side of differential drive
-    Gr -- gear ratio of right side of differential drive
-    states -- state vector around which to linearize model
-
+    Parameter ``motor``:
+        Instance of DCMotor.
+    Parameter ``num_motors``:
+        Number of motors driving the mechanism.
+    Parameter ``m``:
+        Mass of robot in kg.
+    Parameter ``r``:
+        Radius of wheels in meters.
+    Parameter ``rb``:
+        Radius of robot in meters.
+    Parameter ``J``:
+        Moment of inertia of the differential drive in kg-m².
+    Parameter ``Gl``:
+        Gear ratio of left side of differential drive.
+    Parameter ``Gr``:
+        Gear ratio of right side of differential drive.
+    Parameter ``states``:
+        State vector around which to linearize model.
     Returns:
-    StateSpace instance containing continuous model
+        StateSpace instance containing continuous model.
     """
     motor = fct.models.gearbox(motor, num_motors)
 
@@ -83,10 +91,11 @@ class Drivetrain(metaclass=ABCMeta):
     """An frccontrol system for a differential drive."""
 
     def __init__(self, dt):
-        """Differential drive subsystem.
+        """
+        Differential drive subsystem.
 
-        Keyword arguments:
-        dt -- time between model/controller updates
+        Parameter ``dt``:
+            Time between model/controller updates.
         """
         self.dt = dt
 
@@ -110,8 +119,8 @@ class Drivetrain(metaclass=ABCMeta):
         """
         Return differential drive model linearized around the given state.
 
-        Keyword arguments:
-        states -- state around which to linearize.
+        Parameter ``states``:
+            State around which to linearize.
         """
         # Number of motors per side
         num_motors = 3.0
@@ -142,12 +151,12 @@ class Drivetrain(metaclass=ABCMeta):
         """
         Nonlinear differential drive dynamics.
 
-        Keyword arguments:
-        x -- state vector
-        u -- input vector
-
+        Parameter ``x``:
+            State vector.
+        Parameter ``u``:
+            Input vector.
         Returns:
-        dx/dt -- state derivative
+            State derivative.
         """
         return (
             np.array(
@@ -166,17 +175,16 @@ class Drivetrain(metaclass=ABCMeta):
 
     @abstractmethod
     def update_observer(self):
-        """
-        Update observer.
-        """
+        """Update observer."""
 
     def update(self, r, next_r):
         """
         Advance the model by one timestep.
 
-        Keyword arguments:
-        r -- the current reference
-        next_r -- the next reference
+        Parameter ``r``:
+            The current reference.
+        Parameter ``next_r``:
+            The next reference.
         """
         self.x = fct.rkdp(self.f, self.x, self.u, self.dt)
 
@@ -196,9 +204,7 @@ class Drivetrain(metaclass=ABCMeta):
 
 
 class DrivetrainExact(Drivetrain):
-    """
-    An frccontrol system for a differential drive with exact observer.
-    """
+    """An frccontrol system for a differential drive with exact observer."""
 
     def __init__(self, dt, x):
         Drivetrain.__init__(self, dt)
@@ -207,9 +213,7 @@ class DrivetrainExact(Drivetrain):
         self.x_hat = x.copy()
 
     def update_observer(self):
-        """
-        Update observer.
-        """
+        """Update observer."""
         self.x_hat = fct.rkdp(self.f, self.x_hat, self.u, self.dt)
 
 
@@ -225,9 +229,7 @@ class DrivetrainEuler(Drivetrain):
         self.x_hat = x.copy()
 
     def update_observer(self):
-        """
-        Update observer.
-        """
+        """Update observer."""
         v = (self.x[3, 0] + self.x[4, 0]) / 2.0
         omega = (self.x[4, 0] - self.x[3, 0]) / (2.0 * self.rb)
 
@@ -241,9 +243,7 @@ class DrivetrainEuler(Drivetrain):
 
 
 class DrivetrainSE3(Drivetrain):
-    """
-    An frccontrol system for a differential drive with SE(3) observer.
-    """
+    """An frccontrol system for a differential drive with SE(3) observer."""
 
     def __init__(self, dt, x):
         Drivetrain.__init__(self, dt)
@@ -256,9 +256,7 @@ class DrivetrainSE3(Drivetrain):
         self.prev_right_pos = 0.0
 
     def update_observer(self):
-        """
-        Update observer.
-        """
+        """Update observer."""
         heading = self.x[2, 0]
         left_pos = self.x[5, 0]
         right_pos = self.x[6, 0]

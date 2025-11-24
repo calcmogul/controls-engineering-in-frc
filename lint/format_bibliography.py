@@ -13,12 +13,15 @@ class Entry:
     """
 
     def __init__(self, entry_type, label, fields):
-        """Construct an Entry
+        """
+        Construct an Entry.
 
-        Keyword arguments:
-        entry_type -- bibliography entry type (e.g., misc, online)
-        label -- LaTeX label
-        fields -- dictionary of field types and values
+        Parameter ``entry_type``:
+            Bibliography entry type (e.g., misc, online).
+        Parameter ``label``:
+            LaTeX label.
+        Parameter ``fields``:
+            Dictionary of field types and values.
         """
         self.entry_type = entry_type
         self.label = label

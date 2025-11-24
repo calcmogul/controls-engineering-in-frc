@@ -12,24 +12,27 @@ import urllib3
 
 
 def lint_links(link):
-    """Runs the URL in the regex Match object through the link linter.
+    """
+    Runs the URL in the regex Match object through the link linter.
 
-    Keyword arguments:
-    link -- a tuple containing the filename, line number of URL, and URL
+    Parameter ``link``:
+        A tuple containing the filename, line number of URL, and URL.
     """
     return verify_url(link[0], link[1], link[2])
 
 
 def verify_url(filename, line_number, url):
-    """Verifies URL is reachable and returns 200 status code.
+    """
+    Verifies URL is reachable and returns 200 status code.
 
-    Keyword arguments:
-    filename -- name of file containing URL
-    line_number -- line number of URL
-    url -- the URL to verify
-
+    Parameter ``filename``:
+        Name of file containing URL.
+    Parameter ``line_number``:
+        Line number of URL.
+    Parameter ``url``:
+        The URL to verify.
     Returns:
-    True if verification succeeded or False otherwise
+        True if verification succeeded or False otherwise.
     """
     try:
         headers = {"User-Agent": "Mozilla/5.0"}

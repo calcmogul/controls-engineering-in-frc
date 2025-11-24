@@ -22,9 +22,7 @@ if "--noninteractive" in sys.argv:
 
 
 class LTVUnicycleController:
-    """
-    A linear time-varying unicycle controller.
-    """
+    """A linear time-varying unicycle controller."""
 
     def __init__(self, q, r, dt):
         self.q = q
@@ -32,13 +30,17 @@ class LTVUnicycleController:
         self.dt = dt
 
     def calculate(self, pose, pose_desired, v_desired, omega_desired):
-        """Returns the next output of the unicycle controller.
+        """
+        Returns the next output of the unicycle controller.
 
-        Keyword arguments:
-        pose -- the current pose
-        pose_desired -- the desired pose
-        v_desired -- the desired linear velocity in meters per second
-        omega_desired -- the desired angular velocity in radians per second
+        Parameter ``pose``:
+            The current pose.
+        Parameter ``pose_desired``:
+            The desired pose.
+        Parameter ``v_desired``:
+            The desired linear velocity in meters per second.
+        Parameter ``omega_desired``:
+            The desired angular velocity in radians per second.
         """
         error = pose_desired.relativeTo(pose)
         e = np.array([[error.x], [error.y], [error.rotation().radians()]])
@@ -58,10 +60,11 @@ class Drivetrain:
     """An frccontrol system for a differential drive."""
 
     def __init__(self, dt):
-        """Differential drive subsystem.
+        """
+        Differential drive subsystem.
 
-        Keyword arguments:
-        dt -- time between model/controller updates
+        Parameter ``dt``:
+            Time between model/controller updates.
         """
         self.dt = dt
 
@@ -129,12 +132,12 @@ class Drivetrain:
         """
         Nonlinear differential drive dynamics.
 
-        Keyword arguments:
-        x -- state vector
-        u -- input vector
-
+        Parameter ``x``:
+            State vector.
+        Parameter ``u``:
+            Input vector.
         Returns:
-        dx/dt -- state derivative
+            State derivative.
         """
         return (
             np.array(
@@ -154,12 +157,12 @@ class Drivetrain:
         """
         Nonlinear differential drive dynamics.
 
-        Keyword arguments:
-        x -- state vector
-        u -- input vector
-
+        Parameter ``x``:
+            State vector.
+        Parameter ``u``:
+            Input vector.
         Returns:
-        dx/dt -- state derivative
+            State derivative.
         """
         return x[2:, :]
 
@@ -167,9 +170,10 @@ class Drivetrain:
         """
         Advance the model by one timestep.
 
-        Keyword arguments:
-        r -- the current reference
-        next_r -- the next reference
+        Parameter ``r``:
+            The current reference.
+        Parameter ``next_r``:
+            The next reference.
         """
         # Update sim model
         self.x = fct.rkdp(self.f, self.x, self.u, self.dt)

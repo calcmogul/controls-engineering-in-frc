@@ -7,12 +7,16 @@ def plot_xy(fig, ref_xs, ref_ys, state_xs, state_ys):
     """
     Plot x-y data.
 
-    Keyword arguments:
-    fig -- figure on which to plot
-    ref_xs -- list of reference x values
-    ref_ys -- list of reference y values
-    state_xs -- list of state x values
-    state_ys -- list of state y values
+    Parameter ``fig``:
+        Figure on which to plot.
+    Parameter ``ref_xs``:
+        List of reference x values.
+    Parameter ``ref_ys``:
+        List of reference y values.
+    Parameter ``state_xs``:
+        List of state x values.
+    Parameter ``state_ys``:
+        List of state y values.
     """
     ax = fig.add_subplot()
 
@@ -32,13 +36,18 @@ def animate_xy(fig, ref_xs, ref_ys, state_xs, state_ys, dt):
     """
     Plot x-y data and animate it.
 
-    Keyword arguments:
-    fig -- figure on which to plot
-    ref_xs -- list of reference x values
-    ref_ys -- list of reference y values
-    state_xs -- list of state x values
-    state_ys -- list of state y values
-    dt -- timestep duration
+    Parameter ``fig``:
+        Figure on which to plot.
+    Parameter ``ref_xs``:
+        List of reference x values.
+    Parameter ``ref_ys``:
+        List of reference y values.
+    Parameter ``state_xs``:
+        List of state x values.
+    Parameter ``state_ys``:
+        List of state y values.
+    Parameter ``dt``:
+        Timestep duration.
     """
     ref, state = plot_xy(fig, ref_xs, ref_ys, state_xs, state_ys)
 

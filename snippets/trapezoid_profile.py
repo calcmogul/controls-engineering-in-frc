@@ -4,19 +4,22 @@ import math
 
 
 def generate_trapezoid_profile(max_v, time_to_max_v, dt, goal):
-    """Creates a trapezoid profile with the given constraints.
+    """
+    Creates a trapezoid profile with the given constraints.
 
+    Parameter ``max_v``:
+        Maximum velocity of profile.
+    Parameter ``time_to_max_v``:
+        Time from rest to maximum velocity.
+    Parameter ``dt``:
+        Timestep.
+    Parameter ``goal``:
+        Final position when the profile is at rest.
     Returns:
-    t_rec -- list of timestamps
-    x_rec -- list of positions at each timestep
-    v_rec -- list of velocities at each timestep
-    a_rec -- list of accelerations at each timestep
-
-    Keyword arguments:
-    max_v -- maximum velocity of profile
-    time_to_max_v -- time from rest to maximum velocity
-    dt -- timestep
-    goal -- final position when the profile is at rest
+        t_rec -- List of timestamps.
+        x_rec -- List of positions at each timestep.
+        v_rec -- List of velocities at each timestep.
+        a_rec -- List of accelerations at each timestep.
     """
     t_rec = [0.0]
     x_rec = [0.0]

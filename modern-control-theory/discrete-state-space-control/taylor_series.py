@@ -21,12 +21,14 @@ if "--noninteractive" in sys.argv:
 
 
 def taylor_exp(x, n):
-    """Evaluates the nth-order Taylor series expansion of e^x around x = 0 at
-    the given x.
+    """
+    Evaluates the nth-order Taylor series expansion of e^x around x = 0 at the
+    given x.
 
-    Keyword arguments:
-    x -- The value at which to evaluate the Taylor series expansion.
-    n -- The order of the Taylor series expansion.
+    Parameter ``x``:
+        The value at which to evaluate the Taylor series expansion.
+    Parameter ``n``:
+        The order of the Taylor series expansion.
     """
     val = 0
     for i in range(n + 1):

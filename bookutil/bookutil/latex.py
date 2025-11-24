@@ -10,8 +10,8 @@ import matplotlib.pyplot as plt
 def convert_svg2pdf(filename):
     """Converts the given SVG to PDF with inkscape.
 
-    Keyword arguments:
-    filename -- filename without the extension
+    Parameter ``filename``:
+        Filename without the extension.
     """
     # Avoids the following inkscape exceptions:
     #   * "terminate called after throwing an instance of 'Gio::Error'"
@@ -54,8 +54,8 @@ def convert_svg2pdf(filename):
 def savefig(filename):
     """Saves the current plot as an SVG and converts it to a PDF with inkscape.
 
-    Keyword arguments:
-    filename -- filename without the extension
+    Paramter ``filename``:
+        Filename without the extension.
     """
     plt.savefig(filename + ".svg", bbox_inches="tight")
     convert_svg2pdf(filename)

@@ -25,10 +25,11 @@ class Drivetrain:
     """An frccontrol system for a differential drive."""
 
     def __init__(self, dt):
-        """Differential drive subsystem.
+        """
+        Differential drive subsystem.
 
-        Keyword arguments:
-        dt -- time between model/controller updates
+        Parameter ``dt``:
+            Time between model/controller updates.
         """
         self.dt = dt
 
@@ -90,8 +91,8 @@ class Drivetrain:
         """
         Return differential drive model linearized around the given state.
 
-        Keyword arguments:
-        states -- state around which to linearize.
+        Parameter ``states``:
+            State around which to linearize.
         """
         # Radius of robot in meters
         rb = 0.59055 / 2.0
@@ -142,12 +143,12 @@ class Drivetrain:
         """
         Nonlinear differential drive dynamics.
 
-        Keyword arguments:
-        x -- state vector
-        u -- input vector
-
+        Parameter ``x``:
+            State vector.
+        Parameter ``u``:
+            Input vector.
         Returns:
-        dx/dt -- state derivative
+            State derivative.
         """
         return (
             np.array(
@@ -167,12 +168,12 @@ class Drivetrain:
         """
         Nonlinear differential drive dynamics.
 
-        Keyword arguments:
-        x -- state vector
-        u -- input vector
-
+        Parameter ``x``:
+            State vector.
+        Parameter ``u``:
+            Input vector.
         Returns:
-        dx/dt -- state derivative
+            State derivative.
         """
         return x[2:, :]
 
@@ -180,9 +181,10 @@ class Drivetrain:
         """
         Advance the model by one timestep.
 
-        Keyword arguments:
-        r -- the current reference
-        next_r -- the next reference
+        Parameter ``r``:
+            The current reference.
+        Parameter ``next_r``:
+            The next reference.
         """
         # Update sim model
         self.x = fct.rkdp(self.f, self.x, self.u, self.dt)

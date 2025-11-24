@@ -22,14 +22,15 @@ def clamp(val, low, high):
 
 
 def func(x, y):
-    """Function to plot.
+    """
+    Function to plot.
 
-    Keyword arguments:
-    x -- x coordinate
-    y -- y coordinate
-
+    Parameter ``x``:
+        x coordinate.
+    Parameter ``y``:
+        y coordinate.
     Returns:
-    z coordinate
+        z coordinate.
     """
     s = x + y * 1j
     h = (s - 9 + 9j) * (s - 9 - 9j) / (s * (s + 10))

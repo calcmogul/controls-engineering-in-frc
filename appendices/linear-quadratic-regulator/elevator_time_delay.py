@@ -19,11 +19,13 @@ class Elevator:
     """An frccontrol system representing an elevator with a time delay."""
 
     def __init__(self, dt, delay=0.0):
-        """Elevator subsystem.
+        """
+        Elevator subsystem.
 
-        Keyword arguments:
-        dt -- time between model/controller updates
-        delay -- input delay in seconds
+        Parameter ``dt``:
+            Time between model/controller updates.
+        Parameter ``delay``:
+            Input delay in seconds.
         """
         self.dt = dt
         self.delay = delay
@@ -66,9 +68,10 @@ class Elevator:
         """
         Advance the model by one timestep.
 
-        Keyword arguments:
-        r -- the current reference
-        next_r -- the next reference
+        Parameter ``r``:
+            The current reference.
+        Parameter ``next_r``:
+            The next reference.
         """
         # Update sim model
         self.x = self.sim.A @ self.x + self.sim.B @ self.u
@@ -92,11 +95,14 @@ class PlotMetadata:
         """
         Constructs PlotMetadata.
 
-        Keyword arguments:
-        delay -- the input delay
-        compensate -- whether to perform latency compensation
-        gain_digits -- number of digits to include in feedback gain plot label
-        plot_filename -- plot filename
+        Parameter ``delay``:
+            The input delay.
+        Parameter ``compensate``:
+            Whether to perform latency compensation.
+        Parameter ``gain_digits``:
+            Number of digits to include in feedback gain plot label.
+        Parameter ``plot_filename``:
+            Plot filename.
         """
         self.delay = delay
         self.compensate = compensate

@@ -20,10 +20,11 @@ class Elevator:
     """An frccontrol system representing an elevator."""
 
     def __init__(self, dt):
-        """Elevator subsystem.
+        """
+        Elevator subsystem.
 
-        Keyword arguments:
-        dt -- time between model/controller updates
+        Parameter ``dt``:
+            Time between model/controller updates.
         """
         self.dt = dt
 
@@ -60,9 +61,10 @@ class Elevator:
         """
         Advance the model by one timestep.
 
-        Keyword arguments:
-        r -- the current reference
-        next_r -- the next reference
+        Parameter ``r``:
+            The current reference.
+        Parameter ``next_r``:
+            The next reference.
         """
         # Update sim model
         self.x = self.sim.A @ self.x + self.sim.B @ self.u
@@ -76,12 +78,15 @@ class Elevator:
 
 
 def generate_forward_euler_vel(data, dt, sample_period):
-    """Generates forward Euler approximation of data set.
+    """
+    Generates forward Euler approximation of data set.
 
-    Keyword arguments:
-    data -- array of velocity data
-    dt -- dt of original data samples
-    sample_period -- desired time between samples in approximation
+    Parameter ``data``:
+        Array of velocity data.
+    Parameter ``dt``:
+        dt of original data samples.
+    Parameter ``sample_period``:
+        Desired time between samples in approximation.
     """
     y = []
     val = 0
@@ -95,12 +100,15 @@ def generate_forward_euler_vel(data, dt, sample_period):
 
 
 def generate_backward_euler_vel(data, dt, sample_period):
-    """Generates backward Euler approximation of data set.
+    """
+    Generates backward Euler approximation of data set.
 
-    Keyword arguments:
-    data -- array of velocity data
-    dt -- dt of original data samples
-    sample_period -- desired time between samples in approximation
+    Parameter ``data``:
+        Array of velocity data.
+    Parameter ``dt``:
+        dt of original data samples.
+    Parameter ``sample_period``:
+        Desired time between samples in approximation.
     """
     y = []
     val = 0
@@ -114,12 +122,15 @@ def generate_backward_euler_vel(data, dt, sample_period):
 
 
 def generate_bilinear_transform_vel(data, dt, sample_period):
-    """Generates bilinear transform approximation of data set.
+    """
+    Generates bilinear transform approximation of data set.
 
-    Keyword arguments:
-    data -- array of velocity data
-    dt -- dt of original data samples
-    sample_period -- desired time between samples in approximation
+    Parameter ``data``:
+        Array of velocity data.
+    Parameter ``dt``:
+        dt of original data samples.
+    Parameter ``sample_period``:
+        Desired time between samples in approximation.
     """
     y = []
     val = 0
@@ -134,12 +145,15 @@ def generate_bilinear_transform_vel(data, dt, sample_period):
 
 
 def generate_forward_euler_pos(data, dt, sample_period):
-    """Generates forward Euler approximation of data set.
+    """
+    Generates forward Euler approximation of data set.
 
-    Keyword arguments:
-    data -- array of velocity data
-    dt -- dt of original data samples
-    sample_period -- desired time between samples in approximation
+    Parameter ``data``:
+        Array of velocity data.
+    Parameter ``dt``:
+        dt of original data samples.
+    Parameter ``sample_period``:
+        Desired time between samples in approximation.
     """
     y = []
     val = 0
@@ -153,12 +167,15 @@ def generate_forward_euler_pos(data, dt, sample_period):
 
 
 def generate_backward_euler_pos(data, dt, sample_period):
-    """Generates backward Euler approximation of data set.
+    """
+    Generates backward Euler approximation of data set.
 
-    Keyword arguments:
-    data -- array of velocity data
-    dt -- dt of original data samples
-    sample_period -- desired time between samples in approximation
+    Parameter ``data``:
+        Array of velocity data.
+    Parameter ``dt``:
+        dt of original data samples.
+    Parameter ``sample_period``:
+        Desired time between samples in approximation.
     """
     y = []
     val = 0
@@ -172,12 +189,15 @@ def generate_backward_euler_pos(data, dt, sample_period):
 
 
 def generate_bilinear_transform_pos(data, dt, sample_period):
-    """Generates bilinear transform approximation of data set.
+    """
+    Generates bilinear transform approximation of data set.
 
-    Keyword arguments:
-    data -- array of velocity data
-    dt -- dt of original data samples
-    sample_period -- desired time between samples in approximation
+    Parameter ``data``:
+        Array of velocity data.
+    Parameter ``dt``:
+        dt of original data samples.
+    Parameter ``sample_period``:
+        Desired time between samples in approximation.
     """
     y = []
     val = 0

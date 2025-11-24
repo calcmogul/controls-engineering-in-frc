@@ -19,10 +19,11 @@ class Elevator:
     """An frccontrol system representing an elevator."""
 
     def __init__(self, dt):
-        """Elevator subsystem.
+        """
+        Elevator subsystem.
 
-        Keyword arguments:
-        dt -- time between model/controller updates
+        Parameter ``dt``:
+            Time between model/controller updates.
         """
         self.dt = dt
 
@@ -59,9 +60,10 @@ class Elevator:
         """
         Advance the model by one timestep.
 
-        Keyword arguments:
-        r -- the current reference
-        next_r -- the next reference
+        Parameter ``r``:
+            The current reference.
+        Parameter ``next_r``:
+            The next reference.
         """
         # Update sim model
         self.x = self.sim.A @ self.x + self.sim.B @ self.u
@@ -75,12 +77,15 @@ class Elevator:
 
 
 def generate_zoh(data, dt, sample_period):
-    """Generates zero-order hold of data set.
+    """
+    Generates zero-order hold of data set.
 
-    Keyword arguments:
-    data -- array of position data
-    dt -- dt of original data samples
-    sample_period -- desired time between samples in zero-order hold
+    Parameter ``data``:
+        Array of position data.
+    Parameter ``dt``:
+        dt of original data samples.
+    Parameter ``sample_period``:
+        Desired time between samples in zero-order hold.
     """
     y = []
     count = 0

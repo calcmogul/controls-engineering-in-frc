@@ -19,10 +19,11 @@ class Elevator:
     """An frccontrol system representing an elevator."""
 
     def __init__(self, dt):
-        """Elevator subsystem.
+        """
+        Elevator subsystem.
 
-        Keyword arguments:
-        dt -- time between model/controller updates
+        Parameter ``dt``:
+            Time between model/controller updates.
         """
         self.dt = dt
 
@@ -59,9 +60,10 @@ class Elevator:
         """
         Advance the model by one timestep.
 
-        Keyword arguments:
-        r -- the current reference
-        next_r -- the next reference
+        Parameter ``r``:
+            The current reference.
+        Parameter ``next_r``:
+            The next reference.
         """
         # Update sim model
         self.x = self.sim.A @ self.x + self.sim.B @ self.u
@@ -99,14 +101,17 @@ def generate_refs(T):
 
 
 def simulate(elevator, dt, method):
-    """Simulate an elevator with a timestep of dt using the given discretization
+    """
+    Simulate an elevator with a timestep of dt using the given discretization
     method.
 
-    Keyword arguments:
-    elevator -- the elevator to simulate
-    dt -- the timestep duration
-    method -- the discretization method ("zoh", "euler", "backward_diff", or
-              "bilinear")
+    Parameter ``elevator``:
+        The elevator to simulate.
+    Parameter ``dt``:
+        The timestep duration.
+    Parameter ``method``:
+        The discretization method ("zoh", "euler", "backward_diff", or
+        "bilinear")
     """
     ts, refs = generate_refs(dt)
     elevator.sim = elevator.plant.to_discrete(dt, method)
