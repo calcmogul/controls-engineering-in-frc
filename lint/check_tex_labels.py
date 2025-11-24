@@ -8,6 +8,7 @@ verify that all ref commands refer to a defined label.
 import os
 import re
 import sys
+from pathlib import Path
 
 
 class Label:
@@ -30,10 +31,9 @@ class Label:
 rgx = re.compile(r"\\(?P<command>(footref|eqref|ref|label)){(?P<arg>[^}]+)}")
 
 files = [
-    os.path.join(dp, f)[2:]
-    for dp, dn, fn in os.walk(".")
-    for f in fn
-    if f.endswith(".tex") and "build/venv/" not in dp
+    f
+    for f in Path(".").rglob("*")
+    if f.suffix == ".tex" and not f.is_relative_to("./build/venv")
 ]
 
 labels = set()
@@ -45,9 +45,7 @@ label_locations = {}
 ref_locations = {}
 
 for file in files:
-    # Get file contents
-    with open(file, "r", encoding="utf-8") as f:
-        contents = f.read()
+    contents = file.read_text(encoding="utf-8")
 
     for match in rgx.finditer(contents):
         # Get line regex match was on

@@ -2,14 +2,13 @@
 
 """Removes trailing whitespace from .tex files."""
 
-import os
+from pathlib import Path
 
 
-files = [
-    os.path.join(dp, f)
-    for dp, dn, fn in os.walk(".")
-    for f in fn
-    if f.endswith(".tex") and not dp.startswith("./build")
+files: list[Path] = [
+    f
+    for f in Path(".").rglob("*")
+    if f.suffix == ".tex" and not f.is_relative_to("./build")
 ]
 
 for file in files:

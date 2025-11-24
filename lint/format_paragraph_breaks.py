@@ -6,29 +6,24 @@ break. Also ensure a blank line exists between \end statements and new
 paragraphs.
 """
 
-import os
 import re
+from pathlib import Path
 
 begin_rgx = re.compile(r"\n [ ]* (\n [ ]* \\begin\{ [^\}]+ \})", re.VERBOSE)
 end_rgx = re.compile(r"(\\end \{ [^\}]+ \}) (?=\n[\w\$])", re.VERBOSE)
 
-files = [
-    os.path.join(dp, f)[2:]
-    for dp, dn, fn in os.walk(".")
-    for f in fn
-    if f.endswith(".tex") and "build/venv/" not in dp
+files: list[Path] = [
+    f
+    for f in Path(".").rglob("*")
+    if f.suffix == ".tex" and not f.is_relative_to("./build/venv")
 ]
 
-for filename in files:
-    with open(filename, "r", encoding="utf-8") as infile:
-        in_contents = infile.read()
+for f in files:
+    in_contents = f.read_text(encoding="utf-8")
 
     out_contents = begin_rgx.sub(r"\g<1>", in_contents)
     out_contents = end_rgx.sub(r"\g<1>\n", out_contents)
     out_contents = re.sub(r"\n\n\n", r"\n\n", out_contents)
 
     if in_contents != out_contents:
-        with open(filename + ".tmp", "w", encoding="utf-8") as outfile:
-            outfile.write(out_contents)
-            os.remove(filename)
-            os.rename(filename + ".tmp", filename)
+        f.write_text(out_contents, encoding="utf-8")

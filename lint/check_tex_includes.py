@@ -8,9 +8,10 @@ controls-engineering-in-frc.tex
 import os
 import re
 import sys
+from pathlib import Path
 
-EBOOK_ROOT = "controls-engineering-in-frc-ebook.tex"
-PRINTER_ROOT = "controls-engineering-in-frc-printer.tex"
+EBOOK_ROOT = Path("controls-engineering-in-frc-ebook.tex")
+PRINTER_ROOT = Path("controls-engineering-in-frc-printer.tex")
 
 
 class Node:
@@ -19,31 +20,30 @@ class Node:
     been visited)
     """
 
-    def __init__(self, filename):
+    def __init__(self, filename: Path):
         self.filename = filename
         self.visited = False
 
 
 # Configure visit()'s state for ebook files
-ebook_files = [
-    os.path.join(dp, f)[2:]
-    for dp, dn, fn in os.walk(".")
-    for f in fn
-    if f.endswith(".tex")
-    and "build/venv/" not in dp
-    and f != "controls-engineering-in-frc-printer.tex"
+ebook_files: list[Path] = [
+    f
+    for f in Path(".").rglob("*")
+    if f.suffix == ".tex"
+    and not f.is_relative_to("./build/venv")
+    and f.name != "controls-engineering-in-frc-printer.tex"
 ]
-nodes = {f: Node(f) for f in ebook_files}
-latex_vars = {}
+nodes: dict[Path, Node] = {f: Node(f) for f in ebook_files}
+latex_vars: dict[str, str] = {}
 error_occurred = False
 
 
-def visit(filename):
+def visit(filename: Path):
     """Recurse through a file's includes."""
     nodes[filename].visited = True
 
     # Ignore files that break parsing
-    if "preamble/" in filename:
+    if filename.is_relative_to("./preamble"):
         return
 
     # Get file contents
@@ -75,8 +75,8 @@ def visit(filename):
                     subfile = subfile.replace(var[0], var[1])
 
             try:
-                if not nodes[subfile].visited:
-                    visit(subfile)
+                if not nodes[Path(subfile)].visited:
+                    visit(Path(subfile))
             except KeyError:
                 # Get line regex match was on
                 linecount = 1
@@ -103,24 +103,21 @@ if not all(node.visited for node in nodes.values()):
     print(f" not transitively included in {EBOOK_ROOT}:")
 
     for orphan in orphans:
-        print("    " + orphan)
+        print("    " + orphan.as_posix())
     sys.exit(1)
 elif error_occurred:
     sys.exit(1)
-else:
-    sys.exit(0)
 
 # Configure visit()'s state for printer files
 printer_files = [
-    os.path.join(dp, f)[2:]
-    for dp, dn, fn in os.walk(".")
-    for f in fn
-    if f.endswith(".tex")
-    and "build/venv/" not in dp
-    and f != "controls-engineering-in-frc-ebook.tex"
+    f
+    for f in Path(".").rglob("*")
+    if f.suffix == ".tex"
+    and not f.is_relative_to("./build/venv")
+    and f.name != "controls-engineering-in-frc-ebook.tex"
 ]
-nodes = {f: Node(f) for f in printer_files}
-latex_vars = {}
+nodes: dict[Path, Node] = {f: Node(f) for f in printer_files}
+latex_vars: dict[str, str] = {}
 error_occurred = False
 
 # Start at root .tex file and perform depth-first search of file includes
@@ -135,7 +132,7 @@ if not all(node.visited for node in nodes.values()):
     print(f" not transitively included in {EBOOK_ROOT}:")
 
     for orphan in orphans:
-        print("    " + orphan)
+        print("    " + orphan.as_posix())
     sys.exit(1)
 elif error_occurred:
     sys.exit(1)

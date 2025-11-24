@@ -6,6 +6,7 @@ import multiprocessing as mp
 import os
 import re
 import sys
+from pathlib import Path
 
 import requests
 import urllib3
@@ -64,13 +65,12 @@ def verify_url(filename, line_number, url):
 
 # commit-hash.tex is ignored because it may reference a local commit that hasn't
 # yet been pushed. In that case, the GitHub URL for it wouldn't yet exist.
-files = [
-    os.path.join(dp, f)[2:]
-    for dp, dn, fn in os.walk(".")
-    for f in fn
-    if (f.endswith(".tex") or f.endswith(".bib"))
-    and not f.endswith("commit-hash.tex")
-    and "build/venv/" not in dp
+files: list[Path] = [
+    f
+    for f in Path(".").rglob("*")
+    if (f.suffix in [".tex", ".bib"])
+    and f.name != "commit-hash.tex"
+    and not f.is_relative_to("./build/venv")
 ]
 
 cmd_rgx = re.compile(r"\\(url|href){(?P<url>[^}]+)}")
@@ -82,9 +82,7 @@ bib_rgx = re.compile(r"url\s*=\s*{(?P<url>[^}]+)}")
 #   match -- regex Match object
 links = []
 for file in files:
-    # Get file contents
-    with open(file, "r", encoding="utf-8") as f:
-        contents = f.read()
+    contents = file.read_text(encoding="utf-8")
 
     for match in list(cmd_rgx.finditer(contents)) + list(bib_rgx.finditer(contents)):
         # Get line regex match was on
@@ -93,7 +91,7 @@ for file in files:
             if contents[i] == os.linesep:
                 linecount += 1
 
-        links.append((file, linecount, match.group("url")))
+        links.append((file.as_posix(), linecount, match.group("url")))
 
 with mp.Pool(mp.cpu_count()) as pool:
     results = pool.map(lint_links, links)
