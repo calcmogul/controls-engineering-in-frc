@@ -1,11 +1,9 @@
 [project]
 name = "bookutil"
 description = "Utility functions for controls book"
+license = "BSD-3-Clause"
 version = "0.0.1"
-dependencies = [ "matplotlib" ]
-
-  [project.license]
-  text = "BSD License"
+dependencies = ["matplotlib"]
 
   [[project.authors]]
   name = "Tyler Veness"
@@ -15,5 +13,5 @@ dependencies = [ "matplotlib" ]
   Homepage = "https://github.com/calcmogul/controls-engineering-in-frc"
 
 [build-system]
-requires = [ "setuptools>=61.0" ]
+requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
