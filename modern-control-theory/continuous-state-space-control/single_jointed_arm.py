@@ -37,9 +37,7 @@ class SingleJointedArm:
         J = 1 / 3 * m * l**2
         # Gear ratio
         G = 1.0 / 2.0
-        self.plant = fct.models.single_jointed_arm(
-            fct.models.MOTOR_CIM, num_motors, J, G
-        )
+        self.plant = fct.single_jointed_arm(fct.MOTOR_CIM, num_motors, J, G)
 
         self.sim = self.plant.to_discrete(self.dt)
         self.x = np.zeros((2, 1))

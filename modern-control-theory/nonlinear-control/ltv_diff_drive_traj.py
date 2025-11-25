@@ -46,7 +46,7 @@ class Drivetrain:
         # Moment of inertia of the differential drive in kg-m²
         J = 6.0
 
-        motor = fct.models.gearbox(fct.models.MOTOR_CIM, 3.0)
+        motor = fct.gearbox(fct.MOTOR_CIM, 3.0)
 
         C1 = -(G**2) * motor.Kt / (motor.Kv * motor.R * r**2)
         C2 = G * motor.Kt / (motor.R * r)
@@ -107,7 +107,7 @@ class Drivetrain:
         # Moment of inertia of the differential drive in kg-m²
         J = 6.0
 
-        motor = fct.models.gearbox(fct.models.MOTOR_CIM, 3.0)
+        motor = fct.gearbox(fct.MOTOR_CIM, 3.0)
 
         C1 = -(G**2) * motor.Kt / (motor.Kv * motor.R * r**2)
         C2 = G * motor.Kt / (motor.R * r)

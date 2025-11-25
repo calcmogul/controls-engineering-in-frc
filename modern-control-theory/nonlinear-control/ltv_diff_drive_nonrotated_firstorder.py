@@ -51,7 +51,7 @@ def linearized_differential_drive(motor, num_motors, m, r, rb, J, Gl, Gr, states
     Returns:
         StateSpace instance containing continuous model.
     """
-    motor = fct.models.gearbox(motor, num_motors)
+    motor = fct.gearbox(motor, num_motors)
 
     C1 = -(Gl**2) * motor.Kt / (motor.Kv * motor.R * r**2)
     C2 = Gl * motor.Kt / (motor.R * r)
@@ -149,7 +149,7 @@ class Drivetrain:
         J = 6.0
 
         return linearized_differential_drive(
-            fct.models.MOTOR_CIM,
+            fct.MOTOR_CIM,
             num_motors,
             m,
             r,

@@ -35,7 +35,7 @@ class Elevator:
         r = 0.02762679089
         # Gear ratio
         G = 42.0 / 12.0 * 40.0 / 14.0
-        self.plant = fct.models.elevator(fct.models.MOTOR_CIM, num_motors, m, r, G)
+        self.plant = fct.elevator(fct.MOTOR_CIM, num_motors, m, r, G)
 
         # Sim variables
         self.sim = self.plant.to_discrete(self.dt)

@@ -35,8 +35,8 @@ def main():
 
     sysd = StateSpace(A, B, C, D).to_discrete(dt)
 
-    Q = fct.make_cost_matrix([20, 40])
-    R = fct.make_cost_matrix([12])
+    Q = fct.cost_matrix([20, 40])
+    R = fct.cost_matrix([12])
     K = fct.LinearQuadraticRegulator(A, B, [20, 40], [12], dt).K
 
     # Plant inversions

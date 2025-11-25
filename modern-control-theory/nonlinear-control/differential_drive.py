@@ -53,8 +53,8 @@ class DifferentialDrive:
             Gl = Ghigh
             Gr = Ghigh
 
-        self.plant = fct.models.differential_drive(
-            fct.models.MOTOR_CIM, num_motors, m, r, rb, J, Gl, Gr
+        self.plant = fct.differential_drive(
+            fct.MOTOR_CIM, num_motors, m, r, rb, J, Gl, Gr
         )
 
         # Sim variables

@@ -34,7 +34,7 @@ class Flywheel:
         J = 0.00032
         # Gear ratio
         G = 12.0 / 18.0
-        self.plant = fct.models.flywheel(fct.models.MOTOR_775PRO, num_motors, J, G)
+        self.plant = fct.flywheel(fct.MOTOR_775PRO, num_motors, J, G)
 
         # Sim variables
         self.sim = self.plant.to_discrete(self.dt)
