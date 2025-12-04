@@ -5,17 +5,14 @@
 #include <Eigen/Core>
 #include <units/time.h>
 
-/**
- * Performs adaptive Dormand-Prince integration of dx/dt = f(x, u) for dt.
- *
- * @param f        The function to integrate. It must take two arguments x and
- *                 u.
- * @param x        The initial value of x.
- * @param u        The value u held constant over the integration period.
- * @param dt       The time over which to integrate.
- * @param maxError The maximum acceptable truncation error. Usually a small
- *                 number like 1e-6.
- */
+/// Performs adaptive Dormand-Prince integration of dx/dt = f(x, u) for dt.
+///
+/// @param f The function to integrate. It must take two arguments x and u.
+/// @param x The initial value of x.
+/// @param u The value u held constant over the integration period.
+/// @param dt The time over which to integrate.
+/// @param maxError The maximum acceptable truncation error. Usually a small
+///     number like 1e-6.
 template <typename F, typename T, typename U>
 T RKDP(F&& f, T x, U u, units::second_t dt, double maxError = 1e-6) {
   // See https://en.wikipedia.org/wiki/Dormand%E2%80%93Prince_method for the
