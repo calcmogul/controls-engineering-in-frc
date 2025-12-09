@@ -6,7 +6,7 @@ from pathlib import Path
 import re
 import sys
 
-from sleipnir.optimization import Problem
+from sleipnir.optimization import Problem, bounds
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
@@ -49,12 +49,10 @@ def main():
     problem.subject_to(X[:, N] == np.array([[r], [0.0]]))
 
     # Limit velocity
-    problem.subject_to(-1 <= X[1, :])
-    problem.subject_to(X[1, :] <= 1)
+    problem.subject_to(bounds(-1, X[1, :], 1))
 
     # Limit acceleration
-    problem.subject_to(-1 <= U)
-    problem.subject_to(U <= 1)
+    problem.subject_to(bounds(-1, U, 1))
 
     # Cost function - minimize position error
     problem.minimize(sum((r - X[0, k]) ** 2 for k in range(N + 1)))

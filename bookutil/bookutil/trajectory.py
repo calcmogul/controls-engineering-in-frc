@@ -9,7 +9,7 @@ from dataclasses import dataclass
 import frccontrol as fct
 import numpy as np
 from sleipnir.autodiff import VariableMatrix, cos, sin
-from sleipnir.optimization import Problem
+from sleipnir.optimization import Problem, bounds
 
 
 def lerp(a: float, b: float, t: float) -> float:
@@ -192,8 +192,7 @@ def generate_trajectory(
     X[2, -1].set_value(waypoints[-1].rotation.radians)
 
     # dt constraints
-    problem.subject_to(dts >= 0)
-    problem.subject_to(dts <= T_max / (num_segments * N_sgmt))
+    problem.subject_to(bounds(0, dts, T_max / (num_segments * N_sgmt)))
     for sgmt in range(num_segments):
         for k in range(N_sgmt * sgmt, N_sgmt * (sgmt + 1) - 1):
             problem.subject_to(dts[k] == dts[k + 1])
@@ -223,16 +222,12 @@ def generate_trajectory(
     problem.subject_to(X[3:5, -1] == 0)
 
     # Velocity limits
-    problem.subject_to(X[3, :] >= -v_max)
-    problem.subject_to(X[3, :] <= v_max)
-    problem.subject_to(X[4, :] >= -ω_max)
-    problem.subject_to(X[4, :] <= ω_max)
+    problem.subject_to(bounds(-v_max, X[3, :], v_max))
+    problem.subject_to(bounds(-ω_max, X[4, :], ω_max))
 
     # Acceleration limits
-    problem.subject_to(U[0, :] >= -a_max)
-    problem.subject_to(U[0, :] <= a_max)
-    problem.subject_to(U[1, :] >= -α_max)
-    problem.subject_to(U[1, :] <= α_max)
+    problem.subject_to(bounds(-a_max, U[0, :], a_max))
+    problem.subject_to(bounds(-α_max, U[1, :], α_max))
 
     problem.minimize(sum(dts))
 
