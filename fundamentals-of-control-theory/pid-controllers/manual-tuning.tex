@@ -20,15 +20,13 @@ position tracks well, then increase $K_d$ until the velocity tracks well.
 
 If the \gls{controller} settles at an \gls{output} above or below the
 \gls{setpoint}, one can increase $K_i$ such that the \gls{controller} reaches
-the \gls{setpoint} in a reasonable amount of time. However, a steady-state
-feedforward is strongly preferred over integral control (especially for velocity
-PID control).
+the \gls{setpoint} in a reasonable amount of time.
 \begin{remark}
-  \textit{Note:} Adding an integral gain to the \gls{controller} is an incorrect
-  way to eliminate \gls{steady-state error}. A better approach would be to tune
-  it with an integrator added to the \gls{plant}, but this requires a
-  \gls{model}. Since we are doing output-based rather than model-based control,
-  our only option is to add an integrator to the \gls{controller}.
+  If a \gls{model} is available (not the case here with output-based control),
+  prefer a feedforward (section \ref{sec:feedforward}) or an integrator in the
+  \gls{plant} (section \ref{sec:integral_control}) instead of an integrator in
+  the \gls{controller} (e.g., the I term in PID). Use integrators only to
+  compensate for unmodelable dynamics.
 \end{remark}
 
 Beware that if $K_i$ is too large, integral windup can occur. Following a large
