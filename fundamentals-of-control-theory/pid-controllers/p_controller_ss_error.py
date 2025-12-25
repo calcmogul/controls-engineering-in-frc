@@ -103,21 +103,22 @@ def main():
     plt.plot(ts, r_rec[0, :], label="Setpoint")
     plt.plot(ts, x_rec[0, :], label="Output")
 
-    fill_end = int(3.0 / dt)
+    fill_end = 1.75
+    fill_end_idx = int(fill_end / dt)
     plt.fill_between(
-        ts[:fill_end],
-        np.ravel(x_rec)[:fill_end],
-        np.ravel(r_rec)[:fill_end],
+        ts[:fill_end_idx],
+        np.ravel(x_rec)[:fill_end_idx],
+        np.ravel(r_rec)[:fill_end_idx],
         color=(0.5, 0.5, 0.5, 0.5),
         label="Error area for integral term",
     )
     plt.legend()
     plt.xlabel("Time (s)")
 
-    annotate_t = 3.25
-    time = int(annotate_t / dt)
-    bottom = np.ravel(x_rec[0, time])
-    top = np.ravel(r_rec[0, time])
+    annotate_t = fill_end + 0.25
+    annotate_t_idx = int(annotate_t / dt)
+    bottom = x_rec[0, annotate_t_idx]
+    top = r_rec[0, annotate_t_idx]
     plt.annotate(
         "",
         xy=(annotate_t, bottom - 5),  # Start coord of arrow
