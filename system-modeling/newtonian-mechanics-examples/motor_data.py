@@ -52,7 +52,7 @@ def main():
         arrowprops={"arrowstyle": "->"},
     )
     ax_left.set_ylabel("Current (A), Power (W)")
-    ax_left.set_ylim([0, 400])
+    ax_left.set_ylim(0, 400)
     plt.legend(loc=3)
 
     ax_right = ax_left.twinx()
@@ -72,7 +72,7 @@ def main():
         arrowprops={"arrowstyle": "->"},
     )
     ax_right.set_ylabel("Torque (N-m)")
-    ax_right.set_ylim([0, 0.8])
+    ax_right.set_ylim(0, 0.8)
     plt.legend(loc=1)
 
     if "--noninteractive" in sys.argv:
