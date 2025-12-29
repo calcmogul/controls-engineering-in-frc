@@ -43,9 +43,12 @@ def verify_url(filename, line_number, url):
             urllib3.disable_warnings()
             r = requests.head(url, headers=headers, timeout=5, verify=False)
 
-        # researchgate.net tends to block scripts, so don't return verification
-        # failure for its links
-        if r.status_code == 403 and url.startswith("https://www.researchgate.net"):
+        # These links tend to block scripts, so don't return verification
+        # failure for them
+        if r.status_code == 403 and (
+            url.startswith("https://ethw.org")
+            or url.startswith("https://www.researchgate.net")
+        ):
             return True
 
         # Allow redirects for YouTube shortlinks
