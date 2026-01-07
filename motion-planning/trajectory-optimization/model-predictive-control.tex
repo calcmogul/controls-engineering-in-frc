@@ -1,0 +1,134 @@
+\section{Model predictive control}
+\index{motion planning!model predictive control}
+
+If we can optimize trajectories quickly enough, then we can use trajectory
+optimization as a feedback policy that reacts better to future events (e.g.,
+nonlinear system dynamics subject to control input limits, keep-out regions). At
+each timestep, we optimize a trajectory from the current state out to a
+\textit{prediction horizon}, then apply the first control input from the
+optimized trajectory. This is called \textit{model predictive control} (MPC).
+
+Since we formulate trajectory optimization problems over a finite horizon, we
+can think of each optimization as reasoning about the next $N$ timesteps. To
+optimize performance over a longer horizon than $N$, we can continue solving for
+an $N$-step horizon at each timestep. For this reason, MPC is also called
+\textit{receding horizon control}.
+
+\subsection{Linear MPC}
+
+Here's an example problem formulation for a linear system
+$\mat{x}_{k+1} = \mat{A}\mat{x}_k + \mat{B}\mat{u}_k$.
+\begin{align*}
+  \min_{\mat{x}_k, \mat{u}_k}
+    &\sum_{k=0}^{N-1} \left(\mat{x}_k\T\mat{Q}\mat{x}_k + \mat{u}_k\T\mat{R}\mat{u}_k\right) \\
+  \text{subject to } &\mat{x}_{k+1} = \mat{A}\mat{x}_k + \mat{B}\mat{u}_k \\
+                     &\mat{u}_{min} \leq \mat{u}_k \leq \mat{u}_{max}
+\end{align*}
+
+where $N$ is the number of samples and $\mat{Q}$ and $\mat{R}$ are weighting
+factors. The controller solves this problem at each timestep and returns
+$\mat{u}_0$.
+\begin{remark}
+  This optimization problem is a generalization of finite-horizon LQR to linear
+  equality and inequality constraints.
+\end{remark}
+
+Snippet \ref{lst:linear_mpc} shows a linear MPC class in Python.
+\begin{coderemote}{Python}{snippets/linear_mpc.py}
+  \caption{Linear MPC class in Python}
+  \label{lst:linear_mpc}
+\end{coderemote}
+
+\subsection{Nonlinear MPC}
+
+Here's an example problem formulation for a nonlinear system
+$\dot{\mat{x}} = f(\mat{x}_k, \mat{u}_k)$.
+\begin{align*}
+  \min_{\mat{x}_k, \mat{u}_k}
+    &\sum_{k=0}^{N-1} \left(\mat{x}_k\T\mat{Q}\mat{x}_k + \mat{u}_k\T\mat{R}\mat{u}_k\right) \\
+  \text{subject to } &\mat{x}_{k+1} = \text{RK4}(f, \mat{x}_k, \mat{u}_k, \Delta T) \\
+                     &\mat{u}_{min} \leq \mat{u}_k \leq \mat{u}_{max}
+\end{align*}
+
+where $N$ is the number of samples, $\mat{Q}$ and $\mat{R}$ are weighting
+factors, and RK4 is a numerical integration method from section
+\ref{sec:numerical_integration_methods} chosen for its simplicity. The
+controller solves this problem at each timestep and returns $\mat{u}_0$.
+
+Snippet \ref{lst:nonlinear_mpc} shows a nonlinear MPC class in Python.
+\begin{coderemote}{Python}{snippets/nonlinear_mpc.py}
+  \caption{Nonlinear MPC class in Python}
+  \label{lst:nonlinear_mpc}
+\end{coderemote}
+
+\subsection{MPC implementation guidance}
+
+Since we only need a rough approximation of the optimal trajectory at each
+timestep, there's several ways to trade off accuracy for faster solves.
+\begin{enumerate}
+  \item Make the optimization problem's sample period much longer than the
+    feedback controller's sample period (reduces problem size for a given
+    prediction horizon)
+  \item Set a larger solver error tolerance (may reduce solver iterations)
+  \item Use a solver that produces inexact solutions quickly (e.g., projected
+    conjugate gradient method)
+\end{enumerate}
+
+The prediction horizon should be long enough to capture relevant dynamics or
+future events. Longer prediction horizons yield more robustness but slower
+solves.
+
+Warm starting the current timestep's solve with the optimal trajectory from the
+previous timestep can drastically speed up convergence.
+
+We recommend setting a timeout after which the solver returns its solution so
+far. Applying the control input from a partially optimized trajectory is better
+than overrunning the scheduled controller period.
+
+\subsection{Flywheel}
+
+Here's a problem formulation for flywheel MPC.
+\begin{align*}
+  \min_{\mat{x}_k, \mat{u}_k}
+    &\sum_{k=0}^{N-1} \left((\mat{r} - \mat{x}_k)\T\mat{Q}(\mat{r} - \mat{x}_k) + \mat{u}_k\T\mat{R}\mat{u}_k\right) \\
+  \text{subject to } &\mat{x}_{k+1} = \mat{A}\mat{x}_k + \mat{B}\mat{u}_k \\
+                     &\mat{u}_{min} \leq \mat{u}_k \leq \mat{u}_{max}
+\end{align*}
+
+where $\mat{x}_k = \begin{bmatrix}\omega\end{bmatrix}\T$,
+$\mat{u}_k = \begin{bmatrix}V\end{bmatrix}\T$, and $\mat{r}$ is the reference.
+Figure \ref{fig:flywheel_mpc_response} shows the closed-loop response, which is
+identical to infinite-horizon LQR with a plant inversion feedforward.
+\begin{svg}{build/\chapterpath/flywheel_mpc_response}
+  \caption{Flywheel MPC response}
+  \label{fig:flywheel_mpc_response}
+\end{svg}
+
+\subsection{Differential drive}
+
+Here's a problem formulation for differential drive MPC with a circular keep-out
+region.
+\begin{align*}
+  \min_{\mat{x}_k, \mat{u}_k}
+    &\sum_{k=0}^{N-1} (\mat{r} - \mat{x}_k)\T\mat{Q}(\mat{r} - \mat{x}_k) \\
+  \text{subject to } &\mat{x}_{k+1} = \text{RK4}(f, \mat{x}_k, \mat{u}_k, \Delta T) \\
+                     &\mat{u}_{min} \leq \mat{u}_k \leq \mat{u}_{max} \\
+                     &(x_k - c_x)^2 + (y_k - c_y)^2 \geq r^2
+\end{align*}
+
+where $\mat{x}_k = \begin{bmatrix}x & y & \theta & v_l & v_r\end{bmatrix}\T$,
+$\mat{u}_k = \begin{bmatrix}V_l & V_r\end{bmatrix}\T$, $\mat{r}$ is the
+reference, $(c_x, c_y)$ is the circle's center, and $r$ is the circle's radius.
+Figures \ref{fig:diff_drive_mpc_xy} and \ref{fig:diff_drive_mpc_response} show
+the closed-loop response.
+\begin{bookfigure}
+  \begin{minisvg}{2}{build/\chapterpath/diff_drive_mpc_xy}
+    \caption{Differential drive MPC x-y plot}
+    \label{fig:diff_drive_mpc_xy}
+  \end{minisvg}
+  \hfill
+  \begin{minisvg}{2}{build/\chapterpath/diff_drive_mpc_response}
+    \caption{Differential drive MPC response}
+    \label{fig:diff_drive_mpc_response}
+  \end{minisvg}
+\end{bookfigure}
