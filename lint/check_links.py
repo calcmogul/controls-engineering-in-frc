@@ -48,6 +48,7 @@ def verify_url(filename, line_number, url):
         if r.status_code == 403 and (
             url.startswith("https://ethw.org")
             or url.startswith("https://www.researchgate.net")
+            or url.startswith("https://rpk.lcsr.jhu.edu")
         ):
             return True
 
