@@ -53,7 +53,6 @@ class Elevator:
         self.u_min = np.array([[-12.0]])
         self.u_max = np.array([[12.0]])
 
-    # pylint: disable=unused-argument
     def update(self, r, next_r):
         """
         Advance the model by one timestep.

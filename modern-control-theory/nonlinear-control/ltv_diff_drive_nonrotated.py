@@ -290,7 +290,7 @@ def main():
         )
         latex.savefig("ltv_diff_drive_nonrotated_xy")
     else:
-        anim = plotutil.animate_xy(  # pragma pylint: disable=unused-variable
+        anim = plotutil.animate_xy(
             fig,
             r_rec[0, :],
             r_rec[1, :],

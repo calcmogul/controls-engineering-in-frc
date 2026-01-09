@@ -86,7 +86,6 @@ def visit(filename: Path):
                 print(
                     f"[{filename}:{linecount}] error: included file '{subfile}' does not exist"
                 )
-                # pragma pylint: disable=global-statement
                 global error_occurred
                 error_occurred = True
 

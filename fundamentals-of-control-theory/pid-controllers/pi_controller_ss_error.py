@@ -55,7 +55,6 @@ class Flywheel:
         self.integrator = 0.0
         self.Ki = 1e-2
 
-    # pylint: disable=unused-argument
     def update(self, r, next_r):
         """
         Advance the model by one timestep.

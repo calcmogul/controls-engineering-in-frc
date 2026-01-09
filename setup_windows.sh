@@ -8,7 +8,7 @@ choco install texlive --version=2025.20250318.0 --params="'/collections:basic /e
 # Python packages
 #  * black (to format Python source code)
 #  * pillow (required by qrcode, but not preinstalled)
-#  * pylint (for Python linting)
 #  * qrcode (for QR codes)
 #  * requests (for .tex HTTP link checker)
-pip install --user autoflake black==25.1.0 pillow pylint qrcode requests wheel
+#  * ruff (for Python linting)
+pip install --user autoflake black==25.1.0 pillow qrcode requests ruff wheel

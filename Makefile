@@ -89,7 +89,7 @@ build/venv.stamp:
 	@mkdir -p $(@D)
 	python3 setup_venv.py
 	$(VENV_PIP) install -e ./bookutil
-	$(VENV_PIP) install frccontrol==2026.9 sleipnirgroup-jormungandr==0.3.4 pylint qrcode requests
+	$(VENV_PIP) install frccontrol==2026.9 sleipnirgroup-jormungandr==0.3.4 ruff qrcode requests
 	@touch $@
 
 $(PY_STAMP): build/%.stamp: %.py build/venv.stamp
@@ -122,7 +122,7 @@ lint_tex: format build/commit-date.tex build/commit-year.tex build/commit-hash.t
 # Run formatters and all Python linters.
 .PHONY: lint_py
 lint_py: format build/venv.stamp
-	find . -type f -name '*.py' -not -path './build/*' -print0 | xargs -0 $(abspath ./build/venv/bin/python3) -m pylint -s n
+	find . -type f -name '*.py' -not -path './build/*' -print0 | xargs -0 $(abspath ./build/venv/bin/python3) -m ruff check -q
 
 # Run formatters and all linters
 .PHONY: lint

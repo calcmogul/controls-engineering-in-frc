@@ -10,8 +10,9 @@
 #   * perl-clone (for Clone.pm needed by biber)
 #   * python >= 3.6 (for generating plots)
 #   * python-pip (for installing required Python packages)
-#   * python-pylint (for Python linting)
+#   * python-qrcode (for QR codes)
 #   * python-requests (for .tex HTTP link checker)
+#   * python-ruff (for Python linting)
 #   * texlive-bibtexextra (for LaTeX package biblatex)
 #   * texlive-bin (for xelatex)
 #   * texlive-binextra (for latexmk)
@@ -31,9 +32,9 @@ sudo pacman -Sy --needed --noconfirm \
   perl-clone \
   python \
   python-pip \
-  python-pylint \
   python-qrcode \
   python-requests \
+  python-ruff \
   texlive-bibtexextra \
   texlive-bin \
   texlive-binextra \

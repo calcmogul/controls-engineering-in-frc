@@ -162,7 +162,6 @@ class Drivetrain:
             + np.block([[np.zeros((3, 2))], [self.velocity_B]]) @ u
         )
 
-    # pragma pylint: disable=unused-argument
     def h(self, x, u):
         """
         Nonlinear differential drive dynamics.
@@ -282,7 +281,7 @@ def main():
         )
         latex.savefig("ltv_diff_drive_traj_xy")
     else:
-        anim = plotutil.animate_xy(  # pragma pylint: disable=unused-variable
+        anim = plotutil.animate_xy(
             fig,
             r_rec[0, :],
             r_rec[1, :],
