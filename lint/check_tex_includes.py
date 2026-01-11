@@ -10,9 +10,6 @@ import re
 import sys
 from pathlib import Path
 
-EBOOK_ROOT = Path("controls-engineering-in-frc-ebook.tex")
-PRINTER_ROOT = Path("controls-engineering-in-frc-printer.tex")
-
 
 class Node:
     """
@@ -25,26 +22,20 @@ class Node:
         self.visited = False
 
 
-# Configure visit()'s state for ebook files
-ebook_files: list[Path] = [
-    f
-    for f in Path(".").rglob("*")
-    if f.suffix == ".tex"
-    and not f.is_relative_to("./build/venv")
-    and f.name != "controls-engineering-in-frc-printer.tex"
-]
-nodes: dict[Path, Node] = {f: Node(f) for f in ebook_files}
-latex_vars: dict[str, str] = {}
-error_occurred = False
+def visit(filename: Path, nodes: dict[Path, Node], latex_vars: dict[str, str]) -> bool:
+    """
+    Recurse through a file's includes.
 
+    Returns:
+        True if error occurred.
+    """
 
-def visit(filename: Path):
-    """Recurse through a file's includes."""
+    error_occurred: bool = False
     nodes[filename].visited = True
 
     # Ignore files that break parsing
     if filename.is_relative_to("./preamble"):
-        return
+        return False
 
     # Get file contents
     with open(filename, "r", encoding="utf-8") as f:
@@ -76,7 +67,7 @@ def visit(filename: Path):
 
             try:
                 if not nodes[Path(subfile)].visited:
-                    visit(Path(subfile))
+                    error_occurred |= visit(Path(subfile), nodes, latex_vars)
             except KeyError:
                 # Get line regex match was on
                 linecount = 1
@@ -86,54 +77,49 @@ def visit(filename: Path):
                 print(
                     f"[{filename}:{linecount}] error: included file '{subfile}' does not exist"
                 )
-                global error_occurred
                 error_occurred = True
+    return error_occurred
 
 
-# Start at root .tex file and perform depth-first search of file includes
-visit(EBOOK_ROOT)
+def check(root: Path, other_root_names: list[str]):
+    files: list[Path] = [
+        f
+        for f in Path(".").rglob("*")
+        if f.suffix == ".tex"
+        and not f.is_relative_to("./build/venv")
+        and f.name not in other_root_names
+    ]
+    nodes: dict[Path, Node] = {f: Node(f) for f in files}
+    latex_vars: dict[str, str] = {}
 
-if not all(node.visited for node in nodes.values()):
-    orphans = [node.filename for node in nodes.values() if not node.visited]
+    # Start at root .tex file and perform depth-first search of file includes
+    error_occurred: bool = visit(root, nodes, latex_vars)
 
-    print(f"error: {len(orphans)} .tex file", end="")
-    if len(orphans) > 1:
-        print("s", end="")
-    print(f" not transitively included in {EBOOK_ROOT}:")
+    if not all(node.visited for node in nodes.values()):
+        orphans = [node.filename for node in nodes.values() if not node.visited]
 
-    for orphan in orphans:
-        print("    " + orphan.as_posix())
-    sys.exit(1)
-elif error_occurred:
-    sys.exit(1)
+        print(f"error: {len(orphans)} .tex file", end="")
+        if len(orphans) > 1:
+            print("s", end="")
+        print(f" not transitively included in {root}:")
 
-# Configure visit()'s state for printer files
-printer_files = [
-    f
-    for f in Path(".").rglob("*")
-    if f.suffix == ".tex"
-    and not f.is_relative_to("./build/venv")
-    and f.name != "controls-engineering-in-frc-ebook.tex"
-]
-nodes: dict[Path, Node] = {f: Node(f) for f in printer_files}
-latex_vars: dict[str, str] = {}
-error_occurred = False
+        for orphan in orphans:
+            print("    " + orphan.as_posix())
+        sys.exit(1)
+    elif error_occurred:
+        sys.exit(1)
 
-# Start at root .tex file and perform depth-first search of file includes
-visit(PRINTER_ROOT)
 
-if not all(node.visited for node in nodes.values()):
-    orphans = [node.filename for node in nodes.values() if not node.visited]
+def main():
+    check(
+        Path("controls-engineering-in-frc-ebook.tex"),
+        ["controls-engineering-in-frc-printer.tex"],
+    )
+    check(
+        Path("controls-engineering-in-frc-printer.tex"),
+        ["controls-engineering-in-frc-ebook.tex"],
+    )
 
-    print(f"error: {len(orphans)} .tex file", end="")
-    if len(orphans) > 1:
-        print("s", end="")
-    print(f" not transitively included in {EBOOK_ROOT}:")
 
-    for orphan in orphans:
-        print("    " + orphan.as_posix())
-    sys.exit(1)
-elif error_occurred:
-    sys.exit(1)
-else:
-    sys.exit(0)
+if __name__ == "__main__":
+    main()

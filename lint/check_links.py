@@ -67,40 +67,48 @@ def verify_url(filename, line_number, url):
     return True
 
 
-# commit-hash.tex is ignored because it may reference a local commit that hasn't
-# yet been pushed. In that case, the GitHub URL for it wouldn't yet exist.
-files: list[Path] = [
-    f
-    for f in Path(".").rglob("*")
-    if (f.suffix in [".tex", ".bib"])
-    and f.name != "commit-hash.tex"
-    and not f.is_relative_to("./build/venv")
-]
+def main():
+    # commit-hash.tex is ignored because it may reference a local commit that
+    # hasn't yet been pushed. In that case, the GitHub URL for it wouldn't yet
+    # exist.
+    files: list[Path] = [
+        f
+        for f in Path(".").rglob("*")
+        if (f.suffix in [".tex", ".bib"])
+        and f.name != "commit-hash.tex"
+        and not f.is_relative_to("./build/venv")
+    ]
 
-cmd_rgx = re.compile(r"\\(url|href){(?P<url>[^}]+)}")
-bib_rgx = re.compile(r"url\s*=\s*{(?P<url>[^}]+)}")
+    cmd_rgx = re.compile(r"\\(url|href){(?P<url>[^}]+)}")
+    bib_rgx = re.compile(r"url\s*=\s*{(?P<url>[^}]+)}")
 
-# link tuples contain:
-#   filename -- filename
-#   contents -- file contents
-#   match -- regex Match object
-links = []
-for file in files:
-    contents = file.read_text(encoding="utf-8")
+    # link tuples contain:
+    #   filename -- filename
+    #   contents -- file contents
+    #   match -- regex Match object
+    links = []
+    for file in files:
+        contents = file.read_text(encoding="utf-8")
 
-    for match in list(cmd_rgx.finditer(contents)) + list(bib_rgx.finditer(contents)):
-        # Get line regex match was on
-        linecount = 1
-        for i in range(match.start()):
-            if contents[i] == os.linesep:
-                linecount += 1
+        for match in list(cmd_rgx.finditer(contents)) + list(
+            bib_rgx.finditer(contents)
+        ):
+            # Get line regex match was on
+            linecount = 1
+            for i in range(match.start()):
+                if contents[i] == os.linesep:
+                    linecount += 1
 
-        links.append((file.as_posix(), linecount, match.group("url")))
+            links.append((file.as_posix(), linecount, match.group("url")))
 
-with mp.Pool(mp.cpu_count()) as pool:
-    results = pool.map(lint_links, links)
+    with mp.Pool(mp.cpu_count()) as pool:
+        results = pool.map(lint_links, links)
 
-if all(results):
-    sys.exit(0)
-else:
-    sys.exit(1)
+    if all(results):
+        sys.exit(0)
+    else:
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()

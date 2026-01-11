@@ -9,21 +9,27 @@ paragraphs.
 import re
 from pathlib import Path
 
-begin_rgx = re.compile(r"\n [ ]* (\n [ ]* \\begin\{ [^\}]+ \})", re.VERBOSE)
-end_rgx = re.compile(r"(\\end \{ [^\}]+ \}) (?=\n[\w\$])", re.VERBOSE)
 
-files: list[Path] = [
-    f
-    for f in Path(".").rglob("*")
-    if f.suffix == ".tex" and not f.is_relative_to("./build/venv")
-]
+def main():
+    begin_rgx = re.compile(r"\n [ ]* (\n [ ]* \\begin\{ [^\}]+ \})", re.VERBOSE)
+    end_rgx = re.compile(r"(\\end \{ [^\}]+ \}) (?=\n[\w\$])", re.VERBOSE)
 
-for f in files:
-    in_contents = f.read_text(encoding="utf-8")
+    files: list[Path] = [
+        f
+        for f in Path(".").rglob("*")
+        if f.suffix == ".tex" and not f.is_relative_to("./build/venv")
+    ]
 
-    out_contents = begin_rgx.sub(r"\g<1>", in_contents)
-    out_contents = end_rgx.sub(r"\g<1>\n", out_contents)
-    out_contents = re.sub(r"\n\n\n", r"\n\n", out_contents)
+    for f in files:
+        in_contents = f.read_text(encoding="utf-8")
 
-    if in_contents != out_contents:
-        f.write_text(out_contents, encoding="utf-8")
+        out_contents = begin_rgx.sub(r"\g<1>", in_contents)
+        out_contents = end_rgx.sub(r"\g<1>\n", out_contents)
+        out_contents = re.sub(r"\n\n\n", r"\n\n", out_contents)
+
+        if in_contents != out_contents:
+            f.write_text(out_contents, encoding="utf-8")
+
+
+if __name__ == "__main__":
+    main()
