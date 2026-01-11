@@ -1,0 +1,23 @@
+\section{2-DOF motion profiles}
+\index{motion planning!2-DOF motion profile}
+\index{motion profiles!2-DOF motion profile}
+
+In FRC, point-to-point movements with two degrees of freedom ($2$ DOFs) are
+almost always within the context of drivetrains where the two degrees of freedom
+are the $x$ and $y$ axes.
+
+A \textit{path} is a set of (x, y) points for the drivetrain to follow. A
+drivetrain \textit{trajectory} is a path that includes both the states (e.g.,
+position and velocity) and control inputs (e.g., voltage) of the drivetrain as
+functions of time.
+
+Currently, the most common form of multidimensional trajectory planning in FRC
+is based on polynomial splines. The splines determine the path of the
+trajectory, and the path is parameterized by a trapezoidal motion profile to
+create a trajectory. \textit{A Dive into WPILib Trajectories} by Declan
+Freeman-Gleason introduces 2-DOF trajectory planning in FRC using polynomial
+splines \cite{bib:a_dive_into_wpilib_trajectories}.
+
+\textit{Planning Motion Trajectories for Mobile Robots Using Splines} by
+Christoph Sprunk provides a more general treatment of spline-based trajectory
+generation \cite{bib:spline_traj_sprunk}.

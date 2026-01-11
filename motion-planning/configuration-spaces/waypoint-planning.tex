@@ -1,0 +1,50 @@
+\section{Waypoint planning}
+
+Our first example has 2 DOFs where all of the constraints are independent
+(minimum/maximum limits on each axis), as shown in figure
+\ref{fig:config_spaces_1}.
+\begin{svg}{build/\chapterpath/configuration_spaces_fig1}
+  \caption{Elevator-arm configuration space with independent constraints}
+  \label{fig:config_spaces_1}
+\end{svg}
+
+Motion planning and control in this example is simple; just make sure all
+controller references are always inside the box of valid states.
+
+Now let's make it more interesting. Say that if the arm is near the middle of
+travel (pointing straight down), the elevator must be above a certain height.
+Otherwise, the arm intersects the robot chassis. This configuration space would
+look like figure \ref{fig:config_spaces_2}.
+\begin{svg}{build/\chapterpath/configuration_spaces_fig2}
+  \caption{Elevator-arm configuration space requiring elevator to be above a
+    certain height when arm is pointing down}
+  \label{fig:config_spaces_2}
+\end{svg}
+
+Let's consider motion planning in the second example. Say the current state of
+our system is $x$ and our goal state is $r$ as shown in figure
+\ref{fig:config_spaces_3}.
+\begin{svg}{build/\chapterpath/configuration_spaces_fig3}
+  \caption{Elevator-arm configuration space with initial state $x$ and goal
+    state $r$}
+  \label{fig:config_spaces_3}
+\end{svg}
+
+Notice that the elevator height at the current state and the goal is identical.
+Do we just have to move the arm? Moving this way will sweep the system into the
+constraint we defined for preventing self-intersection with the chassis.
+Instead, we need to plan a sequence of references to execute that only pass
+through valid states. Figure \ref{fig:config_spaces_4} shows an example.
+\begin{svg}{build/\chapterpath/configuration_spaces_fig4}
+  \caption{Elevator-arm configuration space with path between initial state $x$
+    and final state $r$}
+  \label{fig:config_spaces_4}
+\end{svg}
+
+$a$ and $b$ are intermediate waypoints we added to ensure that the whole system
+moves in a safe manner. Considering again our toy example, the elevator goes up,
+then the arm rotates underneath, then the elevator goes back down. There are
+many possible ways to generate this path (or other valid paths), including some
+sort of search (discretize the plot into a grid and find a valid path using
+breadth-first search or A*) or hard-coded rules to handle different regions of
+the constraint space.

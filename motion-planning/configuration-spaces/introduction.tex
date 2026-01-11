@@ -1,0 +1,35 @@
+\section{Introduction}
+
+When a robot can interfere with itself, we need a motion profiling solution that
+ensures the robot doesn't destroy itself. Now that we've demonstrated various
+methods of motion profiling, how can we incorporate safe zones into the planning
+process or implement mechanism collision avoidance?
+
+1-DOF systems are straightforward. We define the minimum and maximum position
+constraints for the arm, elevator, etc. and ensure we stay between them. To do
+so, we might use some combination of:
+\begin{enumerate}
+  \item Rejecting, coercing, or clamping setpoints so that they are always
+    within the valid range
+  \item Soft limits on the speed controller
+  \item Limit switches, and/or physical hard stops
+\end{enumerate}
+
+Multi-DOF systems are more complex. In the 2-DOF case (e.g., an arm with a
+shoulder and a wrist, or an elevator and an arm), each DOF has some limits that
+are independent of the rest of the system (e.g., min and max angles), but there
+are also dependent constraints (e.g., if the shoulder is angled down, the wrist
+must be angled up to avoid hitting the ground). Examples of such constraints
+could include:
+\begin{itemize}
+  \item Minimum/maximum angles
+  \item Maximum extension rules
+  \item Robot chassis
+  \item Angles that require an infeasible amount of holding torque
+\end{itemize}
+
+One intuitive way to think about this is to envision an N-D space (2D for 2
+DOFs, etc.) where the $x$ and $y$ axes are the positions of the degrees of
+freedom. A given point $(x, y)$ can either be a valid configuration or an
+invalid configuration (meaning it violates one or more constraints). So, our 2D
+plot may have regions (half-planes, rectangles, etc.) representing constraints.
