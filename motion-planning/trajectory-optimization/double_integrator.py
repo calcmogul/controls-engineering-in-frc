@@ -19,9 +19,9 @@ if "--noninteractive" in sys.argv:
 
 def main():
     """Entry point."""
-    T = 3.5  # s
+    TOTAL_TIME = 3.5  # s
     dt = 0.005  # 5 ms
-    N = int(T / dt)
+    N = int(TOTAL_TIME / dt)
 
     r = 2.0
 
