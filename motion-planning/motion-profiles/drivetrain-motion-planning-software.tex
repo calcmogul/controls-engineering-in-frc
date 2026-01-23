@@ -1,0 +1,64 @@
+\section{Drivetrain motion planning software}
+
+There's a broad spectrum of drivetrain motion planning methods suitable for
+different team requirements and capabilities. On a tight schedule, consider
+writing and testing a simple fallback method before attempting one of the more
+complex and time-intensive methods discussed here.
+
+\subsection{Model-free}
+
+Model-free path planning methods use geometric relationships to enforce
+convergence to a desired pose. They're ideal for those who want to avoid system
+modeling and don't care about the exact path the robot takes between two points.
+Methods in this category include pure
+pursuit\footnote{\url{https://file.tavsys.net/control/pure-pursuit-considered-harmful.pdf}}
+and guiding vector
+fields\footnote{\url{https://research.rug.nl/en/publications/guiding-vector-fields-for-robot-motion-control/}}.
+
+Model-free methods satisfy the needs of most teams and save them tuning time,
+but they do impose a performance ceiling; higher performance necessarily
+requires reasoning about the robot's dynamics and physical constraints.
+
+\subsection{Some modeling required}
+
+By investing a bit of effort into system modeling, one can obtain trajectories
+with reasonable default performance and limited feasibility guarantees.
+
+PathPlanner\footnote{\url{https://pathplanner.dev/home.html}} is in this
+category. PathPlanner plans the shape of the path with a series of cubic or
+quintic Hermite splines, time-parameterizes each spline with a chassis velocity
+trapezoid profile, then iteratively constrains the profile based on differential
+or swerve drivetrain kinematics and user-defined velocity and acceleration
+limits. Trajectories can be replanned on-demand (useful for auto-aim/auto-score
+strategies).
+
+\textit{A Dive into WPILib Trajectories} by Declan
+Freeman-Gleason\footnote{\url{https://pietroglyph.github.io/trajectory-presentation/}}
+describes 2-DOF trajectory planning with Hermite splines in more detail.
+\textit{Planning Motion Trajectories for Mobile Robots Using Splines} by
+Christoph Sprunk provides a more general treatment of spline-based trajectory
+generation\footnote{\url{http://www2.informatik.uni-freiburg.de/~lau/students/Sprunk2008.pdf}}.
+
+\subsection{High-fidelity modeling}
+
+High-fidelity modeling allows us to use more sophisticated mathematical tools to
+achieve peak drivetrain performance, sometimes at the expense of
+\gls{robustness}. Successful applications require accurate modeling and
+sufficient control input margin to compensate for disturbances. Replanning after
+large disturbances is theoretically possible but not always computationally
+tractible.
+
+Choreo\footnote{\url{https://choreo.autos/}} is in this category. Choreo poses
+and solves a nonlinear constrained optimization problem (see chapter
+\ref{ch:trajectory_optimization}). It finds the time-minimizing trajectory
+through a set of waypoints subject to differential or swerve drivetrain
+dynamics, control input limits, velocity and acceleration limits, keep-in and
+keep-out regions, and pointing constraints. The dynamics are derived via
+sum-of-forces and sum-of-torques with user-provided drivetrain geometry and mass
+properties. Most constraints can be applied to either the whole trajectory or
+specific segments.
+
+Choreo requires a lot of physical information about the drivetrain, but it tends
+to generate feasible trajectories that robots can execute well on their first
+try (assuming well-tuned wheel velocity controllers). These trajectories are too
+expensive to replan on-demand.
