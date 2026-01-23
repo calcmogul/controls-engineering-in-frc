@@ -100,7 +100,10 @@ def main():
                 if contents[i] == os.linesep:
                     linecount += 1
 
-            links.append((file.as_posix(), linecount, match.group("url")))
+            # "\" replacement removes LaTeX escapes
+            links.append(
+                (file.as_posix(), linecount, match.group("url").replace("\\", ""))
+            )
 
     with mp.Pool(mp.cpu_count()) as pool:
         results = pool.map(lint_links, links)

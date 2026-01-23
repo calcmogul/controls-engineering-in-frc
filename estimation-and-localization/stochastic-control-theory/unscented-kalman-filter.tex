@@ -11,29 +11,28 @@ The unscented Kalman filter (UKF) propagates carefully chosen points called
 sigma points through the nonlinear state and measurement models to obtain
 estimates of the true covariances (as opposed to linearized versions of them).
 Read \textit{Kalman and Bayesian Filters in Python} by Roger
-Labbe\footnote{\url{https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python/blob/master/10-Unscented-Kalman-Filter.ipynb}}
-or the original paper \cite{bib:ukf} for more on UKFs.
+Labbe\footnote{\url{https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python/blob/master/10-Unscented-Kalman-Filter.ipynb}} or the original paper\footfullcite{bib:ukf} for more on UKFs.
 
-Here's an interview about the origin of the UKF with its creator
-\cite{bib:first-hand_the_ut}.
+Here's an interview about the origin of the UKF with its
+creator.\footnote{\url{https://ethw.org/First-Hand:The_Unscented_Transform}}
 
 \subsection{Sigma point selection}
 
 There's several selection heuristics for sigma points. The original UKF paper
-uses Merwe scaled sigma points \cite{bib:ukf_merwe_scaled_sigma_points}, but
-Scaled Spherical Simplex sigma points \cite{bib:ukf_s3_sigma_points} require
-fewer points for the same accuracy.
+uses Merwe scaled sigma points,\footfullcite{bib:ukf_merwe_scaled_sigma_points}
+but Scaled Spherical Simplex sigma points require fewer points for the same
+accuracy.\footfullcite{bib:ukf_s3_sigma_points}
 
 \subsection{Square-root UKF}
 
 The UKF uses a matrix square root (Cholesky decomposition) to compute the
 scaling for the sigma points. This operation can introduce numerical
-instability. The square-root UKF \cite{bib:ukf_square_root} avoids this by
-propagating the square-root of the error covariance directly instead of the
+instability. The square-root UKF\footfullcite{bib:ukf_square_root} avoids this
+by propagating the square-root of the error covariance directly instead of the
 error covariance; the Cholesky decomposition is replaced with a QR decomposition
 and a Cholesky rank-1 update.
 
 \subsection{Case study: orientation tracking}
 
 Here's a paper on a quaternion-based Unscented Kalman filter for orientation
-tracking \cite{bib:ukf_state_tracking}.
+tracking.\footfullcite{bib:ukf_state_tracking}
