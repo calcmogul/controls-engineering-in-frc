@@ -47,8 +47,9 @@ def verify_url(filename, line_number, url):
         # failure for them
         if r.status_code == 403 and (
             url.startswith("https://ethw.org")
-            or url.startswith("https://www.researchgate.net")
             or url.startswith("https://rpk.lcsr.jhu.edu")
+            or url.startswith("https://www.researchgate.net")
+            or url.startswith("https://www.sciencedirect.com")
         ):
             return True
 
