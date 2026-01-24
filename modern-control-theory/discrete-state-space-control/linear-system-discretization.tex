@@ -205,37 +205,37 @@ with covariances
   \glspl{system} respectively, $T$ is the sample period of the discrete
   \gls{system}, and $e^{\mat{A}_c T}$ is the matrix exponential of
   $\mat{A}_c T$.
-
-  $\mat{A}_d$ and $\mat{B}_d$ can be computed in one step as
-  \begin{equation*}
-    e^{
-    \begin{bmatrix}
-      \mat{A}_c & \mat{B}_c \\
-      \mat{0} & \mat{0}
-    \end{bmatrix}T} =
-    \begin{bmatrix}
-      \mat{A}_d & \mat{B}_d \\
-      \mat{0} & \mat{I}
-    \end{bmatrix}
-  \end{equation*}
-
-  and $\mat{Q}_d$ can be computed as
-  \begin{equation*}
-    \Phi = e^{
-    \begin{bmatrix}
-      -\mat{A}_c & \mat{Q}_c \\
-      \mat{0} & \mat{A}_c\T
-    \end{bmatrix}T} =
-    \begin{bmatrix}
-      -\mat{A}_d & \mat{A}_d^{-1} \mat{Q}_d \\
-      \mat{0} & \mat{A}_d\T
-    \end{bmatrix}
-  \end{equation*}
-
-  where $\mat{Q}_d = \Phi_{2,2}\T \Phi_{1,2}$ \cite{bib:integral_matrix_exp}.
 \end{theorem}
 
 See appendix \ref{sec:deriv_linear_system_zoh} for derivations.
+
+$\mat{A}_d$ and $\mat{B}_d$ can be computed in one step as
+\begin{equation*}
+  e^{
+  \begin{bmatrix}
+    \mat{A}_c & \mat{B}_c \\
+    \mat{0} & \mat{0}
+  \end{bmatrix}T} =
+  \begin{bmatrix}
+    \mat{A}_d & \mat{B}_d \\
+    \mat{0} & \mat{I}
+  \end{bmatrix}
+\end{equation*}
+
+and $\mat{Q}_d$ can be computed as
+\begin{equation*}
+  \Phi = e^{
+  \begin{bmatrix}
+    -\mat{A}_c & \mat{Q}_c \\
+    \mat{0} & \mat{A}_c\T
+  \end{bmatrix}T} =
+  \begin{bmatrix}
+    -\mat{A}_d & \mat{A}_d^{-1} \mat{Q}_d \\
+    \mat{0} & \mat{A}_d\T
+  \end{bmatrix}
+\end{equation*}
+
+where $\mat{Q}_d = \Phi_{2,2}\T \Phi_{1,2}$ \cite{bib:integral_matrix_exp}.
 
 To see why $\mat{R}_c$ is being divided by $T$, consider the discrete white
 noise sequence $\mat{v}_k$ and the (non-physically realizable) continuous white
