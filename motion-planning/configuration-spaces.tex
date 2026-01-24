@@ -2,8 +2,14 @@
 
 \chapter{Configuration spaces}
 
+When a robot can interfere with itself, we need a motion profiling solution that
+ensures the robot doesn't destroy itself. Now that we've demonstrated various
+methods of motion profiling, how can we incorporate safe zones into the planning
+process or implement mechanism collision avoidance?
+
 \renewcommand*{\chapterpath}{\partpath/configuration-spaces}
-\input{\chapterpath/introduction}
+\input{\chapterpath/1-dof-systems}
+\input{\chapterpath/multi-dof-systems}
 \input{\chapterpath/waypoint-planning}
 \input{\chapterpath/waypoint-traversal}
 \input{\chapterpath/state-machine-validation-with-safe-sets}
