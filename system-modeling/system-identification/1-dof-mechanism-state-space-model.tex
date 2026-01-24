@@ -1,25 +1,32 @@
 \section{1-DOF mechanism state-space model}
 \begin{equation*}
-  \dot{\mat{x}} = \mat{A}\mat{x} + \mat{B}\mat{u}
+  \dot{x} = \alpha x + \beta u + \gamma \sgn(x)
 \end{equation*}
 \begin{equation*}
-  \mat{x} = \text{velocity}
+  \dot{x} = \text{acceleration}
   \quad
-  \dot{\mat{x}} = \text{acceleration}
+  x = \text{velocity}
   \quad
-  \mat{u} = \text{voltage}
+  u = \text{voltage}
 \end{equation*}
 
-We want to derive what $\mat{A}$ and $\mat{B}$ are from the following
-feedforward model
-\begin{equation*}
-  \mat{u} = K_v \mat{x} + K_a \dot{\mat{x}}
-\end{equation*}
+We can determine $\alpha$, $\beta$, and $\gamma$ by applying ordinary least
+squares (OLS) to vectors of recorded input voltage, velocity, and acceleration
+data from quasistatic velocity tests and acceleration tests, where acceleration
+is the dependent variable. If acceleration isn't directly available, it can be
+computed numerically from the velocity data and filtered.
 
-Since this equation is a linear multiple regression, the constants $K_v$ and
-$K_a$ can be determined by applying ordinary least squares (OLS) to vectors of
-recorded input voltage, velocity, and acceleration data from quasistatic
-velocity tests and acceleration tests.
+Solving this model for $u$ gives the following feedforward model.
+\begin{align}
+  u &= -\frac{\gamma}{\beta} \sgn(x) - \frac{\alpha}{\beta}x +
+    \frac{1}{\beta}\dot{x} \nonumber
+  \intertext{Let $K_s = -\frac{\gamma}{\beta}$, $K_v = -\frac{\alpha}{\beta}$,
+    and $K_a = \frac{1}{\beta}$.}
+  u &= K_s \sgn(x) + K_v x + K_a \dot{x} \label{eq:ols_u_ff}
+\end{align}
+
+$K_s$ is a constant that describes how much voltage is required to overcome
+friction and start moving.
 
 $K_v$ is a proportional constant that describes how much voltage is required to
 maintain a given constant velocity by offsetting the electromagnetic resistance
@@ -31,21 +38,20 @@ $K_a$ is a proportional constant that describes how much voltage is required to
 induce a given acceleration in the motor shaft. As with $K_v$, the relationship
 between voltage and acceleration (for a given initial velocity) is linear.
 
-To convert $\mat{u} = K_v \mat{x} + K_a \dot{\mat{x}}$ to state-space form,
-simply solve for $\dot{\mat{x}}$.
-\begin{align*}
-  \mat{u} &= K_v \mat{x} + K_a \dot{\mat{x}} \\
-  K_a \dot{\mat{x}} &= \mat{u} - K_v \mat{x} \\
-  K_a \dot{\mat{x}} &= -K_v \mat{x} + \mat{u} \\
-  \dot{\mat{x}} &= -\frac{K_v}{K_a} \mat{x} + \frac{1}{K_a} \mat{u}
-\end{align*}
+Convert equation (\ref{eq:ols_u_ff}) to state-space form by solving for
+$\dot{x}$.
+\begin{equation*}
+  \dot{x} = -\frac{K_v}{K_a}x + \frac{1}{K_a}u - \frac{K_s}{K_a}\sgn(x)
+\end{equation*}
 
-By inspection, $\mat{A} = -\frac{K_v}{K_a}$ and $\mat{B} = \frac{1}{K_a}$. A
-model with position and velocity states would be
+By inspection, $\mat{A} = -\frac{K_v}{K_a}$, $\mat{B} = \frac{1}{K_a}$, and
+$\mat{c} = -\frac{K_s}{K_a}\sgn(\mat{x})$ in the state-space model
+$\dot{\mat{x}} = \mat{A}\mat{x} + \mat{B}\mat{u} + \mat{c}$. A model with
+position and velocity states would be
 \begin{theorem}[1-DOF mechanism position model]
   \label{thm:1-dof_position_model}
   \begin{equation*}
-    \dot{\mat{x}} = \mat{A}\mat{x} + \mat{B}\mat{u}
+    \dot{\mat{x}} = \mat{A}\mat{x} + \mat{B}\mat{u} + \mat{c}
   \end{equation*}
   \begin{equation*}
     \mat{x} =
@@ -70,14 +76,19 @@ model with position and velocity states would be
       0 \\
       \frac{1}{K_a}
     \end{bmatrix}
-    \mat{u}
+    \mat{u} +
+    \begin{bmatrix}
+      0 \\
+      -\frac{K_s}{K_a}\sgn(\text{velocity})
+    \end{bmatrix}
   \end{equation}
 \end{theorem}
 
 The model in theorem \ref{thm:1-dof_position_model} is undefined when $K_a = 0$.
-If one wants to design an LQR for such a system, use the model in theorem
-\ref{thm:1-dof_position_model_ka=0}. As $K_a$ tends to zero, acceleration
-requires no effort and velocity becomes an input for position control.
+To design an LQR for such a system, use the model in theorem
+\ref{thm:1-dof_position_model_ka=0} instead. As $K_a$ tends to zero,
+acceleration requires no effort and velocity becomes an input for position
+control.
 \begin{theorem}[1-DOF mechanism position model ($K_a = 0$)]
   \label{thm:1-dof_position_model_ka=0}
   \begin{equation*}
