@@ -81,9 +81,8 @@ solves.
 Warm starting the current timestep's solve with the optimal trajectory from the
 previous timestep can drastically speed up convergence.
 
-We recommend setting a timeout after which the solver returns its solution so
-far. Applying the control input from a partially optimized trajectory is better
-than overrunning the scheduled controller period.
+Set a solver timeout, because applying the control input from a partially
+optimized trajectory is better than overrunning the scheduled controller period.
 
 \subsection{Flywheel}
 

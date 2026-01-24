@@ -44,9 +44,9 @@ where $h$ is the timestep duration.
 \index{numerical integration!Forward Euler}
 
 The simplest explicit Runge-Kutta integration method is forward Euler
-integration. We don't recommend using it because it suffers from numerical
-stability issues. We'll demonstrate how to translate its Butcher tableau into
-equations that integrate $\dot{\mat{x}} = f(t, \mat{x})$ from $0$ to $h$.
+integration. Avoid it because it suffers from numerical stability issues. We'll
+demonstrate how to translate its Butcher tableau into equations that integrate
+$\dot{\mat{x}} = f(t, \mat{x})$ from $0$ to $h$.
 \begin{multicols}{2}
   \begin{alignat*}{7}
     \mat{k}_1 &= f(t +
