@@ -72,22 +72,22 @@ $\mat{x}_{k+1} = \mat{A}\mat{x}_k + \mat{B}\mat{u}_k$ is
 
 where $\mat{K}$ is given by
 \begin{equation*}
-  \mat{K} = (\mat{R} + \mat{B}\T\mat{S}\mat{B})^{-1}
-    (\mat{B}\T\mat{S}\mat{A} + \mat{N}\T)
+  \mat{K} = (\mat{R} + \mat{B}\T\mat{P}\mat{B})^{-1}
+    (\mat{B}\T\mat{P}\mat{A} + \mat{N}\T)
 \end{equation*}
 
-and $\mat{S}$ is found by solving the discrete time algebraic Riccati equation
+and $\mat{P}$ is found by solving the discrete time algebraic Riccati equation
 defined as
 \begin{equation*}
-  \mat{A}\T\mat{S}\mat{A} - \mat{S} - (\mat{A}\T\mat{S}\mat{B} + \mat{N})
-    (\mat{R} + \mat{B}\T\mat{S}\mat{B})^{-1}
-    (\mat{B}\T\mat{S}\mat{A} + \mat{N}\T) + \mat{Q} = 0
+  \mat{A}\T\mat{P}\mat{A} - \mat{P} - (\mat{A}\T\mat{P}\mat{B} + \mat{N})
+    (\mat{R} + \mat{B}\T\mat{P}\mat{B})^{-1}
+    (\mat{B}\T\mat{P}\mat{A} + \mat{N}\T) + \mat{Q} = 0
 \end{equation*}
 
 or alternatively
 \begin{equation*}
-  \mathcal{A}\T\mat{S}\mathcal{A} - \mat{S} - \mathcal{A}\T\mat{S}\mat{B}
-    (\mat{R} + \mat{B}\T\mat{S}\mat{B})^{-1} \mat{B}\T\mat{S}\mathcal{A} +
+  \mathcal{A}\T\mat{P}\mathcal{A} - \mat{P} - \mathcal{A}\T\mat{P}\mat{B}
+    (\mat{R} + \mat{B}\T\mat{P}\mat{B})^{-1} \mat{B}\T\mat{P}\mathcal{A} +
     \mat{Q} = 0
 \end{equation*}
 
@@ -112,14 +112,14 @@ $\mat{x}_{k+1} = \mat{A}\mat{x}_k + \mat{B}\mat{u}_k$ is
 
 where $\mat{K}$ is given by
 \begin{equation*}
-  \mat{K} = (\mat{R} + \mat{B}\T\mat{S}\mat{B})^{-1} \mat{B}\T\mat{S}\mat{A}
+  \mat{K} = (\mat{R} + \mat{B}\T\mat{P}\mat{B})^{-1} \mat{B}\T\mat{P}\mat{A}
 \end{equation*}
 
-and $\mat{S}$ is found by solving the discrete time algebraic Riccati equation
+and $\mat{P}$ is found by solving the discrete time algebraic Riccati equation
 defined as
 \begin{equation*}
-  \mat{A}\T\mat{S}\mat{A} - \mat{S} - \mat{A}\T\mat{S}\mat{B}
-    (\mat{R} + \mat{B}\T\mat{S}\mat{B})^{-1} \mat{B}\T\mat{S}\mat{A} +
+  \mat{A}\T\mat{P}\mat{A} - \mat{P} - \mat{A}\T\mat{P}\mat{B}
+    (\mat{R} + \mat{B}\T\mat{P}\mat{B})^{-1} \mat{B}\T\mat{P}\mat{A} +
     \mat{Q} = 0
 \end{equation*}
 

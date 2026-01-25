@@ -16,9 +16,9 @@ Eigen::Matrix<double, Inputs, States> LQR(
   StateMatrix A_2 = A - B * R_llt.solve(N.transpose());
   StateMatrix Q_2 = Q - N * R_llt.solve(N.transpose());
 
-  StateMatrix S = DARE<States, Inputs>(A_2, B, Q_2, R);
+  StateMatrix P = DARE<States, Inputs>(A_2, B, Q_2, R);
 
-  return (B.transpose() * S * B + R)
+  return (B.transpose() * P * B + R)
       .llt()
-      .solve(B.transpose() * S * A + N.transpose());
+      .solve(B.transpose() * P * A + N.transpose());
 }
