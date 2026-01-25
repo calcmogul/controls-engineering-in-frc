@@ -61,7 +61,7 @@ strictly positive and the quadratic function is concave up. The $u_k$ we found
 is therefore a minimum.
 
 The actual process of solving for $u_k$ is mathematically intensive and outside
-the scope of this explanation (appendix \ref{ch:deriv_lqr} references a
+the scope of this explanation (appendix \ref{sec:lqr_derivation} references a
 derivation for those curious). The rest of this section will describe the more
 general form of the linear-quadratic regulator and how to use it.
 
@@ -134,8 +134,8 @@ need knowledge of the full \gls{state} of the \gls{system}. That means we either
 have to measure all our \glspl{state} directly or estimate those we do not
 measure.
 
-See appendix \ref{ch:deriv_lqr} for how $\mat{K}$ is calculated. If the result
-is finite, the controller is guaranteed to be stable and
+See appendix \ref{sec:lqr_derivation} for how $\mat{K}$ is calculated. If the
+result is finite, the controller is guaranteed to be stable and
 \glslink{robustness}{robust} with a \gls{gain margin} of infinity and a
 \gls{phase margin} of 60 degrees.\footfullcite{bib:lqr_phase_margin} However,
 using a state estimator forfeits the robustness
