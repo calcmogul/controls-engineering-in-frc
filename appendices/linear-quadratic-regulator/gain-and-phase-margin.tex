@@ -1,0 +1,70 @@
+\section{Gain and phase margin}
+\label{sec:lqr_gain_and_phase_margin}
+
+\subsection{Gain margin}
+
+Let there be a linear system
+$\dot{\mat{x}} = \mat{A}\mat{x} + \mat{B}\mat{N}\mat{u}$ where $\mat{N}$ is a
+diagonal matrix of random, unknown gains on the control inputs. The gain margin
+is the maximum value of $\mat{N}$ for which the system is stable.
+
+For stability analysis, we'll use the Lyapunov function
+$V(\mat{x}) = \mat{x}\T\mat{P}\mat{x}$ where $\mat{P}$ is the unique stabilizing
+solution to the continuous algebraic Riccati equation (CARE)
+$\mat{A}\T\mat{P} + \mat{P}\mat{A} - \mat{P}\mat{B}\mat{R}^{-1}\mat{B}\T\mat{P} + \mat{Q} = \mat{0}$.
+We'll assume $\mat{R}$ is diagonal for sufficient decoupling.
+
+The system is stable if $\dot{V}(\mat{x}) < 0$ for all $\mat{x} \neq \mat{0}$.
+\begin{gather}
+  \dot{\mat{x}}\T\mat{P}\mat{x} + \mat{x}\T\mat{P}\dot{\mat{x}} < 0 \nonumber
+  \intertext{Substitute in the system dynamics
+    $\dot{\mat{x}} = \mat{A}\mat{x} + \mat{B}\mat{N}\mat{u}$ and their transpose
+    $\dot{\mat{x}}\T = \mat{x}\T\mat{A}\T + \mat{u}\T\mat{N}\T\mat{B}\T$.}
+  (\mat{x}\T\mat{A}\T + \mat{u}\T\mat{N}\mat{B}\T)\mat{P}\mat{x} +
+    \mat{x}\T\mat{P}(\mat{A}\mat{x} + \mat{B}\mat{N}\mat{u}) < 0 \nonumber \\
+  \mat{x}\T\mat{A}\T\mat{P}\mat{x} + \mat{u}\T\mat{N}\mat{B}\T\mat{P}\mat{x} +
+    \mat{x}\T\mat{P}\mat{A}\mat{x} + \mat{x}\T\mat{P}\mat{B}\mat{N}\mat{u} < 0
+    \nonumber \\
+  \mat{x}\T(\mat{A}\T\mat{P} + \mat{P}\mat{A})\mat{x} +
+    \mat{u}\T\mat{N}\mat{B}\T\mat{P}\mat{x} +
+    \mat{x}\T\mat{P}\mat{B}\mat{N}\mat{u} < 0 \nonumber
+  \intertext{Substitute in the continuous time LQR control law
+    $\mat{u} = -\mat{R}^{-1}\mat{B}\T\mat{P}\mat{x}$ and its transpose
+    $\mat{u}\T = -\mat{x}\T\mat{P}\mat{B}\mat{R}^{-1}$.}
+  \mat{x}\T(\mat{A}\T\mat{P} + \mat{P}\mat{A})\mat{x} -
+    \mat{x}\T\mat{P}\mat{B}\mat{R}^{-1}\mat{N}\mat{B}\T\mat{P}\mat{x} -
+    \mat{x}\T\mat{P}\mat{B}\mat{N}\mat{R}^{-1}\mat{B}\T\mat{P}\mat{x} < 0
+    \nonumber \\
+  \mat{x}\T(\mat{A}\T\mat{P} + \mat{P}\mat{A} -
+    \mat{P}\mat{B}\mat{R}^{-1}\mat{N}\mat{B}\T\mat{P} -
+    \mat{P}\mat{B}\mat{N}\mat{R}^{-1}\mat{B}\T\mat{P})\mat{x} < 0 \nonumber
+  \intertext{Since we assumed $\mat{R}$ is diagonal, we can swap the order of
+    $\mat{R}^{-1}\mat{N}$ in
+    $\mat{P}\mat{B}\mat{R}^{-1}\mat{N}\mat{B}\T\mat{P}$.}
+  \mat{x}\T(\mat{A}\T\mat{P} + \mat{P}\mat{A} -
+    \mat{P}\mat{B}\mat{N}\mat{R}^{-1}\mat{B}\T\mat{P} -
+    \mat{P}\mat{B}\mat{N}\mat{R}^{-1}\mat{B}\T\mat{P})\mat{x} < 0 \nonumber \\
+  \mat{x}\T(\mat{A}\T\mat{P} + \mat{P}\mat{A} -
+    \mat{P}\mat{B}2\mat{N}\mat{R}^{-1}\mat{B}\T\mat{P})\mat{x} < 0 \nonumber
+  \intertext{Substitute in the CARE
+    $\mat{A}\T\mat{P} + \mat{P}\mat{A} = \mat{P}\mat{B}\mat{R}^{-1}\mat{B}\T\mat{P} - \mat{Q}$.}
+  \mat{x}\T(\mat{P}\mat{B}\mat{R}^{-1}\mat{B}\T\mat{P} - \mat{Q} -
+    \mat{P}\mat{B}2\mat{N}\mat{R}^{-1}\mat{B}\T\mat{P})\mat{x} < 0 \nonumber \\
+  \mat{x}\T(\mat{P}\mat{B}(\mat{I} - 2\mat{N})\mat{R}^{-1}\mat{B}\T\mat{P} -
+    \mat{Q})\mat{x} < 0 \nonumber \\
+  \mat{x}\T(\mat{Q} - \mat{P}\mat{B}(\mat{I} -
+    2\mat{N})\mat{R}^{-1}\mat{B}\T\mat{P})\mat{x} > 0 \nonumber
+  \intertext{This inequality is satisfied if and only if}
+  \mat{Q} - \mat{P}\mat{B}(\mat{I} - 2\mat{N})\mat{R}^{-1}\mat{B}\T\mat{P} > \mat{0}
+    \label{eq:lqr_gain_margin}
+\end{gather}
+
+which is satisfied for $\mat{N}_{i,i} > 0.5$. Thus, for each input, LQR allows
+one-half gain reduction and has infinite gain margin.
+
+\subsection{Phase margin}
+
+Let $\mat{N}$ in inequality (\ref{eq:lqr_gain_margin}) be a diagonal matrix with
+$\mat{N}_{i,i} = e^{j \phi_i} = \cos(\phi_i) + j\sin(\phi_i)$. The inequality is
+satisfied if the real part $\cos(\phi_i) > 0.5$, which is satisfied for
+$|\phi_i| < 60\degree$. Thus, LQR has 60\degree~of phase margin for each input.
