@@ -74,6 +74,30 @@ class NonlinearMPC:
 
         self.N: int = int(prediction_horizon / sample_period)
 
+        self.problem = Problem()
+
+        self.X = self.problem.decision_variable(self.states, self.N + 1)
+        self.U = self.problem.decision_variable(self.inputs, self.N)
+
+        # Initial state constraint (avoids 0 or 1 to prevent expression pruning
+        # during initial constraint setup)
+        self.x_0 = VariableMatrix.constant(self.states, 1, 2.0)
+        self.problem.subject_to(self.X[:, :1] == self.x_0)
+
+        # Dynamics constraints
+        for k in range(self.N):
+            self.problem.subject_to(
+                self.X[:, k + 1 : k + 2]
+                == fct.rk4(
+                    self.f,
+                    self.X[:, k : k + 1],
+                    self.U[:, k : k + 1],
+                    self.sample_period,
+                )
+            )
+
+        self.constraints(self.problem, self.X, self.U)
+
         self.warm_startable: bool = False
 
     def calculate(
@@ -91,35 +115,18 @@ class NonlinearMPC:
         Returns:
             The control input to apply for this timestep.
         """
-        problem = Problem()
+        self.problem.minimize(self.cost(self.X, self.U, r))
 
-        X = problem.decision_variable(self.states, self.N + 1)
-        U = problem.decision_variable(self.inputs, self.N)
-
-        problem.minimize(self.cost(X, U, r))
-
-        # Initial state constraint
-        problem.subject_to(X[:, :1] == x)
-
-        # Dynamics constraints
-        for k in range(self.N):
-            problem.subject_to(
-                X[:, k + 1 : k + 2]
-                == fct.rk4(self.f, X[:, k : k + 1], U[:, k : k + 1], self.sample_period)
-            )
-
-        self.constraints(problem, X, U)
+        # Update initial state constraint
+        self.x_0.set_value(x)
 
         # Initial guess
         if not self.warm_startable:
-            self.X_warm_start, self.U_warm_start = self.initial_guess(x, r, self.N)
+            X_warm_start, U_warm_start = self.initial_guess(x, r, self.N)
+            self.X.set_value(X_warm_start)
+            self.U.set_value(U_warm_start)
             self.warm_startable = True
-        X.set_value(self.X_warm_start)
-        U.set_value(self.U_warm_start)
 
-        problem.solve(timeout=self.timeout)
+        self.problem.solve(timeout=self.timeout, diagnostics=True)
 
-        self.X_warm_start = X.value()
-        self.U_warm_start = U.value()
-
-        return self.U_warm_start[:, :1]
+        return self.U.value()[:, :1]

@@ -110,7 +110,7 @@ class LinearMPC:
         X.set_value(self.X_warm_start)
         U.set_value(self.U_warm_start)
 
-        problem.solve(timeout=self.timeout)
+        problem.solve(timeout=self.timeout, diagnostics=True)
 
         self.x_warm_start = X.value()
         self.u_warm_start = U.value()
