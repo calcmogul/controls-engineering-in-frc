@@ -67,6 +67,25 @@ class LinearMPC:
 
         self.N: int = int(prediction_horizon / sample_period)
 
+        self.problem = Problem()
+
+        self.X = self.problem.decision_variable(self.A_d.shape[0], self.N + 1)
+        self.U = self.problem.decision_variable(self.B_d.shape[1], self.N)
+
+        # Initial state constraint (avoids 0 or 1 to prevent expression pruning
+        # during initial constraint setup)
+        self.x_0 = VariableMatrix.constant(self.A_d.shape[0], 1, 2.0)
+        self.problem.subject_to(self.X[:, :1] == self.x_0)
+
+        # Dynamics constraints
+        for k in range(self.N):
+            self.problem.subject_to(
+                self.X[:, k + 1 : k + 2]
+                == self.A_d @ self.X[:, k : k + 1] + self.B_d @ self.U[:, k : k + 1]
+            )
+
+        self.constraints(self.problem, self.X, self.U)
+
         self.warm_startable: bool = False
 
     def calculate(
@@ -84,35 +103,18 @@ class LinearMPC:
         Returns:
             The control input to apply for this timestep.
         """
-        problem = Problem()
+        self.problem.minimize(self.cost(self.X, self.U, r))
 
-        X = problem.decision_variable(self.A_d.shape[0], self.N + 1)
-        U = problem.decision_variable(self.B_d.shape[1], self.N)
-
-        problem.minimize(self.cost(X, U, r))
-
-        # Initial state constraint
-        problem.subject_to(X[:, :1] == x)
-
-        # Dynamics constraints
-        for k in range(self.N):
-            problem.subject_to(
-                X[:, k + 1 : k + 2]
-                == self.A_d @ X[:, k : k + 1] + self.B_d @ U[:, k : k + 1]
-            )
-
-        self.constraints(problem, X, U)
+        # Update initial state constraint
+        self.x_0.set_value(x)
 
         # Initial guess
         if not self.warm_startable:
-            self.X_warm_start, self.U_warm_start = self.initial_guess(x, r, self.N)
+            X_warm_start, U_warm_start = self.initial_guess(x, r, self.N)
+            self.X.set_value(X_warm_start)
+            self.U.set_value(U_warm_start)
             self.warm_startable = True
-        X.set_value(self.X_warm_start)
-        U.set_value(self.U_warm_start)
 
-        problem.solve(timeout=self.timeout)
+        self.problem.solve(timeout=self.timeout)
 
-        self.x_warm_start = X.value()
-        self.u_warm_start = U.value()
-
-        return self.u_warm_start[:, :1]
+        return self.U.value()[:, :1]
