@@ -23,7 +23,7 @@ def main():
     dt = 0.005  # 5 ms
     N = int(TOTAL_TIME / dt)
 
-    r = 2.0
+    r = 2.0  # m
 
     problem = Problem()
 
