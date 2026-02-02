@@ -19,8 +19,10 @@ def lerp(a: float, b: float, t: float) -> float:
 
     Parameter ``a``:
         The first value.
+
     Parameter ``b``:
         The second value.
+
     Parameter ``t``:
         The interpolant.
     """
@@ -123,12 +125,16 @@ def generate_trajectory(
 
     Parameter ``waypoints``:
         The list of waypoints.
+
     Parameter ``v_max``:
         The maximum linear velocity.
+
     Parameter ``ω_max``:
         The maximum angular velocity.
+
     Parameter ``a_max``:
         The maximum linear acceleration.
+
     Parameter ``α_max``:
         The maximum angular acceleration.
     """

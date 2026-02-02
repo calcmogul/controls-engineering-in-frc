@@ -62,6 +62,7 @@ class Elevator:
 
         Parameter ``r``:
             The current reference.
+
         Parameter ``next_r``:
             The next reference.
         """
@@ -107,8 +108,10 @@ def simulate(elevator, dt, method):
 
     Parameter ``elevator``:
         The elevator to simulate.
+
     Parameter ``dt``:
         The timestep duration.
+
     Parameter ``method``:
         The discretization method ("zoh", "euler", "backward_diff", or
         "bilinear")

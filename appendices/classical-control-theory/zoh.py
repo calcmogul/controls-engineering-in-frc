@@ -62,6 +62,7 @@ class Elevator:
 
         Parameter ``r``:
             The current reference.
+
         Parameter ``next_r``:
             The next reference.
         """
@@ -82,8 +83,10 @@ def generate_zoh(data, dt, sample_period):
 
     Parameter ``data``:
         Array of position data.
+
     Parameter ``dt``:
         dt of original data samples.
+
     Parameter ``sample_period``:
         Desired time between samples in zero-order hold.
     """

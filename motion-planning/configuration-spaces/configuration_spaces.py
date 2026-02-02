@@ -21,6 +21,7 @@ def config_plot(xlim, ylim):
 
     Parameter ``xlim``:
         The x limits.
+
     Parameter ``ylim``:
         The y limits.
     """
@@ -36,6 +37,7 @@ def make_box(bottom_left, top_right):
 
     Parameter ``bottom_left``:
         The box's bottom-left coordinate.
+
     Parameter ``top_right``:
         The box's top-right coordinate.
     """
@@ -55,6 +57,7 @@ def make_invalid_region(xlim, ylim):
 
     Parameter ``xlim``:
         The x limits of the invalid region.
+
     Parameter ``ylim``:
         The y limits of the invalid region.
     """
@@ -86,13 +89,17 @@ def draw_point(ax, x, y, label, horizontalalignment="left", verticalalignment="t
 
     Parameter ``ax``:
         The Axis object on which to draw.
+
     Parameter ``x``:
         The point's x coordinate.
+
     Parameter ``y``:
         The point's y coordinate.
+
     Parameter ``horizontalalignment``:
         How the text should be horizontally aligned with respect to the point
         (default: "left").
+
     Parameter ``verticalignment``:
         How the text should be vertically aligned with respect to the point
         (default: "top").

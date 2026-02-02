@@ -9,14 +9,19 @@ def plot_xy(fig, ref_xs, ref_ys, state_xs, state_ys, patches=[]):
 
     Parameter ``fig``:
         Figure on which to plot.
+
     Parameter ``ref_xs``:
         List of reference x values.
+
     Parameter ``ref_ys``:
         List of reference y values.
+
     Parameter ``state_xs``:
         List of state x values.
+
     Parameter ``state_ys``:
         List of state y values.
+
     Parameter ``patches``:
         List of patches to draw (default: []).
     """
@@ -43,16 +48,22 @@ def animate_xy(fig, ref_xs, ref_ys, state_xs, state_ys, dt, patches=[]):
 
     Parameter ``fig``:
         Figure on which to plot.
+
     Parameter ``ref_xs``:
         List of reference x values.
+
     Parameter ``ref_ys``:
         List of reference y values.
+
     Parameter ``state_xs``:
         List of state x values.
+
     Parameter ``state_ys``:
         List of state y values.
+
     Parameter ``dt``:
         Timestep duration.
+
     Parameter ``patches``:
         List of patches to draw.
     """

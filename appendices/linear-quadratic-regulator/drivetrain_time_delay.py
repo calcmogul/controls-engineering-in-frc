@@ -25,6 +25,7 @@ class Drivetrain:
 
         Parameter ``dt``:
             Time between model/controller updates.
+
         Parameter ``delay``:
             Input delay in seconds.
         """
@@ -71,6 +72,7 @@ class Drivetrain:
 
         Parameter ``r``:
             The current reference.
+
         Parameter ``next_r``:
             The next reference.
         """
@@ -98,10 +100,13 @@ class PlotMetadata:
 
         Parameter ``delay``:
             The input delay.
+
         Parameter ``compensate``:
             Whether to perform latency compensation.
+
         Parameter ``gain_digits``:
             Number of digits to include in feedback gain plot label.
+
         Parameter ``plot_filename``:
             Plot filename.
         """

@@ -18,8 +18,10 @@ class Entry:
 
         Parameter ``entry_type``:
             Bibliography entry type (e.g., misc, online).
+
         Parameter ``label``:
             LaTeX label.
+
         Parameter ``fields``:
             Dictionary of field types and values.
         """

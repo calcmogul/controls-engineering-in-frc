@@ -40,6 +40,7 @@ def exp_map(x, y):
 
     Parameter ``x``:
         The real part.
+
     Parameter ``y``:
         The imaginary part.
     """
@@ -54,6 +55,7 @@ def plot_phase_lines(ax, transform=None):
 
     Parameter ``ax``:
         Axes object.
+
     Parameter ``transform``:
         x_new, y_new = f(x, y).
     """

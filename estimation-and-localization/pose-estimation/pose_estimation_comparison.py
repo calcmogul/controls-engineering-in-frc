@@ -29,22 +29,31 @@ def linearized_differential_drive(motor, num_motors, m, r, rb, J, Gl, Gr, states
 
     Parameter ``motor``:
         Instance of DCMotor.
+
     Parameter ``num_motors``:
         Number of motors driving the mechanism.
+
     Parameter ``m``:
         Mass of robot in kg.
+
     Parameter ``r``:
         Radius of wheels in meters.
+
     Parameter ``rb``:
         Radius of robot in meters.
+
     Parameter ``J``:
         Moment of inertia of the differential drive in kg-m².
+
     Parameter ``Gl``:
         Gear ratio of left side of differential drive.
+
     Parameter ``Gr``:
         Gear ratio of right side of differential drive.
+
     Parameter ``states``:
         State vector around which to linearize model.
+
     Returns:
         StateSpace instance containing continuous model.
     """
@@ -152,8 +161,10 @@ class Drivetrain(metaclass=ABCMeta):
 
         Parameter ``x``:
             State vector.
+
         Parameter ``u``:
             Input vector.
+
         Returns:
             State derivative.
         """
@@ -182,6 +193,7 @@ class Drivetrain(metaclass=ABCMeta):
 
         Parameter ``r``:
             The current reference.
+
         Parameter ``next_r``:
             The next reference.
         """

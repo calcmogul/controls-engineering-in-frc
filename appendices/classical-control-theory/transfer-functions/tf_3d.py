@@ -27,8 +27,10 @@ def func(x, y):
 
     Parameter ``x``:
         x coordinate.
+
     Parameter ``y``:
         y coordinate.
+
     Returns:
         z coordinate.
     """

@@ -63,6 +63,7 @@ class Elevator:
 
         Parameter ``r``:
             The current reference.
+
         Parameter ``next_r``:
             The next reference.
         """
@@ -83,8 +84,10 @@ def generate_forward_euler_vel(data, dt, sample_period):
 
     Parameter ``data``:
         Array of velocity data.
+
     Parameter ``dt``:
         dt of original data samples.
+
     Parameter ``sample_period``:
         Desired time between samples in approximation.
     """
@@ -105,8 +108,10 @@ def generate_backward_euler_vel(data, dt, sample_period):
 
     Parameter ``data``:
         Array of velocity data.
+
     Parameter ``dt``:
         dt of original data samples.
+
     Parameter ``sample_period``:
         Desired time between samples in approximation.
     """
@@ -127,8 +132,10 @@ def generate_bilinear_transform_vel(data, dt, sample_period):
 
     Parameter ``data``:
         Array of velocity data.
+
     Parameter ``dt``:
         dt of original data samples.
+
     Parameter ``sample_period``:
         Desired time between samples in approximation.
     """
@@ -150,8 +157,10 @@ def generate_forward_euler_pos(data, dt, sample_period):
 
     Parameter ``data``:
         Array of velocity data.
+
     Parameter ``dt``:
         dt of original data samples.
+
     Parameter ``sample_period``:
         Desired time between samples in approximation.
     """
@@ -172,8 +181,10 @@ def generate_backward_euler_pos(data, dt, sample_period):
 
     Parameter ``data``:
         Array of velocity data.
+
     Parameter ``dt``:
         dt of original data samples.
+
     Parameter ``sample_period``:
         Desired time between samples in approximation.
     """
@@ -194,8 +205,10 @@ def generate_bilinear_transform_pos(data, dt, sample_period):
 
     Parameter ``data``:
         Array of velocity data.
+
     Parameter ``dt``:
         dt of original data samples.
+
     Parameter ``sample_period``:
         Desired time between samples in approximation.
     """

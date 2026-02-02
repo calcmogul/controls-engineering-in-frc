@@ -144,8 +144,10 @@ class Drivetrain:
 
         Parameter ``x``:
             State vector.
+
         Parameter ``u``:
             Input vector.
+
         Returns:
             State derivative.
         """
@@ -168,8 +170,10 @@ class Drivetrain:
 
         Parameter ``x``:
             State vector.
+
         Parameter ``u``:
             Input vector.
+
         Returns:
             State derivative.
         """
@@ -181,6 +185,7 @@ class Drivetrain:
 
         Parameter ``r``:
             The current reference.
+
         Parameter ``next_r``:
             The next reference.
         """

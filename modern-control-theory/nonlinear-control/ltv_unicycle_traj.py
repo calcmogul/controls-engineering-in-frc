@@ -34,10 +34,13 @@ class LTVUnicycleController:
 
         Parameter ``pose``:
             The current pose.
+
         Parameter ``pose_desired``:
             The desired pose.
+
         Parameter ``v_desired``:
             The desired linear velocity in meters per second.
+
         Parameter ``omega_desired``:
             The desired angular velocity in radians per second.
         """
@@ -133,8 +136,10 @@ class Drivetrain:
 
         Parameter ``x``:
             State vector.
+
         Parameter ``u``:
             Input vector.
+
         Returns:
             State derivative.
         """
@@ -157,8 +162,10 @@ class Drivetrain:
 
         Parameter ``x``:
             State vector.
+
         Parameter ``u``:
             Input vector.
+
         Returns:
             State derivative.
         """
@@ -170,6 +177,7 @@ class Drivetrain:
 
         Parameter ``r``:
             The current reference.
+
         Parameter ``next_r``:
             The next reference.
         """

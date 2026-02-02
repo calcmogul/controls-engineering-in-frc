@@ -9,12 +9,16 @@ def generate_trapezoid_profile(max_v, time_to_max_v, dt, goal):
 
     Parameter ``max_v``:
         Maximum velocity of profile.
+
     Parameter ``time_to_max_v``:
         Time from rest to maximum velocity.
+
     Parameter ``dt``:
         Timestep.
+
     Parameter ``goal``:
         Final position when the profile is at rest.
+
     Returns:
         t_rec -- List of timestamps.
         x_rec -- List of positions at each timestep.

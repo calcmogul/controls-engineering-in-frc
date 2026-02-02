@@ -10,12 +10,16 @@ def kalmd(A, C, Q, R):
 
     Parameter ``A``:
         numpy.array(states x states), system matrix.
+
     Parameter ``C``:
         numpy.array(outputs x states), output matrix.
+
     Parameter ``Q``:
         numpy.array(states x states), process noise covariance matrix.
+
     Parameter ``R``:
         numpy.array(outputs x outputs), measurement noise covariance matrix.
+
     Returns:
         numpy.array(outputs x states), Kalman gain matrix.
     """

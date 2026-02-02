@@ -27,6 +27,7 @@ def taylor_exp(x, n):
 
     Parameter ``x``:
         The value at which to evaluate the Taylor series expansion.
+
     Parameter ``n``:
         The order of the Taylor series expansion.
     """

@@ -9,14 +9,19 @@ def generate_s_curve_profile(max_v, max_a, time_to_max_a, dt, goal):
 
     Parameter ``max_v``:
         Maximum velocity of profile.
+
     Parameter ``max_a``:
         Maximum acceleration of profile.
+
     Parameter ``time_to_max_a``:
         Time from rest to maximum acceleration.
+
     Parameter ``dt``:
         Timestep.
+
     Parameter ``goal``:
         Final position when the profile is at rest.
+
     Returns:
         t_rec -- List of timestamps.
         x_rec -- List of positions at each timestep.

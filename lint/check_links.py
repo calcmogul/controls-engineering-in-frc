@@ -28,10 +28,13 @@ def verify_url(filename, line_number, url):
 
     Parameter ``filename``:
         Name of file containing URL.
+
     Parameter ``line_number``:
         Line number of URL.
+
     Parameter ``url``:
         The URL to verify.
+
     Returns:
         True if verification succeeded or False otherwise.
     """

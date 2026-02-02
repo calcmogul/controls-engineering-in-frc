@@ -96,6 +96,7 @@ class DifferentialDrive:
 
         Parameter ``r``:
             The current reference.
+
         Parameter ``next_r``:
             The next reference.
         """

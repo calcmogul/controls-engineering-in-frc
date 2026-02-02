@@ -10,14 +10,19 @@ def lqr(A, B, Q, R, N):
 
     Parameter ``A``:
         numpy.array(states x states), system matrix.
+
     Parameter ``B``:
         numpy.array(states x inputs), input matrix.
+
     Parameter ``Q``:
         numpy.array(states x states), state cost matrix.
+
     Parameter ``R``:
         numpy.array(inputs x inputs), control effort cost matrix.
+
     Parameter ``N``:
         numpy.array(states x inputs), cross weight matrix.
+
     Returns:
         numpy.array(inputs x states), controller gain matrix.
     """
