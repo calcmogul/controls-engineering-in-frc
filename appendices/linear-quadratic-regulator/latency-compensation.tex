@@ -1,20 +1,18 @@
-\section{Time delay compensation}
-\index{controller design!linear-quadratic regulator!time delay compensation}
+\section{Latency compensation}
+\index{controller design!linear-quadratic regulator!latency compensation}
 
 Linear-Quadratic regulator controller gains tend to be aggressive. If sensor
-measurements are time-delayed too long, the LQR may be unstable (see figure
-\ref{fig:elevator_time_delay_no_comp}). However, if we know the amount of delay,
-we can compute the control based on where the system will be after the time
-delay.
+measurements are delayed too long, the LQR may be unstable (see figure
+\ref{fig:elevator_time_delay_no_comp}). However, we can compensate for the delay
+if we know the control law applied at future timesteps
+($\mat{u} = -\mat{K}\mat{x}$) and the delay's duration.
 
-We can compensate for the time delay if we know the control law we're applying
-in future timesteps ($\mat{u} = -\mat{K}\mat{x}$) and the duration of the time
-delay. To get the true state at the current time for control purposes, we
-project our delayed state forward by the time delay using our model and the
-aforementioned control law. Figure \ref{fig:elevator_time_delay_comp} shows
-improved control with the predicted state.\footnote{Input delay and output delay
-have the same effect on the system, so the time delay can be simulated with
-either an input delay buffer or a measurement delay buffer.}
+To get the true state at the current time for control purposes, we project our
+delayed state forward by the delay duration using our model and the control law.
+Figure \ref{fig:elevator_time_delay_comp} shows improved control with the
+predicted state.\footnote{Input delay and output delay have the same effect on
+the system, so a delay can be simulated with either an input delay buffer or a
+measurement delay buffer.}
 \begin{bookfigure}
   \begin{minisvg}{2}{build/\chapterpath/elevator_time_delay_no_comp}
     \caption{Elevator response at 5 ms sample period with 50 ms of output lag}
@@ -23,22 +21,23 @@ either an input delay buffer or a measurement delay buffer.}
   \hfill
   \begin{minisvg}{2}{build/\chapterpath/elevator_time_delay_comp}
     \caption{Elevator response at 5 ms sample period with 50 ms of output lag
-      (delay-compensated)}
+      (latency-compensated)}
     \label{fig:elevator_time_delay_comp}
   \end{minisvg}
 \end{bookfigure}
 
-For steady-state controller gains, this method of delay compensation seems to
-work better for second-order systems than first-order systems. Figures
-\ref{fig:drivetrain_time_delay_no_comp} and
-\ref{fig:flywheel_time_delay_no_comp} show time delay for a drivetrain velocity
-system and flywheel system respectively. Figures
+This method of latency compensation seems to work better for second-order
+systems than first-order systems, assuming steady-state controller gains from
+the second case in equation \eqref{eq:discrete_delay_comp_control_law}.
+
+Figures \ref{fig:drivetrain_time_delay_no_comp} and
+\ref{fig:flywheel_time_delay_no_comp} show a delayed drivetrain velocity system
+and delayed flywheel system respectively. Figures
 \ref{fig:drivetrain_time_delay_comp} and \ref{fig:flywheel_time_delay_comp} show
-that compensating the controller gain significantly reduces the feedback gain.
-For systems with fast dynamics and a long time delay, the delay-compensated
-controller has an almost open-loop response because only feedforward has a
-significant effect; this has poor disturbance rejection. Fixing the source of
-the time delay is always preferred for these systems.
+that compensating the controller gain significantly reduces the feedback gain,
+resulting in an almost open-loop response with poor disturbance rejection.
+Fixing the source of the delay is always preferred for systems with fast
+dynamics and long delays.
 \begin{bookfigure}
   \begin{minisvg}{2}{build/\chapterpath/drivetrain_time_delay_no_comp}
     \caption{Drivetrain velocity response at 1 ms sample period with 40 ms of
@@ -48,7 +47,7 @@ the time delay is always preferred for these systems.
   \hfill
   \begin{minisvg}{2}{build/\chapterpath/drivetrain_time_delay_comp}
     \caption{Drivetrain velocity response at 1 ms sample period with 40 ms of
-      output lag (delay-compensated)}
+      output lag (latency-compensated)}
     \label{fig:drivetrain_time_delay_comp}
   \end{minisvg}
   \begin{minisvg}{2}{build/\chapterpath/flywheel_time_delay_no_comp}
@@ -58,22 +57,19 @@ the time delay is always preferred for these systems.
   \hfill
   \begin{minisvg}{2}{build/\chapterpath/flywheel_time_delay_comp}
     \caption{Flywheel response at 1 ms sample period with 80 ms of output lag
-      (delay-compensated)}
+      (latency-compensated)}
     \label{fig:flywheel_time_delay_comp}
   \end{minisvg}
 \end{bookfigure}
 
 Since we are computing the control based on future states and the state
 exponentially converges to zero over time, the control action we apply at the
-current timestep also converges to zero for longer time delays. During startup,
-the inputs we use to predict the future state are zero because there's initially
-no input history. This means the initial inputs are larger to give the system a
+current timestep also converges to zero for longer delays. During startup, the
+inputs we use to predict the future state are zero because there's initially no
+input history. This means the initial inputs are larger to give the system a
 kick in the right direction. As the input delay buffer fills up, the controller
 gain converges to a smaller steady-state value. If one uses the steady-state
 controller gain during startup, the transient response may be slow.
-
-All figures shown here use the steady-state control law (the second case in
-equation \eqref{eq:discrete_delay_comp_control_law}).
 
 We'll show how to derive this controller gain compensation for continuous and
 discrete systems.
@@ -82,9 +78,9 @@ discrete systems.
 
 The undelayed continuous linear system is defined as
 $\dot{\mat{x}} = \mat{A}\mat{x}(t) + \mat{B}\mat{u}(t)$ with the controller
-$\mat{u}(t) = -\mat{K}\mat{x}(t)$. Let $L$ be the amount of time delay in
-seconds. We can avoid the time delay if we compute the control based on the
-plant $L$ seconds in the future.
+$\mat{u}(t) = -\mat{K}\mat{x}(t)$. Let $L$ be the delay duration in seconds. We
+can avoid the delay if we compute the control based on the plant $L$ seconds in
+the future.
 \begin{equation*}
   \mat{u}(t) = -\mat{K}\mat{x}(t + L)
 \end{equation*}
@@ -139,9 +135,9 @@ control law for all $t \geq 0$.
 
 The undelayed discrete linear system is defined as
 $\mat{x}_{k+1} = \mat{A}\mat{x}_k + \mat{B}\mat{u}_k$ with the controller
-$\mat{u}_k = -\mat{K}\mat{x}_k$. Let $L$ be the amount of time delay in seconds.
-We can avoid the time delay if we compute the control based on the plant $L$
-seconds in the future.
+$\mat{u}_k = -\mat{K}\mat{x}_k$. Let $L$ be the delay duration in seconds. We
+can avoid the delay if we compute the control based on the plant $L$ seconds in
+the future.
 \begin{equation*}
   \mat{u}_k = -\mat{K}\mat{x}_{k + L/T}
 \end{equation*}
@@ -156,9 +152,9 @@ $k + \frac{L}{T}$, substitute it into the discrete model.
   \mat{x}_{k+1} &= (\mat{A} - \mat{B}\mat{K}) \mat{x}_k
 \end{align*}
 
-Let $T$ be the duration between timesteps in seconds and $L$ be the amount of
-time delay in seconds. $\frac{L}{T}$ gives the number of timesteps represented
-by $L$.
+Let $T$ be the duration between timesteps in seconds and $L$ be the delay
+duration in seconds. $\frac{L}{T}$ gives the number of timesteps represented by
+$L$.
 \begin{equation}
   \mat{x}_{k + L/T} = (\mat{A} - \mat{B}\mat{K})^\frac{L}{T} \mat{x}_k
     \label{eq:discrete_advance_state_by_delay_post}
@@ -215,3 +211,47 @@ If a matrix raised to a fractional power in equation
 \eqref{eq:discrete_delay_comp_control_law} isn't diagonalizable, we have to
 approximate by rounding $\frac{L}{T}$ to the nearest integer. This approximation
 gets worse as $L \bmod T$ approaches $\frac{T}{2}$.
+
+\subsection{Estimating measurement delay}
+
+There are two common sources of measurement delay: filter delay, and
+communication delay (e.g., sensor data sent periodically over a network). The
+delay introduced by a finite-impulse response (FIR) filter is the weighted
+average of its sample's delays, where the weights are the magnitudes of the FIR
+filter's weights.
+
+Theorem \ref{thm:moving_average_filter_delay} shows the delay introduced by a
+moving average filter.
+\begin{theorem}[Moving average filter delay]
+  \label{thm:moving_average_filter_delay}
+  The delay introduced by a moving average filter with $N$ taps and a sample
+  period of $T$ is $\frac{(N - 1)T}{2}$.
+
+  Proof:
+
+  Let there be a moving average filter with $N$ taps whose sample delays range
+  from $0$ to $(N - 1) T$ inclusive. The average delay is
+  \begin{align*}
+    L &= \frac{\sum_{k=0}^{N - 1} kT}{N} \\
+    L &= \frac{T \sum_{k=0}^{N - 1} k}{N} \\
+    L &= \frac{T \frac{(N - 1)((N - 1) + 1)}{2}}{N} \\
+    L &= \frac{(N - 1)((N - 1) + 1) T}{2N} \\
+    L &= \frac{(N - 1)NT}{2N} \\
+    L &= \frac{(N - 1) T}{2}
+  \end{align*}
+\end{theorem}
+
+Theorem \ref{thm:first_order_backward_finite_difference_delay} shows the delay
+introduced by a first-order backward finite difference, which is commonly used
+to estimate velocity from position samples.
+\begin{theorem}[First-order backward finite difference delay]
+  \label{thm:first_order_backward_finite_difference_delay}
+  The delay introduced by a first-order backward finite difference with a sample
+  period of $T$ is $\frac{T}{2}$.
+
+  Proof:
+
+  The first-order backward finite difference with a period of $T$ is
+  $\frac{x_k - x_{k-1}}{T}$. Since $x_k$ and $x_{k-1}$ have delays of $0$ and
+  $T$ respectively, the average delay is $\frac{T}{2}$.
+\end{theorem}
