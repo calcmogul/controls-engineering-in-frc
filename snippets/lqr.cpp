@@ -1,10 +1,10 @@
 #include <Eigen/Cholesky>
 #include <Eigen/Core>
 
-#include "DARE.hpp"
+#include "dare.hpp"
 
 template <int States, int Inputs>
-Eigen::Matrix<double, Inputs, States> LQR(
+Eigen::Matrix<double, Inputs, States> lqr(
     const Eigen::Matrix<double, States, States>& A,
     const Eigen::Matrix<double, States, Inputs>& B,
     const Eigen::Matrix<double, States, States>& Q,

@@ -3,7 +3,7 @@
 #include <Eigen/LU>
 
 template <int States, int Inputs>
-Eigen::Matrix<double, States, States> DARE(
+Eigen::Matrix<double, States, States> dare(
     const Eigen::Matrix<double, States, States>& A,
     const Eigen::Matrix<double, States, Inputs>& B,
     const Eigen::Matrix<double, States, States>& Q,

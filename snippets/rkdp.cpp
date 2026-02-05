@@ -3,7 +3,6 @@
 #include <cmath>
 
 #include <Eigen/Core>
-#include <units/time.h>
 
 /// Performs adaptive Dormand-Prince integration of dx/dt = f(x, u) for dt.
 ///
@@ -11,17 +10,17 @@
 /// @param x The initial value of x.
 /// @param u The value u held constant over the integration period.
 /// @param dt The time over which to integrate.
-/// @param maxError The maximum acceptable truncation error. Usually a small
+/// @param max_error The maximum acceptable truncation error. Usually a small
 ///     number like 1e-6.
 template <typename F, typename T, typename U>
-T RKDP(F&& f, T x, U u, units::second_t dt, double maxError = 1e-6) {
+T rkdp(F&& f, T x, U u, double dt, double max_error = 1e-6) {
   // See https://en.wikipedia.org/wiki/Dormand%E2%80%93Prince_method for the
   // Butcher tableau the following arrays came from.
 
-  constexpr int kDim = 7;
+  constexpr int DIM = 7;
 
   // clang-format off
-  constexpr double A[kDim - 1][kDim - 1]{
+  constexpr double A[DIM - 1][DIM - 1]{
       {      1.0 / 5.0},
       {      3.0 / 40.0,        9.0 / 40.0},
       {     44.0 / 45.0,      -56.0 / 15.0,       32.0 / 9.0},
@@ -30,25 +29,25 @@ T RKDP(F&& f, T x, U u, units::second_t dt, double maxError = 1e-6) {
       {    35.0 / 384.0,               0.0,   500.0 / 1113.0,  125.0 / 192.0,  -2187.0 / 6784.0, 11.0 / 84.0}};
   // clang-format on
 
-  constexpr std::array<double, kDim> b1{
+  constexpr std::array<double, DIM> b1{
       35.0 / 384.0, 0.0, 500.0 / 1113.0, 125.0 / 192.0, -2187.0 / 6784.0,
       11.0 / 84.0,  0.0};
-  constexpr std::array<double, kDim> b2{5179.0 / 57600.0,    0.0,
-                                        7571.0 / 16695.0,    393.0 / 640.0,
-                                        -92097.0 / 339200.0, 187.0 / 2100.0,
-                                        1.0 / 40.0};
+  constexpr std::array<double, DIM> b2{5179.0 / 57600.0,    0.0,
+                                       7571.0 / 16695.0,    393.0 / 640.0,
+                                       -92097.0 / 339200.0, 187.0 / 2100.0,
+                                       1.0 / 40.0};
 
-  T newX;
-  double truncationError;
+  T new_x;
+  double truncation_error;
 
-  double dtElapsed = 0.0;
-  double h = dt.value();
+  double dt_elapsed = 0.0;
+  double h = dt;
 
   // Loop until we've gotten to our desired dt
-  while (dtElapsed < dt.value()) {
+  while (dt_elapsed < dt) {
     do {
       // Only allow us to advance up to the dt remaining
-      h = std::min(h, dt.value() - dtElapsed);
+      h = std::min(h, dt - dt_elapsed);
 
       // clang-format off
       T k1 = f(x, u);
@@ -60,22 +59,22 @@ T RKDP(F&& f, T x, U u, units::second_t dt, double maxError = 1e-6) {
       // clang-format on
 
       // Since the final row of A and the array b1 have the same coefficients
-      // and k7 has no effect on newX, we can reuse the calculation.
-      newX = x + h * (A[5][0] * k1 + A[5][1] * k2 + A[5][2] * k3 +
-                      A[5][3] * k4 + A[5][4] * k5 + A[5][5] * k6);
-      T k7 = f(newX, u);
+      // and k7 has no effect on new_x, we can reuse the calculation.
+      new_x = x + h * (A[5][0] * k1 + A[5][1] * k2 + A[5][2] * k3 +
+                       A[5][3] * k4 + A[5][4] * k5 + A[5][5] * k6);
+      T k7 = f(new_x, u);
 
-      truncationError = (h * ((b1[0] - b2[0]) * k1 + (b1[1] - b2[1]) * k2 +
-                              (b1[2] - b2[2]) * k3 + (b1[3] - b2[3]) * k4 +
-                              (b1[4] - b2[4]) * k5 + (b1[5] - b2[5]) * k6 +
-                              (b1[6] - b2[6]) * k7))
-                            .norm();
+      truncation_error = (h * ((b1[0] - b2[0]) * k1 + (b1[1] - b2[1]) * k2 +
+                               (b1[2] - b2[2]) * k3 + (b1[3] - b2[3]) * k4 +
+                               (b1[4] - b2[4]) * k5 + (b1[5] - b2[5]) * k6 +
+                               (b1[6] - b2[6]) * k7))
+                             .norm();
 
-      h *= 0.9 * std::pow(maxError / truncationError, 1.0 / 5.0);
-    } while (truncationError > maxError);
+      h *= 0.9 * std::pow(max_error / truncation_error, 1.0 / 5.0);
+    } while (truncation_error > max_error);
 
-    dtElapsed += h;
-    x = newX;
+    dt_elapsed += h;
+    x = new_x;
   }
 
   return x;

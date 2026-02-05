@@ -7,7 +7,7 @@ Eigen::SparseMatrix<double> identity(int rows) {
       Eigen::VectorXd::Constant(rows, 1.0).asDiagonal()};
 }
 
-Eigen::SparseMatrix<double> DARE(const Eigen::SparseMatrix<double>& A,
+Eigen::SparseMatrix<double> dare(const Eigen::SparseMatrix<double>& A,
                                  const Eigen::SparseMatrix<double>& B,
                                  const Eigen::SparseMatrix<double>& Q,
                                  const Eigen::SparseMatrix<double>& R) {
