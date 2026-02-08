@@ -117,3 +117,27 @@ control.
     \mat{u}
   \end{equation}
 \end{theorem}
+
+\subsection{Simple system identification}
+
+This system identification method is easier but less accurate than OLS. It
+requires two tests.
+\begin{enumerate}
+  \item Starting from rest, slowly increase the voltage from zero until the
+    robot moves.
+  \item Starting from rest, apply a constant voltage $u$ sufficiently larger
+    than $K_s$ until the steady-state velocity $v$ is reached, and measure the
+    instantaneous acceleration from rest $a$.
+\end{enumerate}
+
+The feedforward gains from equation (\ref{eq:ols_u_ff}) are given by
+\begin{align*}
+  K_s &= \text{minimum voltage causing movement in test 1} \\
+  K_v &= \frac{u - K_s}{v} \\
+  K_a &= \frac{u - K_s - K_v v}{a}
+\end{align*}
+
+Acceleration may be difficult to accurately measure in test 2. A reasonable
+estimate is the largest observed value of $\frac{v_k - v_{k-1}}{\Delta T}$ where
+$v_k$ and $v_{k-1}$ are adjacent velocity samples and $\Delta T$ is the sample
+period. Systems with very high accelerations may have a negligibly small $K_a$.
