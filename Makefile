@@ -136,6 +136,7 @@ clean: clean_tex
 .PHONY: clean_tex
 clean_tex:
 	latexmk -xelatex -C
+	rm -f *.bbl
 	rm -f build/controls-engineering-in-frc-*/qrcode_*.png
 	rm -f controls-engineering-in-frc-*.pdf
 
