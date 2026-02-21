@@ -3,13 +3,11 @@
 # brew packages
 #  * basictex (for xelatex)
 #  * clang-format (to format C++ code snippets)
-#  * cmake (for building C++ plot generators)
 #  * imagemagick (to compress JPEGs)
 #  * inkscape (to convert SVGs to PDFs)
 brew install \
   basictex \
   clang-format \
-  cmake \
   imagemagick \
   inkscape
 

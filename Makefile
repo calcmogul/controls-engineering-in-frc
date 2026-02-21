@@ -3,14 +3,6 @@ NAME := controls-engineering-in-frc
 # Make does not offer a recursive wildcard function, so here's one:
 rwildcard=$(wildcard $1$2) $(foreach dir,$(wildcard $1*),$(call rwildcard,$(dir)/,$2))
 
-# C++ files that generate SVG files
-CPP := $(filter-out ./bookutil/% ./build/% ./lint/% ./snippets/%,$(call rwildcard,./,*.cpp))
-ifeq ($(OS),Windows_NT)
-	CPP_EXE := $(addprefix build/,$(CPP:.cpp=.exe))
-else
-	CPP_EXE := $(addprefix build/,$(CPP:.cpp=))
-endif
-
 # Python files that generate SVG files
 PY := $(filter-out ./bookutil/% ./build/% ./lint/% ./setup_venv.py ./snippets/%,$(call rwildcard,./,*.py))
 PY_STAMP := $(addprefix build/,$(PY:.py=.stamp))
@@ -39,15 +31,15 @@ ebook: $(NAME)-ebook.pdf
 printer: $(NAME)-printer.pdf
 
 .PHONY: figures
-figures: $(CPP_EXE) $(PY_STAMP)
+figures: $(PY_STAMP)
 
-$(NAME)-ebook.pdf: $(TEX) $(NAME)-ebook.tex $(CPP_EXE) $(PY_STAMP) \
-		$(BIB) $(EBOOK_IMGS) $(SNIPPETS) build/commit-date.tex \
+$(NAME)-ebook.pdf: $(TEX) $(NAME)-ebook.tex $(PY_STAMP) $(BIB) $(EBOOK_IMGS) \
+		$(SNIPPETS) build/commit-date.tex \
 		build/commit-year.tex build/commit-hash.tex
 	latexmk -interaction=nonstopmode -xelatex -shell-escape $(NAME)-ebook
 
-$(NAME)-printer.pdf: $(TEX) $(NAME)-printer.tex $(CPP_EXE) $(PY_STAMP) \
-		$(BIB) $(PRINTER_IMGS) $(SNIPPETS) build/commit-date.tex \
+$(NAME)-printer.pdf: $(TEX) $(NAME)-printer.tex $(PY_STAMP) $(BIB) \
+		$(PRINTER_IMGS) $(SNIPPETS) build/commit-date.tex \
 		build/commit-year.tex build/commit-hash.tex
 	latexmk -interaction=nonstopmode -xelatex -shell-escape $(NAME)-printer
 

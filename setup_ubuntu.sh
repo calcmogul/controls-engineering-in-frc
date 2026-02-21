@@ -5,7 +5,6 @@
 #   * build-essential (for `make` to run the makefile)
 #   * cm-super (for type1ec.sty)
 #   * clang-format (to format C++ code snippets)
-#   * cmake (for building C++ plot generators)
 #   * dvipng (to convert DVIs to PNGs)
 #   * inkscape (to convert SVGs to PDFs)
 #   * latexmk
@@ -26,7 +25,6 @@ sudo apt-get install -y \
   build-essential \
   cm-super \
   clang-format \
-  cmake \
   dvipng \
   inkscape \
   latexmk \

@@ -4,7 +4,6 @@
 #   * base-devel (for `make` to run the makefile)
 #   * biber (for generating bibliography)
 #   * clang (for clang-format to format C++ code snippets)
-#   * cmake (for building C++ plot generators)
 #   * imagemagick (to compress JPEGs)
 #   * inkscape (to convert SVGs to PDFs)
 #   * perl-clone (for Clone.pm needed by biber)
@@ -26,7 +25,6 @@ sudo pacman -Sy --needed --noconfirm \
   base-devel \
   biber \
   clang \
-  cmake \
   imagemagick \
   inkscape \
   perl-clone \
