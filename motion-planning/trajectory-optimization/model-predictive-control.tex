@@ -19,9 +19,10 @@ an $N$-step horizon at each timestep. For this reason, MPC is also called
 Here's an example problem formulation for a linear system
 $\mat{x}_{k+1} = \mat{A}\mat{x}_k + \mat{B}\mat{u}_k$.
 \begin{align*}
-  \min_{\mat{x}_k, \mat{u}_k}
+  \min_{\mat{x}_{0:N}, \mat{u}_{0:N-1}}
     &\sum_{k=0}^{N-1} \left(\mat{x}_k\T\mat{Q}\mat{x}_k + \mat{u}_k\T\mat{R}\mat{u}_k\right) \\
-  \text{subject to } &\mat{x}_{k+1} = \mat{A}\mat{x}_k + \mat{B}\mat{u}_k \\
+  \text{subject to } &\mat{x}_0 = \text{current state} \\
+                     &\mat{x}_{k+1} = \mat{A}\mat{x}_k + \mat{B}\mat{u}_k \\
                      &\mat{u}_{min} \leq \mat{u}_k \leq \mat{u}_{max}
 \end{align*}
 
@@ -44,9 +45,10 @@ Snippet \ref{lst:linear_mpc} shows a linear MPC class in Python.
 Here's an example problem formulation for a nonlinear system
 $\dot{\mat{x}} = f(\mat{x}_k, \mat{u}_k)$.
 \begin{align*}
-  \min_{\mat{x}_k, \mat{u}_k}
+  \min_{\mat{x}_{0:N}, \mat{u}_{0:N-1}}
     &\sum_{k=0}^{N-1} \left(\mat{x}_k\T\mat{Q}\mat{x}_k + \mat{u}_k\T\mat{R}\mat{u}_k\right) \\
-  \text{subject to } &\mat{x}_{k+1} = \text{RK4}(f, \mat{x}_k, \mat{u}_k, \Delta T) \\
+  \text{subject to } &\mat{x}_0 = \text{current state} \\
+                     &\mat{x}_{k+1} = \text{RK4}(f, \mat{x}_k, \mat{u}_k, \Delta T) \\
                      &\mat{u}_{min} \leq \mat{u}_k \leq \mat{u}_{max}
 \end{align*}
 
@@ -88,9 +90,10 @@ optimized trajectory is better than overrunning the scheduled controller period.
 
 Here's a problem formulation for flywheel MPC.
 \begin{align*}
-  \min_{\mat{x}_k, \mat{u}_k}
+  \min_{\mat{x}_{0:N}, \mat{u}_{0:N-1}}
     &\sum_{k=0}^{N-1} \left((\mat{r} - \mat{x}_k)\T\mat{Q}(\mat{r} - \mat{x}_k) + \mat{u}_k\T\mat{R}\mat{u}_k\right) \\
-  \text{subject to } &\mat{x}_{k+1} = \mat{A}\mat{x}_k + \mat{B}\mat{u}_k \\
+  \text{subject to } &\mat{x}_0 = \text{current state} \\
+                     &\mat{x}_{k+1} = \mat{A}\mat{x}_k + \mat{B}\mat{u}_k \\
                      &\mat{u}_{min} \leq \mat{u}_k \leq \mat{u}_{max}
 \end{align*}
 
@@ -108,9 +111,10 @@ identical to infinite-horizon LQR with a plant inversion feedforward.
 Here's a problem formulation for differential drive MPC with a circular keep-out
 region.
 \begin{align*}
-  \min_{\mat{x}_k, \mat{u}_k}
+  \min_{\mat{x}_{0:N}, \mat{u}_{0:N-1}}
     &\sum_{k=0}^{N-1} (\mat{r} - \mat{x}_k)\T\mat{Q}(\mat{r} - \mat{x}_k) \\
-  \text{subject to } &\mat{x}_{k+1} = \text{RK4}(f, \mat{x}_k, \mat{u}_k, \Delta T) \\
+  \text{subject to } &\mat{x}_0 = \text{current state} \\
+                     &\mat{x}_{k+1} = \text{RK4}(f, \mat{x}_k, \mat{u}_k, \Delta T) \\
                      &\mat{u}_{min} \leq \mat{u}_k \leq \mat{u}_{max} \\
                      &(x_k - c_x)^2 + (y_k - c_y)^2 \geq r^2
 \end{align*}
