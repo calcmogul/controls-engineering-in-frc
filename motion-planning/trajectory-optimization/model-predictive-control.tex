@@ -20,7 +20,8 @@ Here's an example problem formulation for a linear system
 $\mat{x}_{k+1} = \mat{A}\mat{x}_k + \mat{B}\mat{u}_k$.
 \begin{align*}
   \min_{\mat{x}_{0:N}, \mat{u}_{0:N-1}}
-    &\sum_{k=0}^{N-1} \left(\mat{x}_k\T\mat{Q}\mat{x}_k + \mat{u}_k\T\mat{R}\mat{u}_k\right) \\
+    &\mat{x}_N\T\mat{Q}\mat{x}_N +
+     \sum_{k=0}^{N-1} \left(\mat{x}_k\T\mat{Q}\mat{x}_k + \mat{u}_k\T\mat{R}\mat{u}_k\right) \\
   \text{subject to } &\mat{x}_0 = \text{current state} \\
                      &\mat{x}_{k+1} = \mat{A}\mat{x}_k + \mat{B}\mat{u}_k \\
                      &\mat{u}_{min} \leq \mat{u}_k \leq \mat{u}_{max}
@@ -46,7 +47,8 @@ Here's an example problem formulation for a nonlinear system
 $\dot{\mat{x}} = f(\mat{x}_k, \mat{u}_k)$.
 \begin{align*}
   \min_{\mat{x}_{0:N}, \mat{u}_{0:N-1}}
-    &\sum_{k=0}^{N-1} \left(\mat{x}_k\T\mat{Q}\mat{x}_k + \mat{u}_k\T\mat{R}\mat{u}_k\right) \\
+    &\mat{x}_N\T\mat{Q}\mat{x}_N +
+     \sum_{k=0}^{N-1} \left(\mat{x}_k\T\mat{Q}\mat{x}_k + \mat{u}_k\T\mat{R}\mat{u}_k\right) \\
   \text{subject to } &\mat{x}_0 = \text{current state} \\
                      &\mat{x}_{k+1} = \text{RK4}(f, \mat{x}_k, \mat{u}_k, \Delta T) \\
                      &\mat{u}_{min} \leq \mat{u}_k \leq \mat{u}_{max}
