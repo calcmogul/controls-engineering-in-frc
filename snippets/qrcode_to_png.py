@@ -22,11 +22,14 @@ def main():
                     # Add directory prefix
                     output_dir,
                     # Add filename prefix
-                    "qrcode_" +
+                    "qrcode_"
+                    +
                     # Normalize URL
                     urllib.parse.quote(url)
                     # Replace invalid filesystem path characters
-                    .replace(":", "_").replace(".", "_").replace("/", "_")
+                    .replace(":", "_")
+                    .replace(".", "_")
+                    .replace("/", "_")
                     # Replace invalid LaTeX characters
                     .replace("%", "_"),
                 ]

@@ -61,9 +61,8 @@ sudo /Library/TeX/texbin/tlmgr install \
   zref
 
 # Python packages
-#  * black (to format Python source code)
 #  * pillow (required by qrcode, but not preinstalled)
 #  * qrcode (for QR codes)
 #  * requests (for .tex HTTP link checker)
 #  * ruff (for Python linting)
-pip3 install --user --break-system-packages autoflake black==25.1.0 pillow qrcode requests ruff wheel
+pip3 install --user --break-system-packages pillow qrcode requests ruff==0.15.18 wheel

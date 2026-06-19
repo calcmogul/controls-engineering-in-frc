@@ -48,8 +48,7 @@ popd
 
 # The Ubuntu 24.04 packages are too old
 # Python packages
-#   * black (to format Python source code)
 #   * pillow (required by qrcode, but not preinstalled)
 #   * qrcode (for QR codes)
 #   * ruff (for Python linting)
-pip3 install --user --break-system-packages autoflake black==25.1.0 pillow qrcode ruff
+pip3 install --user --break-system-packages pillow qrcode ruff==0.15.18
