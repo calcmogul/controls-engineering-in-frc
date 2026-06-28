@@ -3,7 +3,7 @@ name = "bookutil"
 description = "Utility functions for controls book"
 license = "BSD-3-Clause"
 version = "0.0.1"
-dependencies = ["matplotlib"]
+dependencies = ["matplotlib", "sleipnirgroup-jormungandr"]
 
   [[project.authors]]
   name = "Tyler Veness"
