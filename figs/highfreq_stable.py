@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 """Plots time domain response of a system that's stable at high frequencies."""
 

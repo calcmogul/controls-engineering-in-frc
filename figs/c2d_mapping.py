@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 """Plots the continuous-to-discrete mapping of system poles."""
 

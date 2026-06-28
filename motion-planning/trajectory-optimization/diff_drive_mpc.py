@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 """
 Simulates differential drive model predictive control with keep-out constraints.

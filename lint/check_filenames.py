@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 """
 Ensure .tex filenames use hyphens and .py files use underscores. Vice versa is

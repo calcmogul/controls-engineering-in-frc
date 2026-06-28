@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 r"""
 Removes blank lines before \begin blocks since those add an undesired paragraph

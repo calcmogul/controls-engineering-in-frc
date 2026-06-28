@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 """Simulates oscillations of different types of discrete transfer functions."""
 

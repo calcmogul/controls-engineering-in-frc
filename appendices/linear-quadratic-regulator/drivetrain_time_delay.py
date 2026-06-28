@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 """Simulates drivetrain velocity control with a time delay."""
 

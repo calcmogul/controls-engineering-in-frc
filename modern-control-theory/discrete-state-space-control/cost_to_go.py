@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 """Plots the optimal cost-to-go for an elevator in 3D."""
 

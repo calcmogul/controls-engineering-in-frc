@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 """
 Simulates LTV differential drive controller with linear ODE integration in

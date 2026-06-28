@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 """Solves double integrator minimum-time trajectory optimization problem with Sleipnir."""
 

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 """Plots Taylor series approximations of exp(x)."""
 

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 """Ensure URLs in every .tex file are reachable."""
 

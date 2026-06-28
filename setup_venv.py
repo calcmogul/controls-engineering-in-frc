@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 """Sets up the book's Python virtual environment."""
 
@@ -16,9 +16,9 @@ def main():
     if not venv_name.exists():
         subprocess.run([sys.executable, "-m", "venv", venv_name], check=True)
         if platform.system() == "Windows":
-            ENV_PIP = Path.cwd() / venv_name / "Scripts" / "pip3"
+            ENV_PIP = Path.cwd() / venv_name / "Scripts" / "pip"
         else:
-            ENV_PIP = Path.cwd() / venv_name / "bin" / "pip3"
+            ENV_PIP = Path.cwd() / venv_name / "bin" / "pip"
         subprocess.run([ENV_PIP, "install", "wheel"], check=True)
 
 

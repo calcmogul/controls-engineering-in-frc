@@ -62,12 +62,12 @@ Python 3.12+ and frccontrol. frccontrol can be installed with the following
 command.
 
 ```
-pip3 install --user frccontrol
+pip install --user frccontrol
 ```
 
 Some also use bookutil, a Python package containing common utilities for this
-book. That can be installed by running `pip3 install --user -e bookutil` from
-the root of this Git repository.
+book. That can be installed by running `pip install --user -e bookutil` from the
+root of this Git repository.
 
 The scripts can be run as follows:
 

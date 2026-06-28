@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 r"""
 Verify all labels defined by \label commands are referenced at least once, and

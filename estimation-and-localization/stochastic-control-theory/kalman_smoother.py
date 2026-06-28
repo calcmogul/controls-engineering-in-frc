@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 """Applies a Kalman smoother to a robot's position."""
 

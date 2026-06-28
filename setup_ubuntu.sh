@@ -51,4 +51,4 @@ popd
 #   * pillow (required by qrcode, but not preinstalled)
 #   * qrcode (for QR codes)
 #   * ruff (for Python linting)
-pip3 install --user --break-system-packages pillow qrcode ruff==0.15.18
+pip install --user --break-system-packages pillow qrcode ruff==0.15.18
