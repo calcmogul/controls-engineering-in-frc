@@ -67,13 +67,13 @@ Now, we need to apply dynamics constraints between timesteps.
 \end{coderemotesubset}
 
 Next, we'll apply the state and input constraints.
-\begin{coderemotesubset}{Python}{\chapterpath/double_integrator.py}{47}{57}
+\begin{coderemotesubset}{Python}{\chapterpath/double_integrator.py}{47}{55}
 \end{coderemotesubset}
 
 \subsubsection{Specifying a cost function}
 
 Next, we'll create a cost function for minimizing position error.
-\begin{coderemotesubset}{Python}{\chapterpath/double_integrator.py}{59}{60}
+\begin{coderemotesubset}{Python}{\chapterpath/double_integrator.py}{57}{58}
 \end{coderemotesubset}
 
 The cost function passed to minimize() should produce a scalar output.
@@ -81,7 +81,7 @@ The cost function passed to minimize() should produce a scalar output.
 \subsubsection{Solving the problem}
 
 Now we can solve the problem.
-\begin{coderemotesubset}{Python}{\chapterpath/double_integrator.py}{62}{62}
+\begin{coderemotesubset}{Python}{\chapterpath/double_integrator.py}{60}{60}
 \end{coderemotesubset}
 
 The solver will find the decision variable values that minimize the cost
