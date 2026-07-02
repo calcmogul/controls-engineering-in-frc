@@ -53,10 +53,10 @@
     \node [block, below=of P1] (P2) {$P_2$};
 
     % Connect the nodes
-    \draw [arrow] (input) -- node {} (P1);
+    \draw [arrow] (input) -- (P1);
     \draw [arrow] (P1) -- node[pos=0.85] {$+$} (sum);
     \draw [arrow] (sum) -- node[name=y] {} (output);
-    \draw [arrow] (afterin) |- node {} (P2);
+    \draw [arrow] (afterin) |- (P2);
     \draw [arrow] (P2) -| node[pos=0.97, right] {$\pm$} (sum);
   \end{tikzpicture}
 
@@ -92,10 +92,10 @@
     \node [block, below=of P1] (P2) {$P_2$};
 
     % Connect the nodes
-    \draw [arrow] (input) -- node {} (P1);
+    \draw [arrow] (input) -- (P1);
     \draw [arrow] (P1) -- node[pos=0.85] {$+$} (sum);
     \draw [arrow] (sum) -- node[name=y] {} (output);
-    \draw [arrow] (afterin) |- node {} (P2);
+    \draw [arrow] (afterin) |- (P2);
     \draw [arrow] (P2) -| node[pos=0.97, right] {$\pm$} (sum);
   \end{tikzpicture}
 
@@ -113,11 +113,11 @@
     \coordinate [below=of P1P2] (ff);
 
     % Connect the nodes
-    \draw [arrow] (input) -- node {} (P2);
-    \draw [arrow] (P2) -- node {} (P1P2);
+    \draw [arrow] (input) -- (P2);
+    \draw [arrow] (P2) -- (P1P2);
     \draw [arrow] (P1P2) -- node[pos=0.85] {$+$} (sum);
     \draw [arrow] (sum) -- node[name=y] {} (output);
-    \draw (afterin) |- node {} (ff);
+    \draw (afterin) |- (ff);
     \draw [arrow] (ff) -| node[pos=0.97, right] {$\pm$} (sum);
   \end{tikzpicture}
 
@@ -139,7 +139,7 @@
 
     % Connect the nodes
     \draw [arrow] (input) -- node[pos=0.85] {$+$} (sum);
-    \draw [arrow] (sum) -- node {} (P1);
+    \draw [arrow] (sum) -- (P1);
     \draw [arrow] (P1) -- node[name=y] {} (output);
     \draw [arrow] (y) |- (P2);
     \draw [arrow] (P2) -| node[pos=0.97, right] {$\mp$} (sum);
@@ -151,7 +151,7 @@
   \begin{tikzpicture}[auto, >=latex']
     % Place the blocks
     \node {$X$} (input);
-    \node [block, right=of input] (P1P2) {$\frac{P_1}{1 \pm P_1 P2}$};
+    \node [block, right=of input] (P1P2) {$\frac{P_1}{1 \pm P_1 P_2}$};
     \node [right=of P1P2] (output) {$Y$};
 
     % Connect the nodes
@@ -177,7 +177,7 @@
 
     % Connect the nodes
     \draw [arrow] (input) -- node[pos=0.85] {$+$} (sum);
-    \draw [arrow] (sum) -- node {} (P1);
+    \draw [arrow] (sum) -- (P1);
     \draw [arrow] (P1) -- node[name=y] {} (output);
     \draw [arrow] (y) |- (P2);
     \draw [arrow] (P2) -| node[pos=0.97, right] {$\mp$} (sum);
@@ -198,7 +198,7 @@
     % Connect the nodes
     \draw [arrow] (input) -- (P2);
     \draw [arrow] (P2) -- node[pos=0.85] {$-$} (sum);
-    \draw [arrow] (sum) -- node {} (P1P2);
+    \draw [arrow] (sum) -- (P1P2);
     \draw [arrow] (P1P2) -- node[name=y] {} (output);
     \draw (y) |- (fb);
     \draw [arrow] (fb) -| node[pos=0.97, right] {$\mp$} (sum);

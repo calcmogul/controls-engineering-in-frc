@@ -11,16 +11,14 @@ example of one.
     % Place the blocks
     \node [name=input] {input};
     \node [sum, right=of input] (sum) {};
-    \node [block, right=of sum] (P1) {open-loop};
+    \node [right=of sum, align=center] (P1) {open-loop\\path};
     \node [right=of P1] (output) {output};
-    \node [block, below=of P1] (P2) {feedback};
+    \node [below=of P1, align=center] (P2) {feedback\\path};
 
     % Connect the nodes
     \draw [arrow] (input) -- node[pos=0.85] {$+$} (sum);
-    \draw [arrow] (sum) -- node {} (P1);
-    \draw [arrow] (P1) -- node[name=y] {} (output);
-    \draw [arrow] (y) |- (P2);
-    \draw [arrow] (P2) -| node[pos=0.97, right] {$\mp$} (sum);
+    \draw [arrow] (sum) -- (P1) -- node[name=y] {} (output);
+    \draw [arrow] (y) |- (P2) -| node[pos=0.97, right] {$\mp$} (sum);
   \end{tikzpicture}
 
   \caption{Block diagram with nomenclature}
@@ -46,7 +44,7 @@ notation in a feedback configuration.
 
     % Connect the nodes
     \draw [arrow] (input) -- node[pos=0.85] {$+$} (sum);
-    \draw [arrow] (sum) -- node {} (P1);
+    \draw [arrow] (sum) -- (P1);
     \draw [arrow] (P1) -- node[name=y] {} (output);
     \draw [arrow] (y) |- (P2);
     \draw [arrow] (P2) -| node[pos=0.97, right] {$\mp$} (sum);
