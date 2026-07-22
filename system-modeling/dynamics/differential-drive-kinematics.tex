@@ -53,37 +53,50 @@ So the two inverse kinematic equations are as follows.
 \begin{align}
   v_l &= v_c - \omega r_b \\
   v_r &= v_c + \omega r_b
+  \intertext{Now, we'll factor them out into matrices.}
+  \begin{bmatrix}
+    v_l \\
+    v_r
+  \end{bmatrix} &=
+  \begin{bmatrix}
+    1 & -r_b \\
+    1 & r_b
+  \end{bmatrix}
+  \begin{bmatrix}
+    v_c \\
+    \omega
+  \end{bmatrix} \label{eq:diff_drive_ik}
 \end{align}
 
 \subsection{Forward kinematics}
 
-The mapping from the left and right wheel velocities $v_l$ and $v_r$ to $v$ and
-$\omega$ is derived as follows.
+The forward kinematics are the inverse of equation \eqref{eq:diff_drive_ik}.
 \begin{align}
-  v_r &= v_c + \omega r_b \nonumber \\
-  v_c &= v_r - \omega r_b \label{eq:diff_drive_v_c}
-\end{align}
-
-Substitute equation \eqref{eq:diff_drive_v_c} equation for $v_l$.
-\begin{align*}
-  v_l &= v_c - \omega r_b \\
-  v_l &= (v_r - \omega r_b) - \omega r_b \\
-  v_l &= v_r - 2\omega r_b \\
-  2\omega r_b &= v_r - v_l \\
-  \omega &= \frac{v_r - v_l}{2 r_b}
-\end{align*}
-
-Substitute this back into equation \eqref{eq:diff_drive_v_c}.
-\begin{align*}
-  v_c &= v_r - \omega r_b \\
-  v_c &= v_r - \left(\frac{v_r - v_l}{2 r_b}\right) r_b \\
-  v_c &= v_r - \frac{v_r - v_l}{2} \\
-  v_c &= v_r - \frac{v_r}{2} + \frac{v_l}{2} \\
-  v_c &= \frac{v_r + v_l}{2}
-\end{align*}
-
-So the two forward kinematic equations are as follows.
-\begin{align}
+  \begin{bmatrix}
+    v_c \\
+    \omega
+  \end{bmatrix} &=
+  \begin{bmatrix}
+    1 & -r_b \\
+    1 & r_b
+  \end{bmatrix}^{-1}
+  \begin{bmatrix}
+    v_l \\
+    v_r
+  \end{bmatrix} \nonumber \\
+  \begin{bmatrix}
+    v_c \\
+    \omega
+  \end{bmatrix} &=
+  \begin{bmatrix}
+    \frac{1}{2} & \frac{1}{2} \\
+    -\frac{1}{2r_b} & \frac{1}{2r_b}
+  \end{bmatrix}
+  \begin{bmatrix}
+    v_l \\
+    v_r
+  \end{bmatrix}
+  \intertext{So the two forward kinematic equations are as follows.}
   v_c &= \frac{v_r + v_l}{2} \\
   \omega &= \frac{v_r - v_l}{2 r_b}
 \end{align}
