@@ -1,5 +1,3 @@
-#include <Eigen/Core>
-
 /// Performs 4th order Runge-Kutta integration of dx/dt = f(x, u) for dt.
 ///
 /// @param f The function to integrate. It must take two arguments x and u.
