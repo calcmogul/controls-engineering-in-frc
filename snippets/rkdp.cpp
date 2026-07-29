@@ -1,5 +1,4 @@
 #include <algorithm>
-#include <array>
 #include <cmath>
 
 /// Performs adaptive Dormand-Prince integration of dx/dt = f(x, u) for dt.
@@ -27,13 +26,13 @@ T rkdp(F&& f, T x, U u, double dt, double max_error = 1e-6) {
       {    35.0 / 384.0,               0.0,   500.0 / 1113.0,  125.0 / 192.0,  -2187.0 / 6784.0, 11.0 / 84.0}};
   // clang-format on
 
-  constexpr std::array<double, DIM> b1{
+  constexpr double b1[DIM]{
       35.0 / 384.0, 0.0, 500.0 / 1113.0, 125.0 / 192.0, -2187.0 / 6784.0,
       11.0 / 84.0,  0.0};
-  constexpr std::array<double, DIM> b2{5179.0 / 57600.0,    0.0,
-                                       7571.0 / 16695.0,    393.0 / 640.0,
-                                       -92097.0 / 339200.0, 187.0 / 2100.0,
-                                       1.0 / 40.0};
+  constexpr double b2[DIM]{5179.0 / 57600.0,    0.0,
+                           7571.0 / 16695.0,    393.0 / 640.0,
+                           -92097.0 / 339200.0, 187.0 / 2100.0,
+                           1.0 / 40.0};
 
   // Loop until dt has elapsed
   double dt_elapsed = 0.0;
