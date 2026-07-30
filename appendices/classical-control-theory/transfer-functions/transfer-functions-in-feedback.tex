@@ -115,34 +115,26 @@ $N$-$m$-$s$, $K_e = K_t = 0.0181 \,V/rad/s$, $R = 0.0902 \,\Omega$, and
 $L = 230 \times 10^{-6} \,H$.
 
 This system is second-order because it has two poles; one corresponds to
-velocity and the other corresponds to current. To make position the output
-instead, we'll multiply by $\frac{1}{s}$ because position is the integral of
-velocity.\footnote{This also has the effect of augmenting the system with a
-position state, making it a third-order system.}
-\begin{equation*}
-  G(s) = \frac{K}{s((Js + b)(Ls + R) + K^2)}
-\end{equation*}
+velocity and the other corresponds to current.
 
 Compare the step response of this \gls{system} (figure
-\ref{fig:tf_highfreq_unstable_step}) with the step response of this \gls{system}
-with $L$ set to zero (figure \ref{fig:tf_highfreq_stable_step}). For small
+\ref{fig:tf_cim_second_order_step}) with the step response of this \gls{system}
+with $L$ set to zero (figure \ref{fig:tf_cim_first_order_step}). For small
 values of $K$, both \glspl{system} are stable and have nearly indistinguishable
-\glspl{step response} due to the exceedingly small contribution from the fast
-pole. The high frequency dynamics only cause instability for large values of $K$
-that induce fast \glspl{system response}. In other words, the \glspl{system
-response} of the second-order model and its first-order approximation are
-similar for low frequency operating regimes.
+\glspl{step response} on a long timescale. The high frequency dynamics only
+cause oscillation for large values of $K$ that induce fast
+\glspl{system response}. In other words, the \glspl{system response} of the
+second-order model and its first-order approximation are similar for low
+frequency operating regimes.
 \begin{bookfigure}
-  \begin{minisvg}{2}{build/figs/highfreq_unstable_step}
-    \caption{Step response of second-order DC motor plant augmented with
-      position ($L = 230$ μH)}
-    \label{fig:tf_highfreq_unstable_step}
+  \begin{minisvg}{2}{build/figs/cim_second_order_step}
+    \caption{Second-order CIM motor model step response ($L = 230$ μH)}
+    \label{fig:tf_cim_second_order_step}
   \end{minisvg}
   \hfill
-  \begin{minisvg}{2}{build/figs/highfreq_stable_step}
-    \caption{Step response of first-order DC motor plant augmented with position
-      ($L = 0$ μH)}
-    \label{fig:tf_highfreq_stable_step}
+  \begin{minisvg}{2}{build/figs/cim_first_order_step}
+    \caption{First-order CIM motor model step response ($L = 0$ μH)}
+    \label{fig:tf_cim_first_order_step}
   \end{minisvg}
 \end{bookfigure}
 
