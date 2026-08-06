@@ -12,6 +12,8 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 import numpy.typing as npt
+from bookutil.nonlinear_mpc import NonlinearMPC
+from bookutil.trajectory import generate_trajectory, lerp
 from matplotlib import colors
 from matplotlib.patches import Circle
 from sleipnir import autodiff
@@ -19,8 +21,6 @@ from sleipnir.autodiff import VariableMatrix
 from sleipnir.optimization import bounds
 
 from bookutil import latex, plotutil
-from bookutil.nonlinear_mpc import NonlinearMPC
-from bookutil.trajectory import generate_trajectory, lerp
 
 if "--noninteractive" in sys.argv:
     mpl.use("svg")

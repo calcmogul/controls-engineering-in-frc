@@ -12,10 +12,10 @@ import frccontrol as fct
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
+from bookutil.trajectory import generate_trajectory
 from scipy.signal import StateSpace
 
 from bookutil import latex, plotutil
-from bookutil.trajectory import generate_trajectory
 
 if "--noninteractive" in sys.argv:
     mpl.use("svg")

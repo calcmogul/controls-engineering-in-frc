@@ -10,11 +10,11 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 import numpy.typing as npt
+from bookutil.linear_mpc import LinearMPC
 from sleipnir.autodiff import VariableMatrix
 from sleipnir.optimization import bounds
 
 from bookutil import latex
-from bookutil.linear_mpc import LinearMPC
 
 if "--noninteractive" in sys.argv:
     mpl.use("svg")

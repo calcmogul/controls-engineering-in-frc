@@ -3,7 +3,7 @@
 from matplotlib import animation
 
 
-def plot_xy(fig, ref_xs, ref_ys, state_xs, state_ys, patches=[]):
+def plot_xy(fig, ref_xs, ref_ys, state_xs, state_ys, patches=None):
     """
     Plot x-y data.
 
@@ -25,6 +25,9 @@ def plot_xy(fig, ref_xs, ref_ys, state_xs, state_ys, patches=[]):
     Parameter ``patches``:
         List of patches to draw (default: []).
     """
+    if not patches:
+        patches = []
+
     ax = fig.add_subplot()
 
     ref = ax.plot(ref_xs, ref_ys, label="Reference")[0]
@@ -42,7 +45,7 @@ def plot_xy(fig, ref_xs, ref_ys, state_xs, state_ys, patches=[]):
     return ref, state
 
 
-def animate_xy(fig, ref_xs, ref_ys, state_xs, state_ys, dt, patches=[]):
+def animate_xy(fig, ref_xs, ref_ys, state_xs, state_ys, dt, patches=None):
     """
     Plot x-y data and animate it.
 
@@ -67,6 +70,9 @@ def animate_xy(fig, ref_xs, ref_ys, state_xs, state_ys, dt, patches=[]):
     Parameter ``patches``:
         List of patches to draw.
     """
+    if not patches:
+        patches = []
+
     ref, state = plot_xy(fig, ref_xs, ref_ys, state_xs, state_ys, patches)
 
     def animate(i):

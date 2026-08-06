@@ -7,8 +7,8 @@ import sys
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-from matplotlib import cm
 import numpy as np
+from matplotlib import cm
 
 from bookutil import latex
 

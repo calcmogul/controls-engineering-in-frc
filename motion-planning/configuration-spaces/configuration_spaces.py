@@ -6,8 +6,8 @@ import math
 import sys
 
 import matplotlib as mpl
-from matplotlib import colors
 import matplotlib.pyplot as plt
+from matplotlib import colors
 
 from bookutil import latex
 

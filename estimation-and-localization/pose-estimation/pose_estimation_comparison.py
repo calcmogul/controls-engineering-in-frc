@@ -2,18 +2,18 @@
 
 """Comparison of pose estimation methods."""
 
-from abc import ABCMeta, abstractmethod
 import math
 import sys
+from abc import ABCMeta, abstractmethod
 
 import frccontrol as fct
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
+from bookutil.trajectory import generate_trajectory
 from scipy.signal import StateSpace
 
 from bookutil import latex
-from bookutil.trajectory import generate_trajectory
 
 if "--noninteractive" in sys.argv:
     mpl.use("svg")

@@ -4,11 +4,11 @@
 
 import sys
 
-from cycler import cycler
 import frccontrol as fct
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
+from cycler import cycler
 from scipy.linalg import eig
 from scipy.signal import StateSpace, place_poles
 

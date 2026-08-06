@@ -2,14 +2,14 @@
 
 """Solves double integrator minimum-time trajectory optimization problem with Sleipnir."""
 
-from pathlib import Path
 import re
 import sys
+from pathlib import Path
 
-from sleipnir.optimization import Problem, bounds
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
+from sleipnir.optimization import Problem, bounds
 
 from bookutil import latex
 
