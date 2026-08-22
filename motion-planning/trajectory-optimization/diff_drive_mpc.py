@@ -4,6 +4,7 @@
 Simulates differential drive model predictive control with keep-out constraints.
 """
 
+import colorsys
 import math
 import sys
 
@@ -14,7 +15,6 @@ import numpy as np
 import numpy.typing as npt
 from bookutil.nonlinear_mpc import NonlinearMPC
 from bookutil.trajectory import generate_trajectory, lerp
-from matplotlib import colors
 from matplotlib.patches import Circle
 from sleipnir import autodiff
 from sleipnir.autodiff import VariableMatrix
@@ -216,7 +216,7 @@ def main():
                 Circle(
                     (4.0, 13.5),
                     radius=2.0,
-                    facecolor=colors.hsv_to_rgb((1, 0.8, 0.9)),
+                    facecolor=colorsys.hsv_to_rgb(1, 0.8, 0.9),
                     edgecolor=(1, 0.5, 0.5),
                     hatch="x",
                     label="Keep-out region",
@@ -236,7 +236,7 @@ def main():
                 Circle(
                     (4.0, 13.5),
                     radius=2.0,
-                    facecolor=colors.hsv_to_rgb((1, 0.8, 0.9)),
+                    facecolor=colorsys.hsv_to_rgb(1, 0.8, 0.9),
                     edgecolor=(1, 0.5, 0.5),
                     hatch="x",
                     label="Keep-out region",

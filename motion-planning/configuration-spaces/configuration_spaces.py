@@ -2,12 +2,12 @@
 
 """Companion figures for section on configuration spaces."""
 
+import colorsys
 import math
 import sys
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-from matplotlib import colors
 
 from bookutil import latex
 
@@ -57,7 +57,7 @@ def make_invalid_region(xlim, ylim):
     """
     points = list(zip(xlim, ylim))
     invalid_states = make_box(points[0], points[1])
-    invalid_states.set_color(colors.hsv_to_rgb((1, 0.8, 0.9)))
+    invalid_states.set_facecolor(colorsys.hsv_to_rgb(1, 0.8, 0.9))
     invalid_states.set_edgecolor((1, 0.5, 0.5))
     invalid_states.set_hatch("x")
     invalid_states.set_label("Invalid states")
