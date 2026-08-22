@@ -8,20 +8,14 @@ def kalmd(A, C, Q, R):
     """
     Solves for the discrete steady-state Kalman gain.
 
-    Parameter ``A``:
-        numpy.array(states x states), system matrix.
-
-    Parameter ``C``:
-        numpy.array(outputs x states), output matrix.
-
-    Parameter ``Q``:
-        numpy.array(states x states), process noise covariance matrix.
-
-    Parameter ``R``:
-        numpy.array(outputs x outputs), measurement noise covariance matrix.
+    Args:
+        A: System matrix, states x states.
+        C: Output matrix, outputs x states.
+        Q: Process noise covariance matrix, states x states.
+        R: Measurement noise covariance matrix, inputs x inputs.
 
     Returns:
-        numpy.array(outputs x states), Kalman gain matrix.
+        Kalman gain matrix, outputs x states.
     """
     P = sp.linalg.solve_discrete_are(a=A.T, b=C.T, q=Q, r=R)
     return np.linalg.solve(C @ P @ C.T + R, C @ P).T

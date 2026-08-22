@@ -16,14 +16,10 @@ class Entry:
         """
         Construct an Entry.
 
-        Parameter ``entry_type``:
-            Bibliography entry type (e.g., misc, online).
-
-        Parameter ``label``:
-            LaTeX label.
-
-        Parameter ``fields``:
-            Dictionary of field types and values.
+        Args:
+            entry_type: Bibliography entry type (e.g., misc, online).
+            label: LaTeX label.
+            fields: Dictionary of field types and values.
         """
         self.entry_type = entry_type
         self.label = label

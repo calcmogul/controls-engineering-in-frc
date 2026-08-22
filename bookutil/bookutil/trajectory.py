@@ -17,14 +17,10 @@ def lerp(a: float, b: float, t: float) -> float:
     Computes the linear interpolation between a and b, if the parameter t is
     inside [0, 1), or the linear extrapolation otherwise.
 
-    Parameter ``a``:
-        The first value.
-
-    Parameter ``b``:
-        The second value.
-
-    Parameter ``t``:
-        The interpolant.
+    Args:
+        a: The first value.
+        b: The second value.
+        t: The interpolant.
     """
     return a + (b - a) * t
 
@@ -46,8 +42,8 @@ class UnicycleSample:
         """
         Interpolates the sample.
 
-        Parameter ``time``:
-            The time of the interpolated state.
+        Args:
+            time: The time of the interpolated state.
         """
 
         def f(x, u):
@@ -98,8 +94,8 @@ class UnicycleTrajectory:
         """
         Samples the trajectory at the given time.
 
-        Parameter ``time``:
-            The time at which to sample in seconds.
+        Args:
+            time: The time at which to sample in seconds.
         """
         if time <= 0.0:
             return self.__samples[0]
@@ -123,20 +119,12 @@ def generate_trajectory(
     Generates a trajectory through the given waypoints satisfying the given
     constraints.
 
-    Parameter ``waypoints``:
-        The list of waypoints.
-
-    Parameter ``v_max``:
-        The maximum linear velocity.
-
-    Parameter ``ω_max``:
-        The maximum angular velocity.
-
-    Parameter ``a_max``:
-        The maximum linear acceleration.
-
-    Parameter ``α_max``:
-        The maximum angular acceleration.
+    Args:
+        waypoints: The list of waypoints.
+        v_max: The maximum linear velocity.
+        ω_max: The maximum angular velocity.
+        a_max: The maximum linear acceleration.
+        α_max: The maximum angular acceleration.
     """
 
     def f(x, u):

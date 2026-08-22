@@ -19,11 +19,9 @@ def config_plot(xlim, ylim):
     """
     Configure the global plot with x and y labels and limits.
 
-    Parameter ``xlim``:
-        The x limits.
-
-    Parameter ``ylim``:
-        The y limits.
+    Args:
+        xlim: The x limits.
+        ylim: The y limits.
     """
     plt.xlabel("Arm angle (rad)")
     plt.ylabel("Elevator height (m)")
@@ -35,11 +33,9 @@ def make_box(bottom_left, top_right):
     """
     Creates a pyplot Polygon box.
 
-    Parameter ``bottom_left``:
-        The box's bottom-left coordinate.
-
-    Parameter ``top_right``:
-        The box's top-right coordinate.
+    Args:
+        bottom_left: The box's bottom-left coordinate.
+        top_right: The box's top-right coordinate.
     """
     return plt.Polygon(
         [
@@ -55,11 +51,9 @@ def make_invalid_region(xlim, ylim):
     """
     Creates a pyplot Polygon "invalid region".
 
-    Parameter ``xlim``:
-        The x limits of the invalid region.
-
-    Parameter ``ylim``:
-        The y limits of the invalid region.
+    Args:
+        xlim: The x limits of the invalid region.
+        ylim: The y limits of the invalid region.
     """
     points = list(zip(xlim, ylim))
     invalid_states = make_box(points[0], points[1])
@@ -74,8 +68,8 @@ def make_valid_region(points):
     """
     Turns a list of x-y pairs into a valid region.
 
-    Parameter ``points``:
-        List of x-y pairs.
+    Args:
+        points: List of x-y pairs.
     """
     valid_states = plt.Polygon(points)
     valid_states.set_color((1, 1, 1))
@@ -87,22 +81,14 @@ def draw_point(ax, x, y, label, horizontalalignment="left", verticalalignment="t
     """
     Draw a point and corresponding label onto an Axis.
 
-    Parameter ``ax``:
-        The Axis object on which to draw.
-
-    Parameter ``x``:
-        The point's x coordinate.
-
-    Parameter ``y``:
-        The point's y coordinate.
-
-    Parameter ``horizontalalignment``:
-        How the text should be horizontally aligned with respect to the point
-        (default: "left").
-
-    Parameter ``verticalignment``:
-        How the text should be vertically aligned with respect to the point
-        (default: "top").
+    Args:
+        ax: The Axis object on which to draw.
+        x: The point's x coordinate.
+        y: The point's y coordinate.
+        horizontalalignment: How the text should be horizontally aligned with
+            respect to the point (default: "left").
+        verticalignment: How the text should be vertically aligned with respect
+            to the point (default: "top").
     """
     ax.scatter(x, y, color="C0", s=10, zorder=2)
     ax.annotate(

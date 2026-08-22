@@ -27,8 +27,8 @@ class Drivetrain:
         """
         Differential drive subsystem.
 
-        Parameter ``dt``:
-            Time between model/controller updates.
+        Args:
+            dt: Time between model/controller updates.
         """
         self.dt = dt
 
@@ -90,8 +90,8 @@ class Drivetrain:
         """
         Return differential drive model linearized around the given state.
 
-        Parameter ``states``:
-            State around which to linearize.
+        Args:
+            states: State around which to linearize.
         """
         # Radius of robot in meters
         rb = 0.59055 / 2.0
@@ -142,11 +142,9 @@ class Drivetrain:
         """
         Nonlinear differential drive dynamics.
 
-        Parameter ``x``:
-            State vector.
-
-        Parameter ``u``:
-            Input vector.
+        Args:
+            x: State vector.
+            u: Input vector.
 
         Returns:
             State derivative.
@@ -168,11 +166,9 @@ class Drivetrain:
         """
         Nonlinear differential drive dynamics.
 
-        Parameter ``x``:
-            State vector.
-
-        Parameter ``u``:
-            Input vector.
+        Args:
+            x: State vector.
+            u: Input vector.
 
         Returns:
             State derivative.
@@ -183,11 +179,9 @@ class Drivetrain:
         """
         Advance the model by one timestep.
 
-        Parameter ``r``:
-            The current reference.
-
-        Parameter ``next_r``:
-            The next reference.
+        Args:
+            r: The current reference.
+            next_r: The next reference.
         """
         # Update sim model
         self.x = fct.rkdp(self.f, self.x, self.u, self.dt)

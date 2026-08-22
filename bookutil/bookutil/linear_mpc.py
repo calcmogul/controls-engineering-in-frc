@@ -29,35 +29,22 @@ class LinearMPC:
         """
         Construct a linear model predictive controller.
 
-        Parameter ``A``:
-            Continuous system matrix.
+        Args:
+            A: Continuous system matrix.
+            B: Continuous input matrix.
+            sample_period: Sample period in seconds.
+            cost: Callback for cost function.
+            constraints: Callback for setting constraints (control input limits,
+                etc.).
+            initial_guess: Callback that takes the current state x, reference r,
+                and number of samples N and returns the initial guesses for X
+                (states x (N + 1) and U (inputs x N).
 
-        Parameter ``B``:
-            Continuous input matrix.
-
-        Parameter ``sample_period``:
-            Sample period in seconds.
-
-        Parameter ``cost``:
-            Callback for cost function.
-
-        Parameter ``constraints``:
-            Callback for setting constraints (control input limits, etc.).
-
-        Parameter ``initial_guess``:
-            Callback that takes the current state x, reference r, and number of
-            samples N and returns the initial guesses for X (states x (N + 1)
-            and U (inputs x N).
-
-            Subsequent iterations warm start from the previous iteration's
-            solution.
-
-        Parameter ``prediction_horizon``:
-            Prediction horizon in seconds.
-
-        Parameter ``timeout``:
-            The maximum time in seconds the solver can spend before returning a
-            solution.
+                Subsequent iterations warm start from the previous iteration's
+                solution.
+            prediction_horizon: Prediction horizon in seconds.
+            timeout: The maximum time in seconds the solver can spend before
+                returning a solution.
         """
         self.A_d, self.B_d = fct.discretize_ab(A, B, sample_period)
         self.cost = cost
@@ -75,11 +62,9 @@ class LinearMPC:
         """
         Calculates the next control input.
 
-        Parameter ``x``:
-            The current state.
-
-        Parameter ``r``:
-            The reference.
+        Args:
+            x: The current state.
+            r: The reference.
 
         Returns:
             The control input to apply for this timestep.

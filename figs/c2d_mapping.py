@@ -38,11 +38,9 @@ def exp_map(x, y):
     """
     Performs the exponential map of a complex number.
 
-    Parameter ``x``:
-        The real part.
-
-    Parameter ``y``:
-        The imaginary part.
+    Args:
+        x: The real part.
+        y: The imaginary part.
     """
     z = complex(x, y)
     z = np.exp(z * T)
@@ -53,11 +51,9 @@ def plot_phase_lines(ax, transform=None):
     """
     Plots phase lines.
 
-    Parameter ``ax``:
-        Axes object.
-
-    Parameter ``transform``:
-        x_new, y_new = f(x, y).
+    Args:
+        ax: Axes object.
+        transform: x_new, y_new = f(x, y).
     """
     xmin = -2.0 * math.pi
     ymin = -math.pi

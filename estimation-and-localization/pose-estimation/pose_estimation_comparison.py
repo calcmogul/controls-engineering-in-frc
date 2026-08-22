@@ -27,32 +27,16 @@ def linearized_differential_drive(motor, num_motors, m, r, rb, J, Gl, Gr, states
     Inputs: [[left voltage], [right voltage]]
     Outputs: [[theta], [left velocity], [right velocity]]
 
-    Parameter ``motor``:
-        Instance of DCMotor.
-
-    Parameter ``num_motors``:
-        Number of motors driving the mechanism.
-
-    Parameter ``m``:
-        Mass of robot in kg.
-
-    Parameter ``r``:
-        Radius of wheels in meters.
-
-    Parameter ``rb``:
-        Radius of robot in meters.
-
-    Parameter ``J``:
-        Moment of inertia of the differential drive in kg-m².
-
-    Parameter ``Gl``:
-        Gear ratio of left side of differential drive.
-
-    Parameter ``Gr``:
-        Gear ratio of right side of differential drive.
-
-    Parameter ``states``:
-        State vector around which to linearize model.
+    Args:
+        motor: Instance of DCMotor.
+        num_motors: Number of motors driving the mechanism.
+        m: Mass of robot in kg.
+        r: Radius of wheels in meters.
+        rb: Radius of robot in meters.
+        J: Moment of inertia of the differential drive in kg-m².
+        Gl: Gear ratio of left side of differential drive.
+        Gr: Gear ratio of right side of differential drive.
+        states: State vector around which to linearize model.
 
     Returns:
         StateSpace instance containing continuous model.
@@ -102,8 +86,8 @@ class Drivetrain(metaclass=ABCMeta):
         """
         Differential drive subsystem.
 
-        Parameter ``dt``:
-            Time between model/controller updates.
+        Args:
+            dt: Time between model/controller updates.
         """
         self.dt = dt
 
@@ -127,8 +111,8 @@ class Drivetrain(metaclass=ABCMeta):
         """
         Return differential drive model linearized around the given state.
 
-        Parameter ``states``:
-            State around which to linearize.
+        Args:
+            states: State around which to linearize.
         """
         # Number of motors per side
         num_motors = 3.0
@@ -159,11 +143,9 @@ class Drivetrain(metaclass=ABCMeta):
         """
         Nonlinear differential drive dynamics.
 
-        Parameter ``x``:
-            State vector.
-
-        Parameter ``u``:
-            Input vector.
+        Args:
+            x: State vector.
+            u: Input vector.
 
         Returns:
             State derivative.
@@ -191,11 +173,9 @@ class Drivetrain(metaclass=ABCMeta):
         """
         Advance the model by one timestep.
 
-        Parameter ``r``:
-            The current reference.
-
-        Parameter ``next_r``:
-            The next reference.
+        Args:
+            r: The current reference.
+            next_r: The next reference.
         """
         self.x = fct.rkdp(self.f, self.x, self.u, self.dt)
 

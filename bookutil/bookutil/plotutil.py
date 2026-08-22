@@ -7,23 +7,13 @@ def plot_xy(fig, ref_xs, ref_ys, state_xs, state_ys, patches=None):
     """
     Plot x-y data.
 
-    Parameter ``fig``:
-        Figure on which to plot.
-
-    Parameter ``ref_xs``:
-        List of reference x values.
-
-    Parameter ``ref_ys``:
-        List of reference y values.
-
-    Parameter ``state_xs``:
-        List of state x values.
-
-    Parameter ``state_ys``:
-        List of state y values.
-
-    Parameter ``patches``:
-        List of patches to draw (default: []).
+    Args:
+        fig: Figure on which to plot.
+        ref_xs: List of reference x values.
+        ref_ys: List of reference y values.
+        state_xs: List of state x values.
+        state_ys: List of state y values.
+        patches: List of patches to draw (default: []).
     """
     if not patches:
         patches = []
@@ -49,26 +39,14 @@ def animate_xy(fig, ref_xs, ref_ys, state_xs, state_ys, dt, patches=None):
     """
     Plot x-y data and animate it.
 
-    Parameter ``fig``:
-        Figure on which to plot.
-
-    Parameter ``ref_xs``:
-        List of reference x values.
-
-    Parameter ``ref_ys``:
-        List of reference y values.
-
-    Parameter ``state_xs``:
-        List of state x values.
-
-    Parameter ``state_ys``:
-        List of state y values.
-
-    Parameter ``dt``:
-        Timestep duration.
-
-    Parameter ``patches``:
-        List of patches to draw.
+    Args:
+        fig: Figure on which to plot.
+        ref_xs: List of reference x values.
+        ref_ys: List of reference y values.
+        state_xs: List of state x values.
+        state_ys: List of state y values.
+        dt: Timestep duration.
+        patches: List of patches to draw.
     """
     if not patches:
         patches = []

@@ -32,17 +32,11 @@ class LTVUnicycleController:
         """
         Returns the next output of the unicycle controller.
 
-        Parameter ``pose``:
-            The current pose.
-
-        Parameter ``pose_desired``:
-            The desired pose.
-
-        Parameter ``v_desired``:
-            The desired linear velocity in meters per second.
-
-        Parameter ``omega_desired``:
-            The desired angular velocity in radians per second.
+        Args:
+            pose: The current pose.
+            pose_desired: The desired pose.
+            v_desired: The desired linear velocity in meters per second.
+            omega_desired: The desired angular velocity in radians per second.
         """
         error = pose_desired.relative_to(pose)
         e = np.array([[error.x], [error.y], [error.rotation.radians]])
@@ -65,8 +59,8 @@ class Drivetrain:
         """
         Differential drive subsystem.
 
-        Parameter ``dt``:
-            Time between model/controller updates.
+        Args:
+            dt: Time between model/controller updates.
         """
         self.dt = dt
 
@@ -134,11 +128,9 @@ class Drivetrain:
         """
         Nonlinear differential drive dynamics.
 
-        Parameter ``x``:
-            State vector.
-
-        Parameter ``u``:
-            Input vector.
+        Args:
+            x: State vector.
+            u: Input vector.
 
         Returns:
             State derivative.
@@ -160,11 +152,9 @@ class Drivetrain:
         """
         Nonlinear differential drive dynamics.
 
-        Parameter ``x``:
-            State vector.
-
-        Parameter ``u``:
-            Input vector.
+        Args:
+            x: State vector.
+            u: Input vector.
 
         Returns:
             State derivative.
@@ -175,11 +165,9 @@ class Drivetrain:
         """
         Advance the model by one timestep.
 
-        Parameter ``r``:
-            The current reference.
-
-        Parameter ``next_r``:
-            The next reference.
+        Args:
+            r: The current reference.
+            next_r: The next reference.
         """
         # Update sim model
         self.x = fct.rkdp(self.f, self.x, self.u, self.dt)

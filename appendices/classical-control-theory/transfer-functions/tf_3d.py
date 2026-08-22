@@ -25,11 +25,9 @@ def func(x, y):
     """
     Function to plot.
 
-    Parameter ``x``:
-        x coordinate.
-
-    Parameter ``y``:
-        y coordinate.
+    Args:
+        x: x coordinate.
+        y: y coordinate.
 
     Returns:
         z coordinate.

@@ -7,26 +7,18 @@ def generate_s_curve_profile(max_v, max_a, time_to_max_a, dt, goal):
     """
     Returns an s-curve profile with the given constraints.
 
-    Parameter ``max_v``:
-        Maximum velocity of profile.
-
-    Parameter ``max_a``:
-        Maximum acceleration of profile.
-
-    Parameter ``time_to_max_a``:
-        Time from rest to maximum acceleration.
-
-    Parameter ``dt``:
-        Timestep.
-
-    Parameter ``goal``:
-        Final position when the profile is at rest.
+    Args:
+        max_v: Maximum velocity of profile.
+        max_a: Maximum acceleration of profile.
+        time_to_max_a: Time from rest to maximum acceleration.
+        dt: Timestep.
+        goal: Final position when the profile is at rest.
 
     Returns:
-        t_rec -- List of timestamps.
-        x_rec -- List of positions at each timestep.
-        v_rec -- List of velocities at each timestep.
-        a_rec -- List of accelerations at each timestep.
+        t_rec: List of timestamps.
+        x_rec: List of positions at each timestep.
+        v_rec: List of velocities at each timestep.
+        a_rec: List of accelerations at each timestep.
     """
     t_rec = [0.0]
     x_rec = [0.0]

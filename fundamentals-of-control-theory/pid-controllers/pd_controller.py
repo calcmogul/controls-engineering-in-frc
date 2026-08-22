@@ -22,8 +22,8 @@ class Elevator:
         """
         Elevator subsystem.
 
-        Parameter ``dt``:
-            Time between model/controller updates.
+        Args:
+            dt: Time between model/controller updates.
         """
         self.dt = dt
 
@@ -57,11 +57,9 @@ class Elevator:
         """
         Advance the model by one timestep.
 
-        Parameter ``r``:
-            The current reference.
-
-        Parameter ``next_r``:
-            The next reference.
+        Args:
+            r: The current reference.
+            next_r: The next reference.
         """
         # Update sim model
         self.x = self.sim.A @ self.x + self.sim.B @ self.u

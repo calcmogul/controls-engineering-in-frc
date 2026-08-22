@@ -30,38 +30,23 @@ class NonlinearMPC:
         """
         Construct a nonlinear model predictive controller.
 
-        Parameter ``states``:
-            Number of states.
+        Args:
+            states: Number of states.
+            inputs: Number of inputs.
+            f: Dynamics dx/dt = f(x, u).
+            sample_period: Sample period in seconds.
+            cost: Callback for cost function.
+            constraints: Callback for setting constraints (control input limits,
+                etc.).
+            initial_guess: Callback that takes the current state x, reference r,
+                and number of samples N and returns the initial guesses for X
+                (states x (N + 1) and U (inputs x N).
 
-        Parameter ``inputs``:
-            Number of inputs.
-
-        Parameter ``f``:
-            Dynamics dx/dt = f(x, u).
-
-        Parameter ``sample_period``:
-            Sample period in seconds.
-
-        Parameter ``cost``:
-            Callback for cost function.
-
-        Parameter ``constraints``:
-            Callback for setting constraints (control input limits, etc.).
-
-        Parameter ``initial_guess``:
-            Callback that takes the current state x, reference r, and number of
-            samples N and returns the initial guesses for X (states x (N + 1)
-            and U (inputs x N).
-
-            Subsequent iterations warm start from the previous iteration's
-            solution.
-
-        Parameter ``prediction_horizon``:
-            Prediction horizon in seconds.
-
-        Parameter ``timeout``:
-            The maximum time in seconds the solver can spend before returning a
-            solution.
+                Subsequent iterations warm start from the previous iteration's
+                solution.
+            prediction_horizon: Prediction horizon in seconds.
+            timeout: The maximum time in seconds the solver can spend before
+                returning a solution.
         """
         self.states = states
         self.inputs = inputs
@@ -82,11 +67,9 @@ class NonlinearMPC:
         """
         Calculates the next control input.
 
-        Parameter ``x``:
-            The current state.
-
-        Parameter ``r``:
-            The reference.
+        Args:
+            x: The current state.
+            r: The reference.
 
         Returns:
             The control input to apply for this timestep.

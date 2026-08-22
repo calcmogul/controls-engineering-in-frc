@@ -22,11 +22,9 @@ class Elevator:
         """
         Elevator subsystem.
 
-        Parameter ``dt``:
-            Time between model/controller updates.
-
-        Parameter ``delay``:
-            Input delay in seconds.
+        Args:
+            dt: Time between model/controller updates.
+            delay: Input delay in seconds.
         """
         self.dt = dt
         self.delay = delay
@@ -69,11 +67,9 @@ class Elevator:
         """
         Advance the model by one timestep.
 
-        Parameter ``r``:
-            The current reference.
-
-        Parameter ``next_r``:
-            The next reference.
+        Args:
+            r: The current reference.
+            next_r: The next reference.
         """
         # Update sim model
         self.x = self.sim.A @ self.x + self.sim.B @ self.u
@@ -97,17 +93,12 @@ class PlotMetadata:
         """
         Constructs PlotMetadata.
 
-        Parameter ``delay``:
-            The input delay.
-
-        Parameter ``compensate``:
-            Whether to perform latency compensation.
-
-        Parameter ``gain_digits``:
-            Number of digits to include in feedback gain plot label.
-
-        Parameter ``plot_filename``:
-            Plot filename.
+        Args:
+            delay: The input delay.
+            compensate: Whether to perform latency compensation.
+            gain_digits: Number of digits to include in feedback gain plot
+                label.
+            plot_filename: Plot filename.
         """
         self.delay = delay
         self.compensate = compensate

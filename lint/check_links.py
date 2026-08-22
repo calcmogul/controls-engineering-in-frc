@@ -16,8 +16,8 @@ def lint_links(link):
     """
     Runs the URL in the regex Match object through the link linter.
 
-    Parameter ``link``:
-        A tuple containing the filename, line number of URL, and URL.
+    Args:
+        link: A tuple containing the filename, line number of URL, and URL.
     """
     return verify_url(link[0], link[1], link[2])
 
@@ -26,14 +26,10 @@ def verify_url(filename, line_number, url):
     """
     Verifies URL is reachable and returns 200 status code.
 
-    Parameter ``filename``:
-        Name of file containing URL.
-
-    Parameter ``line_number``:
-        Line number of URL.
-
-    Parameter ``url``:
-        The URL to verify.
+    Args:
+        filename: Name of file containing URL.
+        line_number: Line number of URL.
+        url: The URL to verify.
 
     Returns:
         True if verification succeeded or False otherwise.
