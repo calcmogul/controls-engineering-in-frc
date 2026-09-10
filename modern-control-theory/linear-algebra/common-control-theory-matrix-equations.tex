@@ -11,7 +11,7 @@ The continuous algebraic Riccati equation (CARE) appears in the solution to the
 continuous time LQ problem.
 \begin{equation}
   \mat{A}\T\mat{X} + \mat{X}\mat{A} -
-    \mat{X}\mat{B}\mat{R}^{-1}\mat{B}\T\mat{X} + \mat{Q} = 0
+    \mat{X}\mat{B}\mat{R}^{-1}\mat{B}\T\mat{X} + \mat{Q} = \mat{0}
 \end{equation}
 
 \subsection{Discrete algebraic Riccati equation (DARE)}
@@ -50,7 +50,7 @@ implementation should also enforce the following preconditions:
 The continuous Lyapunov equation appears in controllability/observability
 analysis of continuous time systems.
 \begin{equation}
-  \mat{A}\mat{X} + \mat{X}\mat{A}\T + \mat{Q} = 0
+  \mat{A}\mat{X} + \mat{X}\mat{A}\T + \mat{Q} = \mat{0}
 \end{equation}
 
 \subsection{Discrete Lyapunov equation}
@@ -59,5 +59,5 @@ analysis of continuous time systems.
 The discrete Lyapunov equation appears in controllability/observability analysis
 of discrete time systems.
 \begin{equation}
-  \mat{A}\mat{X}\mat{A}\T - \mat{X} + \mat{Q} = 0
+  \mat{A}\mat{X}\mat{A}\T - \mat{X} + \mat{Q} = \mat{0}
 \end{equation}
