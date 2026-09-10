@@ -1,0 +1,244 @@
+\section{Matrix types}
+
+\subsection{By shape}
+
+\index{matrices!row vector}
+A \textit{row vector} is a matrix with one row.
+\begin{equation*}
+  \begin{bmatrix}
+    1 & 2
+  \end{bmatrix}
+\end{equation*}
+
+\index{matrices!column vector}
+A \textit{column vector} is a matrix with one column.
+\begin{equation*}
+  \begin{bmatrix}
+    1 \\
+    2
+  \end{bmatrix}
+\end{equation*}
+
+\index{matrices!square}
+A \textit{square matrix} has the same number of rows and columns.
+\begin{equation*}
+  \begin{bmatrix}
+    1 & 2 \\
+    3 & 4
+  \end{bmatrix}
+\end{equation*}
+
+\index{matrices!rectangular}
+A \textit{rectangular matrix} has a different number of rows and columns.
+\begin{equation*}
+  \begin{bmatrix}
+    1 & 2 & 3 \\
+    4 & 5 & 6
+  \end{bmatrix}
+\end{equation*}
+
+\subsection{By contents}
+
+\index{matrices!zero}
+A \textit{zero matrix} is a matrix filled with zeroes, denoted by $\mat{0}$.
+\begin{equation*}
+  \mat{0}_{2 \times 3} =
+  \begin{bmatrix}
+    0 & 0 & 0 \\
+    0 & 0 & 0
+  \end{bmatrix}
+\end{equation*}
+
+\index{matrices!one}
+
+A \textit{one vector} is a column vector filled with ones, denoted by $\mat{e}$.
+\begin{equation*}
+  \mat{e} =
+  \begin{bmatrix}
+    1 \\
+    1
+  \end{bmatrix}
+\end{equation*}
+
+A \textit{one matrix} is a matrix filled with ones, denoted by $\mat{1}$.
+\begin{equation*}
+  \mat{1}_{2 \times 3} =
+  \begin{bmatrix}
+    1 & 1 & 1 \\
+    1 & 1 & 1
+  \end{bmatrix}
+\end{equation*}
+
+\index{matrices!identity}
+An \textit{identity matrix} is a diagonal matrix of ones, denoted by $\mat{I}$.
+\begin{equation*}
+  \mat{I}_{3 \times 3} =
+  \begin{bmatrix}
+    1 & 0 & 0 \\
+    0 & 1 & 0 \\
+    0 & 0 & 1
+  \end{bmatrix}
+  \quad
+  \mat{I}_{2 \times 3} =
+  \begin{bmatrix}
+    1 & 0 & 0 \\
+    0 & 1 & 0
+  \end{bmatrix}
+\end{equation*}
+
+\index{matrices!diagonal}
+A matrix's \textit{diagonal} or \textit{main diagonal} is the list of entries
+with the same row and column index.
+\begin{equation*}
+  \begin{bmatrix}
+    {\color{red}1} & 0 & 0 \\
+    0 & {\color{red}2} & 0 \\
+    0 & 0 & {\color{red}3}
+  \end{bmatrix}
+\end{equation*}
+
+\index{matrices!antidiagonal}
+A matrix's \textit{antidiagonal} is the list of entries from the top-right to
+the bottom-left perpendicular to the diagonal.
+\begin{equation*}
+  \begin{bmatrix}
+    0 & 0 & {\color{red}1} \\
+    0 & {\color{red}2} & 0 \\
+    {\color{red}3} & 0 & 0
+  \end{bmatrix}
+\end{equation*}
+
+A \textit{diagonal matrix} has nonzeroes restricted to the diagonal.
+\begin{equation*}
+  \begin{bmatrix}
+    1 & 0 & 0 \\
+    0 & 2 & 0 \\
+    0 & 0 & 3
+  \end{bmatrix}
+\end{equation*}
+
+\index{matrices!block diagonal}
+A \textit{block diagonal matrix} has matrices along its diagonal and zeroes
+elsewhere.
+\begin{equation*}
+  \begin{bmatrix}
+    1 & 2 & 0 & 0 & 0 \\
+    3 & 4 & 0 & 0 & 0 \\
+    0 & 0 & 1 & 2 & 3 \\
+    0 & 0 & 4 & 5 & 6 \\
+    0 & 0 & 7 & 8 & 9
+  \end{bmatrix}
+\end{equation*}
+
+\index{matrices!superdiagonal}
+A matrix's \textit{superdiagonal} is the set of entries above and to the right
+of the main diagonal.
+\begin{equation*}
+  \begin{bmatrix}
+    0 & {\color{red}1} & 0 \\
+    0 & 0 & {\color{red}2} \\
+    0 & 0 & 0
+  \end{bmatrix}
+\end{equation*}
+
+\index{matrices!subdiagonal}
+A matrix's \textit{subdiagonal} is the set of entries below and to the left of
+the main diagonal.
+\begin{equation*}
+  \begin{bmatrix}
+    0 & 0 & 0 \\
+    {\color{red}1} & 0 & 0 \\
+    0 & {\color{red}2} & 0
+  \end{bmatrix}
+\end{equation*}
+
+\index{matrices!banded}
+\index{matrices!tridiagonal}
+A \textit{banded matrix} has nonzero elements restricted to a diagonal band. A
+\textit{tridiagonal matrix} has nonzero elements restricted to the main
+diagonal, superdiagonal, and subdiagonal.
+\begin{equation*}
+  \begin{bmatrix}
+    2 & 1 & 0 & 0 \\
+    3 & 2 & 1 & 0 \\
+    0 & 3 & 2 & 1 \\
+    0 & 0 & 3 & 2
+  \end{bmatrix}
+\end{equation*}
+
+\subsection{By structure}
+
+\index{matrices!symmetric}
+A \textit{symmetric matrix} is equal to its transpose.
+\begin{equation*}
+  \begin{bmatrix}
+    1 & 2 \\
+    2 & 3
+  \end{bmatrix}
+\end{equation*}
+
+\index{matrices!orthogonal}
+An \textit{orthogonal matrix} $\mat{Q}$ has the following properties:
+\begin{itemize}
+  \item $\mat{Q}\T\mat{Q} = \mat{Q}\mat{Q}\T = \mat{I}$
+  \item $\mat{Q}\T = \mat{Q}^{-1}$
+  \item $\det(\mat{Q}) = 1 \text{ or } -1$
+\end{itemize}
+
+\index{matrices!special orthogonal}
+A \textit{special orthogonal matrix} is an orthogonal matrix with a determinant
+of $1$.
+
+\subsection{Matrix definiteness}
+
+Tables \ref{tab:definiteness_eigenvalues} and \ref{tab:definiteness_definition}
+describe the different kinds of matrix definiteness.
+\begin{booktable}
+  \begin{tabular}{|ccc|}
+    \hline
+    \rowcolor{headingbg}
+    \textbf{Type} & \textbf{Eigenvalues} & \textbf{Notation} \\
+    \hline
+    Negative definite &
+      All $\lambda < 0$ &
+      $\mat{M} < \mat{0}$ \\
+    Negative semidefinite &
+      All $\lambda \leq 0$ &
+      $\mat{M} \leq \mat{0}$ \\
+    Positive semidefinite &
+      All $\lambda \geq 0$ &
+      $\mat{M} \geq \mat{0}$ \\
+    Positive definite &
+      All $\lambda > 0$ &
+      $\mat{M} > \mat{0}$ \\
+    Indefinite &
+      Positive and negative &
+      N/A \\
+    \hline
+  \end{tabular}
+  \caption{Eigenvalue distribution and notation for each type of matrix
+    definiteness. Let $\mat{M}$ be a matrix.}
+  \label{tab:definiteness_eigenvalues}
+\end{booktable}
+\begin{booktable}
+  \begin{tabular}{|cc|}
+    \hline
+    \rowcolor{headingbg}
+    \textbf{Type} & \textbf{Definition} \\
+    \hline
+    Negative definite &
+      $\mat{x}\T\mat{M}\mat{x} < 0$ for all $\mat{x}$ \\
+    Negative semidefinite &
+      $\mat{x}\T\mat{M}\mat{x} \leq 0$ for all $\mat{x}$ \\
+    Positive semidefinite &
+      $\mat{x}\T\mat{M}\mat{x} \geq 0$ for all $\mat{x}$ \\
+    Positive definite &
+      $\mat{x}\T\mat{M}\mat{x} > 0$ for all $\mat{x}$ \\
+    Indefinite &
+      $\exists \mat{x}, \mat{y} \ni \mat{x}\T\mat{M}\mat{x} < 0 < \mat{y}\T\mat{M}\mat{y}$ \\
+    \hline
+  \end{tabular}
+  \caption{Rigorous definition for each type of matrix definiteness. Let
+    $\mat{M}$ be a matrix and let $\mat{x}$ and $\mat{y}$ be nonzero vectors.}
+  \label{tab:definiteness_definition}
+\end{booktable}

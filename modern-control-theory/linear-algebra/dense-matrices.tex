@@ -1,0 +1,27 @@
+\section{Dense matrices}
+\index{matrices!dense}
+
+A dense matrix is filled with mostly nonzeroes. Algorithms designed for dense
+matrices can use Single Instruction, Multiple Data (SIMD) instructions to
+perform parts of a computation in parallel.
+
+\subsection{Solving dense linear systems}
+
+Solving linear systems with a decomposition followed by a triangular solve is
+more efficient and numerically stable than explicitly forming the inverse of the
+system matrix. Which decomposition to use depends on the system's properties.
+In general, use:
+\begin{itemize}
+  \item LLT for symmetric positive definite systems
+  \item LDLT for symmetric positive semidefinite systems
+  \item LU for square invertible systems
+  \item QR for least-squares solving
+\end{itemize}
+
+See
+\url{https://libeigen.gitlab.io/eigen/docs-nightly/group__TutorialLinearAlgebra.html}
+for more specific guidance.
+
+\textit{Pivoting} is the act of permuting rows and columns during the solve.
+Column pivoting and full pivoting (permuting rows \textit{and} columns) improve
+numerical stability at the cost of performance.

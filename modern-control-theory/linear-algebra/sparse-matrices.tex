@@ -1,0 +1,83 @@
+\section{Sparse matrices}
+\index{matrices!sparse}
+
+A sparse matrix is filled with mostly zeroes. Algorithms designed for sparse
+matrices can avoid work by skipping operations on zeroes.
+
+\subsection{Storage}
+
+Sparse matrices save space and compute by only storing and operating on the
+nonzero elements of the matrix. There are several possible storage
+schemes\footnote{\url{https://en.wikipedia.org/wiki/Sparse_matrix\#Storage}},
+but Compressed Sparse Column format is popular.
+
+\subsection{Sparsity pattern}
+\index{matrices!sparsity pattern}
+
+The \textit{sparsity pattern} of a matrix is its pattern of structural nonzero
+elements, which represents input-output coupling. An element is
+\textit{structurally nonzero} if coupling exists (i.e., it \textit{can} be
+nonzero), and it's \textit{structurally zero} otherwise.
+
+\textit{Banded sparsity} is common in trajectory optimization problems.
+\begin{equation*}
+  \begin{bmatrix}
+    \times & \times & \cdot & \cdot & \cdot & \cdot \\
+    \times & \times & \cdot & \cdot & \cdot & \cdot \\
+    \cdot & \cdot & \times & \times & \cdot & \cdot \\
+    \cdot & \cdot & \times & \times & \cdot & \cdot \\
+    \cdot & \cdot & \cdot & \cdot & \times & \times \\
+    \cdot & \cdot & \cdot & \cdot & \times & \times
+  \end{bmatrix}
+\end{equation*}
+
+\textit{Blocked sparsity} is common in finite element analysis problems.
+\begin{equation*}
+  \begin{bmatrix}
+    \times & \times & \cdot & \cdot & \times & \times \\
+    \times & \times & \cdot & \cdot & \times & \times \\
+    \cdot & \cdot & \cdot & \cdot & \cdot & \cdot \\
+    \cdot & \cdot & \cdot & \cdot & \cdot & \cdot \\
+    \times & \times & \cdot & \cdot & \cdot & \cdot \\
+    \times & \times & \cdot & \cdot & \cdot & \cdot
+  \end{bmatrix}
+\end{equation*}
+
+When solving these two kinds of problems via iterative algorithms, the contents
+of the matrix often change but the sparsity pattern is fixed, even if an element
+happened to be zero for the current iteration.
+\begin{remark}
+  It can be beneficial for performance to keep nonstructural zeroes in the
+  matrix storage if it maintains the same sparsity pattern between iterations.
+\end{remark}
+
+\subsection{Solving sparse linear systems}
+
+Solving linear systems with a decomposition followed by a triangular solve is
+more efficient and numerically stable than explicitly forming the inverse of the
+system matrix. Which decomposition to use depends on the system's properties.
+In general, use:
+\begin{itemize}
+  \item LLT for symmetric positive definite systems
+  \item simplicial LDLT for symmetric positive semidefinite systems with a
+    banded sparsity pattern
+  \item supernodal LDLT for symmetric positive semidefinite systems with a
+    blocked sparsity pattern
+  \item LU for square invertible systems
+  \item QR for least-squares solving
+\end{itemize}
+
+See
+\url{https://libeigen.gitlab.io/eigen/docs-nightly/group__TopicSparseSystems.html}
+for more specific guidance.
+
+\textit{Pivoting} is the act of permuting rows and columns during the solve.
+Factorizing a sparse matrix can result in \textit{fill-in}, where the
+factorization has more nonzeros than the original matrix. For sparse matrices,
+we typically want a fill-in reducing permutation.
+
+Sparse system solvers typically have two steps: a symbolic factorization that
+determines the sparsity pattern and finds a fill-in reducing permutation, and a
+numerical factorization step that operates on the specific matrix. Keeping the
+sparsity pattern the same between solves allows reusing the result of the first
+step.
