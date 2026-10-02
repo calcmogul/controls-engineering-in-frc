@@ -4,7 +4,7 @@ on: [pull_request, push]
 
 jobs:
   lint:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     container: archlinux/archlinux:base-devel
     steps:
     - name: Install Git
