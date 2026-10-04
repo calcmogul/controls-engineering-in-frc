@@ -29,16 +29,16 @@ derivation of the Rauch-Tung-Striebel smoother.
   \label{thm:kalman_smoother}
   \begin{align}
     \text{Forward predict step} \nonumber \\
-    \hat{\mat{x}}_{k+1}^- &= \mat{A}\hat{\mat{x}}_k^+ + \mat{B} \mat{u}_k \\
-    \mat{P}_{k+1}^- &= \mat{A} \mat{P}_k^- \mat{A}\T + \mat{Q} \\
+    \hat{\mat{x}}_{k+1}^- &= \mat{A}_k\hat{\mat{x}}_k^+ + \mat{B}_k\mat{u}_k \\
+    \mat{P}_{k+1}^- &= \mat{A}_k\mat{P}_k^-\mat{A}_k\T + \mat{Q}_k \\
     \text{Forward update step} \nonumber \\
     \mat{K}_{k+1} &=
-      \mat{P}_{k+1}^- \mat{C}\T (\mat{C}\mat{P}_{k+1}^- \mat{C}\T +
-      \mat{R})^{-1} \\
+      \mat{P}_{k+1}^-\mat{C}_{k+1}\T
+        (\mat{C}_{k+1}\mat{P}_{k+1}^-\mat{C}_{k+1}\T + \mat{R}_{k+1})^{-1} \\
     \hat{\mat{x}}_{k+1}^+ &=
       \hat{\mat{x}}_{k+1}^- + \mat{K}_{k+1}(\mat{y}_{k+1} -
-      \mat{C} \hat{\mat{x}}_{k+1}^- - \mat{D}\mat{u}_{k+1}) \\
-    \mat{P}_{k+1}^+ &= (\mat{I} - \mat{K}_{k+1}\mat{C})\mat{P}_{k+1}^- \\
+      \mat{C}_{k+1}\hat{\mat{x}}_{k+1}^- - \mat{D}_{k+1}\mat{u}_{k+1}) \\
+    \mat{P}_{k+1}^+ &= (\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})\mat{P}_{k+1}^- \\
     \text{Backward update step} \nonumber \\
     \mat{K}_k &= \mat{P}_k^+ \mat{A}_k\T (\mat{P}_{k+1}^-)^{-1} \\
     \hat{\mat{x}}_{k|N} &= \hat{\mat{x}}_k^+ +

@@ -276,30 +276,31 @@ $\hat{\mat{x}}_{k+1}^+ = \hat{\mat{x}}_{k+1}^- + \mat{K}_{k+1}(\mat{y}_{k+1} -
 minimizes the error variances and thus the dimensions of the uncertainty
 ellipsoid over time.
 
-If the update period is constant, the predict and correct steps are run in a
-loop as opposed to sporadically skipping correct steps, and the
-$(\mat{A}, \mat{C})$ pair is detectable, the error covariance matrix $\mat{P}$
-will approach a steady-state. This steady-state $\mat{P}$ results in a
-steady-state Kalman gain that can be used instead of the error covariance update
-equations to conserve computational resources.
+If $\mat{A}$, $\mat{C}$, $\mat{Q}$, $\mat{R}$, and the update period are
+constant, the $(\mat{A}, \mat{C})$ pair is detectable, and the predict and
+correct steps are run in a consistent interval (as opposed to sporadically
+skipping correct steps), then $\mat{P}$ will approach a steady-state. This
+steady-state $\mat{P}$ results in a steady-state Kalman gain that can be used
+instead of the error covariance update equations to conserve computational
+resources.
 
 \index{state-space observers!Kalman filter!equations}
 \begin{theorem}[Kalman filter]
   \label{thm:kalman_filter}
   \begin{align}
     \text{Predict step} \nonumber \\
-    \hat{\mat{x}}_{k+1}^- &= \mat{A}\hat{\mat{x}}_k^+ + \mat{B} \mat{u}_k \\
-    \mat{P}_{k+1}^- &= \mat{A} \mat{P}_k^- \mat{A}\T + \mat{Q} \\
+    \hat{\mat{x}}_{k+1}^- &= \mat{A}\hat{\mat{x}}_k^+ + \mat{B}\mat{u}_k \\
+    \mat{P}_{k+1}^- &= \mat{A}\mat{P}_k^-\mat{A}\T + \mat{Q}_k \\
     \text{Update step} \nonumber \\
     \mat{K}_{k+1} &=
-      \mat{P}_{k+1}^- \mat{C}\T (\mat{C}\mat{P}_{k+1}^- \mat{C}\T +
-      \mat{R})^{-1} \\
+      \mat{P}_{k+1}^-\mat{C}_{k+1}\T
+        (\mat{C}_{k+1}\mat{P}_{k+1}^-\mat{C}_{k+1}\T + \mat{R}_{k+1})^{-1} \\
     \hat{\mat{x}}_{k+1}^+ &=
       \hat{\mat{x}}_{k+1}^- + \mat{K}_{k+1}(\mat{y}_{k+1} -
-      \mat{C} \hat{\mat{x}}_{k+1}^- - \mat{D}\mat{u}_{k+1}) \\
+      \mat{C}_{k+1}\hat{\mat{x}}_{k+1}^- - \mat{D}_{k+1}\mat{u}_{k+1}) \\
     \mat{P}_{k+1}^+ &= (\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})\mat{P}_{k+1}^-
       (\mat{I} - \mat{K}_{k+1}\mat{C}_{k+1})\T +
-      \mat{K}_{k+1}\mat{R}\mat{K}_{k+1}\T
+      \mat{K}_{k+1}\mat{R}_{k+1}\mat{K}_{k+1}\T
   \end{align}
   \begin{figurekey}
     \begin{tabular}{llll}
@@ -315,9 +316,6 @@ equations to conserve computational resources.
   where a superscript of minus denotes \textit{a priori} and plus denotes
   \textit{a posteriori} estimate (before and after update respectively).
 \end{theorem}
-
-$\mat{C}$, $\mat{D}$, $\mat{Q}$, and $\mat{R}$ from the equations derived
-earlier are made constants here.
 \begin{remark}
   To implement a discrete time Kalman filter from a continuous model, the model
   and continuous time $\mat{Q}$ and $\mat{R}$ matrices can be
