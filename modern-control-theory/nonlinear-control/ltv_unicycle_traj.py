@@ -42,8 +42,8 @@ class LTVUnicycleController:
         e = np.array([[error.x], [error.y], [error.rotation.radians]])
 
         A = np.zeros((3, 3))
-        if abs(v_desired) < 1e-9:
-            v_desired = 1e-9
+        τ = 20.0  # s
+        A[1, 1] = -1 / τ
         A[1, 2] = v_desired
         B = np.array([[1, 0], [0, 0], [0, 1]])
         K = fct.LinearQuadraticRegulator(A, B, self.q, self.r, self.dt).K
