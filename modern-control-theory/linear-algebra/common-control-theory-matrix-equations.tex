@@ -1,8 +1,8 @@
 \section{Common control theory matrix equations}
 
-Here's some common matrix equations from control theory we'll use later on.
-Solvers for them exist in \href{https://github.com/RobotLocomotion/drake}{Drake}
-(C++) and \href{https://github.com/scipy/scipy}{SciPy} (Python).
+Here's some common control theory matrix equations we'll use later, with C++
+reference solvers included. In Python, use
+\href{https://github.com/scipy/scipy}{SciPy}'s solvers.
 
 \subsection{Continuous algebraic Riccati equation (CARE)}
 \index{algebraic Riccati equation!continuous}
@@ -13,6 +13,21 @@ continuous time LQ problem.
   \mat{A}\T\mat{X} + \mat{X}\mat{A} -
     \mat{X}\mat{B}\mat{R}^{-1}\mat{B}\T\mat{X} + \mat{Q} = \mat{0}
 \end{equation}
+
+Snippet \ref{lst:care} computes the unique stabilizing solution to the
+continuous algebraic Riccati equation. A robust implementation should also
+enforce the following preconditions:
+\begin{enumerate}
+  \item $\mat{Q} = \mat{Q}\T \geq \mat{0}$ and $\mat{R} = \mat{R}\T > \mat{0}$.
+  \item $(\mat{A}, \mat{B})$ is a stabilizable pair (see subsection
+    \ref{subsec:stabilizability}).
+  \item $(\mat{A}, \mat{C})$ is a detectable pair where
+    $\mat{Q} = \mat{C}\T\mat{C}$ (see section \ref{subsec:detectability}).
+\end{enumerate}
+\begin{coderemote}{cpp}{snippets/care.hpp}
+  \caption{Continuous algebraic Riccati equation solver in C++}
+  \label{lst:care}
+\end{coderemote}
 
 \subsection{Discrete algebraic Riccati equation (DARE)}
 \label{subsec:dare}
@@ -25,9 +40,9 @@ discrete time LQ problem.
     \mat{B}\T\mat{X}\mat{B})^{-1} \mat{B}\T\mat{X}\mat{A} + \mat{Q}
 \end{equation}
 
-Snippets \ref{lst:dare_dense} and \ref{lst:dare_sparse} compute the unique
-stabilizing solution to the discrete algebraic Riccati equation. A robust
-implementation should also enforce the following preconditions:
+Snippet \ref{lst:dare} computes the unique stabilizing solution to the
+discrete algebraic Riccati equation. A robust implementation should also
+enforce the following preconditions:
 \begin{enumerate}
   \item $\mat{Q} = \mat{Q}\T \geq \mat{0}$ and $\mat{R} = \mat{R}\T > \mat{0}$.
   \item $(\mat{A}, \mat{B})$ is a stabilizable pair (see subsection
@@ -35,13 +50,9 @@ implementation should also enforce the following preconditions:
   \item $(\mat{A}, \mat{C})$ is a detectable pair where
     $\mat{Q} = \mat{C}\T\mat{C}$ (see section \ref{subsec:detectability}).
 \end{enumerate}
-\begin{coderemote}{cpp}{snippets/dare_dense.cpp}
-  \caption{Dense discrete algebraic Riccati equation solver in C++}
-  \label{lst:dare_dense}
-\end{coderemote}
-\begin{coderemote}{cpp}{snippets/dare_sparse.cpp}
-  \caption{Sparse discrete algebraic Riccati equation solver in C++}
-  \label{lst:dare_sparse}
+\begin{coderemote}{cpp}{snippets/dare.hpp}
+  \caption{Discrete algebraic Riccati equation solver in C++}
+  \label{lst:dare}
 \end{coderemote}
 
 \subsection{Continuous Lyapunov equation}
@@ -53,6 +64,19 @@ analysis of continuous time systems.
   \mat{A}\mat{X} + \mat{X}\mat{A}\T + \mat{Q} = \mat{0}
 \end{equation}
 
+Snippet \ref{lst:continuous_lyapunov} computes the unique solution to the
+continuous Lyapunov equation. A robust implementation should also enforce the
+following preconditions:
+\begin{enumerate}
+  \item $\mat{Q} = \mat{Q}\T$.
+  \item All eigenvalues of $\mat{A}$ have strictly negative real parts (i.e.,
+    $\mat{A}$ is stable).
+\end{enumerate}
+\begin{coderemote}{cpp}{snippets/continuous_lyapunov.hpp}
+  \caption{Continuous Lyapunov equation solver in C++}
+  \label{lst:continuous_lyapunov}
+\end{coderemote}
+
 \subsection{Discrete Lyapunov equation}
 \index{Lyapunov equation!discrete}
 
@@ -61,3 +85,16 @@ of discrete time systems.
 \begin{equation}
   \mat{A}\mat{X}\mat{A}\T - \mat{X} + \mat{Q} = \mat{0}
 \end{equation}
+
+Snippet \ref{lst:discrete_lyapunov} computes the unique solution to the
+discrete Lyapunov equation. A robust implementation should also enforce the
+following preconditions:
+\begin{enumerate}
+  \item $\mat{Q} = \mat{Q}\T$.
+  \item All eigenvalues of $\mat{A}$ lie strictly inside the unit circle (i.e.,
+    $\mat{A}$ is stable).
+\end{enumerate}
+\begin{coderemote}{cpp}{snippets/discrete_lyapunov.hpp}
+  \caption{Discrete Lyapunov equation solver in C++}
+  \label{lst:discrete_lyapunov}
+\end{coderemote}

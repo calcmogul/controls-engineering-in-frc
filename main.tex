@@ -77,6 +77,31 @@
              BoldFont=FreeMonoBold.otf,
              ItalicFont=FreeMonoOblique.otf,
              BoldItalicFont=FreeMonoBoldOblique.otf]{FreeMono.otf}
+
+% listings passes characters above U+00FF through unprocessed, which typesets
+% them before the preceding letters, so register the ones used in code snippets
+% as listings letters to keep them in order. FreeMono lacks ᵀ and ₖ, so
+% synthesize them.
+\makeatletter
+\newcommand{\lstunicodeletter}[2]{%
+  \lst@AddToHook{SelectCharTable}{%
+    \catcode#1=\active
+    \lst@Def{#1}{\lst@ProcessLetter{{#2}}}}}
+\lstunicodeletter{"03B3}{γ}
+\lstunicodeletter{"03B5}{ε}
+\lstunicodeletter{"1D40}{\textsuperscript{T}} % ᵀ
+\lstunicodeletter{"2013}{–}
+\lstunicodeletter{"2016}{‖}
+\lstunicodeletter{"207B}{⁻}
+\lstunicodeletter{"2080}{₀}
+\lstunicodeletter{"2081}{₁}
+\lstunicodeletter{"2082}{₂}
+\lstunicodeletter{"208A}{₊}
+\lstunicodeletter{"2096}{\textsubscript{k}} % ₖ
+\lstunicodeletter{"2212}{−}
+\lstunicodeletter{"221A}{√}
+\lstunicodeletter{"2248}{≈}
+\makeatother
 \renewcommand{\familydefault}{\rmdefault}
 
 % Bibliography setup
