@@ -47,17 +47,17 @@ T rkdp(F&& f, T x, U u, double dt, double max_error = 1e-6) {
     T k6 = f(x + h * (A[4][0] * k1 + A[4][1] * k2 + A[4][2] * k3 + A[4][3] * k4 + A[4][4] * k5), u);
     // clang-format on
 
-    // Since the final row of A and the array b1 have the same coefficients and
-    // k7 has no effect on new_x, we can reuse the calculation.
+    // Since the final row of A and the array b1 have the same coefficients
+    // and k7 has no effect on new_x, we can reuse the calculation.
     T new_x = x + h * (A[5][0] * k1 + A[5][1] * k2 + A[5][2] * k3 +
                        A[5][3] * k4 + A[5][4] * k5 + A[5][5] * k6);
     T k7 = f(new_x, u);
 
     double truncation_error =
-        (h *
-         ((b1[0] - b2[0]) * k1 + (b1[1] - b2[1]) * k2 + (b1[2] - b2[2]) * k3 +
-          (b1[3] - b2[3]) * k4 + (b1[4] - b2[4]) * k5 + (b1[5] - b2[5]) * k6 +
-          (b1[6] - b2[6]) * k7))
+        (h * ((b1[0] - b2[0]) * k1 + (b1[1] - b2[1]) * k2 +
+              (b1[2] - b2[2]) * k3 + (b1[3] - b2[3]) * k4 +
+              (b1[4] - b2[4]) * k5 + (b1[5] - b2[5]) * k6 +
+              (b1[6] - b2[6]) * k7))
             .norm();
 
     if (truncation_error <= max_error) {
