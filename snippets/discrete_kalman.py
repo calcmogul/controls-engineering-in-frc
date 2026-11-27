@@ -4,7 +4,7 @@ import numpy as np
 import scipy as sp
 
 
-def kalmd(
+def discrete_kalman(
     A: np.ndarray, C: np.ndarray, Q: np.ndarray, R: np.ndarray
 ) -> np.ndarray:
     """
