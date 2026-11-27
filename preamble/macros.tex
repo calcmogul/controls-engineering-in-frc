@@ -4,12 +4,42 @@
  {\end{snippet}
    \FloatBarrier}
 
-\newenvironment{coderemote}[2]%
-  {\FloatBarrier
-   \begin{snippet}
-     \lstinputlisting[escapechar=, style=custom#1]{#2}}%
+% Typesets a snippet in a box, then floats it if it fits on a page. Otherwise,
+% it's typeset inline so it can break across pages.
+%
+% The box omits the space above and below the snippet so it doesn't count
+% toward the height check or pad the float. That space is added back if the
+% snippet is typeset inline.
+\newsavebox{\snippetbox}
+\newenvironment{floatingsnippet}%
+  {\setbox\snippetbox\vbox\bgroup
+     \hsize\linewidth
+     \lstset{aboveskip=0pt, belowskip=0pt}%
+     \begin{snippet}}%
  {\end{snippet}
-   \FloatBarrier}
+     \par
+     % Strip the \parskip glue left after the caption by the empty paragraph
+     % that ends the snippet environment so the box ends at the caption
+     \unskip\unpenalty\unskip\unpenalty\unskip
+   \egroup
+   \ifdim\dimexpr\ht\snippetbox+\dp\snippetbox\relax>\textheight
+     \FloatBarrier
+     \par\addvspace{\medskipamount}
+     \unvbox\snippetbox
+     \par\addvspace{\medskipamount}
+     \FloatBarrier
+   \else
+     \begin{figure}[htbp]
+       \unvbox\snippetbox
+     \end{figure}
+   \fi}
+
+% #1: listings language style suffix (e.g., cpp)
+% #2: path to snippet file relative to repository root
+\newenvironment{coderemote}[2]%
+  {\begin{floatingsnippet}
+     \lstinputlisting[escapechar=, style=custom#1]{#2}}%
+ {\end{floatingsnippet}}
 
 \newenvironment{coderemotesubset}[4]%
   {\FloatBarrier
@@ -78,15 +108,21 @@
 % Set up snippet environment
 \newcounter{snippet}[chapter]
 \renewcommand{\thesnippet}{\thechapter.\arabic{snippet}}
+\makeatletter
 \newenvironment{snippet}{
+  % Keep the caption on the same page as the end of the snippet. listings
+  % otherwise ends with a penalty that encourages a page break there.
+  \patchcmd{\lst@DeInit}{\par\penalty-50}{\par\nobreak}{}
+    {\PackageError{macros}{Failed to patch \string\lst@DeInit}{}}%
   \renewcommand{\caption}[1]{
     \refstepcounter{snippet}
-    \begin{center}
-      \par\noindent{\footnotesize Snippet \thesnippet. ##1}
-    \end{center}
+    \par\nobreak\vskip\topsep\nobreak
+    {\centering\footnotesize\interlinepenalty=10000
+      Snippet \thesnippet. ##1\par}
   }
 }
 {\par\noindent}
+\makeatother
 
 % #1: Name of node on which to center the plant
 % #2: Label
