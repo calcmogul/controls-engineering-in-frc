@@ -34,10 +34,15 @@
      \end{figure}
    \fi}
 
+% URL of the repository containing snippet source files
+\newcommand{\snippetrepourl}
+  {https://github.com/calcmogul/controls-engineering-in-frc/blob/main/}
+
 % #1: listings language style suffix (e.g., cpp)
 % #2: path to snippet file relative to repository root
 \newenvironment{coderemote}[2]%
   {\begin{floatingsnippet}
+     \edef\snippetsource{\detokenize{#2}}%
      \lstinputlisting[escapechar=, style=custom#1]{#2}}%
  {\end{floatingsnippet}}
 
@@ -118,7 +123,11 @@
     \refstepcounter{snippet}
     \par\nobreak\vskip\topsep\nobreak
     {\centering\footnotesize\interlinepenalty=10000
-      Snippet \thesnippet. ##1\par}
+      Snippet \thesnippet. ##1%
+      \ifdefined\snippetsource
+        \edef\snippeturl{\snippetrepourl\snippetsource}%
+        \\\expandafter\url\expandafter{\snippeturl}%
+      \fi\par}
   }
 }
 {\par\noindent}
