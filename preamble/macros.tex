@@ -34,6 +34,35 @@
      \end{figure}
    \fi}
 
+% Sets \snippetfirstline to the first line of the given file after its leading
+% #pragma once, #include directives, and blank lines. Snippet files keep them
+% so they can be used as-is, but the book omits them to save space.
+\newcount\snippetfirstline
+\ExplSyntaxOn
+\ior_new:N \g__snippet_ior
+\cs_new_protected:Npn \snippetfindfirstline #1
+  {
+    \snippetfirstline = 1
+    \ior_open:Nn \g__snippet_ior {#1}
+    \ior_str_map_inline:Nn \g__snippet_ior
+      {
+        \bool_lazy_any:nTF
+          {
+            { \tl_if_blank_p:n {##1} }
+            {
+              \str_if_eq_p:ee
+                { \str_range:nnn {##1} {1} {8} }
+                { \c_hash_str include }
+            }
+            { \str_if_eq_p:ee {##1} { \c_hash_str pragma~once } }
+          }
+          { \advance \snippetfirstline by 1 }
+          { \ior_map_break: }
+      }
+    \ior_close:N \g__snippet_ior
+  }
+\ExplSyntaxOff
+
 % URL of the repository containing snippet source files
 \newcommand{\snippetrepourl}
   {https://github.com/calcmogul/controls-engineering-in-frc/blob/main/}
@@ -41,9 +70,11 @@
 % #1: listings language style suffix (e.g., cpp)
 % #2: path to snippet file relative to repository root
 \newenvironment{coderemote}[2]%
-  {\begin{floatingsnippet}
+  {\snippetfindfirstline{#2}%
+   \begin{floatingsnippet}
      \edef\snippetsource{\detokenize{#2}}%
-     \lstinputlisting[escapechar=, style=custom#1]{#2}}%
+     \lstinputlisting[escapechar=, style=custom#1,
+                      firstline=\the\snippetfirstline]{#2}}%
  {\end{floatingsnippet}}
 
 \newenvironment{coderemotesubset}[4]%

@@ -96,8 +96,8 @@ format: build/venv.stamp
 	./lint/format_bibliography.py
 	./lint/format_eol.py
 	./lint/format_paragraph_breaks.py
-	# Format .cpp
-	find . -type f -name '*.cpp' -not -path './build/*' -print0 | xargs -0 clang-format -i
+	# Format .cpp and .hpp
+	find . -type f \( -name '*.cpp' -o -name '*.hpp' \) -not -path './build/*' -print0 | xargs -0 clang-format -i
 	# Format .py
 	find . -type f -name '*.py' -not -path './build/*' -print0 | xargs -0 $(abspath ./build/venv/bin/python) -m ruff format -q
 
