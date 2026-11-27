@@ -12,13 +12,14 @@ Eigen::Matrix<double, Inputs, States> lqr(
     const Eigen::Matrix<double, States, States>& Q,
     const Eigen::Matrix<double, Inputs, Inputs>& R,
     const Eigen::Matrix<double, States, Inputs>& N) {
-  using StateMatrix = Eigen::Matrix<double, States, States>;
-
   auto R_llt = R.llt();
-  StateMatrix A_2 = A - B * R_llt.solve(N.transpose());
-  StateMatrix Q_2 = Q - N * R_llt.solve(N.transpose());
+  Eigen::Matrix<double, States, States> A_2 =
+      A - B * R_llt.solve(N.transpose());
+  Eigen::Matrix<double, States, States> Q_2 =
+      Q - N * R_llt.solve(N.transpose());
 
-  StateMatrix P = DARE<States, Inputs>(A_2, B, Q_2, R);
+  Eigen::Matrix<double, States, States> P =
+      dare<States, Inputs>(A_2, B, Q_2, R);
 
   return (B.transpose() * P * B + R)
       .llt()
