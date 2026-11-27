@@ -4,7 +4,9 @@ import numpy as np
 import scipy as sp
 
 
-def lqr(A, B, Q, R, N):
+def lqr(
+    A: np.ndarray, B: np.ndarray, Q: np.ndarray, R: np.ndarray, N: np.ndarray
+) -> np.ndarray:
     """
     Solves for the optimal discrete linear-quadratic regulator (LQR).
 

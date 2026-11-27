@@ -3,7 +3,9 @@
 import math
 
 
-def generate_trapezoid_profile(max_v, time_to_max_v, dt, goal):
+def generate_trapezoid_profile(
+    max_v: float, time_to_max_v: float, dt: float, goal: float
+) -> tuple[list[float], list[float], list[float], list[float]]:
     """
     Creates a trapezoid profile with the given constraints.
 

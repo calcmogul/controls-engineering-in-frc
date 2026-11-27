@@ -3,7 +3,9 @@
 import math
 
 
-def generate_s_curve_profile(max_v, max_a, time_to_max_a, dt, goal):
+def generate_s_curve_profile(
+    max_v: float, max_a: float, time_to_max_a: float, dt: float, goal: float
+) -> tuple[list[float], list[float], list[float], list[float]]:
     """
     Returns an s-curve profile with the given constraints.
 

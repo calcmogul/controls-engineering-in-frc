@@ -1,15 +1,26 @@
 import frccontrol as fct
+import numpy as np
 from sleipnir.optimization import Problem, bounds
 
 
 class LinearMPC:
-    def __init__(self, A, B, Q, R, dt, u_min, u_max, horizon):
+    def __init__(
+        self,
+        A: np.ndarray,
+        B: np.ndarray,
+        Q: np.ndarray,
+        R: np.ndarray,
+        dt: float,
+        u_min: np.ndarray,
+        u_max: np.ndarray,
+        horizon: float,
+    ) -> None:
         self.A_d, self.B_d = fct.discretize_ab(A, B, dt)
         self.Q, self.R = Q, R
         self.u_min, self.u_max = u_min, u_max
         self.N = int(horizon / dt)
 
-    def calculate(self, x, r):
+    def calculate(self, x: np.ndarray, r: np.ndarray) -> np.ndarray:
         problem = Problem()
         X = problem.decision_variable(self.A_d.shape[0], self.N + 1)
         U = problem.decision_variable(self.B_d.shape[1], self.N)

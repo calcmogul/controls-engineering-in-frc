@@ -1,9 +1,23 @@
+from collections.abc import Callable
+
 import frccontrol as fct
+import numpy as np
 from sleipnir.optimization import Problem, bounds
 
 
 class NonlinearMPC:
-    def __init__(self, states, inputs, f, Q, R, dt, u_min, u_max, horizon):
+    def __init__(
+        self,
+        states: int,
+        inputs: int,
+        f: Callable,
+        Q: np.ndarray,
+        R: np.ndarray,
+        dt: float,
+        u_min: np.ndarray,
+        u_max: np.ndarray,
+        horizon: float,
+    ) -> None:
         self.states, self.inputs = states, inputs
         self.f = f
         self.Q, self.R = Q, R
@@ -11,7 +25,7 @@ class NonlinearMPC:
         self.u_min, self.u_max = u_min, u_max
         self.N = int(horizon / dt)
 
-    def calculate(self, x, r):
+    def calculate(self, x: np.ndarray, r: np.ndarray) -> np.ndarray:
         problem = Problem()
         X = problem.decision_variable(self.states, self.N + 1)
         U = problem.decision_variable(self.inputs, self.N)

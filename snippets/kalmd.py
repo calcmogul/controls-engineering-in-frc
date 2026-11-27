@@ -4,7 +4,9 @@ import numpy as np
 import scipy as sp
 
 
-def kalmd(A, C, Q, R):
+def kalmd(
+    A: np.ndarray, C: np.ndarray, Q: np.ndarray, R: np.ndarray
+) -> np.ndarray:
     """
     Solves for the discrete steady-state Kalman gain.
 
